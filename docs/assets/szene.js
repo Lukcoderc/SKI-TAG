@@ -6,7 +6,7 @@ const HANG_Y = (x) => {
 const MITARBEITER_START = 540;
 const MITARBEITER_ZIEL = 450;
 const KOMET_LAENGE = 0.2;
-const WELLEN_ABSTAND = 0.055;
+const WELLEN_ABSTAND_PX = 22;
 const AUSFALL_ORT = {
   knopf: { text: "Fünf Sekunden zum Abbrechen" },
   chip: { x: 505, y: 162, text: "Kein Gateway hört den Chip" },
@@ -48,16 +48,18 @@ function setzeKomet(weg, q, rueckwaerts = false) {
 function setzeWellen(weg, q, rueckwaerts = false, gruppe = 0) {
   if (q <= 0) return;
   const laenge = weg.getTotalLength();
+  const abstand = WELLEN_ABSTAND_PX / laenge;
+  const wachstum = Math.min(laenge / 200, 2);
   const wellen = [...sz("wellen").children].slice(gruppe * WELLEN_JE_GRUPPE, (gruppe + 1) * WELLEN_JE_GRUPPE);
   wellen.forEach((welle, i) => {
-    const w = q * (1 + WELLEN_ABSTAND * (WELLEN_JE_GRUPPE - 1)) - i * WELLEN_ABSTAND;
+    const w = q * (1 + abstand * (WELLEN_JE_GRUPPE - 1)) - i * abstand;
     if (w <= 0 || w >= 1) return;
     const kopf = rueckwaerts ? 1 - w : w;
     const hier = weg.getPointAtLength(laenge * kopf);
     const dort = weg.getPointAtLength(laenge * Math.min(kopf + 0.01, 1));
     const zurueck = weg.getPointAtLength(laenge * Math.max(kopf - 0.01, 0));
     const winkel = Math.atan2(dort.y - zurueck.y, dort.x - zurueck.x) * (180 / Math.PI) + (rueckwaerts ? 180 : 0);
-    welle.setAttribute("transform", `translate(${hier.x} ${hier.y}) rotate(${winkel}) scale(${1.2 + w * 2})`);
+    welle.setAttribute("transform", `translate(${hier.x} ${hier.y}) rotate(${winkel}) scale(${1.2 + w * wachstum})`);
     welle.setAttribute("opacity", Math.min(w / 0.08, 1) * (1 - w * 0.3));
   });
 }
