@@ -5,7 +5,7 @@ const HANG_Y = (x) => {
 };
 const MITARBEITER_START = 540;
 const MITARBEITER_ZIEL = 450;
-const KOMET_LAENGE = 0.14;
+const KOMET_LAENGE = 0.2;
 const WELLEN_ABSTAND = 0.055;
 const AUSFALL_ORT = {
   knopf: { text: "Fünf Sekunden zum Abbrechen" },
@@ -14,7 +14,9 @@ const AUSFALL_ORT = {
   server: { x: 104, y: 176, text: "Server oder Internet fallen aus" },
   app: { x: 576, y: 142, text: "Niemand reagiert" },
 };
-const SZENE_MS = { knopf: 1500, chip: 1500, empfaenger: 1300, server: 1700, app: 2000, rueckweg: 4000 };
+const SZENE_MS = { knopf: 2000, chip: 2400, empfaenger: 1900, server: 2600, app: 2600, rueckweg: 5000 };
+const FOLGE = ["knopf", "chip", "empfaenger", "server", "app", "rueckweg"];
+const WELLEN_JE_GRUPPE = 4;
 
 const sz = (id) => document.getElementById("sz-" + id);
 const anteil = (p, von, bis) => Math.min(Math.max((p - von) / (bis - von), 0), 1);
@@ -43,19 +45,20 @@ function setzeKomet(weg, q, rueckwaerts = false) {
 }
 
 // Funk breitet sich als Wellenbögen zum Ziel aus, der Bogen wächst mit der Entfernung.
-function setzeWellen(weg, q, rueckwaerts = false) {
+function setzeWellen(weg, q, rueckwaerts = false, gruppe = 0) {
   if (q <= 0) return;
   const laenge = weg.getTotalLength();
-  [...sz("wellen").children].forEach((welle, i) => {
-    const w = q * (1 + WELLEN_ABSTAND * 3) - i * WELLEN_ABSTAND;
+  const wellen = [...sz("wellen").children].slice(gruppe * WELLEN_JE_GRUPPE, (gruppe + 1) * WELLEN_JE_GRUPPE);
+  wellen.forEach((welle, i) => {
+    const w = q * (1 + WELLEN_ABSTAND * (WELLEN_JE_GRUPPE - 1)) - i * WELLEN_ABSTAND;
     if (w <= 0 || w >= 1) return;
     const kopf = rueckwaerts ? 1 - w : w;
     const hier = weg.getPointAtLength(laenge * kopf);
     const dort = weg.getPointAtLength(laenge * Math.min(kopf + 0.01, 1));
     const zurueck = weg.getPointAtLength(laenge * Math.max(kopf - 0.01, 0));
     const winkel = Math.atan2(dort.y - zurueck.y, dort.x - zurueck.x) * (180 / Math.PI) + (rueckwaerts ? 180 : 0);
-    welle.setAttribute("transform", `translate(${hier.x} ${hier.y}) rotate(${winkel}) scale(${1 + w * 1.6})`);
-    welle.setAttribute("opacity", Math.min(w / 0.08, 1) * (1 - w * 0.45));
+    welle.setAttribute("transform", `translate(${hier.x} ${hier.y}) rotate(${winkel}) scale(${1.2 + w * 2})`);
+    welle.setAttribute("opacity", Math.min(w / 0.08, 1) * (1 - w * 0.3));
   });
 }
 
@@ -86,6 +89,9 @@ function grundzustand() {
   sz("bestaetigt").setAttribute("visibility", "hidden");
   sz("telefon").classList.remove("an");
   sz("antenne").classList.remove("an");
+  sz("schrank").classList.remove("an");
+  sz("chip").setAttribute("r", 4);
+  sz("zittern").setAttribute("visibility", "hidden");
   sz("halten").setAttribute("stroke-dashoffset", 1);
   sz("gast").setAttribute("transform", "translate(380 241) rotate(-13)");
 }
@@ -94,25 +100,25 @@ const SCHRITTE = {
   knopf(p) {
     if (p === 0) return setzeStatus("Ein Gast ist gestürzt");
     sz("halten").setAttribute("stroke-dashoffset", 1 - p);
+    sz("chip").setAttribute("r", 4 + 2 * Math.abs(Math.sin(p * 18)));
     setzeStatus("Der Knopf wird gedrückt");
   },
   chip(p) {
-    setzeWellen(wege.funk, p);
+    setzeWellen(wege.funk, anteil(p, 0, 0.62));
+    setzeWellen(wege.funk, anteil(p, 0.38, 1), false, 1);
     setzeStatus("Der Chip funkt");
   },
   empfaenger(p) {
-    sz("antenne").classList.toggle("an", p < 0.25);
-    setzeKomet(wege.kabel, anteil(p, 0.08, 1));
+    setzeKomet(wege.kabel, anteil(p, 0.1, 1));
     setzeStatus("Der Empfänger reicht das Paket weiter");
   },
   server(p) {
+    sz("schrank").classList.add("an");
     setzeServer(true, p);
     setzeWellen(wege.mobil, anteil(p, 0.5, 1));
-    sz("telefon").classList.toggle("an", p > 0.95);
     setzeStatus(p < 0.5 ? "Der Server sucht den nächsten Mitarbeiter" : "Der Server schickt den Notruf");
   },
   app(p) {
-    sz("telefon").classList.add("an");
     sz("meldung").setAttribute("visibility", "visible");
     sz("bestaetigt").setAttribute("visibility", p > 0.55 ? "visible" : "hidden");
     setzeStatus(p < 0.55 ? "Die App zeigt den Notruf" : "Der Mitarbeiter übernimmt");
@@ -123,8 +129,9 @@ const SCHRITTE = {
     setzeWellen(wege.mobil, anteil(p, 0, 0.16), true);
     setzeKomet(wege.kabel, anteil(p, 0.16, 0.32), true);
     setzeWellen(wege.funk, anteil(p, 0.32, 0.5), true);
-    if (p >= 0.5 && p < 0.72) {
-      sz("gast").setAttribute("transform", `translate(${380 + Math.sin(p * 150) * 1.8} 241) rotate(-13)`);
+    if (p >= 0.5 && p < 0.75) {
+      sz("gast").setAttribute("transform", `translate(${380 + Math.sin(p * 150) * 2.4} 241) rotate(-13)`);
+      sz("zittern").setAttribute("visibility", "visible");
     }
     if (p < 0.5) setzeStatus("Die Bestätigung läuft zum Chip");
     else setzeStatus(p < 0.96 ? "Der Chip vibriert: Hilfe kommt" : "Der Mitarbeiter ist da");
@@ -135,10 +142,21 @@ window.Szene = {
   dauer: (id) => SZENE_MS[id],
   zeichne(id, p, stoerung) {
     grundzustand();
+    const stelle = FOLGE.indexOf(id);
+    const fertig = p >= 1 ? 1 : 0;
+    // Was das Signal schon erreicht hat, bleibt sichtbar.
+    sz("antenne").classList.toggle("an", stelle + fertig >= 2);
+    if (stelle + fertig >= 3) {
+      sz("schrank").classList.add("an");
+      setzeServer(true);
+    }
+    sz("telefon").classList.toggle("an", stelle + fertig >= 4);
     if (!stoerung || id === "rueckweg") return SCHRITTE[id](p);
     SCHRITTE[id](1);
+    sz("antenne").classList.toggle("an", id === "server" || id === "app");
     sz("telefon").classList.toggle("an", id === "app");
-    setzeServer(false);
+    sz("schrank").classList.toggle("an", id === "app");
+    setzeServer(id === "app");
     const ort = AUSFALL_ORT[id];
     setzeRaute(ort.x ? ort : null);
     setzeStatus(ort.text);

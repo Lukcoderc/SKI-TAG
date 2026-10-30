@@ -8,6 +8,8 @@ const wahl = document.querySelector(".schritt-wahl");
 const zurueck = document.querySelector("[data-aktion=zurueck]");
 const naechster = document.querySelector("[data-aktion=naechster]");
 const ausfall = document.querySelector("[data-aktion=ausfall]");
+const szenenBild = document.querySelector(".szene");
+const SCROLL_MS = 350;
 const teil = (s, name) => s.querySelector("." + name);
 const kurzId = (s) => s.id.replace("schritt-", "");
 let aktiv = 0;
@@ -48,18 +50,28 @@ function beschrifte() {
 }
 
 // Die Szene läuft einmal durch und bleibt dann am Ende des Schritts stehen.
-function spieleSzene(stoerung) {
+function spieleSzene(stoerung, verzoegerung = 0) {
   cancelAnimationFrame(bild);
   uhr?.cancel();
   uhr = null;
   const id = kurzId(schritte[aktiv]);
   if (stoerung || ohneBewegung.matches) return window.Szene.zeichne(id, 1, stoerung);
-  uhr = stapel.animate([], { duration: window.Szene.dauer(id) });
+  uhr = stapel.animate([], { duration: window.Szene.dauer(id), delay: verzoegerung, fill: "backwards" });
   const schleife = () => {
     window.Szene.zeichne(id, uhr?.effect.getComputedTiming().progress ?? 1, false);
     if (uhr && uhr.playState !== "finished") bild = requestAnimationFrame(schleife);
   };
   schleife();
+}
+
+// Bei einem Klick muss die Szene ganz zu sehen sein, sonst verpasst man die Animation.
+function holeSzeneInsBild() {
+  const unten = szenenBild.getBoundingClientRect().bottom;
+  const kopf = wahl.getBoundingClientRect().top;
+  const oben = document.querySelector(".seil").getBoundingClientRect().bottom + 8;
+  if (kopf >= oben && unten <= innerHeight) return 0;
+  scrollBy({ top: kopf - oben, behavior: ohneBewegung.matches ? "auto" : "smooth" });
+  return ohneBewegung.matches ? 0 : SCROLL_MS;
 }
 
 // Ausgeblendete Teile bleiben über die Suche des Browsers auffindbar.
@@ -80,7 +92,7 @@ function zeige(i, { stoerung = false, merken = false } = {}) {
   window.Seil.fahreZu(STATION_VON_SCHRITT[id], { stoerung: stoerung && !rueckweg && id !== "knopf", rueckweg });
   if (merken) history.replaceState(null, "", "#" + schritte[i].id + (stoerung ? AUSFALL_ENDUNG : ""));
   beschrifte();
-  spieleSzene(stoerung);
+  spieleSzene(stoerung, merken ? holeSzeneInsBild() : 0);
 }
 
 function miss() {

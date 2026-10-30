@@ -284,6 +284,7 @@ Every chapter is assembled the same way, so a new chapter needs no layout decisi
 5. **Sections:** each section heading has an `id`, and a short `data-kurz` label when the heading is long. The page contents build themselves from these.
 6. **Wide material:** tables, status panels and walkthroughs sit outside the reading column; everything else stays inside it.
 7. **Ending:** the page-turn line in Haze.
+8. **Versions:** links to CSS and JS carry `?v=N`. Raise N on every change to those files, because GitHub Pages lets browsers keep old copies for ten minutes and a new page with an old script breaks.
 
 ### Buttons
 - **Shape:** barely softened corners (3px), 9px by 16px padding, no border.
@@ -318,7 +319,7 @@ Every chapter is assembled the same way, so a new chapter needs no layout decisi
 
 The signature interaction of Chapter 1: one emergency call stepped through along the rope.
 
-- **Structure:** Upper Plane tab strip, one Twilight Plane panel per step, control row below. The panel keeps the height of its tallest state, so nothing jumps between steps.
+- **Structure:** Upper Plane tab strip, slope scene, control row, then one Twilight Plane panel per step. The controls sit directly under the scene, and a press scrolls the tabs and scene fully into view. The panel keeps the height of its tallest state, so nothing jumps between steps.
 - **Failure view:** each step has a second state, reached with a toggle button, opened under a red Subtitle.
 - **Rope link:** every step moves the cabin; the failure view disturbs the station; the last step lights the return path.
 - **Stepping:** the main button reads "Notruf starten", then "Weiter: [next step]", and "Nochmal von vorn" at the end. Each press plays one step once and holds its last frame. Nothing advances on its own.

@@ -99,15 +99,15 @@ tbody tr + tr td { border-top: 1px solid var(--flaeche-hell); }
 .schritt-wahl button:hover { color: var(--licht); }
 .schritt-wahl button[aria-selected="true"] { background: var(--flaeche); color: var(--licht); font-weight: 700; }
 .schritt-wahl button:focus-visible { outline: 2px solid var(--licht); outline-offset: -2px; }
-.schritte { padding: 24px 24px 8px; }
+.schritte { padding: 24px 24px 12px; }
 .schritt + .schritt { margin-top: 28px; }
 .ausfall { margin-top: 16px; }
 .ausfall h4 { color: var(--notruf); }
 .ausfall.hinweis h4 { color: var(--schnee); }
 .js .schritt, .js .ausfall { margin: 0; }
-.bedienung { display: none; flex-wrap: wrap; gap: 10px; padding: 14px 24px 22px; }
+.bedienung { display: none; flex-wrap: wrap; gap: 10px; padding: 14px 24px; background: var(--flaeche-hell); }
 .js .bedienung { display: flex; }
-.knopf { all: unset; box-sizing: border-box; cursor: pointer; padding: 9px 16px; font: 700 17px/1.2 var(--kopf); color: var(--schnee); background: var(--flaeche-hell); border-radius: 3px; }
+.knopf { all: unset; box-sizing: border-box; cursor: pointer; padding: 9px 16px; font: 700 17px/1.2 var(--kopf); color: var(--schnee); background: var(--flaeche); border-radius: 3px; }
 .knopf:hover { background: #33527a; }
 .knopf:focus-visible { outline: 2px solid var(--licht); outline-offset: 2px; }
 .knopf:disabled { cursor: default; opacity: .5; }
@@ -119,7 +119,7 @@ tbody tr + tr td { border-top: 1px solid var(--flaeche-hell); }
 .szene { display: none; background: var(--dunkel); }
 .js .szene { display: block; }
 .szene svg { display: block; width: 100%; height: auto; }
-.szene figcaption { padding: 6px 24px; font-size: 16px; color: var(--dunst); background: var(--flaeche); }
+.szene figcaption { padding: 6px 24px; font-size: 16px; color: var(--dunst); background: var(--dunkel); }
 .szene text { font-family: var(--kopf); }
 .sz-himmel { fill: var(--dunkel); }
 .sz-berg { fill: var(--flaeche); }
@@ -139,15 +139,17 @@ tbody tr + tr td { border-top: 1px solid var(--flaeche-hell); }
 .sz-rad { fill: none; stroke: var(--dunst); stroke-width: 3; }
 .sz-mast { fill: var(--dunst); }
 .sz-schrank { fill: var(--flaeche-hell); }
+.sz-schrank.an { fill: #33527a; }
 .sz-einschub { fill: var(--dunkel); }
 .sz-led { fill: var(--flaeche-hell); }
 .sz-led.an { fill: var(--licht); }
 #sz-antenne { fill: var(--flaeche-hell); stroke: var(--dunst); stroke-width: 1.5; }
 #sz-antenne.an { fill: var(--licht); }
-.sz-komet { fill: none; stroke: var(--licht); stroke-width: 4; stroke-linecap: round; stroke-dasharray: .14 3; }
+.sz-komet { fill: none; stroke: var(--licht); stroke-width: 5; stroke-linecap: round; stroke-dasharray: .14 3; }
 .sz-bahn { fill: none; stroke: none; }
-#sz-wellen path { fill: none; stroke: var(--licht); stroke-width: 3.5; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-#sz-halten { fill: none; stroke: var(--notruf); stroke-width: 5; }
+#sz-zittern path { fill: none; stroke: var(--licht); stroke-width: 3; stroke-linecap: round; }
+#sz-wellen path { fill: none; stroke: var(--licht); stroke-width: 4.5; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+#sz-halten { fill: none; stroke: var(--notruf); stroke-width: 6; }
 #sz-paket { fill: var(--schnee); stroke: var(--licht); stroke-width: 3; }
 .sz-chip { fill: var(--notruf); }
 .sz-ski, .sz-bein, .sz-stock { stroke-linecap: round; }
