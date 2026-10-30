@@ -34,11 +34,11 @@ a:hover { text-decoration-thickness: 2px; }
 .seil-linie { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .seil-linie path { fill: none; stroke: var(--dunst); stroke-width: 2; vector-effect: non-scaling-stroke; }
 .seil-linie .seil-fahrweg { stroke: none; }
-.seil-linie .zurueck { stroke: var(--licht); }
+.seil-linie .geschafft { stroke: var(--licht); }
 .seil-linie .aus { stroke: var(--dunst); stroke-dasharray: 3 7; opacity: .55; }
 .seil-stationen { list-style: none; padding: 0; }
 .seil-stationen li { position: absolute; transform: translate(-50%, calc(-100% + 9px)); }
-.station { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 0 4px 2px; color: var(--schnee); text-decoration: none; font: 500 18px/1.2 var(--kopf); }
+.station { display: flex; flex-direction: column; align-items: center; white-space: nowrap; gap: 3px; padding: 0 4px 2px; color: var(--schnee); text-decoration: none; font: 500 18px/1.2 var(--kopf); }
 .station::after { content: ""; width: 18px; height: 18px; border-radius: 50%; background: var(--flaeche); border: 2px solid var(--schnee); }
 .station:hover::after { border-color: var(--licht); }
 .station[aria-current="true"] { color: var(--licht); font-weight: 700; }
@@ -191,6 +191,11 @@ tbody tr + tr td { border-top: 1px solid var(--flaeche-hell); }
   .buch { display: block; padding: 20px 16px 72px; }
   .seil-marke { display: none; }
   .station { font-size: 15px; }
+  .seil-stationen li:first-child { transform: translate(-12px, calc(-100% + 9px)); }
+  .seil-stationen li:first-child .station { align-items: flex-start; }
+  .seil-stationen li:last-child { transform: translate(calc(-100% + 12px), calc(-100% + 9px)); }
+  .seil-stationen li:last-child .station { align-items: flex-end; }
+  .station:not([aria-current="true"]) .station-name { display: none; }
   .station::after { width: 15px; height: 15px; }
   .gondel { width: 30px; height: 19px; margin-left: -15px; }
   .gondel::before { left: 14px; }

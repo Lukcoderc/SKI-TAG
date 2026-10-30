@@ -20,13 +20,19 @@ const KAPITEL = [
   { nr: "A", titel: "Anhang" },
 ];
 
+// Die Stationen des Seils sind die sechs Schritte eines Notrufs.
 const STATIONEN = [
-  { id: "chip", name: "Chip", x: 70, y: 66 },
-  { id: "empfaenger", name: "Gateway", x: 360, y: 57 },
-  { id: "server", name: "Server", x: 640, y: 48 },
-  { id: "app", name: "App", x: 930, y: 39 },
+  { id: "knopf", name: "Knopf", x: 60, y: 68 },
+  { id: "chip", name: "Chip", x: 236, y: 62 },
+  { id: "empfaenger", name: "Gateway", x: 412, y: 56 },
+  { id: "server", name: "Server", x: 588, y: 50 },
+  { id: "app", name: "Mitarbeiter", x: 764, y: 44 },
+  { id: "rueckweg", name: "Bestätigung", x: 940, y: 38 },
 ];
-const SPANNEN = ["M70 66 Q215 71 360 57", "M360 57 Q500 62 640 48", "M640 48 Q785 53 930 39"];
+const SPANNEN = STATIONEN.slice(1).map((s, i) => {
+  const a = STATIONEN[i];
+  return `M${a.x} ${a.y} Q${(a.x + s.x) / 2} ${a.y + 5} ${s.x} ${s.y}`;
+});
 const SVG_NS = "http://www.w3.org/2000/svg";
 const ohneBewegung = matchMedia("(prefers-reduced-motion: reduce)");
 const schmal = matchMedia("(max-width: 820px)");
@@ -63,7 +69,15 @@ function baueSeil() {
     const a = document.createElement("a");
     a.className = "station";
     a.href = "kapitel-01.html#schritt-" + station.id;
-    a.textContent = station.name;
+    const nummer = document.createElement("span");
+    nummer.textContent = `${STATIONEN.indexOf(station) + 1}.`;
+    const name = document.createElement("span");
+    name.className = "station-name";
+    name.textContent = " " + station.name;
+    const text = document.createElement("span");
+    text.append(nummer, name);
+    a.append(text);
+    a.setAttribute("aria-label", `Schritt ${STATIONEN.indexOf(station) + 1}: ${station.name}`);
     li.append(a);
     liste.append(li);
     return a;
@@ -96,14 +110,14 @@ function baueSeil() {
     aktuell = laenge;
   };
 
-  function fahreZu(index, { stoerung = false, rueckweg = false, sofort = false } = {}) {
+  function fahreZu(index, { stoerung = false, sofort = false } = {}) {
     links.forEach((a, i) => {
       a.setAttribute("aria-current", String(i === index));
       a.classList.toggle("gestoert", stoerung && i === index);
     });
     spannen.forEach((s, i) => {
       s.classList.toggle("aus", stoerung && i >= index);
-      s.classList.toggle("zurueck", rueckweg);
+      s.classList.toggle("geschafft", i < index);
     });
     cancelAnimationFrame(laufend);
     const start = aktuell, ziel = halte[index];

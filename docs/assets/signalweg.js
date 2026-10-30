@@ -1,5 +1,4 @@
 // Notruf Schritt für Schritt: jeder Klick spielt den nächsten Schritt in der Szene ab.
-const STATION_VON_SCHRITT = { knopf: 0, chip: 0, empfaenger: 1, server: 2, app: 3, rueckweg: 0 };
 const AUSFALL_ENDUNG = "-ausfall";
 
 const stapel = document.querySelector(".schritte");
@@ -87,8 +86,7 @@ function zeige(i, { stoerung = false, merken = false, ruhig = false } = {}) {
   ausfall.dataset.an = String(stoerung);
   ausfall.textContent = stoerung ? "Zurück zum Normalfall" : schritte[i].dataset.frage || "Was, wenn es hier ausfällt?";
   const id = kurzId(schritte[i]);
-  const rueckweg = id === "rueckweg";
-  window.Seil.fahreZu(STATION_VON_SCHRITT[id], { stoerung: stoerung && !rueckweg && id !== "knopf", rueckweg, sofort: ruhig });
+  window.Seil.fahreZu(i, { stoerung: stoerung && id !== "rueckweg" && id !== "knopf", sofort: ruhig });
   if (merken) history.replaceState(null, "", "#" + schritte[i].id + (stoerung ? AUSFALL_ENDUNG : ""));
   beschrifte();
   if (ruhig) return window.Szene.zeichne(id, 1, stoerung);

@@ -265,19 +265,19 @@ Quiet, square and signage-like. Controls read as labels on a plane until they ar
 The signature of the book, present on every chapter page.
 
 - **Structure:** Twilight Plane band with the book name top left and the rope strip below. The rope is a 2px Haze line in three sagging spans that climb from left to right, keeping its stroke width at any page width.
-- **Stations:** Chip, Gateway, Server and App, at 7%, 36%, 64% and 93% across. Each is a name above an 18px ring (15px at phone width), with a Twilight Plane fill and a 2px Snow border. They link to the matching step of the Chapter 1 walkthrough.
+- **Stations:** the six steps of an emergency call, each a number and a word: 1. Knopf, 2. Chip, 3. Gateway, 4. Server, 5. Mitarbeiter, 6. Bestätigung, evenly spread from 6% to 94% across. Each is a label above an 18px ring (15px at phone width), with a Twilight Plane fill and a 2px Snow border. They link to the matching step of the Chapter 1 walkthrough. At phone width only the current station shows its word; the others show their number.
 - **Hover:** the ring turns amber.
 - **Current:** name and ring turn amber, and the name goes to weight 700.
 - **Cabin:** a 36px by 22px amber cabin (30px by 19px at phone width) on a 2px hanger, with a Twilight Plane window, hanging under the rope at the current station.
 - **Disturbed:** the station turns red and its ring becomes a diamond with a 3px border. The rope from that station onward becomes a dotted Haze line at 55% opacity.
-- **Return path:** all spans turn amber.
+- **Progress:** every span behind the current station turns amber, so the rope shows how far the call has come.
 - **Motion:** the cabin travels along the rope in 900ms, ease-out cubic. With reduced motion it jumps.
 
 ### Chapter Page
 
 Every chapter is assembled the same way, so a new chapter needs no layout decisions.
 
-1. **Rope position:** set the page's station (`data-station` on the body) to the station the chapter is about: `chip`, `empfaenger`, `server` or `app`. An unset or unknown value parks the cabin at Chip.
+1. **Rope position:** set the page's station (`data-station` on the body) to the station the chapter is about: `knopf`, `chip`, `empfaenger`, `server`, `app` or `rueckweg`. An unset or unknown value parks the cabin at the first station.
 2. **Chapter list:** add the file name to the chapter's entry in the shared list in `book.js`. That turns it from a muted, unlinked entry into a link.
 3. **Heading block:** the title, then the stamp line in the form "Kapitel N · Stand [date]", below the title and never above it.
 4. **Opening:** one Lead paragraph in the reading column, then Body.
@@ -321,7 +321,7 @@ The signature interaction of Chapter 1: one emergency call stepped through along
 
 - **Structure:** Upper Plane tab strip, slope scene, control row, then one Twilight Plane panel per step. The controls sit directly under the scene, and a press scrolls the tabs and scene fully into view. The panel keeps the height of its tallest state, so nothing jumps between steps.
 - **Failure view:** each step has a second state, reached with a toggle button, opened under a red Subtitle.
-- **Rope link:** every step moves the cabin; the failure view disturbs the station; the last step lights the return path.
+- **Rope link:** every step moves the cabin one station on; the failure view disturbs the station.
 - **Stepping:** the main button reads "Start: Knopf drücken", then "Weiter zu Schritt N: [step sentence]", and "Nochmal von vorn" at the end, which returns to the start. Tabs carry a number and one word; step headings and buttons carry the full sentence. Each press plays one step once and holds its last frame. Nothing advances on its own, and nothing plays on page load: a step named in the address shows its last frame at once.
 - **Slope scene:** a flat illustration above the text in the book's tones: mountain layers, a valley with the server house and its rack, a slope with piste, firs and ropeway, and the receiver at the gondola station. Labels are Deep Twilight tags. Signal exists only while something is sent: radio travels as a group of amber wave arcs that grow toward the target, cable travels as an amber pulse along the line. Scene steps run for 1.3 to 4 seconds, and the emergency red stays on the guest, the staff message and the failure diamond. With reduced motion each step shows its final frame.
 - **Deep links:** every step and failure view has a shareable address.

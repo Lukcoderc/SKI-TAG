@@ -17,6 +17,8 @@ const AUSFALL_ORT = {
 const SZENE_MS = { knopf: 2000, chip: 2400, empfaenger: 1900, server: 3200, app: 2600, rueckweg: 5000 };
 const FOLGE = ["knopf", "chip", "empfaenger", "server", "app", "rueckweg"];
 const WELLEN_JE_GRUPPE = 4;
+const WELLEN_ENDE_PX = 26;
+const WELLEN_BLENDE_PX = 40;
 
 const sz = (id) => document.getElementById("sz-" + id);
 const anteil = (p, von, bis) => Math.min(Math.max((p - von) / (bis - von), 0), 1);
@@ -60,7 +62,8 @@ function setzeWellen(weg, q, rueckwaerts = false, gruppe = 0) {
     const zurueck = weg.getPointAtLength(laenge * Math.max(kopf - 0.01, 0));
     const winkel = Math.atan2(dort.y - zurueck.y, dort.x - zurueck.x) * (180 / Math.PI) + (rueckwaerts ? 180 : 0);
     welle.setAttribute("transform", `translate(${hier.x} ${hier.y}) rotate(${winkel}) scale(${1.2 + w * wachstum})`);
-    welle.setAttribute("opacity", Math.min(w / 0.08, 1) * Math.min((1 - w) / 0.18, 1));
+    const rest = (1 - w) * laenge - WELLEN_ENDE_PX;
+    welle.setAttribute("opacity", Math.min(w / 0.08, 1) * Math.min(Math.max(rest / WELLEN_BLENDE_PX, 0), 1));
   });
 }
 
@@ -136,6 +139,7 @@ const SCHRITTE = {
     const fahrt = anteil(p, 0.06, 0.96);
     setzeMitarbeiter(weich(fahrt), fahrt > 0 && fahrt < 1 ? 1 : 0);
     setzeWellen(wege.mobil, anteil(p, 0, 0.12), true);
+    sz("mastlicht").classList.toggle("an", p >= 0.09 && p < 0.2);
     setzeKomet(wege.netz, anteil(p, 0.12, 0.26), true);
     setzeKomet(wege.kabel, anteil(p, 0.26, 0.4), true);
     setzeWellen(wege.funk, anteil(p, 0.4, 0.55), true);
