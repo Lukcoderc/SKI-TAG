@@ -2,6 +2,7 @@
 const STATION_VON_SCHRITT = { chip: 0, empfaenger: 1, server: 2, app: 3, rueckweg: 0 };
 const MS_PRO_WORT = 250;
 const AUSFALL_ENDUNG = "-ausfall";
+const HAND_MS = 2600;
 
 const stapel = document.querySelector(".schritte");
 const schritte = [...document.querySelectorAll(".schritt")];
@@ -15,6 +16,8 @@ const kurzId = (s) => s.id.replace("schritt-", "");
 let aktiv = 0;
 let zustand = "bereit";
 let lauf = null;
+let uhr = null;
+let bild = 0;
 const balken = [];
 
 const tabs = schritte.map((schritt, i) => {
@@ -60,6 +63,29 @@ function zeige(i, { stoerung = false, merken = false } = {}) {
   window.Seil.fahreZu(STATION_VON_SCHRITT[id], { stoerung: stoerung && !rueckweg, rueckweg });
   if (merken) history.replaceState(null, "", "#" + schritte[i].id + (stoerung ? AUSFALL_ENDUNG : ""));
   beschrifte();
+  zeigeSzene(stoerung);
+}
+
+// Die Szene folgt immer der laufenden Uhr: im Player dem Balken, von Hand einer eigenen kurzen Uhr.
+function starteBild() {
+  cancelAnimationFrame(bild);
+  const id = kurzId(schritte[aktiv]);
+  const schleife = () => {
+    const p = ohneBewegung.matches ? 1 : uhr?.effect.getComputedTiming().progress ?? 1;
+    window.Szene.zeichne(id, p, false);
+    if (uhr && uhr.playState !== "finished") bild = requestAnimationFrame(schleife);
+  };
+  schleife();
+}
+
+function zeigeSzene(stoerung) {
+  if (zustand !== "bereit") return;
+  cancelAnimationFrame(bild);
+  uhr?.cancel();
+  uhr = null;
+  if (stoerung || ohneBewegung.matches) return window.Szene.zeichne(kurzId(schritte[aktiv]), 1, stoerung);
+  uhr = stapel.animate([], { duration: HAND_MS });
+  starteBild();
 }
 
 function miss() {
@@ -88,6 +114,8 @@ function beschrifte() {
 function stoppe() {
   lauf?.cancel();
   lauf = null;
+  uhr?.cancel();
+  uhr = null;
   zustand = "bereit";
   balken.forEach((b) => { b.style.transform = ""; });
   beschrifte();
@@ -97,9 +125,15 @@ function stoppe() {
 function fahre() {
   const woerter = teil(schritte[aktiv], "normal").textContent.trim().split(/\s+/).length;
   balken.forEach((b, n) => { b.style.transform = n < aktiv ? "scaleX(1)" : ""; });
+  uhr?.cancel();
   lauf = balken[aktiv].animate([{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }], { duration: woerter * MS_PRO_WORT });
+  uhr = lauf;
+  starteBild();
   lauf.onfinish = () => {
-    if (aktiv === schritte.length - 1) return stoppe();
+    if (aktiv === schritte.length - 1) {
+      stoppe();
+      return starteBild();
+    }
     zeige(aktiv + 1);
     fahre();
   };
@@ -113,8 +147,8 @@ function spiele() {
     lauf.play();
     zustand = "laeuft";
   } else {
-    zeige(aktiv === schritte.length - 1 ? 0 : aktiv);
     zustand = "laeuft";
+    zeige(aktiv === schritte.length - 1 ? 0 : aktiv);
     fahre();
   }
   beschrifte();
@@ -164,4 +198,10 @@ addEventListener("hashchange", ausHash);
 addEventListener("resize", miss);
 
 miss();
-if (!ausHash()) zeige(0);
+if (!ausHash()) {
+  zeige(0);
+  cancelAnimationFrame(bild);
+  uhr?.cancel();
+  uhr = null;
+  window.Szene.zeichne("chip", 0, false);
+}

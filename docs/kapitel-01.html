@@ -7,6 +7,7 @@
 <meta name="description" content="Wie ein Notruf vom SkiTag-Chip bis in die App der Bergbahn kommt.">
 <link rel="stylesheet" href="assets/book.css">
 <script src="assets/book.js" defer></script>
+<script src="assets/szene.js" defer></script>
 <script src="assets/signalweg.js" defer></script>
 </head>
 <body data-station="chip">
@@ -54,6 +55,51 @@
 
       <section class="signalweg" aria-label="Notruf Schritt für Schritt">
         <ol class="schritt-wahl" role="tablist" aria-label="Schritte des Notrufs"></ol>
+        <figure class="szene">
+          <svg id="sz-bild" viewBox="0 0 640 250" role="img" aria-label="Szene am Hang: Ein Gast ist gestürzt">
+            <polygon class="sz-berg" points="0,250 0,150 150,70 300,120 470,20 640,90 640,250"/>
+            <polygon class="sz-hang" points="0,215 640,60 640,250 0,250"/>
+            <g class="sz-haus">
+              <rect x="525" y="58" width="52" height="30"/><polygon points="519,58 551,40 583,58"/>
+              <rect x="559" y="24" width="4" height="26"/>
+            </g>
+            <g id="sz-server-haus" class="sz-haus">
+              <rect x="40" y="168" width="70" height="36"/><polygon points="33,168 75,146 117,168"/>
+              <rect class="sz-fenster" x="52" y="178" width="14" height="10"/><rect class="sz-fenster" x="84" y="178" width="14" height="10"/>
+            </g>
+            <path id="sz-funk" class="sz-weg" d="M252 142 Q410 62 561 30"/>
+            <path id="sz-netz" class="sz-weg" d="M561 30 L551 58 L100 165"/>
+            <path id="sz-mobil" class="sz-weg" d="M75 150 Q250 10 440 90"/>
+            <g id="sz-ringe"><circle cx="252" cy="142"/><circle cx="252" cy="142"/><circle cx="252" cy="142"/></g>
+            <circle id="sz-halten" cx="252" cy="142" r="20" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" transform="rotate(-90 252 142)"/>
+            <g id="sz-gast">
+              <line class="sz-ski" x1="214" y1="168" x2="268" y2="154"/>
+              <rect class="sz-koerper" x="228" y="146" width="34" height="11" rx="5.5" transform="rotate(-14 245 151)"/>
+              <circle class="sz-koerper" cx="272" cy="141" r="7"/>
+              <circle class="sz-chip" cx="250" cy="148" r="3.5"/>
+            </g>
+            <circle id="sz-sos" cx="252" cy="118" r="7"/>
+            <g id="sz-mitarbeiter">
+              <circle class="sz-koerper" cx="0" cy="-30" r="6.5"/>
+              <rect class="sz-koerper" x="-5" y="-23" width="10" height="16" rx="4"/>
+              <line class="sz-bein" x1="-2" y1="-9" x2="-6" y2="-1"/><line class="sz-bein" x1="2" y1="-9" x2="6" y2="-1"/>
+              <line class="sz-ski" x1="-16" y1="3" x2="14" y2="-4"/>
+            </g>
+            <g id="sz-meldung" visibility="hidden">
+              <rect x="326" y="10" width="166" height="50" rx="3"/>
+              <circle cx="344" cy="35" r="6"/>
+              <text x="358" y="30">NOTRUF, Piste 3</text>
+              <text x="358" y="50">170 m von dir</text>
+            </g>
+            <circle id="sz-paket" r="6.5" visibility="hidden"/>
+            <g id="sz-raute" visibility="hidden"><path d="M0 -13 13 0 0 13 -13 0Z"/></g>
+            <text id="sz-status" x="16" y="30"></text>
+            <text class="sz-name" x="252" y="192" text-anchor="middle">Gast</text>
+            <text class="sz-name" x="75" y="232" text-anchor="middle">Server</text>
+            <text class="sz-name" x="551" y="110" text-anchor="middle">Empfänger</text>
+          </svg>
+          <figcaption>Schematische Darstellung mit Beispielort, nicht in Echtzeit.</figcaption>
+        </figure>
         <div class="schritte">
           <article class="schritt" id="schritt-chip" data-kurz="Chip">
             <div class="schritt-inhalt">

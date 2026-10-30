@@ -119,6 +119,33 @@ tbody tr + tr td { border-top: 1px solid var(--flaeche-hell); }
 .knopf-haupt:hover { background: #ffc964; }
 .knopf[data-an="true"] { background: var(--schnee); color: var(--dunkel); }
 
+/* Hangszene */
+.szene { display: none; background: var(--dunkel); }
+.js .szene { display: block; }
+.szene svg { display: block; width: 100%; height: auto; }
+.szene figcaption { padding: 6px 24px; font-size: 16px; color: var(--dunst); background: var(--flaeche); }
+.szene text { font-family: var(--kopf); }
+.sz-berg { fill: var(--flaeche); }
+.sz-hang { fill: var(--flaeche-hell); }
+.sz-haus rect, .sz-haus polygon { fill: var(--dunst); }
+.sz-haus .sz-fenster { fill: var(--dunkel); }
+#sz-server-haus.aktiv .sz-fenster { fill: var(--licht); }
+.sz-weg { fill: none; stroke: var(--dunst); stroke-width: 1.5; stroke-dasharray: 3 7; opacity: .55; }
+.sz-weg.an { stroke: var(--licht); stroke-dasharray: none; opacity: 1; }
+.sz-koerper { fill: var(--schnee); }
+.sz-ski, .sz-bein { stroke: var(--schnee); stroke-width: 3; stroke-linecap: round; }
+.sz-chip { fill: var(--notruf); }
+#sz-ringe circle { fill: none; stroke: var(--licht); stroke-width: 2; }
+#sz-halten { fill: none; stroke: var(--notruf); stroke-width: 4; }
+#sz-sos { fill: var(--notruf); }
+#sz-paket { fill: var(--licht); stroke: var(--dunkel); stroke-width: 2; }
+#sz-raute path { fill: var(--dunkel); stroke: var(--notruf); stroke-width: 3; }
+#sz-meldung rect { fill: var(--dunkel); }
+#sz-meldung circle { fill: var(--notruf); }
+#sz-meldung text { font-size: 17px; font-weight: 700; fill: var(--schnee); }
+#sz-status { font-size: 21px; font-weight: 700; fill: var(--schnee); }
+.sz-name { font-size: 18px; font-weight: 700; fill: var(--schnee); }
+
 /* Weiterblättern */
 .blaettern { display: flex; justify-content: space-between; gap: 20px; margin-top: 72px; padding-top: 20px; font: 500 18px/1.3 var(--kopf); color: var(--dunst); }
 
@@ -150,6 +177,7 @@ tbody tr + tr td { border-top: 1px solid var(--flaeche-hell); }
   .einstieg { font-size: 19px; }
   h2 { font-size: 30px; margin-top: 48px; }
   .schritte, .bedienung { padding-left: 16px; padding-right: 16px; }
+  .szene figcaption { padding: 6px 16px; }
   th, td { padding: 9px 10px; }
   .schritt-wahl { justify-content: space-between; }
   .schritt-wahl button { padding: 12px 9px; font-size: 16px; }
