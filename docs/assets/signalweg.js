@@ -75,7 +75,7 @@ function holeSzeneInsBild() {
 }
 
 // Ausgeblendete Teile bleiben über die Suche des Browsers auffindbar.
-function zeige(i, { stoerung = false, merken = false } = {}) {
+function zeige(i, { stoerung = false, merken = false, ruhig = false } = {}) {
   aktiv = i;
   gestartet = true;
   schritte.forEach((s, n) => {
@@ -89,9 +89,10 @@ function zeige(i, { stoerung = false, merken = false } = {}) {
   ausfall.textContent = stoerung ? "Zurück zum Normalfall" : schritte[i].dataset.frage || "Was, wenn es hier ausfällt?";
   const id = kurzId(schritte[i]);
   const rueckweg = id === "rueckweg";
-  window.Seil.fahreZu(STATION_VON_SCHRITT[id], { stoerung: stoerung && !rueckweg && id !== "knopf", rueckweg });
+  window.Seil.fahreZu(STATION_VON_SCHRITT[id], { stoerung: stoerung && !rueckweg && id !== "knopf", rueckweg, sofort: ruhig });
   if (merken) history.replaceState(null, "", "#" + schritte[i].id + (stoerung ? AUSFALL_ENDUNG : ""));
   beschrifte();
+  if (ruhig) return window.Szene.zeichne(id, 1, stoerung);
   spieleSzene(stoerung, merken ? holeSzeneInsBild() : 0);
 }
 
@@ -111,14 +112,15 @@ function miss() {
   stapel.style.minHeight = hoehe + parseFloat(stil.paddingTop) + parseFloat(stil.paddingBottom) + "px";
 }
 
-function ausHash() {
+// Beim Laden der Seite läuft nichts von selbst: Der Schritt aus der Adresse steht gleich am Ende.
+function ausHash(ruhig = false) {
   const hash = location.hash.slice(1);
   const stoerung = hash.endsWith(AUSFALL_ENDUNG);
   const id = stoerung ? hash.slice(0, -AUSFALL_ENDUNG.length) : hash;
   const ziel = schritte.findIndex((s) => s.id === id);
   if (ziel < 0) return false;
-  zeige(ziel, { stoerung });
-  document.getElementById("signalweg").scrollIntoView();
+  zeige(ziel, { stoerung, ruhig });
+  document.getElementById("signalweg").scrollIntoView({ behavior: ruhig ? "instant" : "smooth" });
   return true;
 }
 
@@ -144,16 +146,13 @@ stapel.addEventListener("beforematch", (e) => {
   }
   zeige(i, { stoerung: e.target.classList.contains("ausfall") });
 });
-addEventListener("hashchange", ausHash);
+addEventListener("hashchange", () => ausHash());
 addEventListener("resize", miss);
 
 miss();
-if (!ausHash()) {
-  zeige(0);
+if (!ausHash(true)) {
+  zeige(0, { ruhig: true });
   gestartet = false;
-  cancelAnimationFrame(bild);
-  uhr?.cancel();
-  uhr = null;
   window.Szene.zeichne("knopf", 0, false);
   beschrifte();
 }

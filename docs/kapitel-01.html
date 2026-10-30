@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vom Knopfdruck zur App · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie ein Notruf vom SkiTag-Chip bis in die App der Bergbahn kommt.">
-<link rel="stylesheet" href="assets/book.css?v=3">
-<script src="assets/book.js?v=3" defer></script>
-<script src="assets/szene.js?v=3" defer></script>
-<script src="assets/signalweg.js?v=3" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=4">
+<script src="assets/book.js?v=4" defer></script>
+<script src="assets/szene.js?v=4" defer></script>
+<script src="assets/signalweg.js?v=4" defer></script>
 </head>
 <body data-station="chip">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -44,7 +44,7 @@
       <p class="stand">Kapitel 1 · Stand 30. Oktober 2026</p>
 
       <div class="lesen">
-        <p class="einstieg">Ein Gast stürzt auf der Piste und kann nicht mehr weiterfahren. Er hat kein Handy dabei und hält den Knopf an seinem Chip. Kurz darauf sieht ein Mitarbeiter der Bergbahn in seiner App einen roten Punkt mit dem genauen Ort. Dieses Buch erklärt alles, was dazwischen passiert.</p>
+        <p class="einstieg">Jemand stürzt auf der Piste und kann nicht mehr weiterfahren. Die Person hat kein Handy dabei und hält den Knopf am Chip. Kurz darauf sieht ein Mitarbeiter der Bergbahn in seiner App einen roten Punkt mit dem genauen Ort. Dieses Buch erklärt alles, was dazwischen passiert.</p>
         <p>SkiTag ist ein Mietchip für das Skigebiet. Er schickt Notrufe mit Standort an die Bergbahn und kann die eigene Gruppe rufen, ohne Handy und ohne Handynetz. Damit das klappt, braucht es ein eigenes kleines Netzwerk am Berg. Um dieses Netzwerk geht es hier.</p>
       </div>
 
@@ -56,7 +56,7 @@
       <section class="signalweg" aria-label="Notruf Schritt für Schritt">
         <ol class="schritt-wahl" role="tablist" aria-label="Schritte des Notrufs"></ol>
         <figure class="szene">
-          <svg id="sz-bild" viewBox="0 0 720 330" role="img" aria-label="Szene am Hang: Ein Gast ist gestürzt">
+          <svg id="sz-bild" viewBox="0 0 720 330" role="img" aria-label="Szene am Hang: Eine Person ist gestürzt">
             <rect class="sz-himmel" width="720" height="330"/>
             <polygon class="sz-berg" points="0,212 92,128 172,182 292,66 402,152 524,34 642,122 720,78 720,330 0,330"/>
             <polygon class="sz-gipfel" points="92,128 112,146 96,142 78,152 70,148"/>
@@ -95,9 +95,9 @@
             </g>
             <path id="sz-funk" class="sz-bahn" pathLength="1" d="M380 230 Q540 150 672 48"/>
             <path id="sz-kabel" class="sz-komet" pathLength="1" d="M672 48 L604 108 L208 240 Q160 226 104 214"/>
-            <path id="sz-mobil" class="sz-bahn" pathLength="1" d="M104 208 Q330 10 548 138"/>
+            <path id="sz-mobil" class="sz-bahn" pathLength="1" d="M672 48 Q636 112 556 132"/>
             <g id="sz-wellen"><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/></g>
-            <circle id="sz-halten" cx="380" cy="230" r="34" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" transform="rotate(-90 380 230)"/>
+            <circle id="sz-halten" cx="380" cy="230" r="34" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" visibility="hidden" transform="rotate(-90 380 230)"/>
             <g id="sz-gast" transform="translate(380 241) rotate(-13)">
               <line class="sz-ski" x1="-46" y1="3" x2="20" y2="3"/>
               <line class="sz-ski" x1="-38" y1="-15" x2="-12" y2="4"/>
@@ -129,9 +129,9 @@
             <circle id="sz-paket" r="7" visibility="hidden"/>
             <g id="sz-raute" visibility="hidden"><path d="M0 -15 15 0 0 15 -15 0Z"/></g>
             <text id="sz-status" x="16" y="32"></text>
-            <g class="sz-tag"><rect x="306" y="262" width="52" height="25"/><text x="332" y="280" text-anchor="middle">Gast</text></g>
+            <g class="sz-tag"><rect x="326" y="266" width="122" height="25"/><text x="387" y="284" text-anchor="middle">Verletzte Person</text></g>
             <g class="sz-tag"><rect x="72" y="296" width="60" height="25"/><text x="102" y="314" text-anchor="middle">Server</text></g>
-            <g class="sz-tag"><rect x="576" y="16" width="88" height="25"/><text x="620" y="34" text-anchor="middle">Empfänger</text></g>
+            <g class="sz-tag"><rect x="588" y="16" width="72" height="25"/><text x="624" y="34" text-anchor="middle">Gateway</text></g>
           </svg>
           <figcaption>Schematische Darstellung mit Beispielort, nicht in Echtzeit.</figcaption>
         </figure>
@@ -145,7 +145,7 @@
             <div class="schritt-inhalt">
               <div class="normal">
                 <h3>Der Knopf wird gedrückt</h3>
-                <p>Der Gast hält den Knopf an seinem Chip drei Sekunden lang. Ein kurzer Druck würde nur die eigene Gruppe rufen, erst das Halten löst den Notruf aus.</p>
+                <p>Die verletzte Person hält den Knopf an ihrem Chip drei Sekunden lang. Ein kurzer Druck würde nur die eigene Gruppe rufen, erst das Halten löst den Notruf aus.</p>
               </div>
               <div class="ausfall hinweis">
                 <h4>Wenn es ein Versehen war</h4>
@@ -161,24 +161,24 @@
                 <p>Das geschieht über LoRa, eine Funktechnik für kleine Datenmengen und große Entfernungen. Der Chip braucht dafür weder SIM-Karte noch Handynetz. Er wiederholt den Notruf so lange, bis der Server ihn bestätigt.</p>
               </div>
               <div class="ausfall">
-                <h4>Wenn kein Empfänger den Chip hört</h4>
+                <h4>Wenn kein Gateway den Chip hört</h4>
                 <p>Dann kommt nichts an, und der Chip sendet weiter: zuerst alle 4 bis 8 Sekunden, nach 6 Versuchen alle 15 bis 25 Sekunden. Bei einem Notruf hört er nie auf, andere Meldungen gibt er nach 8 Versuchen auf.</p>
-                <p>Bleibt die Bestätigung 90 Sekunden lang aus, blinkt der Chip doppelt rot und vibriert jede Minute. Für den Gast heißt das: selbst 140 rufen.</p>
+                <p>Bleibt die Bestätigung 90 Sekunden lang aus, blinkt der Chip doppelt rot und vibriert jede Minute. Für die verletzte Person heißt das: selbst 140 rufen.</p>
               </div>
             </div>
           </article>
-          <article class="schritt" id="schritt-empfaenger" data-kurz="Empfänger">
+          <article class="schritt" id="schritt-empfaenger" data-kurz="Gateway">
             <div class="schritt-inhalt">
               <div class="normal">
-                <h3>Der Empfänger reicht weiter</h3>
-                <p>An den Stationen der Bergbahn stehen kleine Funkboards, die Empfänger. Einer hört das Paket und schickt es über WLAN und Internet an den Server.</p>
-                <p>Lesen kann er es nicht, denn es ist verschlüsselt. Er gibt nur Bytes weiter. Hören zwei Empfänger dasselbe Paket, sortiert der Server das doppelte aus.</p>
+                <h3>Das Gateway reicht weiter</h3>
+                <p>An den Stationen der Bergbahn stehen die Gateways. Eines hört das Paket und schickt es über Kabel an den Server. Im Test läuft dieser Abschnitt noch über WLAN.</p>
+                <p>Lesen kann es das Paket nicht, denn es ist verschlüsselt. Es gibt nur Bytes weiter. Hören zwei Gateways dasselbe Paket, sortiert der Server das doppelte aus.</p>
               </div>
               <div class="ausfall">
-                <h4>Wenn der Empfänger ausfällt</h4>
-                <p>Ist das WLAN nur kurz weg, hebt der Empfänger bis zu 60 Pakete auf und schickt sie nach.</p>
-                <p>Fällt er ganz aus, zeigt ihn die Ausgabe-Seite des Servers nach 30 Sekunden als „weg“. Mehr passiert bisher nicht.</p>
-                <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Ob ein anderer Empfänger einspringen kann, hängt davon ab, wie weit sich ihre Reichweiten überlappen. Das ist noch nicht gemessen.</p>
+                <h4>Wenn das Gateway ausfällt</h4>
+                <p>Ist das WLAN nur kurz weg, hebt das Gateway bis zu 60 Pakete auf und schickt sie nach.</p>
+                <p>Fällt es ganz aus, zeigt es die Ausgabe-Seite des Servers nach 30 Sekunden als „weg“. Mehr passiert bisher nicht.</p>
+                <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Ob ein anderes Gateway einspringen kann, hängt davon ab, wie weit sich ihre Reichweiten überlappen. Das ist noch nicht gemessen.</p>
               </div>
             </div>
           </article>
@@ -187,12 +187,12 @@
               <div class="normal">
                 <h3>Der Server entscheidet</h3>
                 <p>Der Server ist die Zentrale. Er entschlüsselt und prüft das Paket und ordnet die Position einer Piste oder einem Lift zu.</p>
-                <p>Dann legt er den Notruf an und bietet ihn dem nächsten freien Mitarbeiter an. Empfänger und App führen nur aus, was er vorgibt.</p>
+                <p>Dann legt er den Notruf an und wählt den nächsten freien Mitarbeiter. Über Kabel geht der Notruf zurück zum Gateway, das ihn an den Mitarbeiter funkt. Gateway und App führen nur aus, was der Server vorgibt.</p>
               </div>
               <div class="ausfall">
                 <h4>Wenn Server oder Internet ausfallen</h4>
-                <p>Dann kommt kein Notruf an. Der Chip merkt das an der fehlenden Bestätigung und warnt den Gast nach 90 Sekunden.</p>
-                <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Das ist heute die größte Schwachstelle. Für den Gast läuft SkiTag ohne Internet, die Kette dahinter aber nicht. Wie das gelöst wird, ist noch offen.</p>
+                <p>Dann kommt kein Notruf an. Der Chip merkt das an der fehlenden Bestätigung und warnt die Person nach 90 Sekunden.</p>
+                <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Das ist heute die größte Schwachstelle. Für die Person am Chip läuft SkiTag ohne Internet, die Kette dahinter aber nicht. Wie das gelöst wird, ist noch offen.</p>
               </div>
             </div>
           </article>
@@ -206,7 +206,7 @@
               <div class="ausfall">
                 <h4>Wenn niemand reagiert</h4>
                 <p>Nimmt der Mitarbeiter den Notruf 60 Sekunden lang nicht an, geht er an den nächsten.</p>
-                <p>Ist die letzte Position älter als 2 Minuten, wird sie als „alt“ markiert. Gibt es gar keine Position, nimmt der Server die des Empfängers und markiert sie als „ungefähr“.</p>
+                <p>Ist die letzte Position älter als 2 Minuten, wird sie als „alt“ markiert. Gibt es gar keine Position, nimmt der Server die des Gateways und markiert sie als „ungefähr“.</p>
               </div>
             </div>
           </article>
@@ -214,12 +214,12 @@
             <div class="schritt-inhalt">
               <div class="normal">
                 <h3>Die Bestätigung kommt zurück</h3>
-                <p>Sobald jemand übernimmt, läuft die Nachricht denselben Weg zurück. Der Server wählt dafür den Empfänger, der den Chip zuletzt am besten gehört hat.</p>
-                <p>Der Chip vibriert zweimal lang und blinkt rot. Der Gast weiß damit: Hilfe kommt.</p>
+                <p>Sobald jemand übernimmt, läuft die Nachricht denselben Weg zurück. Der Server wählt dafür das Gateway, das den Chip zuletzt am besten gehört hat.</p>
+                <p>Der Chip vibriert zweimal lang und blinkt rot. Die verletzte Person weiß damit: Hilfe kommt.</p>
               </div>
               <div class="ausfall hinweis">
                 <h4>Warum das dauern kann</h4>
-                <p>Ein Empfänger darf einem Chip nur direkt nach einem Paket dieses Chips antworten. Ein Gruppenruf kann deshalb bis zu 20 Sekunden brauchen, in der Ladebox bis zu 60.</p>
+                <p>Ein Gateway darf einem Chip nur direkt nach einem Paket dieses Chips antworten. Ein Gruppenruf kann deshalb bis zu 20 Sekunden brauchen, in der Ladebox bis zu 60.</p>
                 <p>Der Server versucht jeden Befehl bis zu sechsmal, bis der Chip ihn bestätigt.</p>
               </div>
             </div>
@@ -251,7 +251,7 @@
           <thead><tr><th scope="col">Wer</th><th scope="col">Bereich</th><th scope="col">Gehört dazu</th></tr></thead>
           <tbody>
             <tr><td>Maximilian</td><td>Hardware</td><td>Chip, SOS-Knopf, Akku, Chip-Software, Gehäuse, Ladebox</td></tr>
-            <tr><td>Lukas</td><td>Netzwerk</td><td>LoRa-Empfänger, Server und alles dazwischen</td></tr>
+            <tr><td>Lukas</td><td>Netzwerk</td><td>LoRa-Gateways, Server und alles dazwischen</td></tr>
             <tr><td>Tobias</td><td>App, Wirtschaft</td><td>Die App, das Projekt, Wirtschaft und Verkauf</td></tr>
           </tbody>
         </table>
@@ -266,8 +266,8 @@
           <div>
             <h3><svg class="mark"><use href="#mark-fest"/></svg>Fest</h3>
             <ul>
-              <li>Die Funkstrecke läuft über LoRa, vom Chip zu Empfängern an den Stationen, dann zum Server und zur App.</li>
-              <li>Der Gast braucht weder Handy noch SIM-Karte.</li>
+              <li>Die Funkstrecke läuft über LoRa, vom Chip zu Gateways an den Stationen, dann zum Server und zur App.</li>
+              <li>Wer den Chip trägt, braucht weder Handy noch SIM-Karte.</li>
             </ul>
           </div>
           <div>
@@ -286,8 +286,8 @@
           <div class="status-offen">
             <h3><svg class="mark"><use href="#mark-offen"/></svg>Offen</h3>
             <ul>
-              <li>Muss die Notruf-Kette auch bei einem Internetausfall funktionieren, oder gilt „ohne Internet“ nur für den Gast?</li>
-              <li>Wie viele Empfänger braucht KitzSki, und wo stehen sie?</li>
+              <li>Muss die Notruf-Kette auch bei einem Internetausfall funktionieren, oder gilt „ohne Internet“ nur für die Person am Chip?</li>
+              <li>Wie viele Gateways braucht KitzSki, und wo stehen sie?</li>
               <li>Woher kommen Strom und Netz an den Stationen?</li>
               <li>Wie wird der Reichweiten-Alarm gelöst, sodass nur die aufpassende Person vibriert?</li>
               <li>Was wird wie lange gespeichert (DSGVO)?</li>
@@ -296,8 +296,8 @@
       </div>
       <div class="lesen">
         <h2 id="test" data-kurz="Der Test 2027">Der Test Anfang 2027</h2>
-        <p>Die Prototypen sollen im Jänner 2027 fertig sein, der Testtag folgt im Februar oder März. Dabei sind 5 Chips, 2 Empfänger an Bergstationen, ein Server und die echte App. Für den Start im Skigebiet in der Saison 27/28 braucht es dann richtige Gateways statt der kleinen Funkboards.</p>
-        <p>Die Software für Empfänger und Server ist geschrieben, lief bisher aber nur am PC. Der Selbsttest des Servers besteht dort alle 58 Prüfungen, ein Simulator spielt 5 fahrende Chips. Auf echter Hardware lief noch nichts.</p>
+        <p>Die Prototypen sollen im Jänner 2027 fertig sein, der Testtag folgt im Februar oder März. Dabei sind 5 Chips, 2 Gateways an Bergstationen, ein Server und die echte App. Im Test sind die Gateways noch kleine Funkboards, für den Start im Skigebiet in der Saison 27/28 braucht es richtige Geräte.</p>
+        <p>Die Software für Gateways und Server ist geschrieben, lief bisher aber nur am PC. Der Selbsttest des Servers besteht dort alle 58 Prüfungen, ein Simulator spielt 5 fahrende Chips. Auf echter Hardware lief noch nichts.</p>
       </div>
 
       <nav class="blaettern" aria-label="Weiterblättern">

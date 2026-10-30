@@ -7,7 +7,7 @@ const KAPITEL = [
   { nr: 5, titel: "Sendeintervall und Kapazität" },
   { nr: 6, titel: "Rückkanal zum Chip" },
   { nr: 7, titel: "SOS: Vorrang und Fehlalarme" },
-  { nr: 8, titel: "Die Empfänger" },
+  { nr: 8, titel: "Die Gateways" },
   { nr: 9, titel: "Reichweite im Gelände" },
   { nr: 10, titel: "Standortplanung KitzSki" },
   { nr: 11, titel: "Strom und Netzanbindung" },
@@ -22,7 +22,7 @@ const KAPITEL = [
 
 const STATIONEN = [
   { id: "chip", name: "Chip", x: 70, y: 66 },
-  { id: "empfaenger", name: "Empfänger", x: 360, y: 57 },
+  { id: "empfaenger", name: "Gateway", x: 360, y: 57 },
   { id: "server", name: "Server", x: 640, y: 48 },
   { id: "app", name: "App", x: 930, y: 39 },
 ];
@@ -96,7 +96,7 @@ function baueSeil() {
     aktuell = laenge;
   };
 
-  function fahreZu(index, { stoerung = false, rueckweg = false } = {}) {
+  function fahreZu(index, { stoerung = false, rueckweg = false, sofort = false } = {}) {
     links.forEach((a, i) => {
       a.setAttribute("aria-current", String(i === index));
       a.classList.toggle("gestoert", stoerung && i === index);
@@ -107,7 +107,7 @@ function baueSeil() {
     });
     cancelAnimationFrame(laufend);
     const start = aktuell, ziel = halte[index];
-    if (ohneBewegung.matches || start === ziel) return setze(ziel);
+    if (sofort || ohneBewegung.matches || start === ziel) return setze(ziel);
     const dauer = 900, beginn = performance.now();
     const schritt = (jetzt) => {
       const t = Math.min((jetzt - beginn) / dauer, 1);

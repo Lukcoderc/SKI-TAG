@@ -9,12 +9,12 @@ const KOMET_LAENGE = 0.2;
 const WELLEN_ABSTAND = 0.055;
 const AUSFALL_ORT = {
   knopf: { text: "Fünf Sekunden zum Abbrechen" },
-  chip: { x: 505, y: 162, text: "Kein Empfänger hört den Chip" },
-  empfaenger: { x: 672, y: 48, text: "Der Empfänger fällt aus" },
+  chip: { x: 505, y: 162, text: "Kein Gateway hört den Chip" },
+  empfaenger: { x: 672, y: 48, text: "Das Gateway fällt aus" },
   server: { x: 104, y: 176, text: "Server oder Internet fallen aus" },
   app: { x: 576, y: 142, text: "Niemand reagiert" },
 };
-const SZENE_MS = { knopf: 2000, chip: 2400, empfaenger: 1900, server: 2600, app: 2600, rueckweg: 5000 };
+const SZENE_MS = { knopf: 2000, chip: 2400, empfaenger: 1900, server: 3200, app: 2600, rueckweg: 5000 };
 const FOLGE = ["knopf", "chip", "empfaenger", "server", "app", "rueckweg"];
 const WELLEN_JE_GRUPPE = 4;
 
@@ -92,14 +92,17 @@ function grundzustand() {
   sz("schrank").classList.remove("an");
   sz("chip").setAttribute("r", 4);
   sz("zittern").setAttribute("visibility", "hidden");
-  sz("halten").setAttribute("stroke-dashoffset", 1);
+  sz("halten").setAttribute("visibility", "hidden");
   sz("gast").setAttribute("transform", "translate(380 241) rotate(-13)");
 }
 
 const SCHRITTE = {
   knopf(p) {
-    if (p === 0) return setzeStatus("Ein Gast ist gestürzt");
-    sz("halten").setAttribute("stroke-dashoffset", 1 - p);
+    if (p === 0) return setzeStatus("Eine Person ist gestürzt");
+    if (p < 1) {
+      sz("halten").setAttribute("visibility", "visible");
+      sz("halten").setAttribute("stroke-dashoffset", 1 - p);
+    }
     sz("chip").setAttribute("r", 4 + 2 * Math.abs(Math.sin(p * 18)));
     setzeStatus("Der Knopf wird gedrückt");
   },
@@ -110,13 +113,15 @@ const SCHRITTE = {
   },
   empfaenger(p) {
     setzeKomet(wege.kabel, anteil(p, 0.1, 1));
-    setzeStatus("Der Empfänger reicht das Paket weiter");
+    setzeStatus("Das Gateway reicht das Paket weiter");
   },
   server(p) {
     sz("schrank").classList.add("an");
     setzeServer(true, p);
-    setzeWellen(wege.mobil, anteil(p, 0.5, 1));
-    setzeStatus(p < 0.5 ? "Der Server sucht den nächsten Mitarbeiter" : "Der Server schickt den Notruf");
+    setzeKomet(wege.kabel, anteil(p, 0.38, 0.72), true);
+    setzeWellen(wege.mobil, anteil(p, 0.72, 1));
+    if (p < 0.38) setzeStatus("Der Server sucht den nächsten Mitarbeiter");
+    else setzeStatus(p < 0.72 ? "Der Server schickt den Notruf zum Gateway" : "Das Gateway funkt zum Mitarbeiter");
   },
   app(p) {
     sz("meldung").setAttribute("visibility", "visible");
@@ -126,14 +131,15 @@ const SCHRITTE = {
   rueckweg(p) {
     const fahrt = anteil(p, 0.06, 0.96);
     setzeMitarbeiter(weich(fahrt), fahrt > 0 && fahrt < 1 ? 1 : 0);
-    setzeWellen(wege.mobil, anteil(p, 0, 0.16), true);
-    setzeKomet(wege.kabel, anteil(p, 0.16, 0.32), true);
-    setzeWellen(wege.funk, anteil(p, 0.32, 0.5), true);
-    if (p >= 0.5 && p < 0.75) {
+    setzeWellen(wege.mobil, anteil(p, 0, 0.12), true);
+    setzeKomet(wege.kabel, anteil(p, 0.12, 0.26));
+    setzeKomet(wege.kabel, anteil(p, 0.26, 0.4), true);
+    setzeWellen(wege.funk, anteil(p, 0.4, 0.55), true);
+    if (p >= 0.55 && p < 0.8) {
       sz("gast").setAttribute("transform", `translate(${380 + Math.sin(p * 150) * 2.4} 241) rotate(-13)`);
       sz("zittern").setAttribute("visibility", "visible");
     }
-    if (p < 0.5) setzeStatus("Die Bestätigung läuft zum Chip");
+    if (p < 0.55) setzeStatus("Die Bestätigung läuft zum Chip");
     else setzeStatus(p < 0.96 ? "Der Chip vibriert: Hilfe kommt" : "Der Mitarbeiter ist da");
   },
 };

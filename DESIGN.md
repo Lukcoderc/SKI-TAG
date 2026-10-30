@@ -265,7 +265,7 @@ Quiet, square and signage-like. Controls read as labels on a plane until they ar
 The signature of the book, present on every chapter page.
 
 - **Structure:** Twilight Plane band with the book name top left and the rope strip below. The rope is a 2px Haze line in three sagging spans that climb from left to right, keeping its stroke width at any page width.
-- **Stations:** Chip, Empfänger, Server and App, at 7%, 36%, 64% and 93% across. Each is a name above an 18px ring (15px at phone width), with a Twilight Plane fill and a 2px Snow border. They link to the matching step of the Chapter 1 walkthrough.
+- **Stations:** Chip, Gateway, Server and App, at 7%, 36%, 64% and 93% across. Each is a name above an 18px ring (15px at phone width), with a Twilight Plane fill and a 2px Snow border. They link to the matching step of the Chapter 1 walkthrough.
 - **Hover:** the ring turns amber.
 - **Current:** name and ring turn amber, and the name goes to weight 700.
 - **Cabin:** a 36px by 22px amber cabin (30px by 19px at phone width) on a 2px hanger, with a Twilight Plane window, hanging under the rope at the current station.
@@ -322,7 +322,7 @@ The signature interaction of Chapter 1: one emergency call stepped through along
 - **Structure:** Upper Plane tab strip, slope scene, control row, then one Twilight Plane panel per step. The controls sit directly under the scene, and a press scrolls the tabs and scene fully into view. The panel keeps the height of its tallest state, so nothing jumps between steps.
 - **Failure view:** each step has a second state, reached with a toggle button, opened under a red Subtitle.
 - **Rope link:** every step moves the cabin; the failure view disturbs the station; the last step lights the return path.
-- **Stepping:** the main button reads "Notruf starten", then "Weiter: [next step]", and "Nochmal von vorn" at the end. Each press plays one step once and holds its last frame. Nothing advances on its own.
+- **Stepping:** the main button reads "Notruf starten", then "Weiter: [next step]", and "Nochmal von vorn" at the end. Each press plays one step once and holds its last frame. Nothing advances on its own, and nothing plays on page load: a step named in the address shows its last frame at once.
 - **Slope scene:** a flat illustration above the text in the book's tones: mountain layers, a valley with the server house and its rack, a slope with piste, firs and ropeway, and the receiver at the gondola station. Labels are Deep Twilight tags. Signal exists only while something is sent: radio travels as a group of amber wave arcs that grow toward the target, cable travels as an amber pulse along the line. Scene steps run for 1.3 to 4 seconds, and the emergency red stays on the guest, the staff message and the failure diamond. With reduced motion each step shows its final frame.
 - **Deep links:** every step and failure view has a shareable address.
 - **Without JavaScript:** all steps and failure views are simply shown in sequence.
