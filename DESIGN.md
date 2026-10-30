@@ -153,7 +153,7 @@ Chapters and page contents sit left and right of the text, and they stay quiet. 
 - Signal red reserved for emergency, failure and open points.
 - A rope band on every page, with the cabin at the chapter's station.
 - Status told by form: filled, ringed, dashed, diamond.
-- Instant state changes; the only thing that travels is the cabin.
+- Instant state changes; only the cabin and the walkthrough's slope scene move.
 - German text, self-hosted fonts, no build step.
 
 ## Colors
@@ -321,7 +321,8 @@ The signature interaction of Chapter 1: one emergency call stepped through along
 - **Structure:** Upper Plane tab strip, one Twilight Plane panel per step, control row below. The panel keeps the height of its tallest state, so nothing jumps between steps.
 - **Failure view:** each step has a second state, reached with a toggle button, opened under a red Subtitle.
 - **Rope link:** every step moves the cabin; the failure view disturbs the station; the last step lights the return path.
-- **Playback:** auto-advance at 250ms per word, stopped by any manual control.
+- **Stepping:** the main button reads "Notruf starten", then "Weiter: [next step]", and "Nochmal von vorn" at the end. Each press plays one step once and holds its last frame. Nothing advances on its own.
+- **Slope scene:** a flat illustration above the text in the book's tones: mountain layers, a valley with the server house and its rack, a slope with piste, firs and ropeway, and the receiver at the gondola station. Labels are Deep Twilight tags. Signal exists only while something is sent: an amber pulse along the path, plus radio rings around the sender. Scene steps run for 1.3 to 4 seconds, and the emergency red stays on the guest, the staff message and the failure diamond. With reduced motion each step shows its final frame.
 - **Deep links:** every step and failure view has a shareable address.
 - **Without JavaScript:** all steps and failure views are simply shown in sequence.
 
@@ -346,7 +347,7 @@ The script is wired to these five steps and exists once per page. A later chapte
 - **Don't** put a frame around a container. Use a plane. Table row hairlines stay; they are the single exception.
 - **Don't** let the side lists become the orientation. They serve the rope, and a page without the rope band is not a book page.
 - **Don't** tell status by colour alone, or show a mark without its word or label.
-- **Don't** add fades, slides or hover transitions. States change instantly; the cabin is what moves, along with smooth anchor scrolling.
+- **Don't** add fades, slides or hover transitions. States change instantly; the cabin and the walkthrough's slope scene are what move, along with smooth anchor scrolling.
 - **Don't** put a small label above a heading. The stamp line goes below the chapter title, and sections have none.
 - **Don't** set uppercase or letter-spaced labels.
 - **Don't** round planes, or give a control any radius other than the button corner.
