@@ -1,5 +1,5 @@
 // Notruf Schritt für Schritt: jeder Klick spielt den nächsten Schritt in der Szene ab.
-const STATION_VON_SCHRITT = { chip: 0, empfaenger: 1, server: 2, app: 3, rueckweg: 0 };
+const STATION_VON_SCHRITT = { knopf: 0, chip: 0, empfaenger: 1, server: 2, app: 3, rueckweg: 0 };
 const AUSFALL_ENDUNG = "-ausfall";
 
 const stapel = document.querySelector(".schritte");
@@ -23,7 +23,14 @@ const tabs = schritte.map((schritt, i) => {
   b.id = "tab-" + schritt.id;
   b.setAttribute("role", "tab");
   b.setAttribute("aria-controls", schritt.id);
-  b.textContent = schritt.dataset.kurz;
+  const lang = document.createElement("span");
+  lang.className = "tab-lang";
+  lang.textContent = schritt.dataset.kurz;
+  const klein = document.createElement("span");
+  klein.className = "tab-klein";
+  klein.textContent = schritt.dataset.klein || schritt.dataset.kurz;
+  b.append(lang, klein);
+  b.setAttribute("aria-label", schritt.dataset.kurz);
   b.addEventListener("click", () => zeige(i, { merken: true }));
   li.append(b);
   wahl.append(li);
@@ -67,10 +74,10 @@ function zeige(i, { stoerung = false, merken = false } = {}) {
     tabs[n].tabIndex = n === i ? 0 : -1;
   });
   ausfall.dataset.an = String(stoerung);
-  ausfall.textContent = stoerung ? "Zurück zum Normalfall" : "Was, wenn es hier ausfällt?";
+  ausfall.textContent = stoerung ? "Zurück zum Normalfall" : schritte[i].dataset.frage || "Was, wenn es hier ausfällt?";
   const id = kurzId(schritte[i]);
   const rueckweg = id === "rueckweg";
-  window.Seil.fahreZu(STATION_VON_SCHRITT[id], { stoerung: stoerung && !rueckweg, rueckweg });
+  window.Seil.fahreZu(STATION_VON_SCHRITT[id], { stoerung: stoerung && !rueckweg && id !== "knopf", rueckweg });
   if (merken) history.replaceState(null, "", "#" + schritte[i].id + (stoerung ? AUSFALL_ENDUNG : ""));
   beschrifte();
   spieleSzene(stoerung);
@@ -135,6 +142,6 @@ if (!ausHash()) {
   cancelAnimationFrame(bild);
   uhr?.cancel();
   uhr = null;
-  window.Szene.zeichne("chip", 0, false);
+  window.Szene.zeichne("knopf", 0, false);
   beschrifte();
 }

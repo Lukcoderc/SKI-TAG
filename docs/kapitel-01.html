@@ -93,10 +93,10 @@
               <rect class="sz-licht" x="48" y="212" width="16" height="14"/><rect class="sz-licht" x="142" y="212" width="16" height="14"/>
               <polygon class="sz-dach" points="26,196 178,196 102,156"/>
             </g>
-            <path id="sz-funk" class="sz-komet" pathLength="1" d="M380 230 Q540 150 672 48"/>
+            <path id="sz-funk" class="sz-bahn" pathLength="1" d="M380 230 Q540 150 672 48"/>
             <path id="sz-kabel" class="sz-komet" pathLength="1" d="M672 48 L604 108 L208 240 Q160 226 104 214"/>
-            <path id="sz-mobil" class="sz-komet" pathLength="1" d="M104 208 Q330 10 548 138"/>
-            <g id="sz-ringe"><circle/><circle/><circle/></g>
+            <path id="sz-mobil" class="sz-bahn" pathLength="1" d="M104 208 Q330 10 548 138"/>
+            <g id="sz-wellen"><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/></g>
             <circle id="sz-halten" cx="380" cy="230" r="27" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" transform="rotate(-90 380 230)"/>
             <g id="sz-gast" transform="translate(380 241) rotate(-13)">
               <line class="sz-ski" x1="-46" y1="3" x2="20" y2="3"/>
@@ -105,7 +105,6 @@
               <circle class="sz-kopf" cx="27" cy="-8" r="9"/>
               <circle class="sz-chip" cx="-2" cy="-7" r="4"/>
             </g>
-            <circle id="sz-sos" cx="380" cy="194" r="8"/>
             <g id="sz-mitarbeiter">
               <g transform="rotate(-14)">
                 <line class="sz-stock" x1="-7" y1="-24" x2="-22" y2="-2"/>
@@ -136,11 +135,23 @@
           <figcaption>Schematische Darstellung mit Beispielort, nicht in Echtzeit.</figcaption>
         </figure>
         <div class="schritte">
-          <article class="schritt" id="schritt-chip" data-kurz="Chip">
+          <article class="schritt" id="schritt-knopf" data-kurz="Der Knopf wird gedrückt" data-klein="Knopf" data-frage="Was, wenn es ein Versehen war?">
+            <div class="schritt-inhalt">
+              <div class="normal">
+                <h3>Der Knopf wird gedrückt</h3>
+                <p>Der Gast hält den Knopf an seinem Chip drei Sekunden lang. Ein kurzer Druck würde nur die eigene Gruppe rufen, erst das Halten löst den Notruf aus.</p>
+              </div>
+              <div class="ausfall hinweis">
+                <h4>Wenn es ein Versehen war</h4>
+                <p>Nach dem Halten bleiben fünf Sekunden, um den Notruf abzubrechen. So kommt ein versehentlich ausgelöster Notruf gar nicht erst bei der Bergbahn an.</p>
+              </div>
+            </div>
+          </article>
+          <article class="schritt" id="schritt-chip" data-kurz="Der Chip funkt" data-klein="Chip">
             <div class="schritt-inhalt">
               <div class="normal">
                 <h3>Der Chip funkt</h3>
-                <p>Der Gast hält den Knopf drei Sekunden lang. Danach bleiben fünf Sekunden, um einen versehentlichen Notruf abzubrechen. Dann sendet der Chip den Notruf mit seiner GPS-Position.</p>
+                <p>Sind die fünf Sekunden vorbei, sendet der Chip den Notruf mit seiner GPS-Position.</p>
                 <p>Das geschieht über LoRa, eine Funktechnik für kleine Datenmengen und große Entfernungen. Der Chip braucht dafür weder SIM-Karte noch Handynetz. Er wiederholt den Notruf so lange, bis der Server ihn bestätigt.</p>
               </div>
               <div class="ausfall">
@@ -193,10 +204,10 @@
               </div>
             </div>
           </article>
-          <article class="schritt" id="schritt-rueckweg" data-kurz="Rückweg">
+          <article class="schritt" id="schritt-rueckweg" data-kurz="Bestätigung" data-frage="Warum kann das dauern?">
             <div class="schritt-inhalt">
               <div class="normal">
-                <h3>Die Antwort kommt zurück</h3>
+                <h3>Die Bestätigung kommt zurück</h3>
                 <p>Sobald jemand übernimmt, läuft die Nachricht denselben Weg zurück. Der Server wählt dafür den Empfänger, der den Chip zuletzt am besten gehört hat.</p>
                 <p>Der Chip vibriert zweimal lang und blinkt rot. Der Gast weiß damit: Hilfe kommt.</p>
               </div>

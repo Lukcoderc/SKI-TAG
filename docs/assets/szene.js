@@ -6,13 +6,15 @@ const HANG_Y = (x) => {
 const MITARBEITER_START = 540;
 const MITARBEITER_ZIEL = 450;
 const KOMET_LAENGE = 0.14;
+const WELLEN_ABSTAND = 0.055;
 const AUSFALL_ORT = {
-  chip: { x: 520, y: 150, text: "Kein Empfänger hört den Chip" },
+  knopf: { text: "Fünf Sekunden zum Abbrechen" },
+  chip: { x: 505, y: 162, text: "Kein Empfänger hört den Chip" },
   empfaenger: { x: 672, y: 48, text: "Der Empfänger fällt aus" },
   server: { x: 104, y: 176, text: "Server oder Internet fallen aus" },
   app: { x: 576, y: 142, text: "Niemand reagiert" },
 };
-const SZENE_MS = { chip: 2200, empfaenger: 1300, server: 1700, app: 2000, rueckweg: 4000 };
+const SZENE_MS = { knopf: 1500, chip: 1500, empfaenger: 1300, server: 1700, app: 2000, rueckweg: 4000 };
 
 const sz = (id) => document.getElementById("sz-" + id);
 const anteil = (p, von, bis) => Math.min(Math.max((p - von) / (bis - von), 0), 1);
@@ -40,13 +42,20 @@ function setzeKomet(weg, q, rueckwaerts = false) {
   paket.setAttribute("visibility", "visible");
 }
 
-function setzeRinge(x, y, p, reichweite = 230) {
-  const ringe = sz("ringe");
-  ringe.setAttribute("transform", `translate(${x} ${y})`);
-  [...ringe.children].forEach((ring, i) => {
-    const t = anteil(p, i * 0.22, 0.56 + i * 0.22);
-    ring.setAttribute("r", 14 + weich(t) * reichweite);
-    ring.setAttribute("opacity", t > 0 && t < 1 ? 1 - t : 0);
+// Funk breitet sich als Wellenbögen zum Ziel aus, der Bogen wächst mit der Entfernung.
+function setzeWellen(weg, q, rueckwaerts = false) {
+  if (q <= 0) return;
+  const laenge = weg.getTotalLength();
+  [...sz("wellen").children].forEach((welle, i) => {
+    const w = q * (1 + WELLEN_ABSTAND * 3) - i * WELLEN_ABSTAND;
+    if (w <= 0 || w >= 1) return;
+    const kopf = rueckwaerts ? 1 - w : w;
+    const hier = weg.getPointAtLength(laenge * kopf);
+    const dort = weg.getPointAtLength(laenge * Math.min(kopf + 0.01, 1));
+    const zurueck = weg.getPointAtLength(laenge * Math.max(kopf - 0.01, 0));
+    const winkel = Math.atan2(dort.y - zurueck.y, dort.x - zurueck.x) * (180 / Math.PI) + (rueckwaerts ? 180 : 0);
+    welle.setAttribute("transform", `translate(${hier.x} ${hier.y}) rotate(${winkel}) scale(${1 + w * 1.6})`);
+    welle.setAttribute("opacity", Math.min(w / 0.08, 1) * (1 - w * 0.45));
   });
 }
 
@@ -68,7 +77,7 @@ function setzeServer(aktiv, p = 0) {
 
 function grundzustand() {
   Object.values(wege).forEach((w) => w.setAttribute("opacity", 0));
-  [...sz("ringe").children].forEach((r) => r.setAttribute("opacity", 0));
+  [...sz("wellen").children].forEach((w) => w.setAttribute("opacity", 0));
   setzeMitarbeiter(0);
   setzeRaute(null);
   setzeServer(false);
@@ -77,23 +86,19 @@ function grundzustand() {
   sz("bestaetigt").setAttribute("visibility", "hidden");
   sz("telefon").classList.remove("an");
   sz("antenne").classList.remove("an");
-  sz("sos").setAttribute("visibility", "visible");
   sz("halten").setAttribute("stroke-dashoffset", 1);
   sz("gast").setAttribute("transform", "translate(380 241) rotate(-13)");
 }
 
 const SCHRITTE = {
-  chip(p) {
-    sz("sos").setAttribute("visibility", p < 0.42 ? "hidden" : "visible");
+  knopf(p) {
     if (p === 0) return setzeStatus("Ein Gast ist gestürzt");
-    if (p < 0.42) {
-      sz("halten").setAttribute("stroke-dashoffset", 1 - p / 0.42);
-      return setzeStatus("Der Gast hält den Knopf");
-    }
-    const funk = anteil(p, 0.42, 1);
-    setzeRinge(380, 230, funk);
-    setzeKomet(wege.funk, funk);
-    setzeStatus("Der Chip funkt den Notruf");
+    sz("halten").setAttribute("stroke-dashoffset", 1 - p);
+    setzeStatus("Der Knopf wird gedrückt");
+  },
+  chip(p) {
+    setzeWellen(wege.funk, p);
+    setzeStatus("Der Chip funkt");
   },
   empfaenger(p) {
     sz("antenne").classList.toggle("an", p < 0.25);
@@ -102,7 +107,7 @@ const SCHRITTE = {
   },
   server(p) {
     setzeServer(true, p);
-    setzeKomet(wege.mobil, anteil(p, 0.5, 1));
+    setzeWellen(wege.mobil, anteil(p, 0.5, 1));
     sz("telefon").classList.toggle("an", p > 0.95);
     setzeStatus(p < 0.5 ? "Der Server sucht den nächsten Mitarbeiter" : "Der Server schickt den Notruf");
   },
@@ -115,14 +120,13 @@ const SCHRITTE = {
   rueckweg(p) {
     const fahrt = anteil(p, 0.06, 0.96);
     setzeMitarbeiter(weich(fahrt), fahrt > 0 && fahrt < 1 ? 1 : 0);
-    setzeKomet(wege.mobil, anteil(p, 0, 0.14), true);
-    setzeKomet(wege.kabel, anteil(p, 0.14, 0.32), true);
-    if (p >= 0.32 && p < 0.5) setzeRinge(672, 64, anteil(p, 0.32, 0.5), 200);
-    setzeKomet(wege.funk, anteil(p, 0.32, 0.5), true);
+    setzeWellen(wege.mobil, anteil(p, 0, 0.16), true);
+    setzeKomet(wege.kabel, anteil(p, 0.16, 0.32), true);
+    setzeWellen(wege.funk, anteil(p, 0.32, 0.5), true);
     if (p >= 0.5 && p < 0.72) {
       sz("gast").setAttribute("transform", `translate(${380 + Math.sin(p * 150) * 1.8} 241) rotate(-13)`);
     }
-    if (p < 0.5) setzeStatus("Die Antwort läuft zurück zum Chip");
+    if (p < 0.5) setzeStatus("Die Bestätigung läuft zum Chip");
     else setzeStatus(p < 0.96 ? "Der Chip vibriert: Hilfe kommt" : "Der Mitarbeiter ist da");
   },
 };
@@ -135,7 +139,12 @@ window.Szene = {
     SCHRITTE[id](1);
     sz("telefon").classList.toggle("an", id === "app");
     setzeServer(false);
-    setzeRaute(AUSFALL_ORT[id]);
-    setzeStatus(AUSFALL_ORT[id].text);
+    const ort = AUSFALL_ORT[id];
+    setzeRaute(ort.x ? ort : null);
+    setzeStatus(ort.text);
+    if (id === "chip") {
+      [...sz("wellen").children].forEach((w) => w.setAttribute("opacity", 0));
+      setzeWellen(wege.funk, 0.26);
+    }
   },
 };
