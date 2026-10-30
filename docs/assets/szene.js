@@ -46,7 +46,7 @@ function setzeKomet(weg, q, rueckwaerts = false) {
 
 // Funk breitet sich als Wellenbögen zum Ziel aus, der Bogen wächst mit der Entfernung.
 function setzeWellen(weg, q, rueckwaerts = false, gruppe = 0) {
-  if (q <= 0) return;
+  if (q <= 0 || q >= 1) return;
   const laenge = weg.getTotalLength();
   const abstand = WELLEN_ABSTAND_PX / laenge;
   const wachstum = Math.min(laenge / 200, 2);
