@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vom Knopfdruck zur App · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie ein Notruf vom SkiTag-Chip bis in die App der Bergbahn kommt.">
-<link rel="stylesheet" href="assets/book.css?v=9">
-<script src="assets/book.js?v=9" defer></script>
-<script src="assets/szene.js?v=9" defer></script>
-<script src="assets/signalweg.js?v=9" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=10">
+<script src="assets/book.js?v=10" defer></script>
+<script src="assets/szene.js?v=10" defer></script>
+<script src="assets/signalweg.js?v=10" defer></script>
 </head>
 <body data-station="chip">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -145,7 +145,7 @@
             <div class="schritt-inhalt">
               <div class="normal">
                 <h3>Der Knopf wird gedrückt</h3>
-                <p>Die verletzte Person hält den Knopf an ihrem Chip drei Sekunden lang. Ein kurzer Druck würde nur die eigene Gruppe rufen, erst das Halten löst den Notruf aus.</p>
+                <p>Die verletzte Person hält den Knopf an ihrem Chip drei Sekunden lang. Ein kurzer Druck würde nur die eigene Gruppe rufen, erst das Halten löst den Notruf aus. Das geht auch für andere: Wer an einer Unfallstelle vorbeikommt, kann den eigenen Chip halten.</p>
               </div>
               <div class="ausfall hinweis">
                 <h4>Wenn es ein Versehen war</h4>
@@ -177,7 +177,7 @@
               <div class="ausfall">
                 <h4>Wenn das Gateway ausfällt</h4>
                 <p>Ist das WLAN nur kurz weg, hebt das Gateway bis zu 60 Pakete auf und schickt sie nach.</p>
-                <p>Fällt es ganz aus, zeigt es die Ausgabe-Seite des Servers nach 30 Sekunden als „weg“. Mehr passiert bisher nicht.</p>
+                <p>Fällt es ganz aus, zeigt es die Ausgabe-Seite des Servers, über die Chips verliehen werden, nach 30 Sekunden als „weg“. Mehr passiert bisher nicht.</p>
                 <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Ob ein anderes Gateway einspringen kann, hängt davon ab, wie weit sich ihre Reichweiten überlappen. Das ist noch nicht gemessen.</p>
               </div>
             </div>
@@ -190,9 +190,9 @@
                 <p>Dann legt er den Notruf an und wählt den nächsten freien Mitarbeiter. Über Kabel geht der Notruf zurück zum Gateway, das ihn an den Mitarbeiter funkt. Gateway und App führen nur aus, was der Server vorgibt.</p>
               </div>
               <div class="ausfall">
-                <h4>Wenn Server oder Internet ausfallen</h4>
+                <h4>Wenn Server oder Netzverbindung ausfallen</h4>
                 <p>Dann kommt kein Notruf an. Der Chip merkt das an der fehlenden Bestätigung und warnt die Person nach 90 Sekunden.</p>
-                <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Das ist heute die größte Schwachstelle. Für die Person am Chip läuft SkiTag ohne Internet, die Kette dahinter aber nicht. Wie das gelöst wird, ist noch offen.</p>
+                <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Das ist heute die größte Schwachstelle. Die Person am Chip braucht kein Internet, die Kette dahinter aber eine Netzverbindung. Ob sie auch ohne Internet laufen muss, ist noch offen.</p>
               </div>
             </div>
           </article>
@@ -235,8 +235,8 @@
         <table>
           <thead><tr><th scope="col">Am Chip</th><th scope="col">Was passiert</th><th scope="col">Wer es erfährt</th></tr></thead>
           <tbody>
-            <tr><td>Nichts tun</td><td>Der Chip sendet alle 20 Sekunden seine Position.</td><td>Die eigene Gruppe in der App</td></tr>
-            <tr><td>Einmal drücken</td><td>Die anderen Chips der Gruppe vibrieren.</td><td>Die eigene Gruppe, nicht die Bergbahn</td></tr>
+            <tr><td>Nichts tun</td><td>Der Chip sendet alle 20 Sekunden seine Position.</td><td>Die eigene Gruppe und die Mitarbeiter der Bergbahn in der App</td></tr>
+            <tr><td>Einmal drücken</td><td>Die anderen Chips der Gruppe vibrieren, die App zeigt einen Hinweis.</td><td>Die eigene Gruppe, nicht die Bergbahn</td></tr>
             <tr><td>Drei Sekunden halten</td><td>Der Notruf wird ausgelöst.</td><td>Der nächste freie Mitarbeiter der Bergbahn</td></tr>
           </tbody>
         </table>
@@ -260,13 +260,13 @@
         <p class="nach-tabelle">An zwei Stellen arbeiten die Bereiche eng zusammen: beim Funkprotokoll mit Maximilian und bei der Schnittstelle zur App mit Tobias. Beides bekommt ein eigenes Kapitel.</p>
 
         <h2 id="stand" data-kurz="Was feststeht und was nicht">Was feststeht und was nicht</h2>
-        <p>Am Berg wurde noch nichts gemessen, und auf echter Hardware lief noch nichts. Darum trennt dieses Buch genau, wie sicher eine Aussage ist.</p>
+        <p>Am Berg wurde noch nichts gemessen, und Gateways und Server liefen noch nie auf echter Hardware. Darum trennt dieses Buch genau, wie sicher eine Aussage ist.</p>
       </div>
       <div class="status">
           <div>
             <h3><svg class="mark"><use href="#mark-fest"/></svg>Fest</h3>
             <ul>
-              <li>Die Funkstrecke läuft über LoRa, vom Chip zu Gateways an den Stationen, dann zum Server und zur App.</li>
+              <li>Der Chip funkt über LoRa zu Gateways an den Stationen. Von dort geht es weiter zum Server und zur App.</li>
               <li>Wer den Chip trägt, braucht weder Handy noch SIM-Karte.</li>
             </ul>
           </div>
@@ -297,12 +297,10 @@
       <div class="lesen">
         <h2 id="test" data-kurz="Der Test 2027">Der Test Anfang 2027</h2>
         <p>Die Prototypen sollen im Jänner 2027 fertig sein, der Testtag folgt im Februar oder März. Dabei sind 5 Chips, 2 Gateways an Bergstationen, ein Server und die echte App. Im Test sind die Gateways noch kleine Funkboards, für den Start im Skigebiet in der Saison 27/28 braucht es richtige Geräte.</p>
-        <p>Die Software für Gateways und Server ist geschrieben, lief bisher aber nur am PC. Der Selbsttest des Servers besteht dort alle 58 Prüfungen, ein Simulator spielt 5 fahrende Chips. Auf echter Hardware lief noch nichts.</p>
+        <p>Die Software für Gateways und Server ist geschrieben, lief bisher aber nur am PC. Der Selbsttest des Servers besteht dort alle 58 Prüfungen, ein Simulator spielt 5 fahrende Chips. Auf echter Hardware lief sie noch nie.</p>
       </div>
 
-      <nav class="blaettern" aria-label="Weiterblättern">
-        <span>Weiter: Kapitel 2, Anforderungen (noch nicht geschrieben)</span>
-      </nav>
+      <p class="blaettern">Weiter: Kapitel 2, Anforderungen (noch nicht geschrieben)</p>
     </article>
   </main>
 

@@ -11,7 +11,7 @@ const AUSFALL_ORT = {
   knopf: { text: "Fünf Sekunden zum Abbrechen" },
   chip: { x: 505, y: 162, text: "Kein Gateway hört den Chip" },
   empfaenger: { x: 672, y: 48, text: "Das Gateway fällt aus" },
-  server: { x: 102, y: 200, text: "Server oder Internet fallen aus" },
+  server: { x: 102, y: 200, text: "Server oder Netzverbindung fallen aus" },
   app: { x: 576, y: 142, text: "Niemand reagiert" },
 };
 const SZENE_MS = { knopf: 2000, chip: 2400, empfaenger: 1900, server: 3200, app: 2600, rueckweg: 5000 };
