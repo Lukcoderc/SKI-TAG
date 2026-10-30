@@ -1,0 +1,388 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-30T15:39:06.601Z",
+  "title": "Design System: SkiTag Netzwerk-Buch",
+  "extensions": {
+    "colorMeta": {
+      "dunkel": {
+        "role": "neutral",
+        "displayName": "Deep Twilight",
+        "canonical": "#13233a",
+        "tonalRamp": [
+          "#060b13",
+          "#182539",
+          "#31435c",
+          "#50627d",
+          "#7084a0",
+          "#92a7c4",
+          "#bccadf",
+          "#e9eff7"
+        ]
+      },
+      "flaeche": {
+        "role": "neutral",
+        "displayName": "Twilight Plane",
+        "canonical": "#1c3350",
+        "tonalRamp": [
+          "#050c15",
+          "#13263d",
+          "#2c4361",
+          "#4a6383",
+          "#6a84a6",
+          "#8ca7cb",
+          "#b8cbe3",
+          "#e8eff9"
+        ]
+      },
+      "flaeche-hell": {
+        "role": "neutral",
+        "displayName": "Upper Plane",
+        "canonical": "#27425f",
+        "tonalRamp": [
+          "#040c15",
+          "#10263d",
+          "#294461",
+          "#476483",
+          "#6885a6",
+          "#8aa8ca",
+          "#b7cce3",
+          "#e7eff9"
+        ]
+      },
+      "flaeche-hover": {
+        "role": "neutral",
+        "displayName": "Upper Plane Hover",
+        "canonical": "#33527a",
+        "tonalRamp": [
+          "#040b18",
+          "#0c2544",
+          "#24436a",
+          "#43638c",
+          "#6384b0",
+          "#85a8d5",
+          "#b4cbea",
+          "#e6effc"
+        ]
+      },
+      "schnee": {
+        "role": "neutral",
+        "displayName": "Snow",
+        "canonical": "#eaf0f5",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#222629",
+          "#3e4347",
+          "#5d6266",
+          "#7e8388",
+          "#a0a6aa",
+          "#c6cacd",
+          "#edeff0"
+        ]
+      },
+      "dunst": {
+        "role": "neutral",
+        "displayName": "Haze",
+        "canonical": "#bccad8",
+        "tonalRamp": [
+          "#080c0f",
+          "#1d262f",
+          "#38434f",
+          "#56636f",
+          "#778491",
+          "#99a7b4",
+          "#c1cad4",
+          "#ebeff2"
+        ]
+      },
+      "licht": {
+        "role": "primary",
+        "displayName": "Cabin Amber",
+        "canonical": "#f2b544",
+        "tonalRamp": [
+          "#120900",
+          "#332100",
+          "#583c02",
+          "#805902",
+          "#aa7802",
+          "#d4991b",
+          "#eac281",
+          "#fcecd4"
+        ]
+      },
+      "licht-hover": {
+        "role": "primary",
+        "displayName": "Bright Amber",
+        "canonical": "#ffc964",
+        "tonalRamp": [
+          "#120900",
+          "#322200",
+          "#573d02",
+          "#7e5a02",
+          "#a87902",
+          "#cf9b30",
+          "#e6c487",
+          "#faedd6"
+        ]
+      },
+      "notruf": {
+        "role": "secondary",
+        "displayName": "Signal Red",
+        "canonical": "#ff7d70",
+        "tonalRamp": [
+          "#1f0000",
+          "#4d0002",
+          "#800208",
+          "#aa2e28",
+          "#d1544a",
+          "#f9786b",
+          "#feb3a9",
+          "#ffe9e6"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Chapter title, one per page."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Chapter sections; 30px at phone width."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Walkthrough steps and the book name in the rope band."
+      },
+      "title-status": {
+        "displayName": "Title Status",
+        "purpose": "Status panel headings with their mark."
+      },
+      "subtitle": {
+        "displayName": "Subtitle",
+        "purpose": "Failure headings in the walkthrough."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "The single opening paragraph; 19px at phone width."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Reading text at 68ch; 17px at phone width."
+      },
+      "body-table": {
+        "displayName": "Body Table",
+        "purpose": "Table cells."
+      },
+      "label-station": {
+        "displayName": "Label Station",
+        "purpose": "Station names on the rope; 15px at phone width."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Stamp line and walkthrough tabs."
+      },
+      "label-strong": {
+        "displayName": "Label Strong",
+        "purpose": "Table headers and buttons."
+      },
+      "label-nav": {
+        "displayName": "Label Nav",
+        "purpose": "Chapter list and page contents."
+      }
+    },
+    "shadows": [
+      {
+        "name": "cabin-window",
+        "value": "inset 0 0 0 3px var(--licht), inset 0 -7px 0 3px var(--licht), inset 0 0 0 20px var(--flaeche)",
+        "purpose": "Paints the cabin body and window. Drawing, not elevation; the system has no cast shadows."
+      }
+    ],
+    "motion": [
+      {
+        "name": "cabin-travel",
+        "value": "900ms cubic ease-out (1 - (1 - t)^3)",
+        "purpose": "Cabin movement along the rope. Jumps with reduced motion."
+      },
+      {
+        "name": "anchor-scroll",
+        "value": "scroll-behavior: smooth",
+        "purpose": "Anchor jumps. Off with reduced motion."
+      },
+      {
+        "name": "walkthrough-pace",
+        "value": "250ms per word",
+        "purpose": "Auto-advance of the emergency walkthrough."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "page-contents-fold",
+        "value": "1180px"
+      },
+      {
+        "name": "single-column",
+        "value": "820px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Main Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one main action of a control group.",
+      "html": "<button class=\"ds-knopf-haupt\" type=\"button\">Notruf abspielen</button>",
+      "css": ".ds-knopf-haupt{padding:9px 16px;border:none;border-radius:3px;font:700 17px/1.2 var(--kopf);cursor:pointer;background:var(--licht);color:var(--dunkel);} .ds-knopf-haupt:hover{background:#ffc964;} .ds-knopf-haupt:focus-visible{outline:2px solid var(--licht);outline-offset:2px;}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Stepping and other supporting actions on a plane.",
+      "html": "<button class=\"ds-knopf\" type=\"button\">Weiter</button>",
+      "css": ".ds-knopf{padding:9px 16px;border:none;border-radius:3px;font:700 17px/1.2 var(--kopf);cursor:pointer;background:var(--flaeche-hell);color:var(--schnee);} .ds-knopf:hover{background:#33527a;} .ds-knopf:focus-visible{outline:2px solid var(--licht);outline-offset:2px;} .ds-knopf:disabled{cursor:default;opacity:.5;}"
+    },
+    {
+      "name": "Toggle Button, On",
+      "kind": "button",
+      "refersTo": "button-toggle-on",
+      "description": "A switched-on mode, such as the failure view.",
+      "html": "<button class=\"ds-knopf-an\" type=\"button\">Zurück zum Normalfall</button>",
+      "css": ".ds-knopf-an{padding:9px 16px;border:none;border-radius:3px;font:700 17px/1.2 var(--kopf);cursor:pointer;background:var(--schnee);color:var(--dunkel);} .ds-knopf-an:focus-visible{outline:2px solid var(--licht);outline-offset:2px;}"
+    },
+    {
+      "name": "Tab Strip",
+      "kind": "custom",
+      "refersTo": "tab",
+      "description": "Upper Plane strip whose selected tab merges into the panel below.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button role=\"tab\" aria-selected=\"false\">Chip</button><button role=\"tab\" aria-selected=\"true\">Server</button><button role=\"tab\" aria-selected=\"false\">App</button></div>",
+      "css": ".ds-tabs{display:flex;background:var(--flaeche-hell);} .ds-tabs button{all:unset;cursor:pointer;padding:12px 16px;font:500 17px/1.2 var(--kopf);color:var(--schnee);} .ds-tabs button:hover{color:var(--licht);} .ds-tabs button[aria-selected=\"true\"]{background:var(--flaeche);color:var(--licht);font-weight:700;} .ds-tabs button:focus-visible{outline:2px solid var(--licht);outline-offset:-2px;}"
+    },
+    {
+      "name": "Rope Band",
+      "kind": "custom",
+      "refersTo": "rope-band",
+      "description": "The rope with stations and the cabin at the current station; the third station here shows the disturbed state.",
+      "html": "<div class=\"ds-seil\"><svg viewBox=\"0 0 1000 100\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M70 66 Q215 71 360 57\"/><path d=\"M360 57 Q500 62 640 48\"/><path class=\"ds-aus\" d=\"M640 48 Q785 53 930 39\"/></svg><a class=\"ds-station ds-jetzt\" style=\"left:7%;top:66%\" href=\"#\">Chip</a><a class=\"ds-station\" style=\"left:36%;top:57%\" href=\"#\">Empfänger</a><a class=\"ds-station ds-gestoert\" style=\"left:64%;top:48%\" href=\"#\">Server</a><a class=\"ds-station\" style=\"left:93%;top:39%\" href=\"#\">App</a><span class=\"ds-gondel\" style=\"left:7%;top:66%\"></span></div>",
+      "css": ".ds-seil{position:relative;height:112px;background:var(--flaeche);} .ds-seil svg{position:absolute;inset:0;width:100%;height:100%;} .ds-seil path{fill:none;stroke:var(--dunst);stroke-width:2;vector-effect:non-scaling-stroke;} .ds-seil path.ds-aus{stroke-dasharray:3 7;opacity:.55;} .ds-station{position:absolute;transform:translate(-50%,calc(-100% + 9px));display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--schnee);text-decoration:none;font:500 18px/1.2 var(--kopf);} .ds-station::after{content:\"\";width:18px;height:18px;border-radius:50%;background:var(--flaeche);border:2px solid var(--schnee);} .ds-station:hover::after{border-color:var(--licht);} .ds-station:focus-visible{outline:2px solid var(--licht);outline-offset:3px;} .ds-jetzt{color:var(--licht);font-weight:700;} .ds-jetzt::after{border-color:var(--licht);} .ds-gestoert{color:var(--notruf);} .ds-gestoert::after{border-color:var(--notruf);border-width:3px;border-radius:0;transform:rotate(45deg) scale(.9);} .ds-gondel{position:absolute;width:36px;height:22px;margin:9px 0 0 -18px;border-radius:3px 3px 5px 5px;background:var(--licht);box-shadow:inset 0 0 0 3px var(--licht),inset 0 -7px 0 3px var(--licht),inset 0 0 0 20px var(--flaeche);} .ds-gondel::before{content:\"\";position:absolute;left:17px;top:-9px;width:2px;height:10px;background:var(--licht);}"
+    },
+    {
+      "name": "Status Panels",
+      "kind": "card",
+      "refersTo": "status-panel",
+      "description": "Certainty told by form, in the fixed order Fest, Entschieden, Geschätzt, Offen.",
+      "html": "<div class=\"ds-status\"><div><h3><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"7\" fill=\"currentColor\"/></svg>Fest</h3><p>Die Funkstrecke läuft über LoRa.</p></div><div><h3><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><circle cx=\"8\" cy=\"8\" r=\"3\" fill=\"currentColor\"/></svg>Entschieden</h3><p>Der Server steht vor Ort.</p></div><div><h3><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-dasharray=\"6 3.2\"/></svg>Geschätzt</h3><p>Die Reichweite.</p></div><div class=\"ds-offen\"><h3><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M8 1.5 14.5 8 8 14.5 1.5 8Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/></svg>Offen</h3><p>Wie viele Empfänger braucht es?</p></div></div>",
+      "css": ".ds-status{display:grid;gap:6px;color:var(--schnee);font:400 18px/1.65 var(--text);} .ds-status>div{background:var(--flaeche);padding:18px 20px;} .ds-status h3{display:flex;align-items:center;gap:10px;margin:0 0 6px;font:700 22px/1.2 var(--kopf);} .ds-status p{margin:0;} .ds-mark{flex:none;width:20px;height:20px;} .ds-offen h3{color:var(--notruf);}"
+    },
+    {
+      "name": "Table",
+      "kind": "custom",
+      "refersTo": "table-cell",
+      "description": "Tonal table: Upper Plane header, Twilight Plane body, hairlines between rows.",
+      "html": "<table class=\"ds-tabelle\"><thead><tr><th scope=\"col\">Am Chip</th><th scope=\"col\">Was passiert</th></tr></thead><tbody><tr><td>Nichts tun</td><td>Der Chip sendet seine Position.</td></tr><tr><td>Einmal drücken</td><td>Die Gruppe vibriert.</td></tr></tbody></table>",
+      "css": ".ds-tabelle{width:100%;border-collapse:collapse;background:var(--flaeche);color:var(--schnee);font:400 17px/1.45 var(--text);} .ds-tabelle th{text-align:left;font:700 17px/1.25 var(--kopf);background:var(--flaeche-hell);} .ds-tabelle th,.ds-tabelle td{padding:11px 14px;vertical-align:top;} .ds-tabelle tbody tr+tr td{border-top:1px solid var(--flaeche-hell);}"
+    },
+    {
+      "name": "Chapter List",
+      "kind": "nav",
+      "description": "Numbered chapters: current in amber, unwritten ones muted and unlinked.",
+      "html": "<ol class=\"ds-kapitel\"><li class=\"ds-aktiv\"><span>1</span><a href=\"#\" aria-current=\"page\">Vom Knopfdruck zur App</a></li><li class=\"ds-kommt\"><span>2</span><span>Anforderungen</span></li><li class=\"ds-kommt\"><span>3</span><span>Warum LoRa</span></li></ol>",
+      "css": ".ds-kapitel{list-style:none;margin:0;padding:0;font:500 16px/1.3 var(--kopf);font-variant-numeric:tabular-nums;} .ds-kapitel li{display:grid;grid-template-columns:26px 1fr;padding:5px 0;color:var(--dunst);} .ds-kapitel a{color:inherit;text-decoration:none;} .ds-kapitel a:focus-visible{outline:2px solid var(--licht);outline-offset:3px;} .ds-aktiv,.ds-aktiv a{color:var(--licht);font-weight:700;} .ds-kommt{opacity:.78;}"
+    },
+    {
+      "name": "Text Link",
+      "kind": "custom",
+      "description": "Amber inline link with a thin underline that thickens on hover.",
+      "html": "<a class=\"ds-link\" href=\"#\">Zum Kapitel</a>",
+      "css": ".ds-link{color:var(--licht);text-underline-offset:3px;text-decoration-thickness:1px;font:400 18px/1.65 var(--text);} .ds-link:hover{text-decoration-thickness:2px;} .ds-link:focus-visible{outline:2px solid var(--licht);outline-offset:3px;border-radius:2px;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Blue Hour on a Ropeway",
+    "overview": "One rope runs through the whole book: chip, receiver, server, app. It hangs across the top of every chapter page, a single line sagging between four stations, with one lit cabin parked at the place the chapter is about. The page below is the dusk around it: twilight blue that never reaches black, snow white text, and the warm light of the cabin as the only thing that glows. A reader always knows where a topic sits on the signal path, because the path never leaves the screen.\n\nThe system is built for reading first. Density is that of a well-set reference book: a 68-character column at a comfortable 18px, side lists in a tighter condensed face, and wide material (tables, status, the walkthrough) stepping out of the column only when it needs the width. Depth comes from three flat tonal planes, and status comes from shape, so the difference between fixed, decided, estimated and open survives without colour.\n\nChapters and page contents sit left and right of the text, and they stay quiet. The rope is the orientation; the side lists only serve it. The system refuses the dark docs template in which sidebar, text and a glowing blue accent are the whole idea.",
+    "keyCharacteristics": [
+      "Twilight blue ground in three flat tonal steps, never black.",
+      "One accent, cabin amber, meaning \"here\" and \"act here\".",
+      "Signal red reserved for emergency, failure and open points.",
+      "A rope band on every page, with the cabin at the chapter's station.",
+      "Status told by form: filled, ringed, dashed, diamond.",
+      "Instant state changes; the only thing that travels is the cabin.",
+      "German text, self-hosted fonts, no build step."
+    ],
+    "rules": [
+      {
+        "name": "The Never Black Rule",
+        "body": "The darkest colour in the book is Deep Twilight. Nothing is darker, and there is no pure black anywhere, including text on amber.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Cabin Rule",
+        "body": "Amber is the only accent. If something is amber, it is where the reader is or what the reader can act on. A second accent hue is not available.",
+        "section": "colors"
+      },
+      {
+        "name": "The Signal Rule",
+        "body": "Red marks an emergency, a failure or an open point, and nothing else. It never decorates, and it never marks plain importance.",
+        "section": "colors"
+      },
+      {
+        "name": "The Red Stays Low Rule",
+        "body": "Red text sits on Deep Twilight (6.33:1) or the Twilight Plane (5.14:1). On the Upper Plane it falls to 4.15:1, so red text never goes there.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Barlow navigates, Source Sans reads. Headings, labels, tabs, table headers, buttons and side lists are Barlow. Anything a reader reads as a sentence is Source Sans.",
+        "section": "typography"
+      },
+      {
+        "name": "The Measure Rule",
+        "body": "Running text never exceeds 68ch, even where the column is wider. Only tables, status panels and the walkthrough take the full column.",
+        "section": "typography"
+      },
+      {
+        "name": "The Rope Stays Rule",
+        "body": "The rope strip is on screen at every scroll position, at every width. No chapter hides, replaces or re-routes it.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat Dusk Rule",
+        "body": "No cast shadows, no glows, no gradients, no blur. If two things need separating, put them on different planes.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Plane Before Line Rule",
+        "body": "Containers are separated by tone, not frames. The one structural line is the 1px Upper Plane hairline between table rows; the rope, station rings, status marks and focus rings are figures and states, not frames.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Status As Form Rule",
+        "body": "Certainty is told by shape and always with its word beside it. Only Offen also changes colour; the other three stay in the text colour.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do assemble every chapter from the Chapter Page steps, and set its station so the cabin sits where the topic sits.",
+      "Do keep running text at 68ch, and let only tables, status panels and walkthroughs take the full column.",
+      "Do use the tokens in this file for every value; a new chapter should add no colour, size or radius.",
+      "Do mark every statement of certainty with its status mark and its word, and keep estimates labelled as estimates until measured.",
+      "Do separate things with tone: Deep Twilight, Twilight Plane, Upper Plane, in that order of height.",
+      "Do keep 2px amber focus outlines on everything interactive.",
+      "Do honour reduced motion: the cabin jumps, and smooth scrolling is off.",
+      "Do keep unwritten chapters visible but unlinked in the chapter list."
+    ],
+    "donts": [
+      "Don't add a second accent colour or any glowing blue. Amber is the only accent.",
+      "Don't use red for emphasis, decoration or anything that is not an emergency, a failure or an open point.",
+      "Don't use pure black, cast shadows, glows, gradients or blur.",
+      "Don't put a frame around a container. Use a plane. Table row hairlines stay; they are the single exception.",
+      "Don't let the side lists become the orientation. They serve the rope, and a page without the rope band is not a book page.",
+      "Don't tell status by colour alone, or show a mark without its word or label.",
+      "Don't add fades, slides or hover transitions. States change instantly; the cabin is what moves, along with smooth anchor scrolling.",
+      "Don't put a small label above a heading. The stamp line goes below the chapter title, and sections have none.",
+      "Don't set uppercase or letter-spaced labels.",
+      "Don't round planes, or give a control any radius other than the button corner.",
+      "Don't stage photos or invent measurements. Until real ones exist, the rope and the marks are the book's picture language."
+    ]
+  }
+}

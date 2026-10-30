@@ -1,0 +1,6 @@
+.impeccable/mocks/
+.impeccable/questions/
+.impeccable/review/
+.impeccable/*.out
+.claude/settings.local.json
+.claude/
