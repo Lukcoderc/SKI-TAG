@@ -95,6 +95,8 @@ tbody tr + tr td { border-top: 1px solid var(--flaeche-hell); }
 .signalweg { margin-top: 18px; background: var(--flaeche); }
 .schritt-wahl { display: flex; list-style: none; padding: 0; background: var(--flaeche-hell); overflow-x: auto; }
 .schritt-wahl button { all: unset; box-sizing: border-box; cursor: pointer; padding: 12px 16px; font: 500 17px/1.2 var(--kopf); white-space: nowrap; color: var(--schnee); }
+.schritt-wahl li { position: relative; }
+.fortschritt { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--licht); transform: scaleX(0); transform-origin: left; pointer-events: none; }
 .schritt-wahl button:hover { color: var(--licht); }
 .schritt-wahl button[aria-selected="true"] { background: var(--flaeche); color: var(--licht); font-weight: 700; }
 .schritt-wahl button:focus-visible { outline: 2px solid var(--licht); outline-offset: -2px; }
@@ -110,7 +112,10 @@ tbody tr + tr td { border-top: 1px solid var(--flaeche-hell); }
 .knopf:hover { background: #33527a; }
 .knopf:focus-visible { outline: 2px solid var(--licht); outline-offset: 2px; }
 .knopf:disabled { cursor: default; opacity: .5; }
-.knopf-haupt { background: var(--licht); color: var(--dunkel); }
+.knopf-haupt { display: inline-flex; align-items: center; gap: 8px; min-width: 188px; background: var(--licht); color: var(--dunkel); }
+.knopf-haupt svg { flex: none; width: 13px; height: 13px; fill: currentColor; }
+.knopf-haupt .ikon-pause, .knopf-haupt[data-zustand="laeuft"] .ikon-start { display: none; }
+.knopf-haupt[data-zustand="laeuft"] .ikon-pause { display: block; }
 .knopf-haupt:hover { background: #ffc964; }
 .knopf[data-an="true"] { background: var(--schnee); color: var(--dunkel); }
 

@@ -13,7 +13,9 @@ const ausfall = document.querySelector("[data-aktion=ausfall]");
 const teil = (s, name) => s.querySelector("." + name);
 const kurzId = (s) => s.id.replace("schritt-", "");
 let aktiv = 0;
-let zeitgeber = 0;
+let zustand = "bereit";
+let lauf = null;
+const balken = [];
 
 const tabs = schritte.map((schritt, i) => {
   const li = document.createElement("li");
@@ -28,7 +30,11 @@ const tabs = schritte.map((schritt, i) => {
     stoppe();
     zeige(i, { merken: true });
   });
-  li.append(b);
+  const balkenTeil = document.createElement("span");
+  balkenTeil.className = "fortschritt";
+  balkenTeil.setAttribute("aria-hidden", "true");
+  balken.push(balkenTeil);
+  li.append(b, balkenTeil);
   wahl.append(li);
   schritt.setAttribute("role", "tabpanel");
   schritt.setAttribute("aria-labelledby", b.id);
@@ -53,6 +59,7 @@ function zeige(i, { stoerung = false, merken = false } = {}) {
   const rueckweg = id === "rueckweg";
   window.Seil.fahreZu(STATION_VON_SCHRITT[id], { stoerung: stoerung && !rueckweg, rueckweg });
   if (merken) history.replaceState(null, "", "#" + schritte[i].id + (stoerung ? AUSFALL_ENDUNG : ""));
+  beschrifte();
 }
 
 function miss() {
@@ -71,26 +78,46 @@ function miss() {
   stapel.style.minHeight = hoehe + parseFloat(stil.paddingTop) + parseFloat(stil.paddingBottom) + "px";
 }
 
-function stoppe() {
-  clearTimeout(zeitgeber);
-  zeitgeber = 0;
-  abspielen.textContent = "Notruf abspielen";
+function beschrifte() {
+  const letzter = aktiv === schritte.length - 1;
+  const bereit = letzter ? "Nochmal abspielen" : aktiv === 0 ? "Notruf abspielen" : "Ab hier abspielen";
+  abspielen.dataset.zustand = zustand;
+  abspielen.querySelector("span").textContent = { laeuft: "Pause", pausiert: "Fortsetzen", bereit }[zustand];
 }
 
-function plane() {
+function stoppe() {
+  lauf?.cancel();
+  lauf = null;
+  zustand = "bereit";
+  balken.forEach((b) => { b.style.transform = ""; });
+  beschrifte();
+}
+
+// Der Fortschrittsbalken ist der Takt: Pausiert er, pausiert der ganze Ablauf.
+function fahre() {
   const woerter = teil(schritte[aktiv], "normal").textContent.trim().split(/\s+/).length;
-  zeitgeber = setTimeout(() => {
+  balken.forEach((b, n) => { b.style.transform = n < aktiv ? "scaleX(1)" : ""; });
+  lauf = balken[aktiv].animate([{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }], { duration: woerter * MS_PRO_WORT });
+  lauf.onfinish = () => {
     if (aktiv === schritte.length - 1) return stoppe();
     zeige(aktiv + 1);
-    plane();
-  }, woerter * MS_PRO_WORT);
+    fahre();
+  };
 }
 
 function spiele() {
-  if (zeitgeber) return stoppe();
-  zeige(0);
-  abspielen.textContent = "Anhalten";
-  plane();
+  if (zustand === "laeuft") {
+    lauf.pause();
+    zustand = "pausiert";
+  } else if (zustand === "pausiert") {
+    lauf.play();
+    zustand = "laeuft";
+  } else {
+    zeige(aktiv === schritte.length - 1 ? 0 : aktiv);
+    zustand = "laeuft";
+    fahre();
+  }
+  beschrifte();
 }
 
 function ausHash() {
@@ -124,7 +151,10 @@ wahl.addEventListener("keydown", (e) => {
 stapel.addEventListener("beforematch", (e) => {
   const i = schritte.indexOf(e.target.closest(".schritt"));
   if (e.target.classList.contains("schritt")) {
-    if (i !== aktiv) zeige(i);
+    if (i !== aktiv) {
+      stoppe();
+      zeige(i);
+    }
     return;
   }
   stoppe();
