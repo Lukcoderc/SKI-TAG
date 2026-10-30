@@ -76,7 +76,7 @@ h1 { font: 700 clamp(2.5rem, 5vw, 3.75rem)/1.05 var(--kopf); text-wrap: balance;
 h2 { font: 700 34px/1.15 var(--kopf); text-wrap: balance; margin: 64px 0 14px; }
 h3 { font: 700 26px/1.2 var(--kopf); margin-bottom: 10px; }
 h4 { font: 700 20px/1.2 var(--kopf); margin-bottom: 6px; }
-p + p, .nach-tabelle { margin-top: 14px; }
+p + p, ul + p, .nach-tabelle { margin-top: 14px; }
 main ul { padding-left: 22px; }
 
 /* Tabellen */
@@ -92,6 +92,9 @@ tbody tr + tr td { border-top: 1px solid var(--flaeche-hell); }
 .status h3 { display: flex; align-items: center; gap: 10px; font-size: 22px; margin-bottom: 6px; }
 .status ul { padding-left: 20px; }
 .mark { flex: none; width: 20px; height: 20px; display: inline-block; }
+.mark-klein { width: 16px; height: 16px; margin-right: 6px; vertical-align: -3px; }
+.stand-zelle { white-space: nowrap; font: 700 17px/1.3 var(--kopf); }
+.zeile-offen .stand-zelle { color: var(--notruf); }
 .mark-im-text { width: 16px; height: 16px; margin-right: 6px; vertical-align: -2px; color: var(--notruf); }
 .status-offen h3 { color: var(--notruf); }
 
@@ -178,6 +181,71 @@ tbody tr + tr td { border-top: 1px solid var(--flaeche-hell); }
 #sz-bestaetigt text { font-size: 16px; fill: var(--dunkel); }
 #sz-status { font-size: 22px; font-weight: 700; fill: var(--schnee); }
 
+/* Rechner */
+.rechner { margin-top: 18px; padding: 20px 24px; background: var(--flaeche); }
+.rechner-regler label { display: block; font: 700 20px/1.2 var(--kopf); margin-bottom: 10px; }
+.rechner-regler output { color: var(--licht); }
+.rechner-regler input { display: block; width: 100%; accent-color: var(--licht); }
+#sf-chirp { display: block; width: 100%; height: 120px; margin-top: 16px; background: var(--dunkel); }
+#sf-linie { fill: none; stroke: var(--licht); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.rechner-achse { margin-top: 6px; font-size: 16px; color: var(--dunst); }
+.rechner-werte { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 16px 0 0; }
+.rechner-werte div { display: flex; flex-direction: column; justify-content: space-between; }
+.rechner-werte dt { font: 500 16px/1.25 var(--kopf); color: var(--dunst); }
+.rechner-werte dd { margin: 4px 0 0; font: 700 26px/1.2 var(--kopf); font-variant-numeric: tabular-nums; }
+.rechner-text { margin-top: 14px; min-height: 3.3em; }
+.js .nur-ohne-js, .rechner { display: none; }
+.js .rechner { display: block; }
+
+/* Bauplan und Zeitfenster */
+code { font-size: .92em; color: var(--schnee); background: var(--flaeche-hell); padding: 1px 5px; border-radius: 3px; }
+.bauplan { margin-top: 18px; padding: 20px 24px; background: var(--flaeche); }
+.bauplan-wahl { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+.bauplan-wahl .knopf { background: var(--flaeche-hell); }
+.bauplan-wahl .knopf[data-an="true"] { background: var(--schnee); color: var(--dunkel); }
+.bauplan-felder { display: flex; flex-wrap: wrap; gap: 3px; }
+.feld { all: unset; box-sizing: border-box; flex: 1 0 74px; cursor: pointer; padding: 8px 6px; font: 500 16px/1.2 var(--kopf); text-align: center; color: var(--schnee); background: var(--dunkel); }
+.feld small { display: block; font-size: 16px; color: var(--dunst); }
+.feld-geheim { background: var(--flaeche-hell); }
+.feld:hover { color: var(--licht); }
+.feld:focus-visible { outline: 2px solid var(--licht); outline-offset: -2px; }
+.feld[aria-pressed="true"] { background: var(--licht); color: var(--dunkel); font-weight: 700; }
+.feld[aria-pressed="true"] small { color: var(--dunkel); }
+.bauplan-legende { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 16px; color: var(--dunst); }
+.fleck { display: inline-block; width: 16px; height: 16px; }
+.fleck-klar { background: var(--dunkel); }
+.fleck-geheim { background: var(--flaeche-hell); margin-left: 10px; }
+.bauplan-info { margin-top: 14px; min-height: 6.5em; }
+.bauplan-info h3 { font-size: 22px; margin-bottom: 6px; }
+.js .bauplan { display: block; }
+.bauplan { display: none; }
+.zeit-bild { margin: 18px 0 0; background: var(--flaeche); }
+.zeit-bild svg { display: block; width: 100%; height: auto; }
+.zeit-bild figcaption { padding: 6px 24px 12px; font-size: 16px; color: var(--dunst); }
+.z-text text { font: 500 17px var(--kopf); fill: var(--dunst); }
+.z-fenster rect { fill: var(--flaeche-hell); }
+.z-fenster .z-aktiv { fill: var(--licht); }
+.z-name text { font: 700 18px var(--kopf); fill: var(--schnee); text-anchor: middle; }
+.z-name .z-dunkel { fill: var(--dunkel); }
+.z-lupe { fill: none; stroke: var(--dunst); stroke-width: 1; opacity: .5; }
+.z-grund { fill: var(--dunkel); }
+.z-uplink, .z-antwort { fill: var(--licht); }
+
+/* Wahlfelder und Wartezeit */
+.rechner .bauplan-wahl .knopf { background: var(--flaeche-hell); }
+.rechner .bauplan-wahl .knopf[data-an="true"] { background: var(--schnee); color: var(--dunkel); }
+.rechner-wahl { display: flex; flex-wrap: wrap; gap: 14px 24px; margin-top: 16px; }
+.rechner-wahl label { display: flex; align-items: center; gap: 8px; font: 500 17px/1.2 var(--kopf); }
+.rechner-wahl select { font: 700 17px/1.2 var(--kopf); color: var(--schnee); background: var(--flaeche-hell); border: 0; border-radius: 3px; padding: 6px 8px; }
+.warte-band { position: relative; height: 34px; margin-top: 14px; background: var(--dunkel); }
+#warte-weg { position: absolute; top: 0; bottom: 0; background: var(--flaeche-hell); }
+#warte-paket { position: absolute; top: 0; bottom: 0; width: 6px; background: var(--licht); }
+
+/* Ergebnis und Quellen */
+.urteil { margin-top: 18px; padding: 18px 20px; background: var(--flaeche); }
+.quellen { font-size: 16px; line-height: 1.45; }
+.quellen li + li { margin-top: 8px; }
+
 /* Weiterblättern */
 .blaettern { display: flex; justify-content: space-between; gap: 20px; margin-top: 72px; padding-top: 20px; font: 500 18px/1.3 var(--kopf); color: var(--dunst); }
 
@@ -221,6 +289,17 @@ tbody tr + tr td { border-top: 1px solid var(--flaeche-hell); }
   .kapitel-nav ol { padding: 0 14px 12px; }
   .einstieg { font-size: 19px; }
   h2 { font-size: 30px; margin-top: 48px; }
+  .stapel thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .stapel, .stapel tbody, .stapel tr, .stapel td { display: block; }
+  .stapel tr { padding: 10px 12px; }
+  .stapel tbody tr + tr { border-top: 1px solid var(--flaeche-hell); }
+  .stapel tbody tr + tr td { border-top: 0; }
+  .stapel td { padding: 2px 0; }
+  .stapel td:first-child { font-weight: 600; }
+  .stapel td[data-spalte]::before { content: attr(data-spalte) ": "; font-weight: 600; color: var(--dunst); }
+  .rechner, .bauplan { padding: 16px; }
+  .zeit-bild figcaption { padding: 6px 16px 12px; }
+  .rechner-werte { grid-template-columns: repeat(2, 1fr); }
   .schritte, .bedienung { padding-left: 16px; padding-right: 16px; }
   .szene figcaption { padding: 6px 16px; }
   th, td { padding: 9px 10px; }

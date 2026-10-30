@@ -299,15 +299,25 @@ Every chapter is assembled the same way, so a new chapter needs no layout decisi
 - **Selected:** takes the panel's Twilight Plane fill, so it merges with the panel, in amber at weight 700.
 - **Hover / Focus:** amber text; 2px amber outline inset by 2px.
 
+### Calculator
+
+A Twilight Plane panel with a labelled range input, a Deep Twilight drawing, four values in Title weight with tabular numerals and one plain sentence on what the setting means. It updates instantly. Without JavaScript a small table stands in, marked `nur-ohne-js`.
+
+### Packet Plan
+
+A Twilight Plane panel: a switch between packets, a wrapping row of field buttons grown by byte size, and one explanation area. Readable fields sit on Deep Twilight, encrypted ones on the Upper Plane, the selected one turns amber. Without JavaScript a table stands in.
+
 ### Status Panels
 
 - **Style:** a stack of square Twilight Plane panels with 18px by 20px padding, 6px apart, in the fixed order Fest, Entschieden, Geschätzt, Offen.
 - **Heading:** Title Status with a 20px mark beside it. The Offen heading and its mark are red.
+- **Table status:** a Stand column with a 16px mark beside its word, in Label Strong. The Offen row turns mark and word red.
 - **Inline mark:** a 16px Offen mark at the start of a paragraph, red, labelled for screen readers as "Offen". It is built for Offen only.
 
 ### Tables
 - **Style:** full column width on the Twilight Plane, Upper Plane header row, Label Strong headers, left-aligned and top-aligned cells, 11px by 14px padding, hairlines between body rows.
 - **Overflow:** the table scrolls horizontally inside its own wrapper.
+- **Stacked tables:** wide tables with three text columns carry `stapel`. At phone width each row becomes a block, with `data-spalte` naming a cell's column where the reader needs it.
 
 ### Navigation
 - **Chapter list:** Label Nav in Haze with a 26px number column. Current chapter in amber at 700. Unwritten chapters stay listed at 78% opacity, as text, not links.

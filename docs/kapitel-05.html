@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sendeintervall und Kapazität · SkiTag Netzwerk-Buch</title>
+<meta name="description" content="Wie oft ein SkiTag-Chip sendet und wie viele Chips das Netz verkraftet.">
+<link rel="stylesheet" href="assets/book.css?v=31">
+<script src="assets/book.js?v=31" defer></script>
+<script src="assets/funk.js?v=31" defer></script>
+<script src="assets/kapazitaet.js?v=31" defer></script>
+</head>
+<body data-station="chip">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
+  <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
+  <symbol id="mark-geschaetzt" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 3.2"/></symbol>
+  <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+</svg>
+
+<header class="seil">
+  <a class="seil-marke" href="kapitel-01.html">SkiTag Netzwerk-Buch</a>
+</header>
+
+<div class="buch">
+  <nav class="kapitel-nav" aria-label="Kapitel">
+    <details open>
+      <summary>Inhalt</summary>
+      <ol></ol>
+      <div class="seite-mobil">
+        <p>Auf dieser Seite</p>
+        <ol></ol>
+      </div>
+    </details>
+  </nav>
+
+  <main>
+    <details class="seite-klein">
+      <summary>Auf dieser Seite</summary>
+      <ol></ol>
+    </details>
+    <article>
+      <h1>Sendeintervall und Kapazität</h1>
+      <p class="stand">Kapitel 5 · Stand 30. Oktober 2026</p>
+
+      <div class="lesen">
+        <p class="einstieg">Wie oft soll ein Chip seine Position senden, und wie viele Chips verkraftet das Netz? Beide Fragen hängen zusammen, denn alle Chips teilen sich denselben Kanal. Wer öfter sendet, nimmt den anderen Platz weg.</p>
+        <p>Für den Test mit 5 Chips ist das kein Problem. Für den Betrieb mit hunderten Chips dagegen schon, und dort reicht das heutige Verfahren nicht mehr. Die Rechnungen hier sind Modelle, gemessen ist noch nichts.</p>
+
+        <h2 id="takt" data-kurz="Warum alle 20 Sekunden">Warum alle 20 Sekunden</h2>
+        <p>Der Takt bestimmt, wie alt eine Position höchstens ist. Bei 50 km/h liegen zwischen zwei Positionen rund 280 Meter. Für die Gruppe in der App reicht das, und einen Notruf sendet der Chip ohnehin sofort.</p>
+        <p>Überraschend ist, was der Takt für den Akku bedeutet: fast nichts. Den meisten Strom brauchen GPS und das ständige Mithören, nicht das Senden.</p>
+      </div>
+      <div class="tabelle">
+        <table>
+          <thead><tr><th scope="col">Verbraucher im Chip</th><th scope="col">Strom im Schnitt</th><th scope="col">Quelle</th></tr></thead>
+          <tbody>
+            <tr><td>GPS</td><td>18 bis 41 mA</td><td>Datenblätter zum L76K, die Angaben gehen auseinander</td></tr>
+            <tr><td>Ständig mithören</td><td>5 bis 10 mA</td><td>Datenblatt RAK3172 und Messungen von Nutzern</td></tr>
+            <tr><td>Senden alle 20 Sekunden</td><td>rund 1 mA</td><td>87 bis 115 mA beim Senden, gerechnet auf 226 ms</td></tr>
+            <tr><td>Senden alle 60 Sekunden</td><td>rund 0,4 mA</td><td>wie oben</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt ergibt das mit dem 1000-mAh-Akku rund 19 bis 41 Stunden, ohne Mikrocontroller und Vibration. Das reicht für einen Skitag, die echte Zahl muss Maximilian am Muster-Chip messen. Ein längerer Takt spart davon kaum etwas, der Akku ist also kein Grund für ihn.</p>
+
+        <h2 id="fenster" data-kurz="Feste Zeitfenster">Wie weit feste Zeitfenster tragen</h2>
+        <p>Heute hat jeder Chip eines von 5 Fenstern zu je 4 Sekunden. Das ist großzügig, denn ein Paket dauert nur 226 ms. Kürzere Fenster würden mehr Chips erlauben, aber der Platz für die Antwort des Servers bestimmt, wie weit das geht:</p>
+      </div>
+      <div class="tabelle">
+        <table>
+          <thead><tr><th scope="col">Fensterlänge</th><th scope="col">Was hineinpasst</th><th scope="col">Chips pro Takt</th></tr></thead>
+          <tbody>
+            <tr><td>4 Sekunden (heute)</td><td>Paket, Antwort und viel Reserve</td><td>5</td></tr>
+            <tr><td>1,7 Sekunden</td><td>Paket und Antwort nach spätestens 1,4 s</td><td>11</td></tr>
+            <tr><td>0,3 Sekunden</td><td>Nur das Paket, Antworten bräuchten eigene Fenster</td><td>66</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Selbst im besten Fall sind das nur 66 Chips in einem Kanal, und jede kleine Ungenauigkeit der Uhren kostet Platz. Für hunderte Chips reicht das nicht. Dazu kommt die Grenze aus <a href="kapitel-04.html#grenzen">Kapitel 4</a>: Die Chip-Nummer erlaubt höchstens 256 Chips.</p>
+
+        <h2 id="zufall" data-kurz="Senden ohne Fenster">Was ohne feste Fenster passiert</h2>
+        <p>Ohne Fenster sendet jeder Chip, wann er will. So arbeitet auch LoRaWAN. Dann treffen sich Pakete zufällig, und je voller der Kanal, desto öfter. Der Rechner zeigt das vereinfachte Modell dafür. Es nimmt an, dass jedes Überlappen beide Pakete zerstört.</p>
+      </div>
+
+      <section class="rechner" aria-label="Rechner für die Kapazität">
+        <div class="rechner-regler">
+          <label for="kap-chips">Chips: <output id="kap-chips-wert">100</output></label>
+          <input id="kap-chips" type="range" min="5" max="1000" step="5" value="100">
+        </div>
+        <div class="rechner-wahl">
+          <label>Takt <select id="kap-takt"><option value="10">10 s</option><option value="20" selected>20 s</option><option value="30">30 s</option><option value="60">60 s</option></select></label>
+          <label>Spreading Factor <select id="kap-sf"><option value="7">SF7</option><option value="8">SF8</option><option value="9" selected>SF9</option><option value="10">SF10</option></select></label>
+          <label>Kanäle <select id="kap-kanaele"><option value="1" selected>1</option><option value="3">3</option><option value="8">8</option></select></label>
+        </div>
+        <dl class="rechner-werte">
+          <div><dt>Kanal belegt</dt><dd id="kap-belegt"></dd></div>
+          <div><dt>Paket kommt durch</dt><dd id="kap-chance"></dd></div>
+          <div><dt>Sendezeit pro Chip</dt><dd id="kap-sendeanteil"></dd></div>
+        </dl>
+        <p class="rechner-text" id="kap-urteil"></p>
+      </section>
+      <div class="tabelle nur-ohne-js">
+        <table>
+          <thead><tr><th scope="col">Chips, SF9, alle 20 s, ein Kanal</th><th scope="col">Paket kommt durch</th></tr></thead>
+          <tbody><tr><td>5</td><td>89 %</td></tr><tr><td>20</td><td>64 %</td></tr><tr><td>50</td><td>32 %</td></tr><tr><td>100</td><td>10 %</td></tr></tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <p class="nach-tabelle">Die Wirklichkeit ist etwas besser als das Modell. Beim Capture-Effekt setzt sich das stärkere von zwei Paketen durch. In einer Simulation von Bor und Kollegen stieg der Anteil ankommender Pakete dadurch von 51 auf 80 %. Dieselbe Studie kommt aber zum Schluss, dass LoRa mit festen Einstellungen und einem einzigen Empfänger schlecht skaliert. Erst mehrere Empfänger und passende Einstellungen je Gerät ändern das.</p>
+
+        <h2 id="lorawan-preis" data-kurz="Der Preis mehrerer Kanäle">Der Preis mehrerer Kanäle</h2>
+        <p>Mehr Kanäle sind die naheliegende Lösung, und LoRaWAN nutzt in Europa dafür unter anderem 868,1, 868,3 und 868,5 MHz. Dort gelten aber strengere Regeln als auf unserer Frequenz:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Band</th><th scope="col">Sendeleistung</th><th scope="col">Sendezeit</th><th scope="col">SF9 alle 20 s</th></tr></thead>
+          <tbody>
+            <tr><td>869,40 bis 869,65 MHz (heute)</td><td data-spalte="Leistung">500 mW, genutzt 100 mW</td><td data-spalte="Sendezeit">höchstens 10 %</td><td data-spalte="SF9 alle 20 s">1,1 %, erlaubt</td></tr>
+            <tr><td>868,0 bis 868,6 MHz</td><td data-spalte="Leistung">25 mW</td><td data-spalte="Sendezeit">höchstens 1 %</td><td data-spalte="SF9 alle 20 s">1,1 %, zu viel</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Ein Wechsel kostet also doppelt: Wir müssten auf SF8 oder niedriger gehen und mit 25 mW statt 100 mW senden. Mit SF8 und 25 mW sinkt die erlaubte Dämpfung von 149 auf rund 140 dB. Bei freier Sicht bleibt davon gut ein Drittel der Reichweite, und damit bräuchte das Gebiet mehr Gateways. Außerdem würde der Notruf mit seinen schnellen Wiederholungen dort die 1 % sprengen, wenn er auf diesen Kanälen liefe. Eine mögliche Lösung wäre, dass normale Positionen auf den 868-Kanälen laufen und Notrufe auf 869,525 MHz.</p>
+        <p>Das heißt nicht, dass LoRaWAN ausscheidet. Es heißt aber, dass die Empfehlung aus <a href="kapitel-03.html#ergebnis">Kapitel 3</a> nicht kostenlos ist.</p>
+
+        <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
+        <div class="urteil">
+          <p><strong>Für den Test bleibt alles, wie es ist:</strong> SF9, alle 20 Sekunden, 5 feste Fenster.</p>
+          <p><strong>Für den Betrieb reicht ein einzelner Kanal nicht.</strong> Nach dem Modell kommen bei 100 Chips ohne Fenster nur rund 10 % der Pakete durch, und feste Fenster enden bei rund 66 Chips.</p>
+          <p><strong>Empfohlen für die Planung:</strong> mehrere Gateways, kürzere Sendezeit und getrennte Wege für Position und Notruf.</p>
+        </div>
+        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Es fehlt noch eine Zahl: Wie viele Chips sind im Gebiet maximal gleichzeitig unterwegs? Erst damit lässt sich das Netz auslegen. Das sollte Tobias aus dem Geschäftsmodell liefern.</p>
+
+        <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
+        <ul class="quellen">
+          <li><a href="https://eprints.lancs.ac.uk/id/document/51790">Bor, Roedig, Voigt, Alonso: Do LoRa Low-Power Wide-Area Networks Scale?</a>, MSWiM 2016</li>
+          <li><a href="https://docdb.cept.org/document/845">ERC Recommendation 70-03</a>, CEPT, Fassung Oktober 2026, Annex 1, Einträge h1.5 und h1.7</li>
+          <li><a href="https://docs.rakwireless.com/product-categories/wisduo/rak3172-module/datasheet/">RAK3172 Datenblatt</a>, dazu <a href="https://forum.rakwireless.com/t/rak3172-versus-rap3172-sip-power-consumption-and-low-level-differences/7754">Messungen im RAK-Forum</a></li>
+          <li><a href="https://waveshare.com/wiki/L76K_GPS_Module">L76K bei Waveshare</a> und <a href="https://store.rakwireless.com/collections/wisblock-sensor/products/wisblock-rak12501-gnss-module">RAK12501</a>, Angaben zum GPS-Strom</li>
+          <li><a href="https://lora-alliance.org/wp-content/uploads/2021/05/RP002-1.0.3-FINAL-1.pdf">LoRaWAN Regional Parameters RP002-1.0.3</a>, LoRa Alliance, 2021</li>
+          <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
+        </ul>
+      </div>
+
+      <div class="blaettern">
+        <a href="kapitel-04.html">Zurück: Kapitel 4, Funkprotokoll</a>
+        <a href="kapitel-06.html">Weiter: Kapitel 6, Rückkanal zum Chip</a>
+      </div>
+    </article>
+  </main>
+
+  <nav class="seiten-nav" aria-label="Auf dieser Seite">
+    <h2>Auf dieser Seite</h2>
+    <ol></ol>
+  </nav>
+</div>
+</body>
+</html>

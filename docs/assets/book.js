@@ -1,11 +1,11 @@
 // Seil, Kapitelliste und Seitennavigation für alle Kapitel.
 const KAPITEL = [
   { nr: 1, titel: "Vom Knopfdruck zur App", datei: "kapitel-01.html" },
-  { nr: 2, titel: "Anforderungen" },
-  { nr: 3, titel: "Warum LoRa" },
-  { nr: 4, titel: "Funkprotokoll" },
-  { nr: 5, titel: "Sendeintervall und Kapazität" },
-  { nr: 6, titel: "Rückkanal zum Chip" },
+  { nr: 2, titel: "Anforderungen", datei: "kapitel-02.html" },
+  { nr: 3, titel: "Warum LoRa", datei: "kapitel-03.html" },
+  { nr: 4, titel: "Funkprotokoll", datei: "kapitel-04.html" },
+  { nr: 5, titel: "Sendeintervall und Kapazität", datei: "kapitel-05.html" },
+  { nr: 6, titel: "Rückkanal zum Chip", datei: "kapitel-06.html" },
   { nr: 7, titel: "SOS: Vorrang und Fehlalarme" },
   { nr: 8, titel: "Die Gateways" },
   { nr: 9, titel: "Reichweite im Gelände" },

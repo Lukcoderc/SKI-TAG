@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anforderungen · SkiTag Netzwerk-Buch</title>
+<meta name="description" content="Was das SkiTag-Netzwerk können muss, im Test 2027 und im echten Betrieb.">
+<link rel="stylesheet" href="assets/book.css?v=31">
+<script src="assets/book.js?v=31" defer></script>
+</head>
+<body data-station="knopf">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
+  <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
+  <symbol id="mark-geschaetzt" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 3.2"/></symbol>
+  <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+</svg>
+
+<header class="seil">
+  <a class="seil-marke" href="kapitel-01.html">SkiTag Netzwerk-Buch</a>
+</header>
+
+<div class="buch">
+  <nav class="kapitel-nav" aria-label="Kapitel">
+    <details open>
+      <summary>Inhalt</summary>
+      <ol></ol>
+      <div class="seite-mobil">
+        <p>Auf dieser Seite</p>
+        <ol></ol>
+      </div>
+    </details>
+  </nav>
+
+  <main>
+    <details class="seite-klein">
+      <summary>Auf dieser Seite</summary>
+      <ol></ol>
+    </details>
+    <article>
+      <h1>Anforderungen</h1>
+      <p class="stand">Kapitel 2 · Stand 30. Oktober 2026</p>
+
+      <div class="lesen">
+        <p class="einstieg">Ein Netzwerk für Notrufe darf nicht nur meistens funktionieren. Dieses Kapitel legt fest, was es können muss, warum das so ist und was davon schon beim Test im Frühjahr 2027 gelten muss.</p>
+        <p>Vieles ist schon gebaut, aber noch nicht auf echter Hardware geprüft. Anderes ist noch gar nicht entschieden. Beides steht hier nebeneinander, damit klar bleibt, worauf sich das Team verlassen kann.</p>
+      </div>
+
+      <div class="lesen">
+        <h2 id="muss" data-kurz="Was das Netz können muss">Was das Netz können muss</h2>
+        <p>Jede Anforderung trägt ihren Stand. „Entschieden“ heißt: Wir bauen es so, belegt ist es aber erst durch den Test.</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Anforderung</th><th scope="col">Warum</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr><td>Ein Notruf funktioniert ohne Handy und ohne SIM-Karte.</td><td>Das ist das Kernversprechen: Der Chip in der Jacke genügt.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-fest"/></svg>Fest</td></tr>
+            <tr><td>Der Chip funkt über LoRa zu Gateways an den Stationen.</td><td>So braucht der Chip kein Handynetz und erreicht trotzdem große Entfernungen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-fest"/></svg>Fest</td></tr>
+            <tr><td>Ein Notruf geht an den nächsten freien Mitarbeiter, nach 60 Sekunden ohne Annahme an den nächsten.</td><td>Es sollen nicht alle ausrücken, aber es darf auch niemand übersehen werden.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>Der Chip bekommt eine Rückmeldung: Notruf angekommen, Hilfe kommt oder Warnung nach 90 Sekunden.</td><td>Die verletzte Person muss wissen, ob sie jemand gehört hat.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>Ein kurzer Druck ruft die eigene Gruppe, nicht die Bergbahn.</td><td>Die Bergbahn bekommt nur echte Notrufe.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>Der Chip sendet seine Position alle 20 Sekunden, in der Ladebox nur alle 60 Sekunden.</td><td>App und Notruf brauchen eine aktuelle Position. <a href="kapitel-05.html#takt">Kapitel 5</a> prüft, ob der Takt passt.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>Die App läuft über Mobilfunk.</td><td>Gäste und Mitarbeiter sollen sie auch außerhalb des Netzes der Bergbahn nutzen können.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>Der Server steht vor Ort bei KitzSki und ist über das Internet erreichbar.</td><td>Er bleibt so unter eigener Kontrolle, die App erreicht ihn trotzdem von überall.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>Die Gateways decken die Pisten ab.</td><td>Ohne Empfang kommt kein Notruf an. Geschätzt sind 5 bis 15 km bei freier Sicht, hinter einem Grat oft gar nichts.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</td></tr>
+            <tr class="zeile-offen"><td>Die Notruf-Kette läuft auch ohne Internet.</td><td>So steht es im Geschäftsmodell. Unklar ist, ob das nur für die Person am Chip gilt oder für die ganze Kette.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Beim Reichweiten-Alarm vibriert nur die Person, die aufpasst.</td><td>Das Ziel ist klar: Das Kind soll nichts merken. Heute vibriert aber das Kind, und die App rechnet nur, solange sie offen ist.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Ein Notruf ist innerhalb einer festen Zeit beim Mitarbeiter.</td><td>Dafür gibt es noch keinen Zielwert. Ohne ihn lässt sich beim Test nicht sagen, ob das Netz schnell genug ist.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Daten werden nur so lange gespeichert wie nötig.</td><td>Positionen sind personenbezogen. Heute gibt es keine Frist, nach dem Test wird von Hand gelöscht.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <h2 id="test-serie" data-kurz="Test und echter Betrieb">Test und echter Betrieb</h2>
+        <p>Der Test soll zeigen, dass die Idee funktioniert, und nicht schon das fertige System sein. Darum darf er einfacher gebaut sein als der Betrieb ab der Saison 27/28. Was in der rechten Spalte steht, sind Pläne und Vorschläge, solange es nicht ausdrücklich als entschieden gilt.</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Thema</th><th scope="col">Test, Februar oder März 2027</th><th scope="col">Betrieb, ab Saison 27/28</th></tr></thead>
+          <tbody>
+            <tr><td>Ort</td><td data-spalte="Test">Eine Piste bei einer Bergbahn</td><td data-spalte="Betrieb">Das ganze Skigebiet</td></tr>
+            <tr><td>Chips</td><td data-spalte="Test">5 Prototypen</td><td data-spalte="Betrieb">Hunderte, die genaue Zahl ist offen</td></tr>
+            <tr><td>Gateways</td><td data-spalte="Test">2 kleine Funkboards innen am Fenster einer Bergstation</td><td data-spalte="Betrieb">Richtige Geräte an den Liftstationen, Anzahl offen, Antenne möglichst außen</td></tr>
+            <tr><td>Verbindung zum Server</td><td data-spalte="Test">WLAN, notfalls Handy-Hotspot</td><td data-spalte="Betrieb">Kabel, mit KitzSki noch zu klären</td></tr>
+            <tr><td>Funk</td><td data-spalte="Test">Ein Kanal, 5 feste Zeitfenster von je 4 Sekunden</td><td data-spalte="Betrieb">Offen: LoRaWAN, mehrere Kanäle oder längere Abstände</td></tr>
+            <tr><td>Sicherheit</td><td data-spalte="Test">Ein Schlüssel für alle Chips</td><td data-spalte="Betrieb">Vorschlag: eigener Schlüssel pro Chip und Standard-Verschlüsselung</td></tr>
+            <tr><td>Ausgabe der Chips</td><td data-spalte="Test">Von Hand</td><td data-spalte="Betrieb">Automaten, rund um die Uhr</td></tr>
+            <tr><td>Laden</td><td data-spalte="Test">Eine Ladebox mit 5 Plätzen</td><td data-spalte="Betrieb">Induktive Lade-Schubladen</td></tr>
+            <tr><td>Daten</td><td data-spalte="Test">Nach dem Test von Hand löschen</td><td data-spalte="Betrieb">Offen: Fristen und automatisches Löschen</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Gleich bleibt in beiden Fällen der Weg eines Notrufs aus <a href="kapitel-01.html#signalweg">Kapitel 1</a> und der eigene Server bei KitzSki.</p>
+
+        <h2 id="vorgaben" data-kurz="Vorgaben von außen">Vorgaben von außen</h2>
+        <p>Nicht alles können wir selbst bestimmen. Der Funk läuft in einem Frequenzband mit festen Grenzen: 869,40 bis 869,65 MHz, bis 500 mW Sendeleistung und höchstens 10 % Sendezeit.</p>
+        <p>Der Chip liegt mit rund 1,1 % Sendezeit weit darunter. Die Gateways sind auf 300 Sekunden pro Stunde begrenzt, das sind 8,3 %. Warum das Band so gewählt ist und was die Grenzen bedeuten, erklärt <a href="kapitel-03.html#frequenz">Kapitel 3</a>.</p>
+
+        <h2 id="belegen" data-kurz="Was der Test zeigen muss">Was der Test zeigen muss</h2>
+        <p>Eine Anforderung gilt erst als erfüllt, wenn sie am Berg gemessen ist. Beim Test müssen mindestens diese Punkte geklärt werden:</p>
+        <ul>
+          <li>Ein Notruf kommt von der Piste bis in die App, und der Chip zeigt die Rückmeldung an.</li>
+          <li>Die Reichweite ist gemessen: alle Pisten fahren und die Signalstärke auswerten. Gut ist sie ab −115 dBm, knapp ab −125 dBm.</li>
+          <li>Der Ausfall ist geprobt: Gateway und WLAN werden absichtlich abgeschaltet, und wir sehen, was der Chip anzeigt.</li>
+          <li>Der Server bestätigt dem Chip keinen Notruf, den die App nicht bekommen hat. Das ist noch ungeprüft, siehe <a href="kapitel-01.html#schritt-server-ausfall">Kapitel 1</a>.</li>
+          <li>Gäste geben Rückmeldung, ob sie Chip und App verstehen.</li>
+        </ul>
+        <p>Der genaue Ablauf steht in Kapitel 16.</p>
+
+        <h2 id="fragen" data-kurz="Wo was geklärt wird">Wo die offenen Fragen geklärt werden</h2>
+        <p>Sechs Fragen bestimmen das Buch. Jede hat ein eigenes Kapitel:</p>
+      </div>
+      <div class="tabelle">
+        <table>
+          <thead><tr><th scope="col">Frage</th><th scope="col">Kapitel</th></tr></thead>
+          <tbody>
+            <tr><td>Wie oft sendet ein Chip, und wie viele Chips verkraftet das Netz?</td><td>5, Sendeintervall und Kapazität</td></tr>
+            <tr><td>Warum gibt es einen Rückkanal zum Chip?</td><td>6, Rückkanal zum Chip</td></tr>
+            <tr><td>Wie wird ein Notruf bevorzugt und vor Fehlalarmen geschützt?</td><td>7, SOS: Vorrang und Fehlalarme</td></tr>
+            <tr><td>Welche Reichweite schaffen die Gateways im Gelände?</td><td>9, Reichweite im Gelände</td></tr>
+            <tr><td>Wie viele Gateways braucht KitzSki, und wo stehen sie?</td><td>10, Standortplanung KitzSki</td></tr>
+            <tr><td>Wie kommen die Gateways an Strom und Internet?</td><td>11, Strom und Netzanbindung</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="blaettern">
+        <a href="kapitel-01.html">Zurück: Kapitel 1, Vom Knopfdruck zur App</a>
+        <a href="kapitel-03.html">Weiter: Kapitel 3, Warum LoRa</a>
+      </div>
+    </article>
+  </main>
+
+  <nav class="seiten-nav" aria-label="Auf dieser Seite">
+    <h2>Auf dieser Seite</h2>
+    <ol></ol>
+  </nav>
+</div>
+</body>
+</html>

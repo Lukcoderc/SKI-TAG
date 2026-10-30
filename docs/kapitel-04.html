@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Funkprotokoll · SkiTag Netzwerk-Buch</title>
+<meta name="description" content="Wie Chip, Gateway und Server über Funk miteinander sprechen: Pakete, Zeitfenster und Schutz.">
+<link rel="stylesheet" href="assets/book.css?v=31">
+<script src="assets/book.js?v=31" defer></script>
+<script src="assets/paket.js?v=31" defer></script>
+</head>
+<body data-station="chip">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
+  <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
+  <symbol id="mark-geschaetzt" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 3.2"/></symbol>
+  <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+</svg>
+
+<header class="seil">
+  <a class="seil-marke" href="kapitel-01.html">SkiTag Netzwerk-Buch</a>
+</header>
+
+<div class="buch">
+  <nav class="kapitel-nav" aria-label="Kapitel">
+    <details open>
+      <summary>Inhalt</summary>
+      <ol></ol>
+      <div class="seite-mobil">
+        <p>Auf dieser Seite</p>
+        <ol></ol>
+      </div>
+    </details>
+  </nav>
+
+  <main>
+    <details class="seite-klein">
+      <summary>Auf dieser Seite</summary>
+      <ol></ol>
+    </details>
+    <article>
+      <h1>Funkprotokoll</h1>
+      <p class="stand">Kapitel 4 · Stand 30. Oktober 2026</p>
+
+      <div class="lesen">
+        <p class="einstieg">Damit Chip und Server sich verstehen, müssen beide dieselbe Sprache sprechen: wie ein Paket aufgebaut ist, wann gesendet werden darf und wie man erkennt, dass eine Nachricht echt ist. Diese Sprache heißt Funkprotokoll.</p>
+        <p>SkiTag nutzt LoRa direkt und kein LoRaWAN. Das Protokoll ist also selbst gebaut, gemeinsam mit Maximilian. Die Regel dazu ist einfach: Es gibt nur eine Wahrheit, nämlich <code>proto.h</code> im Chip und <code>proto.js</code> im Server. Ändert jemand etwas daran, ändern beide gleichzeitig.</p>
+        <p>Dieses Kapitel gibt den Stand der Übergabe vom 29. Oktober wieder. Der Code selbst wurde dafür nicht geprüft, und getestet ist alles bisher nur am PC.</p>
+
+        <h2 id="einstellungen" data-kurz="Die Funkeinstellungen">Die Funkeinstellungen</h2>
+        <p>Chip und Gateway müssen exakt gleich eingestellt sein, sonst hören sie einander nicht. Warum diese Werte gewählt sind, steht in <a href="kapitel-03.html#sf">Kapitel 3</a>.</p>
+      </div>
+      <div class="tabelle">
+        <table>
+          <thead><tr><th scope="col">Einstellung</th><th scope="col">Wert</th></tr></thead>
+          <tbody>
+            <tr><td>Frequenz</td><td>869,525 MHz</td></tr>
+            <tr><td>Modulation</td><td>SF9, Bandbreite 125 kHz, Fehlerschutz CR 4/5</td></tr>
+            <tr><td>Präambel und Prüfsumme</td><td>8 Symbole, CRC an</td></tr>
+            <tr><td>Sendeleistung</td><td>Chip und Gateway je 20 dBm</td></tr>
+            <tr><td>Sync-Word</td><td>Privat: <code>0x1424</code> im Chip, <code>0x12</code> im Gateway. Das ist derselbe Wert in zwei Schreibweisen der Bibliotheken.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <h2 id="pakete" data-kurz="Wie ein Paket aussieht">Wie ein Paket aussieht</h2>
+        <p>Es gibt zwei Arten von Paketen. Der Uplink geht vom Chip zum Server und ist immer 27 Byte groß. Der Downlink geht vom Server zu den Chips und ist höchstens 34 Byte groß. Klick auf ein Feld, um zu sehen, was darin steht.</p>
+      </div>
+
+      <section class="bauplan" aria-label="Bauplan der Funkpakete">
+        <div class="bauplan-wahl">
+          <button class="knopf" type="button" data-paket="uplink">Uplink, Chip zum Server</button>
+          <button class="knopf" type="button" data-paket="downlink">Downlink, Server zu den Chips</button>
+        </div>
+        <div class="bauplan-felder" id="paket-felder"></div>
+        <p class="bauplan-legende"><span class="fleck fleck-klar"></span>lesbar <span class="fleck fleck-geheim"></span>verschlüsselt</p>
+        <div class="bauplan-info" aria-live="polite">
+          <h3 id="paket-titel"></h3>
+          <p id="paket-text"></p>
+        </div>
+      </section>
+      <div class="tabelle nur-ohne-js">
+        <table>
+          <thead><tr><th scope="col">Paket</th><th scope="col">Aufbau</th></tr></thead>
+          <tbody>
+            <tr><td>Uplink, 27 Byte</td><td>Kennung 0xA7 (1), Chip-Nummer (1), Zähler (4), verschlüsselter Inhalt (17), Prüfwert (4)</td></tr>
+            <tr><td>Inhalt, 17 Byte</td><td>Ereignis (1), Ereignis-Nummer (1), Ereignis-Wert (1), Status (1), Breite (4), Länge (4), Höhe (2), Tempo (1), Akku (1), Downlink-Quittung (1)</td></tr>
+            <tr><td>Downlink, bis 34 Byte</td><td>Kennung 0xA8 (1), Zähler (4), verschlüsselt: Anzahl (1) und bis zu 8 Befehle zu je 3 Byte, Prüfwert (4)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <p class="nach-tabelle">Das Gateway kann den Inhalt nicht lesen. Es prüft nur Kennung und Länge und reicht das Paket als Bytes weiter. Entschlüsselt wird erst im Server.</p>
+
+        <h2 id="zeitfenster" data-kurz="Wann gesendet wird">Wann gesendet wird</h2>
+        <p>Alle Chips teilen sich einen Kanal. Sendeten zwei gleichzeitig, wäre oft keines der Pakete lesbar. Darum hat jeder Chip sein eigenes Zeitfenster von 4 Sekunden in einem Takt von 20 Sekunden. Die Uhrzeit dafür kommt vom GPS.</p>
+      </div>
+      <figure class="zeit-bild">
+        <svg viewBox="0 0 640 214" role="img" aria-label="Takt von 20 Sekunden mit fünf Zeitfenstern von je 4 Sekunden. Im Fenster von Chip 3 sendet der Chip 226 Millisekunden lang, die Antwort kommt innerhalb von 1,4 Sekunden.">
+          <g class="z-text"><text x="12" y="28">Takt von 20 Sekunden</text></g>
+          <g class="z-fenster">
+            <rect x="12" y="40" width="120" height="48"/><rect x="136" y="40" width="120" height="48"/><rect class="z-aktiv" x="260" y="40" width="120" height="48"/><rect x="384" y="40" width="120" height="48"/><rect x="508" y="40" width="120" height="48"/>
+          </g>
+          <g class="z-name"><text x="72" y="71">Chip 1</text><text x="196" y="71">Chip 2</text><text class="z-dunkel" x="320" y="71">Chip 3</text><text x="444" y="71">Chip 4</text><text x="568" y="71">Chip 5</text></g>
+          <path class="z-lupe" d="M260 92 L12 124 M380 92 L628 124"/>
+          <g class="z-text"><text x="12" y="118">Fenster von Chip 3, 4 Sekunden</text></g>
+          <rect class="z-grund" x="12" y="126" width="616" height="48"/>
+          <rect class="z-uplink" x="12" y="126" width="35" height="48"/>
+          <rect class="z-antwort" x="228" y="126" width="38" height="48"/>
+          <g class="z-text"><text x="12" y="198">Uplink 226 ms</text><text x="228" y="198">Antwort spätestens nach 1,4 s</text></g>
+        </svg>
+        <figcaption>Schema mit fünf Chips. Die Antwort kommt nur, wenn es etwas zu melden gibt.</figcaption>
+      </figure>
+      <div class="lesen">
+        <p class="nach-tabelle">Ohne GPS-Zeit sendet der Chip alle 20 Sekunden plus 0 bis 3 Sekunden Zufall, in der Ladebox nur alle 60 Sekunden. Ereignisse warten nicht auf ihr Fenster: Ein Notruf geht sofort raus und wird wiederholt, bis der Server bestätigt.</p>
+        <p>Der Server schickt einem Chip nur direkt nach einem Paket genau dieses Chips etwas zurück. Das Paket darf dabei höchstens 1 Sekunde alt sein, und das Gateway sendet die Antwort nur, wenn seit dem Empfang höchstens 1,4 Sekunden vergangen sind. So landet die Antwort noch im Fenster des Chips. Die Folge: Ein Gruppenruf kann bis zu 20 Sekunden brauchen.</p>
+
+        <h2 id="wortschatz" data-kurz="Ereignisse und Befehle">Ereignisse und Befehle</h2>
+        <p>Der Wortschatz ist klein. Neue Einträge werden nur gemeinsam mit Maximilian eingeführt, die Nummern 2, 4 und 5 bei den Ereignissen und 3 und 4 bei den Befehlen sind noch frei.</p>
+      </div>
+      <div class="tabelle">
+        <table>
+          <thead><tr><th scope="col">Richtung</th><th scope="col">Nummer</th><th scope="col">Bedeutung</th></tr></thead>
+          <tbody>
+            <tr><td>Chip zum Server</td><td>1 CALL</td><td>Gruppe rufen</td></tr>
+            <tr><td>Chip zum Server</td><td>3 SOS</td><td>Notruf</td></tr>
+            <tr><td>Chip zum Server</td><td>6 BOOT</td><td>Chip wurde gestartet</td></tr>
+            <tr><td>Server zum Chip</td><td>1 ACK</td><td>Ereignis ist angekommen, der Wert ist die Ereignis-Nummer</td></tr>
+            <tr><td>Server zum Chip</td><td>2 CALL</td><td>Du wirst gerufen, der Wert ist der rufende Chip</td></tr>
+            <tr><td>Server zum Chip</td><td>5 HELP</td><td>Notruf: 1 angenommen, 2 vor Ort, 3 erledigt</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <h2 id="zustellung" data-kurz="Wie nichts verloren geht">Wie nichts verloren geht</h2>
+        <p>Funk ist unzuverlässig, also wiederholen beide Seiten. Ein Ereignis geht sofort raus, dann alle 4 bis 8 Sekunden, nach 6 Versuchen alle 15 bis 25 Sekunden, bis ein ACK kommt. Normale Ereignisse geben nach 8 Versuchen auf, ein Notruf nie.</p>
+        <p>Der Server versucht jeden Befehl bis zu sechsmal. Ob ein Befehl ankam, sieht er am letzten Byte im Uplink: Dort meldet der Chip den Zähler seines letzten Downlinks. Hören zwei Gateways dasselbe Paket, verwirft der Server das Duplikat an seinem Zähler.</p>
+
+        <h2 id="schutz" data-kurz="Wie Pakete geschützt sind">Wie Pakete geschützt sind</h2>
+        <p>Jedes Paket ist verschlüsselt und trägt einen Prüfwert. Beides nutzt das Verfahren SipHash-2-4 mit einem gemeinsamen Schlüssel von 128 Bit. Ohne den Schlüssel kann niemand Positionen mitlesen, und ein gefälschtes Paket fällt auf, weil der Prüfwert nicht stimmt.</p>
+        <p>Der Zähler schützt gegen alte Pakete: Wer ein aufgezeichnetes Paket später noch einmal sendet, kommt nicht durch, weil der Server jeden Zähler verwirft, der nicht größer ist als der letzte. Der Chip reserviert seinen Zähler dafür im Flash-Speicher in 1000er-Schritten, damit er nach einem Neustart nie zurückspringt.</p>
+        <p>Der Schlüssel steht im Chip und auf dem Server, aber nie in diesem Buch oder im Repo. Vor dem Test wird ein neuer erzeugt, weil der Beispiel-Schlüssel bekannt ist.</p>
+
+        <h2 id="grenzen" data-kurz="Wo die Grenzen liegen">Wo die Grenzen liegen</h2>
+        <p>Für 5 Chips im Test reicht das Protokoll. Für den Betrieb reicht es so noch nicht:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Grenze</th><th scope="col">Warum sie zählt</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr class="zeile-offen"><td>Die Chip-Nummer ist nur 1 Byte groß.</td><td>Damit gibt es höchstens 256 Nummern, im Betrieb sind aber hunderte Chips geplant. Für mehr müsste das Paket geändert werden.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Ein Notruf sendet außerhalb seines Fensters.</td><td>Er kann mit dem Paket eines anderen Chips zusammenstoßen. Die Wiederholung fängt das ab, wie gut, zeigt erst der Test.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Alle Chips teilen sich einen Schlüssel.</td><td>Mietchips gehen durch viele Hände. Wer einen Chip ausliest, könnte alle lesen und fälschen. Vorschlag für den Betrieb: ein eigener Schlüssel pro Chip und AES, das der Chip in Hardware kann.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Der Prüfwert ist nur 32 Bit lang.</td><td>Für den Test genügt das, für die Serie ist es wenig. Es hängt mit der Wahl der Verschlüsselung zusammen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Ein neu aufgespielter Chip beginnt wieder bei Zähler 0.</td><td>Wird der Flash gelöscht, hält der Server alle Pakete für alt. Vielleicht braucht die Ausgabe-Seite eine Funktion zum Zurücksetzen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Es gibt nur 5 feste Fenster in einem Kanal.</td><td>Mehr Chips passen so nicht in den Takt. Die Rechnung dazu steht in <a href="kapitel-05.html#fenster">Kapitel 5</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <h2 id="regeln" data-kurz="Regeln fürs Team">Regeln fürs Team</h2>
+        <ul>
+          <li>Funk-Einstellungen, Paketformat, Anzahl der Chips und Zeitfenster werden nur gemeinsam mit Maximilian geändert.</li>
+          <li>Dieses Kapitel und das Hardware-Buch müssen in diesen Punkten genau gleich sein. Bei einem Widerspruch gilt der Code.</li>
+          <li>Schlüssel und Passwörter gehören nie in ein öffentliches Repo.</li>
+        </ul>
+
+        <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
+        <ul class="quellen">
+          <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
+          <li><a href="kapitel-03.html#quellen">Quellen aus Kapitel 3</a> zu Frequenzband und Funkchip</li>
+        </ul>
+      </div>
+
+      <div class="blaettern">
+        <a href="kapitel-03.html">Zurück: Kapitel 3, Warum LoRa</a>
+        <a href="kapitel-05.html">Weiter: Kapitel 5, Sendeintervall und Kapazität</a>
+      </div>
+    </article>
+  </main>
+
+  <nav class="seiten-nav" aria-label="Auf dieser Seite">
+    <h2>Auf dieser Seite</h2>
+    <ol></ol>
+  </nav>
+</div>
+</body>
+</html>
