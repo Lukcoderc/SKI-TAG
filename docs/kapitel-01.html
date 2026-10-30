@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vom Knopfdruck zur App · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie ein Notruf vom SkiTag-Chip bis in die App der Bergbahn kommt.">
-<link rel="stylesheet" href="assets/book.css?v=15">
-<script src="assets/book.js?v=15" defer></script>
-<script src="assets/szene.js?v=15" defer></script>
-<script src="assets/signalweg.js?v=15" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=22">
+<script src="assets/book.js?v=22" defer></script>
+<script src="assets/szene.js?v=22" defer></script>
+<script src="assets/signalweg.js?v=22" defer></script>
 </head>
 <body data-station="knopf">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -50,7 +50,7 @@
 
       <h2 id="signalweg" data-kurz="Der Weg eines Notrufs">Der Weg eines Notrufs</h2>
       <div class="lesen">
-        <p>Ein Notruf läuft in sechs Schritten. Oben am Seil siehst du, wo du gerade bist: Die Gondel fährt mit jedem Schritt eine Station weiter. Drück auf Start und geh Schritt für Schritt durch. Bei jedem Schritt kannst du dir ansehen, was passiert, wenn dort etwas schiefgeht.</p>
+        <p>Ein Notruf läuft in sechs Schritten. Oben am Seil siehst du, wo du gerade bist: Die Gondel fährt mit jedem Schritt eine Station weiter. Drück auf Start und geh Schritt für Schritt durch, oder sieh dir den ganzen Ablauf am Stück an. Bei jedem Schritt kannst du dir ansehen, was passiert, wenn dort etwas schiefgeht.</p>
       </div>
 
       <section class="signalweg" aria-label="Notruf Schritt für Schritt">
@@ -72,13 +72,13 @@
             </g>
             <g class="sz-seilbahn">
               <line x1="208" y1="240" x2="604" y2="108"/>
-              <rect x="328" y="201" width="4" height="57"/><rect x="319" y="198" width="22" height="3"/><rect x="478" y="150" width="4" height="54"/><rect x="469" y="147" width="22" height="3"/>
+              <rect x="328" y="201" width="4" height="57"/><rect x="319" y="198" width="22" height="3"/>
               <rect x="267" y="220" width="2" height="10"/>
               <rect class="sz-gondel" x="255" y="229" width="26" height="20" rx="3"/>
             </g>
             <g id="sz-mobilmast">
-              <path d="M423 128 L430 72 L437 128 M426 112 H434 M428 96 H432"/>
-              <circle id="sz-mastlicht" cx="430" cy="70" r="5"/>
+              <path d="M469 204 L478 133 L487 204 M473 183 H483 M475 159 H481"/>
+              <circle id="sz-mastlicht" cx="478" cy="131" r="5"/>
             </g>
             <g id="sz-gondelstation">
               <rect class="sz-wand" x="600" y="92" width="92" height="44"/>
@@ -99,8 +99,8 @@
             </g>
             <path id="sz-funk" class="sz-bahn" pathLength="1" d="M380 230 Q540 150 672 48"/>
             <path id="sz-kabel" class="sz-komet" pathLength="1" d="M672 48 L604 108 L208 240 Q160 244 104 236"/>
-            <path id="sz-netz" class="sz-komet" pathLength="1" d="M104 216 Q250 150 430 74"/>
-            <path id="sz-mobil" class="sz-bahn" pathLength="1" d="M430 70 Q500 84 550 132"/>
+            <path id="sz-netz" class="sz-komet" pathLength="1" d="M104 283 L168 288 L210 288 L222 286.2 L234 283.8 L246 281.1 L258 278.1 L270 274.9 L282 271.6 L294 268.1 L306 264.4 L318 260.7 L330 256.9 L342 252.9 L354 248.9 L366 244.8 L378 240.6 L390 236.3 L402 232 L414 227.6 L426 223.1 L438 218.5 L450 213.9 L462 209.3 L474 204.6 L478 204 L478 133"/>
+            <path id="sz-mobil" class="sz-bahn" pathLength="1" d="M478 129 Q530 92 572 124"/>
             <g id="sz-wellen"><path d="M-6 -10 A12 12 0 0 1 -6 10"/><path d="M-6 -10 A12 12 0 0 1 -6 10"/><path d="M-6 -10 A12 12 0 0 1 -6 10"/><path d="M-6 -10 A12 12 0 0 1 -6 10"/><path d="M-6 -10 A12 12 0 0 1 -6 10"/><path d="M-6 -10 A12 12 0 0 1 -6 10"/><path d="M-6 -10 A12 12 0 0 1 -6 10"/><path d="M-6 -10 A12 12 0 0 1 -6 10"/></g>
             <circle id="sz-halten" cx="380" cy="230" r="34" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" visibility="hidden" transform="rotate(-90 380 230)"/>
             <g id="sz-gast" transform="translate(380 241) rotate(-13)">
@@ -123,7 +123,7 @@
               <g class="sz-tag"><rect x="14" y="10" width="92" height="25"/><text x="60" y="28" text-anchor="middle">Mitarbeiter</text></g>
             </g>
             <g id="sz-meldung" visibility="hidden">
-              <polygon points="510,104 538,104 544,126"/>
+              <polygon points="526,104 550,104 556,113"/>
               <rect x="366" y="20" width="186" height="86" rx="3"/>
               <circle cx="384" cy="40" r="6"/>
               <text x="398" y="46">NOTRUF, Piste 3</text>
@@ -136,7 +136,7 @@
             <text id="sz-status" x="16" y="32"></text>
             <g class="sz-tag"><rect x="326" y="266" width="122" height="25"/><text x="387" y="284" text-anchor="middle">Verletzte Person</text></g>
             <g class="sz-tag"><rect x="72" y="296" width="60" height="25"/><text x="102" y="314" text-anchor="middle">Server</text></g>
-            <g class="sz-tag"><rect x="388" y="132" width="84" height="25"/><text x="430" y="150" text-anchor="middle">Mobilfunk</text></g>
+            <g class="sz-tag"><rect x="384" y="118" width="84" height="25"/><text x="426" y="136" text-anchor="middle">Mobilfunk</text></g>
             <g class="sz-tag"><rect x="588" y="16" width="72" height="25"/><text x="624" y="34" text-anchor="middle">Gateway</text></g>
           </svg>
           <figcaption>Schematische Darstellung mit Beispielort, nicht in Echtzeit.</figcaption>
@@ -145,12 +145,13 @@
           <button class="knopf knopf-haupt" type="button" data-aktion="naechster">Start: Knopf drücken</button>
           <button class="knopf" type="button" data-aktion="zurueck">Zurück</button>
           <button class="knopf" type="button" data-aktion="ausfall">Was, wenn es hier ausfällt?</button>
+          <button class="knopf" type="button" data-aktion="ganz">Ganzen Ablauf ansehen</button>
         </div>
         <div class="schritte">
-          <article class="schritt" id="schritt-knopf" data-kurz="Der Knopf wird gedrückt" data-klein="Knopf" data-frage="Was, wenn es ein Versehen war?">
+          <article class="schritt" id="schritt-knopf" data-kurz="Knopf drücken" data-frage="Was, wenn es ein Versehen war?">
             <div class="schritt-inhalt">
               <div class="normal">
-                <h3>Der Knopf wird gedrückt</h3>
+                <h3>Knopf drücken</h3>
                 <p>Die verletzte Person hält den Knopf an ihrem Chip drei Sekunden lang. Ein kurzer Druck würde nur die eigene Gruppe rufen, erst das Halten löst den Notruf aus. Das geht auch für andere: Wer an einer Unfallstelle vorbeikommt, kann den eigenen Chip halten.</p>
               </div>
               <div class="ausfall hinweis">
@@ -159,10 +160,10 @@
               </div>
             </div>
           </article>
-          <article class="schritt" id="schritt-chip" data-kurz="Der Chip funkt" data-klein="Chip">
+          <article class="schritt" id="schritt-chip" data-kurz="Chip sendet">
             <div class="schritt-inhalt">
               <div class="normal">
-                <h3>Der Chip funkt</h3>
+                <h3>Chip sendet</h3>
                 <p>Sind die fünf Sekunden vorbei, sendet der Chip den Notruf mit seiner GPS-Position.</p>
                 <p>Das geschieht über LoRa, eine Funktechnik für kleine Datenmengen und große Entfernungen. Der Chip braucht dafür weder SIM-Karte noch Handynetz. Er wiederholt den Notruf so lange, bis der Server ihn bestätigt.</p>
               </div>
@@ -173,10 +174,10 @@
               </div>
             </div>
           </article>
-          <article class="schritt" id="schritt-empfaenger" data-kurz="Das Gateway leitet weiter" data-klein="Gateway">
+          <article class="schritt" id="schritt-empfaenger" data-kurz="Gateway leitet weiter">
             <div class="schritt-inhalt">
               <div class="normal">
-                <h3>Das Gateway leitet weiter</h3>
+                <h3>Gateway leitet weiter</h3>
                 <p>An den Stationen der Bergbahn stehen die Gateways. Eines hört das Paket und schickt es über Kabel an den Server. Im Test läuft dieser Abschnitt noch über WLAN.</p>
                 <p>Lesen kann es das Paket nicht, denn es ist verschlüsselt. Es gibt nur Bytes weiter. Hören zwei Gateways dasselbe Paket, sortiert der Server das doppelte aus.</p>
               </div>
@@ -188,10 +189,10 @@
               </div>
             </div>
           </article>
-          <article class="schritt" id="schritt-server" data-kurz="Der Server entscheidet" data-klein="Server">
+          <article class="schritt" id="schritt-server" data-kurz="Server entscheidet">
             <div class="schritt-inhalt">
               <div class="normal">
-                <h3>Der Server entscheidet</h3>
+                <h3>Server entscheidet</h3>
                 <p>Der Server ist die Zentrale. Er entschlüsselt und prüft das Paket und ordnet die Position einer Piste oder einem Lift zu.</p>
                 <p>Dann legt er den Notruf an und wählt den nächsten freien Mitarbeiter. Über das Internet und das Mobilfunknetz geht der Notruf an dessen App. Gateway und App führen nur aus, was der Server vorgibt.</p>
               </div>
@@ -202,10 +203,10 @@
               </div>
             </div>
           </article>
-          <article class="schritt" id="schritt-app" data-kurz="Der Mitarbeiter wird alarmiert" data-klein="Mitarbeiter">
+          <article class="schritt" id="schritt-app" data-kurz="Mitarbeiter wird alarmiert">
             <div class="schritt-inhalt">
               <div class="normal">
-                <h3>Der Mitarbeiter wird alarmiert</h3>
+                <h3>Mitarbeiter wird alarmiert</h3>
                 <p>Der Mitarbeiter sieht einen roten Punkt auf der Karte, zum Beispiel: „NOTRUF, Piste 3, 170 m von dir“. Mit einem Tipp übernimmt er den Einsatz.</p>
                 <p>Alarmiert wird nur der nächste Mitarbeiter, nicht alle. Die anderen sehen, dass jemand unterwegs ist.</p>
               </div>
@@ -216,10 +217,10 @@
               </div>
             </div>
           </article>
-          <article class="schritt" id="schritt-rueckweg" data-kurz="Die Bestätigung kommt zurück" data-klein="Bestätigung" data-frage="Warum kann das dauern?">
+          <article class="schritt" id="schritt-rueckweg" data-kurz="Bestätigung kommt zurück" data-frage="Warum kann das dauern?">
             <div class="schritt-inhalt">
               <div class="normal">
-                <h3>Die Bestätigung kommt zurück</h3>
+                <h3>Bestätigung kommt zurück</h3>
                 <p>Sobald jemand übernimmt, meldet die App das über Mobilfunk an den Server. Der schickt die Bestätigung über Kabel zum Gateway, das den Chip zuletzt am besten gehört hat, und von dort per Funk zum Chip.</p>
                 <p>Der Chip vibriert zweimal lang und blinkt rot. Die verletzte Person weiß damit: Hilfe kommt.</p>
               </div>

@@ -3,7 +3,7 @@ const HANG_Y = (x) => {
   const t = Math.min(Math.max((x - 210) / 510, 0), 1);
   return 286 - 190 * Math.pow(t, 1.25);
 };
-const MITARBEITER_START = 540;
+const MITARBEITER_START = 568;
 const MITARBEITER_ZIEL = 450;
 const KOMET_LAENGE = 0.2;
 const WELLEN_ABSTAND_PX = 22;
@@ -12,7 +12,7 @@ const AUSFALL_ORT = {
   chip: { x: 505, y: 162, text: "Kein Gateway hört den Chip" },
   empfaenger: { x: 672, y: 48, text: "Das Gateway fällt aus" },
   server: { x: 102, y: 200, text: "Server oder Netzverbindung fallen aus" },
-  app: { x: 576, y: 142, text: "Niemand reagiert" },
+  app: { x: 530, y: 122, text: "Niemand reagiert" },
 };
 const SZENE_MS = { knopf: 2000, chip: 2400, empfaenger: 1900, server: 3200, app: 2600, rueckweg: 5000 };
 const FOLGE = ["knopf", "chip", "empfaenger", "server", "app", "rueckweg"];
@@ -62,8 +62,8 @@ function setzeWellen(weg, q, rueckwaerts = false, gruppe = 0) {
     const zurueck = weg.getPointAtLength(laenge * Math.max(kopf - 0.01, 0));
     const winkel = Math.atan2(dort.y - zurueck.y, dort.x - zurueck.x) * (180 / Math.PI) + (rueckwaerts ? 180 : 0);
     welle.setAttribute("transform", `translate(${hier.x} ${hier.y}) rotate(${winkel}) scale(${1.2 + w * wachstum})`);
-    const rest = (1 - w) * laenge - WELLEN_ENDE_PX;
-    welle.setAttribute("opacity", Math.min(w / 0.08, 1) * Math.min(Math.max(rest / WELLEN_BLENDE_PX, 0), 1));
+    const rest = (1 - w) * laenge - Math.min(WELLEN_ENDE_PX, laenge * 0.12);
+    welle.setAttribute("opacity", Math.min(w / 0.08, 1) * Math.min(Math.max(rest / Math.min(WELLEN_BLENDE_PX, laenge * 0.25), 0), 1));
   });
 }
 
@@ -115,7 +115,7 @@ const SCHRITTE = {
   chip(p) {
     setzeWellen(wege.funk, anteil(p, 0, 0.62));
     setzeWellen(wege.funk, anteil(p, 0.38, 1), false, 1);
-    setzeStatus("Der Chip funkt");
+    setzeStatus("Der Chip sendet");
   },
   empfaenger(p) {
     setzeKomet(wege.kabel, anteil(p, 0.1, 1));
@@ -128,7 +128,7 @@ const SCHRITTE = {
     setzeWellen(wege.mobil, anteil(p, 0.72, 1));
     sz("mastlicht").classList.toggle("an", p >= 0.72);
     if (p < 0.38) setzeStatus("Der Server sucht den nächsten Mitarbeiter");
-    else setzeStatus(p < 0.72 ? "Der Notruf geht ins Internet" : "Der Mobilfunk bringt ihn zur App");
+    else setzeStatus(p < 0.72 ? "Der Notruf läuft durch die Leitung zum Mast" : "Der Mobilfunk bringt ihn zur App");
   },
   app(p) {
     sz("meldung").setAttribute("visibility", "visible");

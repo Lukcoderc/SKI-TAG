@@ -22,12 +22,12 @@ const KAPITEL = [
 
 // Die Stationen des Seils sind die sechs Schritte eines Notrufs.
 const STATIONEN = [
-  { id: "knopf", name: "Knopf", x: 60, y: 68 },
-  { id: "chip", name: "Chip", x: 236, y: 62 },
-  { id: "empfaenger", name: "Gateway", x: 412, y: 56 },
-  { id: "server", name: "Server", x: 588, y: 50 },
-  { id: "app", name: "Mitarbeiter", x: 764, y: 44 },
-  { id: "rueckweg", name: "Bestätigung", x: 940, y: 38 },
+  { id: "knopf", name: "Knopf drücken", x: 60, y: 68 },
+  { id: "chip", name: "Chip sendet", x: 215, y: 62 },
+  { id: "empfaenger", name: "Gateway leitet weiter", x: 370, y: 56 },
+  { id: "server", name: "Server entscheidet", x: 530, y: 50 },
+  { id: "app", name: "Mitarbeiter wird alarmiert", x: 700, y: 44 },
+  { id: "rueckweg", name: "Bestätigung kommt zurück", x: 940, y: 38 },
 ];
 const SPANNEN = STATIONEN.slice(1).map((s, i) => {
   const a = STATIONEN[i];

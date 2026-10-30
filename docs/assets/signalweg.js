@@ -7,6 +7,8 @@ const wahl = document.querySelector(".schritt-wahl");
 const zurueck = document.querySelector("[data-aktion=zurueck]");
 const naechster = document.querySelector("[data-aktion=naechster]");
 const ausfall = document.querySelector("[data-aktion=ausfall]");
+const ganz = document.querySelector("[data-aktion=ganz]");
+const PAUSE_MS = 1000;
 const szenenBild = document.querySelector(".szene");
 const SCROLL_MS = 350;
 const teil = (s, name) => s.querySelector("." + name);
@@ -14,6 +16,8 @@ const kurzId = (s) => s.id.replace("schritt-", "");
 let aktiv = 0;
 let gestartet = false;
 let uhr = null;
+let durchlauf = false;
+let naechsterZeit = 0;
 let bild = 0;
 
 const tabs = schritte.map((schritt, i) => {
@@ -26,7 +30,7 @@ const tabs = schritte.map((schritt, i) => {
   b.setAttribute("aria-controls", schritt.id);
   const name = document.createElement("span");
   name.className = "tab-name";
-  name.textContent = " " + schritt.dataset.klein;
+  name.textContent = " " + schritt.dataset.kurz;
   b.append(`${i + 1}.`, name);
   b.setAttribute("aria-label", `Schritt ${i + 1}: ${schritt.dataset.kurz}`);
   b.addEventListener("click", () => zeige(i, { merken: true }));
@@ -48,13 +52,35 @@ function beschrifte() {
 }
 
 // Die Szene läuft einmal durch und bleibt dann am Ende des Schritts stehen.
+function stoppeDurchlauf() {
+  durchlauf = false;
+  clearTimeout(naechsterZeit);
+  ganz.dataset.an = "false";
+  ganz.textContent = "Ganzen Ablauf ansehen";
+}
+
+// Der ganze Ablauf reiht die Schritte aneinander: Ist eine Szene fertig, folgt nach kurzer Pause die nächste.
+function planeNaechsten(warten) {
+  naechsterZeit = setTimeout(() => {
+    if (aktiv === schritte.length - 1) return stoppeDurchlauf();
+    zeige(aktiv + 1, { auto: true });
+  }, warten);
+}
+
 function spieleSzene(stoerung, verzoegerung = 0) {
   cancelAnimationFrame(bild);
   uhr?.cancel();
   uhr = null;
   const id = kurzId(schritte[aktiv]);
-  if (stoerung || ohneBewegung.matches) return window.Szene.zeichne(id, 1, stoerung);
+  if (stoerung || ohneBewegung.matches) {
+    window.Szene.zeichne(id, 1, stoerung);
+    if (durchlauf) planeNaechsten(window.Szene.dauer(id));
+    return;
+  }
   uhr = stapel.animate([], { duration: window.Szene.dauer(id), delay: verzoegerung, fill: "backwards" });
+  uhr.onfinish = () => {
+    if (durchlauf) planeNaechsten(PAUSE_MS);
+  };
   const schleife = () => {
     window.Szene.zeichne(id, uhr?.effect.getComputedTiming().progress ?? 1, false);
     if (uhr && uhr.playState !== "finished") bild = requestAnimationFrame(schleife);
@@ -73,7 +99,8 @@ function holeSzeneInsBild() {
 }
 
 // Ausgeblendete Teile bleiben über die Suche des Browsers auffindbar.
-function zeige(i, { stoerung = false, merken = false, ruhig = false } = {}) {
+function zeige(i, { stoerung = false, merken = false, ruhig = false, auto = false } = {}) {
+  if (!auto) stoppeDurchlauf();
   aktiv = i;
   gestartet = true;
   schritte.forEach((s, n) => {
@@ -132,6 +159,13 @@ function anfang() {
 naechster.addEventListener("click", () => {
   if (aktiv === schritte.length - 1) return anfang();
   zeige(gestartet ? aktiv + 1 : 0, { merken: true });
+});
+ganz.addEventListener("click", () => {
+  if (durchlauf) return stoppeDurchlauf();
+  durchlauf = true;
+  ganz.dataset.an = "true";
+  ganz.textContent = "Anhalten";
+  zeige(0, { merken: true, auto: true });
 });
 zurueck.addEventListener("click", () => zeige(aktiv - 1, { merken: true }));
 ausfall.addEventListener("click", () => zeige(aktiv, { stoerung: ausfall.dataset.an !== "true", merken: true }));
