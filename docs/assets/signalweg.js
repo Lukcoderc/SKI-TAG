@@ -28,7 +28,7 @@ const tabs = schritte.map((schritt, i) => {
   const name = document.createElement("span");
   name.className = "tab-name";
   name.textContent = " " + schritt.dataset.klein;
-  b.append(String(i + 1), name);
+  b.append(`${i + 1}.`, name);
   b.setAttribute("aria-label", `Schritt ${i + 1}: ${schritt.dataset.kurz}`);
   b.addEventListener("click", () => zeige(i, { merken: true }));
   li.append(b);
