@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vom Knopfdruck zur App · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie ein Notruf vom SkiTag-Chip bis in die App der Bergbahn kommt.">
-<link rel="stylesheet" href="assets/book.css?v=5">
-<script src="assets/book.js?v=5" defer></script>
-<script src="assets/szene.js?v=5" defer></script>
-<script src="assets/signalweg.js?v=5" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=6">
+<script src="assets/book.js?v=6" defer></script>
+<script src="assets/szene.js?v=6" defer></script>
+<script src="assets/signalweg.js?v=6" defer></script>
 </head>
 <body data-station="chip">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -85,7 +85,7 @@
               <rect class="sz-mast" x="671" y="44" width="3" height="32"/>
               <circle id="sz-antenne" cx="672.5" cy="44" r="5"/>
             </g>
-            <g id="sz-serverhaus">
+            <g id="sz-serverhaus" transform="translate(102 286) scale(.72) translate(-102 -286)">
               <rect class="sz-wand" x="36" y="196" width="132" height="90"/>
               <rect class="sz-innen" x="74" y="204" width="60" height="82"/>
               <rect id="sz-schrank" class="sz-schrank" x="80" y="208" width="48" height="74"/>
@@ -94,7 +94,7 @@
               <polygon class="sz-dach" points="26,196 178,196 102,156"/>
             </g>
             <path id="sz-funk" class="sz-bahn" pathLength="1" d="M380 230 Q540 150 672 48"/>
-            <path id="sz-kabel" class="sz-komet" pathLength="1" d="M672 48 L604 108 L208 240 Q160 226 104 214"/>
+            <path id="sz-kabel" class="sz-komet" pathLength="1" d="M672 48 L604 108 L208 240 Q160 244 104 236"/>
             <path id="sz-mobil" class="sz-bahn" pathLength="1" d="M672 48 Q636 112 556 132"/>
             <g id="sz-wellen"><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/></g>
             <circle id="sz-halten" cx="380" cy="230" r="34" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" visibility="hidden" transform="rotate(-90 380 230)"/>
@@ -136,7 +136,7 @@
           <figcaption>Schematische Darstellung mit Beispielort, nicht in Echtzeit.</figcaption>
         </figure>
         <div class="bedienung">
-          <button class="knopf knopf-haupt" type="button" data-aktion="naechster">Notruf starten</button>
+          <button class="knopf knopf-haupt" type="button" data-aktion="naechster">Knopf drücken</button>
           <button class="knopf" type="button" data-aktion="zurueck">Zurück</button>
           <button class="knopf" type="button" data-aktion="ausfall">Was, wenn es hier ausfällt?</button>
         </div>

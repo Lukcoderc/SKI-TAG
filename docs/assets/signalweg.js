@@ -43,7 +43,7 @@ const tabs = schritte.map((schritt, i) => {
 
 function beschrifte() {
   const letzter = aktiv === schritte.length - 1;
-  if (!gestartet) naechster.textContent = "Notruf starten";
+  if (!gestartet) naechster.textContent = "Knopf drücken";
   else if (letzter) naechster.textContent = "Nochmal von vorn";
   else naechster.textContent = "Weiter: " + schritte[aktiv + 1].dataset.kurz;
   zurueck.disabled = !gestartet || aktiv === 0;
@@ -124,9 +124,17 @@ function ausHash(ruhig = false) {
   return true;
 }
 
+function anfang() {
+  zeige(0, { ruhig: true });
+  gestartet = false;
+  history.replaceState(null, "", location.pathname + location.search);
+  window.Szene.zeichne("knopf", 0, false);
+  beschrifte();
+}
+
 naechster.addEventListener("click", () => {
-  const letzter = aktiv === schritte.length - 1;
-  zeige(!gestartet || letzter ? 0 : aktiv + 1, { merken: true });
+  if (aktiv === schritte.length - 1) return anfang();
+  zeige(gestartet ? aktiv + 1 : 0, { merken: true });
 });
 zurueck.addEventListener("click", () => zeige(aktiv - 1, { merken: true }));
 ausfall.addEventListener("click", () => zeige(aktiv, { stoerung: ausfall.dataset.an !== "true", merken: true }));
@@ -150,9 +158,4 @@ addEventListener("hashchange", () => ausHash());
 addEventListener("resize", miss);
 
 miss();
-if (!ausHash(true)) {
-  zeige(0, { ruhig: true });
-  gestartet = false;
-  window.Szene.zeichne("knopf", 0, false);
-  beschrifte();
-}
+if (!ausHash(true) || (aktiv === 0 && ausfall.dataset.an !== "true")) anfang();
