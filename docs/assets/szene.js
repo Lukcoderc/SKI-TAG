@@ -60,7 +60,7 @@ function setzeWellen(weg, q, rueckwaerts = false, gruppe = 0) {
     const zurueck = weg.getPointAtLength(laenge * Math.max(kopf - 0.01, 0));
     const winkel = Math.atan2(dort.y - zurueck.y, dort.x - zurueck.x) * (180 / Math.PI) + (rueckwaerts ? 180 : 0);
     welle.setAttribute("transform", `translate(${hier.x} ${hier.y}) rotate(${winkel}) scale(${1.2 + w * wachstum})`);
-    welle.setAttribute("opacity", Math.min(w / 0.08, 1) * (1 - w * 0.3));
+    welle.setAttribute("opacity", Math.min(w / 0.08, 1) * Math.min((1 - w) / 0.18, 1));
   });
 }
 
