@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vom Knopfdruck zur App · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie ein Notruf vom SkiTag-Chip bis in die App der Bergbahn kommt.">
-<link rel="stylesheet" href="assets/book.css?v=10">
-<script src="assets/book.js?v=10" defer></script>
-<script src="assets/szene.js?v=10" defer></script>
-<script src="assets/signalweg.js?v=10" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=11">
+<script src="assets/book.js?v=11" defer></script>
+<script src="assets/szene.js?v=11" defer></script>
+<script src="assets/signalweg.js?v=11" defer></script>
 </head>
 <body data-station="chip">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -76,6 +76,10 @@
               <rect x="267" y="220" width="2" height="10"/>
               <rect class="sz-gondel" x="255" y="229" width="26" height="20" rx="3"/>
             </g>
+            <g id="sz-mobilmast">
+              <path d="M423 128 L430 72 L437 128 M426 112 H434 M428 96 H432"/>
+              <circle id="sz-mastlicht" cx="430" cy="70" r="5"/>
+            </g>
             <g id="sz-gondelstation">
               <rect class="sz-wand" x="600" y="92" width="92" height="44"/>
               <rect class="sz-tor" x="600" y="98" width="42" height="38"/>
@@ -95,7 +99,8 @@
             </g>
             <path id="sz-funk" class="sz-bahn" pathLength="1" d="M380 230 Q540 150 672 48"/>
             <path id="sz-kabel" class="sz-komet" pathLength="1" d="M672 48 L604 108 L208 240 Q160 244 104 236"/>
-            <path id="sz-mobil" class="sz-bahn" pathLength="1" d="M672 48 Q636 112 556 132"/>
+            <path id="sz-netz" class="sz-komet" pathLength="1" d="M104 216 Q250 150 430 74"/>
+            <path id="sz-mobil" class="sz-bahn" pathLength="1" d="M430 70 Q500 84 550 132"/>
             <g id="sz-wellen"><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/><path d="M6 -10 A12 12 0 0 1 6 10"/></g>
             <circle id="sz-halten" cx="380" cy="230" r="34" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" visibility="hidden" transform="rotate(-90 380 230)"/>
             <g id="sz-gast" transform="translate(380 241) rotate(-13)">
@@ -131,6 +136,7 @@
             <text id="sz-status" x="16" y="32"></text>
             <g class="sz-tag"><rect x="326" y="266" width="122" height="25"/><text x="387" y="284" text-anchor="middle">Verletzte Person</text></g>
             <g class="sz-tag"><rect x="72" y="296" width="60" height="25"/><text x="102" y="314" text-anchor="middle">Server</text></g>
+            <g class="sz-tag"><rect x="388" y="132" width="84" height="25"/><text x="430" y="150" text-anchor="middle">Mobilfunk</text></g>
             <g class="sz-tag"><rect x="588" y="16" width="72" height="25"/><text x="624" y="34" text-anchor="middle">Gateway</text></g>
           </svg>
           <figcaption>Schematische Darstellung mit Beispielort, nicht in Echtzeit.</figcaption>
@@ -187,12 +193,12 @@
               <div class="normal">
                 <h3>Der Server entscheidet</h3>
                 <p>Der Server ist die Zentrale. Er entschlüsselt und prüft das Paket und ordnet die Position einer Piste oder einem Lift zu.</p>
-                <p>Dann legt er den Notruf an und wählt den nächsten freien Mitarbeiter. Über Kabel geht der Notruf zurück zum Gateway, das ihn an den Mitarbeiter funkt. Gateway und App führen nur aus, was der Server vorgibt.</p>
+                <p>Dann legt er den Notruf an und wählt den nächsten freien Mitarbeiter. Über das Internet und das Mobilfunknetz geht der Notruf an dessen App. Gateway und App führen nur aus, was der Server vorgibt.</p>
               </div>
               <div class="ausfall">
                 <h4>Wenn Server oder Netzverbindung ausfallen</h4>
-                <p>Dann kommt kein Notruf an. Der Chip merkt das an der fehlenden Bestätigung und warnt die Person nach 90 Sekunden.</p>
-                <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Das ist heute die größte Schwachstelle. Die Person am Chip braucht kein Internet, die Kette dahinter aber eine Netzverbindung. Ob sie auch ohne Internet laufen muss, ist noch offen.</p>
+                <p>Fällt der Server oder die Verbindung vom Gateway zum Server aus, kommt der Notruf nicht an. Der Chip merkt das an der fehlenden Bestätigung und warnt die Person nach 90 Sekunden.</p>
+                <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Die größte Schwachstelle ist das Internet des Servers: Fällt nur dieses aus, kann der Server dem Chip den Notruf bestätigen, obwohl die App ihn nicht bekommt. Die Person am Chip glaubt dann, dass Hilfe kommt. Wie das gelöst wird, ist noch offen.</p>
               </div>
             </div>
           </article>
@@ -214,7 +220,7 @@
             <div class="schritt-inhalt">
               <div class="normal">
                 <h3>Die Bestätigung kommt zurück</h3>
-                <p>Sobald jemand übernimmt, läuft die Nachricht denselben Weg zurück. Der Server wählt dafür das Gateway, das den Chip zuletzt am besten gehört hat.</p>
+                <p>Sobald jemand übernimmt, meldet die App das über Mobilfunk an den Server. Der schickt die Bestätigung über Kabel zum Gateway, das den Chip zuletzt am besten gehört hat, und von dort per Funk zum Chip.</p>
                 <p>Der Chip vibriert zweimal lang und blinkt rot. Die verletzte Person weiß damit: Hilfe kommt.</p>
               </div>
               <div class="ausfall hinweis">

@@ -142,6 +142,9 @@ tbody tr + tr td { border-top: 1px solid var(--flaeche-hell); }
 .sz-einschub { fill: var(--dunkel); }
 .sz-led { fill: var(--flaeche-hell); }
 .sz-led.an { fill: var(--licht); }
+#sz-mobilmast path { fill: none; stroke: var(--dunst); stroke-width: 2; }
+#sz-mastlicht { fill: var(--flaeche-hell); stroke: var(--dunst); stroke-width: 1.5; }
+#sz-mastlicht.an { fill: var(--licht); }
 #sz-antenne { fill: var(--flaeche-hell); stroke: var(--dunst); stroke-width: 1.5; }
 #sz-antenne.an { fill: var(--licht); }
 .sz-komet { fill: none; stroke: var(--licht); stroke-width: 5; stroke-linecap: round; stroke-dasharray: .14 3; }

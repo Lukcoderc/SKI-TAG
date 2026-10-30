@@ -22,7 +22,7 @@ const sz = (id) => document.getElementById("sz-" + id);
 const anteil = (p, von, bis) => Math.min(Math.max((p - von) / (bis - von), 0), 1);
 const weich = (t) => t * t * (3 - 2 * t);
 const szene = sz("bild");
-const wege = { funk: sz("funk"), kabel: sz("kabel"), mobil: sz("mobil") };
+const wege = { funk: sz("funk"), kabel: sz("kabel"), netz: sz("netz"), mobil: sz("mobil") };
 const leds = [...document.querySelectorAll(".sz-led")];
 
 function setzeMitarbeiter(f, tempo = 0) {
@@ -91,6 +91,7 @@ function grundzustand() {
   sz("bestaetigt").setAttribute("visibility", "hidden");
   sz("telefon").classList.remove("an");
   sz("antenne").classList.remove("an");
+  sz("mastlicht").classList.remove("an");
   sz("schrank").classList.remove("an");
   sz("chip").setAttribute("r", 4);
   sz("zittern").setAttribute("visibility", "hidden");
@@ -120,10 +121,11 @@ const SCHRITTE = {
   server(p) {
     sz("schrank").classList.add("an");
     setzeServer(true, p);
-    setzeKomet(wege.kabel, anteil(p, 0.38, 0.72), true);
+    setzeKomet(wege.netz, anteil(p, 0.38, 0.72));
     setzeWellen(wege.mobil, anteil(p, 0.72, 1));
+    sz("mastlicht").classList.toggle("an", p >= 0.72);
     if (p < 0.38) setzeStatus("Der Server sucht den nächsten Mitarbeiter");
-    else setzeStatus(p < 0.72 ? "Der Server schickt den Notruf zum Gateway" : "Das Gateway funkt zum Mitarbeiter");
+    else setzeStatus(p < 0.72 ? "Der Notruf geht ins Internet" : "Der Mobilfunk bringt ihn zur App");
   },
   app(p) {
     sz("meldung").setAttribute("visibility", "visible");
@@ -134,7 +136,7 @@ const SCHRITTE = {
     const fahrt = anteil(p, 0.06, 0.96);
     setzeMitarbeiter(weich(fahrt), fahrt > 0 && fahrt < 1 ? 1 : 0);
     setzeWellen(wege.mobil, anteil(p, 0, 0.12), true);
-    setzeKomet(wege.kabel, anteil(p, 0.12, 0.26));
+    setzeKomet(wege.netz, anteil(p, 0.12, 0.26), true);
     setzeKomet(wege.kabel, anteil(p, 0.26, 0.4), true);
     setzeWellen(wege.funk, anteil(p, 0.4, 0.55), true);
     if (p >= 0.55 && p < 0.8) {
