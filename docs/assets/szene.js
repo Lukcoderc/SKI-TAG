@@ -115,7 +115,7 @@ const SCHRITTE = {
   },
   empfaenger(p) {
     setzeKomet(wege.kabel, anteil(p, 0.1, 1));
-    setzeStatus("Das Gateway reicht das Paket weiter");
+    setzeStatus("Das Gateway leitet das Paket weiter");
   },
   server(p) {
     sz("schrank").classList.add("an");

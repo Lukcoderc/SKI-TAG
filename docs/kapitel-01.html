@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vom Knopfdruck zur App · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie ein Notruf vom SkiTag-Chip bis in die App der Bergbahn kommt.">
-<link rel="stylesheet" href="assets/book.css?v=6">
-<script src="assets/book.js?v=6" defer></script>
-<script src="assets/szene.js?v=6" defer></script>
-<script src="assets/signalweg.js?v=6" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=8">
+<script src="assets/book.js?v=8" defer></script>
+<script src="assets/szene.js?v=8" defer></script>
+<script src="assets/signalweg.js?v=8" defer></script>
 </head>
 <body data-station="chip">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -50,7 +50,7 @@
 
       <h2 id="signalweg" data-kurz="Der Weg eines Notrufs">Der Weg eines Notrufs</h2>
       <div class="lesen">
-        <p>Ein Notruf läuft über vier Stationen, die du oben am Seil siehst. Starte den Notruf und geh Schritt für Schritt weiter. Bei jeder Station kannst du dir ansehen, was passiert, wenn dort etwas schiefgeht.</p>
+        <p>Ein Notruf läuft in sechs Schritten über die vier Stationen, die du oben am Seil siehst. Drück auf Start und geh Schritt für Schritt weiter. Bei jeder Station kannst du dir ansehen, was passiert, wenn dort etwas schiefgeht.</p>
       </div>
 
       <section class="signalweg" aria-label="Notruf Schritt für Schritt">
@@ -136,7 +136,7 @@
           <figcaption>Schematische Darstellung mit Beispielort, nicht in Echtzeit.</figcaption>
         </figure>
         <div class="bedienung">
-          <button class="knopf knopf-haupt" type="button" data-aktion="naechster">Knopf drücken</button>
+          <button class="knopf knopf-haupt" type="button" data-aktion="naechster">Start: Knopf drücken</button>
           <button class="knopf" type="button" data-aktion="zurueck">Zurück</button>
           <button class="knopf" type="button" data-aktion="ausfall">Was, wenn es hier ausfällt?</button>
         </div>
@@ -167,10 +167,10 @@
               </div>
             </div>
           </article>
-          <article class="schritt" id="schritt-empfaenger" data-kurz="Gateway">
+          <article class="schritt" id="schritt-empfaenger" data-kurz="Das Gateway leitet weiter" data-klein="Gateway">
             <div class="schritt-inhalt">
               <div class="normal">
-                <h3>Das Gateway reicht weiter</h3>
+                <h3>Das Gateway leitet weiter</h3>
                 <p>An den Stationen der Bergbahn stehen die Gateways. Eines hört das Paket und schickt es über Kabel an den Server. Im Test läuft dieser Abschnitt noch über WLAN.</p>
                 <p>Lesen kann es das Paket nicht, denn es ist verschlüsselt. Es gibt nur Bytes weiter. Hören zwei Gateways dasselbe Paket, sortiert der Server das doppelte aus.</p>
               </div>
@@ -182,7 +182,7 @@
               </div>
             </div>
           </article>
-          <article class="schritt" id="schritt-server" data-kurz="Server">
+          <article class="schritt" id="schritt-server" data-kurz="Der Server entscheidet" data-klein="Server">
             <div class="schritt-inhalt">
               <div class="normal">
                 <h3>Der Server entscheidet</h3>
@@ -196,10 +196,10 @@
               </div>
             </div>
           </article>
-          <article class="schritt" id="schritt-app" data-kurz="App">
+          <article class="schritt" id="schritt-app" data-kurz="Der Mitarbeiter wird alarmiert" data-klein="Mitarbeiter">
             <div class="schritt-inhalt">
               <div class="normal">
-                <h3>Die App zeigt den Notruf</h3>
+                <h3>Der Mitarbeiter wird alarmiert</h3>
                 <p>Der Mitarbeiter sieht einen roten Punkt auf der Karte, zum Beispiel: „NOTRUF, Piste 3, 170 m von dir“. Mit einem Tipp übernimmt er den Einsatz.</p>
                 <p>Alarmiert wird nur der nächste Mitarbeiter, nicht alle. Die anderen sehen, dass jemand unterwegs ist.</p>
               </div>
@@ -210,7 +210,7 @@
               </div>
             </div>
           </article>
-          <article class="schritt" id="schritt-rueckweg" data-kurz="Bestätigung" data-frage="Warum kann das dauern?">
+          <article class="schritt" id="schritt-rueckweg" data-kurz="Die Bestätigung kommt zurück" data-klein="Bestätigung" data-frage="Warum kann das dauern?">
             <div class="schritt-inhalt">
               <div class="normal">
                 <h3>Die Bestätigung kommt zurück</h3>

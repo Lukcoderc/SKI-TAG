@@ -25,14 +25,11 @@ const tabs = schritte.map((schritt, i) => {
   b.id = "tab-" + schritt.id;
   b.setAttribute("role", "tab");
   b.setAttribute("aria-controls", schritt.id);
-  const lang = document.createElement("span");
-  lang.className = "tab-lang";
-  lang.textContent = schritt.dataset.kurz;
-  const klein = document.createElement("span");
-  klein.className = "tab-klein";
-  klein.textContent = schritt.dataset.klein || schritt.dataset.kurz;
-  b.append(lang, klein);
-  b.setAttribute("aria-label", schritt.dataset.kurz);
+  const name = document.createElement("span");
+  name.className = "tab-name";
+  name.textContent = " " + schritt.dataset.klein;
+  b.append(String(i + 1), name);
+  b.setAttribute("aria-label", `Schritt ${i + 1}: ${schritt.dataset.kurz}`);
   b.addEventListener("click", () => zeige(i, { merken: true }));
   li.append(b);
   wahl.append(li);
@@ -43,10 +40,12 @@ const tabs = schritte.map((schritt, i) => {
 
 function beschrifte() {
   const letzter = aktiv === schritte.length - 1;
-  if (!gestartet) naechster.textContent = "Knopf drücken";
+  if (!gestartet) naechster.textContent = "Start: Knopf drücken";
   else if (letzter) naechster.textContent = "Nochmal von vorn";
-  else naechster.textContent = "Weiter: " + schritte[aktiv + 1].dataset.kurz;
-  zurueck.disabled = !gestartet || aktiv === 0;
+  else naechster.textContent = `Weiter zu Schritt ${aktiv + 2}: ${schritte[aktiv + 1].dataset.kurz}`;
+  const zurueckMoeglich = gestartet && aktiv > 0;
+  zurueck.disabled = !zurueckMoeglich;
+  zurueck.textContent = zurueckMoeglich ? `Zurück zu Schritt ${aktiv}` : "Zurück";
 }
 
 // Die Szene läuft einmal durch und bleibt dann am Ende des Schritts stehen.
