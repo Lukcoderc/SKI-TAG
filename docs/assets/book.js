@@ -17,6 +17,7 @@ const KAPITEL = [
   { nr: 15, titel: "Sicherheit und Datenschutz" },
   { nr: 16, titel: "Testplan Februar 2027" },
   { nr: 17, titel: "Ausblick Serie" },
+  { nr: 18, titel: "Testen in der Schule", datei: "kapitel-18.html" },
   { nr: "A", titel: "Anhang" },
 ];
 

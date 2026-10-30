@@ -307,6 +307,10 @@ A Twilight Plane panel with a labelled range input, a Deep Twilight drawing, fou
 
 A Twilight Plane panel: a switch between packets, a wrapping row of field buttons grown by byte size, and one explanation area. Readable fields sit on Deep Twilight, encrypted ones on the Upper Plane, the selected one turns amber. Without JavaScript a table stands in.
 
+### Guide
+
+A how-to chapter uses numbered stages as sections, command blocks on the Twilight Plane and a Checklist panel whose ticks stay in the browser. Commands are shown only when a source confirms them.
+
 ### Status Panels
 
 - **Style:** a stack of square Twilight Plane panels with 18px by 20px padding, 6px apart, in the fixed order Fest, Entschieden, Geschätzt, Offen.

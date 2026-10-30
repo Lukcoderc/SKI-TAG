@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testen in der Schule · SkiTag Netzwerk-Buch</title>
+<meta name="description" content="Anleitung: SkiTag in der Schule testen und simulieren, vom Laptop bis zum echten Funk.">
+<link rel="stylesheet" href="assets/book.css?v=33">
+<script src="assets/book.js?v=33" defer></script>
+<script src="assets/checkliste.js?v=33" defer></script>
+</head>
+<body data-station="knopf">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
+  <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
+  <symbol id="mark-geschaetzt" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 3.2"/></symbol>
+  <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+</svg>
+
+<header class="seil">
+  <a class="seil-marke" href="kapitel-01.html">SkiTag Netzwerk-Buch</a>
+</header>
+
+<div class="buch">
+  <nav class="kapitel-nav" aria-label="Kapitel">
+    <details open>
+      <summary>Inhalt</summary>
+      <ol></ol>
+      <div class="seite-mobil">
+        <p>Auf dieser Seite</p>
+        <ol></ol>
+      </div>
+    </details>
+  </nav>
+
+  <main>
+    <details class="seite-klein">
+      <summary>Auf dieser Seite</summary>
+      <ol></ol>
+    </details>
+    <article>
+      <h1>Testen in der Schule</h1>
+      <p class="stand">Kapitel 18 · Stand 30. Oktober 2026</p>
+
+      <div class="lesen">
+        <p class="einstieg">Bevor etwas auf den Berg kommt, soll es im Klassenzimmer laufen. Diese Anleitung führt in vier Stufen vom Laptop bis zum echten Funk auf dem Schulgelände. Jede Stufe prüft mehr vom echten System und braucht mehr Hardware.</p>
+        <p>Für die ersten zwei Stufen braucht es keine Funk-Hardware. Sender und Fahrten übernimmt dort ein Simulator.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Diese Anleitung beruht auf der Übergabe. Das Paket <code>skitag-test.zip</code> und der SkiTag Test-Bauplan lagen beim Schreiben nicht vor, die Befehle sind also noch nicht ausprobiert. Die Schritt-für-Schritt-Befehle für Server und Gateway stehen im Bauplan in den Kapiteln „Die 2 Empfänger“ und „Server und App“. Bei einem Widerspruch gilt der Bauplan.</p>
+
+        <h2 id="stufen" data-kurz="Die vier Stufen">Die vier Stufen</h2>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Stufe</th><th scope="col">Chip</th><th scope="col">Gateway</th><th scope="col">Server</th><th scope="col">Das zeigt sie</th></tr></thead>
+          <tbody>
+            <tr><td>1. Selbsttest</td><td data-spalte="Chip">keiner</td><td data-spalte="Gateway">keines</td><td data-spalte="Server">Laptop</td><td data-spalte="Zeigt">Die Server-Logik rechnet richtig.</td></tr>
+            <tr><td>2. Simulator</td><td data-spalte="Chip">5 simulierte</td><td data-spalte="Gateway">keines</td><td data-spalte="Server">läuft</td><td data-spalte="Zeigt">Notruf und Gruppenruf gehen bis in Ausgabe-Seite und App.</td></tr>
+            <tr><td>3. Funk im Zimmer</td><td data-spalte="Chip">Muster-Chip</td><td data-spalte="Gateway">1 Heltec V3</td><td data-spalte="Server">läuft</td><td data-spalte="Zeigt">Echter Funk kommt über das Gateway im Server an.</td></tr>
+            <tr><td>4. Schulgelände</td><td data-spalte="Chip">Muster-Chip</td><td data-spalte="Gateway">1 bis 2 Heltec V3</td><td data-spalte="Server">läuft</td><td data-spalte="Zeigt">Reichweite und Ausfälle unter echten Bedingungen.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <h2 id="material" data-kurz="Was man braucht">Was man braucht</h2>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Teil</th><th scope="col">Ab Stufe</th><th scope="col">Hinweis</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop mit Node.js 22</td><td data-spalte="Ab Stufe">1</td><td data-spalte="Hinweis">Der Server braucht keine npm-Pakete.</td></tr>
+            <tr><td>Paket <code>skitag-test.zip</code></td><td data-spalte="Ab Stufe">1</td><td data-spalte="Hinweis">Kommt von Maximilian.</td></tr>
+            <tr><td>Docker</td><td data-spalte="Ab Stufe">2</td><td data-spalte="Hinweis">Damit startet der Server samt Caddy für HTTPS.</td></tr>
+            <tr><td>Heltec WiFi LoRa 32 V3, 868 MHz</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Hinweis">39,95 € je Stück. Nicht V4, die Software ist für V3.</td></tr>
+            <tr><td>Antenne 868 MHz mit Adapterkabel</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Hinweis">8 € je Stück. Das Board nie ohne Antenne senden lassen.</td></tr>
+            <tr><td>USB-C-Netzteil 5 V, 2 A</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Hinweis">8 € je Stück. Zum Flashen zusätzlich ein Datenkabel.</td></tr>
+            <tr><td>Muster-Chip</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Hinweis">Von Maximilian.</td></tr>
+            <tr><td>Handy mit Hotspot</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Hinweis">Falls das WLAN der Schule nicht geht, siehe Stolpersteine.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Ein Gateway kostet damit rund 56 €, zwei Gateways rund 112 €. Für Stufe 3 reicht eines.</p>
+
+        <h2 id="vorbereitung" data-kurz="Vorbereiten">Vorbereiten</h2>
+        <p>Entpacke das Paket. Im Ordner <code>server</code> liegt alles für Stufe 1 und 2, im Ordner <code>firmware/skitag_empfaenger</code> die Software fürs Gateway. Prüfe zuerst die Node-Version:</p>
+        <pre class="befehl"><code>node --version</code></pre>
+        <p>Erzeuge dann eigene Schlüssel und Passwörter, denn der Beispiel-Schlüssel ist bekannt:</p>
+        <pre class="befehl"><code>node tools/neuer-schluessel.js</code></pre>
+        <p>Trag die Werte in <code>config.json</code> ein: Schlüssel, Gateway-Passwort, Passwort der Ausgabe-Seite, Mitarbeiter und die Anzahl Chips (5). Für echten Funk muss derselbe Schlüssel auch im Chip stehen, das macht Maximilian. Schlüssel und Passwörter gehören nie in ein Repo.</p>
+
+        <h2 id="stufe1" data-kurz="Stufe 1: Selbsttest">Stufe 1: Selbsttest</h2>
+        <p>Wechsle in den Ordner <code>server</code> und starte den Test:</p>
+        <pre class="befehl"><code>cd server
+node tools/test.js</code></pre>
+        <p><strong>Erwartet:</strong> 58 von 58 Prüfungen bestehen. Schlägt etwas fehl, lohnt sich alles Weitere noch nicht.</p>
+
+        <h2 id="stufe2" data-kurz="Stufe 2: Simulator">Stufe 2: Simulator</h2>
+        <p>Lege eine Datei <code>.env</code> mit <code>DOMAIN</code> und <code>EMAIL</code> an und starte den Server:</p>
+        <pre class="befehl"><code>docker compose up -d --build</code></pre>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Caddy holt für diese Domain ein HTTPS-Zertifikat. Ob der Server auf einem Laptop ohne echte Domain läuft, ist nicht geprüft, das klärt der Bauplan. Starte dann den Simulator. Er spielt 5 Chips, die durchs Skigebiet fahren:</p>
+        <pre class="befehl"><code>node tools/simulator.js &lt;Server-Adresse&gt; 5</code></pre>
+        <p>Bedient wird er über die Tastatur:</p>
+      </div>
+      <div class="tabelle">
+        <table>
+          <thead><tr><th scope="col">Taste</th><th scope="col">Was passiert</th><th scope="col">Das sollte man sehen</th></tr></thead>
+          <tbody>
+            <tr><td>1 bis 5</td><td>Der Chip mit dieser Nummer ruft seine Gruppe.</td><td>Die App zeigt den Hinweis, die anderen Chips der Gruppe werden gerufen.</td></tr>
+            <tr><td>s</td><td>Chip 3 löst einen Notruf aus.</td><td>Der Notruf erscheint in der App der Bergbahn. Ohne Annahme geht er nach 60 Sekunden an den nächsten Mitarbeiter.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Öffne dazu die Ausgabe-Seite <code>/ausgabe</code> mit ihrem Passwort. Dort kannst du Chips ausgeben, Gruppen bilden und Akku, GPS und Funk je Chip ansehen. Die App spricht mit dem Server, sobald die geänderte <code>api.js</code> aus dem Ordner <code>app-aenderung</code> eingebaut ist. Das macht Tobias.</p>
+        <p>So lässt sich der ganze Weg aus <a href="kapitel-01.html#signalweg">Kapitel 1</a> im Klassenzimmer vorführen, ohne ein einziges Funkpaket.</p>
+
+        <h2 id="stufe3" data-kurz="Stufe 3: Funk im Zimmer">Stufe 3: Funk im Zimmer</h2>
+        <p>Jetzt kommt echte Hardware dazu. So wird das Gateway eingerichtet:</p>
+        <ol>
+          <li>Installiere in der Arduino-Umgebung den ESP32-Core 3.0.7 und die Bibliotheken RadioLib, ArduinoJson und U8g2.</li>
+          <li>Öffne <code>firmware/skitag_empfaenger</code> und wähle das Board „Heltec WiFi LoRa 32(V3)“.</li>
+          <li>Trag in <code>config.h</code> den Namen (E1), bis zu 3 WLANs, die Server-Adresse und das Gateway-Passwort ein. Die Funk-Einstellungen müssen exakt wie im Chip sein.</li>
+          <li>Schraub die Antenne an und spiel die Software auf.</li>
+          <li>Prüf den Bildschirm: Er zeigt WLAN-Status, ob der Server erreichbar ist, den Paketzähler und den zuletzt gehörten Chip.</li>
+        </ol>
+        <p>Schalte dann den Muster-Chip ein und leg ihn ans Fenster, damit er GPS bekommt. Der Paketzähler am Gateway sollte alle 20 Sekunden steigen, und die Ausgabe-Seite zeigt den Chip. Teste anschließend Gruppenruf und Notruf am echten Knopf: Bei Annahme des Notrufs in der App muss der Chip zweimal lang vibrieren.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg><strong>Wichtig:</strong> Das Gateway spricht HTTPS und prüft ein Let's-Encrypt-Zertifikat. Es braucht also vermutlich einen Server unter einer echten Domain, die von außen erreichbar ist. Auf einem Laptop im Schulnetz geht das meist nicht. Dieser Punkt muss vor Stufe 3 geklärt sein: Entweder läuft der Server für den Test auf einem erreichbaren Rechner, oder die Gateway-Software wird für den Schultest angepasst. Ob das Paket dafür eine Einstellung hat, ist nicht geprüft.</p>
+
+        <h2 id="stufe4" data-kurz="Stufe 4: Schulgelände">Stufe 4: Schulgelände</h2>
+        <p>Stell das Gateway möglichst hoch ans Fenster, die Antenne senkrecht. Geh dann mit dem Chip in der Jacke über das Gelände.</p>
+        <ul>
+          <li><strong>Reichweite:</strong> Lade auf der Ausgabe-Seite das Funk-Protokoll herunter und schau dir die Signalstärke an. Gut ist sie ab −115 dBm, knapp ab −125 dBm.</li>
+          <li><strong>Ausfall:</strong> Schalte Gateway und WLAN absichtlich ab und schau, was der Chip anzeigt. Nach 90 Sekunden ohne Bestätigung muss er warnen. Die Ausgabe-Seite zeigt das Gateway nach 30 Sekunden als „weg“.</li>
+          <li><strong>Zwei Gateways:</strong> Hören beide denselben Chip, darf der Notruf nur einmal ankommen.</li>
+          <li><strong>Internet weg:</strong> Prüf die Schwachstelle aus Kapitel 1: Bekommt der Chip eine Bestätigung, obwohl die App den Notruf nicht hat?</li>
+        </ul>
+        <p>Ein Schulgebäude ist kein Berg. Das Ergebnis sagt etwas darüber, ob alles zusammenspielt, aber wenig über die Reichweite im Gelände. Die misst Kapitel 9.</p>
+
+        <h2 id="stolpersteine" data-kurz="Stolpersteine">Stolpersteine</h2>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Problem</th><th scope="col">Mögliche Ursache</th><th scope="col">Was hilft</th></tr></thead>
+          <tbody>
+            <tr><td>Gateway kommt nicht ins WLAN</td><td data-spalte="Ursache">Schulnetze haben oft Anmeldeseiten oder sperren Geräte.</td><td data-spalte="Lösung">Handy-Hotspot als zweites WLAN in <code>config.h</code> eintragen.</td></tr>
+            <tr><td>Bildschirm zeigt Server-Fehler</td><td data-spalte="Ursache">Adresse, Passwort oder Zertifikat stimmen nicht.</td><td data-spalte="Lösung">Beides mit <code>config.json</code> vergleichen, Punkt „Wichtig“ bei Stufe 3 beachten.</td></tr>
+            <tr><td>Paketzähler bleibt stehen</td><td data-spalte="Ursache">Funk-Einstellungen oder Sync-Word sind ungleich.</td><td data-spalte="Lösung">Mit <a href="kapitel-04.html#einstellungen">Kapitel 4</a> vergleichen.</td></tr>
+            <tr><td>Chip hat keine Position</td><td data-spalte="Ursache">Drinnen gibt es kaum GPS.</td><td data-spalte="Lösung">Ans Fenster legen oder ins Freie gehen.</td></tr>
+            <tr><td>Server verwirft alle Pakete</td><td data-spalte="Ursache">Nach neuem Aufspielen beginnt der Zähler bei 0.</td><td data-spalte="Lösung">Mit Maximilian klären, siehe <a href="kapitel-04.html#grenzen">Kapitel 4</a>.</td></tr>
+            <tr><td>Heltec-Software läuft nicht</td><td data-spalte="Ursache">Falsches Board, zum Beispiel V4.</td><td data-spalte="Lösung">V3 verwenden, Board-Einstellung prüfen.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <h2 id="checkliste" data-kurz="Checkliste">Checkliste</h2>
+        <p>Hak ab, was erledigt ist. Der Stand bleibt in diesem Browser gespeichert.</p>
+      </div>
+      <section class="rechner checkliste-feld" aria-label="Checkliste für den Schultest">
+        <p class="checkliste-stand" id="liste-stand"></p>
+        <h3>Vor dem Test</h3>
+        <ul class="checkliste">
+          <li><label><input type="checkbox" id="c1">Paket <code>skitag-test.zip</code> und Test-Bauplan von Maximilian bekommen</label></li>
+          <li><label><input type="checkbox" id="c2">Mit der Schule geklärt: Raum, Strom, WLAN und ob wir funken dürfen</label></li>
+          <li><label><input type="checkbox" id="c3">Node.js 22 und Docker auf dem Laptop</label></li>
+          <li><label><input type="checkbox" id="c4">Neue Schlüssel und Passwörter erzeugt</label></li>
+        </ul>
+        <h3>Stufe 1 und 2</h3>
+        <ul class="checkliste">
+          <li><label><input type="checkbox" id="c5">Selbsttest: 58 von 58</label></li>
+          <li><label><input type="checkbox" id="c6">Server läuft, Ausgabe-Seite geht auf</label></li>
+          <li><label><input type="checkbox" id="c7">Simulator: 5 Chips fahren</label></li>
+          <li><label><input type="checkbox" id="c8">Gruppenruf mit Taste 1 bis 5 kommt an</label></li>
+          <li><label><input type="checkbox" id="c9">Notruf mit Taste s kommt in der App an</label></li>
+        </ul>
+        <h3>Stufe 3 und 4</h3>
+        <ul class="checkliste">
+          <li><label><input type="checkbox" id="c10">HTTPS-Frage für das Gateway geklärt</label></li>
+          <li><label><input type="checkbox" id="c11">Gateway geflasht, Bildschirm zeigt Server ok</label></li>
+          <li><label><input type="checkbox" id="c12">Muster-Chip erscheint auf der Ausgabe-Seite</label></li>
+          <li><label><input type="checkbox" id="c13">Notruf am echten Knopf, Chip vibriert bei Annahme</label></li>
+          <li><label><input type="checkbox" id="c14">Reichweite gemessen, Funk-Protokoll gespeichert</label></li>
+          <li><label><input type="checkbox" id="c15">Ausfall-Test gemacht</label></li>
+        </ul>
+        <h3>Danach</h3>
+        <ul class="checkliste">
+          <li><label><input type="checkbox" id="c16">Daten gelöscht: <code>daten/state.json</code> und <code>daten/log-*.ndjson</code></label></li>
+          <li><label><input type="checkbox" id="c17">Ergebnisse ins Team gegeben</label></li>
+        </ul>
+        <button class="knopf" type="button" id="liste-reset">Liste zurücksetzen</button>
+      </section>
+
+      <div class="lesen">
+        <p class="nach-tabelle">Der Server speichert Positionen und ein Funk-Protokoll. Löscht beides nach dem Test, und holt euch das Einverständnis aller, die einen Chip tragen. Eine Vorlage dafür steht im Bauplan.</p>
+
+        <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
+        <ul class="quellen">
+          <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
+          <li>SkiTag Test-Bauplan, liegt dem Team vor, für dieses Kapitel nicht eingesehen</li>
+        </ul>
+      </div>
+
+      <div class="blaettern">
+        <a href="kapitel-06.html">Zurück: Kapitel 6, Rückkanal zum Chip</a>
+        <span></span>
+      </div>
+    </article>
+  </main>
+
+  <nav class="seiten-nav" aria-label="Auf dieser Seite">
+    <h2>Auf dieser Seite</h2>
+    <ol></ol>
+  </nav>
+</div>
+</body>
+</html>

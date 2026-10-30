@@ -198,7 +198,7 @@ tbody tr + tr td { border-top: 1px solid var(--flaeche-hell); }
 .js .rechner { display: block; }
 
 /* Bauplan und Zeitfenster */
-code { font-size: .92em; color: var(--schnee); background: var(--flaeche-hell); padding: 1px 5px; border-radius: 3px; }
+code { font-size: .92em; color: var(--schnee); background: var(--flaeche-hell); padding: 1px 5px; border-radius: 3px; overflow-wrap: anywhere; }
 .bauplan { margin-top: 18px; padding: 20px 24px; background: var(--flaeche); }
 .bauplan-wahl { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
 .bauplan-wahl .knopf { background: var(--flaeche-hell); }
@@ -240,6 +240,17 @@ code { font-size: .92em; color: var(--schnee); background: var(--flaeche-hell); 
 .warte-band { position: relative; height: 34px; margin-top: 14px; background: var(--dunkel); }
 #warte-weg { position: absolute; top: 0; bottom: 0; background: var(--flaeche-hell); }
 #warte-paket { position: absolute; top: 0; bottom: 0; width: 6px; background: var(--licht); }
+
+/* Anleitung */
+.befehl { margin: 12px 0 14px; padding: 12px 14px; overflow-x: auto; background: var(--flaeche); }
+.befehl code { padding: 0; background: none; font-size: 16px; line-height: 1.5; overflow-wrap: normal; }
+main ol { padding-left: 24px; }
+.checkliste-feld h3 { margin-top: 18px; font-size: 22px; }
+.checkliste-stand { font: 700 20px/1.2 var(--kopf); color: var(--licht); }
+.checkliste { list-style: none; padding: 0; margin-top: 6px; }
+.checkliste label { display: flex; min-width: 0; align-items: flex-start; gap: 10px; padding: 5px 0; cursor: pointer; }
+.checkliste input { flex: none; width: 20px; height: 20px; margin-top: 4px; accent-color: var(--licht); }
+.checkliste-feld > .knopf { display: inline-block; margin-top: 16px; background: var(--flaeche-hell); }
 
 /* Ergebnis und Quellen */
 .urteil { margin-top: 18px; padding: 18px 20px; background: var(--flaeche); }
