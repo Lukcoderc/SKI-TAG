@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Der Server · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was der SkiTag-Server macht, was er bei KitzSki braucht und wie er erreichbar wird.">
-<link rel="stylesheet" href="assets/book.css?v=36">
-<script src="assets/book.js?v=36" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=37">
+<script src="assets/book.js?v=37" defer></script>
 </head>
 <body data-station="server">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -17,7 +17,7 @@
 </svg>
 
 <header class="seil">
-  <a class="seil-marke" href="kapitel-01.html">SkiTag Netzwerk-Buch</a>
+  <a class="seil-marke" href="index.html">SkiTag Netzwerk-Buch</a>
 </header>
 
 <div class="buch">
@@ -81,6 +81,16 @@
           </tbody>
         </table>
       </div>
+      <div class="lesen">
+        <p class="nach-tabelle">So könnte das Netz im Betrieb aussehen:</p>
+      </div>
+      <figure class="schema">
+        <div class="schema-rahmen" tabindex="0" role="group" aria-label="Netzwerkstruktur: Die Gateways hängen an WLAN oder dem Netz der Bergbahn, das zum Server bei der KitzSki-IT führt. Dort stehen Caddy, der Server und seine Daten. Über Port 443 erreichen die Apps den Server aus dem Internet, Let's Encrypt stellt das Zertifikat aus.">
+          <svg viewBox="0 0 960 470" role="img" aria-label="Netzwerkstruktur: Die Gateways hängen an WLAN oder dem Netz der Bergbahn, das zum Server bei der KitzSki-IT führt. Dort stehen Caddy, der Server und seine Daten. Über Port 443 erreichen die Apps den Server aus dem Internet, Let's Encrypt stellt das Zertifikat aus." data-schema="netzwerk"><defs><marker id="sb-spitze" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze" d="M0 0 10 5 0 10Z"/></marker><marker id="sb-spitze-licht" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze-licht" d="M0 0 10 5 0 10Z"/></marker></defs><rect class="sb-zone" x="16" y="16" width="216" height="438"/><text class="sb-zone-name" x="34" y="46">Stationen</text><rect class="sb-zone" x="248" y="16" width="200" height="438"/><text class="sb-zone-name" x="266" y="46">Netz</text><rect class="sb-zone" x="464" y="16" width="240" height="438"/><text class="sb-zone-name" x="482" y="46">KitzSki-IT</text><rect class="sb-zone" x="720" y="16" width="224" height="438"/><text class="sb-zone-name" x="738" y="46">Internet</text><rect class="sb-box" x="34" y="74" width="180" height="80"/><text class="sb-titel" x="48" y="109.5">Gateway E1</text><text class="sb-text" x="48" y="133.5">Bergstation</text><rect class="sb-box" x="34" y="298" width="180" height="80"/><text class="sb-titel" x="48" y="333.5">Gateway E2</text><text class="sb-text" x="48" y="357.5">Bergstation</text><path class="sb-linie sb-pfeil" d="M214 114H268V200"/><path class="sb-linie sb-pfeil" d="M214 338H268V272"/><rect class="sb-box" x="266" y="200" width="164" height="72"/><text class="sb-titel" x="280" y="243">WLAN oder Kabel</text><use class="sb-offen" href="#mark-offen" x="404" y="208" width="16" height="16"/><text class="sb-text" x="284" y="304">Im Test WLAN.</text><text class="sb-text" x="284" y="328">Für den Betrieb</text><text class="sb-text" x="284" y="352">mit KitzSki zu klären.</text><path class="sb-linie sb-pfeil" d="M430 236H482"/><rect class="sb-box" x="482" y="200" width="204" height="72"/><text class="sb-titel" x="496" y="231.5">Caddy</text><text class="sb-text" x="496" y="255.5">HTTPS, Zertifikat</text><path class="sb-linie sb-pfeil sb-beide" d="M584 200V154"/><rect class="sb-box" x="482" y="74" width="204" height="80"/><text class="sb-titel" x="496" y="109.5">Server</text><text class="sb-text" x="496" y="133.5">Node.js in Docker</text><path class="sb-linie sb-pfeil sb-beide" d="M584 272V318"/><rect class="sb-box" x="482" y="318" width="204" height="80"/><text class="sb-titel" x="496" y="353.5">Daten</text><text class="sb-text" x="496" y="377.5">state.json, Funk-Protokoll</text><path class="sb-linie sb-pfeil sb-beide" d="M686 236H738"/><text class="sb-titel" x="692" y="184">Port 443</text><use class="sb-offen" href="#mark-offen" x="766" y="169" width="16" height="16"/><rect class="sb-box" x="738" y="200" width="188" height="72"/><text class="sb-titel" x="752" y="243">Internet</text><path class="sb-linie sb-pfeil sb-beide" d="M832 200V154"/><rect class="sb-box" x="738" y="74" width="188" height="80"/><text class="sb-titel" x="752" y="109.5">Apps</text><text class="sb-text" x="752" y="133.5">Über Mobilfunk</text><path class="sb-linie sb-pfeil sb-gestrichelt" d="M832 272V318"/><rect class="sb-box" x="738" y="318" width="188" height="80"/><text class="sb-titel" x="752" y="353.5">Let's Encrypt</text><text class="sb-text" x="752" y="377.5">Prüft die Domain</text></svg>
+        </div>
+        <figcaption>Vorschlag für den Betrieb. Die Freigabe von Port 443 und das Netz zu den Stationen sind mit der IT noch nicht geklärt.<span class="schema-hinweis"> Zum Ansehen seitlich wischen.</span></figcaption>
+      </figure>
+
       <div class="lesen">
         <h2 id="erreichbar" data-kurz="Wie er erreichbar wird">Wie er erreichbar wird</h2>
         <p>Die Domain braucht ein gültiges Zertifikat, denn das Gateway prüft es. DuckDNS war für einen Cloud-Server gedacht. Für den Betrieb empfehlen wir eine eigene Domain und diesen Aufbau:</p>

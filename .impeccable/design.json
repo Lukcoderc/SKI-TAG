@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-30T15:39:06.601Z",
+  "generatedAt": "2026-11-01T17:05:40.567Z",
   "title": "Design System: SkiTag Netzwerk-Buch",
   "extensions": {
     "colorMeta": {
@@ -216,6 +216,10 @@
     ],
     "breakpoints": [
       {
+        "name": "rope-numbers",
+        "value": "1280px"
+      },
+      {
         "name": "page-contents-fold",
         "value": "1180px"
       },
@@ -263,7 +267,7 @@
       "kind": "custom",
       "refersTo": "rope-band",
       "description": "The rope with stations and the cabin at the current station; the third station here shows the disturbed state.",
-      "html": "<div class=\"ds-seil\"><svg viewBox=\"0 0 1000 100\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M70 66 Q215 71 360 57\"/><path d=\"M360 57 Q500 62 640 48\"/><path class=\"ds-aus\" d=\"M640 48 Q785 53 930 39\"/></svg><a class=\"ds-station ds-jetzt\" style=\"left:7%;top:66%\" href=\"#\">Chip</a><a class=\"ds-station\" style=\"left:36%;top:57%\" href=\"#\">Empfänger</a><a class=\"ds-station ds-gestoert\" style=\"left:64%;top:48%\" href=\"#\">Server</a><a class=\"ds-station\" style=\"left:93%;top:39%\" href=\"#\">App</a><span class=\"ds-gondel\" style=\"left:7%;top:66%\"></span></div>",
+      "html": "<div class=\"ds-seil\"><svg viewBox=\"0 0 1000 100\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M60 68 Q137.5 73 215 62\"/><path d=\"M215 62 Q292.5 67 370 56\"/><path class=\"ds-aus\" d=\"M370 56 Q450 61 530 50\"/><path class=\"ds-aus\" d=\"M530 50 Q615 55 700 44\"/><path class=\"ds-aus\" d=\"M700 44 Q820 49 940 38\"/></svg><a class=\"ds-station ds-jetzt\" style=\"left:6%;top:68%\" href=\"#\" aria-label=\"Schritt 1: Knopf drücken\">1</a><a class=\"ds-station\" style=\"left:21.5%;top:62%\" href=\"#\" aria-label=\"Schritt 2: Chip sendet\">2</a><a class=\"ds-station ds-gestoert\" style=\"left:37%;top:56%\" href=\"#\" aria-label=\"Schritt 3: Gateway leitet weiter\">3</a><a class=\"ds-station\" style=\"left:53%;top:50%\" href=\"#\" aria-label=\"Schritt 4: Server entscheidet\">4</a><a class=\"ds-station\" style=\"left:70%;top:44%\" href=\"#\" aria-label=\"Schritt 5: Mitarbeiter wird alarmiert\">5</a><a class=\"ds-station\" style=\"left:94%;top:38%\" href=\"#\" aria-label=\"Schritt 6: Bestätigung kommt zurück\">6</a><span class=\"ds-gondel\" style=\"left:6%;top:68%\"></span></div>",
       "css": ".ds-seil{position:relative;height:112px;background:var(--flaeche);} .ds-seil svg{position:absolute;inset:0;width:100%;height:100%;} .ds-seil path{fill:none;stroke:var(--dunst);stroke-width:2;vector-effect:non-scaling-stroke;} .ds-seil path.ds-aus{stroke-dasharray:3 7;opacity:.55;} .ds-station{position:absolute;transform:translate(-50%,calc(-100% + 9px));display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--schnee);text-decoration:none;font:500 18px/1.2 var(--kopf);} .ds-station::after{content:\"\";width:18px;height:18px;border-radius:50%;background:var(--flaeche);border:2px solid var(--schnee);} .ds-station:hover::after{border-color:var(--licht);} .ds-station:focus-visible{outline:2px solid var(--licht);outline-offset:3px;} .ds-jetzt{color:var(--licht);font-weight:700;} .ds-jetzt::after{border-color:var(--licht);} .ds-gestoert{color:var(--notruf);} .ds-gestoert::after{border-color:var(--notruf);border-width:3px;border-radius:0;transform:rotate(45deg) scale(.9);} .ds-gondel{position:absolute;width:36px;height:22px;margin:9px 0 0 -18px;border-radius:3px 3px 5px 5px;background:var(--licht);box-shadow:inset 0 0 0 3px var(--licht),inset 0 -7px 0 3px var(--licht),inset 0 0 0 20px var(--flaeche);} .ds-gondel::before{content:\"\";position:absolute;left:17px;top:-9px;width:2px;height:10px;background:var(--licht);}"
     },
     {
@@ -271,7 +275,7 @@
       "kind": "card",
       "refersTo": "status-panel",
       "description": "Certainty told by form, in the fixed order Fest, Entschieden, Geschätzt, Offen.",
-      "html": "<div class=\"ds-status\"><div><h3><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"7\" fill=\"currentColor\"/></svg>Fest</h3><p>Die Funkstrecke läuft über LoRa.</p></div><div><h3><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><circle cx=\"8\" cy=\"8\" r=\"3\" fill=\"currentColor\"/></svg>Entschieden</h3><p>Der Server steht vor Ort.</p></div><div><h3><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-dasharray=\"6 3.2\"/></svg>Geschätzt</h3><p>Die Reichweite.</p></div><div class=\"ds-offen\"><h3><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M8 1.5 14.5 8 8 14.5 1.5 8Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/></svg>Offen</h3><p>Wie viele Empfänger braucht es?</p></div></div>",
+      "html": "<div class=\"ds-status\"><div><h3><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"7\" fill=\"currentColor\"/></svg>Fest</h3><p>Die Funkstrecke läuft über LoRa.</p></div><div><h3><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><circle cx=\"8\" cy=\"8\" r=\"3\" fill=\"currentColor\"/></svg>Entschieden</h3><p>Der Server steht vor Ort.</p></div><div><h3><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-dasharray=\"6 3.2\"/></svg>Geschätzt</h3><p>Die Reichweite.</p></div><div class=\"ds-offen\"><h3><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M8 1.5 14.5 8 8 14.5 1.5 8Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/></svg>Offen</h3><p>Wie viele Gateways braucht es?</p></div></div>",
       "css": ".ds-status{display:grid;gap:6px;color:var(--schnee);font:400 18px/1.65 var(--text);} .ds-status>div{background:var(--flaeche);padding:18px 20px;} .ds-status h3{display:flex;align-items:center;gap:10px;margin:0 0 6px;font:700 22px/1.2 var(--kopf);} .ds-status p{margin:0;} .ds-mark{flex:none;width:20px;height:20px;} .ds-offen h3{color:var(--notruf);}"
     },
     {
@@ -295,6 +299,21 @@
       "description": "Amber inline link with a thin underline that thickens on hover.",
       "html": "<a class=\"ds-link\" href=\"#\">Zum Kapitel</a>",
       "css": ".ds-link{color:var(--licht);text-underline-offset:3px;text-decoration-thickness:1px;font:400 18px/1.65 var(--text);} .ds-link:hover{text-decoration-thickness:2px;} .ds-link:focus-visible{outline:2px solid var(--licht);outline-offset:3px;border-radius:2px;}"
+    },
+    {
+      "name": "Contents Row",
+      "kind": "nav",
+      "refersTo": "table-cell",
+      "description": "One chapter on the start page: number, title link, one sentence and the status mark that prevails. Rows, not cards.",
+      "html": "<ol class=\"ds-inhalt\"><li><span class=\"ds-nr\">10</span><div><a href=\"#\">Standortplanung KitzSki</a><p>Wie viele Gateways das Gebiet braucht, mit Karte der Abdeckung.</p></div><span class=\"ds-stand\">Geschätzt</span></li><li><span class=\"ds-nr\">11</span><div><a href=\"#\">Strom und Netzanbindung</a><p>Fenster, Strom, Weg zum Server und Blitzschutz.</p></div><span class=\"ds-stand ds-offen\">Offen</span></li></ol>",
+      "css": ".ds-inhalt{list-style:none;padding:0;background:var(--flaeche);color:var(--schnee);} .ds-inhalt li{display:grid;grid-template-columns:34px minmax(0,1fr) 124px;gap:14px;padding:11px 14px;} .ds-inhalt li+li{border-top:1px solid var(--flaeche-hell);} .ds-nr{font:700 20px/1.2 var(--kopf);color:var(--dunst);font-variant-numeric:tabular-nums;} .ds-inhalt a{font:700 20px/1.2 var(--kopf);color:var(--licht);text-underline-offset:3px;text-decoration-thickness:1px;} .ds-inhalt a:hover{text-decoration-thickness:2px;} .ds-inhalt a:focus-visible{outline:2px solid var(--licht);outline-offset:3px;border-radius:2px;} .ds-inhalt p{margin:2px 0 0;font:400 17px/1.45 var(--text);} .ds-stand{font:700 17px/1.3 var(--kopf);white-space:nowrap;} .ds-offen{color:var(--notruf);}"
+    },
+    {
+      "name": "Diagram",
+      "kind": "custom",
+      "description": "Static inline drawing on the Twilight Plane: zones in Deep Twilight, boxes on the Upper Plane, amber for the path of an emergency call.",
+      "html": "<figure class=\"ds-schema\"><svg viewBox=\"0 0 520 150\" role=\"img\" aria-label=\"Chip funkt zum Gateway\"><rect class=\"ds-zone\" x=\"10\" y=\"10\" width=\"500\" height=\"130\"/><rect class=\"ds-box\" x=\"30\" y=\"46\" width=\"170\" height=\"76\"/><text class=\"ds-titel\" x=\"46\" y=\"90\">Chip</text><path class=\"ds-licht\" d=\"M200 84H320\"/><rect class=\"ds-box\" x=\"320\" y=\"46\" width=\"170\" height=\"76\"/><text class=\"ds-titel\" x=\"336\" y=\"90\">Gateway</text></svg><figcaption>Der hervorgehobene Weg ist der eines Notrufs.</figcaption></figure>",
+      "css": ".ds-schema{margin:0;background:var(--flaeche);} .ds-schema svg{display:block;width:100%;height:auto;} .ds-zone{fill:var(--dunkel);} .ds-box{fill:var(--flaeche-hell);} .ds-titel{font:700 20px var(--kopf);fill:var(--schnee);} .ds-licht{fill:none;stroke:var(--licht);stroke-width:3;} .ds-schema figcaption{padding:6px 24px 12px;font:400 16px var(--text);color:var(--dunst);}"
     }
   ],
   "narrative": {
@@ -306,7 +325,7 @@
       "Signal red reserved for emergency, failure and open points.",
       "A rope band on every page, with the cabin at the chapter's station.",
       "Status told by form: filled, ringed, dashed, diamond.",
-      "Instant state changes; the only thing that travels is the cabin.",
+      "Instant state changes; only the cabin and the walkthrough's slope scene move.",
       "German text, self-hosted fonts, no build step."
     ],
     "rules": [
@@ -378,7 +397,7 @@
       "Don't put a frame around a container. Use a plane. Table row hairlines stay; they are the single exception.",
       "Don't let the side lists become the orientation. They serve the rope, and a page without the rope band is not a book page.",
       "Don't tell status by colour alone, or show a mark without its word or label.",
-      "Don't add fades, slides or hover transitions. States change instantly; the cabin is what moves, along with smooth anchor scrolling.",
+      "Don't add fades, slides or hover transitions. States change instantly; the cabin and the walkthrough's slope scene are what move, along with smooth anchor scrolling.",
       "Don't put a small label above a heading. The stamp line goes below the chapter title, and sections have none.",
       "Don't set uppercase or letter-spaced labels.",
       "Don't round planes, or give a control any radius other than the button corner.",

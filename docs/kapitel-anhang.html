@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anhang · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Kosten, offene Punkte, Glossar und alle Quellen des SkiTag Netzwerk-Buchs.">
-<link rel="stylesheet" href="assets/book.css?v=36">
-<script src="assets/book.js?v=36" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=37">
+<script src="assets/book.js?v=37" defer></script>
 </head>
 <body data-station="knopf">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -17,7 +17,7 @@
 </svg>
 
 <header class="seil">
-  <a class="seil-marke" href="kapitel-01.html">SkiTag Netzwerk-Buch</a>
+  <a class="seil-marke" href="index.html">SkiTag Netzwerk-Buch</a>
 </header>
 
 <div class="buch">
@@ -95,29 +95,42 @@
           <thead><tr><th scope="col">Begriff</th><th scope="col">Bedeutung</th></tr></thead>
           <tbody>
             <tr><td>ACK</td><td data-spalte="Bedeutung">Bestätigung vom Server: Das Ereignis ist angekommen. Heißt nicht, dass ein Mensch es gesehen hat.</td></tr>
-            <tr><td>AES</td><td data-spalte="Bedeutung">Standard-Verschlüsselung. Der Funkchip kann sie in Hardware.</td></tr>
+            <tr><td>AEAD</td><td data-spalte="Bedeutung">Verschlüsselung, die zugleich die Echtheit prüft. Beispiel: AES-CCM.</td></tr>
+            <tr><td>AES</td><td data-spalte="Bedeutung">Standard-Baustein für Verschlüsselung. Erst eine Betriebsart wie CCM macht daraus ein vollständiges Verfahren.</td></tr>
+            <tr><td>AES-CCM</td><td data-spalte="Bedeutung">Standardverfahren, das mit AES verschlüsselt und einen Prüfwert erzeugt. Empfehlung für die Serie.</td></tr>
             <tr><td>Bergstation, Talstation</td><td data-spalte="Bedeutung">Oberes und unteres Ende eines Lifts, mögliche Standorte für Gateways.</td></tr>
             <tr><td>Caddy</td><td data-spalte="Bedeutung">Programm vor dem Server, das HTTPS und das Zertifikat übernimmt.</td></tr>
+            <tr><td>Capture-Effekt</td><td data-spalte="Bedeutung">Treffen zwei Pakete zusammen, setzt sich oft das stärkere durch.</td></tr>
             <tr><td>dB, dBm</td><td data-spalte="Bedeutung">dB beschreibt ein Verhältnis, etwa eine Dämpfung. dBm ist eine absolute Leistung. −115 dBm ist sehr wenig.</td></tr>
             <tr><td>dBi</td><td data-spalte="Bedeutung">Gewinn einer Antenne im Vergleich zu einem gedachten Kugelstrahler.</td></tr>
             <tr><td>Docker</td><td data-spalte="Bedeutung">Verpackt den Server samt Umgebung, damit er überall gleich läuft.</td></tr>
-            <tr><td>Downlink, Uplink</td><td data-spalte="Bedeutung">Funk vom Gateway zum Chip und vom Chip zum Gateway.</td></tr>
+            <tr><td>Downlink</td><td data-spalte="Bedeutung">Funk vom Gateway zum Chip, bis 34 Byte. Das Gateway hört währenddessen nichts.</td></tr>
             <tr><td>DSGVO</td><td data-spalte="Bedeutung">Datenschutz-Grundverordnung der EU.</td></tr>
             <tr><td>DuckDNS</td><td data-spalte="Bedeutung">Kostenloser Dienst für einen Namen im Internet.</td></tr>
+            <tr><td>Duty Cycle</td><td data-spalte="Bedeutung">Anteil der Zeit, in der ein Gerät senden darf. Unser Band erlaubt 10 %, der Chip nutzt rund 1,1 %, das Gateway ist auf 8,3 % begrenzt.</td></tr>
+            <tr><td>Eskalation</td><td data-spalte="Bedeutung">Nimmt niemand einen Notruf an, geht er nach 60 Sekunden an den nächsten Mitarbeiter.</td></tr>
             <tr><td>Fresnel-Zone</td><td data-spalte="Bedeutung">Raum um die Sichtlinie, den das Funksignal braucht.</td></tr>
             <tr><td>Gateway</td><td data-spalte="Bedeutung">Gerät an der Station, das Funkpakete hört und an den Server weiterreicht. Im Test ein Heltec V3.</td></tr>
-            <tr><td>HELP</td><td data-spalte="Bedeutung">Befehl an den Chip: 1 angenommen, 2 vor Ort, 3 erledigt.</td></tr>
+            <tr><td>HELP</td><td data-spalte="Bedeutung">Befehl an den Chip: 1 angenommen, 2 vor Ort, 3 erledigt. Erst HELP 1 heißt, dass ein Mensch den Notruf hat.</td></tr>
             <tr><td>Heltec V3</td><td data-spalte="Bedeutung">Kleines Funkboard mit WLAN und Bildschirm, im Test das Gateway.</td></tr>
+            <tr><td>HTTPS</td><td data-spalte="Bedeutung">Verschlüsselte Verbindung im Netz, etwa zwischen Gateway und Server.</td></tr>
+            <tr><td>Let's Encrypt</td><td data-spalte="Bedeutung">Kostenlose Stelle für Zertifikate, die das Gateway beim Server prüft.</td></tr>
             <tr><td>LoRa</td><td data-spalte="Bedeutung">Funkverfahren mit großer Reichweite und wenig Daten.</td></tr>
-            <tr><td>LoRaWAN</td><td data-spalte="Bedeutung">Fertiges Netzprotokoll auf LoRa-Basis mit mehreren Kanälen.</td></tr>
+            <tr><td>LoRaWAN</td><td data-spalte="Bedeutung">Fertiges Netzprotokoll auf LoRa-Basis mit mehreren Kanälen und eigenen Schlüsseln pro Gerät. SkiTag nutzt im Test LoRa direkt, nicht LoRaWAN.</td></tr>
             <tr><td>MAC, Prüfwert</td><td data-spalte="Bedeutung">Kurzer Wert, der zeigt, dass ein Paket echt und unverändert ist.</td></tr>
             <tr><td>NAS</td><td data-spalte="Bedeutung">Netzwerkspeicher. Im Schultest läuft darauf der Server.</td></tr>
+            <tr><td>Nonce</td><td data-spalte="Bedeutung">Einmalwert für einen Schlüssel. Wiederholt er sich, bricht der Schutz.</td></tr>
             <tr><td>PoE</td><td data-spalte="Bedeutung">Strom und Daten über dasselbe Netzwerkkabel.</td></tr>
             <tr><td>Push</td><td data-spalte="Bedeutung">Nachricht aufs Handy, auch wenn die App geschlossen ist.</td></tr>
-            <tr><td>RSSI</td><td data-spalte="Bedeutung">Stärke eines empfangenen Signals. Gut ab −115 dBm, knapp ab −125 dBm.</td></tr>
-            <tr><td>SF, Spreading Factor</td><td data-spalte="Bedeutung">Regler für Reichweite gegen Sendezeit. SkiTag nutzt SF9.</td></tr>
-            <tr><td>SNR</td><td data-spalte="Bedeutung">Abstand des Signals zum Rauschen.</td></tr>
+            <tr><td>RSSI</td><td data-spalte="Bedeutung">Stärke eines empfangenen Signals in dBm. Gut ab −115 dBm, knapp ab −125 dBm.</td></tr>
+            <tr><td>SF9</td><td data-spalte="Bedeutung">Spreading Factor 9, die Einstellung von SkiTag. Ein Paket mit 27 Byte braucht damit rund 226 ms Sendezeit.</td></tr>
+            <tr><td>SipHash</td><td data-spalte="Bedeutung">Hash-Funktion mit Schlüssel für kurze Eingaben. Keine Verschlüsselung, SkiTag baut daraus Prüfwert und Schlüsselstrom.</td></tr>
+            <tr><td>SNR</td><td data-spalte="Bedeutung">Abstand des Signals zum Rauschen. Je größer, desto sauberer der Empfang.</td></tr>
+            <tr><td>Spreading Factor</td><td data-spalte="Bedeutung">Regler zwischen Reichweite und Sendezeit: Höher reicht weiter, sendet aber länger.</td></tr>
             <tr><td>SSE</td><td data-spalte="Bedeutung">Server-Sent Events, Live-Stream vom Server zur App.</td></tr>
+            <tr><td>Stromchiffre</td><td data-spalte="Bedeutung">Verschlüsselung, bei der ein Schlüsselstrom per XOR mit den Daten verknüpft wird.</td></tr>
+            <tr><td>Uplink</td><td data-spalte="Bedeutung">Funk vom Chip zum Gateway, bei SkiTag 27 Byte.</td></tr>
+            <tr><td>Zähler</td><td data-spalte="Bedeutung">Zahl in jedem Paket, die nur steigt. Sie schützt gegen wiederholte alte Pakete.</td></tr>
             <tr><td>Zeitfenster</td><td data-spalte="Bedeutung">Fester Abschnitt von 4 Sekunden, in dem nur ein bestimmter Chip sendet.</td></tr>
           </tbody>
         </table>
@@ -126,6 +139,10 @@
       <div class="lesen">
         <h2 id="quellen" data-kurz="Alle Quellen">Alle Quellen</h2>
         <ul class="quellen">
+          <li><a href="https://www.rfc-editor.org/rfc/rfc3610">RFC 3610: Counter with CBC-MAC (CCM)</a></li>
+          <li><a href="https://stm32.dirba.io/rm0453-stm32wl5x/23-aes-hardware-accelerator-aes/">STM32WL5x, AES-Baustein</a>, Abschrift des Handbuchs RM0453</li>
+          <li><a href="https://www.aumasson.jp/siphash/siphash.pdf">Aumasson, Bernstein: SipHash, a fast short-input PRF</a>, 2012</li>
+          <li><a href="https://csrc.nist.gov/News/2022/proposal-to-revise-sp-800-38a">NIST: Überarbeitung von SP 800-38A</a>, Zählermodus</li>
           <li><a href="https://www.jusline.at/gesetz/dsg/paragraf/artikel2zu4">§ 4 DSG</a>, Österreich</li>
           <li><a href="https://github.com/tobiass3/SKI-TAG/blob/main/js/services/api.js">api.js</a> und <a href="https://github.com/tobiass3/SKI-TAG/blob/main/docs/datenformat.md">Datenformat</a> der App</li>
           <li><a href="https://www.ursi.org/proceedings/procGA20/papers/YSASummaryBianco.pdf">Bianco, Mejia-Aguilar, Marrocco: Radio wave propagation of LoRa systems in mountains for Search and Rescue operations</a>, URSI GASS 2020</li>

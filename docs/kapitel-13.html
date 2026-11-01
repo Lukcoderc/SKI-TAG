@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Schnittstelle zur App · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie App und Server zusammenspielen, welche Endpunkte es gibt und wo es noch hakt.">
-<link rel="stylesheet" href="assets/book.css?v=36">
-<script src="assets/book.js?v=36" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=37">
+<script src="assets/book.js?v=37" defer></script>
 </head>
 <body data-station="app">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -17,7 +17,7 @@
 </svg>
 
 <header class="seil">
-  <a class="seil-marke" href="kapitel-01.html">SkiTag Netzwerk-Buch</a>
+  <a class="seil-marke" href="index.html">SkiTag Netzwerk-Buch</a>
 </header>
 
 <div class="buch">
@@ -71,7 +71,16 @@
 
       <div class="lesen">
         <h2 id="weg" data-kurz="Vom Paket zum Punkt">Vom Paket zum Punkt auf der Karte</h2>
-        <p>Der Server übersetzt das Paket aus <a href="kapitel-04.html#pakete">Kapitel 4</a> in das Format der App:</p>
+        <p>Ein Paket läuft durch vier Stationen, die Antwort denselben Weg zurück:</p>
+      </div>
+      <figure class="schema">
+        <div class="schema-rahmen" tabindex="0" role="group" aria-label="Datenfluss: Auf dem Hinweg geht ein 27 Byte großes Paket vom Chip über Gateway und Server als JSON zur App. Auf dem Rückweg geht die Annahme von der App über den Server und das Gateway als HELP zum Chip.">
+          <svg viewBox="0 0 960 410" role="img" aria-label="Datenfluss: Auf dem Hinweg geht ein 27 Byte großes Paket vom Chip über Gateway und Server als JSON zur App. Auf dem Rückweg geht die Annahme von der App über den Server und das Gateway als HELP zum Chip." data-schema="datenfluss"><defs><marker id="sb-spitze" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze" d="M0 0 10 5 0 10Z"/></marker><marker id="sb-spitze-licht" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze-licht" d="M0 0 10 5 0 10Z"/></marker></defs><text class="sb-zone-name" x="20" y="34">Hinweg: eine Position oder ein Notruf</text><rect class="sb-box" x="20" y="84" width="200" height="96"/><text class="sb-titel" x="34" y="117">Chip</text><text class="sb-text" x="34" y="141">27 Byte</text><text class="sb-text" x="34" y="162">verschlüsselt</text><rect class="sb-box" x="260" y="84" width="200" height="96"/><text class="sb-titel" x="274" y="117">Gateway</text><text class="sb-text" x="274" y="141">Ergänzt RSSI,</text><text class="sb-text" x="274" y="162">SNR und Alter</text><rect class="sb-box" x="500" y="84" width="200" height="96"/><text class="sb-titel" x="514" y="117">Server</text><text class="sb-text" x="514" y="141">Prüft, entschlüsselt,</text><text class="sb-text" x="514" y="162">ordnet Piste zu</text><rect class="sb-box" x="740" y="84" width="200" height="96"/><text class="sb-titel" x="754" y="117">App</text><text class="sb-text" x="754" y="141">JSON mit Position</text><text class="sb-text" x="754" y="162">oder Notruf</text><path class="sb-linie sb-licht sb-pfeil" d="M220 132H260"/><text class="sb-text" x="240" y="70" text-anchor="middle">LoRa</text><path class="sb-linie sb-licht sb-pfeil" d="M460 132H500"/><text class="sb-text" x="480" y="70" text-anchor="middle">POST /gw/up</text><path class="sb-linie sb-licht sb-pfeil" d="M700 132H740"/><text class="sb-text" x="720" y="70" text-anchor="middle">Live-Stream, SSE</text><text class="sb-zone-name" x="20" y="226">Rückweg: Ein Mitarbeiter nimmt den Notruf an</text><rect class="sb-box" x="20" y="276" width="200" height="96"/><text class="sb-titel" x="34" y="309">Chip</text><text class="sb-text" x="34" y="333">HELP 1: vibriert</text><text class="sb-text" x="34" y="354">zweimal lang</text><rect class="sb-box" x="260" y="276" width="200" height="96"/><text class="sb-titel" x="274" y="309">Gateway</text><text class="sb-text" x="274" y="333">Sendet höchstens</text><text class="sb-text" x="274" y="354">1,4 s nach Empfang</text><rect class="sb-box" x="500" y="276" width="200" height="96"/><text class="sb-titel" x="514" y="309">Server</text><text class="sb-text" x="514" y="333">Wartet auf das</text><text class="sb-text" x="514" y="354">nächste Paket</text><rect class="sb-box" x="740" y="276" width="200" height="96"/><text class="sb-titel" x="754" y="309">App</text><text class="sb-text" x="754" y="333">Tippt auf</text><text class="sb-text" x="754" y="354">„Annehmen“</text><path class="sb-linie sb-licht sb-pfeil" d="M740 324H700"/><text class="sb-text" x="720" y="262" text-anchor="middle">POST /alarms/{id}/accept</text><path class="sb-linie sb-licht sb-pfeil" d="M500 324H460"/><text class="sb-text" x="480" y="262" text-anchor="middle">Antwort auf /gw/up</text><path class="sb-linie sb-licht sb-pfeil" d="M260 324H220"/><text class="sb-text" x="240" y="262" text-anchor="middle">LoRa, Downlink</text></svg>
+        </div>
+        <figcaption>Eine Antwort an den Chip wartet auf sein nächstes Paket. Darum dauert ein Gruppenruf bis zu 20 Sekunden.<span class="schema-hinweis"> Zum Ansehen seitlich wischen.</span></figcaption>
+      </figure>
+      <div class="lesen">
+        <p class="nach-tabelle">Der Server übersetzt das Paket aus <a href="kapitel-04.html#pakete">Kapitel 4</a> in das Format der App:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">

@@ -252,6 +252,50 @@ main ol { padding-left: 24px; }
 .checkliste input { flex: none; width: 20px; height: 20px; margin-top: 4px; accent-color: var(--licht); }
 .checkliste-feld > .knopf { display: inline-block; margin-top: 16px; background: var(--flaeche-hell); }
 
+/* Startseite */
+.start .buch { grid-template-columns: minmax(0, 1fr) 230px; }
+.start .kapitel-nav { display: none; }
+.start-los { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; margin-top: 18px; }
+.start-los .knopf { text-decoration: none; }
+.legende { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-top: 18px; }
+.legende div { background: var(--flaeche); padding: 11px 14px; }
+.legende dd { margin: 4px 0 0; font-size: 17px; line-height: 1.45; }
+.inhalt-stand { display: inline-flex; align-items: center; white-space: nowrap; font: 700 17px/1.3 var(--kopf); }
+.inhalt-offen { color: var(--notruf); }
+main ol.inhalt { list-style: none; padding: 0; margin-top: 18px; background: var(--flaeche); }
+.inhalt li { display: grid; grid-template-columns: 34px minmax(0, 1fr) 124px; gap: 14px; padding: 11px 14px; }
+.inhalt li + li { border-top: 1px solid var(--flaeche-hell); }
+.inhalt-nr { font: 700 20px/1.2 var(--kopf); color: var(--dunst); font-variant-numeric: tabular-nums; }
+.inhalt a { font: 700 20px/1.2 var(--kopf); }
+.inhalt p { margin: 2px 0 0; font-size: 17px; line-height: 1.45; }
+
+/* Übersichtsdiagramme */
+.schema { margin: 18px 0 0; background: var(--flaeche); }
+.schema-rahmen { overflow-x: auto; }
+.schema svg { display: block; width: 100%; height: auto; }
+.schema figcaption { padding: 6px 24px 12px; font-size: 16px; color: var(--dunst); }
+.schema-hinweis { display: none; }
+.sb-zone { fill: var(--dunkel); }
+.sb-zone-name { font: 700 17px var(--kopf); fill: var(--dunst); }
+.sb-box { fill: var(--flaeche-hell); }
+.schema .sb-fein { fill: var(--flaeche); }
+.sb-titel { font: 700 20px var(--kopf); fill: var(--schnee); }
+.sb-titel-rot { font: 700 20px var(--kopf); fill: var(--notruf); }
+.sb-text { font: 500 16px var(--kopf); fill: var(--schnee); }
+.sb-offen { color: var(--notruf); }
+.sb-offen-text { font: 500 16px var(--kopf); fill: var(--notruf); }
+.sb-linie { fill: none; stroke: var(--dunst); stroke-width: 2; }
+.sb-pfeil { marker-end: url(#sb-spitze); }
+.sb-beide { marker-start: url(#sb-spitze); marker-end: url(#sb-spitze); }
+.sb-gestrichelt { stroke-dasharray: 6 5; }
+.sb-licht { stroke: var(--licht); stroke-width: 3; }
+.sb-licht.sb-pfeil { marker-end: url(#sb-spitze-licht); }
+.sb-licht.sb-beide { marker-start: url(#sb-spitze-licht); marker-end: url(#sb-spitze-licht); }
+.sb-licht-dick { fill: none; stroke: var(--schnee); stroke-width: 4; }
+.sb-rot-dick { fill: none; stroke: var(--notruf); stroke-width: 4; }
+.sb-spitze { fill: var(--dunst); }
+.sb-spitze-licht { fill: var(--licht); }
+
 /* Abdeckungskarte */
 .abdeckung { display: none; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 20px; margin-top: 18px; padding: 20px 24px; background: var(--flaeche); }
 .js .abdeckung { display: grid; }
@@ -322,6 +366,13 @@ main ol { padding-left: 24px; }
   .stapel td:first-child { font-weight: 600; }
   .stapel td[data-spalte]::before { content: attr(data-spalte) ": "; font-weight: 600; color: var(--dunst); }
   .rechner, .bauplan, .abdeckung { padding: 16px; }
+  .start .buch { grid-template-columns: minmax(0, 1fr); }
+  .legende { grid-template-columns: minmax(0, 1fr); }
+  .inhalt li { grid-template-columns: 30px minmax(0, 1fr); gap: 4px 10px; }
+  .inhalt-stand { grid-column: 2; }
+  .schema svg { width: 720px; max-width: none; }
+  .schema-hinweis { display: inline; }
+  .schema figcaption { padding: 6px 16px 12px; }
   .abdeckung, .js .abdeckung { grid-template-columns: minmax(0, 1fr); }
   .zeit-bild figcaption { padding: 6px 16px 12px; }
   .rechner-werte { grid-template-columns: repeat(2, 1fr); }

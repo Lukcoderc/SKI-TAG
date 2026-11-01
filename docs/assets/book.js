@@ -1,5 +1,6 @@
 // Seil, Kapitelliste und Seitennavigation für alle Kapitel.
 const KAPITEL = [
+  { nr: "", titel: "Übersicht", datei: "index.html" },
   { nr: 1, titel: "Vom Knopfdruck zur App", datei: "kapitel-01.html" },
   { nr: 2, titel: "Anforderungen", datei: "kapitel-02.html" },
   { nr: 3, titel: "Warum LoRa", datei: "kapitel-03.html" },

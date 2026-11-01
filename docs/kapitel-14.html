@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ausfallsicherheit und Betrieb · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was passiert, wenn Teile des Netzes ausfallen, und wie der Betrieb überwacht wird.">
-<link rel="stylesheet" href="assets/book.css?v=36">
-<script src="assets/book.js?v=36" defer></script>
-<script src="assets/ausfall.js?v=36" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=37">
+<script src="assets/book.js?v=37" defer></script>
+<script src="assets/ausfall.js?v=37" defer></script>
 </head>
 <body data-station="server">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -18,7 +18,7 @@
 </svg>
 
 <header class="seil">
-  <a class="seil-marke" href="kapitel-01.html">SkiTag Netzwerk-Buch</a>
+  <a class="seil-marke" href="index.html">SkiTag Netzwerk-Buch</a>
 </header>
 
 <div class="buch">
@@ -71,6 +71,13 @@
           </tbody>
         </table>
       </div>
+
+      <figure class="schema">
+        <div class="schema-rahmen" tabindex="0" role="group" aria-label="Ausfallkette: Fällt Funk, Gateway, Stationsnetz oder Server aus, fehlt die Bestätigung und der Chip warnt nach 90 Sekunden. Fällt Internet, Handy oder der Mensch aus, kann der Server schon bestätigt haben, und der Chip warnt dann nicht.">
+          <svg viewBox="0 0 960 300" role="img" aria-label="Ausfallkette: Fällt Funk, Gateway, Stationsnetz oder Server aus, fehlt die Bestätigung und der Chip warnt nach 90 Sekunden. Fällt Internet, Handy oder der Mensch aus, kann der Server schon bestätigt haben, und der Chip warnt dann nicht." data-schema="ausfaelle"><defs><marker id="sb-spitze" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze" d="M0 0 10 5 0 10Z"/></marker><marker id="sb-spitze-licht" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze-licht" d="M0 0 10 5 0 10Z"/></marker></defs><text class="sb-zone-name" x="22" y="34">Vom Chip zum Menschen: Wo bricht die Kette?</text><rect class="sb-box" x="22" y="56" width="120" height="72"/><text class="sb-titel" x="82" y="99" text-anchor="middle">Funk</text><rect class="sb-box" x="154" y="56" width="120" height="72"/><text class="sb-titel" x="214" y="99" text-anchor="middle">Gateway</text><rect class="sb-box" x="286" y="56" width="120" height="72"/><text class="sb-titel" x="346" y="99" text-anchor="middle">Stationsnetz</text><rect class="sb-box" x="418" y="56" width="120" height="72"/><text class="sb-titel" x="478" y="99" text-anchor="middle">Server</text><rect class="sb-box" x="550" y="56" width="120" height="72"/><text class="sb-titel" x="610" y="99" text-anchor="middle">Internet</text><rect class="sb-box" x="682" y="56" width="120" height="72"/><text class="sb-titel" x="742" y="99" text-anchor="middle">Handy</text><rect class="sb-box" x="814" y="56" width="120" height="72"/><text class="sb-titel" x="874" y="99" text-anchor="middle">Mensch</text><path class="sb-linie sb-licht" d="M142 92H154"/><path class="sb-linie sb-licht" d="M274 92H286"/><path class="sb-linie sb-licht" d="M406 92H418"/><path class="sb-linie sb-licht" d="M538 92H550"/><path class="sb-linie sb-licht" d="M670 92H682"/><path class="sb-linie sb-licht" d="M802 92H814"/><rect class="sb-zone" x="22" y="156" width="516" height="124"/><path class="sb-linie sb-licht-dick" d="M22 148H538"/><text class="sb-titel" x="42" y="190">Keine Bestätigung</text><text class="sb-text" x="42" y="216">Der Chip wiederholt den Notruf und warnt</text><text class="sb-text" x="42" y="240">nach 90 Sekunden. Die Person weiß Bescheid.</text><rect class="sb-zone" x="550" y="156" width="384" height="124"/><path class="sb-linie sb-rot-dick" d="M550 148H934"/><use class="sb-offen" href="#mark-offen" x="570" y="176" width="16" height="16"/><text class="sb-titel-rot" x="594" y="190">Falsche Sicherheit</text><text class="sb-text" x="570" y="216">Der Server kann schon bestätigt haben.</text><text class="sb-text" x="570" y="240">Der Chip warnt dann nicht, obwohl</text><text class="sb-text" x="570" y="264">niemand den Notruf hat.</text></svg>
+        </div>
+        <figcaption>Links ist der Ausfall für die Person sichtbar, rechts nicht. Die Regeln gegen die rechte Lücke stehen unter „Die gefährlichste Lücke“.<span class="schema-hinweis"> Zum Ansehen seitlich wischen.</span></figcaption>
+      </figure>
 
       <div class="lesen">
         <p class="nach-tabelle">Zwei Dinge fallen auf. Der Chip warnt zuverlässig, wenn keine Bestätigung kommt, darum ist die Warnung nach 90 Sekunden so wichtig. Und es merkt fast nie jemand von selbst, dass etwas kaputt ist.</p>

@@ -36,8 +36,9 @@ Every chapter in `docs/kapitel-NN.html` is built from the same fixed recipe (als
 7. **Wide material:** tables (`.tabelle` wrapping `<table>`, add `.stapel` for 3-column tables that need to stack on phones, `data-spalte` on cells for the stacked labels), status conclusions (`.urteil`), and interactive widgets live outside the `.lesen` column; everything else (including status marks `svg.mark` with `<use href="#mark-...">`) stays inside it.
 8. **Status marks:** every claim is tagged Fest / Entschieden / Geschätzt / Offen (fixed / decided / estimated / open) using the shared SVG symbols — shape carries the meaning, always paired with its word. Keep estimates labelled as estimates until something is actually measured; this project has not yet been tested on real hardware.
 9. **Open-points tables:** use `<tr class="zeile-offen">` for rows marked Offen.
-10. **Ending:** `<div class="blaettern">` with Zurück/Weiter links. Link to a next/previous chapter only if it exists; otherwise use a plain `<span>` with "(noch nicht geschrieben)".
-11. **Cache-busting versions:** `assets/book.css` and `assets/book.js` are referenced with `?v=N` on every chapter page. **Whenever you edit either file, bump `N` in every single `docs/kapitel-*.html` file to the same new value** — GitHub Pages lets browsers cache for ~10 minutes, and a stale script against a new page breaks the rope/nav JS. Per-chapter widget scripts (see below) carry their own independent `?v=N` and only need bumping on pages that load them.
+10. **Start page:** `docs/index.html` lists every chapter by hand with one sentence and a status mark. Update it when a chapter is added, renamed or changes status.
+11. **Ending:** `<div class="blaettern">` with Zurück/Weiter links. Link to a next/previous chapter only if it exists; otherwise use a plain `<span>` with "(noch nicht geschrieben)".
+12. **Cache-busting versions:** `assets/book.css` and `assets/book.js` are referenced with `?v=N` on every chapter page. **Whenever you edit either file, bump `N` in every single `docs/kapitel-*.html` file and in `docs/index.html` to the same new value** — GitHub Pages lets browsers cache for ~10 minutes, and a stale script against a new page breaks the rope/nav JS. Per-chapter widget scripts (see below) carry their own independent `?v=N` and only need bumping on pages that load them.
 
 ## Shared JS/CSS
 

@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Funkprotokoll · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie Chip, Gateway und Server über Funk miteinander sprechen: Pakete, Zeitfenster und Schutz.">
-<link rel="stylesheet" href="assets/book.css?v=36">
-<script src="assets/book.js?v=36" defer></script>
-<script src="assets/paket.js?v=36" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=37">
+<script src="assets/book.js?v=37" defer></script>
+<script src="assets/paket.js?v=37" defer></script>
 </head>
 <body data-station="chip">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -18,7 +18,7 @@
 </svg>
 
 <header class="seil">
-  <a class="seil-marke" href="kapitel-01.html">SkiTag Netzwerk-Buch</a>
+  <a class="seil-marke" href="index.html">SkiTag Netzwerk-Buch</a>
 </header>
 
 <div class="buch">
@@ -40,7 +40,7 @@
     </details>
     <article>
       <h1>Funkprotokoll</h1>
-      <p class="stand">Kapitel 4 · Stand 30. Oktober 2026</p>
+      <p class="stand">Kapitel 4 · Stand 1. November 2026</p>
 
       <div class="lesen">
         <p class="einstieg">Damit Chip und Server sich verstehen, müssen beide dieselbe Sprache sprechen: wie ein Paket aufgebaut ist, wann gesendet werden darf und wie man erkennt, dass eine Nachricht echt ist. Diese Sprache heißt Funkprotokoll.</p>
@@ -140,7 +140,8 @@
         <p>Der Server versucht jeden Befehl bis zu sechsmal. Ob ein Befehl ankam, sieht er am letzten Byte im Uplink: Dort meldet der Chip den Zähler seines letzten Downlinks. Hören zwei Gateways dasselbe Paket, verwirft der Server das Duplikat an seinem Zähler.</p>
 
         <h2 id="schutz" data-kurz="Wie Pakete geschützt sind">Wie Pakete geschützt sind</h2>
-        <p>Jedes Paket ist verschlüsselt und trägt einen Prüfwert. Beides nutzt das Verfahren SipHash-2-4 mit einem gemeinsamen Schlüssel von 128 Bit. Ohne den Schlüssel kann niemand Positionen mitlesen, und ein gefälschtes Paket fällt auf, weil der Prüfwert nicht stimmt.</p>
+        <p>Der Inhalt jedes Pakets ist verschlüsselt, und jedes Paket trägt einen Prüfwert, beides mit einem gemeinsamen Schlüssel von 128 Bit. Grundlage ist SipHash-2-4. SipHash selbst verschlüsselt aber nichts: Es ist eine Hash-Funktion mit Schlüssel, gedacht für Prüfwerte. Für die Verschlüsselung erzeugt es einen Schlüsselstrom, der per XOR mit dem Inhalt verknüpft wird. Das ist eine selbst gebaute Stromchiffre.</p>
+        <p>Ohne den Schlüssel sollen Positionen nicht lesbar sein, und ein gefälschtes Paket soll am Prüfwert scheitern. Geprüft hat diesen Aufbau bisher niemand, siehe <a href="kapitel-15.html#siphash">Kapitel 15</a>.</p>
         <p>Der Zähler schützt gegen alte Pakete: Wer ein aufgezeichnetes Paket später noch einmal sendet, kommt nicht durch, weil der Server jeden Zähler verwirft, der nicht größer ist als der letzte. Der Chip reserviert seinen Zähler dafür im Flash-Speicher in 1000er-Schritten, damit er nach einem Neustart nie zurückspringt.</p>
         <p>Der Schlüssel steht im Chip und auf dem Server, aber nie in diesem Buch oder im Repo. Vor dem Test wird ein neuer erzeugt, weil der Beispiel-Schlüssel bekannt ist.</p>
 
@@ -153,8 +154,8 @@
           <tbody>
             <tr class="zeile-offen"><td>Die Chip-Nummer ist nur 1 Byte groß.</td><td>Damit gibt es höchstens 256 Nummern, im Betrieb sind aber hunderte Chips geplant. Für mehr müsste das Paket geändert werden.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Ein Notruf sendet außerhalb seines Fensters.</td><td>Er kann mit dem Paket eines anderen Chips zusammenstoßen. Die Wiederholung fängt das ab, wie gut, zeigt erst der Test.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Alle Chips teilen sich einen Schlüssel.</td><td>Mietchips gehen durch viele Hände. Wer einen Chip ausliest, könnte alle lesen und fälschen. Vorschlag für den Betrieb: ein eigener Schlüssel pro Chip und AES, das der Chip in Hardware kann.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Der Prüfwert ist nur 32 Bit lang.</td><td>Für den Test genügt das, für die Serie ist es wenig. Es hängt mit der Wahl der Verschlüsselung zusammen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Alle Chips teilen sich einen Schlüssel.</td><td>Mietchips gehen durch viele Hände. Wer einen Chip ausliest, könnte alle lesen und fälschen. Vorschlag für den Betrieb: ein eigener Schlüssel pro Chip und ein geprüftes Verfahren wie AES-CCM, siehe <a href="kapitel-15.html#serie-krypto">Kapitel 15</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Der Prüfwert ist nur 32 Bit lang.</td><td>Für den Test genügt das. LoRaWAN nutzt ebenfalls 32 Bit, mehr dazu in <a href="kapitel-15.html#funk">Kapitel 15</a>. Es hängt mit der Wahl der Verschlüsselung zusammen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Ein neu aufgespielter Chip beginnt wieder bei Zähler 0.</td><td>Wird der Flash gelöscht, hält der Server alle Pakete für alt. Vielleicht braucht die Ausgabe-Seite eine Funktion zum Zurücksetzen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Es gibt nur 5 feste Fenster in einem Kanal.</td><td>Mehr Chips passen so nicht in den Takt. Die Rechnung dazu steht in <a href="kapitel-05.html#fenster">Kapitel 5</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
@@ -171,6 +172,7 @@
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
         <ul class="quellen">
+          <li><a href="https://www.aumasson.jp/siphash/siphash.pdf">Aumasson, Bernstein: SipHash, a fast short-input PRF</a>, 2012</li>
           <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
           <li><a href="kapitel-03.html#quellen">Quellen aus Kapitel 3</a> zu Frequenzband und Funkchip</li>
         </ul>

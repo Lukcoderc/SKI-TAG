@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sicherheit und Datenschutz · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie SkiTag Pakete und Daten schützt, was gespeichert wird und was rechtlich offen ist.">
-<link rel="stylesheet" href="assets/book.css?v=36">
-<script src="assets/book.js?v=36" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=37">
+<script src="assets/book.js?v=37" defer></script>
 </head>
 <body data-station="server">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -17,7 +17,7 @@
 </svg>
 
 <header class="seil">
-  <a class="seil-marke" href="kapitel-01.html">SkiTag Netzwerk-Buch</a>
+  <a class="seil-marke" href="index.html">SkiTag Netzwerk-Buch</a>
 </header>
 
 <div class="buch">
@@ -46,12 +46,19 @@
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Dieses Kapitel ist keine Rechtsberatung. Die rechtlichen Punkte sind Fragen an eine Fachperson, keine Antworten.</p>
 
         <h2 id="gefahren" data-kurz="Wovor das Netz schützt">Wovor das Netz schützt</h2>
+        <p>Das Bild zeigt, wo Daten lesbar sind und wo nur verschlüsselte Bytes unterwegs sind.</p>
       </div>
+      <figure class="schema">
+        <div class="schema-rahmen" tabindex="0" role="group" aria-label="Sicherheitsgrenzen: Lesbar sind die Daten nur im Chip, im Server und in der App. Auf Funkstrecke und Gateway sowie im Internet sind sie nur verschlüsselt unterwegs. An jeder Stelle gibt es einen offenen Punkt.">
+          <svg viewBox="0 0 960 380" role="img" aria-label="Sicherheitsgrenzen: Lesbar sind die Daten nur im Chip, im Server und in der App. Auf Funkstrecke und Gateway sowie im Internet sind sie nur verschlüsselt unterwegs. An jeder Stelle gibt es einen offenen Punkt." data-schema="sicherheit"><defs><marker id="sb-spitze" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze" d="M0 0 10 5 0 10Z"/></marker><marker id="sb-spitze-licht" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze-licht" d="M0 0 10 5 0 10Z"/></marker></defs><rect class="sb-zone" x="20" y="20" width="170" height="340"/><rect class="sb-zone" x="390" y="20" width="180" height="340"/><rect class="sb-zone" x="770" y="20" width="170" height="340"/><rect class="sb-box" x="38" y="84" width="134" height="86"/><text class="sb-titel" x="52" y="122.5">Chip</text><text class="sb-text" x="52" y="146.5">Hat den Schlüssel</text><rect class="sb-box" x="404" y="84" width="152" height="86"/><text class="sb-titel" x="418" y="122.5">Server</text><text class="sb-text" x="418" y="146.5">Hat den Schlüssel</text><rect class="sb-box" x="786" y="84" width="138" height="86"/><text class="sb-titel" x="800" y="122.5">App</text><text class="sb-text" x="800" y="146.5">Sieht nur Freigabe</text><text class="sb-zone-name" x="105" y="52" text-anchor="middle">Lesbar</text><text class="sb-zone-name" x="480" y="52" text-anchor="middle">Lesbar</text><text class="sb-zone-name" x="855" y="52" text-anchor="middle">Lesbar</text><text class="sb-zone-name" x="290" y="52" text-anchor="middle">Nur verschlüsselt</text><text class="sb-zone-name" x="670" y="52" text-anchor="middle">Nur verschlüsselt</text><rect class="sb-box" x="204" y="84" width="172" height="86"/><text class="sb-titel" x="218" y="122.5">Gateway</text><text class="sb-text" x="218" y="146.5">Sieht nur Bytes</text><rect class="sb-box" x="584" y="84" width="172" height="86"/><text class="sb-titel" x="598" y="122.5">Internet</text><text class="sb-text" x="598" y="146.5">HTTPS</text><path class="sb-linie sb-licht" d="M172 127H204"/><path class="sb-linie sb-licht" d="M376 127H404"/><path class="sb-linie sb-licht" d="M556 127H584"/><path class="sb-linie sb-licht" d="M756 127H786"/><text class="sb-text" x="204" y="208">Funk: eigene Stromchiffre,</text><text class="sb-text" x="204" y="232">Prüfwert, Zähler</text><text class="sb-text" x="204" y="256">Weiter per HTTPS</text><text class="sb-text" x="584" y="208">App mit Code und Token</text><use class="sb-offen" href="#mark-offen" x="38" y="277" width="16" height="16"/><text class="sb-offen-text" x="60" y="290">Schlüssel für alle</text><text class="sb-offen-text" x="60" y="312">auslesbar</text><use class="sb-offen" href="#mark-offen" x="204" y="277" width="16" height="16"/><text class="sb-offen-text" x="226" y="290">Passwort im Speicher</text><use class="sb-offen" href="#mark-offen" x="404" y="277" width="16" height="16"/><text class="sb-offen-text" x="426" y="290">Verfahren ungeprüft</text><use class="sb-offen" href="#mark-offen" x="584" y="277" width="16" height="16"/><text class="sb-offen-text" x="606" y="290">Token an Streams</text><use class="sb-offen" href="#mark-offen" x="786" y="277" width="16" height="16"/><text class="sb-offen-text" x="808" y="290">Code-Länge unklar</text></svg>
+        </div>
+        <figcaption>In den dunklen Zonen sind Daten lesbar, dazwischen nur verschlüsselt. Jede Raute ist ein offener Punkt aus diesem Kapitel.<span class="schema-hinweis"> Zum Ansehen seitlich wischen.</span></figcaption>
+      </figure>
       <div class="tabelle">
         <table class="stapel">
           <thead><tr><th scope="col">Angriff</th><th scope="col">Schutz heute</th><th scope="col">Grenze</th><th scope="col">Stand</th></tr></thead>
           <tbody>
-            <tr class="zeile-offen"><td>Pakete mitlesen</td><td data-spalte="Schutz">Verschlüsselt mit SipHash-2-4</td><td data-spalte="Grenze">Eigenbau statt Standard, ein Schlüssel für alle</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Pakete mitlesen</td><td data-spalte="Schutz">Selbst gebaute Stromchiffre auf Basis von SipHash-2-4</td><td data-spalte="Grenze">Kein geprüftes Verschlüsselungsverfahren, ein Schlüssel für alle</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Falschen Notruf senden</td><td data-spalte="Schutz">Prüfwert mit 32 Bit</td><td data-spalte="Grenze">Wer einen Chip ausliest, kann alle fälschen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr><td>Altes Paket wiederholen</td><td data-spalte="Schutz">Zähler, der nur steigt</td><td data-spalte="Grenze">Hängt am Zähler im Flash</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
             <tr class="zeile-offen"><td>Funk stören</td><td data-spalte="Schutz">Kein Schutz</td><td data-spalte="Grenze">Ein Störsender blockiert den Kanal. Der Chip warnt nach 90 Sekunden.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
@@ -62,9 +69,60 @@
       </div>
       <div class="lesen">
         <h2 id="funk" data-kurz="Sicherheit im Funk">Sicherheit im Funk</h2>
-        <p>Der Prüfwert hat 32 Bit, also rund 4,3 Milliarden Möglichkeiten. Das klingt in <a href="kapitel-04.html#grenzen">Kapitel 4</a> knapp, LoRaWAN nutzt aber genauso 32 Bit. Über Funk sind so viele Versuche ohnehin nicht machbar. Das eigentliche Problem ist der gemeinsame Schlüssel: Mietchips gehen durch viele Hände, und ein ausgelesener Chip gefährdet alle.</p>
-        <p>Für die Serie empfehlen wir daher dasselbe wie LoRaWAN: einen eigenen Schlüssel pro Chip und AES, das der Chip in Hardware kann.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Eine Gefahr ist neu: Bei dieser Verschlüsselung hängt der Schlüsselstrom am Zähler. Beginnt ein neu bespielter Chip bei Zähler 0 mit demselben Schlüssel, wiederholt sich der Schlüsselstrom, und frühere Pakete werden angreifbar. Das Problem aus <a href="kapitel-04.html#grenzen">Kapitel 4</a> ist also nicht nur ein Betriebsfehler. Die einfache Regel: Neu spielen nur mit neuem Schlüssel oder ohne den Zähler zu löschen. Das klärt Lukas mit Maximilian.</p>
+        <p>Der Prüfwert hat 32 Bit, also rund 4,3 Milliarden Möglichkeiten. Das klingt in <a href="kapitel-04.html#grenzen">Kapitel 4</a> knapp, LoRaWAN nutzt aber genauso 32 Bit. Über Funk sind so viele Versuche ohnehin nicht machbar. Größer sind zwei andere Probleme: das selbst gebaute Verfahren und der gemeinsame Schlüssel. Mietchips gehen durch viele Hände, und ein ausgelesener Chip gefährdet alle.</p>
+        <h2 id="siphash" data-kurz="Was SipHash hier tut">Was SipHash hier tut</h2>
+        <p>SipHash ist keine Verschlüsselung. Seine Erfinder beschreiben es als Familie pseudozufälliger Funktionen für kurze Eingaben, gedacht für die Echtheitsprüfung und für Hash-Tabellen. Aus dem Ergebnis lässt sich die Eingabe nicht zurückrechnen, also kann SipHash nichts ent- oder verschlüsseln. Bei SkiTag hat es zwei Aufgaben:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Aufgabe</th><th scope="col">So läuft es</th><th scope="col">Einordnung</th></tr></thead>
+          <tbody>
+            <tr><td>Prüfwert</td><td data-spalte="Ablauf">SipHash über das Paket, gekürzt auf 32 Bit</td><td data-spalte="Einordnung">Dafür ist SipHash gebaut.</td></tr>
+            <tr><td>Vertraulichkeit</td><td data-spalte="Ablauf">SipHash macht aus Schlüssel, Kennung, Chip-Nummer, Zähler und Blocknummer je 8 Byte Schlüsselstrom. Der wird per XOR mit dem Inhalt verknüpft.</td><td data-spalte="Einordnung">Eigene Stromchiffre nach dem Muster des Zählermodus, nicht als Verschlüsselung untersucht.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Das Muster ist nicht falsch: Der Zählermodus macht aus einer guten pseudozufälligen Funktion eine Stromchiffre. Er trägt aber nur, solange keine Eingabe je zweimal mit demselben Schlüssel vorkommt. Und ein bekanntes Muster macht unseren Aufbau nicht geprüft. Im Buch steht darum „selbst gebaute Stromchiffre“, nicht „sicher verschlüsselt“.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Der Code lag beim Schreiben nicht vor, die Beschreibung stammt aus der Übergabe. Diese Punkte müssen in <code>proto.h</code> und <code>proto.js</code> geprüft werden:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Prüfpunkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr class="zeile-offen"><td>Wiederholt sich eine Eingabe nie?</td><td data-spalte="Warum">Zwei Pakete mit gleichem Schlüsselstrom verraten, wie sich ihre Inhalte unterscheiden. Dazu zählen auch Uplink und Downlink.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Wird erst verschlüsselt, dann geprüft?</td><td data-spalte="Warum">Der Prüfwert sollte über den verschlüsselten Inhalt laufen. Die Übergabe nennt die Reihenfolge nicht.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Deckt der Prüfwert den Kopf mit ab?</td><td data-spalte="Warum">Sonst ließen sich Kennung, Chip-Nummer oder Zähler unbemerkt ändern.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Sind die Schlüssel sauber getrennt?</td><td data-spalte="Warum">Der Schlüssel für den Prüfwert ist der Hauptschlüssel XOR 0x5A. Einen Angriff kennen wir nicht, üblich wäre aber eine echte Schlüsselableitung.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Hat jemand von außen geprüft?</td><td data-spalte="Warum">Niemand im Team ist dafür ausgebildet. Selbst gebaute Verfahren brauchen eine fachkundige Prüfung.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Für den Test halten wir das für vertretbar: 5 Chips, ein neuer Schlüssel, wenige Stunden und Menschen, die eingewilligt haben. Das ist unsere Einschätzung, keine Prüfung. Für die Serie soll dieser Aufbau durch einen geprüften Standard ersetzt werden.</p>
+
+        <h2 id="serie-krypto" data-kurz="Was die Serie braucht">Was die Serie braucht</h2>
+        <p>„AES“ allein reicht als Vorgabe nicht, denn AES ist nur ein Baustein. Wir empfehlen ein authentifiziertes Verfahren (AEAD), zum Beispiel AES-CCM. Es verschlüsselt und prüft in einem Schritt und ersetzt damit Stromchiffre und Prüfwert zusammen. Fällt die Wahl auf LoRaWAN, ist mit AES im Zählermodus und AES-CMAC schon ein Standard eingebaut.</p>
+        <p>Ein gutes Verfahren genügt aber nicht. Diese Punkte müssen geregelt sein:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Anforderung</th><th scope="col">Was das bei SkiTag heißt</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr class="zeile-offen"><td>Eigener Schlüssel je Chip</td><td data-spalte="Bei SkiTag">Ein ausgelesener Chip gefährdet dann nur sich selbst. Der Server braucht eine geschützte Liste aller Schlüssel und findet den richtigen über die lesbare Chip-Nummer.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Eindeutige Nonces</td><td data-spalte="Bei SkiTag">Eine Nonce darf mit demselben Schlüssel nie zweimal vorkommen, sonst bricht der Schutz zusammen. Sie entsteht aus Chip-Nummer, Richtung und Zähler, und der Zähler muss Neustart und leeren Akku überstehen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Sichere Schlüsselverteilung</td><td data-spalte="Bei SkiTag">Jeder Schlüssel entsteht bei der Fertigung und kommt nur in den Chip und in die Server-Liste, nie in ein Repo. Der Chip braucht einen Ausleseschutz. Wie das in der Fertigung abläuft, ist nicht geklärt.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Schlüsselwechsel</td><td data-spalte="Bei SkiTag">Geht ein Chip verloren, sperrt ihn der Server. Wird ein Chip neu programmiert, bekommt er einen neuen Schlüssel. Nur dann darf sein Zähler wieder bei 0 beginnen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Downlink genauso schützen</td><td data-spalte="Bei SkiTag">Befehle wie HELP brauchen denselben Schutz, mit eigener Richtung in der Nonce. Heute trägt ein Downlink bis zu 8 Befehle für verschiedene Chips. Mit Einzelschlüsseln geht das nicht mehr: Entweder bekommt jeder Chip einen eigenen Downlink, was knappe Gateway-Zeit kostet, oder es braucht einen zusätzlichen Gruppenschlüssel.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Länge des Prüfwerts</td><td data-spalte="Bei SkiTag">CCM erlaubt 4 bis 16 Byte, die Norm empfiehlt für die meisten Anwendungen mindestens 8. Mit 8 statt 4 Byte wächst der Uplink auf 31 Byte und seine Sendezeit bei SF9 von rund 226 auf rund 247 ms.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Das ändert das Protokoll, also <code>proto.h</code> und <code>proto.js</code>, und wird gemeinsam mit Maximilian entschieden. Laut Handbuch beherrscht der AES-Baustein der STM32WL5x-Reihe CCM. Ob das genauso für den Chip im RAK3172 gilt und welchen Ausleseschutz er bietet, muss Maximilian noch prüfen.</p>
+
+        <h2 id="zaehler" data-kurz="Wenn der Zähler zurückspringt">Wenn der Zähler zurückspringt</h2>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Bei dieser Stromchiffre hängt der Schlüsselstrom am Zähler. Beginnt ein neu bespielter Chip bei Zähler 0 mit demselben Schlüssel, wiederholt sich der Schlüsselstrom, und frühere Pakete werden angreifbar. Das Problem aus <a href="kapitel-04.html#grenzen">Kapitel 4</a> ist also nicht nur ein Betriebsfehler. Die einfache Regel: Neu spielen nur mit neuem Schlüssel oder ohne den Zähler zu löschen. Das klärt Lukas mit Maximilian.</p>
 
         <h2 id="app" data-kurz="Sicherheit der App">Sicherheit der App</h2>
         <p>Gäste und Mitarbeiter melden sich mit einem Code an. Wie sicher das ist, hängt an seiner Form, denn die Unterlagen widersprechen sich:</p>
@@ -135,18 +193,23 @@
 
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
-          <p><strong>Entschieden:</strong> Pakete sind verschlüsselt und gegen Wiederholung geschützt. Für den Test genügt das mit einem neuen Schlüssel.</p>
-          <p><strong>Empfohlen für die Serie:</strong> Eigener Schlüssel pro Chip mit AES, kein Speichern von Gesundheitsdaten, automatisches Löschen.</p>
-          <p><strong>Offen:</strong> Rechtsgrundlage, Verantwortung, Kinder, Folgenabschätzung und Fristen. Das braucht eine rechtliche Prüfung vor dem Betrieb.</p>
+          <p><strong>Entschieden:</strong> Im Test schützt eine selbst gebaute Stromchiffre auf Basis von SipHash den Inhalt, ein Prüfwert die Echtheit und ein Zähler gegen Wiederholung.</p>
+          <p><strong>Geschätzt:</strong> Mit neuem Schlüssel ist das für den kurzen Test vertretbar. Geprüft ist es nicht.</p>
+          <p><strong>Empfohlen für die Serie:</strong> AES-CCM oder ein gleichwertiges geprüftes Verfahren statt Eigenbau, eigener Schlüssel je Chip, geschützter Downlink, kein Speichern von Gesundheitsdaten, automatisches Löschen.</p>
+          <p><strong>Offen:</strong> Prüfung von <code>proto.h</code> und <code>proto.js</code>, Schlüsselverteilung und Schlüsselwechsel, dazu Rechtsgrundlage, Verantwortung, Kinder, Folgenabschätzung und Fristen. Das Rechtliche braucht eine Fachperson vor dem Betrieb.</p>
         </div>
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
         <ul class="quellen">
+          <li><a href="https://www.rfc-editor.org/rfc/rfc3610">RFC 3610: Counter with CBC-MAC (CCM)</a></li>
+          <li><a href="https://stm32.dirba.io/rm0453-stm32wl5x/23-aes-hardware-accelerator-aes/">STM32WL5x, AES-Baustein</a>, Abschrift des Handbuchs RM0453</li>
           <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
           <li><a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj">Verordnung (EU) 2016/679, DSGVO</a>, Art. 6, 9, 28, 35</li>
           <li><a href="https://www.jusline.at/gesetz/dsg/paragraf/artikel2zu4">§ 4 DSG</a>, Österreich</li>
           <li><a href="https://dsb.gv.at/sites/site0344/media/downloads/erlaeuterungen_zur_dsfa-v.pdf">Datenschutzbehörde: Erläuterungen zur Folgenabschätzung</a></li>
           <li><a href="https://thethingsnetwork.org/docs/lorawan/security">The Things Network: LoRaWAN-Sicherheit</a></li>
+          <li><a href="https://www.aumasson.jp/siphash/siphash.pdf">Aumasson, Bernstein: SipHash, a fast short-input PRF</a>, 2012</li>
+          <li><a href="https://csrc.nist.gov/News/2022/proposal-to-revise-sp-800-38a">NIST: Überarbeitung von SP 800-38A</a>, Zählermodus</li>
           <li><a href="https://github.com/tobiass3/SKI-TAG/blob/main/docs/datenformat.md">Datenformat der App</a></li>
         </ul>
       </div>

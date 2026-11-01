@@ -299,6 +299,14 @@ Every chapter is assembled the same way, so a new chapter needs no layout decisi
 - **Selected:** takes the panel's Twilight Plane fill, so it merges with the panel, in amber at weight 700.
 - **Hover / Focus:** amber text; 2px amber outline inset by 2px.
 
+### Start Page
+
+`docs/index.html` is the book's front door: the rope band and page contents stay, the chapter list is hidden because the page itself is the contents. Title, stamp line, lead, one main button, the system diagram, the status legend, then the chapters in thematic groups. Each chapter is one row on the Twilight Plane with number, title link, one sentence and the status mark that prevails in it. Rows, not cards. The page is static HTML, so it works without JavaScript.
+
+### Diagram
+
+A static inline SVG on the Twilight Plane with a caption, built from zones in Deep Twilight, boxes on the Upper Plane, Barlow labels at 16, 17 and 20px and 2px Haze lines. An amber line is the path of an emergency call. Red appears only as the Offen mark and its text, and red text never sits on the Upper Plane. Anything that is only a proposal carries the Offen mark. Below 820px the drawing keeps a 720px width and scrolls inside its own wrapper, with a hint in the caption.
+
 ### Calculator
 
 A Twilight Plane panel with a labelled range input, a Deep Twilight drawing, four values in Title weight with tabular numerals and one plain sentence on what the setting means. It updates instantly. Without JavaScript a small table stands in, marked `nur-ohne-js`.
