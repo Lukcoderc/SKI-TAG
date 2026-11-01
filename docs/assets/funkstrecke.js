@@ -33,7 +33,7 @@ function rechne() {
   const pegel = SENDE_DBM + GATEWAY_ANTENNE_DBI - frei - beugung - waldDb - zuschlag;
   const [wort, text] = bewerte(pegel);
   document.getElementById("str-km-wert").textContent = `${zahlDe(km, 1)} km`;
-  document.getElementById("str-grat-wert").textContent = `${grat} m`;
+  document.getElementById("str-grat-wert").textContent = `${zahlDe(grat)} m`;
   document.getElementById("str-wald-wert").textContent = `${wald} m`;
   document.getElementById("str-zuschlag-wert").textContent = `${zuschlag} dB`;
   document.getElementById("str-frei").textContent = `${zahlDe(frei)} dB`;

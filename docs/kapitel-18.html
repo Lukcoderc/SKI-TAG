@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Testen in der Schule · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Anleitung: SkiTag in der Schule testen und simulieren, vom Laptop bis zum echten Funk.">
-<link rel="stylesheet" href="assets/book.css?v=35">
-<script src="assets/book.js?v=35" defer></script>
-<script src="assets/checkliste.js?v=35" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=36">
+<script src="assets/book.js?v=36" defer></script>
+<script src="assets/checkliste.js?v=36" defer></script>
 </head>
 <body data-station="knopf">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -91,7 +91,7 @@
           <li><strong>Docker:</strong> Das NAS muss Docker können. Nicht jedes Modell kann das, also im Datenblatt nachsehen.</li>
           <li><strong>Ports:</strong> Caddy will die Ports 80 und 443. Auf Synology-Geräten sind die schon belegt. Dann muss der Server auf andere Ports, und das Gateway muss sie kennen. Ob <code>config.h</code> eine Adresse mit Port annimmt, ist nicht geprüft.</li>
           <li><strong>Zertifikat:</strong> Das Gateway verlangt ein Let's-Encrypt-Zertifikat. Das geht auch ohne offene Ports: Ein kostenloser DuckDNS-Name zeigt auf die interne Adresse des NAS, und Caddy weist die Domain über einen DNS-Eintrag nach (DNS-01). Dafür braucht Caddy das DuckDNS-Modul, und das NAS braucht zum Holen des Zertifikats Internet. Der DuckDNS-Token gehört nicht ins Repo.</li>
-          <li><strong>Netz:</strong> Gateway und NAS müssen sich erreichen. Das Gateway kann nur WLAN mit 2,4 GHz. Ein kleiner eigener Router mit NAS, Gateway, Laptop und Handy umgeht das Schulnetz ganz.</li>
+          <li><strong>Netz:</strong> Gateway und NAS müssen sich erreichen. Das Gateway kann nur WLAN mit 2,4 GHz. Ein kleiner eigener Router mit NAS, Gateway, Laptop und Handy umgeht das Schulnetz. Er braucht aber selbst Internet, etwa über den Schulanschluss oder einen Hotspot, sonst bekommt das NAS kein Zertifikat, und das Gateway findet den Namen nicht. Manche Router sperren außerdem Namen, die auf eine interne Adresse zeigen.</li>
         </ul>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Wir haben das nicht ausprobiert, und das Docker-Setup im Paket lag beim Schreiben nicht vor. Ob es das DuckDNS-Modul enthält, klärt der Bauplan. Sonst muss Caddy dafür neu gebaut werden.</p>
 
@@ -109,7 +109,7 @@
             <tr><td>Stabantenne 868 MHz mit Adapterkabel</td><td data-spalte="Ab Stufe">4</td><td data-spalte="Preis">8 €</td><td data-spalte="Hinweis">Mehr Reichweite als die beigelegte. Das Board nie ohne Antenne senden lassen.</td></tr>
             <tr><td>USB-C-Datenkabel</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Preis">0 €, vorhanden</td><td data-spalte="Hinweis">Zum Flashen und für den Strom vom Laptop.</td></tr>
             <tr><td>USB-C-Netzteil 5 V, 2 A</td><td data-spalte="Ab Stufe">4</td><td data-spalte="Preis">8 €</td><td data-spalte="Hinweis">Wenn das Gateway ohne Laptop am Fenster steht.</td></tr>
-            <tr><td>Muster-Chip</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Preis">Offen</td><td data-spalte="Hinweis">Von Maximilian.</td></tr>
+            <tr class="zeile-offen"><td>Muster-Chip</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Preis" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td><td data-spalte="Hinweis">Von Maximilian. Nicht im Gesamtpreis.</td></tr>
             <tr><td>Kleiner WLAN-Router</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Preis">0 € mit altem Gerät</td><td data-spalte="Hinweis">Falls das WLAN der Schule nicht geht, siehe Stolpersteine. Ein neuer ist hier nicht eingerechnet.</td></tr>
             <tr><td><strong>Gesamt mit 1 Gateway</strong></td><td data-spalte="Ab Stufe">3 und 4</td><td data-spalte="Preis"><strong>40 bis 56 €</strong></td><td data-spalte="Hinweis">Nur für Stufe 3 reichen 24 bis 40 €.</td></tr>
             <tr><td><strong>Gesamt mit 2 Gateways</strong></td><td data-spalte="Ab Stufe">4</td><td data-spalte="Preis"><strong>80 bis 112 €</strong></td><td data-spalte="Hinweis">Heltec, Stabantenne und Netzteil doppelt.</td></tr>
@@ -150,7 +150,7 @@ node tools/test.js</code></pre>
         <h2 id="stufe2" data-kurz="Stufe 2: Simulator">Stufe 2: Simulator</h2>
         <p>Lege auf dem NAS eine Datei <code>.env</code> mit <code>DOMAIN</code> und <code>EMAIL</code> an und starte den Server:</p>
         <pre class="befehl"><code>docker compose up -d --build</code></pre>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Caddy holt für diese Domain ein HTTPS-Zertifikat. Für das NAS gelten die Punkte aus <a href="#nas">Das NAS als Server</a>, die Befehle dafür sind nicht geprüft. Starte dann den Simulator. Er spielt 5 Chips, die durchs Skigebiet fahren:</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Caddy holt für diese Domain ein HTTPS-Zertifikat. Für das NAS gelten die Punkte aus <a href="#nas">Das NAS als Server</a>. Mit DuckDNS braucht Caddy zusätzlich den DuckDNS-Token, zum Beispiel als weitere Zeile in <code>.env</code>, und diese Datei gehört nicht ins Repo. Die Befehle dafür sind nicht geprüft. Starte dann den Simulator. Er spielt 5 Chips, die durchs Skigebiet fahren:</p>
         <pre class="befehl"><code>node tools/simulator.js &lt;Server-Adresse&gt; 5</code></pre>
         <p>Bedient wird er über die Tastatur:</p>
       </div>
@@ -195,7 +195,7 @@ node tools/test.js</code></pre>
         <table class="stapel">
           <thead><tr><th scope="col">Problem</th><th scope="col">Mögliche Ursache</th><th scope="col">Was hilft</th></tr></thead>
           <tbody>
-            <tr><td>Gateway kommt nicht ins WLAN</td><td data-spalte="Ursache">Schulnetze haben oft Anmeldeseiten oder sperren Geräte.</td><td data-spalte="Lösung">Eigenen Router mit NAS und Gateway aufstellen. Ein Handy-Hotspot hilft nur, wenn das NAS aus dem Internet erreichbar ist.</td></tr>
+            <tr><td>Gateway kommt nicht ins WLAN</td><td data-spalte="Ursache">Schulnetze haben oft Anmeldeseiten oder sperren Geräte.</td><td data-spalte="Lösung">Eigenen Router mit Internet für NAS und Gateway aufstellen. Ein Handy-Hotspot allein hilft nur, wenn das NAS aus dem Internet erreichbar ist.</td></tr>
             <tr><td>Bildschirm zeigt Server-Fehler</td><td data-spalte="Ursache">Adresse, Passwort oder Zertifikat stimmen nicht.</td><td data-spalte="Lösung">Beides mit <code>config.json</code> vergleichen, Punkt „Wichtig“ bei Stufe 3 beachten.</td></tr>
             <tr><td>Paketzähler bleibt stehen</td><td data-spalte="Ursache">Funk-Einstellungen oder Sync-Word sind ungleich.</td><td data-spalte="Lösung">Mit <a href="kapitel-04.html#einstellungen">Kapitel 4</a> vergleichen.</td></tr>
             <tr><td>Chip hat keine Position</td><td data-spalte="Ursache">Drinnen gibt es kaum GPS.</td><td data-spalte="Lösung">Ans Fenster legen oder ins Freie gehen.</td></tr>
@@ -264,8 +264,8 @@ node tools/test.js</code></pre>
       </div>
 
       <div class="blaettern">
-        <a href="kapitel-06.html">Zurück: Kapitel 6, Rückkanal zum Chip</a>
-        <span></span>
+        <a href="kapitel-17.html">Zurück: Kapitel 17, Ausblick Serie</a>
+        <a href="kapitel-anhang.html">Weiter: Anhang</a>
       </div>
     </article>
   </main>

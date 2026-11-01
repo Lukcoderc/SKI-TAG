@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ausfallsicherheit und Betrieb · SkiTag Netzwerk-Buch</title>
+<meta name="description" content="Was passiert, wenn Teile des Netzes ausfallen, und wie der Betrieb überwacht wird.">
+<link rel="stylesheet" href="assets/book.css?v=36">
+<script src="assets/book.js?v=36" defer></script>
+<script src="assets/ausfall.js?v=36" defer></script>
+</head>
+<body data-station="server">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
+  <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
+  <symbol id="mark-geschaetzt" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 3.2"/></symbol>
+  <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+</svg>
+
+<header class="seil">
+  <a class="seil-marke" href="kapitel-01.html">SkiTag Netzwerk-Buch</a>
+</header>
+
+<div class="buch">
+  <nav class="kapitel-nav" aria-label="Kapitel">
+    <details open>
+      <summary>Inhalt</summary>
+      <ol></ol>
+      <div class="seite-mobil">
+        <p>Auf dieser Seite</p>
+        <ol></ol>
+      </div>
+    </details>
+  </nav>
+
+  <main>
+    <details class="seite-klein">
+      <summary>Auf dieser Seite</summary>
+      <ol></ol>
+    </details>
+    <article>
+      <h1>Ausfallsicherheit und Betrieb</h1>
+      <p class="stand">Kapitel 14 · Stand 1. November 2026</p>
+
+      <div class="lesen">
+        <p class="einstieg">Ein Notruf-Netz wird nicht daran gemessen, wie es an guten Tagen läuft, sondern daran, was bei einem Ausfall geschieht. Dieses Kapitel geht jede Schwachstelle durch und zeigt, was die verletzte Person am Chip merkt.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Das Verhalten stammt aus der Übergabe. Ausprobiert ist noch keiner dieser Ausfälle.</p>
+
+        <h2 id="ausfaelle" data-kurz="Was fällt aus?">Was fällt aus?</h2>
+        <p>Wähle einen Ausfall und sieh nach, was mit einem Notruf geschieht.</p>
+      </div>
+      <section class="rechner" aria-label="Ausfälle durchspielen">
+        <div class="rechner-wahl" id="aus-wahl" role="radiogroup" aria-label="Ausfall wählen"></div>
+        <p class="rechner-text"><strong>Notruf:</strong> <span id="aus-notruf"></span></p>
+        <p class="rechner-text"><strong>Am Chip:</strong> <span id="aus-chip"></span></p>
+        <p class="rechner-text"><strong>Wer es merkt:</strong> <span id="aus-wer"></span></p>
+      </section>
+      <div class="tabelle nur-ohne-js">
+        <table class="stapel">
+          <thead><tr><th scope="col">Ausfall</th><th scope="col">Notruf</th><th scope="col">Am Chip</th><th scope="col">Wer es merkt</th></tr></thead>
+          <tbody>
+            <tr><td>Ein Gateway, ein zweites hört mit</td><td data-spalte="Notruf">Kommt an. Der Server nutzt das zweite Gateway.</td><td data-spalte="Am Chip">Nichts Ungewöhnliches.</td><td data-spalte="Wer es merkt">Die Ausgabe-Seite zeigt das Gateway nach 30 Sekunden als „weg“. Benachrichtigt wird niemand.</td></tr>
+            <tr><td>Das einzige Gateway in Reichweite</td><td data-spalte="Notruf">Kommt nicht an. Der Chip wiederholt ihn weiter.</td><td data-spalte="Am Chip">Nach 90 Sekunden blinkt er rot doppelt und vibriert jede Minute. Das heißt: 140 rufen.</td><td data-spalte="Wer es merkt">Die Ausgabe-Seite zeigt es nach 30 Sekunden. Benachrichtigt wird niemand.</td></tr>
+            <tr><td>WLAN an der Station</td><td data-spalte="Notruf">Das Gateway hört ihn und puffert bis zu 60 Pakete. Bei 5 Chips reicht das rund 4 Minuten. Erst wenn das Netz zurück ist, kommt er an.</td><td data-spalte="Am Chip">Warnt nach 90 Sekunden.</td><td data-spalte="Wer es merkt">Die Ausgabe-Seite zeigt das Gateway als „weg“.</td></tr>
+            <tr><td>Strom an der Station</td><td data-spalte="Notruf">Wie beim Ausfall des Gateways. Der Inhalt des Puffers ist vermutlich verloren.</td><td data-spalte="Am Chip">Warnt nach 90 Sekunden, wenn kein anderes Gateway hört.</td><td data-spalte="Wer es merkt">Die Ausgabe-Seite zeigt das Gateway als „weg“.</td></tr>
+            <tr><td>Der Server</td><td data-spalte="Notruf">Kommt nicht an, weder in der App noch sonst wo.</td><td data-spalte="Am Chip">Warnt nach 90 Sekunden.</td><td data-spalte="Wer es merkt">Niemand automatisch. Auch die Ausgabe-Seite ist dann weg.</td></tr>
+            <tr><td>Internet am Server</td><td data-spalte="Notruf">Erreicht das Gateway den Server noch, nimmt er den Notruf an. Die Apps bekommen ihn aber nicht.</td><td data-spalte="Am Chip">Der Chip bekommt eventuell ein ACK und warnt deshalb nicht.</td><td data-spalte="Wer es merkt">Niemand. Das ist die gefährlichste Lücke.</td></tr>
+            <tr><td>Handy des Mitarbeiters</td><td data-spalte="Notruf">Der Server wartet 60 Sekunden, dann ist der nächste Mitarbeiter dran.</td><td data-spalte="Am Chip">Hat ein ACK, aber noch kein HELP. Er zeigt also keine Annahme.</td><td data-spalte="Wer es merkt">Niemand, solange noch ein Mitarbeiter übrig ist.</td></tr>
+            <tr><td>Niemand nimmt an</td><td data-spalte="Notruf">Was nach dem letzten Mitarbeiter geschieht, ist nicht beschrieben.</td><td data-spalte="Am Chip">Kein HELP, also keine Annahme am Chip.</td><td data-spalte="Wer es merkt">Nicht geregelt.</td></tr>
+            <tr><td>GPS-Empfang</td><td data-spalte="Notruf">Kommt an, mit der Position des Gateways, markiert als „ungefähr“.</td><td data-spalte="Am Chip">Sendet weiter, ohne eigene Uhrzeit etwas zufällig versetzt.</td><td data-spalte="Wer es merkt">Der Mitarbeiter sieht, dass die Position ungefähr ist, wenn die App es anzeigt.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <p class="nach-tabelle">Zwei Dinge fallen auf. Der Chip warnt zuverlässig, wenn keine Bestätigung kommt, darum ist die Warnung nach 90 Sekunden so wichtig. Und es merkt fast nie jemand von selbst, dass etwas kaputt ist.</p>
+
+        <h2 id="ack" data-kurz="Die gefährlichste Lücke">Die gefährlichste Lücke</h2>
+        <p>Der schlimmste Fall ist nicht das Schweigen, sondern die falsche Sicherheit: Der Server bestätigt, aber kein Mensch hat den Notruf. Wir schlagen dafür drei Regeln vor:</p>
+        <ol>
+          <li><strong>Am Chip zählt nur HELP.</strong> Ein ACK stoppt die schnellen Wiederholungen, zeigt aber nie „Hilfe kommt“.</li>
+          <li><strong>Die 90 Sekunden laufen weiter.</strong> Kommt nach dem ACK kein HELP, warnt der Chip trotzdem, nur eventuell etwas später.</li>
+          <li><strong>Der Server prüft seine Zuhörer.</strong> Hängt keine Mitarbeiter-App am Stream, meldet er das sofort.</li>
+        </ol>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Regel 1 und 2 ändern die Chip-Software und gehören zu Maximilian. Ob ein ACK heute schon wie eine Annahme wirkt, ist nicht beschrieben.</p>
+
+        <h2 id="ohne-internet" data-kurz="Was heißt ohne Internet?">Was heißt „ohne Internet“?</h2>
+        <p>Laut Geschäftsmodell soll SkiTag ohne Internet funktionieren. Das kann dreierlei bedeuten:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Bedeutung</th><th scope="col">Was nötig ist</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr><td>Der Gast braucht kein Handy und kein Netz</td><td data-spalte="Nötig">Nichts, das stimmt schon</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-fest"/></svg>Fest</td></tr>
+            <tr class="zeile-offen"><td>Der Notruf kommt ohne Internet bis zum Server</td><td data-spalte="Nötig">Gateways im Netz der Bergbahn und ein Server vor Ort</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Der Notruf erreicht ohne Internet einen Menschen</td><td data-spalte="Nötig">Mitarbeiter im Bergbahn-Netz oder ein Empfänger bei der Pistenrettung</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Für ein Notruf-Versprechen zählt die dritte Stufe. Am einfachsten wäre ein Notfall-Empfänger in der Pistenrettung: ein Gateway mit Bildschirm oder Summer, das Notrufe direkt aus der Luft hört und anzeigt, ganz ohne Server. Es braucht dafür den Schlüssel, eine Änderung der Gateway-Software und rund 56 € Material. Welche Bedeutung gilt, müssen Tobias und Lukas mit Blick auf das Geschäftsmodell entscheiden.</p>
+
+        <h2 id="ueberwachung" data-kurz="Merken, dass etwas fehlt">Merken, dass etwas fehlt</h2>
+        <p>Die nötigen Signale gibt es schon: Jedes Gateway meldet sich mindestens alle 10 Sekunden. Es fehlt nur, dass jemand benachrichtigt wird. Unser Vorschlag:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Was</th><th scope="col">Woran man es erkennt</th><th scope="col">Wer es erfährt</th></tr></thead>
+          <tbody>
+            <tr><td>Gateway weg</td><td data-spalte="Erkennung">Länger als 30 Sekunden keine Meldung</td><td data-spalte="Wer">Bereitschaft, per Nachricht</td></tr>
+            <tr><td>Keine Mitarbeiter-App verbunden</td><td data-spalte="Erkennung">Während der Liftzeiten kein Stream offen</td><td data-spalte="Wer">Leitstand der Bergbahn</td></tr>
+            <tr><td>Server weg</td><td data-spalte="Erkennung">Ein Dienst außerhalb prüft ihn regelmäßig</td><td data-spalte="Wer">Bereitschaft, per Nachricht</td></tr>
+            <tr><td>Internet am Server weg</td><td data-spalte="Erkennung">Der Server erreicht selbst nichts mehr</td><td data-spalte="Wer">Leitstand, über das interne Netz</td></tr>
+            <tr><td>Notruf nicht angenommen</td><td data-spalte="Erkennung">Alle Mitarbeiter durch, ohne Annahme</td><td data-spalte="Wer">Leitstand, laut und sofort</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <h2 id="betrieb" data-kurz="Der Tag im Betrieb">Der Tag im Betrieb</h2>
+        <p>Für die Saison schlagen wir einen festen Ablauf vor. Er ist noch nicht mit KitzSki abgesprochen.</p>
+        <ul>
+          <li><strong>Vor Liftbeginn:</strong> Alle Gateways grün, ein Prüf-Notruf vom Testchip läuft bis in die App und zurück.</li>
+          <li><strong>Während des Tages:</strong> Benachrichtigungen beobachten, Mitarbeiter melden sich an und ab.</li>
+          <li><strong>Nach Betriebsschluss:</strong> Chips zurück in die Ladebox, offene Notrufe abschließen, Updates nur jetzt.</li>
+          <li><strong>Pro Woche:</strong> Backup prüfen und einen Ausfall proben.</li>
+          <li><strong>Vor der Saison:</strong> Gateways, Antennen und Blitzschutz kontrollieren, neuer Reichweiten-Test.</li>
+        </ul>
+
+        <h2 id="offen" data-kurz="Was noch offen ist">Was noch offen ist</h2>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr class="zeile-offen"><td>Überlappen sich die Gateways?</td><td data-spalte="Warum">Nur dann ersetzt eines das andere. <a href="kapitel-10.html#wieviele">Kapitel 10</a> zeigt, was das kostet.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Wer wird benachrichtigt?</td><td data-spalte="Warum">Ohne Bereitschaft nützt die beste Überwachung nichts.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Letzte Stufe der Eskalation</td><td data-spalte="Warum">Was geschieht, wenn alle Mitarbeiter nicht annehmen? Vorschlag: Leitstand und Hinweis, 140 zu rufen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Gesamtausfall</td><td data-spalte="Warum">Fällt alles aus, braucht die Bergbahn einen Hinweis an die Gäste, dass SkiTag nicht verfügbar ist.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Puffer im Gateway</td><td data-spalte="Warum">Bei vielen Chips sind 60 Pakete schnell voll. Notrufe sollten darin Vorrang haben.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
+        <div class="urteil">
+          <p><strong>Entschieden:</strong> Der Chip wiederholt einen Notruf ohne Ende und warnt nach 90 Sekunden ohne Bestätigung.</p>
+          <p><strong>Geschätzt:</strong> Die größte Lücke ist ein bestätigter Notruf, den kein Mensch bekommt. Die Regeln dagegen sind ein Vorschlag.</p>
+          <p><strong>Offen:</strong> Was „ohne Internet“ bedeutet, wer bei einem Ausfall benachrichtigt wird, und was nach dem letzten Mitarbeiter geschieht.</p>
+        </div>
+
+        <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
+        <ul class="quellen">
+          <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
+          <li>Pitch-Präsentation SkiTag, internes Dokument</li>
+        </ul>
+      </div>
+
+      <div class="blaettern">
+        <a href="kapitel-13.html">Zurück: Kapitel 13, Schnittstelle zur App</a>
+        <a href="kapitel-15.html">Weiter: Kapitel 15, Sicherheit und Datenschutz</a>
+      </div>
+    </article>
+  </main>
+
+  <nav class="seiten-nav" aria-label="Auf dieser Seite">
+    <h2>Auf dieser Seite</h2>
+    <ol></ol>
+  </nav>
+</div>
+</body>
+</html>

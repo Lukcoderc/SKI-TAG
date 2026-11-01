@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Standortplanung KitzSki · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie viele Gateways KitzSki braucht: ein Modell aus echten Pisten und Gelände.">
-<link rel="stylesheet" href="assets/book.css?v=35">
-<script src="assets/book.js?v=35" defer></script>
-<script src="assets/funk.js?v=35" defer></script>
-<script src="assets/abdeckung-daten.js?v=35" defer></script>
-<script src="assets/abdeckung.js?v=35" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=36">
+<script src="assets/book.js?v=36" defer></script>
+<script src="assets/funk.js?v=36" defer></script>
+<script src="assets/abdeckung-daten.js?v=36" defer></script>
+<script src="assets/abdeckung.js?v=36" defer></script>
 </head>
 <body data-station="empfaenger">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -72,7 +72,7 @@
             <div><dt>Mindestens knapp</dt><dd id="abd-knapp"></dd></div>
             <div><dt>Von zweien gut gehört</dt><dd id="abd-doppelt"></dd></div>
           </dl>
-          <div class="rechner-regler"><label for="abd-zuschlag">Zuschlag: <output id="abd-zuschlag-wert"></output></label><input id="abd-zuschlag" type="range" min="0" max="30" step="5" value="10"></div>
+          <div class="rechner-regler"><label for="abd-zuschlag">Zuschlag: <output id="abd-zuschlag-wert"></output></label><input id="abd-zuschlag" type="range" min="0" max="40" step="5" value="10"></div>
           <ul class="checkliste" id="abd-liste"></ul>
         </div>
       </section>
@@ -80,7 +80,7 @@
       <div class="tabelle nur-ohne-js">
         <table>
           <thead><tr><th scope="col">Die 4 Stationen aus der Reihenfolge unten, Zuschlag</th><th scope="col">Gut</th><th scope="col">Mindestens knapp</th></tr></thead>
-          <tbody><tr><td>0 dB</td><td>98 %</td><td>99 %</td></tr><tr><td>10 dB</td><td>95 %</td><td>98 %</td></tr><tr><td>20 dB</td><td>92 %</td><td>95 %</td></tr><tr><td>30 dB</td><td>70 %</td><td>92 %</td></tr></tbody>
+          <tbody><tr><td>0 dB</td><td>97 %</td><td>99 %</td></tr><tr><td>10 dB</td><td>95 %</td><td>97 %</td></tr><tr><td>20 dB</td><td>91 %</td><td>95 %</td></tr><tr><td>30 dB</td><td>67 %</td><td>91 %</td></tr><tr><td>36,5 dB</td><td>33 %</td><td>83 %</td></tr></tbody>
         </table>
       </div>
 
@@ -98,11 +98,12 @@
             <tr><td data-spalte="Zuschlag"><strong>10 dB</strong></td><td data-spalte="Gut"><strong>4</strong></td><td data-spalte="Knapp"><strong>3</strong></td><td data-spalte="Doppelt"><strong>12</strong></td></tr>
             <tr><td data-spalte="Zuschlag">20 dB</td><td data-spalte="Gut">5</td><td data-spalte="Knapp">4</td><td data-spalte="Doppelt">21</td></tr>
             <tr><td data-spalte="Zuschlag">30 dB</td><td data-spalte="Gut">14</td><td data-spalte="Knapp">5</td><td data-spalte="Doppelt">47, nur 93 % erreicht</td></tr>
+            <tr><td data-spalte="Zuschlag">36,5 dB</td><td data-spalte="Gut">44, 92 % erreicht</td><td data-spalte="Knapp">9, 95 % erreicht</td><td data-spalte="Doppelt">57, nur 76 % erreicht</td></tr>
           </tbody>
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Die Zahl für einfache Abdeckung bleibt erstaunlich klein, weil Stationen hoch liegen und weit über die Täler sehen. Die Zeile mit 30 dB kommt dem Fall nahe, dass der Chip zusätzlich im Wald liegt: Dort rechnet ITU-R P.833 mit bis zu 26,5 dB. Die rechte Spalte ist die wichtigere: Soll bei einem Ausfall ein zweites Gateway einspringen, oder soll ein Chip hinter einem Hindernis noch gehört werden, steigt die Zahl stark.</p>
+        <p class="nach-tabelle">Die Zahl für einfache Abdeckung bleibt erstaunlich klein, weil Stationen hoch liegen und weit über die Täler sehen. Liegt der Chip zusätzlich im Wald, rechnet ITU-R P.833 mit bis zu 26,5 dB. Zusammen mit den 10 dB ergibt das die Zeile mit 36,5 dB, und dort reicht das Modell nicht mehr aus. Die rechte Spalte ist die wichtigere: Soll bei einem Ausfall ein zweites Gateway einspringen, oder soll ein Chip hinter einem Hindernis noch gehört werden, steigt die Zahl stark.</p>
 
         <h2 id="reihenfolge" data-kurz="Welche Stationen zuerst">Welche Stationen zuerst</h2>
         <p>Bei 10 dB Zuschlag und der Schwelle „gut“ wählt das Modell diese Reihenfolge:</p>
@@ -160,7 +161,7 @@
 
       <div class="blaettern">
         <a href="kapitel-09.html">Zurück: Kapitel 9, Reichweite im Gelände</a>
-        <span>Weiter: Kapitel 11, Strom und Netzanbindung (noch nicht geschrieben)</span>
+        <a href="kapitel-11.html">Weiter: Kapitel 11, Strom und Netzanbindung</a>
       </div>
     </article>
   </main>

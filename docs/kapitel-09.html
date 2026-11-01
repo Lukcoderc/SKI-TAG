@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reichweite im Gelände · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was die Reichweite von LoRa am Berg bestimmt und wie SkiTag sie misst.">
-<link rel="stylesheet" href="assets/book.css?v=35">
-<script src="assets/book.js?v=35" defer></script>
-<script src="assets/funk.js?v=35" defer></script>
-<script src="assets/funkstrecke.js?v=35" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=36">
+<script src="assets/book.js?v=36" defer></script>
+<script src="assets/funk.js?v=36" defer></script>
+<script src="assets/funkstrecke.js?v=36" defer></script>
 </head>
 <body data-station="chip">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -69,7 +69,7 @@
         <p class="nach-tabelle">Die Strecke selbst ist also fast harmlos. Zwischen 5 und 15 km liegen nur 10 dB, ein einzelner Grat kostet mehr als doppelt so viel. Darum entscheidet das Gelände, nicht der Abstand.</p>
 
         <h2 id="fresnel" data-kurz="Warum freie Sicht nicht reicht">Warum freie Sicht nicht reicht</h2>
-        <p>Funk läuft nicht auf einer dünnen Linie. Rund um die Sichtlinie braucht das Signal Platz, die sogenannte Fresnel-Zone. Bei 869 MHz und 10 km Strecke ist sie in der Mitte rund 29 Meter dick, und rund 18 Meter davon sollten frei bleiben. Ein Chip, der knapp über eine Kuppe sieht, verliert also schon, obwohl man das Gateway sehen könnte.</p>
+        <p>Funk läuft nicht auf einer dünnen Linie. Rund um die Sichtlinie braucht das Signal Platz, die sogenannte Fresnel-Zone. Bei 869 MHz und 10 km Strecke reicht sie in der Mitte rund 29 Meter um die Sichtlinie herum, ist also rund 59 Meter dick. Rund 18 Meter um die Linie sollten frei bleiben. Ein Chip, der knapp über eine Kuppe sieht, verliert also schon, obwohl man das Gateway sehen könnte.</p>
         <p>Das gilt auch umgekehrt: Hinter einem Grat ist nicht sofort Schluss. Ein Teil des Signals biegt sich über die Kante. Das zeigte auch die Studie aus <a href="kapitel-03.html#reichweite">Kapitel 3</a>: In einer Schlucht kamen am Körper getragene Sender noch 300 Meter weit, weit weniger als im Flachen, aber nicht null.</p>
 
         <h2 id="rechner" data-kurz="Eine Strecke selbst rechnen">Eine Strecke selbst rechnen</h2>
@@ -117,7 +117,7 @@
         <p>Rechnen ersetzt das Messen nicht, es sagt nur, wo man genau hinschauen sollte. Der Reichweiten-Test läuft so:</p>
         <ol>
           <li>Die zwei Gateways stehen an ihren Plätzen, das Funk-Protokoll zeichnet jedes Paket mit RSSI auf.</li>
-          <li>Jemand fährt mit dem Chip in der Jacke einen Tag lang alle Pisten ab.</li>
+          <li>Jemand fährt mit dem Chip in der Jacke einen Tag lang die Teststrecke ab. Das ganze Gebiet lässt sich so nicht messen, dafür braucht es später mehr Gateways und mehrere Personen.</li>
           <li>Das Protokoll wird von der Ausgabe-Seite heruntergeladen und nach Position ausgewertet.</li>
           <li>Pisten unter −115 dBm und Lücken ohne Pakete werden markiert.</li>
           <li>Für den Ausfall-Test werden Gateway und WLAN abgeschaltet, und es wird geprüft, was der Chip anzeigt.</li>
@@ -126,8 +126,7 @@
 
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
-          <p><strong>Fest:</strong> Grate und Wald bestimmen die Reichweite stärker als die Entfernung.</p>
-          <p><strong>Geschätzt:</strong> 5 bis 15 km bei freier Sicht sind rechnerisch plausibel, hinter einem Grat deutlich weniger.</p>
+          <p><strong>Geschätzt:</strong> Grate und Wald bestimmen die Reichweite stärker als die Entfernung. 5 bis 15 km bei freier Sicht sind rechnerisch plausibel, hinter einem Grat deutlich weniger.</p>
           <p><strong>Offen:</strong> Körper, Schnee und Chip-Antenne. Erst der Test zeigt, wie viel Reserve wirklich nötig ist.</p>
         </div>
 

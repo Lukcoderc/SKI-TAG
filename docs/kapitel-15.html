@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sicherheit und Datenschutz · SkiTag Netzwerk-Buch</title>
+<meta name="description" content="Wie SkiTag Pakete und Daten schützt, was gespeichert wird und was rechtlich offen ist.">
+<link rel="stylesheet" href="assets/book.css?v=36">
+<script src="assets/book.js?v=36" defer></script>
+</head>
+<body data-station="server">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
+  <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
+  <symbol id="mark-geschaetzt" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 3.2"/></symbol>
+  <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+</svg>
+
+<header class="seil">
+  <a class="seil-marke" href="kapitel-01.html">SkiTag Netzwerk-Buch</a>
+</header>
+
+<div class="buch">
+  <nav class="kapitel-nav" aria-label="Kapitel">
+    <details open>
+      <summary>Inhalt</summary>
+      <ol></ol>
+      <div class="seite-mobil">
+        <p>Auf dieser Seite</p>
+        <ol></ol>
+      </div>
+    </details>
+  </nav>
+
+  <main>
+    <details class="seite-klein">
+      <summary>Auf dieser Seite</summary>
+      <ol></ol>
+    </details>
+    <article>
+      <h1>Sicherheit und Datenschutz</h1>
+      <p class="stand">Kapitel 15 · Stand 1. November 2026</p>
+
+      <div class="lesen">
+        <p class="einstieg">SkiTag weiß, wo Menschen gerade sind, auch Kinder. Darum müssen zwei Fragen beantwortet sein: Kann jemand das Netz angreifen, und was passiert mit den Daten? Für den Test reicht Einfaches, für den Betrieb nicht.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Dieses Kapitel ist keine Rechtsberatung. Die rechtlichen Punkte sind Fragen an eine Fachperson, keine Antworten.</p>
+
+        <h2 id="gefahren" data-kurz="Wovor das Netz schützt">Wovor das Netz schützt</h2>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Angriff</th><th scope="col">Schutz heute</th><th scope="col">Grenze</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr class="zeile-offen"><td>Pakete mitlesen</td><td data-spalte="Schutz">Verschlüsselt mit SipHash-2-4</td><td data-spalte="Grenze">Eigenbau statt Standard, ein Schlüssel für alle</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Falschen Notruf senden</td><td data-spalte="Schutz">Prüfwert mit 32 Bit</td><td data-spalte="Grenze">Wer einen Chip ausliest, kann alle fälschen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr><td>Altes Paket wiederholen</td><td data-spalte="Schutz">Zähler, der nur steigt</td><td data-spalte="Grenze">Hängt am Zähler im Flash</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr class="zeile-offen"><td>Funk stören</td><td data-spalte="Schutz">Kein Schutz</td><td data-spalte="Grenze">Ein Störsender blockiert den Kanal. Der Chip warnt nach 90 Sekunden.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Gateway übernehmen</td><td data-spalte="Schutz">HTTPS und eigenes Passwort</td><td data-spalte="Grenze">Das Gerät steht zugänglich, das Passwort liegt im Speicher</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>App-Code erraten</td><td data-spalte="Schutz">Sperre nach 20 Fehlversuchen in 10 Minuten</td><td data-spalte="Grenze">Siehe unten</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <h2 id="funk" data-kurz="Sicherheit im Funk">Sicherheit im Funk</h2>
+        <p>Der Prüfwert hat 32 Bit, also rund 4,3 Milliarden Möglichkeiten. Das klingt in <a href="kapitel-04.html#grenzen">Kapitel 4</a> knapp, LoRaWAN nutzt aber genauso 32 Bit. Über Funk sind so viele Versuche ohnehin nicht machbar. Das eigentliche Problem ist der gemeinsame Schlüssel: Mietchips gehen durch viele Hände, und ein ausgelesener Chip gefährdet alle.</p>
+        <p>Für die Serie empfehlen wir daher dasselbe wie LoRaWAN: einen eigenen Schlüssel pro Chip und AES, das der Chip in Hardware kann.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Eine Gefahr ist neu: Bei dieser Verschlüsselung hängt der Schlüsselstrom am Zähler. Beginnt ein neu bespielter Chip bei Zähler 0 mit demselben Schlüssel, wiederholt sich der Schlüsselstrom, und frühere Pakete werden angreifbar. Das Problem aus <a href="kapitel-04.html#grenzen">Kapitel 4</a> ist also nicht nur ein Betriebsfehler. Die einfache Regel: Neu spielen nur mit neuem Schlüssel oder ohne den Zähler zu löschen. Das klärt Lukas mit Maximilian.</p>
+
+        <h2 id="app" data-kurz="Sicherheit der App">Sicherheit der App</h2>
+        <p>Gäste und Mitarbeiter melden sich mit einem Code an. Wie sicher das ist, hängt an seiner Form, denn die Unterlagen widersprechen sich:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Code</th><th scope="col">Möglichkeiten</th><th scope="col">Treffer mit 2880 Versuchen am Tag</th></tr></thead>
+          <tbody>
+            <tr><td>6 Ziffern, laut Übergabe</td><td data-spalte="Möglichkeiten">1 Million</td><td data-spalte="Treffer">rund 0,3 % für einen bestimmten Code</td></tr>
+            <tr><td>6 Zeichen mit Buchstaben, laut App</td><td data-spalte="Möglichkeiten">rund 2,2 Milliarden</td><td data-spalte="Treffer">fast null</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Die Rechnung nimmt eine einzelne IP-Adresse und höchstens 120 Versuche pro Stunde an. Wir empfehlen Buchstaben und Zahlen, dazu die Prüfung des Namens. Mitarbeiter-Zugänge brauchen mehr als einen kurzen Code, denn sie sehen alle Chips.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Die Sperre gilt pro IP-Adresse. Im Mobilfunk teilen sich oft viele Handys eine Adresse. Rät dort jemand, trifft die Sperre vielleicht alle anderen mit, auch einen Mitarbeiter bei einem Notruf. Das muss geprüft werden.</p>
+
+        <h2 id="daten" data-kurz="Welche Daten anfallen">Welche Daten anfallen</h2>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Daten</th><th scope="col">Wer sie sieht</th><th scope="col">Wie lange heute</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr class="zeile-offen"><td>Positionen der Chips</td><td data-spalte="Wer">Eigene Gruppe, Mitarbeiter</td><td data-spalte="Dauer">Keine Frist, nach dem Test von Hand löschen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Funk-Protokoll</td><td data-spalte="Wer">Wer die Ausgabe-Seite öffnet</td><td data-spalte="Dauer">Keine Frist, nach dem Test von Hand löschen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Code, Name, Mietbeleg</td><td data-spalte="Wer">Server, Ausgabe</td><td data-spalte="Dauer">Zugang gilt bis Mitternacht, Löschung offen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Notrufe mit Verlauf</td><td data-spalte="Wer">Mitarbeiter</td><td data-spalte="Dauer">Offen, vielleicht länger aus Beweisgründen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Skischule: Name, Alter, Elterntelefon, Notizen</td><td data-spalte="Wer">Skischule</td><td data-spalte="Dauer">Offen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Zwei Dinge dürfen dabei nicht übersehen werden. Das Datenformat der App nennt vermietete Chips „anonym“, weil dort kein Name steht. Über den Mietbeleg lassen sie sich aber einer Person zuordnen, damit sind die Daten personenbezogen. Und die Notizen der Skischule enthalten im Beispiel Allergien. Das sind Gesundheitsdaten, für die strengere Regeln gelten.</p>
+
+        <h2 id="recht" data-kurz="Rechtliche Fragen">Rechtliche Fragen</h2>
+        <p>Die DSGVO gilt auch für den Test, sobald echte Menschen einen Chip tragen.</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Frage</th><th scope="col">Ansatz</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr class="zeile-offen"><td>Worauf stützt sich die Verarbeitung?</td><td data-spalte="Ansatz">Test: Einwilligung, die Vorlage steht im Bauplan. Betrieb: vermutlich der Mietvertrag, im Notfall lebenswichtige Interessen (Art. 6 Abs. 1 lit. d).</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Wer ist verantwortlich?</td><td data-spalte="Ansatz">SkiTag, KitzSki oder beide? Dienstleister brauchen einen Vertrag nach Art. 28.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Was gilt für Kinder?</td><td data-spalte="Ansatz">In Österreich kann ein Kind ab 14 selbst in Online-Dienste einwilligen (§ 4 Abs. 4 DSG). Darunter entscheiden die Eltern.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Braucht es eine Folgenabschätzung?</td><td data-spalte="Ansatz">Laufende Ortung vieler Menschen, auch von Kindern, spricht dafür (Art. 35).</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Dürfen Allergien gespeichert werden?</td><td data-spalte="Ansatz">Gesundheitsdaten fallen unter Art. 9. Besser wäre: keine Notizen auf dem Server oder eine ausdrückliche Einwilligung.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <h2 id="fristen" data-kurz="Vorschlag für Fristen">Vorschlag für Fristen</h2>
+        <p>Heute löscht niemand automatisch. Als Ausgangspunkt für das Gespräch mit einer Fachperson schlagen wir vor:</p>
+        <ul>
+          <li>Positionen: am Ende des Miettags löschen, außer die Person teilt ihren Tag selbst.</li>
+          <li>Funk-Protokoll: Positionen nach dem Tag entfernen, RSSI ohne Chip-Bezug behalten.</li>
+          <li>Notrufe: so lange aufbewahren, wie es rechtlich nötig ist, und danach löschen. Die Dauer ist offen.</li>
+          <li>Skischule: Kursdaten mit dem Kurs löschen.</li>
+        </ul>
+        <p>Auch die App spricht mit Fremden: Kartenkacheln, Wetter und Lawinenbericht kommen heute von anderen Servern, die dabei die IP-Adresse sehen. Laut App-Repo sollen die Karten auf eigene Server wandern.</p>
+
+        <h2 id="test" data-kurz="Regeln für den Test">Regeln für den Test</h2>
+        <ul>
+          <li>Neuen Schlüssel und neue Passwörter erzeugen, nie die Beispielwerte verwenden.</li>
+          <li>Schlüssel, Passwörter und Tokens nie in ein Repo stellen.</li>
+          <li>Alle, die einen Chip tragen, geben vorher ihre Einwilligung. Bei Kindern die Eltern.</li>
+          <li>Nach dem Test <code>daten/state.json</code> und <code>daten/log-*.ndjson</code> löschen.</li>
+        </ul>
+
+        <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
+        <div class="urteil">
+          <p><strong>Entschieden:</strong> Pakete sind verschlüsselt und gegen Wiederholung geschützt. Für den Test genügt das mit einem neuen Schlüssel.</p>
+          <p><strong>Empfohlen für die Serie:</strong> Eigener Schlüssel pro Chip mit AES, kein Speichern von Gesundheitsdaten, automatisches Löschen.</p>
+          <p><strong>Offen:</strong> Rechtsgrundlage, Verantwortung, Kinder, Folgenabschätzung und Fristen. Das braucht eine rechtliche Prüfung vor dem Betrieb.</p>
+        </div>
+
+        <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
+        <ul class="quellen">
+          <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
+          <li><a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj">Verordnung (EU) 2016/679, DSGVO</a>, Art. 6, 9, 28, 35</li>
+          <li><a href="https://www.jusline.at/gesetz/dsg/paragraf/artikel2zu4">§ 4 DSG</a>, Österreich</li>
+          <li><a href="https://dsb.gv.at/sites/site0344/media/downloads/erlaeuterungen_zur_dsfa-v.pdf">Datenschutzbehörde: Erläuterungen zur Folgenabschätzung</a></li>
+          <li><a href="https://thethingsnetwork.org/docs/lorawan/security">The Things Network: LoRaWAN-Sicherheit</a></li>
+          <li><a href="https://github.com/tobiass3/SKI-TAG/blob/main/docs/datenformat.md">Datenformat der App</a></li>
+        </ul>
+      </div>
+
+      <div class="blaettern">
+        <a href="kapitel-14.html">Zurück: Kapitel 14, Ausfallsicherheit und Betrieb</a>
+        <a href="kapitel-16.html">Weiter: Kapitel 16, Testplan Februar 2027</a>
+      </div>
+    </article>
+  </main>
+
+  <nav class="seiten-nav" aria-label="Auf dieser Seite">
+    <h2>Auf dieser Seite</h2>
+    <ol></ol>
+  </nav>
+</div>
+</body>
+</html>

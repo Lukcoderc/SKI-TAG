@@ -10,15 +10,15 @@ const KAPITEL = [
   { nr: 8, titel: "Die Gateways", datei: "kapitel-08.html" },
   { nr: 9, titel: "Reichweite im Gelände", datei: "kapitel-09.html" },
   { nr: 10, titel: "Standortplanung KitzSki", datei: "kapitel-10.html" },
-  { nr: 11, titel: "Strom und Netzanbindung" },
-  { nr: 12, titel: "Der Server" },
-  { nr: 13, titel: "Schnittstelle zur App" },
-  { nr: 14, titel: "Ausfallsicherheit und Betrieb" },
-  { nr: 15, titel: "Sicherheit und Datenschutz" },
-  { nr: 16, titel: "Testplan Februar 2027" },
-  { nr: 17, titel: "Ausblick Serie" },
+  { nr: 11, titel: "Strom und Netzanbindung", datei: "kapitel-11.html" },
+  { nr: 12, titel: "Der Server", datei: "kapitel-12.html" },
+  { nr: 13, titel: "Schnittstelle zur App", datei: "kapitel-13.html" },
+  { nr: 14, titel: "Ausfallsicherheit und Betrieb", datei: "kapitel-14.html" },
+  { nr: 15, titel: "Sicherheit und Datenschutz", datei: "kapitel-15.html" },
+  { nr: 16, titel: "Testplan Februar 2027", datei: "kapitel-16.html" },
+  { nr: 17, titel: "Ausblick Serie", datei: "kapitel-17.html" },
   { nr: 18, titel: "Testen in der Schule", datei: "kapitel-18.html" },
-  { nr: "A", titel: "Anhang" },
+  { nr: "A", titel: "Anhang", datei: "kapitel-anhang.html" },
 ];
 
 // Die Stationen des Seils sind die sechs Schritte eines Notrufs.

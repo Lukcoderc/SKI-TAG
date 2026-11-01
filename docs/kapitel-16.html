@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testplan Februar 2027 · SkiTag Netzwerk-Buch</title>
+<meta name="description" content="Was vor dem Testtag fertig sein muss, was geprüft wird und wann ein Test bestanden ist.">
+<link rel="stylesheet" href="assets/book.css?v=36">
+<script src="assets/book.js?v=36" defer></script>
+</head>
+<body data-station="knopf">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
+  <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
+  <symbol id="mark-geschaetzt" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 3.2"/></symbol>
+  <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+</svg>
+
+<header class="seil">
+  <a class="seil-marke" href="kapitel-01.html">SkiTag Netzwerk-Buch</a>
+</header>
+
+<div class="buch">
+  <nav class="kapitel-nav" aria-label="Kapitel">
+    <details open>
+      <summary>Inhalt</summary>
+      <ol></ol>
+      <div class="seite-mobil">
+        <p>Auf dieser Seite</p>
+        <ol></ol>
+      </div>
+    </details>
+  </nav>
+
+  <main>
+    <details class="seite-klein">
+      <summary>Auf dieser Seite</summary>
+      <ol></ol>
+    </details>
+    <article>
+      <h1>Testplan Februar 2027</h1>
+      <p class="stand">Kapitel 16 · Stand 1. November 2026</p>
+
+      <div class="lesen">
+        <p class="einstieg">Im Februar oder März 2027 kommt alles zum ersten Mal zusammen: 5 Chips, 2 Gateways, Server und echte App an einer Bergbahn. Dieses Kapitel legt fest, was vorher stehen muss, was wir prüfen und wann ein Punkt als bestanden gilt.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Datum, Ort und Piste stehen noch nicht fest, und die Bergbahn hat dem Test laut unseren Unterlagen noch nicht zugesagt. Die Bedingungen für „bestanden“ sind unser Vorschlag.</p>
+
+        <h2 id="vorher" data-kurz="Was vorher stehen muss">Was vorher stehen muss</h2>
+        <p>Die Prototypen sollen im Jänner 2027 fertig sein. Diese Reihenfolge schlagen wir vor, jeder Schritt baut auf dem vorigen auf:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Schritt</th><th scope="col">Wer</th><th scope="col">Fertig, wenn</th></tr></thead>
+          <tbody>
+            <tr><td>1. Hardware bestellen</td><td data-spalte="Wer">Lukas</td><td data-spalte="Fertig">2 Heltec V3, 2 Antennen, 2 Netzteile sind da</td></tr>
+            <tr><td>2. Schultest bis Stufe 4</td><td data-spalte="Wer">Lukas</td><td data-spalte="Fertig">Checkliste aus <a href="kapitel-18.html#checkliste">Kapitel 18</a> abgehakt</td></tr>
+            <tr><td>3. Server bei KitzSki</td><td data-spalte="Wer">Lukas mit der IT</td><td data-spalte="Fertig">Simulator läuft gegen den echten Server</td></tr>
+            <tr><td>4. App gegen den Server</td><td data-spalte="Wer">Tobias und Lukas</td><td data-spalte="Fertig"><code>fakeData</code> aus, Notruf läuft durch</td></tr>
+            <tr><td>5. Prototypen und Ladebox</td><td data-spalte="Wer">Maximilian</td><td data-spalte="Fertig">5 Chips mit neuem Schlüssel, Ladebox mit 5 Plätzen</td></tr>
+            <tr><td>6. Standorte klären</td><td data-spalte="Wer">Lukas mit KitzSki</td><td data-spalte="Fertig">Stationen, Strom und WLAN sind zugesagt</td></tr>
+            <tr><td>7. Reichweite vorab messen</td><td data-spalte="Wer">Lukas</td><td data-spalte="Fertig">Teststrecke gefahren, Protokoll gespeichert</td></tr>
+            <tr><td>8. Einwilligungen</td><td data-spalte="Wer">Tobias</td><td data-spalte="Fertig">Vorlage geprüft, Ablauf am Stand klar</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <h2 id="testfaelle" data-kurz="Was geprüft wird">Was geprüft wird</h2>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Nr.</th><th scope="col">Test</th><th scope="col">Bestanden, wenn</th><th scope="col">Woher</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td data-spalte="Test">Notruf am Knopf</td><td data-spalte="Bestanden">Kommt in der App an, die Zeit wird gestoppt. Einen Zielwert gibt es noch nicht.</td><td data-spalte="Woher">Kapitel 2</td></tr>
+            <tr><td>2</td><td data-spalte="Test">Annahme</td><td data-spalte="Bestanden">Der Chip vibriert zweimal lang</td><td data-spalte="Woher">Kapitel 6</td></tr>
+            <tr><td>3</td><td data-spalte="Test">Keine Annahme</td><td data-spalte="Bestanden">Nach 60 Sekunden ist der nächste Mitarbeiter dran</td><td data-spalte="Woher">Kapitel 7</td></tr>
+            <tr><td>4</td><td data-spalte="Test">Fehlalarm</td><td data-spalte="Bestanden">Kurzer Druck und Abbruch in den 5 Sekunden lösen keinen Notruf aus</td><td data-spalte="Woher">Kapitel 7</td></tr>
+            <tr><td>5</td><td data-spalte="Test">Gruppenruf</td><td data-spalte="Bestanden">Die anderen Chips vibrieren innerhalb von rund 20 Sekunden</td><td data-spalte="Woher">Kapitel 6</td></tr>
+            <tr><td>6</td><td data-spalte="Test">Reichweite</td><td data-spalte="Bestanden">Teststrecke mit −115 dBm oder besser, Lücken sind dokumentiert</td><td data-spalte="Woher">Kapitel 9</td></tr>
+            <tr><td>7</td><td data-spalte="Test">Lage des Chips</td><td data-spalte="Bestanden">Vergleich: in der Jacke, liegend, unter der Person</td><td data-spalte="Woher">Kapitel 9</td></tr>
+            <tr><td>8</td><td data-spalte="Test">Fenster</td><td data-spalte="Bestanden">Dämpfung mit Messung innen und außen bestimmt</td><td data-spalte="Woher">Kapitel 11</td></tr>
+            <tr><td>9</td><td data-spalte="Test">Zwei Gateways</td><td data-spalte="Bestanden">Hören beide, kommt der Notruf nur einmal an</td><td data-spalte="Woher">Kapitel 8</td></tr>
+            <tr><td>10</td><td data-spalte="Test">Gateway aus</td><td data-spalte="Bestanden">Ausgabe-Seite nach 30 Sekunden, Warnung am Chip nach 90 Sekunden</td><td data-spalte="Woher">Kapitel 14</td></tr>
+            <tr><td>11</td><td data-spalte="Test">Internet aus</td><td data-spalte="Bestanden">Kein Chip zeigt eine Annahme, die die App nicht hat</td><td data-spalte="Woher">Kapitel 14</td></tr>
+            <tr><td>12</td><td data-spalte="Test">Notrufe zugleich</td><td data-spalte="Bestanden">Alle 5 Chips senden Notruf, alle kommen an</td><td data-spalte="Woher">Kapitel 7</td></tr>
+            <tr><td>13</td><td data-spalte="Test">Akku bei Kälte</td><td data-spalte="Bestanden">Laufzeit über den Tag ist dokumentiert</td><td data-spalte="Woher">Kapitel 5</td></tr>
+            <tr><td>14</td><td data-spalte="Test">Rückmeldung</td><td data-spalte="Bestanden">Gäste verstehen Chip und App, ihre Antworten sind gesammelt</td><td data-spalte="Woher">Kapitel 2</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <h2 id="sicherheit" data-kurz="Sicherheit am Testtag">Sicherheit am Testtag</h2>
+        <p><strong>Der Test ersetzt keinen Notruf.</strong> Alle mit einem Chip erfahren vorher: Bei einem echten Notfall gilt 140. Das sollte auch auf dem Beleg stehen.</p>
+        <ul>
+          <li>Prüf-Notrufe sind vorher mit der Bergbahn abgesprochen und gehen nur an eingeweihte Mitarbeiter, nie an die Rettung.</li>
+          <li>Ein Mitglied des Teams ist den ganzen Tag über für die Bergbahn erreichbar.</li>
+          <li>Die Mitarbeiter halten die App offen, weil es noch kein Push gibt, siehe <a href="kapitel-13.html#alarm">Kapitel 13</a>.</li>
+          <li>Der Ablauf bei schlechtem Wetter und ein Ersatztermin stehen vorher fest.</li>
+        </ul>
+
+        <h2 id="daten" data-kurz="Was wir festhalten">Was wir festhalten</h2>
+        <p>Am Ende muss jede Anforderung aus <a href="kapitel-02.html#belegen">Kapitel 2</a> eine Messung haben. Dafür sichern wir:</p>
+        <ul>
+          <li>Funk-Protokoll beider Gateways mit RSSI, herunterzuladen auf der Ausgabe-Seite.</li>
+          <li>Die Zeit jedes Prüf-Notrufs vom Knopf bis zur Annahme, für einen ersten Zielwert.</li>
+          <li>Eine Liste aller Ausfälle und was man dabei gesehen hat.</li>
+          <li>Antworten der Gäste.</li>
+        </ul>
+        <p>Danach kommen die Ergebnisse ins Buch: Aus Geschätzt wird Gemessen. Die Daten mit Positionen werden gelöscht, siehe <a href="kapitel-15.html#test">Kapitel 15</a>.</p>
+
+        <h2 id="offen" data-kurz="Was noch offen ist">Was noch offen ist</h2>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr class="zeile-offen"><td>Datum, Ort und Piste</td><td data-spalte="Warum">Davon hängen Standorte und Reichweiten-Test ab.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Zusage der Bergbahn</td><td data-spalte="Warum">Ohne sie gibt es weder Strom, WLAN noch Mitarbeiter für den Test.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Dürfen die Prototypen funken?</td><td data-spalte="Warum">Die Funkanlagen-Richtlinie erlaubt das Vorführen nicht konformer Geräte auf Messen unter Auflagen. Ob ein Testtag darunter fällt, wissen wir nicht. Das sollte vorher die Fernmeldebehörde beantworten.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Wer spielt die Mitarbeiter?</td><td data-spalte="Warum">Echtes Personal der Bergbahn oder das Team?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Haftung</td><td data-spalte="Warum">Was gilt, wenn sich jemand am Testtag auf den Chip verlässt?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Zielzeit für den Notruf</td><td data-spalte="Warum">Tobias soll sie festlegen, sonst lässt sich Test 1 nicht bewerten.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
+        <div class="urteil">
+          <p><strong>Fest:</strong> 5 Chips, 2 Gateways, eine Ladebox und die echte App, im Februar oder März 2027.</p>
+          <p><strong>Geschätzt:</strong> Die 14 Tests und ihre Bedingungen sind ein Vorschlag des Netzwerk-Teils. Sie decken alle Anforderungen aus Kapitel 2 ab.</p>
+          <p><strong>Offen:</strong> Termin, Ort, Zusage der Bergbahn und die Frage, ob die Prototypen funken dürfen.</p>
+        </div>
+
+        <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
+        <ul class="quellen">
+          <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
+          <li>Pitch-Präsentation SkiTag, internes Dokument</li>
+          <li><a href="https://www.legislation.gov.uk/eudr/2014/53/article/9">Richtlinie 2014/53/EU, Art. 9</a>, Funkanlagen auf Messen</li>
+        </ul>
+      </div>
+
+      <div class="blaettern">
+        <a href="kapitel-15.html">Zurück: Kapitel 15, Sicherheit und Datenschutz</a>
+        <a href="kapitel-17.html">Weiter: Kapitel 17, Ausblick Serie</a>
+      </div>
+    </article>
+  </main>
+
+  <nav class="seiten-nav" aria-label="Auf dieser Seite">
+    <h2>Auf dieser Seite</h2>
+    <ol></ol>
+  </nav>
+</div>
+</body>
+</html>

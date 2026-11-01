@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ausblick Serie · SkiTag Netzwerk-Buch</title>
+<meta name="description" content="Was sich vom Test zum Betrieb mit hunderten Chips ändern muss und was das kostet.">
+<link rel="stylesheet" href="assets/book.css?v=36">
+<script src="assets/book.js?v=36" defer></script>
+<script src="assets/serienkosten.js?v=36" defer></script>
+</head>
+<body data-station="knopf">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
+  <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
+  <symbol id="mark-geschaetzt" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 3.2"/></symbol>
+  <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+</svg>
+
+<header class="seil">
+  <a class="seil-marke" href="kapitel-01.html">SkiTag Netzwerk-Buch</a>
+</header>
+
+<div class="buch">
+  <nav class="kapitel-nav" aria-label="Kapitel">
+    <details open>
+      <summary>Inhalt</summary>
+      <ol></ol>
+      <div class="seite-mobil">
+        <p>Auf dieser Seite</p>
+        <ol></ol>
+      </div>
+    </details>
+  </nav>
+
+  <main>
+    <details class="seite-klein">
+      <summary>Auf dieser Seite</summary>
+      <ol></ol>
+    </details>
+    <article>
+      <h1>Ausblick Serie</h1>
+      <p class="stand">Kapitel 17 · Stand 1. November 2026</p>
+
+      <div class="lesen">
+        <p class="einstieg">Der Test beweist die Idee mit 5 Chips. Ab der Saison 27/28 sollen es hunderte im ganzen Skigebiet sein. Dieses Kapitel fasst zusammen, was sich dafür ändern muss, und in welcher Reihenfolge wir das entscheiden.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Hier ist fast nichts entschieden. Eine Zahl fehlt für alles Weitere: Wie viele Chips sind im Gebiet maximal gleichzeitig unterwegs? Die soll Tobias aus dem Geschäftsmodell liefern.</p>
+
+        <h2 id="aenderungen" data-kurz="Was sich ändern muss">Was sich ändern muss</h2>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Thema</th><th scope="col">Heute</th><th scope="col">Für die Serie</th><th scope="col">Kapitel</th></tr></thead>
+          <tbody>
+            <tr><td>Funk</td><td data-spalte="Heute">Ein Kanal, 5 feste Fenster</td><td data-spalte="Serie">Mehrere Kanäle, kürzere Sendezeit, Notruf getrennt auf 869,525 MHz</td><td data-spalte="Kapitel">5</td></tr>
+            <tr><td>Protokoll</td><td data-spalte="Heute">Eigenes Protokoll, 256 Chip-Nummern</td><td data-spalte="Serie">LoRaWAN als erster Kandidat, oder eigenes Protokoll mit längerer Nummer</td><td data-spalte="Kapitel">3, 4</td></tr>
+            <tr><td>Gateways</td><td data-spalte="Heute">2 Funkboards am Fenster</td><td data-spalte="Serie">Rund 4 bis 21 Geräte außen, mit Kabel und Blitzschutz</td><td data-spalte="Kapitel">10, 11</td></tr>
+            <tr><td>Rückkanal</td><td data-spalte="Heute">Antwort direkt nach dem Paket</td><td data-spalte="Serie">Nur für Ereignisse, keine Bestätigung jeder Position</td><td data-spalte="Kapitel">6</td></tr>
+            <tr><td>Server</td><td data-spalte="Heute">Ein Rechner</td><td data-spalte="Serie">Zweiter Rechner oder schneller Ersatz, Überwachung, Bereitschaft</td><td data-spalte="Kapitel">12, 14</td></tr>
+            <tr><td>App</td><td data-spalte="Heute">Web-App ohne Push</td><td data-spalte="Serie">Echte App mit Push für Mitarbeiter</td><td data-spalte="Kapitel">13</td></tr>
+            <tr><td>Sicherheit</td><td data-spalte="Heute">Ein Schlüssel, SipHash</td><td data-spalte="Serie">Eigener Schlüssel pro Chip, AES</td><td data-spalte="Kapitel">15</td></tr>
+            <tr><td>Daten</td><td data-spalte="Heute">Löschen von Hand</td><td data-spalte="Serie">Automatische Fristen, rechtlich geprüft</td><td data-spalte="Kapitel">15</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <h2 id="lorawan" data-kurz="LoRaWAN oder eigenes Protokoll">LoRaWAN oder eigenes Protokoll</h2>
+        <p>Das ist die größte Entscheidung. Fertige Gateways hören 8 Kanäle zugleich, und mit ChirpStack gibt es einen quelloffenen Netzwerk-Server für den eigenen Betrieb. Eigene Schlüssel pro Gerät und AES sind dort schon eingebaut. Das Protokoll müssten wir also nicht weiter selbst pflegen.</p>
+        <p>Der Preis steht in <a href="kapitel-05.html#lorawan-preis">Kapitel 5</a>: Auf den LoRaWAN-Kanälen gelten 25 mW und 1 % Sendezeit. Unser Takt mit SF9 alle 20 Sekunden passt dort nicht, und die Reichweite sinkt. Die Rechnung aus Kapitel 5 bleibt daher der Maßstab: Weniger Sendezeit oder ein längerer Takt für Positionen, 869,525 MHz für Notrufe.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Ob Notrufe unter LoRaWAN so schnell wie heute ankommen und wie gut das am Berg geht, ist nicht geprüft. Am besten baut man das nach dem Test als kleinen Versuch nach.</p>
+
+        <h2 id="kosten" data-kurz="Was das Netz kosten könnte">Was das Netz kosten könnte</h2>
+        <p>Für eine erste Größenordnung kannst du die Annahmen selbst einstellen. Der Gerätepreis ist ein Händlerpreis aus <a href="kapitel-11.html#geraete">Kapitel 11</a>. Zubehör, Montage und Server sind nur Annahmen ohne Angebot, darum stehen sie am Anfang auf 0 €.</p>
+      </div>
+      <section class="rechner" aria-label="Rechner für die Kosten des Netzes">
+        <div class="rechner-regler"><label for="ser-anzahl">Gateways: <output id="ser-anzahl-wert"></output></label><input id="ser-anzahl" type="range" min="2" max="30" step="1" value="12"></div>
+        <div class="rechner-regler"><label for="ser-preis">Preis je Gerät: <output id="ser-preis-wert"></output></label><input id="ser-preis" type="range" min="200" max="1000" step="10" value="540"></div>
+        <div class="rechner-regler"><label for="ser-zubehoer">Zubehör und Montage je Gateway, Annahme: <output id="ser-zubehoer-wert"></output></label><input id="ser-zubehoer" type="range" min="0" max="1000" step="50" value="0"></div>
+        <div class="rechner-regler"><label for="ser-server">Server einmalig, Annahme: <output id="ser-server-wert"></output></label><input id="ser-server" type="range" min="0" max="5000" step="100" value="0"></div>
+        <dl class="rechner-werte">
+          <div><dt>Gateways gesamt</dt><dd id="ser-gateways"></dd></div>
+          <div><dt>Netz gesamt</dt><dd id="ser-gesamt"></dd></div>
+        </dl>
+        <p class="rechner-text">Ohne laufende Kosten für Mobilfunk, Strom, Domain und Betreuung.</p>
+      </section>
+      <div class="tabelle nur-ohne-js">
+        <table>
+          <thead><tr><th scope="col">Gateways</th><th scope="col">Nur die Geräte, je rund 540 €</th></tr></thead>
+          <tbody>
+            <tr><td>4, jeder Punkt hört eines</td><td data-spalte="Nur die Geräte, je rund 540 €">rund 2 160 €</td></tr>
+            <tr><td>12, jeder Punkt hört zwei</td><td data-spalte="Nur die Geräte, je rund 540 €">rund 6 480 €</td></tr>
+            <tr><td>21, mit mehr Reserve</td><td data-spalte="Nur die Geräte, je rund 540 €">rund 11 340 €</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Die Anzahl stammt aus dem Modell in <a href="kapitel-10.html#wieviele">Kapitel 10</a>, nicht aus einer Messung. Die Kosten wandern in das Buch von Tobias, hier stehen sie nur als Rahmen.</p>
+
+        <h2 id="reihenfolge" data-kurz="In welcher Reihenfolge">In welcher Reihenfolge</h2>
+        <ol>
+          <li><strong>Nach dem Test:</strong> Ergebnisse ins Buch, Reichweite und Akku sind gemessen.</li>
+          <li><strong>Frühjahr 2027:</strong> Tobias nennt die Zahl gleichzeitiger Chips. Danach fällt die Entscheidung über das Funkverfahren.</li>
+          <li><strong>Sommer 2027:</strong> Gespräche mit Bergrettung und Bergbahnen, Versuch mit dem gewählten Verfahren, rechtliche Prüfung.</li>
+          <li><strong>Herbst 2027:</strong> Gateways montieren, Reichweite im ganzen Gebiet messen.</li>
+          <li><strong>Saison 27/28:</strong> Start im Skigebiet.</li>
+        </ol>
+        <p>Die Termine für Sommer 2027 und die Saison stammen aus der Präsentation, die Schritte dazwischen sind unser Vorschlag.</p>
+
+        <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
+        <div class="urteil">
+          <p><strong>Fest:</strong> Das heutige Protokoll hat 5 Fenster in einem Kanal und 256 Chip-Nummern. Für hunderte Chips reicht das nicht, siehe <a href="kapitel-05.html">Kapitel 5</a>.</p>
+          <p><strong>Geschätzt:</strong> Allein die Geräte kosten bei 12 Gateways rund 6 500 €, dazu kommen Zubehör, Montage und Betrieb.</p>
+          <p><strong>Offen:</strong> Die Zahl gleichzeitiger Chips und damit die Wahl des Funkverfahrens.</p>
+        </div>
+
+        <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
+        <ul class="quellen">
+          <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
+          <li>Pitch-Präsentation SkiTag, internes Dokument</li>
+          <li><a href="https://www.chirpstack.io/">ChirpStack</a>, quelloffener LoRaWAN-Netzwerk-Server</li>
+          <li><a href="https://iot-shop.de/en/shop/rak-7289-v2-wisgate-edge-pro-outdoor-lorawan-gateway-6007">RAK7289 V2</a>, Händlerseite</li>
+          <li><a href="https://thethingsnetwork.org/docs/lorawan/security">The Things Network: LoRaWAN-Sicherheit</a></li>
+        </ul>
+      </div>
+
+      <div class="blaettern">
+        <a href="kapitel-16.html">Zurück: Kapitel 16, Testplan Februar 2027</a>
+        <a href="kapitel-18.html">Weiter: Kapitel 18, Testen in der Schule</a>
+      </div>
+    </article>
+  </main>
+
+  <nav class="seiten-nav" aria-label="Auf dieser Seite">
+    <h2>Auf dieser Seite</h2>
+    <ol></ol>
+  </nav>
+</div>
+</body>
+</html>
