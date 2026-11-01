@@ -252,6 +252,19 @@ main ol { padding-left: 24px; }
 .checkliste input { flex: none; width: 20px; height: 20px; margin-top: 4px; accent-color: var(--licht); }
 .checkliste-feld > .knopf { display: inline-block; margin-top: 16px; background: var(--flaeche-hell); }
 
+/* Abdeckungskarte */
+.abdeckung { display: none; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 20px; margin-top: 18px; padding: 20px 24px; background: var(--flaeche); }
+.js .abdeckung { display: grid; }
+#abd-karte { display: block; width: 100%; height: auto; background: var(--dunkel); }
+#abd-karte path { fill: none; stroke-width: 5; stroke-linecap: round; }
+#abd-karte .abd-gut { stroke: var(--licht); }
+#abd-karte .abd-knapp { stroke: var(--schnee); stroke-width: 3; }
+#abd-karte .abd-kein { stroke: var(--notruf); stroke-width: 7; stroke-linecap: square; }
+.abd-ort { font: 600 20px/1 var(--text); text-anchor: middle; fill: var(--dunst); stroke: var(--dunkel); stroke-width: 4; paint-order: stroke; }
+.abd-gateway { fill: var(--flaeche-hell); stroke: var(--dunst); stroke-width: 1.5; }
+.abd-gateway.an { fill: var(--schnee); stroke: var(--dunkel); stroke-width: 2.5; }
+.abd-werte { grid-template-columns: repeat(2, 1fr); margin-top: 0; margin-bottom: 14px; }
+
 /* Ergebnis und Quellen */
 .urteil { margin-top: 18px; padding: 18px 20px; background: var(--flaeche); }
 .quellen { font-size: 16px; line-height: 1.45; }
@@ -308,7 +321,8 @@ main ol { padding-left: 24px; }
   .stapel td { padding: 2px 0; }
   .stapel td:first-child { font-weight: 600; }
   .stapel td[data-spalte]::before { content: attr(data-spalte) ": "; font-weight: 600; color: var(--dunst); }
-  .rechner, .bauplan { padding: 16px; }
+  .rechner, .bauplan, .abdeckung { padding: 16px; }
+  .abdeckung, .js .abdeckung { grid-template-columns: minmax(0, 1fr); }
   .zeit-bild figcaption { padding: 6px 16px 12px; }
   .rechner-werte { grid-template-columns: repeat(2, 1fr); }
   .schritte, .bedienung { padding-left: 16px; padding-right: 16px; }

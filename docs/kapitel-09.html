@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reichweite im Gelände · SkiTag Netzwerk-Buch</title>
+<meta name="description" content="Was die Reichweite von LoRa am Berg bestimmt und wie SkiTag sie misst.">
+<link rel="stylesheet" href="assets/book.css?v=35">
+<script src="assets/book.js?v=35" defer></script>
+<script src="assets/funk.js?v=35" defer></script>
+<script src="assets/funkstrecke.js?v=35" defer></script>
+</head>
+<body data-station="chip">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
+  <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
+  <symbol id="mark-geschaetzt" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 3.2"/></symbol>
+  <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+</svg>
+
+<header class="seil">
+  <a class="seil-marke" href="kapitel-01.html">SkiTag Netzwerk-Buch</a>
+</header>
+
+<div class="buch">
+  <nav class="kapitel-nav" aria-label="Kapitel">
+    <details open>
+      <summary>Inhalt</summary>
+      <ol></ol>
+      <div class="seite-mobil">
+        <p>Auf dieser Seite</p>
+        <ol></ol>
+      </div>
+    </details>
+  </nav>
+
+  <main>
+    <details class="seite-klein">
+      <summary>Auf dieser Seite</summary>
+      <ol></ol>
+    </details>
+    <article>
+      <h1>Reichweite im Gelände</h1>
+      <p class="stand">Kapitel 9 · Stand 1. November 2026</p>
+
+      <div class="lesen">
+        <p class="einstieg">Wie weit kommt ein Chip am Berg? Eine einzelne Zahl gibt es dafür nicht. Über freie Täler reicht das Signal viele Kilometer, hinter einem Grat manchmal nur wenige hundert Meter. Dieses Kapitel erklärt, was die Reichweite bestimmt, und wie wir sie messen.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Gemessen ist bei KitzSki noch nichts. Alle Zahlen hier sind Rechnungen oder Schätzungen, bis der Reichweiten-Test sie bestätigt.</p>
+
+        <h2 id="budget" data-kurz="Was das Signal verlieren darf">Was das Signal verlieren darf</h2>
+        <p>Der Chip sendet mit 20 dBm, das Gateway versteht bei SF9 noch rund −129 dBm. Das sind die 149 dB aus <a href="kapitel-03.html#reichweite">Kapitel 3</a>, mit den 3 dBi der Gateway-Antenne rund 152 dB. Davon lebt die Reichweite: Jedes Hindernis nimmt sich einen Teil davon.</p>
+        <p>Die Übergabe setzt dafür zwei Schwellen: Ab −115 dBm gilt der Empfang als gut, ab −125 dBm als knapp. Für einen Notruf zählt „gut“, denn etwas Reserve braucht es immer.</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Was dazwischenliegt</th><th scope="col">Verlust</th><th scope="col">Herkunft</th></tr></thead>
+          <tbody>
+            <tr><td>Freie Strecke, 1 km</td><td data-spalte="Verlust">91 dB</td><td data-spalte="Herkunft">Rechnung</td></tr>
+            <tr><td>Freie Strecke, 5 km</td><td data-spalte="Verlust">105 dB</td><td data-spalte="Herkunft">Rechnung</td></tr>
+            <tr><td>Freie Strecke, 15 km</td><td data-spalte="Verlust">115 dB</td><td data-spalte="Herkunft">Rechnung</td></tr>
+            <tr><td>Grat, 50 m über der Sichtlinie, Mitte von 5 km</td><td data-spalte="Verlust">rund 23 dB zusätzlich</td><td data-spalte="Herkunft">Rechnung, Kantenbeugung nach ITU-R P.526</td></tr>
+            <tr><td>Chip 100 m tief im Wald</td><td data-spalte="Verlust">rund 13 dB zusätzlich</td><td data-spalte="Herkunft">ITU-R P.833, Richtwert bei 949 MHz, mehr als 26,5 dB werden es nicht</td></tr>
+            <tr class="zeile-offen"><td>Eigener Körper und Schnee über dem Chip</td><td data-spalte="Verlust">Keine belastbare Zahl gefunden</td><td class="stand-zelle" data-spalte="Stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <p class="nach-tabelle">Die Strecke selbst ist also fast harmlos. Zwischen 5 und 15 km liegen nur 10 dB, ein einzelner Grat kostet mehr als doppelt so viel. Darum entscheidet das Gelände, nicht der Abstand.</p>
+
+        <h2 id="fresnel" data-kurz="Warum freie Sicht nicht reicht">Warum freie Sicht nicht reicht</h2>
+        <p>Funk läuft nicht auf einer dünnen Linie. Rund um die Sichtlinie braucht das Signal Platz, die sogenannte Fresnel-Zone. Bei 869 MHz und 10 km Strecke ist sie in der Mitte rund 29 Meter dick, und rund 18 Meter davon sollten frei bleiben. Ein Chip, der knapp über eine Kuppe sieht, verliert also schon, obwohl man das Gateway sehen könnte.</p>
+        <p>Das gilt auch umgekehrt: Hinter einem Grat ist nicht sofort Schluss. Ein Teil des Signals biegt sich über die Kante. Das zeigte auch die Studie aus <a href="kapitel-03.html#reichweite">Kapitel 3</a>: In einer Schlucht kamen am Körper getragene Sender noch 300 Meter weit, weit weniger als im Flachen, aber nicht null.</p>
+
+        <h2 id="rechner" data-kurz="Eine Strecke selbst rechnen">Eine Strecke selbst rechnen</h2>
+        <p>Probiere aus, was einzelne Hindernisse ausmachen. Der Zuschlag steht für alles, was wir nicht kennen: Körper, Schnee, schlechte Lage der Antenne.</p>
+      </div>
+
+      <section class="rechner" aria-label="Rechner für eine Funkstrecke">
+        <div class="rechner-regler"><label for="str-km">Abstand: <output id="str-km-wert"></output></label><input id="str-km" type="range" min="0.2" max="20" step="0.2" value="5"></div>
+        <div class="rechner-regler"><label for="str-grat">Grat in der Mitte, über der Sichtlinie: <output id="str-grat-wert"></output></label><input id="str-grat" type="range" min="-30" max="150" step="5" value="-30"></div>
+        <div class="rechner-regler"><label for="str-wald">Chip so tief im Wald: <output id="str-wald-wert"></output></label><input id="str-wald" type="range" min="0" max="300" step="10" value="0"></div>
+        <div class="rechner-regler"><label for="str-zuschlag">Zuschlag, geschätzt: <output id="str-zuschlag-wert"></output></label><input id="str-zuschlag" type="range" min="0" max="20" step="1" value="10"></div>
+        <dl class="rechner-werte">
+          <div><dt>Freie Strecke</dt><dd id="str-frei"></dd></div>
+          <div><dt>Grat</dt><dd id="str-beugung"></dd></div>
+          <div><dt>Am Gateway</dt><dd id="str-pegel"></dd></div>
+          <div><dt>Empfang</dt><dd id="str-urteil"></dd></div>
+        </dl>
+        <p class="rechner-text" id="str-text"></p>
+      </section>
+      <div class="tabelle nur-ohne-js">
+        <table>
+          <thead><tr><th scope="col">Beispiel mit 10 dB Zuschlag</th><th scope="col">Am Gateway</th></tr></thead>
+          <tbody><tr><td>5 km frei</td><td>rund −92 dBm</td></tr><tr><td>5 km mit Grat, 50 m über der Sichtlinie</td><td>rund −116 dBm</td></tr><tr><td>15 km mit Grat, Chip 100 m im Wald</td><td>rund −133 dBm</td></tr></tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <h2 id="unbekannt" data-kurz="Was wir noch nicht wissen">Was wir noch nicht wissen</h2>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Dämpfung durch den eigenen Körper</td><td data-spalte="Warum">Der Chip steckt in der Jacke. Liegt jemand darauf, kann ein großer Teil des Signals verloren gehen. Für 868 MHz fehlt uns eine belastbare Zahl.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Dämpfung durch Schnee</td><td data-spalte="Warum">Bei einem Sturz oder einer Lawine liegt Schnee über dem Chip. Für 868 MHz wurde keine verlässliche Angabe gefunden, nasser Schnee dämpft vermutlich stärker als trockener.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Wald im Winter</td><td data-spalte="Warum">Der ITU-Wert stammt aus einem Mischwald bei St. Petersburg und aus Messungen bei 949 MHz. Fichten im Schnee sind nicht gemessen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Antenne des Chips</td><td data-spalte="Warum">Die kleine FPC-Antenne in der Jacke ist schlechter als eine freie Antenne. Das Modell rechnet mit 0 dBi.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Fenster der Station</td><td data-spalte="Warum">Wärmeschutzglas kann Funk stark dämpfen. Eine Antenne außen wäre besser, siehe Kapitel 11.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <h2 id="messen" data-kurz="Wie wir messen">Wie wir messen</h2>
+        <p>Rechnen ersetzt das Messen nicht, es sagt nur, wo man genau hinschauen sollte. Der Reichweiten-Test läuft so:</p>
+        <ol>
+          <li>Die zwei Gateways stehen an ihren Plätzen, das Funk-Protokoll zeichnet jedes Paket mit RSSI auf.</li>
+          <li>Jemand fährt mit dem Chip in der Jacke einen Tag lang alle Pisten ab.</li>
+          <li>Das Protokoll wird von der Ausgabe-Seite heruntergeladen und nach Position ausgewertet.</li>
+          <li>Pisten unter −115 dBm und Lücken ohne Pakete werden markiert.</li>
+          <li>Für den Ausfall-Test werden Gateway und WLAN abgeschaltet, und es wird geprüft, was der Chip anzeigt.</li>
+        </ol>
+        <p>Dabei sollte auch ein liegender Chip geprüft werden, denn die wichtigste Lage ist die nach einem Sturz. Das Ergebnis fließt in die Standortplanung in <a href="kapitel-10.html">Kapitel 10</a> ein.</p>
+
+        <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
+        <div class="urteil">
+          <p><strong>Fest:</strong> Grate und Wald bestimmen die Reichweite stärker als die Entfernung.</p>
+          <p><strong>Geschätzt:</strong> 5 bis 15 km bei freier Sicht sind rechnerisch plausibel, hinter einem Grat deutlich weniger.</p>
+          <p><strong>Offen:</strong> Körper, Schnee und Chip-Antenne. Erst der Test zeigt, wie viel Reserve wirklich nötig ist.</p>
+        </div>
+
+        <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
+        <ul class="quellen">
+          <li><a href="https://www.itu.int/rec/R-REC-P.526/en">ITU-R P.526-16</a>, November 2025, Beugung an Kanten</li>
+          <li><a href="https://www.itu.int/rec/R-REC-P.833/en">ITU-R P.833-10</a>, September 2021, Gleichung 1 und Tabelle 1</li>
+          <li><a href="https://www.ursi.org/proceedings/procGA20/papers/YSASummaryBianco.pdf">Bianco, Mejia-Aguilar, Marrocco: Radio wave propagation of LoRa systems in mountains for Search and Rescue operations</a>, URSI GASS 2020</li>
+          <li><a href="https://www.semtech.com/products/wireless-rf/lora-connect/sx1262">Semtech SX1261/2 Datenblatt</a>, Rev. 2.2, Dezember 2024</li>
+          <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
+        </ul>
+      </div>
+
+      <div class="blaettern">
+        <a href="kapitel-08.html">Zurück: Kapitel 8, Die Gateways</a>
+        <a href="kapitel-10.html">Weiter: Kapitel 10, Standortplanung KitzSki</a>
+      </div>
+    </article>
+  </main>
+
+  <nav class="seiten-nav" aria-label="Auf dieser Seite">
+    <h2>Auf dieser Seite</h2>
+    <ol></ol>
+  </nav>
+</div>
+</body>
+</html>

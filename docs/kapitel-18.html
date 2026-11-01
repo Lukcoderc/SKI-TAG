@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Testen in der Schule · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Anleitung: SkiTag in der Schule testen und simulieren, vom Laptop bis zum echten Funk.">
-<link rel="stylesheet" href="assets/book.css?v=34">
-<script src="assets/book.js?v=34" defer></script>
-<script src="assets/checkliste.js?v=33" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=35">
+<script src="assets/book.js?v=35" defer></script>
+<script src="assets/checkliste.js?v=35" defer></script>
 </head>
 <body data-station="knopf">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -40,7 +40,7 @@
     </details>
     <article>
       <h1>Testen in der Schule</h1>
-      <p class="stand">Kapitel 18 · Stand 30. Oktober 2026</p>
+      <p class="stand">Kapitel 18 · Stand 1. November 2026</p>
 
       <div class="lesen">
         <p class="einstieg">Bevor etwas auf den Berg kommt, soll es im Klassenzimmer laufen. Diese Anleitung führt in vier Stufen vom Laptop bis zum echten Funk auf dem Schulgelände. Jede Stufe prüft mehr vom echten System und braucht mehr Hardware.</p>
@@ -54,33 +54,85 @@
           <thead><tr><th scope="col">Stufe</th><th scope="col">Chip</th><th scope="col">Gateway</th><th scope="col">Server</th><th scope="col">Das zeigt sie</th></tr></thead>
           <tbody>
             <tr><td>1. Selbsttest</td><td data-spalte="Chip">keiner</td><td data-spalte="Gateway">keines</td><td data-spalte="Server">Laptop</td><td data-spalte="Zeigt">Die Server-Logik rechnet richtig.</td></tr>
-            <tr><td>2. Simulator</td><td data-spalte="Chip">5 simulierte</td><td data-spalte="Gateway">keines</td><td data-spalte="Server">läuft</td><td data-spalte="Zeigt">Notruf und Gruppenruf gehen bis in Ausgabe-Seite und App.</td></tr>
-            <tr><td>3. Funk im Zimmer</td><td data-spalte="Chip">Muster-Chip</td><td data-spalte="Gateway">1 Heltec V3</td><td data-spalte="Server">läuft</td><td data-spalte="Zeigt">Echter Funk kommt über das Gateway im Server an.</td></tr>
-            <tr><td>4. Schulgelände</td><td data-spalte="Chip">Muster-Chip</td><td data-spalte="Gateway">1 bis 2 Heltec V3</td><td data-spalte="Server">läuft</td><td data-spalte="Zeigt">Reichweite und Ausfälle unter echten Bedingungen.</td></tr>
+            <tr><td>2. Simulator</td><td data-spalte="Chip">5 simulierte</td><td data-spalte="Gateway">keines</td><td data-spalte="Server">NAS</td><td data-spalte="Zeigt">Notruf und Gruppenruf gehen bis in Ausgabe-Seite und App.</td></tr>
+            <tr><td>3. Funk im Zimmer</td><td data-spalte="Chip">Muster-Chip</td><td data-spalte="Gateway">1 Heltec V3</td><td data-spalte="Server">NAS</td><td data-spalte="Zeigt">Echter Funk kommt über das Gateway im Server an.</td></tr>
+            <tr><td>4. Schulgelände</td><td data-spalte="Chip">Muster-Chip</td><td data-spalte="Gateway">1 bis 2 Heltec V3</td><td data-spalte="Server">NAS</td><td data-spalte="Zeigt">Reichweite und Ausfälle unter echten Bedingungen.</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="lesen">
-        <h2 id="material" data-kurz="Was man braucht">Was man braucht</h2>
+        <h2 id="gateway-noetig" data-kurz="Brauchen wir das Gateway?">Brauchen wir das Gateway schon?</h2>
+        <p>Ja, aber nur eines und in einfacher Ausstattung. Ob ein Chip wirklich funkt, zeigt nur ein Gerät, das sein Paket empfängt. Leuchtdiode und Vibrieren beweisen bloß, dass seine Software läuft. Für Stufe 1 und 2 braucht es dagegen gar keine Funk-Hardware.</p>
+        <p>Das sind die Möglichkeiten, mit Preisen vom 1. November 2026:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
-          <thead><tr><th scope="col">Teil</th><th scope="col">Ab Stufe</th><th scope="col">Hinweis</th></tr></thead>
+          <thead><tr><th scope="col">Möglichkeit</th><th scope="col">Kosten</th><th scope="col">Das zeigt sie</th><th scope="col">Der Haken</th></tr></thead>
           <tbody>
-            <tr><td>Laptop mit Node.js 22</td><td data-spalte="Ab Stufe">1</td><td data-spalte="Hinweis">Der Server braucht keine npm-Pakete.</td></tr>
-            <tr><td>Paket <code>skitag-test.zip</code></td><td data-spalte="Ab Stufe">1</td><td data-spalte="Hinweis">Kommt von Maximilian.</td></tr>
-            <tr><td>Docker</td><td data-spalte="Ab Stufe">2</td><td data-spalte="Hinweis">Damit startet der Server samt Caddy für HTTPS.</td></tr>
-            <tr><td>Heltec WiFi LoRa 32 V3, 868 MHz</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Hinweis">39,95 € je Stück. Nicht V4, die Software ist für V3.</td></tr>
-            <tr><td>Antenne 868 MHz mit Adapterkabel</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Hinweis">8 € je Stück. Das Board nie ohne Antenne senden lassen.</td></tr>
-            <tr><td>USB-C-Netzteil 5 V, 2 A</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Hinweis">8 € je Stück. Zum Flashen zusätzlich ein Datenkabel.</td></tr>
-            <tr><td>Muster-Chip</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Hinweis">Von Maximilian.</td></tr>
-            <tr><td>Handy mit Hotspot</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Hinweis">Falls das WLAN der Schule nicht geht, siehe Stolpersteine.</td></tr>
+            <tr><td>Heltec V3 mit beigelegter Antenne</td><td data-spalte="Kosten">24 bis 40 €</td><td data-spalte="Zeigt">Pakete, Signalstärke und den ganzen Weg bis in die App</td><td data-spalte="Haken">Beim günstigsten Preis Vorbestellung.</td></tr>
+            <tr><td>XIAO ESP32-S3 mit Wio-SX1262</td><td data-spalte="Kosten">rund 23 €</td><td data-spalte="Zeigt">Dasselbe, aber erst nach Anpassung</td><td data-spalte="Haken">Kein Bildschirm, die Gateway-Software müsste umgeschrieben werden.</td></tr>
+            <tr><td>Zweites RAK3272S-Board am Laptop</td><td data-spalte="Kosten">rund 15 $ plus USB-Adapter, 0 € falls vorhanden</td><td data-spalte="Zeigt">Ob der Chip sendet</td><td data-spalte="Haken">Kein Weg zum Server, also keine Antwort an den Chip.</td></tr>
+            <tr><td>RTL-SDR-Stick</td><td data-spalte="Kosten">rund 45 $ mit Antenne</td><td data-spalte="Zeigt">Dass auf 869,525 MHz etwas sendet</td><td data-spalte="Haken">Nur Empfang, teurer, Pakete lesen geht nur mit Bastelei.</td></tr>
+            <tr><td>Nur Kabel an den Chip</td><td data-spalte="Kosten">rund 5 €, geschätzt</td><td data-spalte="Zeigt">Dass die Software läuft</td><td data-spalte="Haken">Beweist keinen Funk.</td></tr>
           </tbody>
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Ein Gateway kostet damit rund 56 €, zwei Gateways rund 112 €. Für Stufe 3 reicht eines.</p>
+        <p class="nach-tabelle"><strong>Unsere Empfehlung: ein Heltec V3.</strong> Die günstigere Alternative gibt es nicht wirklich: Beim selben Händler kostet der XIAO mit 22,95 € fast gleich viel wie der Heltec mit 24,10 €, und die Software läuft dort nicht ohne Umbau. Außerdem bleibt das Geld nicht liegen, denn für den Bergtest braucht es ohnehin 2 Heltec V3. Sparen lässt sich beim Zubehör: Stabantenne und eigenes Netzteil braucht man erst später.</p>
+        <p><strong>Ist der Heltec nur ein Ersatz für ein Gateway?</strong> Für den Test ist er das Gateway, ein weiteres Gerät kommt nicht dazu. Er hört die Chips per Funk und reicht ihre Pakete über WLAN an den Server weiter, siehe <a href="kapitel-08.html">Kapitel 8</a>. Technisch ist er aber kein fertiges LoRaWAN-Gateway, sondern ein einfaches Funk-Board mit unserer eigenen Software. Sein Funkchip hört nur einen Kanal mit einem Spreading Factor. Das reicht, weil alle Chips auf 869,525 MHz mit SF9 senden. Gekaufte Gateways mit SX1302 hören dagegen 8 Kanäle und mehrere Spreading Factors zugleich.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Für 5 Chips genügt das. Ob es für hunderte Chips solche Gateways braucht, ist noch nicht entschieden, siehe <a href="kapitel-05.html">Kapitel 5</a>.</p>
+        <p>Das zweite RAK-Board lohnt sich nur, wenn Maximilian schon eines hat. Dann lässt sich der Funk des Chips prüfen, bevor überhaupt ein Heltec da ist. Empfangen geht dort über den AT-Befehl <code>AT+PRECV</code>.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Das Gateway zeigt laut Übergabe Paketzähler und Signalstärke am Bildschirm. Ob es das auch ohne Server-Verbindung tut, ist nicht ausprobiert. Wenn ja, lässt sich der Chip testen, bevor das NAS eingerichtet ist.</p>
+
+        <h2 id="nas" data-kurz="Das NAS als Server">Das NAS als Server</h2>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Für den Schultest läuft der Server auf einem NAS, das schon vorhanden ist. Das kostet nichts extra. Am Berg bleibt es beim eigenen Server bei der KitzSki-IT. Vier Dinge müssen vorher passen:</p>
+        <ul>
+          <li><strong>Docker:</strong> Das NAS muss Docker können. Nicht jedes Modell kann das, also im Datenblatt nachsehen.</li>
+          <li><strong>Ports:</strong> Caddy will die Ports 80 und 443. Auf Synology-Geräten sind die schon belegt. Dann muss der Server auf andere Ports, und das Gateway muss sie kennen. Ob <code>config.h</code> eine Adresse mit Port annimmt, ist nicht geprüft.</li>
+          <li><strong>Zertifikat:</strong> Das Gateway verlangt ein Let's-Encrypt-Zertifikat. Das geht auch ohne offene Ports: Ein kostenloser DuckDNS-Name zeigt auf die interne Adresse des NAS, und Caddy weist die Domain über einen DNS-Eintrag nach (DNS-01). Dafür braucht Caddy das DuckDNS-Modul, und das NAS braucht zum Holen des Zertifikats Internet. Der DuckDNS-Token gehört nicht ins Repo.</li>
+          <li><strong>Netz:</strong> Gateway und NAS müssen sich erreichen. Das Gateway kann nur WLAN mit 2,4 GHz. Ein kleiner eigener Router mit NAS, Gateway, Laptop und Handy umgeht das Schulnetz ganz.</li>
+        </ul>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Wir haben das nicht ausprobiert, und das Docker-Setup im Paket lag beim Schreiben nicht vor. Ob es das DuckDNS-Modul enthält, klärt der Bauplan. Sonst muss Caddy dafür neu gebaut werden.</p>
+
+        <h2 id="material" data-kurz="Was man braucht">Was man braucht</h2>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Teil</th><th scope="col">Ab Stufe</th><th scope="col">Preis</th><th scope="col">Hinweis</th></tr></thead>
+          <tbody>
+            <tr><td>Laptop mit Node.js 22</td><td data-spalte="Ab Stufe">1</td><td data-spalte="Preis">0 €, vorhanden</td><td data-spalte="Hinweis">Für den Selbsttest. Der Server braucht keine npm-Pakete.</td></tr>
+            <tr><td>Paket <code>skitag-test.zip</code></td><td data-spalte="Ab Stufe">1</td><td data-spalte="Preis">0 €</td><td data-spalte="Hinweis">Kommt von Maximilian.</td></tr>
+            <tr><td>NAS mit Docker</td><td data-spalte="Ab Stufe">2</td><td data-spalte="Preis">0 €, vorhanden</td><td data-spalte="Hinweis">Darauf läuft der Server samt Caddy für HTTPS.</td></tr>
+            <tr><td>DuckDNS-Name</td><td data-spalte="Ab Stufe">2</td><td data-spalte="Preis">0 €</td><td data-spalte="Hinweis">Kostenlos, für das Zertifikat.</td></tr>
+            <tr><td>Heltec WiFi LoRa 32 V3, 868 MHz</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Preis">24,10 bis 39,95 €</td><td data-spalte="Hinweis">Nicht V4, die Software ist für V3. Die 868-MHz-Variante nehmen, eine LoRa-Antenne liegt bei.</td></tr>
+            <tr><td>Stabantenne 868 MHz mit Adapterkabel</td><td data-spalte="Ab Stufe">4</td><td data-spalte="Preis">8 €</td><td data-spalte="Hinweis">Mehr Reichweite als die beigelegte. Das Board nie ohne Antenne senden lassen.</td></tr>
+            <tr><td>USB-C-Datenkabel</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Preis">0 €, vorhanden</td><td data-spalte="Hinweis">Zum Flashen und für den Strom vom Laptop.</td></tr>
+            <tr><td>USB-C-Netzteil 5 V, 2 A</td><td data-spalte="Ab Stufe">4</td><td data-spalte="Preis">8 €</td><td data-spalte="Hinweis">Wenn das Gateway ohne Laptop am Fenster steht.</td></tr>
+            <tr><td>Muster-Chip</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Preis">Offen</td><td data-spalte="Hinweis">Von Maximilian.</td></tr>
+            <tr><td>Kleiner WLAN-Router</td><td data-spalte="Ab Stufe">3</td><td data-spalte="Preis">0 € mit altem Gerät</td><td data-spalte="Hinweis">Falls das WLAN der Schule nicht geht, siehe Stolpersteine. Ein neuer ist hier nicht eingerechnet.</td></tr>
+            <tr><td><strong>Gesamt mit 1 Gateway</strong></td><td data-spalte="Ab Stufe">3 und 4</td><td data-spalte="Preis"><strong>40 bis 56 €</strong></td><td data-spalte="Hinweis">Nur für Stufe 3 reichen 24 bis 40 €.</td></tr>
+            <tr><td><strong>Gesamt mit 2 Gateways</strong></td><td data-spalte="Ab Stufe">4</td><td data-spalte="Preis"><strong>80 bis 112 €</strong></td><td data-spalte="Hinweis">Heltec, Stabantenne und Netzteil doppelt.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <h2 id="kosten" data-kurz="Was es kostet">Was es kostet</h2>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Stand des Tests</th><th scope="col">Neu zu kaufen</th><th scope="col">Kosten</th></tr></thead>
+          <tbody>
+            <tr><td>Stufe 1 und 2</td><td data-spalte="Kaufen">Nichts, Laptop und NAS sind da</td><td data-spalte="Kosten">0 €</td></tr>
+            <tr><td>Stufe 3</td><td data-spalte="Kaufen">1 Heltec V3, Kabel vorhanden</td><td data-spalte="Kosten">24 bis 40 €</td></tr>
+            <tr><td>Stufe 4 mit 1 Gateway</td><td data-spalte="Kaufen">Dazu Stabantenne für 8 € und Netzteil für 8 €</td><td data-spalte="Kosten">40 bis 56 €</td></tr>
+            <tr><td>Stufe 4 mit 2 Gateways</td><td data-spalte="Kaufen">Alles doppelt</td><td data-spalte="Kosten">80 bis 112 €</td></tr>
+            <tr class="zeile-offen"><td>Muster-Chip</td><td data-spalte="Kaufen">Kommt von Maximilian, Preis liegt uns nicht vor</td><td data-spalte="Kosten" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Die Spanne kommt vom Heltec: 39,95 € stehen in der Übergabe vom Oktober 2026, 24,10 € verlangte ein Händler am 1. November 2026 als Vorbestellung mit 10 bis 20 Tagen Lieferzeit. Versand kommt dazu. Muss ein Router gekauft werden, kommt auch das dazu. Alles davon lässt sich beim Bergtest weiterverwenden.</p>
 
         <h2 id="vorbereitung" data-kurz="Vorbereiten">Vorbereiten</h2>
         <p>Entpacke das Paket. Im Ordner <code>server</code> liegt alles für Stufe 1 und 2, im Ordner <code>firmware/skitag_empfaenger</code> die Software fürs Gateway. Prüfe zuerst die Node-Version:</p>
@@ -96,9 +148,9 @@ node tools/test.js</code></pre>
         <p><strong>Erwartet:</strong> 58 von 58 Prüfungen bestehen. Schlägt etwas fehl, lohnt sich alles Weitere noch nicht.</p>
 
         <h2 id="stufe2" data-kurz="Stufe 2: Simulator">Stufe 2: Simulator</h2>
-        <p>Lege eine Datei <code>.env</code> mit <code>DOMAIN</code> und <code>EMAIL</code> an und starte den Server:</p>
+        <p>Lege auf dem NAS eine Datei <code>.env</code> mit <code>DOMAIN</code> und <code>EMAIL</code> an und starte den Server:</p>
         <pre class="befehl"><code>docker compose up -d --build</code></pre>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Caddy holt für diese Domain ein HTTPS-Zertifikat. Ob der Server auf einem Laptop ohne echte Domain läuft, ist nicht geprüft, das klärt der Bauplan. Starte dann den Simulator. Er spielt 5 Chips, die durchs Skigebiet fahren:</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Caddy holt für diese Domain ein HTTPS-Zertifikat. Für das NAS gelten die Punkte aus <a href="#nas">Das NAS als Server</a>, die Befehle dafür sind nicht geprüft. Starte dann den Simulator. Er spielt 5 Chips, die durchs Skigebiet fahren:</p>
         <pre class="befehl"><code>node tools/simulator.js &lt;Server-Adresse&gt; 5</code></pre>
         <p>Bedient wird er über die Tastatur:</p>
       </div>
@@ -125,7 +177,7 @@ node tools/test.js</code></pre>
           <li>Prüf den Bildschirm: Er zeigt WLAN-Status, ob der Server erreichbar ist, den Paketzähler und den zuletzt gehörten Chip.</li>
         </ol>
         <p>Schalte dann den Muster-Chip ein und leg ihn ans Fenster, damit er GPS bekommt. Der Paketzähler am Gateway sollte alle 20 Sekunden steigen, und die Ausgabe-Seite zeigt den Chip. Teste anschließend Gruppenruf und Notruf am echten Knopf: Bei Annahme des Notrufs in der App muss der Chip zweimal lang vibrieren.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg><strong>Wichtig:</strong> Das Gateway spricht HTTPS und prüft ein Let's-Encrypt-Zertifikat. Es braucht also vermutlich einen Server unter einer echten Domain, die von außen erreichbar ist. Auf einem Laptop im Schulnetz geht das meist nicht. Dieser Punkt muss vor Stufe 3 geklärt sein: Entweder läuft der Server für den Test auf einem erreichbaren Rechner, oder die Gateway-Software wird für den Schultest angepasst. Ob das Paket dafür eine Einstellung hat, ist nicht geprüft.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg><strong>Wichtig:</strong> Das Gateway spricht HTTPS und prüft ein Let's-Encrypt-Zertifikat. Der Server braucht also einen echten Domainnamen mit gültigem Zertifikat. Dieser Punkt muss vor Stufe 3 geklärt sein, der Weg dafür steht unter <a href="#nas">Das NAS als Server</a>. Sonst müsste die Gateway-Software für den Schultest angepasst werden. Ob das Paket dafür eine Einstellung hat, ist nicht geprüft.</p>
 
         <h2 id="stufe4" data-kurz="Stufe 4: Schulgelände">Stufe 4: Schulgelände</h2>
         <p>Stell das Gateway möglichst hoch ans Fenster, die Antenne senkrecht. Geh dann mit dem Chip in der Jacke über das Gelände.</p>
@@ -135,7 +187,7 @@ node tools/test.js</code></pre>
           <li><strong>Zwei Gateways:</strong> Hören beide denselben Chip, darf der Notruf nur einmal ankommen.</li>
           <li><strong>Internet weg:</strong> Prüf die Schwachstelle aus Kapitel 1: Bekommt der Chip eine Bestätigung, obwohl die App den Notruf nicht hat?</li>
         </ul>
-        <p>Ein Schulgebäude ist kein Berg. Das Ergebnis sagt etwas darüber, ob alles zusammenspielt, aber wenig über die Reichweite im Gelände. Die misst Kapitel 9.</p>
+        <p>Ein Schulgebäude ist kein Berg. Das Ergebnis sagt etwas darüber, ob alles zusammenspielt, aber wenig über die Reichweite im Gelände. <a href="kapitel-09.html">Kapitel 9</a> zeigt, wie wir sie messen.</p>
 
         <h2 id="stolpersteine" data-kurz="Stolpersteine">Stolpersteine</h2>
       </div>
@@ -143,11 +195,12 @@ node tools/test.js</code></pre>
         <table class="stapel">
           <thead><tr><th scope="col">Problem</th><th scope="col">Mögliche Ursache</th><th scope="col">Was hilft</th></tr></thead>
           <tbody>
-            <tr><td>Gateway kommt nicht ins WLAN</td><td data-spalte="Ursache">Schulnetze haben oft Anmeldeseiten oder sperren Geräte.</td><td data-spalte="Lösung">Handy-Hotspot als zweites WLAN in <code>config.h</code> eintragen.</td></tr>
+            <tr><td>Gateway kommt nicht ins WLAN</td><td data-spalte="Ursache">Schulnetze haben oft Anmeldeseiten oder sperren Geräte.</td><td data-spalte="Lösung">Eigenen Router mit NAS und Gateway aufstellen. Ein Handy-Hotspot hilft nur, wenn das NAS aus dem Internet erreichbar ist.</td></tr>
             <tr><td>Bildschirm zeigt Server-Fehler</td><td data-spalte="Ursache">Adresse, Passwort oder Zertifikat stimmen nicht.</td><td data-spalte="Lösung">Beides mit <code>config.json</code> vergleichen, Punkt „Wichtig“ bei Stufe 3 beachten.</td></tr>
             <tr><td>Paketzähler bleibt stehen</td><td data-spalte="Ursache">Funk-Einstellungen oder Sync-Word sind ungleich.</td><td data-spalte="Lösung">Mit <a href="kapitel-04.html#einstellungen">Kapitel 4</a> vergleichen.</td></tr>
             <tr><td>Chip hat keine Position</td><td data-spalte="Ursache">Drinnen gibt es kaum GPS.</td><td data-spalte="Lösung">Ans Fenster legen oder ins Freie gehen.</td></tr>
             <tr><td>Server verwirft alle Pakete</td><td data-spalte="Ursache">Nach neuem Aufspielen beginnt der Zähler bei 0.</td><td data-spalte="Lösung">Mit Maximilian klären, siehe <a href="kapitel-04.html#grenzen">Kapitel 4</a>.</td></tr>
+            <tr><td>Caddy startet nicht</td><td data-spalte="Ursache">Ports 80 oder 443 sind vom NAS belegt.</td><td data-spalte="Lösung">Andere Ports zuweisen, siehe <a href="#nas">Das NAS als Server</a>.</td></tr>
             <tr><td>Heltec-Software läuft nicht</td><td data-spalte="Ursache">Falsches Board, zum Beispiel V4.</td><td data-spalte="Lösung">V3 verwenden, Board-Einstellung prüfen.</td></tr>
           </tbody>
         </table>
@@ -163,7 +216,10 @@ node tools/test.js</code></pre>
         <ul class="checkliste">
           <li><label><input type="checkbox" id="c1">Paket <code>skitag-test.zip</code> und Test-Bauplan von Maximilian bekommen</label></li>
           <li><label><input type="checkbox" id="c2">Mit der Schule geklärt: Raum, Strom, WLAN und ob wir funken dürfen</label></li>
-          <li><label><input type="checkbox" id="c3">Node.js 22 und Docker auf dem Laptop</label></li>
+          <li><label><input type="checkbox" id="c3">Node.js 22 auf dem Laptop</label></li>
+          <li><label><input type="checkbox" id="c18">NAS geprüft: Docker läuft, Ports geklärt</label></li>
+          <li><label><input type="checkbox" id="c19">DuckDNS-Name angelegt, Zertifikat kommt an</label></li>
+          <li><label><input type="checkbox" id="c20">1 Heltec V3 mit 868 MHz bestellt</label></li>
           <li><label><input type="checkbox" id="c4">Neue Schlüssel und Passwörter erzeugt</label></li>
         </ul>
         <h3>Stufe 1 und 2</h3>
@@ -198,6 +254,12 @@ node tools/test.js</code></pre>
         <ul class="quellen">
           <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
           <li>SkiTag Test-Bauplan, liegt dem Team vor, für dieses Kapitel nicht eingesehen</li>
+          <li><a href="https://openelab.io/de/products/heltec-wifi-lora-esp32-v3">Heltec WiFi LoRa 32 V3 bei OpenELAB</a> und <a href="https://openelab.io/a/s/products/seeed-studio-xiao-esp32s3-wio">XIAO ESP32-S3 mit Wio-SX1262</a>, Preise am 1. November 2026</li>
+          <li><a href="https://news.rakwireless.com/things-to-consider-when-picking-a-lorawan-gateway/">RAK: Worauf es bei einem LoRaWAN-Gateway ankommt</a> und <a href="https://thethingsnetwork.org/docs/lorawan/concentrators">The Things Network zu Konzentratoren</a></li>
+          <li><a href="https://wiki.seeedstudio.com/wio_sx1262_with_xiao_esp32s3_kit/">Seeed Wiki zum XIAO-Kit</a></li>
+          <li><a href="https://store.rakwireless.com/products/wisduo-breakout-board-rak3272s">RAK3272S im RAK-Shop</a>, <a href="https://forum.rakwireless.com/t/trouble-with-rak3272s/11916">RAK-Forum zu AT+PRECV</a></li>
+          <li><a href="https://www.rtl-sdr.com/rtl-sdr-blog-black-friday-sale-discounts-on-rtl-sdr-v3-youloop-qo-100-bullseye-flightaware-ads-b-lna-rsp-enclosure/">RTL-SDR Blog</a>, Preis ohne Datum, und <a href="https://github.com/rpp0/gr-lora">gr-lora</a></li>
+          <li><a href="https://caddy.community/t/dns-challenge-with-duckdns/14994">Caddy-Forum: DNS-Prüfung mit DuckDNS</a> und <a href="https://caddy.community/t/caddy-on-synology-dsm-7-2/29803">Caddy auf Synology</a></li>
         </ul>
       </div>
 
