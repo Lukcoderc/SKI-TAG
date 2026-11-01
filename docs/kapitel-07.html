@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOS: Vorrang und Fehlalarme · SkiTag Netzwerk-Buch</title>
+<meta name="description" content="Wie ein Notruf vor Fehlalarmen geschützt ist und warum ihn fast nichts aufhalten kann.">
+<link rel="stylesheet" href="assets/book.css?v=34">
+<script src="assets/book.js?v=34" defer></script>
+</head>
+<body data-station="server">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
+  <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
+  <symbol id="mark-geschaetzt" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="6 3.2"/></symbol>
+  <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+</svg>
+
+<header class="seil">
+  <a class="seil-marke" href="kapitel-01.html">SkiTag Netzwerk-Buch</a>
+</header>
+
+<div class="buch">
+  <nav class="kapitel-nav" aria-label="Kapitel">
+    <details open>
+      <summary>Inhalt</summary>
+      <ol></ol>
+      <div class="seite-mobil">
+        <p>Auf dieser Seite</p>
+        <ol></ol>
+      </div>
+    </details>
+  </nav>
+
+  <main>
+    <details class="seite-klein">
+      <summary>Auf dieser Seite</summary>
+      <ol></ol>
+    </details>
+    <article>
+      <h1>SOS: Vorrang und Schutz vor Fehlalarmen</h1>
+      <p class="stand">Kapitel 7 · Stand 31. Oktober 2026</p>
+
+      <div class="lesen">
+        <p class="einstieg">Ein Notruf darf nicht untergehen, und ein Fehlalarm darf nicht so viel Aufwand auslösen wie ein echter. Dieses Kapitel zeigt, wie der Chip einen Notruf von einem einfachen Ruf unterscheidet, warum ihn danach fast nichts mehr aufhält, und wo das noch nicht erprobt ist.</p>
+        <p>Das beantwortet Frage 6 aus der Angabe, siehe <a href="kapitel-02.html#fragen">Kapitel 2</a>: Wie wird ein SOS vor Fehlalarmen geschützt und bevorzugt behandelt?</p>
+
+        <h2 id="zwei-ereignisse" data-kurz="Zwei Ereignisse, eine Geste entscheidet">Zwei Ereignisse, eine Geste entscheidet</h2>
+        <p>Derselbe Knopf löst zwei völlig verschiedene Dinge aus, je nachdem, wie er gedrückt wird. Das Funkprotokoll aus <a href="kapitel-04.html">Kapitel 4</a> kennt dafür zwei eigene Ereignisse, CALL und SOS, die der Server unterschiedlich behandelt.</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Geste am Chip</th><th scope="col">Ereignis</th><th scope="col">Was der Server tut</th><th scope="col">Bergbahn alarmiert?</th></tr></thead>
+          <tbody>
+            <tr><td data-spalte="Geste">Kurz drücken</td><td data-spalte="Ereignis">1 CALL</td><td data-spalte="Was der Server tut">Befehl „du wirst gerufen“ an die übrige Gruppe, Hinweis in der App</td><td data-spalte="Bergbahn">Nein</td></tr>
+            <tr><td data-spalte="Geste">3 Sekunden halten, dann 5 Sekunden Abbruch-Zeit</td><td data-spalte="Ereignis">3 SOS</td><td data-spalte="Was der Server tut">Notruf mit Position anlegen, dem nächsten freien Mitarbeiter anbieten</td><td data-spalte="Bergbahn">Ja</td></tr>
+            <tr><td data-spalte="Geste">Eigenen Chip an einer Unfallstelle halten (Helfer statt Betroffener)</td><td data-spalte="Ereignis">3 SOS</td><td data-spalte="Was der Server tut">Gleich wie oben, der Server unterscheidet nicht, wer gedrückt hat</td><td data-spalte="Bergbahn">Ja</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Für den Server gibt es also nur drei Ereignisse, die er von einem Chip bekommen kann: CALL, SOS und BOOT beim Start. Welche Geste dahintersteckt, entscheidet allein der Chip, siehe <a href="kapitel-04.html">Kapitel 4</a>.</p>
+
+        <h2 id="schutz-vor-fehlalarm" data-kurz="Schutz vor Fehlalarmen">Schutz vor Fehlalarmen</h2>
+        <p>Ein Notruf entsteht nicht durch einen einzigen Druck. Laut Übergabe braucht es 3 Sekunden Halten und danach eine 5-Sekunden-Abbruch-Zeit, bevor das Ereignis überhaupt gesendet wird. Das ist eine Festlegung in der Chip-Software von Maximilian, aber sie bestimmt, was im Netzwerk überhaupt ankommt, darum gehört sie in dieses Kapitel.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Fest"><use href="#mark-fest"/></svg>Fest. Die Pitch-Präsentation nennt den Grund ausdrücklich: Der Halten-Zwang verhindert Fehlalarme durch versehentliches Drücken, etwa in der Jackentasche oder beim Sturz selbst.</p>
+        <p>Zwei Folgen sind aus dem Protokoll ersichtlich. Erstens: Ein kurzer, versehentlicher Druck löst höchstens einen Gruppenruf aus, nie einen Notruf, denn CALL und SOS sind getrennte Gesten. Zweitens: Solange die 5 Sekunden Abbruch-Zeit laufen, ist noch nichts gesendet. Im Protokoll gibt es kein Ereignis für „Notruf abgebrochen“, was dafür spricht, dass ein losgelassener Knopf innerhalb der Abbruch-Zeit gar nichts über Funk auslöst. Sicher ist das nicht, denn das steht nicht ausdrücklich in der Übergabe und ist mit Maximilian zu bestätigen.</p>
+
+        <h2 id="vorrang-im-funk" data-kurz="Vorrang auf der Funkstrecke">Vorrang auf der Funkstrecke</h2>
+        <p>Ist das Ereignis einmal ausgelöst, bekommt es auf dem Funkweg Vorrang vor allem anderen. Eine Positionsmeldung wartet auf ihr eigenes 4-Sekunden-Fenster im 20-Sekunden-Takt, siehe <a href="kapitel-05.html">Kapitel 5</a>. Ein Ereignis wartet nicht: Es wird sofort gesendet, auch außerhalb des eigenen Fensters.</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Was gesendet wird</th><th scope="col">Erster Versand</th><th scope="col">Wiederholung</th><th scope="col">Gibt auf?</th></tr></thead>
+          <tbody>
+            <tr><td data-spalte="Was">Positionsmeldung</td><td data-spalte="Erster Versand">im eigenen 4-s-Fenster</td><td data-spalte="Wiederholung">alle 20 s, in der Ladebox alle 60 s</td><td data-spalte="Gibt auf">entfällt, es gibt immer eine neue</td></tr>
+            <tr><td data-spalte="Was">CALL, BOOT</td><td data-spalte="Erster Versand">sofort, auch außerhalb des Fensters</td><td data-spalte="Wiederholung">alle 4 bis 8 s, nach 6 Versuchen alle 15 bis 25 s</td><td data-spalte="Gibt auf">nach 8 Versuchen</td></tr>
+            <tr><td data-spalte="Was">SOS</td><td data-spalte="Erster Versand">sofort, auch außerhalb des Fensters</td><td data-spalte="Wiederholung">gleich wie CALL</td><td data-spalte="Gibt auf"><strong>nie</strong>, bis der Server bestätigt</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Der Unterschied zu allem anderen ist der letzte Punkt: Ein normales Ereignis gibt nach 8 Versuchen auf, ein Notruf nicht. Der Chip wiederholt ihn, bis das Gateway ihm ein ACK bringt, siehe <a href="kapitel-06.html">Kapitel 6</a>.</p>
+
+        <h2 id="vorrang-im-server" data-kurz="Vorrang bei den Mitarbeitern">Vorrang bei den Mitarbeitern</h2>
+        <p>Beim Server geht der Vorrang weiter. Ein Notruf wird dem nächsten freien Mitarbeiter angeboten. Nimmt der ihn nicht binnen 60 Sekunden an, bietet der Server ihn dem nächsten an, so lange, bis jemand reagiert. In der App genügt ein Tipp auf „Einsatz übernehmen“, danach sehen alle anderen, dass schon jemand unterwegs ist, statt dass mehrere gleichzeitig losfahren.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Entschieden. Annahme, „vor Ort“ und „erledigt“ gehen als HELP 1, 2, 3 an den Chip zurück und lösen dort die Rückmeldung aus Kapitel 6 aus.</p>
+
+        <h2 id="was-noch-offen-ist" data-kurz="Was noch offen ist">Was noch offen ist</h2>
+        <p>Zwei Fragen sind mit dem jetzigen Stand noch nicht beantwortet:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Senden außerhalb des eigenen Fensters kann mit dem Paket eines anderen Chips zusammenstoßen.</td><td data-spalte="Warum">Bei 5 Testchips unwahrscheinlich, bei hunderten im Betrieb unklar. Reicht die Wiederholung, um das auszugleichen?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Es gibt keinen Zielwert, wie schnell ein Notruf beim Mitarbeiter sein muss, siehe <a href="kapitel-02.html#muss">Kapitel 2</a>.</td><td data-spalte="Warum">Ohne Zielwert lässt sich beim Test nicht sagen, ob der Vorrang in der Praxis ausreicht.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Ob ein abgebrochener Knopfdruck innerhalb der 5-Sekunden-Abbruch-Zeit wirklich nichts sendet.</td><td data-spalte="Warum">Steht nicht ausdrücklich in der Übergabe, nur aus dem Protokoll geschlossen. Mit Maximilian zu bestätigen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
+        <div class="urteil">
+          <p><strong>Fest:</strong> Ein Notruf entsteht erst nach 3 Sekunden Halten und einer 5-Sekunden-Abbruch-Zeit. Ein kurzer Druck ruft nur die eigene Gruppe, ohne die Bergbahn zu alarmieren.</p>
+          <p><strong>Entschieden:</strong> Ein ausgelöster Notruf wird sofort gesendet, nie aufgegeben und dem nächsten freien Mitarbeiter angeboten, mit Eskalation nach 60 Sekunden ohne Annahme.</p>
+          <p><strong>Offen:</strong> Ob das sofortige Senden außerhalb des eigenen Zeitfensters im Betrieb mit hunderten Chips kollisionsfrei bleibt, und welche Zeit ein Notruf höchstens brauchen darf.</p>
+        </div>
+
+        <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
+        <ul class="quellen">
+          <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
+          <li>SKI-Tag_Präsentation.pptx, interne Pitch-Präsentation, 21 Folien, Abschnitt „Der Chip: ein Knopf, drei Funktionen“</li>
+        </ul>
+      </div>
+
+      <div class="blaettern">
+        <a href="kapitel-06.html">Zurück: Kapitel 6, Rückkanal zum Chip</a>
+        <a href="kapitel-08.html">Weiter: Kapitel 8, Die Gateways</a>
+      </div>
+    </article>
+  </main>
+
+  <nav class="seiten-nav" aria-label="Auf dieser Seite">
+    <h2>Auf dieser Seite</h2>
+    <ol></ol>
+  </nav>
+</div>
+</body>
+</html>
