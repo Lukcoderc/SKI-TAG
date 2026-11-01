@@ -29,7 +29,7 @@ const STATIONEN = [
   { id: "empfaenger", name: "Gateway leitet weiter", x: 370, y: 56 },
   { id: "server", name: "Server entscheidet", x: 530, y: 50 },
   { id: "app", name: "Mitarbeiter wird alarmiert", x: 700, y: 44 },
-  { id: "rueckweg", name: "Bestätigung kommt zurück", x: 940, y: 38 },
+  { id: "rueckweg", name: "Übernahme kommt zurück", x: 940, y: 38 },
 ];
 const SPANNEN = STATIONEN.slice(1).map((s, i) => {
   const a = STATIONEN[i];
@@ -147,7 +147,7 @@ function baueKapitelNav() {
   const passeAn = () => { details.open = !schmal.matches; };
   passeAn();
   schmal.addEventListener("change", passeAn);
-  const seite = location.pathname.split("/").pop() || "kapitel-01.html";
+  const seite = location.pathname.split("/").pop() || "index.html";
   for (const k of KAPITEL) {
     const li = document.createElement("li");
     const nr = document.createElement("span");

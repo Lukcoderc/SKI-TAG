@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Schnittstelle zur App · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie App und Server zusammenspielen, welche Endpunkte es gibt und wo es noch hakt.">
-<link rel="stylesheet" href="assets/book.css?v=37">
-<script src="assets/book.js?v=37" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=39">
+<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
+<script src="assets/book.js?v=39" defer></script>
 </head>
 <body data-station="app">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -48,6 +49,24 @@
         <h2 id="regel" data-kurz="Eine Datei als Grenze">Eine Datei als Grenze</h2>
         <p>In der App kennt nur <code>api.js</code> den Server. Ändert sich etwas an der Schnittstelle, wird nur diese Datei angepasst. Der Server muss dazu passen, nicht umgekehrt. Das steht so auch in der Übergabe.</p>
 
+        <h2 id="gebaut" data-kurz="Was gebaut ist">Was gebaut ist und was nicht</h2>
+        <p>Die App sieht fertig aus, läuft aber gegen Beispieldaten. Das ist für die Vorführung gut, darf aber nicht mit einem echten Ablauf verwechselt werden:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Bereich</th><th scope="col">Stand im App-Repo</th><th scope="col">Folge</th></tr></thead>
+          <tbody>
+            <tr><td>Datenquelle</td><td data-spalte="Stand"><code>fakeData: true</code>, Server-Adresse ist ein Platzhalter</td><td data-spalte="Folge">Alles in der App ist simuliert, bis das umgestellt ist.</td></tr>
+            <tr><td>Notrufe bei der Bergbahn</td><td data-spalte="Stand">Simuliert im Browser. Kollegen übernehmen dort von selbst.</td><td data-spalte="Folge">Ein gelungener Durchlauf beweist nichts über den echten Ablauf.</td></tr>
+            <tr><td>Live-Streams</td><td data-spalte="Stand">Code für den echten Server ist da.</td><td data-spalte="Folge">Von uns nicht gegen den Server geprüft.</td></tr>
+            <tr><td>Anmeldung</td><td data-spalte="Stand"><code>api.js</code> sendet kein Token. Die Änderung dafür lag uns nicht vor.</td><td data-spalte="Folge">Sicherheit der Schnittstelle ist nicht beurteilbar.</td></tr>
+            <tr><td>Push, Benachrichtigung, Ton, Vibration, Bildschirm wach halten</td><td data-spalte="Stand">Im Code nicht gefunden. <code>service-worker.js</code> und <code>manifest.json</code> sind leer.</td><td data-spalte="Folge">Eine Mitarbeiter-App kann heute nicht von selbst alarmieren.</td></tr>
+            <tr><td>Kein Mitarbeiter mehr frei</td><td data-spalte="Stand">In der Simulation bleibt der Alarm ohne Zuständigen stehen.</td><td data-spalte="Folge">Es fehlt die Eskalation, siehe <a href="kapitel-07.html#eskalation">Kapitel 7</a>.</td></tr>
+            <tr><td>Text „Hilfe ist unterwegs“</td><td data-spalte="Stand">Der Text existiert, die Anzeige dazu liegt nicht im öffentlichen Code.</td><td data-spalte="Folge">Er darf erst ab <a href="kapitel-anhang.html#g-help">HELP</a> 1 erscheinen.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
         <h2 id="endpunkte" data-kurz="Die Endpunkte">Die Endpunkte</h2>
         <p>Diese Wege erwartet die App. Die letzte Spalte sagt, ob der Server sie laut Übergabe schon kann.</p>
       </div>
@@ -99,14 +118,14 @@
 
       <div class="lesen">
         <h2 id="notruf" data-kurz="Der Notruf">Der Notruf in beiden Sprachen</h2>
-        <p>Ein Notruf hat in der App vier Zustände. Der Server übersetzt sie in Befehle an den Chip:</p>
+        <p>Ein Notruf hat in der App vier Zustände. Der Server übersetzt sie in die Stufen aus <a href="kapitel-07.html#stufen">Kapitel 7</a>:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
           <thead><tr><th scope="col">In der App</th><th scope="col">Bedeutung</th><th scope="col">Befehl an den Chip</th></tr></thead>
           <tbody>
-            <tr><td><code>new</code></td><td data-spalte="Bedeutung">Wartet 60 Sekunden auf die Annahme</td><td data-spalte="Chip">ACK, wenn der Server ihn hat</td></tr>
-            <tr><td><code>accepted</code></td><td data-spalte="Bedeutung">Jemand hat übernommen</td><td data-spalte="Chip">HELP 1, der Chip vibriert zweimal lang</td></tr>
+            <tr><td><code>new</code></td><td data-spalte="Bedeutung">Wartet auf die Übernahme, je Mitarbeiter 60 Sekunden</td><td data-spalte="Chip">Vorher das <a href="kapitel-anhang.html#g-ack">ACK</a>, sobald der Server ihn hat</td></tr>
+            <tr><td><code>accepted</code></td><td data-spalte="Bedeutung">Ein Mensch hat übernommen</td><td data-spalte="Chip">HELP 1, der Chip vibriert zweimal lang</td></tr>
             <tr><td><code>onsite</code></td><td data-spalte="Bedeutung">Jemand ist vor Ort</td><td data-spalte="Chip">HELP 2</td></tr>
             <tr><td><code>done</code></td><td data-spalte="Bedeutung">Erledigt</td><td data-spalte="Chip">HELP 3</td></tr>
           </tbody>
@@ -115,14 +134,26 @@
       <div class="lesen">
         <p class="nach-tabelle">Ein Notruf kann aus zwei Quellen kommen: vom Knopf am Chip oder aus der Gäste-App über <code>POST /sos</code>. Über die App lässt er sich auch zurücknehmen („Mir geht's gut“). Am Chip gibt es dafür nur die 5 Sekunden Abbruch-Zeit vor dem Senden.</p>
 
-        <h2 id="alarm" data-kurz="Erreicht der Alarm das Handy?">Erreicht der Alarm das Handy?</h2>
-        <p>Das ist die wichtigste offene Frage dieses Kapitels. Die App ist heute eine Web-App. Notrufe kommen über einen Live-Stream, und der läuft nur, solange die App offen ist. Liegt das Handy gesperrt in der Tasche, ist nicht gesichert, dass der Alarm ankommt. Die Eskalation nach 60 Sekunden hilft dann auch nicht, wenn es allen Mitarbeitern so geht.</p>
-        <ul>
-          <li><strong>Plan laut App-Repo:</strong> Später wird die App mit Capacitor zu einer echten App für die Stores, mit Push und Vibration.</li>
-          <li><strong>Als Web-App:</strong> Auf dem iPhone geht Push ab iOS 16.4 nur, wenn die App auf dem Home-Bildschirm liegt.</li>
-          <li><strong>Für den Test:</strong> Die Mitarbeiter halten die App offen und das Display an. Das gilt nur für den Testtag.</li>
-        </ul>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Im Betrieb reicht das nicht. Bis es Push gibt, darf niemand sich auf die App allein verlassen.</p>
+        <h2 id="alarm" data-kurz="Erreicht der Alarm das Handy?">Erreicht der Alarm einen Menschen?</h2>
+        <p>Das ist die wichtigste offene Frage dieses Kapitels. Notrufe kommen über einen Live-Stream, und der läuft nur, solange die App offen ist. Liegt das Handy gesperrt in der Tasche, kommt nach heutigem Stand nichts an. Die Weitergabe nach 60 Sekunden hilft dann auch nicht, wenn es allen Mitarbeitern so geht.</p>
+        <p>Dazu kommt: Der Server sieht nur, dass er einen Notruf angeboten hat. Er erfährt nicht, ob er ankam, und erst recht nicht, ob ihn jemand gelesen hat. Technische Zustellung ist außerdem noch keine Kenntnisnahme. Erst der Tipp auf „Übernehmen“ beweist, dass ein Mensch Bescheid weiß.</p>
+        <p>Für eine verlässliche Alarmierung braucht es deshalb mehr als einen Stream:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Baustein</th><th scope="col">Wozu</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr class="zeile-offen"><td>Echte App mit Push</td><td data-spalte="Wozu">Alarm auch bei gesperrtem Handy. Laut App-Repo später mit Capacitor geplant. Auf dem iPhone gibt es Web-Push ab iOS 16.4 nur vom Home-Bildschirm.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Lauter Alarm</td><td data-spalte="Wozu">Ton und Vibration, bis jemand reagiert. Push allein kann stumm oder verspätet ankommen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Empfangsbestätigung der App</td><td data-spalte="Wozu">Macht die Stufe Zustellung erst sichtbar.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Anwesenheit</td><td data-spalte="Wozu">Die App meldet sich regelmäßig. Der Server bietet Notrufe nur Erreichbaren an und schaltet bei niemandem sofort weiter.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Neuer Abgleich</td><td data-spalte="Wozu">Nach einer Unterbrechung holt die App alle offenen Notrufe, sonst gehen Meldungen in der Lücke verloren.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Zweiter Weg ohne App</td><td data-spalte="Wozu">Leitstand, Telefon oder Betriebsfunk. Push hängt an fremden Diensten und am Mobilfunk.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Für den Testtag gilt eine Behelfsregel: Die Mitarbeiter halten die App offen und das Display an. Für den Betrieb reicht das nicht. Bis die Bausteine stehen, darf sich niemand auf die App allein verlassen.</p>
 
         <h2 id="technik" data-kurz="Technische Stolpersteine">Technische Stolpersteine</h2>
       </div>
@@ -141,6 +172,21 @@
       </div>
 
       <div class="lesen">
+        <h2 id="api-sicherheit" data-kurz="Sicherheit der Schnittstelle">Sicherheit der Schnittstelle</h2>
+        <p>Jeder Endpunkt ist aus dem Internet erreichbar. Darum muss der Server jede Anfrage selbst prüfen und darf der App nichts glauben. Besonders heikel sind diese Punkte, im Server-Code konnten wir sie nicht prüfen:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr class="zeile-offen"><td>Notruf für fremde Chips</td><td data-spalte="Warum"><code>POST /sos</code> nennt die Chip-Nummer selbst. Der Server muss prüfen, ob die Anfrage zu diesem Chip gehört, sonst kann jeder Fehlalarme auslösen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Notruf beenden</td><td data-spalte="Warum"><code>DELETE /sos/{id}</code> darf nur die betroffene Person oder das Personal. Sonst könnte ein Fremder einen echten Notruf abbrechen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Daten anderer</td><td data-spalte="Warum">Gäste dürfen nur die eigene Gruppe sehen. Positionsstreams aller Chips sind nur für Personal.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Einsätze steuern</td><td data-spalte="Warum">Nur Personal darf Einsätze übernehmen, und nur die zuständige Person darf sie abschließen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
         <h2 id="radius" data-kurz="Der Reichweiten-Alarm">Der Reichweiten-Alarm</h2>
         <p>Verlässt ein Kind den eingestellten Radius, soll nur die Person vibrieren, die aufpasst. Heute ruft die App dafür die Gruppe mit dem eigenen Chip als Absender. Der Server schickt aber an alle außer dem Absender, also vibriert das Kind, und gerechnet wird nur bei offener App.</p>
         <p>Unser Vorschlag: Der Server prüft den Abstand selbst und ruft nur den Chip der aufpassenden Person. Das geht ohne neuen Funkbefehl, denn es vibriert wie ein normaler Gruppenruf. Die App muss dem Server nur Radius und Aufpasser mitteilen, dafür fehlt noch ein Endpunkt. Wie Eltern den Radius eingeben, bleibt Sache von Tobias.</p>
@@ -154,9 +200,9 @@
 
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
-          <p><strong>Fest:</strong> Die App kennt den Server nur über <code>api.js</code>, und Chips kennt sie nur als Daten vom Server.</p>
+          <p><strong>Fest:</strong> Die App kennt den Server nur über <code>api.js</code>, und Chips kennt sie nur als Daten vom Server. Sie läuft heute mit Beispieldaten.</p>
           <p><strong>Geschätzt:</strong> Notrufe, Gruppen, Positionen, Lifte und Treffpunkt passen laut Übergabe zusammen. Geprüft ist das nicht.</p>
-          <p><strong>Offen:</strong> Ob ein Alarm das gesperrte Handy erreicht, die Anmeldung an Streams und der Reichweiten-Alarm.</p>
+          <p><strong>Offen:</strong> Wie ein Alarm einen Menschen auch bei gesperrtem Handy erreicht, die Stufe Zustellung, die Sicherheit der Schnittstelle und der Reichweiten-Alarm.</p>
         </div>
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>

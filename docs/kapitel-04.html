@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Funkprotokoll · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie Chip, Gateway und Server über Funk miteinander sprechen: Pakete, Zeitfenster und Schutz.">
-<link rel="stylesheet" href="assets/book.css?v=37">
-<script src="assets/book.js?v=37" defer></script>
-<script src="assets/paket.js?v=37" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=39">
+<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
+<script src="assets/book.js?v=39" defer></script>
+<script src="assets/paket.js?v=39" defer></script>
 </head>
 <body data-station="chip">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -44,7 +45,7 @@
 
       <div class="lesen">
         <p class="einstieg">Damit Chip und Server sich verstehen, müssen beide dieselbe Sprache sprechen: wie ein Paket aufgebaut ist, wann gesendet werden darf und wie man erkennt, dass eine Nachricht echt ist. Diese Sprache heißt Funkprotokoll.</p>
-        <p>SkiTag nutzt LoRa direkt und kein LoRaWAN. Das Protokoll ist also selbst gebaut, gemeinsam mit Maximilian. Die Regel dazu ist einfach: Es gibt nur eine Wahrheit, nämlich <code>proto.h</code> im Chip und <code>proto.js</code> im Server. Ändert jemand etwas daran, ändern beide gleichzeitig.</p>
+        <p>SkiTag nutzt LoRa direkt und kein <a href="kapitel-anhang.html#g-lorawan">LoRaWAN</a>. Das Protokoll ist also selbst gebaut, gemeinsam mit Maximilian. Die Regel dazu ist einfach: Es gibt nur eine Wahrheit, nämlich <code>proto.h</code> im Chip und <code>proto.js</code> im Server. Ändert jemand etwas daran, ändern beide gleichzeitig.</p>
         <p>Dieses Kapitel gibt den Stand der Übergabe vom 29. Oktober wieder. Der Code selbst wurde dafür nicht geprüft, und getestet ist alles bisher nur am PC.</p>
 
         <h2 id="einstellungen" data-kurz="Die Funkeinstellungen">Die Funkeinstellungen</h2>
@@ -55,7 +56,7 @@
           <thead><tr><th scope="col">Einstellung</th><th scope="col">Wert</th></tr></thead>
           <tbody>
             <tr><td>Frequenz</td><td>869,525 MHz</td></tr>
-            <tr><td>Modulation</td><td>SF9, Bandbreite 125 kHz, Fehlerschutz CR 4/5</td></tr>
+            <tr><td>Modulation</td><td><a href="kapitel-anhang.html#g-sf9">SF9</a>, Bandbreite 125 kHz, Fehlerschutz CR 4/5</td></tr>
             <tr><td>Präambel und Prüfsumme</td><td>8 Symbole, CRC an</td></tr>
             <tr><td>Sendeleistung</td><td>Chip und Gateway je 20 dBm</td></tr>
             <tr><td>Sync-Word</td><td>Privat: <code>0x1424</code> im Chip, <code>0x12</code> im Gateway. Das ist derselbe Wert in zwei Schreibweisen der Bibliotheken.</td></tr>
@@ -65,7 +66,7 @@
 
       <div class="lesen">
         <h2 id="pakete" data-kurz="Wie ein Paket aussieht">Wie ein Paket aussieht</h2>
-        <p>Es gibt zwei Arten von Paketen. Der Uplink geht vom Chip zum Server und ist immer 27 Byte groß. Der Downlink geht vom Server zu den Chips und ist höchstens 34 Byte groß. Klick auf ein Feld, um zu sehen, was darin steht.</p>
+        <p>Es gibt zwei Arten von Paketen. Der Uplink geht vom Chip zum Server und ist immer 27 Byte groß. Der <a href="kapitel-anhang.html#g-downlink">Downlink</a> geht vom Server zu den Chips und ist höchstens 34 Byte groß. Klick auf ein Feld, um zu sehen, was darin steht.</p>
       </div>
 
       <section class="bauplan" aria-label="Bauplan der Funkpakete">
@@ -84,7 +85,7 @@
         <table>
           <thead><tr><th scope="col">Paket</th><th scope="col">Aufbau</th></tr></thead>
           <tbody>
-            <tr><td>Uplink, 27 Byte</td><td>Kennung 0xA7 (1), Chip-Nummer (1), Zähler (4), verschlüsselter Inhalt (17), Prüfwert (4)</td></tr>
+            <tr><td><a href="kapitel-anhang.html#g-uplink">Uplink</a>, 27 Byte</td><td>Kennung 0xA7 (1), Chip-Nummer (1), Zähler (4), verschlüsselter Inhalt (17), Prüfwert (4)</td></tr>
             <tr><td>Inhalt, 17 Byte</td><td>Ereignis (1), Ereignis-Nummer (1), Ereignis-Wert (1), Status (1), Breite (4), Länge (4), Höhe (2), Tempo (1), Akku (1), Downlink-Quittung (1)</td></tr>
             <tr><td>Downlink, bis 34 Byte</td><td>Kennung 0xA8 (1), Zähler (4), verschlüsselt: Anzahl (1) und bis zu 8 Befehle zu je 3 Byte, Prüfwert (4)</td></tr>
           </tbody>
@@ -127,9 +128,9 @@
             <tr><td>Chip zum Server</td><td>1 CALL</td><td>Gruppe rufen</td></tr>
             <tr><td>Chip zum Server</td><td>3 SOS</td><td>Notruf</td></tr>
             <tr><td>Chip zum Server</td><td>6 BOOT</td><td>Chip wurde gestartet</td></tr>
-            <tr><td>Server zum Chip</td><td>1 ACK</td><td>Ereignis ist angekommen, der Wert ist die Ereignis-Nummer</td></tr>
+            <tr><td>Server zum Chip</td><td>1 <a href="kapitel-anhang.html#g-ack">ACK</a></td><td>Ereignis ist angekommen, der Wert ist die Ereignis-Nummer</td></tr>
             <tr><td>Server zum Chip</td><td>2 CALL</td><td>Du wirst gerufen, der Wert ist der rufende Chip</td></tr>
-            <tr><td>Server zum Chip</td><td>5 HELP</td><td>Notruf: 1 angenommen, 2 vor Ort, 3 erledigt</td></tr>
+            <tr><td>Server zum Chip</td><td>5 <a href="kapitel-anhang.html#g-help">HELP</a></td><td>Notruf: 1 angenommen, 2 vor Ort, 3 erledigt</td></tr>
           </tbody>
         </table>
       </div>
@@ -137,10 +138,10 @@
       <div class="lesen">
         <h2 id="zustellung" data-kurz="Wie nichts verloren geht">Wie nichts verloren geht</h2>
         <p>Funk ist unzuverlässig, also wiederholen beide Seiten. Ein Ereignis geht sofort raus, dann alle 4 bis 8 Sekunden, nach 6 Versuchen alle 15 bis 25 Sekunden, bis ein ACK kommt. Normale Ereignisse geben nach 8 Versuchen auf, ein Notruf nie.</p>
-        <p>Der Server versucht jeden Befehl bis zu sechsmal. Ob ein Befehl ankam, sieht er am letzten Byte im Uplink: Dort meldet der Chip den Zähler seines letzten Downlinks. Hören zwei Gateways dasselbe Paket, verwirft der Server das Duplikat an seinem Zähler.</p>
+        <p>Der Server versucht jeden Befehl bis zu sechsmal. Ob ein Befehl ankam, sieht er am letzten Byte im Uplink: Dort meldet der Chip den Zähler seines letzten Downlinks. Hören zwei Gateways dasselbe Paket, verwirft der Server das Duplikat an seinem Zähler. Was ACK und HELP genau bedeuten, legt <a href="kapitel-07.html#stufen">Kapitel 7</a> fest.</p>
 
         <h2 id="schutz" data-kurz="Wie Pakete geschützt sind">Wie Pakete geschützt sind</h2>
-        <p>Der Inhalt jedes Pakets ist verschlüsselt, und jedes Paket trägt einen Prüfwert, beides mit einem gemeinsamen Schlüssel von 128 Bit. Grundlage ist SipHash-2-4. SipHash selbst verschlüsselt aber nichts: Es ist eine Hash-Funktion mit Schlüssel, gedacht für Prüfwerte. Für die Verschlüsselung erzeugt es einen Schlüsselstrom, der per XOR mit dem Inhalt verknüpft wird. Das ist eine selbst gebaute Stromchiffre.</p>
+        <p>Der Inhalt jedes Pakets ist verschlüsselt, und jedes Paket trägt einen Prüfwert, beides mit einem gemeinsamen Schlüssel von 128 Bit. Grundlage ist SipHash-2-4. SipHash selbst verschlüsselt aber nichts: Es ist eine Hash-Funktion mit Schlüssel, gedacht für Prüfwerte. Für die Verschlüsselung erzeugt es einen Schlüsselstrom, der per XOR mit dem Inhalt verknüpft wird. Das ist eine selbst gebaute <a href="kapitel-anhang.html#g-stromchiffre">Stromchiffre</a>.</p>
         <p>Ohne den Schlüssel sollen Positionen nicht lesbar sein, und ein gefälschtes Paket soll am Prüfwert scheitern. Geprüft hat diesen Aufbau bisher niemand, siehe <a href="kapitel-15.html#siphash">Kapitel 15</a>.</p>
         <p>Der Zähler schützt gegen alte Pakete: Wer ein aufgezeichnetes Paket später noch einmal sendet, kommt nicht durch, weil der Server jeden Zähler verwirft, der nicht größer ist als der letzte. Der Chip reserviert seinen Zähler dafür im Flash-Speicher in 1000er-Schritten, damit er nach einem Neustart nie zurückspringt.</p>
         <p>Der Schlüssel steht im Chip und auf dem Server, aber nie in diesem Buch oder im Repo. Vor dem Test wird ein neuer erzeugt, weil der Beispiel-Schlüssel bekannt ist.</p>
@@ -154,7 +155,9 @@
           <tbody>
             <tr class="zeile-offen"><td>Die Chip-Nummer ist nur 1 Byte groß.</td><td>Damit gibt es höchstens 256 Nummern, im Betrieb sind aber hunderte Chips geplant. Für mehr müsste das Paket geändert werden.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Ein Notruf sendet außerhalb seines Fensters.</td><td>Er kann mit dem Paket eines anderen Chips zusammenstoßen. Die Wiederholung fängt das ab, wie gut, zeigt erst der Test.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Alle Chips teilen sich einen Schlüssel.</td><td>Mietchips gehen durch viele Hände. Wer einen Chip ausliest, könnte alle lesen und fälschen. Vorschlag für den Betrieb: ein eigener Schlüssel pro Chip und ein geprüftes Verfahren wie AES-CCM, siehe <a href="kapitel-15.html#serie-krypto">Kapitel 15</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Alle Chips teilen sich einen Schlüssel.</td><td>Mietchips gehen durch viele Hände. Wer einen Chip ausliest, könnte alle lesen und fälschen. Vorschlag für den Betrieb: ein eigener Schlüssel pro Chip und ein geprüftes Verfahren wie <a href="kapitel-anhang.html#g-aes-ccm">AES-CCM</a>, siehe <a href="kapitel-15.html#serie-krypto">Kapitel 15</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Die Quittung <code>dlAck</code> ist nur 1 Byte groß.</td><td>Der Downlink-Zähler läuft mit 16 pro Sekunde, sein unterstes Byte wiederholt sich also alle 16 Sekunden. Ein zufällig gleicher Wert könnte einen verlorenen Befehl als angekommen melden. Das Risiko ist klein, aber bei HELP 1 unerwünscht.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Das Gateway erkennt keinen Notruf.</td><td>Das Ereignis ist verschlüsselt. Das Gateway kann Notrufe deshalb weder im Puffer vorziehen noch beim Senden bevorzugen, siehe <a href="kapitel-08.html#puffer">Kapitel 8</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Der Prüfwert ist nur 32 Bit lang.</td><td>Für den Test genügt das. LoRaWAN nutzt ebenfalls 32 Bit, mehr dazu in <a href="kapitel-15.html#funk">Kapitel 15</a>. Es hängt mit der Wahl der Verschlüsselung zusammen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Ein neu aufgespielter Chip beginnt wieder bei Zähler 0.</td><td>Wird der Flash gelöscht, hält der Server alle Pakete für alt. Vielleicht braucht die Ausgabe-Seite eine Funktion zum Zurücksetzen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Es gibt nur 5 feste Fenster in einem Kanal.</td><td>Mehr Chips passen so nicht in den Takt. Die Rechnung dazu steht in <a href="kapitel-05.html#fenster">Kapitel 5</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>

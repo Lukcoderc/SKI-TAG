@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anhang · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Kosten, offene Punkte, Glossar und alle Quellen des SkiTag Netzwerk-Buchs.">
-<link rel="stylesheet" href="assets/book.css?v=37">
-<script src="assets/book.js?v=37" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=39">
+<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
+<script src="assets/book.js?v=39" defer></script>
 </head>
 <body data-station="knopf">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -64,8 +65,8 @@
       </div>
 
       <div class="lesen">
-        <h2 id="offene-punkte" data-kurz="Offene Punkte">Die offenen Punkte der Übergabe</h2>
-        <p>Die Übergabe nennt 12 Punkte. So weit sind sie:</p>
+        <h2 id="offene-punkte" data-kurz="Offene Punkte">Alle offenen Punkte</h2>
+        <p>Die Übergabe nennt 12 Punkte, die Prüfung des Buchs hat weitere ergeben. So weit sind sie:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
@@ -83,6 +84,13 @@
             <tr class="zeile-offen"><td>10</td><td data-spalte="Thema">Sicherheit in der Serie</td><td data-spalte="Wo"><a href="kapitel-15.html#funk">Kapitel 15</a>, Empfehlung</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>11</td><td data-spalte="Thema">Zähler nach Neu-Aufspielen</td><td data-spalte="Wo"><a href="kapitel-15.html#funk">Kapitel 15</a>, auch ein Sicherheitsrisiko</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>12</td><td data-spalte="Thema">Noch nie auf echter Hardware</td><td data-spalte="Wo"><a href="kapitel-18.html">Kapitel 18</a> und <a href="kapitel-16.html">Kapitel 16</a></td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>13</td><td data-spalte="Thema">Erst speichern, dann ACK</td><td data-spalte="Wo"><a href="kapitel-12.html#speichern">Kapitel 12</a>, im Code zu prüfen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>14</td><td data-spalte="Thema">Alarm erreicht einen Menschen</td><td data-spalte="Wo"><a href="kapitel-13.html#alarm">Kapitel 13</a>, Bausteine fehlen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>15</td><td data-spalte="Thema">Eskalation nach dem letzten Mitarbeiter</td><td data-spalte="Wo"><a href="kapitel-07.html#eskalation">Kapitel 7</a>, Vorschlag</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>16</td><td data-spalte="Thema">Vorrang für Notrufe im Gateway</td><td data-spalte="Wo"><a href="kapitel-08.html#puffer">Kapitel 8</a>, heute nicht möglich</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>17</td><td data-spalte="Thema">Prüfungen im Server für jede Anfrage</td><td data-spalte="Wo"><a href="kapitel-13.html#api-sicherheit">Kapitel 13</a>, Code nötig</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>18</td><td data-spalte="Thema">Rettungsablauf mit der Bergbahn</td><td data-spalte="Wo"><a href="kapitel-14.html#rettung">Kapitel 14</a>, mit KitzSki zu klären</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>19</td><td data-spalte="Thema">Dürfen die Prototypen funken?</td><td data-spalte="Wo"><a href="kapitel-16.html#offen">Kapitel 16</a>, Fernmeldebehörde fragen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
       </div>
@@ -94,44 +102,52 @@
         <table class="stapel">
           <thead><tr><th scope="col">Begriff</th><th scope="col">Bedeutung</th></tr></thead>
           <tbody>
-            <tr><td>ACK</td><td data-spalte="Bedeutung">Bestätigung vom Server: Das Ereignis ist angekommen. Heißt nicht, dass ein Mensch es gesehen hat.</td></tr>
-            <tr><td>AEAD</td><td data-spalte="Bedeutung">Verschlüsselung, die zugleich die Echtheit prüft. Beispiel: AES-CCM.</td></tr>
-            <tr><td>AES</td><td data-spalte="Bedeutung">Standard-Baustein für Verschlüsselung. Erst eine Betriebsart wie CCM macht daraus ein vollständiges Verfahren.</td></tr>
-            <tr><td>AES-CCM</td><td data-spalte="Bedeutung">Standardverfahren, das mit AES verschlüsselt und einen Prüfwert erzeugt. Empfehlung für die Serie.</td></tr>
-            <tr><td>Bergstation, Talstation</td><td data-spalte="Bedeutung">Oberes und unteres Ende eines Lifts, mögliche Standorte für Gateways.</td></tr>
-            <tr><td>Caddy</td><td data-spalte="Bedeutung">Programm vor dem Server, das HTTPS und das Zertifikat übernimmt.</td></tr>
-            <tr><td>Capture-Effekt</td><td data-spalte="Bedeutung">Treffen zwei Pakete zusammen, setzt sich oft das stärkere durch.</td></tr>
-            <tr><td>dB, dBm</td><td data-spalte="Bedeutung">dB beschreibt ein Verhältnis, etwa eine Dämpfung. dBm ist eine absolute Leistung. −115 dBm ist sehr wenig.</td></tr>
-            <tr><td>dBi</td><td data-spalte="Bedeutung">Gewinn einer Antenne im Vergleich zu einem gedachten Kugelstrahler.</td></tr>
-            <tr><td>Docker</td><td data-spalte="Bedeutung">Verpackt den Server samt Umgebung, damit er überall gleich läuft.</td></tr>
-            <tr><td>Downlink</td><td data-spalte="Bedeutung">Funk vom Gateway zum Chip, bis 34 Byte. Das Gateway hört währenddessen nichts.</td></tr>
-            <tr><td>DSGVO</td><td data-spalte="Bedeutung">Datenschutz-Grundverordnung der EU.</td></tr>
-            <tr><td>DuckDNS</td><td data-spalte="Bedeutung">Kostenloser Dienst für einen Namen im Internet.</td></tr>
-            <tr><td>Duty Cycle</td><td data-spalte="Bedeutung">Anteil der Zeit, in der ein Gerät senden darf. Unser Band erlaubt 10 %, der Chip nutzt rund 1,1 %, das Gateway ist auf 8,3 % begrenzt.</td></tr>
-            <tr><td>Eskalation</td><td data-spalte="Bedeutung">Nimmt niemand einen Notruf an, geht er nach 60 Sekunden an den nächsten Mitarbeiter.</td></tr>
-            <tr><td>Fresnel-Zone</td><td data-spalte="Bedeutung">Raum um die Sichtlinie, den das Funksignal braucht.</td></tr>
-            <tr><td>Gateway</td><td data-spalte="Bedeutung">Gerät an der Station, das Funkpakete hört und an den Server weiterreicht. Im Test ein Heltec V3.</td></tr>
-            <tr><td>HELP</td><td data-spalte="Bedeutung">Befehl an den Chip: 1 angenommen, 2 vor Ort, 3 erledigt. Erst HELP 1 heißt, dass ein Mensch den Notruf hat.</td></tr>
-            <tr><td>Heltec V3</td><td data-spalte="Bedeutung">Kleines Funkboard mit WLAN und Bildschirm, im Test das Gateway.</td></tr>
-            <tr><td>HTTPS</td><td data-spalte="Bedeutung">Verschlüsselte Verbindung im Netz, etwa zwischen Gateway und Server.</td></tr>
-            <tr><td>Let's Encrypt</td><td data-spalte="Bedeutung">Kostenlose Stelle für Zertifikate, die das Gateway beim Server prüft.</td></tr>
-            <tr><td>LoRa</td><td data-spalte="Bedeutung">Funkverfahren mit großer Reichweite und wenig Daten.</td></tr>
-            <tr><td>LoRaWAN</td><td data-spalte="Bedeutung">Fertiges Netzprotokoll auf LoRa-Basis mit mehreren Kanälen und eigenen Schlüsseln pro Gerät. SkiTag nutzt im Test LoRa direkt, nicht LoRaWAN.</td></tr>
-            <tr><td>MAC, Prüfwert</td><td data-spalte="Bedeutung">Kurzer Wert, der zeigt, dass ein Paket echt und unverändert ist.</td></tr>
-            <tr><td>NAS</td><td data-spalte="Bedeutung">Netzwerkspeicher. Im Schultest läuft darauf der Server.</td></tr>
-            <tr><td>Nonce</td><td data-spalte="Bedeutung">Einmalwert für einen Schlüssel. Wiederholt er sich, bricht der Schutz.</td></tr>
-            <tr><td>PoE</td><td data-spalte="Bedeutung">Strom und Daten über dasselbe Netzwerkkabel.</td></tr>
-            <tr><td>Push</td><td data-spalte="Bedeutung">Nachricht aufs Handy, auch wenn die App geschlossen ist.</td></tr>
-            <tr><td>RSSI</td><td data-spalte="Bedeutung">Stärke eines empfangenen Signals in dBm. Gut ab −115 dBm, knapp ab −125 dBm.</td></tr>
-            <tr><td>SF9</td><td data-spalte="Bedeutung">Spreading Factor 9, die Einstellung von SkiTag. Ein Paket mit 27 Byte braucht damit rund 226 ms Sendezeit.</td></tr>
-            <tr><td>SipHash</td><td data-spalte="Bedeutung">Hash-Funktion mit Schlüssel für kurze Eingaben. Keine Verschlüsselung, SkiTag baut daraus Prüfwert und Schlüsselstrom.</td></tr>
-            <tr><td>SNR</td><td data-spalte="Bedeutung">Abstand des Signals zum Rauschen. Je größer, desto sauberer der Empfang.</td></tr>
-            <tr><td>Spreading Factor</td><td data-spalte="Bedeutung">Regler zwischen Reichweite und Sendezeit: Höher reicht weiter, sendet aber länger.</td></tr>
-            <tr><td>SSE</td><td data-spalte="Bedeutung">Server-Sent Events, Live-Stream vom Server zur App.</td></tr>
-            <tr><td>Stromchiffre</td><td data-spalte="Bedeutung">Verschlüsselung, bei der ein Schlüsselstrom per XOR mit den Daten verknüpft wird.</td></tr>
-            <tr><td>Uplink</td><td data-spalte="Bedeutung">Funk vom Chip zum Gateway, bei SkiTag 27 Byte.</td></tr>
-            <tr><td>Zähler</td><td data-spalte="Bedeutung">Zahl in jedem Paket, die nur steigt. Sie schützt gegen wiederholte alte Pakete.</td></tr>
-            <tr><td>Zeitfenster</td><td data-spalte="Bedeutung">Fester Abschnitt von 4 Sekunden, in dem nur ein bestimmter Chip sendet.</td></tr>
+            <tr id="g-ack"><td>ACK</td><td data-spalte="Bedeutung">Bestätigung vom Server: Das Ereignis ist angekommen. Heißt nicht, dass ein Mensch es gesehen hat. Siehe <a href="kapitel-07.html#stufen">Kapitel 7</a>.</td></tr>
+            <tr id="g-aead"><td>AEAD</td><td data-spalte="Bedeutung">Verschlüsselung, die zugleich die Echtheit prüft. Beispiel: AES-CCM.</td></tr>
+            <tr id="g-aes"><td>AES</td><td data-spalte="Bedeutung">Standard-Baustein für Verschlüsselung. Erst eine Betriebsart wie CCM macht daraus ein vollständiges Verfahren.</td></tr>
+            <tr id="g-aes-ccm"><td>AES-CCM</td><td data-spalte="Bedeutung">Standardverfahren, das mit AES verschlüsselt und einen Prüfwert erzeugt. Empfehlung für die Serie.</td></tr>
+            <tr id="g-bergstation"><td>Bergstation, Talstation</td><td data-spalte="Bedeutung">Oberes und unteres Ende eines Lifts, mögliche Standorte für Gateways.</td></tr>
+            <tr id="g-caddy"><td>Caddy</td><td data-spalte="Bedeutung">Programm vor dem Server, das HTTPS und das Zertifikat übernimmt.</td></tr>
+            <tr id="g-capture-effekt"><td>Capture-Effekt</td><td data-spalte="Bedeutung">Treffen zwei Pakete zusammen, setzt sich oft das stärkere durch.</td></tr>
+            <tr id="g-db"><td>dB, dBm</td><td data-spalte="Bedeutung">dB beschreibt ein Verhältnis, etwa eine Dämpfung. dBm ist eine absolute Leistung. −115 dBm ist sehr wenig.</td></tr>
+            <tr id="g-dbi"><td>dBi</td><td data-spalte="Bedeutung">Gewinn einer Antenne im Vergleich zu einem gedachten Kugelstrahler.</td></tr>
+            <tr id="g-dlack"><td>dlAck</td><td data-spalte="Bedeutung">Letztes Byte im Uplink: Damit quittiert der Chip den letzten Downlink.</td></tr>
+            <tr id="g-docker"><td>Docker</td><td data-spalte="Bedeutung">Verpackt den Server samt Umgebung, damit er überall gleich läuft.</td></tr>
+            <tr id="g-downlink"><td>Downlink</td><td data-spalte="Bedeutung">Funk vom Gateway zum Chip, bis 34 Byte. Das Gateway hört währenddessen nichts.</td></tr>
+            <tr id="g-dsgvo"><td>DSGVO</td><td data-spalte="Bedeutung">Datenschutz-Grundverordnung der EU.</td></tr>
+            <tr id="g-duckdns"><td>DuckDNS</td><td data-spalte="Bedeutung">Kostenloser Dienst für einen Namen im Internet.</td></tr>
+            <tr id="g-duty-cycle"><td>Duty Cycle</td><td data-spalte="Bedeutung">Anteil der Zeit, in der ein Gerät senden darf. Unser Band erlaubt 10 %, der Chip nutzt rund 1,1 %, das Gateway ist auf 8,3 % begrenzt.</td></tr>
+            <tr id="g-eirp"><td>EIRP, ERP</td><td data-spalte="Bedeutung">Abgestrahlte Leistung, also Sender plus Antenne. ERP bezieht sich auf einen Dipol und liegt 2,15 dB unter EIRP.</td></tr>
+            <tr id="g-eskalation"><td>Eskalation</td><td data-spalte="Bedeutung">Stufenplan, wenn niemand einen Notruf übernimmt. Festgelegt sind nur die 60 Sekunden je Mitarbeiter, siehe <a href="kapitel-07.html#eskalation">Kapitel 7</a>.</td></tr>
+            <tr id="g-fakedata"><td>fakeData</td><td data-spalte="Bedeutung">Einstellung der App: Sie läuft mit Beispieldaten statt mit dem echten Server.</td></tr>
+            <tr id="g-fresnel-zone"><td>Fresnel-Zone</td><td data-spalte="Bedeutung">Raum um die Sichtlinie, den das Funksignal braucht.</td></tr>
+            <tr id="g-fsync"><td>fsync</td><td data-spalte="Bedeutung">Befehl, der Daten wirklich auf den Datenträger schreibt, statt sie im Speicher zu halten.</td></tr>
+            <tr id="g-gateway"><td>Gateway</td><td data-spalte="Bedeutung">Gerät an der Station, das Funkpakete hört und an den Server weiterreicht. Im Test ein Heltec V3.</td></tr>
+            <tr id="g-help"><td>HELP</td><td data-spalte="Bedeutung">Befehl an den Chip: 1 Übernahme, 2 vor Ort, 3 erledigt. Erst HELP 1 heißt, dass ein Mensch den Notruf hat.</td></tr>
+            <tr id="g-heltec-v3"><td>Heltec V3</td><td data-spalte="Bedeutung">Kleines Funkboard mit WLAN und Bildschirm, im Test das Gateway.</td></tr>
+            <tr id="g-https"><td>HTTPS</td><td data-spalte="Bedeutung">Verschlüsselte Verbindung im Netz, etwa zwischen Gateway und Server.</td></tr>
+            <tr id="g-leitstand"><td>Leitstand</td><td data-spalte="Bedeutung">Vorschlag: eine ständig besetzte Stelle der Bergbahn für Notrufe. Noch nicht geplant oder vereinbart.</td></tr>
+            <tr id="g-let-s-encrypt"><td>Let's Encrypt</td><td data-spalte="Bedeutung">Kostenlose Stelle für Zertifikate, die das Gateway beim Server prüft.</td></tr>
+            <tr id="g-lora"><td>LoRa</td><td data-spalte="Bedeutung">Funkverfahren mit großer Reichweite und wenig Daten.</td></tr>
+            <tr id="g-lorawan"><td>LoRaWAN</td><td data-spalte="Bedeutung">Fertiges Netzprotokoll auf LoRa-Basis mit mehreren Kanälen und eigenen Schlüsseln pro Gerät. SkiTag nutzt im Test LoRa direkt, nicht LoRaWAN.</td></tr>
+            <tr id="g-mac"><td>MAC, Prüfwert</td><td data-spalte="Bedeutung">Kurzer Wert, der zeigt, dass ein Paket echt und unverändert ist.</td></tr>
+            <tr id="g-nas"><td>NAS</td><td data-spalte="Bedeutung">Netzwerkspeicher. Im Schultest läuft darauf der Server.</td></tr>
+            <tr id="g-nonce"><td>Nonce</td><td data-spalte="Bedeutung">Einmalwert für einen Schlüssel. Wiederholt er sich, bricht der Schutz.</td></tr>
+            <tr id="g-poe"><td>PoE</td><td data-spalte="Bedeutung">Strom und Daten über dasselbe Netzwerkkabel.</td></tr>
+            <tr id="g-push"><td>Push</td><td data-spalte="Bedeutung">Nachricht aufs Handy, auch wenn die App geschlossen ist.</td></tr>
+            <tr id="g-replay"><td>Replay</td><td data-spalte="Bedeutung">Angriff, bei dem ein aufgezeichnetes Paket später noch einmal gesendet wird. Der Zähler soll das verhindern.</td></tr>
+            <tr id="g-rssi"><td>RSSI</td><td data-spalte="Bedeutung">Stärke eines empfangenen Signals in dBm. Gut ab −115 dBm, knapp ab −125 dBm.</td></tr>
+            <tr id="g-sf9"><td>SF9</td><td data-spalte="Bedeutung">Spreading Factor 9, die Einstellung von SkiTag. Ein Paket mit 27 Byte braucht damit rund 226 ms Sendezeit.</td></tr>
+            <tr id="g-siphash"><td>SipHash</td><td data-spalte="Bedeutung">Hash-Funktion mit Schlüssel für kurze Eingaben. Keine Verschlüsselung, SkiTag baut daraus Prüfwert und Schlüsselstrom.</td></tr>
+            <tr id="g-snr"><td>SNR</td><td data-spalte="Bedeutung">Abstand des Signals zum Rauschen. Je größer, desto sauberer der Empfang.</td></tr>
+            <tr id="g-spreading-factor"><td>Spreading Factor</td><td data-spalte="Bedeutung">Regler zwischen Reichweite und Sendezeit: Höher reicht weiter, sendet aber länger.</td></tr>
+            <tr id="g-sse"><td>SSE</td><td data-spalte="Bedeutung">Server-Sent Events, Live-Stream vom Server zur App.</td></tr>
+            <tr id="g-stromchiffre"><td>Stromchiffre</td><td data-spalte="Bedeutung">Verschlüsselung, bei der ein Schlüsselstrom per XOR mit den Daten verknüpft wird.</td></tr>
+            <tr id="g-uebernahme"><td>Übernahme</td><td data-spalte="Bedeutung">Ein Mensch tippt in der App auf „Übernehmen“. Das löst HELP 1 aus und ist der erste Beweis, dass jemand Bescheid weiß.</td></tr>
+            <tr id="g-uplink"><td>Uplink</td><td data-spalte="Bedeutung">Funk vom Chip zum Gateway, bei SkiTag 27 Byte.</td></tr>
+            <tr id="g-zaehler"><td>Zähler</td><td data-spalte="Bedeutung">Zahl in jedem Paket, die nur steigt. Sie schützt gegen wiederholte alte Pakete.</td></tr>
+            <tr id="g-zeitfenster"><td>Zeitfenster</td><td data-spalte="Bedeutung">Fester Abschnitt von 4 Sekunden, in dem nur ein bestimmter Chip sendet.</td></tr>
+            <tr id="g-zustellung"><td>Zustellung</td><td data-spalte="Bedeutung">Eine App hat einen Alarm technisch erhalten. Das heißt noch nicht, dass jemand ihn gesehen hat. Diese Stufe fehlt heute.</td></tr>
           </tbody>
         </table>
       </div>

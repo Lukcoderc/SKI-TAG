@@ -253,8 +253,6 @@ main ol { padding-left: 24px; }
 .checkliste-feld > .knopf { display: inline-block; margin-top: 16px; background: var(--flaeche-hell); }
 
 /* Startseite */
-.start .buch { grid-template-columns: minmax(0, 1fr) 230px; }
-.start .kapitel-nav { display: none; }
 .start-los { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 24px; margin-top: 18px; }
 .start-los .knopf { text-decoration: none; }
 .legende { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-top: 18px; }
@@ -295,6 +293,14 @@ main ol.inhalt { list-style: none; padding: 0; margin-top: 18px; background: var
 .sb-rot-dick { fill: none; stroke: var(--notruf); stroke-width: 4; }
 .sb-spitze { fill: var(--dunst); }
 .sb-spitze-licht { fill: var(--licht); }
+
+/* Testfälle */
+.testfall { margin-top: 6px; background: var(--flaeche); padding: 11px 14px; }
+.testfall h3 { font: 700 20px/1.2 var(--kopf); scroll-margin-top: calc(var(--seil-hoehe) + 24px); }
+.testfall dl { margin-top: 6px; }
+.testfall dl div { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 14px; padding: 4px 0; border-top: 1px solid var(--flaeche-hell); }
+.testfall dt { font: 700 17px/1.45 var(--kopf); color: var(--dunst); }
+.testfall dd { margin: 0; font-size: 17px; line-height: 1.45; }
 
 /* Abdeckungskarte */
 .abdeckung { display: none; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 20px; margin-top: 18px; padding: 20px 24px; background: var(--flaeche); }
@@ -366,7 +372,7 @@ main ol.inhalt { list-style: none; padding: 0; margin-top: 18px; background: var
   .stapel td:first-child { font-weight: 600; }
   .stapel td[data-spalte]::before { content: attr(data-spalte) ": "; font-weight: 600; color: var(--dunst); }
   .rechner, .bauplan, .abdeckung { padding: 16px; }
-  .start .buch { grid-template-columns: minmax(0, 1fr); }
+  .testfall dl div { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .legende { grid-template-columns: minmax(0, 1fr); }
   .inhalt li { grid-template-columns: 30px minmax(0, 1fr); gap: 4px 10px; }
   .inhalt-stand { grid-column: 2; }

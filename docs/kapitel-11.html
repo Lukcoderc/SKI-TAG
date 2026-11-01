@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Strom und Netzanbindung · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie die Gateways an Strom und Internet kommen und warum das Fenster das größte Hindernis ist.">
-<link rel="stylesheet" href="assets/book.css?v=37">
-<script src="assets/book.js?v=37" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=39">
+<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
+<script src="assets/book.js?v=39" defer></script>
 </head>
 <body data-station="empfaenger">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -51,7 +52,7 @@
         <ul>
           <li>Dürfen wir Steckdose und WLAN nutzen?</li>
           <li>Gibt es ein Netz mit 2,4 GHz, ohne Anmeldeseite?</li>
-          <li>Bleibt der Strom auch nachts an?</li>
+          <li>Bleibt der Strom auch nachts an, und was geschieht bei einem Stromausfall?</li>
           <li>Wer hat Zugang, wenn das Gerät neu gestartet werden muss?</li>
         </ul>
 
@@ -69,10 +70,10 @@
       </div>
       <div class="lesen">
         <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Geschätzt. Der Glaswert ist von anderen Frequenzen übernommen, und nicht jedes Fenster ist beschichtet. Trotzdem ist das die größte einzelne Unsicherheit im Test: Hinter dem falschen Fenster schrumpft die Reichweite von Kilometern auf wenige hundert Meter.</p>
-        <p>Darum messen wir beim Aufstellen beide Fälle: einmal mit geschlossenem Fenster, einmal mit Antenne im Freien oder offenem Fenster, jeweils mit dem Chip am selben Ort. Der Unterschied im RSSI zeigt die echte Dämpfung. Ist sie groß, muss die Antenne über ein kurzes Kabel nach außen.</p>
+        <p>Darum messen wir beim Aufstellen beide Fälle: einmal mit geschlossenem Fenster, einmal mit Antenne im Freien oder offenem Fenster, jeweils mit dem Chip am selben Ort. Der Unterschied im <a href="kapitel-anhang.html#g-rssi">RSSI</a> zeigt die echte Dämpfung. Ist sie groß, muss die Antenne über ein kurzes Kabel nach außen.</p>
 
         <h2 id="betrieb" data-kurz="Strom und Netz im Betrieb">Strom und Netz im Betrieb</h2>
-        <p>Im Betrieb soll das Gateway außen an der Station hängen, am besten mit einem einzigen Kabel. Das erlaubt Power over Ethernet (PoE): Strom und Daten laufen über dasselbe Netzwerkkabel. Für den Weg zum Server gibt es mehrere Möglichkeiten:</p>
+        <p>Im Betrieb soll das Gateway außen an der Station hängen, am besten mit einem einzigen Kabel. Das erlaubt Power over Ethernet (<a href="kapitel-anhang.html#g-poe">PoE</a>): Strom und Daten laufen über dasselbe Netzwerkkabel. Für den Weg zum Server gibt es mehrere Möglichkeiten:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
@@ -101,7 +102,7 @@
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Diese Geräte sind für LoRaWAN gebaut. Ob sie unser eigenes Protokoll annehmen, ist nicht geprüft. Dazu kommen Antenne, Montage und Blitzschutz. Das hängt an der Entscheidung für die Serie in <a href="kapitel-17.html">Kapitel 17</a>.</p>
+        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Diese Geräte sind für <a href="kapitel-anhang.html#g-lorawan">LoRaWAN</a> gebaut. Ob sie unser eigenes Protokoll annehmen, ist nicht geprüft. Dazu kommen Antenne, Montage und Blitzschutz. Das hängt an der Entscheidung für die Serie in <a href="kapitel-17.html">Kapitel 17</a>.</p>
 
         <h2 id="blitz" data-kurz="Blitzschutz">Blitzschutz</h2>
         <p>Eine Antenne auf einer Bergstation ist ein bevorzugtes Ziel für Blitze. Die Hersteller raten zu drei Dingen: einem Ableiter direkt am Antennenanschluss, einer Erdung von Mast und Gerät und einem Überspannungsschutz, wo das Netzwerkkabel ins Gebäude führt. Ohne Erdung nützt der Ableiter nichts.</p>

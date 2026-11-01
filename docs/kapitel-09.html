@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reichweite im Gelände · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was die Reichweite von LoRa am Berg bestimmt und wie SkiTag sie misst.">
-<link rel="stylesheet" href="assets/book.css?v=37">
-<script src="assets/book.js?v=37" defer></script>
-<script src="assets/funk.js?v=37" defer></script>
-<script src="assets/funkstrecke.js?v=37" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=39">
+<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
+<script src="assets/book.js?v=39" defer></script>
+<script src="assets/funk.js?v=39" defer></script>
+<script src="assets/funkstrecke.js?v=39" defer></script>
 </head>
 <body data-station="chip">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -48,7 +49,7 @@
         <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Gemessen ist bei KitzSki noch nichts. Alle Zahlen hier sind Rechnungen oder Schätzungen, bis der Reichweiten-Test sie bestätigt.</p>
 
         <h2 id="budget" data-kurz="Was das Signal verlieren darf">Was das Signal verlieren darf</h2>
-        <p>Der Chip sendet mit 20 dBm, das Gateway versteht bei SF9 noch rund −129 dBm. Das sind die 149 dB aus <a href="kapitel-03.html#reichweite">Kapitel 3</a>, mit den 3 dBi der Gateway-Antenne rund 152 dB. Davon lebt die Reichweite: Jedes Hindernis nimmt sich einen Teil davon.</p>
+        <p>Der Chip sendet mit 20 dBm, das Gateway versteht bei <a href="kapitel-anhang.html#g-sf9">SF9</a> noch rund −129 dBm. Das sind die 149 dB aus <a href="kapitel-03.html#reichweite">Kapitel 3</a>, mit den 3 dBi der Gateway-Antenne rund 152 dB. Davon lebt die Reichweite: Jedes Hindernis nimmt sich einen Teil davon.</p>
         <p>Die Übergabe setzt dafür zwei Schwellen: Ab −115 dBm gilt der Empfang als gut, ab −125 dBm als knapp. Für einen Notruf zählt „gut“, denn etwas Reserve braucht es immer.</p>
       </div>
       <div class="tabelle">
@@ -69,7 +70,7 @@
         <p class="nach-tabelle">Die Strecke selbst ist also fast harmlos. Zwischen 5 und 15 km liegen nur 10 dB, ein einzelner Grat kostet mehr als doppelt so viel. Darum entscheidet das Gelände, nicht der Abstand.</p>
 
         <h2 id="fresnel" data-kurz="Warum freie Sicht nicht reicht">Warum freie Sicht nicht reicht</h2>
-        <p>Funk läuft nicht auf einer dünnen Linie. Rund um die Sichtlinie braucht das Signal Platz, die sogenannte Fresnel-Zone. Bei 869 MHz und 10 km Strecke reicht sie in der Mitte rund 29 Meter um die Sichtlinie herum, ist also rund 59 Meter dick. Rund 18 Meter um die Linie sollten frei bleiben. Ein Chip, der knapp über eine Kuppe sieht, verliert also schon, obwohl man das Gateway sehen könnte.</p>
+        <p>Funk läuft nicht auf einer dünnen Linie. Rund um die Sichtlinie braucht das Signal Platz, die sogenannte <a href="kapitel-anhang.html#g-fresnel-zone">Fresnel-Zone</a>. Bei 869 MHz und 10 km Strecke reicht sie in der Mitte rund 29 Meter um die Sichtlinie herum, ist also rund 59 Meter dick. Rund 18 Meter um die Linie sollten frei bleiben. Ein Chip, der knapp über eine Kuppe sieht, verliert also schon, obwohl man das Gateway sehen könnte.</p>
         <p>Das gilt auch umgekehrt: Hinter einem Grat ist nicht sofort Schluss. Ein Teil des Signals biegt sich über die Kante. Das zeigte auch die Studie aus <a href="kapitel-03.html#reichweite">Kapitel 3</a>: In einer Schlucht kamen am Körper getragene Sender noch 300 Meter weit, weit weniger als im Flachen, aber nicht null.</p>
 
         <h2 id="rechner" data-kurz="Eine Strecke selbst rechnen">Eine Strecke selbst rechnen</h2>
@@ -103,7 +104,7 @@
         <table class="stapel">
           <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
           <tbody>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Dämpfung durch den eigenen Körper</td><td data-spalte="Warum">Der Chip steckt in der Jacke. Liegt jemand darauf, kann ein großer Teil des Signals verloren gehen. Für 868 MHz fehlt uns eine belastbare Zahl.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Dämpfung durch den eigenen Körper</td><td data-spalte="Warum">Der Chip steckt in der Jacke. Liegt jemand darauf, kann ein großer Teil des Signals verloren gehen. Eine Messung bei 868 MHz auf einer Fähre fand je nach Lage am Körper Unterschiede von mehr als rund 5 dB im Mittel. Auf eine liegende Person im Schnee lässt sich das nicht übertragen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td data-spalte="Punkt">Dämpfung durch Schnee</td><td data-spalte="Warum">Bei einem Sturz oder einer Lawine liegt Schnee über dem Chip. Für 868 MHz wurde keine verlässliche Angabe gefunden, nasser Schnee dämpft vermutlich stärker als trockener.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td data-spalte="Punkt">Wald im Winter</td><td data-spalte="Warum">Der ITU-Wert stammt aus einem Mischwald bei St. Petersburg und aus Messungen bei 949 MHz. Fichten im Schnee sind nicht gemessen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td data-spalte="Punkt">Antenne des Chips</td><td data-spalte="Warum">Die kleine FPC-Antenne in der Jacke ist schlechter als eine freie Antenne. Das Modell rechnet mit 0 dBi.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
@@ -116,7 +117,7 @@
         <h2 id="messen" data-kurz="Wie wir messen">Wie wir messen</h2>
         <p>Rechnen ersetzt das Messen nicht, es sagt nur, wo man genau hinschauen sollte. Der Reichweiten-Test läuft so:</p>
         <ol>
-          <li>Die zwei Gateways stehen an ihren Plätzen, das Funk-Protokoll zeichnet jedes Paket mit RSSI auf.</li>
+          <li>Die zwei Gateways stehen an ihren Plätzen, das Funk-Protokoll zeichnet jedes Paket mit <a href="kapitel-anhang.html#g-rssi">RSSI</a> auf.</li>
           <li>Jemand fährt mit dem Chip in der Jacke einen Tag lang die Teststrecke ab. Das ganze Gebiet lässt sich so nicht messen, dafür braucht es später mehr Gateways und mehrere Personen.</li>
           <li>Das Protokoll wird von der Ausgabe-Seite heruntergeladen und nach Position ausgewertet.</li>
           <li>Pisten unter −115 dBm und Lücken ohne Pakete werden markiert.</li>
@@ -132,6 +133,7 @@
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
         <ul class="quellen">
+          <li><a href="https://www.ursi.org/proceedings/procGA17/papers/Paper_FK2-1(2148).pdf">Cwalina und andere: Radio Channel Measurements in 868 MHz Off-Body Communications in a Ferry Environment</a>, URSI GASS 2017</li>
           <li><a href="https://www.itu.int/rec/R-REC-P.526/en">ITU-R P.526-16</a>, November 2025, Beugung an Kanten</li>
           <li><a href="https://www.itu.int/rec/R-REC-P.833/en">ITU-R P.833-10</a>, September 2021, Gleichung 1 und Tabelle 1</li>
           <li><a href="https://www.ursi.org/proceedings/procGA20/papers/YSASummaryBianco.pdf">Bianco, Mejia-Aguilar, Marrocco: Radio wave propagation of LoRa systems in mountains for Search and Rescue operations</a>, URSI GASS 2020</li>

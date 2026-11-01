@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SOS: Vorrang und Fehlalarme · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie ein Notruf vor Fehlalarmen geschützt ist und warum ihn fast nichts aufhalten kann.">
-<link rel="stylesheet" href="assets/book.css?v=37">
-<script src="assets/book.js?v=37" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=39">
+<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
+<script src="assets/book.js?v=39" defer></script>
 </head>
 <body data-station="server">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -39,7 +40,7 @@
     </details>
     <article>
       <h1>SOS: Vorrang und Schutz vor Fehlalarmen</h1>
-      <p class="stand">Kapitel 7 · Stand 31. Oktober 2026</p>
+      <p class="stand">Kapitel 7 · Stand 1. November 2026</p>
 
       <div class="lesen">
         <p class="einstieg">Ein Notruf darf nicht untergehen, und ein Fehlalarm darf nicht so viel Aufwand auslösen wie ein echter. Dieses Kapitel zeigt, wie der Chip einen Notruf von einem einfachen Ruf unterscheidet, warum ihn danach fast nichts mehr aufhält, und wo das noch nicht erprobt ist.</p>
@@ -80,14 +81,50 @@
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Der Unterschied zu allem anderen ist der letzte Punkt: Ein normales Ereignis gibt nach 8 Versuchen auf, ein Notruf nicht. Der Chip wiederholt ihn, bis das Gateway ihm ein ACK bringt, siehe <a href="kapitel-06.html">Kapitel 6</a>.</p>
+        <p class="nach-tabelle">Der Unterschied zu allem anderen ist der letzte Punkt: Ein normales Ereignis gibt nach 8 Versuchen auf, ein Notruf nicht. Der Chip wiederholt ihn, bis ein Gateway ihm ein <a href="kapitel-anhang.html#g-ack">ACK</a> bringt, siehe <a href="kapitel-06.html">Kapitel 6</a>.</p>
 
         <h2 id="vorrang-im-server" data-kurz="Vorrang bei den Mitarbeitern">Vorrang bei den Mitarbeitern</h2>
-        <p>Beim Server geht der Vorrang weiter. Ein Notruf wird dem nächsten freien Mitarbeiter angeboten. Nimmt der ihn nicht binnen 60 Sekunden an, bietet der Server ihn dem nächsten an, so lange, bis jemand reagiert. In der App genügt ein Tipp auf „Einsatz übernehmen“, danach sehen alle anderen, dass schon jemand unterwegs ist, statt dass mehrere gleichzeitig losfahren.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Entschieden. Annahme, „vor Ort“ und „erledigt“ gehen als HELP 1, 2, 3 an den Chip zurück und lösen dort die Rückmeldung aus Kapitel 6 aus.</p>
+        <p>Beim Server geht der Vorrang weiter. Ein Notruf wird dem nächsten freien Mitarbeiter angeboten. Übernimmt er ihn nicht binnen 60 Sekunden, bietet der Server ihn dem nächsten an. Was nach dem letzten geschieht, regelt der Abschnitt <a href="#eskalation">Wenn niemand übernimmt</a>. In der App genügt ein Tipp auf „Einsatz übernehmen“, danach sehen alle anderen, dass schon jemand unterwegs ist, statt dass mehrere gleichzeitig losfahren.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Entschieden. Übernahme, „vor Ort“ und „erledigt“ gehen als <a href="kapitel-anhang.html#g-help">HELP</a> 1, 2, 3 an den Chip zurück, siehe <a href="#stufen">Die Stufen eines Notrufs</a>.</p>
+
+        <h2 id="stufen" data-kurz="Die Stufen eines Notrufs">Die Stufen eines Notrufs</h2>
+        <p>Dieses Kapitel ist die verbindliche Quelle für die folgenden Begriffe, alle anderen Kapitel verwenden sie genauso. Wichtig ist: Jede Stufe sagt nur, was sie sagt. Keine davon beweist die nächste.</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Stufe</th><th scope="col">Bedeutet</th><th scope="col">Bedeutet nicht</th><th scope="col">Am Chip</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr><td>ACK</td><td data-spalte="Bedeutet">Der Server hat den Notruf empfangen.</td><td data-spalte="Nicht">Dass ein Mensch davon weiß.</td><td data-spalte="Am Chip">Schnelle Wiederholungen enden. Der Chip zeigt keine Hilfe an.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr class="zeile-offen"><td>Zustellung</td><td data-spalte="Bedeutet">Eine Mitarbeiter-App hat den Alarm technisch erhalten.</td><td data-spalte="Nicht">Dass jemand ihn gesehen hat.</td><td data-spalte="Am Chip">Nichts</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr><td>HELP 1, Übernahme</td><td data-spalte="Bedeutet">Ein Mensch hat den Einsatz per Tipp übernommen.</td><td data-spalte="Nicht">Dass schon jemand da ist.</td><td data-spalte="Am Chip">Vibriert zweimal lang, blinkt rot.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>HELP 2, vor Ort</td><td data-spalte="Bedeutet">Die Person ist beim Notruf angekommen.</td><td data-spalte="Nicht">Dass der Einsatz vorbei ist.</td><td data-spalte="Am Chip">Rückmeldung legt Maximilian fest.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>HELP 3, erledigt</td><td data-spalte="Bedeutet">Der Einsatz ist abgeschlossen.</td><td data-spalte="Nicht"></td><td data-spalte="Am Chip">Rückmeldung legt Maximilian fest.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Zwei Lücken bestehen. Die Stufe Zustellung gibt es heute nicht: Der Server sieht nur „angeboten“, nicht „angekommen“. Und ein ACK ist laut unseren Unterlagen nicht an eine dauerhafte Speicherung gebunden, siehe <a href="kapitel-12.html#speichern">Kapitel 12</a>. Beides muss vor dem Testtag geklärt sein.</p>
+
+        <h2 id="eskalation" data-kurz="Wenn niemand übernimmt">Wenn niemand übernimmt</h2>
+        <p>Gebaut ist nur der erste Schritt: Nach 60 Sekunden ohne Übernahme geht der Notruf an den nächsten freien Mitarbeiter. Was nach dem letzten geschieht, ist nicht festgelegt. Im Beispielmodus der App bleibt der Alarm dann stehen. Das darf im Betrieb nicht sein. Unser Vorschlag:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Zeit nach dem ACK</th><th scope="col">Was geschieht</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr><td>0 s</td><td data-spalte="Was">Der nächste freie Mitarbeiter bekommt das Angebot.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>60 s</td><td data-spalte="Was">Der nächste freie Mitarbeiter bekommt das Angebot.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr class="zeile-offen"><td>120 s</td><td data-spalte="Was">Alle im Dienst und der Leitstand werden gleichzeitig alarmiert.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>180 s</td><td data-spalte="Was">Der Leitstand handelt nach Plan, ohne die App: Telefon, Betriebsfunk, Rettungskette. Der Chip warnt: 140 rufen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Keine freien Mitarbeiter</td><td data-spalte="Was">Die Leiter springt sofort auf 120 s.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Die Zeiten ab 120 s sind Vorschläge und nicht abgestimmt. Wer dort handelt, muss die Bergbahn festlegen, nicht die Software. Der Abschnitt <a href="kapitel-14.html#rettung">Technik ist noch keine Rettung</a> zeigt, was dafür nötig ist.</p>
 
         <h2 id="was-noch-offen-ist" data-kurz="Was noch offen ist">Was noch offen ist</h2>
-        <p>Zwei Fragen sind mit dem jetzigen Stand noch nicht beantwortet:</p>
+        <p>Diese Fragen sind mit dem jetzigen Stand noch nicht beantwortet:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
@@ -103,9 +140,9 @@
       <div class="lesen">
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
-          <p><strong>Fest:</strong> Ein Notruf entsteht erst nach 3 Sekunden Halten und einer 5-Sekunden-Abbruch-Zeit. Ein kurzer Druck ruft nur die eigene Gruppe, ohne die Bergbahn zu alarmieren.</p>
-          <p><strong>Entschieden:</strong> Ein ausgelöster Notruf wird sofort gesendet, nie aufgegeben und dem nächsten freien Mitarbeiter angeboten, mit Eskalation nach 60 Sekunden ohne Annahme.</p>
-          <p><strong>Offen:</strong> Ob das sofortige Senden außerhalb des eigenen Zeitfensters im Betrieb mit hunderten Chips kollisionsfrei bleibt, und welche Zeit ein Notruf höchstens brauchen darf.</p>
+          <p><strong>Entschieden:</strong> Ein Notruf entsteht erst nach 3 Sekunden Halten und einer 5-Sekunden-Abbruch-Zeit. Ein kurzer Druck ruft nur die eigene Gruppe, ohne die Bergbahn zu alarmieren.</p>
+          <p><strong>Entschieden:</strong> Ein ausgelöster Notruf wird sofort gesendet, nie aufgegeben und dem nächsten freien Mitarbeiter angeboten, mit Weitergabe nach 60 Sekunden ohne Übernahme.</p>
+          <p><strong>Offen:</strong> Ob sofortiges Senden außerhalb des eigenen Zeitfensters im Betrieb trägt, welche Zeit ein Notruf höchstens brauchen darf, die Stufe Zustellung und was nach dem letzten Mitarbeiter geschieht.</p>
         </div>
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>

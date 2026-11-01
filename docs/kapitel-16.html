@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Testplan Februar 2027 · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was vor dem Testtag fertig sein muss, was geprüft wird und wann ein Test bestanden ist.">
-<link rel="stylesheet" href="assets/book.css?v=37">
-<script src="assets/book.js?v=37" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=39">
+<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
+<script src="assets/book.js?v=39" defer></script>
 </head>
 <body data-station="knopf">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -56,44 +57,272 @@
             <tr><td>2. Schultest bis Stufe 4</td><td data-spalte="Wer">Lukas</td><td data-spalte="Fertig">Checkliste aus <a href="kapitel-18.html#checkliste">Kapitel 18</a> abgehakt</td></tr>
             <tr><td>3. Server bei KitzSki</td><td data-spalte="Wer">Lukas mit der IT</td><td data-spalte="Fertig">Simulator läuft gegen den echten Server</td></tr>
             <tr><td>4. App gegen den Server</td><td data-spalte="Wer">Tobias und Lukas</td><td data-spalte="Fertig"><code>fakeData</code> aus, Notruf läuft durch</td></tr>
-            <tr><td>5. Prototypen und Ladebox</td><td data-spalte="Wer">Maximilian</td><td data-spalte="Fertig">5 Chips mit neuem Schlüssel, Ladebox mit 5 Plätzen</td></tr>
-            <tr><td>6. Standorte klären</td><td data-spalte="Wer">Lukas mit KitzSki</td><td data-spalte="Fertig">Stationen, Strom und WLAN sind zugesagt</td></tr>
-            <tr><td>7. Reichweite vorab messen</td><td data-spalte="Wer">Lukas</td><td data-spalte="Fertig">Teststrecke gefahren, Protokoll gespeichert</td></tr>
-            <tr><td>8. Einwilligungen</td><td data-spalte="Wer">Tobias</td><td data-spalte="Fertig">Vorlage geprüft, Ablauf am Stand klar</td></tr>
+            <tr><td>5. Abnahme vor dem Berg</td><td data-spalte="Wer">Lukas, Maximilian, Tobias</td><td data-spalte="Fertig">T1 bis T20 durchgeführt und bewertet</td></tr>
+            <tr><td>6. Prototypen und Ladebox</td><td data-spalte="Wer">Maximilian</td><td data-spalte="Fertig">5 Chips mit neuem Schlüssel, Ladebox mit 5 Plätzen</td></tr>
+            <tr><td>7. Standorte klären</td><td data-spalte="Wer">Lukas mit KitzSki</td><td data-spalte="Fertig">Stationen, Strom und WLAN sind zugesagt</td></tr>
+            <tr><td>8. Reichweite vorab messen</td><td data-spalte="Wer">Lukas</td><td data-spalte="Fertig">Teststrecke gefahren, Protokoll gespeichert</td></tr>
+            <tr><td>9. Einwilligungen</td><td data-spalte="Wer">Tobias</td><td data-spalte="Fertig">Vorlage geprüft, Ablauf am Stand klar</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="lesen">
-        <h2 id="testfaelle" data-kurz="Was geprüft wird">Was geprüft wird</h2>
+        <h2 id="testfaelle" data-kurz="Wie bewertet wird">Wie bewertet wird</h2>
+        <p>Jeder Test hat Ausgangslage, Durchführung, Erwartung und ein Bestehenskriterium. Die Kriterien und Zeiten sind unser Vorschlag. Durchgeführt ist noch keiner dieser Tests, und einige werden mit dem heutigen Stand durchfallen. Das ist gewollt: Ein durchgefallener Test ist ein Ergebnis, das ins Buch gehört, und wird nie schöngerechnet.</p>
+        <p><strong>Grenze für den Testtag:</strong> T1, T2, T5, T9, T11 und T14 müssen bestanden sein, bevor Chips an Gäste gehen. T12 ist mit der heutigen App nicht bestehbar. Darum halten die Mitarbeiter die App beim Testtag offen.</p>
       </div>
-      <div class="tabelle">
-        <table class="stapel">
-          <thead><tr><th scope="col">Nr.</th><th scope="col">Test</th><th scope="col">Bestanden, wenn</th><th scope="col">Woher</th></tr></thead>
-          <tbody>
-            <tr><td>1</td><td data-spalte="Test">Notruf am Knopf</td><td data-spalte="Bestanden">Kommt in der App an, die Zeit wird gestoppt. Einen Zielwert gibt es noch nicht.</td><td data-spalte="Woher">Kapitel 2</td></tr>
-            <tr><td>2</td><td data-spalte="Test">Annahme</td><td data-spalte="Bestanden">Der Chip vibriert zweimal lang</td><td data-spalte="Woher">Kapitel 6</td></tr>
-            <tr><td>3</td><td data-spalte="Test">Keine Annahme</td><td data-spalte="Bestanden">Nach 60 Sekunden ist der nächste Mitarbeiter dran</td><td data-spalte="Woher">Kapitel 7</td></tr>
-            <tr><td>4</td><td data-spalte="Test">Fehlalarm</td><td data-spalte="Bestanden">Kurzer Druck und Abbruch in den 5 Sekunden lösen keinen Notruf aus</td><td data-spalte="Woher">Kapitel 7</td></tr>
-            <tr><td>5</td><td data-spalte="Test">Gruppenruf</td><td data-spalte="Bestanden">Die anderen Chips vibrieren innerhalb von rund 20 Sekunden</td><td data-spalte="Woher">Kapitel 6</td></tr>
-            <tr><td>6</td><td data-spalte="Test">Reichweite</td><td data-spalte="Bestanden">Teststrecke mit −115 dBm oder besser, Lücken sind dokumentiert</td><td data-spalte="Woher">Kapitel 9</td></tr>
-            <tr><td>7</td><td data-spalte="Test">Lage des Chips</td><td data-spalte="Bestanden">Vergleich: in der Jacke, liegend, unter der Person</td><td data-spalte="Woher">Kapitel 9</td></tr>
-            <tr><td>8</td><td data-spalte="Test">Fenster</td><td data-spalte="Bestanden">Dämpfung mit Messung innen und außen bestimmt</td><td data-spalte="Woher">Kapitel 11</td></tr>
-            <tr><td>9</td><td data-spalte="Test">Zwei Gateways</td><td data-spalte="Bestanden">Hören beide, kommt der Notruf nur einmal an</td><td data-spalte="Woher">Kapitel 8</td></tr>
-            <tr><td>10</td><td data-spalte="Test">Gateway aus</td><td data-spalte="Bestanden">Ausgabe-Seite nach 30 Sekunden, Warnung am Chip nach 90 Sekunden</td><td data-spalte="Woher">Kapitel 14</td></tr>
-            <tr><td>11</td><td data-spalte="Test">Internet aus</td><td data-spalte="Bestanden">Kein Chip zeigt eine Annahme, die die App nicht hat</td><td data-spalte="Woher">Kapitel 14</td></tr>
-            <tr><td>12</td><td data-spalte="Test">Notrufe zugleich</td><td data-spalte="Bestanden">Alle 5 Chips senden Notruf, alle kommen an</td><td data-spalte="Woher">Kapitel 7</td></tr>
-            <tr><td>13</td><td data-spalte="Test">Akku bei Kälte</td><td data-spalte="Bestanden">Laufzeit über den Tag ist dokumentiert</td><td data-spalte="Woher">Kapitel 5</td></tr>
-            <tr><td>14</td><td data-spalte="Test">Rückmeldung</td><td data-spalte="Bestanden">Gäste verstehen Chip und App, ihre Antworten sind gesammelt</td><td data-spalte="Woher">Kapitel 2</td></tr>
-          </tbody>
-        </table>
+
+      <div class="lesen">
+        <h2 id="t-labor">Vor dem Berg: Notruf und Speicherung</h2>
+        <p>Diese Tests laufen mit Testchip oder Simulator, ohne Gäste.</p>
+      </div>
+      <div class="testfall">
+        <h3 id="t1">T1: Dauerhafte Speicherung vor ACK</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Server läuft, Protokoll der Notrufe ist leer.</dd></div>
+          <div><dt>Durchführung</dt><dd>Notruf senden und mitschneiden, wann gespeichert und wann das <a href="kapitel-anhang.html#g-ack">ACK</a> gesendet wird. 20-mal.</dd></div>
+          <div><dt>Erwartet</dt><dd>Der Eintrag liegt auf dem Datenträger, bevor das ACK das Gateway verlässt.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>20 von 20 in der richtigen Reihenfolge, jedes ACK innerhalb der 1,4 Sekunden.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t2">T2: Serverabsturz direkt nach dem SOS</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Wie T1, ein Mitarbeiter ist angemeldet.</dd></div>
+          <div><dt>Durchführung</dt><dd>Server-Prozess unmittelbar nach dem Empfang hart beenden, vor und nach dem ACK. Danach neu starten. Je 10-mal.</dd></div>
+          <div><dt>Erwartet</dt><dd>Ohne ACK sendet der Chip weiter. Mit ACK ist der Notruf nach dem Neustart wieder offen.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>20 von 20 Notrufen sind nach dem Neustart offen und werden angeboten. Kein Notruf geht verloren.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t3">T3: Stromausfall am Server</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Server läuft mit offenem Notruf, <a href="kapitel-anhang.html#g-help">HELP</a> 1 steht aus.</dd></div>
+          <div><dt>Durchführung</dt><dd>Strom hart trennen, nach 2 Minuten wieder einschalten.</dd></div>
+          <div><dt>Erwartet</dt><dd>Der Server startet von selbst und führt Notruf und Eskalation fort.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Notruf ist offen, Eskalation läuft weiter, keine Daten sind beschädigt.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t4">T4: Mehrere gleichzeitige Notrufe</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>5 Chips, 2 Mitarbeiter angemeldet.</dd></div>
+          <div><dt>Durchführung</dt><dd>Alle 5 Chips lösen binnen 10 Sekunden einen Notruf aus.</dd></div>
+          <div><dt>Erwartet</dt><dd>Jeder Notruf erscheint einmal und bekommt eine Zuständigkeit.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>5 von 5 ohne Doppel. Jeder bekommt ein ACK, die Zeit bis dahin ist notiert.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t5">T5: Stufen am Chip</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>1 Chip, 1 Mitarbeiter.</dd></div>
+          <div><dt>Durchführung</dt><dd>Notruf senden, dann in der App übernehmen, vor Ort melden, erledigen.</dd></div>
+          <div><dt>Erwartet</dt><dd>ACK zeigt keine Hilfe an. HELP 1 vibriert zweimal lang. HELP 2 und 3 kommen an.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Vor HELP 1 zeigt weder Chip noch App, dass Hilfe kommt.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t6">T6: Fehlalarm</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>1 Chip.</dd></div>
+          <div><dt>Durchführung</dt><dd>Kurz drücken. Dann 3 Sekunden halten und in den 5 Sekunden abbrechen. Je 10-mal.</dd></div>
+          <div><dt>Erwartet</dt><dd>Kurzer Druck ruft nur die Gruppe. Abbruch sendet keinen Notruf.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>0 Notrufe in 20 Versuchen.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t7">T7: Gruppenruf</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>2 Chips in einer Gruppe.</dd></div>
+          <div><dt>Durchführung</dt><dd>Knopf kurz drücken, 10-mal.</dd></div>
+          <div><dt>Erwartet</dt><dd>Der andere Chip vibriert, die Bergbahn sieht nichts.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>10 von 10, längste Zeit notiert, Vorgabe rund 20 Sekunden.</dd></div>
+        </dl>
+      </div>
+
+      <div class="lesen">
+        <h2 id="t-ausfall">Vor dem Berg: Ausfälle</h2>
+        <p>Hier fällt absichtlich etwas aus. Geprüft wird auch, ob es jemand merkt.</p>
+      </div>
+      <div class="testfall">
+        <h3 id="t8">T8: Verlust eines Gateways</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>2 Gateways hören den Chip.</dd></div>
+          <div><dt>Durchführung</dt><dd>Ein Gateway vom Strom trennen, dann einen Notruf senden.</dd></div>
+          <div><dt>Erwartet</dt><dd>Das zweite Gateway übernimmt. Die Ausgabe-Seite zeigt nach 30 Sekunden „weg“.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Notruf kommt an. Mit Überwachung wird jemand binnen 60 Sekunden benachrichtigt.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t9">T9: Alle Gateways weg</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Chip sendet, keine Gateways an.</dd></div>
+          <div><dt>Durchführung</dt><dd>Notruf auslösen und warten.</dd></div>
+          <div><dt>Erwartet</dt><dd>Der Chip wiederholt und warnt.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Warnung nach 90 Sekunden, plus höchstens 5 Sekunden Toleranz.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t10">T10: Stationsnetz weg</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Gateway ohne WLAN, Server läuft.</dd></div>
+          <div><dt>Durchführung</dt><dd>Notruf auslösen, nach 2 Minuten WLAN zurückgeben.</dd></div>
+          <div><dt>Erwartet</dt><dd>Gateway puffert und liefert nach. Chip warnt in der Zwischenzeit.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Notruf kommt nach dem Wiederverbinden an, Alter ist erkennbar.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t11">T11: Internet am Server weg</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Gateway erreicht den Server intern, Apps nur über das Internet.</dd></div>
+          <div><dt>Durchführung</dt><dd>Internet trennen, Notruf senden.</dd></div>
+          <div><dt>Erwartet</dt><dd>Der Server erkennt, dass keine App verbunden ist.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Kein Chip und keine Anzeige meldet eine Übernahme. Der Leitstand wird binnen 60 Sekunden gewarnt.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t12">T12: App im Hintergrund</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Mitarbeiter-App angemeldet, Handy gesperrt.</dd></div>
+          <div><dt>Durchführung</dt><dd>Notruf senden, auf iPhone und Android je 5-mal.</dd></div>
+          <div><dt>Erwartet</dt><dd>Das Handy alarmiert hörbar.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>5 von 5 je Gerät binnen 30 Sekunden. Mit heutiger App ist dieser Test nicht bestehbar.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t13">T13: App nicht erreichbar</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Mitarbeiter 1 ohne Netz, Mitarbeiter 2 erreichbar.</dd></div>
+          <div><dt>Durchführung</dt><dd>Notruf senden.</dd></div>
+          <div><dt>Erwartet</dt><dd>Der Server erkennt die fehlende Zustellung und bietet weiter an.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Mitarbeiter 2 hat den Notruf spätestens nach 60 Sekunden, Zustellung ist im Verlauf sichtbar.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t14">T14: Niemand übernimmt</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Mitarbeiter angemeldet, niemand tippt.</dd></div>
+          <div><dt>Durchführung</dt><dd>Notruf senden und warten.</dd></div>
+          <div><dt>Erwartet</dt><dd>Die Eskalation läuft durch alle Stufen.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Jede Stufe ist im Verlauf belegt. Nach 180 Sekunden warnt der Chip, und der Leitstand ist alarmiert. Die Rettung wird dabei nicht wirklich gerufen.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t15">T15: Stromausfall an der Station</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Gateway läuft, 1 Chip sendet.</dd></div>
+          <div><dt>Durchführung</dt><dd>Strom trennen, nach 2 Minuten zurück.</dd></div>
+          <div><dt>Erwartet</dt><dd>Das Gateway startet von selbst und meldet sich am Server.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Binnen 2 Minuten wieder verbunden und Pakete werden empfangen.</dd></div>
+        </dl>
+      </div>
+
+      <div class="lesen">
+        <h2 id="t-funk">Vor dem Berg: Funk und Sicherheit</h2>
+        <p>Diese Tests prüfen die Grenzen des Kanals und den Schutz der Pakete.</p>
+      </div>
+      <div class="testfall">
+        <h3 id="t16">T16: Funkkollisionen</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>5 Chips im selben Raum, Fenster aktiv.</dd></div>
+          <div><dt>Durchführung</dt><dd>Alle 5 senden eine Stunde lang, dazu Notrufe außerhalb der Fenster.</dd></div>
+          <div><dt>Erwartet</dt><dd>Positionen stören sich kaum, Notrufe kommen durch Wiederholung an.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Paketverlust ist gemessen, jeder Notruf bekommt binnen 30 Sekunden ein ACK.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t17">T17: Volle Gateway-Puffer</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Gateway ohne Netz, Chips senden.</dd></div>
+          <div><dt>Durchführung</dt><dd>Warten, bis mehr als 60 Pakete anfallen, dann einen Notruf senden und das Netz zurückgeben.</dd></div>
+          <div><dt>Erwartet</dt><dd>Verhalten bei vollem Puffer ist dokumentiert.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Der Notruf kommt spätestens mit der nächsten Wiederholung an. Das Gateway stürzt nicht ab.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t18">T18: Ungültige und manipulierte Nachrichten</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Server läuft, Protokoll aktiv.</dd></div>
+          <div><dt>Durchführung</dt><dd>Pakete mit falschem Prüfwert, falscher Länge, geändertem Kopf und fremder Kennung einspielen.</dd></div>
+          <div><dt>Erwartet</dt><dd>Der Server verwirft sie und läuft weiter.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>100 % verworfen, kein Notruf, kein Absturz, Protokolleintrag vorhanden.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t19">T19: Wiederholte Nachrichten</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Echtes Paket und echter <a href="kapitel-anhang.html#g-downlink">Downlink</a> sind aufgezeichnet.</dd></div>
+          <div><dt>Durchführung</dt><dd>Beide später erneut einspielen, auch nach einem Server-Neustart.</dd></div>
+          <div><dt>Erwartet</dt><dd>Server und Chip verwerfen sie.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>0 angenommene Wiederholungen, auch direkt nach dem Neustart.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t20">T20: Neu bespielter Chip</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Chip mit Zählerstand, dann Flash löschen.</dd></div>
+          <div><dt>Durchführung</dt><dd>Chip neu bespielen und senden.</dd></div>
+          <div><dt>Erwartet</dt><dd>Das Verhalten ist bekannt und führt nicht zu stillem Paketverlust.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Der Chip wird erkannt oder die Ausgabe-Seite meldet das Problem. Vor dem Test neuer Schlüssel.</dd></div>
+        </dl>
+      </div>
+
+      <div class="lesen">
+        <h2 id="t-berg">Am Testtag</h2>
+        <p>Diese Tests laufen an der Bergbahn. Vorher müssen T1 bis T20 bewertet sein.</p>
+      </div>
+      <div class="testfall">
+        <h3 id="t21">T21: Reichweite, Lage und Fenster</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Beide Gateways aufgestellt, Protokoll läuft.</dd></div>
+          <div><dt>Durchführung</dt><dd>Teststrecke fahren. Chip in der Jacke, liegend und unter der Person. Fenster zu und Antenne außen vergleichen.</dd></div>
+          <div><dt>Erwartet</dt><dd><a href="kapitel-anhang.html#g-rssi">RSSI</a> je Ort und Lage liegt vor.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Teststrecke mit −115 dBm oder besser, Lücken sind dokumentiert, Fensterdämpfung ist gemessen.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t22">T22: Notruf am Berg</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>2 eingeweihte Mitarbeiter, Testchip auf der Strecke.</dd></div>
+          <div><dt>Durchführung</dt><dd>5 Prüf-Notrufe von verschiedenen Orten.</dd></div>
+          <div><dt>Erwartet</dt><dd>Notruf kommt an, Übernahme kommt zurück.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>5 von 5. Zeit vom Knopf bis zur Übernahme ist je Notruf notiert.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t23">T23: Akku bei Kälte</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Chips voll geladen.</dd></div>
+          <div><dt>Durchführung</dt><dd>Einen Testtag lang betreiben, Temperatur notieren.</dd></div>
+          <div><dt>Erwartet</dt><dd>Ladestand ist über den Tag protokolliert.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Chip hält bis Liftschluss. Laufzeit ist gemessen.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t24">T24: Rückmeldung der Gäste</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Gäste haben eingewilligt und sind über den Test informiert.</dd></div>
+          <div><dt>Durchführung</dt><dd>Kurze Befragung am Stand.</dd></div>
+          <div><dt>Erwartet</dt><dd>Gäste verstehen Knopf, Warnung und dass 140 gilt.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Antworten sind gesammelt, Missverständnisse notiert.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t25">T25: Daten löschen</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Test ist beendet.</dd></div>
+          <div><dt>Durchführung</dt><dd><code>state.json</code> und Protokolle löschen, Backups prüfen.</dd></div>
+          <div><dt>Erwartet</dt><dd>Keine Positionsdaten bleiben übrig.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Löschung ist protokolliert, nur anonyme Messwerte bleiben.</dd></div>
+        </dl>
       </div>
 
       <div class="lesen">
         <h2 id="sicherheit" data-kurz="Sicherheit am Testtag">Sicherheit am Testtag</h2>
-        <p><strong>Der Test ersetzt keinen Notruf.</strong> Alle mit einem Chip erfahren vorher: Bei einem echten Notfall gilt 140. Das sollte auch auf dem Beleg stehen.</p>
+        <p><strong>Der Test ersetzt keinen Notruf.</strong> Alle mit einem Chip erfahren vorher: Bei einem echten Notfall gilt 140. Das sollte auch auf dem Beleg stehen. Kein Test darf einen echten Rettungsablauf beeinträchtigen.</p>
         <ul>
-          <li>Prüf-Notrufe sind vorher mit der Bergbahn abgesprochen und gehen nur an eingeweihte Mitarbeiter, nie an die Rettung.</li>
+          <li>Prüf-Notrufe sind vorher mit der Bergbahn abgesprochen, klar als Test gekennzeichnet und gehen nur an eingeweihte Mitarbeiter, nie an die Rettung.</li>
+          <li>Bei einem echten Notfall im Gebiet stoppen alle Tests sofort.</li>
           <li>Ein Mitglied des Teams ist den ganzen Tag über für die Bergbahn erreichbar.</li>
           <li>Die Mitarbeiter halten die App offen, weil es noch kein Push gibt, siehe <a href="kapitel-13.html#alarm">Kapitel 13</a>.</li>
           <li>Der Ablauf bei schlechtem Wetter und ein Ersatztermin stehen vorher fest.</li>
@@ -103,7 +332,7 @@
         <p>Am Ende muss jede Anforderung aus <a href="kapitel-02.html#belegen">Kapitel 2</a> eine Messung haben. Dafür sichern wir:</p>
         <ul>
           <li>Funk-Protokoll beider Gateways mit RSSI, herunterzuladen auf der Ausgabe-Seite.</li>
-          <li>Die Zeit jedes Prüf-Notrufs vom Knopf bis zur Annahme, für einen ersten Zielwert.</li>
+          <li>Die Zeit jedes Prüf-Notrufs vom Knopf bis zur Übernahme, für einen ersten Zielwert.</li>
           <li>Eine Liste aller Ausfälle und was man dabei gesehen hat.</li>
           <li>Antworten der Gäste.</li>
         </ul>
@@ -120,7 +349,7 @@
             <tr class="zeile-offen"><td>Dürfen die Prototypen funken?</td><td data-spalte="Warum">Die Funkanlagen-Richtlinie erlaubt das Vorführen nicht konformer Geräte auf Messen unter Auflagen. Ob ein Testtag darunter fällt, wissen wir nicht. Das sollte vorher die Fernmeldebehörde beantworten.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Wer spielt die Mitarbeiter?</td><td data-spalte="Warum">Echtes Personal der Bergbahn oder das Team?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Haftung</td><td data-spalte="Warum">Was gilt, wenn sich jemand am Testtag auf den Chip verlässt?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Zielzeit für den Notruf</td><td data-spalte="Warum">Tobias soll sie festlegen, sonst lässt sich Test 1 nicht bewerten.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Zielzeit für den Notruf</td><td data-spalte="Warum">Tobias soll sie festlegen, sonst lässt sich T22 nicht abschließend bewerten.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
       </div>
@@ -129,7 +358,7 @@
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
           <p><strong>Fest:</strong> 5 Chips, 2 Gateways, eine Ladebox und die echte App, im Februar oder März 2027.</p>
-          <p><strong>Geschätzt:</strong> Die 14 Tests und ihre Bedingungen sind ein Vorschlag des Netzwerk-Teils. Sie decken alle Anforderungen aus Kapitel 2 ab.</p>
+          <p><strong>Geschätzt:</strong> Die 25 Tests und ihre Bedingungen sind ein Vorschlag des Netzwerk-Teils. Durchgeführt ist noch keiner.</p>
           <p><strong>Offen:</strong> Termin, Ort, Zusage der Bergbahn und die Frage, ob die Prototypen funken dürfen.</p>
         </div>
 

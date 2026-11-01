@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sendeintervall und Kapazität · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie oft ein SkiTag-Chip sendet und wie viele Chips das Netz verkraftet.">
-<link rel="stylesheet" href="assets/book.css?v=37">
-<script src="assets/book.js?v=37" defer></script>
-<script src="assets/funk.js?v=37" defer></script>
-<script src="assets/kapazitaet.js?v=37" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=39">
+<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
+<script src="assets/book.js?v=39" defer></script>
+<script src="assets/funk.js?v=39" defer></script>
+<script src="assets/kapazitaet.js?v=39" defer></script>
 </head>
 <body data-station="chip">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -41,7 +42,7 @@
     </details>
     <article>
       <h1>Sendeintervall und Kapazität</h1>
-      <p class="stand">Kapitel 5 · Stand 30. Oktober 2026</p>
+      <p class="stand">Kapitel 5 · Stand 1. November 2026</p>
 
       <div class="lesen">
         <p class="einstieg">Wie oft soll ein Chip seine Position senden, und wie viele Chips verkraftet das Netz? Beide Fragen hängen zusammen, denn alle Chips teilen sich denselben Kanal. Wer öfter sendet, nimmt den anderen Platz weg.</p>
@@ -63,7 +64,7 @@
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt ergibt das mit dem 1000-mAh-Akku rund 19 bis 41 Stunden, ohne Mikrocontroller und Vibration. Das reicht für einen Skitag, die echte Zahl muss Maximilian am Muster-Chip messen. Ein längerer Takt spart davon kaum etwas, der Akku ist also kein Grund für ihn.</p>
+        <p class="nach-tabelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt ergibt das mit dem 1000-mAh-Akku rund 19 bis 41 Stunden, ohne Mikrocontroller und Vibration. Das reicht für einen Skitag, die echte Zahl muss Maximilian am Muster-Chip messen. Kälte ist nicht eingerechnet, sie senkt die nutzbare Akku-Kapazität. Ein längerer Takt spart davon kaum etwas, der Akku ist also kein Grund für ihn.</p>
 
         <h2 id="fenster" data-kurz="Feste Zeitfenster">Wie weit feste Zeitfenster tragen</h2>
         <p>Heute hat jeder Chip eines von 5 Fenstern zu je 4 Sekunden. Das ist großzügig, denn ein Paket dauert nur 226 ms. Kürzere Fenster würden mehr Chips erlauben, aber der Platz für die Antwort des Servers bestimmt, wie weit das geht:</p>
@@ -82,7 +83,7 @@
         <p class="nach-tabelle">Selbst im besten Fall sind das nur 66 Chips in einem Kanal, und jede kleine Ungenauigkeit der Uhren kostet Platz. Für hunderte Chips reicht das nicht. Dazu kommt die Grenze aus <a href="kapitel-04.html#grenzen">Kapitel 4</a>: Die Chip-Nummer erlaubt höchstens 256 Chips.</p>
 
         <h2 id="zufall" data-kurz="Senden ohne Fenster">Was ohne feste Fenster passiert</h2>
-        <p>Ohne Fenster sendet jeder Chip, wann er will. So arbeitet auch LoRaWAN. Dann treffen sich Pakete zufällig, und je voller der Kanal, desto öfter. Der Rechner zeigt das vereinfachte Modell dafür. Es nimmt an, dass jedes Überlappen beide Pakete zerstört.</p>
+        <p>Ohne Fenster sendet jeder Chip, wann er will. So arbeitet auch <a href="kapitel-anhang.html#g-lorawan">LoRaWAN</a>. Dann treffen sich Pakete zufällig, und je voller der Kanal, desto öfter. Der Rechner zeigt das vereinfachte Modell dafür. Es nimmt an, dass jedes Überlappen beide Pakete zerstört.</p>
       </div>
 
       <section class="rechner" aria-label="Rechner für die Kapazität">
@@ -110,7 +111,7 @@
       </div>
 
       <div class="lesen">
-        <p class="nach-tabelle">Die Wirklichkeit ist etwas besser als das Modell. Beim Capture-Effekt setzt sich das stärkere von zwei Paketen durch. In einer Simulation von Bor und Kollegen stieg der Anteil ankommender Pakete dadurch von 51 auf 80 %. Dieselbe Studie kommt aber zum Schluss, dass LoRa mit festen Einstellungen und einem einzigen Empfänger schlecht skaliert. Erst mehrere Empfänger und passende Einstellungen je Gerät ändern das.</p>
+        <p class="nach-tabelle">Das Modell ist grob. Es zählt nur Positionen, keine Wiederholungen und keine Zeit, in der ein Gateway beim Senden taub ist. Beides verschlechtert das Ergebnis. Besser wird es durch den <a href="kapitel-anhang.html#g-capture-effekt">Capture-Effekt</a>: Dabei setzt sich das stärkere von zwei Paketen durch. In einer Simulation von Bor und Kollegen stieg der Anteil ankommender Pakete dadurch von 51 auf 80 %. Dieselbe Studie kommt aber zum Schluss, dass LoRa mit festen Einstellungen und einem einzigen Empfänger schlecht skaliert. Erst mehrere Empfänger und passende Einstellungen je Gerät ändern das.</p>
 
         <h2 id="lorawan-preis" data-kurz="Der Preis mehrerer Kanäle">Der Preis mehrerer Kanäle</h2>
         <p>Mehr Kanäle sind die naheliegende Lösung, und LoRaWAN nutzt in Europa dafür unter anderem 868,1, 868,3 und 868,5 MHz. Dort gelten aber strengere Regeln als auf unserer Frequenz:</p>
@@ -119,8 +120,8 @@
         <table class="stapel">
           <thead><tr><th scope="col">Band</th><th scope="col">Sendeleistung</th><th scope="col">Sendezeit</th><th scope="col">SF9 alle 20 s</th></tr></thead>
           <tbody>
-            <tr><td>869,40 bis 869,65 MHz (heute)</td><td data-spalte="Leistung">500 mW, genutzt 100 mW</td><td data-spalte="Sendezeit">höchstens 10 %</td><td data-spalte="SF9 alle 20 s">1,1 %, erlaubt</td></tr>
-            <tr><td>868,0 bis 868,6 MHz</td><td data-spalte="Leistung">25 mW</td><td data-spalte="Sendezeit">höchstens 1 %</td><td data-spalte="SF9 alle 20 s">1,1 %, zu viel</td></tr>
+            <tr><td>869,40 bis 869,65 MHz (heute)</td><td data-spalte="Leistung">500 mW <a href="kapitel-anhang.html#g-eirp">ERP</a>, Sender 100 mW</td><td data-spalte="Sendezeit">höchstens 10 %</td><td data-spalte="SF9 alle 20 s">1,1 %, erlaubt</td></tr>
+            <tr><td>868,0 bis 868,6 MHz</td><td data-spalte="Leistung">25 mW ERP</td><td data-spalte="Sendezeit">höchstens 1 %</td><td data-spalte="SF9 alle 20 s">1,1 %, zu viel</td></tr>
           </tbody>
         </table>
       </div>
@@ -130,7 +131,7 @@
 
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
-          <p><strong>Für den Test bleibt alles, wie es ist:</strong> SF9, alle 20 Sekunden, 5 feste Fenster.</p>
+          <p><strong>Für den Test bleibt alles, wie es ist:</strong> <a href="kapitel-anhang.html#g-sf9">SF9</a>, alle 20 Sekunden, 5 feste Fenster.</p>
           <p><strong>Für den Betrieb reicht ein einzelner Kanal nicht.</strong> Nach dem Modell kommen bei 100 Chips ohne Fenster nur rund 10 % der Pakete durch, und feste Fenster enden bei rund 66 Chips.</p>
           <p><strong>Empfohlen für die Planung:</strong> mehrere Gateways, kürzere Sendezeit und getrennte Wege für Position und Notruf.</p>
         </div>

@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rückkanal zum Chip · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Warum der Server dem Chip antwortet, was das kostet und wo es hakt.">
-<link rel="stylesheet" href="assets/book.css?v=37">
-<script src="assets/book.js?v=37" defer></script>
-<script src="assets/wartezeit.js?v=37" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=39">
+<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
+<script src="assets/book.js?v=39" defer></script>
+<script src="assets/wartezeit.js?v=39" defer></script>
 </head>
 <body data-station="rueckweg">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -40,7 +41,7 @@
     </details>
     <article>
       <h1>Rückkanal zum Chip</h1>
-      <p class="stand">Kapitel 6 · Stand 30. Oktober 2026</p>
+      <p class="stand">Kapitel 6 · Stand 1. November 2026</p>
 
       <div class="lesen">
         <p class="einstieg">Wer im Schnee liegt und den Knopf hält, will wissen, ob jemand kommt. Dafür muss der Server dem Chip antworten können. Das ist der Rückkanal. Die Frage aus der Angabe lautet, ob er möglich ist, und die Antwort ist: Ja, er ist schon gebaut.</p>
@@ -53,21 +54,22 @@
         <table>
           <thead><tr><th scope="col">Nachricht</th><th scope="col">Bedeutung</th><th scope="col">Am Chip</th></tr></thead>
           <tbody>
-            <tr><td>ACK</td><td>Der Server hat das Ereignis bekommen.</td><td>Der Chip hört auf zu wiederholen.</td></tr>
-            <tr><td>HELP 1, 2, 3</td><td>Ein Mitarbeiter hat angenommen, ist vor Ort, hat erledigt.</td><td>Bei der Annahme vibriert er zweimal lang und blinkt rot.</td></tr>
+            <tr><td><a href="kapitel-anhang.html#g-ack">ACK</a></td><td data-spalte="Bedeutung">Der Server hat das Ereignis empfangen. Kein Mensch weiß davon.</td><td data-spalte="Am Chip">Der Chip hört auf zu wiederholen und zeigt keine Hilfe an.</td></tr>
+            <tr><td><a href="kapitel-anhang.html#g-help">HELP</a> 1, 2, 3</td><td data-spalte="Bedeutung">Ein Mensch hat übernommen, ist vor Ort, hat erledigt.</td><td data-spalte="Am Chip">Bei der Übernahme vibriert er zweimal lang und blinkt rot.</td></tr>
             <tr><td>CALL</td><td>Jemand aus der Gruppe ruft.</td><td>Er vibriert.</td></tr>
-            <tr><td>Keine Antwort</td><td>Nach 90 Sekunden fehlt die Bestätigung.</td><td>Er blinkt doppelt rot und vibriert jede Minute: selbst 140 rufen.</td></tr>
+            <tr><td>Keine Antwort</td><td>Nach 90 Sekunden fehlt das ACK.</td><td>Er blinkt doppelt rot und vibriert jede Minute: selbst 140 rufen.</td></tr>
           </tbody>
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Wichtig ist der Unterschied zwischen ACK und HELP. Ein ACK heißt nur, dass der Server den Notruf hat. Erst HELP 1 heißt, dass ein Mensch ihn angenommen hat. Darum sollte ein ACK allein am Chip nicht wie „Hilfe kommt“ aussehen, siehe die Schwachstelle in <a href="kapitel-01.html#schritt-server-ausfall">Kapitel 1</a>.</p>
+        <p class="nach-tabelle">Wichtig ist der Unterschied zwischen ACK und HELP. Ein ACK heißt nur, dass der Server den Notruf hat. Erst HELP 1 heißt, dass ein Mensch ihn übernommen hat. Ein ACK darf am Chip deshalb nie wie „Hilfe kommt“ aussehen. Die verbindlichen Stufen stehen in <a href="kapitel-07.html#stufen">Kapitel 7</a>.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Eine Lücke bleibt: Die Warnung nach 90 Sekunden greift nur, solange kein ACK kam. Kommt danach kein HELP 1, warnt der Chip laut Übergabe nicht mehr. <a href="kapitel-14.html#ack">Kapitel 14</a> schlägt dafür eine zweite Frist vor.</p>
 
         <h2 id="kosten" data-kurz="Was er kostet">Was der Rückkanal kostet</h2>
         <p>Ein Kanal in beide Richtungen ist nicht gratis. Der Preis fällt an drei Stellen an:</p>
         <ul>
-          <li><strong>Das Gateway ist taub, während es sendet.</strong> Der Funkchip SX1262 kann nur senden oder empfangen, nicht beides. Jeder Downlink kostet also bis zu 247 ms, in denen das Gateway keine Chips hört.</li>
-          <li><strong>Die Sendezeit ist begrenzt.</strong> Das Gateway darf bei uns 300 Sekunden pro Stunde senden. Das sind rund 1200 volle Downlinks pro Stunde. Bei 5 Chips ist das viel, bei hunderten Chips wird es eng, wenn jedes Ereignis eine Antwort braucht. Studien zu LoRaWAN zeigen, dass Antworten die Kapazität eines Netzes spürbar senken.</li>
+          <li><strong>Das Gateway ist taub, während es sendet.</strong> Der Funkchip SX1262 kann nur senden oder empfangen, nicht beides. Jeder <a href="kapitel-anhang.html#g-downlink">Downlink</a> kostet also bis zu 247 ms, in denen das Gateway keine Chips hört.</li>
+          <li><strong>Die Sendezeit ist begrenzt.</strong> Das Gateway darf bei uns 300 Sekunden pro Stunde senden. Das sind rund 1200 volle Downlinks pro Stunde. Bei 5 Chips ist das viel, bei hunderten Chips wird es eng, wenn jedes Ereignis eine Antwort braucht. Studien zu <a href="kapitel-anhang.html#g-lorawan">LoRaWAN</a> zeigen, dass Antworten die Kapazität eines Netzes spürbar senken.</li>
           <li><strong>Der Chip muss zuhören.</strong> Heute hört er dauernd mit, und das kostet rund 5 bis 10 mA, deutlich mehr als das Senden.</li>
         </ul>
 
@@ -101,7 +103,7 @@
       </div>
 
       <div class="lesen">
-        <p class="nach-tabelle">Beim Notruf ist das unkritisch, weil der Chip ihn ständig wiederholt und so oft Gelegenheit für eine Antwort bietet. Spürbar ist es beim Gruppenruf: Ein Freund drückt den Knopf, und der eigene Chip vibriert bis zu 20 Sekunden später.</p>
+        <p class="nach-tabelle">Beim Notruf ist das ACK schnell, weil der Chip wiederholt und so oft Gelegenheit für eine Antwort bietet. HELP 1 dagegen wartet nach dem ACK auf das nächste normale Paket, also bis zu 20 Sekunden. Spürbar ist es beim Gruppenruf: Ein Freund drückt den Knopf, und der eigene Chip vibriert bis zu 20 Sekunden später.</p>
 
         <h2 id="widerspruch" data-kurz="Ein offener Widerspruch">Ein offener Widerspruch</h2>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Der Chip hört heute dauernd mit, der Server sendet ihm aber nur direkt nach seinem eigenen Paket etwas. Damit bezahlt der Chip für das ständige Zuhören, nutzt es aber kaum. Das lässt sich in beide Richtungen auflösen:</p>
@@ -121,7 +123,7 @@
 
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
-          <p><strong>Der Rückkanal ist möglich und nötig.</strong> Er sagt der Person am Chip, ob Hilfe kommt, und beendet die Wiederholungen.</p>
+          <p><strong>Der Rückkanal ist möglich und nötig.</strong> Das ACK beendet die Wiederholungen, und HELP 1 sagt der Person am Chip, dass ein Mensch übernommen hat.</p>
           <p><strong>Für den Test bleibt er, wie er ist.</strong> Bis zu 20 Sekunden beim Gruppenruf sind dafür vertretbar.</p>
           <p><strong>Für den Betrieb ist er die eigentliche Engstelle.</strong> Gateway-Zeit ist knapp, also sollten Antworten auf Ereignisse beschränkt bleiben und nicht jede Position bestätigt werden.</p>
         </div>

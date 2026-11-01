@@ -38,7 +38,7 @@ Every chapter in `docs/kapitel-NN.html` is built from the same fixed recipe (als
 9. **Open-points tables:** use `<tr class="zeile-offen">` for rows marked Offen.
 10. **Start page:** `docs/index.html` lists every chapter by hand with one sentence and a status mark. Update it when a chapter is added, renamed or changes status.
 11. **Ending:** `<div class="blaettern">` with Zurück/Weiter links. Link to a next/previous chapter only if it exists; otherwise use a plain `<span>` with "(noch nicht geschrieben)".
-12. **Cache-busting versions:** `assets/book.css` and `assets/book.js` are referenced with `?v=N` on every chapter page. **Whenever you edit either file, bump `N` in every single `docs/kapitel-*.html` file and in `docs/index.html` to the same new value** — GitHub Pages lets browsers cache for ~10 minutes, and a stale script against a new page breaks the rope/nav JS. Per-chapter widget scripts (see below) carry their own independent `?v=N` and only need bumping on pages that load them.
+12. **Cache-busting versions:** `assets/book.css`, `assets/druck.css` (print only) and `assets/book.js` are referenced with `?v=N` on every chapter page. **Whenever you edit either file, bump `N` in every single `docs/kapitel-*.html` file and in `docs/index.html` to the same new value** — GitHub Pages lets browsers cache for ~10 minutes, and a stale script against a new page breaks the rope/nav JS. Per-chapter widget scripts (see below) carry their own independent `?v=N` and only need bumping on pages that load them.
 
 ## Shared JS/CSS
 
@@ -53,6 +53,9 @@ Every chapter in `docs/kapitel-NN.html` is built from the same fixed recipe (als
 `DESIGN.md` (YAML frontmatter + prose) is the single source of truth for the "Blue Hour on a Ropeway" visual language: twilight-blue tonal planes, amber as the only accent, red reserved strictly for emergencies/failures/open points, status told by shape not color alone, square corners except on the rope's circular stations and the amber "cabin". Read its "Do's and Don'ts" before touching layout or color. `.impeccable/design.json` is a machine-generated mirror of this file (from the Impeccable design-QA tool) — edit `DESIGN.md`, not the JSON.
 
 ## Content ground rules (from `PRODUCT.md`)
+
+- Chapter 7 (`#stufen`) is the single definition of ACK, Zustellung and HELP 1 to 3. Use these words everywhere: ACK is never a human, Übernahme is HELP 1.
+- Firmware, server code and `proto.h` were not available when the book was written. Describe them as stated in the handover, never as verified.
 
 - Distinguish explicitly between what's **fixed**, **decided**, and still **open** — never blur the three.
 - Explain the path of a real signal/event rather than listing components.

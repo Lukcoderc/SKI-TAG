@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Der Server · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was der SkiTag-Server macht, was er bei KitzSki braucht und wie er erreichbar wird.">
-<link rel="stylesheet" href="assets/book.css?v=37">
-<script src="assets/book.js?v=37" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=39">
+<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
+<script src="assets/book.js?v=39" defer></script>
 </head>
 <body data-station="server">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -56,7 +57,7 @@
             <tr><td>Ort bestimmen</td><td data-spalte="Ablauf">Sucht die nächste Strecke im Umkreis von 40 m aus der KitzSki-Karte. Lifte bevorzugt er bei 1,5 bis 9 m/s.</td></tr>
             <tr><td>Notruf führen</td><td data-spalte="Ablauf">Bietet ihn dem nächsten freien Mitarbeiter an, nach 60 Sekunden dem nächsten.</td></tr>
             <tr><td>Position bewerten</td><td data-spalte="Ablauf">Älter als 2 Minuten gilt als „alt“. Ohne Position gilt die des Gateways, markiert als „ungefähr“.</td></tr>
-            <tr><td>Antworten senden</td><td data-spalte="Ablauf">Über das Gateway mit dem besten RSSI der letzten 15 Minuten.</td></tr>
+            <tr><td>Antworten senden</td><td data-spalte="Ablauf">Über das Gateway mit dem besten <a href="kapitel-anhang.html#g-rssi">RSSI</a> der letzten 15 Minuten.</td></tr>
             <tr><td>App bedienen</td><td data-spalte="Ablauf">Anmeldung, Gruppen, Live-Positionen, Notrufe, Lifte, Treffpunkt.</td></tr>
             <tr><td>Chips ausgeben</td><td data-spalte="Ablauf">Ausgabe-Seite <code>/ausgabe</code> mit Passwort: Gruppen bilden, Belege drucken, Akku und Funk ansehen, Protokoll laden.</td></tr>
           </tbody>
@@ -66,7 +67,17 @@
       <div class="lesen">
         <h2 id="aufbau" data-kurz="Wie er aufgebaut ist">Wie er aufgebaut ist</h2>
         <p>Der Server läuft auf Ubuntu 24.04 in Docker, geschrieben in Node.js 22 ohne npm-Pakete. Davor steht Caddy, das HTTPS übernimmt und das Zertifikat besorgt. Der Start ist ein einziger Befehl, und die Einstellungen stehen in <code>config.json</code>.</p>
-        <p>Der Zustand liegt im Speicher und wird alle 5 Sekunden nach <code>daten/state.json</code> geschrieben. Das Funk-Protokoll landet pro Tag in einer eigenen Datei. Stürzt der Server ab, können also rund 5 Sekunden fehlen. Der Chip wiederholt einen Notruf ohnehin, bis er bestätigt ist.</p>
+        <h2 id="speichern" data-kurz="Erst speichern, dann ACK">Erst speichern, dann ACK</h2>
+        <p>Der Zustand liegt im Speicher und wird laut Übergabe alle 5 Sekunden nach <code>daten/state.json</code> geschrieben. Das Funk-Protokoll landet pro Tag in einer eigenen Datei. Für Positionen reicht das. Für Notrufe ist es gefährlich: Stürzt der Server ab, nachdem er ein <a href="kapitel-anhang.html#g-ack">ACK</a> gesendet hat, aber bevor er gespeichert hat, ist der Notruf weg. Der Chip wiederholt ihn dann nicht mehr und warnt auch nicht.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Ob der Server das heute so macht, wissen wir nicht, denn der Code lag nicht vor. Gefordert ist diese Reihenfolge:</p>
+        <ol>
+          <li>Paket prüfen und entschlüsseln.</li>
+          <li>Notruf in ein Protokoll schreiben, das nur wächst, und mit <code>fsync</code> wirklich auf den Datenträger bringen.</li>
+          <li>Erst dann das ACK in die Antwort an das Gateway legen.</li>
+          <li>Beim Start zuerst dieses Protokoll einlesen und alle offenen Notrufe weiterführen, samt Zählern und Eskalation.</li>
+        </ol>
+        <p>Das muss schnell gehen, denn das Gateway sendet eine Antwort nur bis 1,4 Sekunden nach dem Empfang. Ein NAS oder Server mit Schreibcache braucht einen Datenträger, der <code>fsync</code> wirklich einhält, sonst ist die Zusage wertlos.</p>
+        <p>Als zweite Sicherung schlagen wir vor: Der Chip meldet in jedem Paket das Status-Bit „Notruf läuft“. Sieht der Server dieses Bit und kennt keinen offenen Notruf, legt er ihn neu an und meldet das. Ob der Chip das Bit nach dem ACK weiter setzt, muss Maximilian bestätigen.</p>
 
         <h2 id="standort" data-kurz="Warum vor Ort, warum Internet">Warum vor Ort und trotzdem im Internet</h2>
         <p>Vor Ort heißt: eigene Kontrolle und keine laufende Miete. Es heißt nicht: unabhängig vom Internet. Die App läuft über Mobilfunk, sie erreicht den Server also von außen. Drei Gegenstellen brauchen ihn:</p>
@@ -100,6 +111,7 @@
           <li>Im Netz der Bergbahn zeigt die Domain direkt auf die interne Adresse. Gateways erreichen den Server dann auch, wenn das Internet ausfällt.</li>
         </ol>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Ob die IT das so erlaubt, ist nicht geklärt. Das ist nur ein Vorschlag.</p>
+        <p>Das Docker-Setup lag uns nicht vor. Vor dem Betrieb ist darin zu prüfen: Startet der Dienst nach einem Absturz oder Stromausfall von selbst neu? Liegen <code>daten/</code> und die Zertifikate außerhalb der Container, damit ein Update sie nicht löscht? Prüft ein Gesundheitstest, ob der Server wirklich arbeitet und nicht nur läuft?</p>
 
         <h2 id="groesse" data-kurz="Wie groß er sein muss">Wie groß er sein muss</h2>
         <p>Die Datenmenge aus dem Funk ist klein. Die Rechnung für das Funk-Protokoll nimmt rund 200 Byte pro Zeile und 8 Stunden Betrieb an, beides geschätzt:</p>
@@ -137,7 +149,7 @@
         <div class="urteil">
           <p><strong>Entschieden:</strong> Eigener Server vor Ort bei KitzSki, mit Docker und Caddy. Das Paket bleibt gleich, nur der Standort ändert sich.</p>
           <p><strong>Geschätzt:</strong> Die Funkdaten sind klein: Bei 500 Chips sind es rund 25 Pakete pro Sekunde und rund 144 MB Protokoll am Tag.</p>
-          <p><strong>Offen:</strong> Freigabe durch die IT, eigene Domain, Betreuung und Backup.</p>
+          <p><strong>Offen:</strong> Ob ein ACK erst nach dem dauerhaften Speichern kommt, dazu Freigabe durch die IT, eigene Domain, Betreuung und Backup.</p>
         </div>
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>

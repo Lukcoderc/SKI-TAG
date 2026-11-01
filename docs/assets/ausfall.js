@@ -13,6 +13,12 @@ const AUSFAELLE = [
     "wer": "Die Ausgabe-Seite zeigt es nach 30 Sekunden. Benachrichtigt wird niemand."
   },
   {
+    "name": "Funkloch oder gestörter Kanal",
+    "notruf": "Kommt nicht an, solange der Chip kein Gateway erreicht.",
+    "chip": "Warnt nach 90 Sekunden und wiederholt weiter.",
+    "wer": "Niemand. Für den Server sieht ein Funkloch aus wie ein Chip, der nichts zu melden hat."
+  },
+  {
     "name": "WLAN an der Station",
     "notruf": "Das Gateway hört ihn und puffert bis zu 60 Pakete. Bei 5 Chips reicht das rund 4 Minuten. Erst wenn das Netz zurück ist, kommt er an.",
     "chip": "Warnt nach 90 Sekunden.",
@@ -25,28 +31,40 @@ const AUSFAELLE = [
     "wer": "Die Ausgabe-Seite zeigt das Gateway als „weg“."
   },
   {
-    "name": "Der Server",
-    "notruf": "Kommt nicht an, weder in der App noch sonst wo.",
+    "name": "Server vor dem ACK",
+    "notruf": "Kommt nicht an. Der Chip wiederholt weiter, nach dem Neustart kann er durchkommen.",
     "chip": "Warnt nach 90 Sekunden.",
     "wer": "Niemand automatisch. Auch die Ausgabe-Seite ist dann weg."
   },
   {
+    "name": "Server direkt nach dem ACK",
+    "notruf": "Wird nicht dauerhaft gespeichert, ist er verloren. Der Chip wiederholt nicht mehr.",
+    "chip": "Keine Warnung, der Chip hat ja ein ACK.",
+    "wer": "Niemand. Das verhindert nur die Regel aus Kapitel 12: erst speichern, dann ACK."
+  },
+  {
+    "name": "Stromausfall am Server",
+    "notruf": "Wie bei einem Absturz. Nach dem Neustart muss der Server offene Notrufe wieder aufnehmen.",
+    "chip": "Warnt nach 90 Sekunden, solange kein ACK kam.",
+    "wer": "Niemand automatisch."
+  },
+  {
     "name": "Internet am Server",
     "notruf": "Erreicht das Gateway den Server noch, nimmt er den Notruf an. Die Apps bekommen ihn aber nicht.",
-    "chip": "Der Chip bekommt eventuell ein ACK und warnt deshalb nicht.",
+    "chip": "Der Chip bekommt ein ACK und warnt deshalb nicht.",
     "wer": "Niemand. Das ist die gefährlichste Lücke."
   },
   {
-    "name": "Handy des Mitarbeiters",
-    "notruf": "Der Server wartet 60 Sekunden, dann ist der nächste Mitarbeiter dran.",
-    "chip": "Hat ein ACK, aber noch kein HELP. Er zeigt also keine Annahme.",
+    "name": "App geschlossen oder Handy ohne Netz",
+    "notruf": "Der Server wartet 60 Sekunden, dann ist der nächste Mitarbeiter dran. Er merkt nicht, dass nichts ankam.",
+    "chip": "Hat ein ACK, aber kein HELP 1. Er zeigt also keine Übernahme, warnt aber auch nicht.",
     "wer": "Niemand, solange noch ein Mitarbeiter übrig ist."
   },
   {
-    "name": "Niemand nimmt an",
-    "notruf": "Was nach dem letzten Mitarbeiter geschieht, ist nicht beschrieben.",
-    "chip": "Kein HELP, also keine Annahme am Chip.",
-    "wer": "Nicht geregelt."
+    "name": "Niemand übernimmt",
+    "notruf": "Was nach dem letzten Mitarbeiter geschieht, ist nicht festgelegt.",
+    "chip": "Kein HELP 1, keine Warnung.",
+    "wer": "Nicht geregelt. Vorschlag: Eskalation aus Kapitel 7."
   },
   {
     "name": "GPS-Empfang",

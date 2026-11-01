@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Testen in der Schule · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Anleitung: SkiTag in der Schule testen und simulieren, vom Laptop bis zum echten Funk.">
-<link rel="stylesheet" href="assets/book.css?v=37">
-<script src="assets/book.js?v=37" defer></script>
-<script src="assets/checkliste.js?v=37" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=39">
+<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
+<script src="assets/book.js?v=39" defer></script>
+<script src="assets/checkliste.js?v=39" defer></script>
 </head>
 <body data-station="knopf">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -80,7 +81,7 @@
       </div>
       <div class="lesen">
         <p class="nach-tabelle"><strong>Unsere Empfehlung: ein Heltec V3.</strong> Die günstigere Alternative gibt es nicht wirklich: Beim selben Händler kostet der XIAO mit 22,95 € fast gleich viel wie der Heltec mit 24,10 €, und die Software läuft dort nicht ohne Umbau. Außerdem bleibt das Geld nicht liegen, denn für den Bergtest braucht es ohnehin 2 Heltec V3. Sparen lässt sich beim Zubehör: Stabantenne und eigenes Netzteil braucht man erst später.</p>
-        <p><strong>Ist der Heltec nur ein Ersatz für ein Gateway?</strong> Für den Test ist er das Gateway, ein weiteres Gerät kommt nicht dazu. Er hört die Chips per Funk und reicht ihre Pakete über WLAN an den Server weiter, siehe <a href="kapitel-08.html">Kapitel 8</a>. Technisch ist er aber kein fertiges LoRaWAN-Gateway, sondern ein einfaches Funk-Board mit unserer eigenen Software. Sein Funkchip hört nur einen Kanal mit einem Spreading Factor. Das reicht, weil alle Chips auf 869,525 MHz mit SF9 senden. Gekaufte Gateways mit SX1302 hören dagegen 8 Kanäle und mehrere Spreading Factors zugleich.</p>
+        <p><strong>Ist der Heltec nur ein Ersatz für ein Gateway?</strong> Für den Test ist er das Gateway, ein weiteres Gerät kommt nicht dazu. Er hört die Chips per Funk und reicht ihre Pakete über WLAN an den Server weiter, siehe <a href="kapitel-08.html">Kapitel 8</a>. Technisch ist er aber kein fertiges LoRaWAN-Gateway, sondern ein einfaches Funk-Board mit unserer eigenen Software. Sein Funkchip hört nur einen Kanal mit einem Spreading Factor. Das reicht, weil alle Chips auf 869,525 MHz mit <a href="kapitel-anhang.html#g-sf9">SF9</a> senden. Gekaufte Gateways mit SX1302 hören dagegen 8 Kanäle und mehrere Spreading Factors zugleich.</p>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Für 5 Chips genügt das. Ob es für hunderte Chips solche Gateways braucht, ist noch nicht entschieden, siehe <a href="kapitel-05.html">Kapitel 5</a>.</p>
         <p>Das zweite RAK-Board lohnt sich nur, wenn Maximilian schon eines hat. Dann lässt sich der Funk des Chips prüfen, bevor überhaupt ein Heltec da ist. Empfangen geht dort über den AT-Befehl <code>AT+PRECV</code>.</p>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Das Gateway zeigt laut Übergabe Paketzähler und Signalstärke am Bildschirm. Ob es das auch ohne Server-Verbindung tut, ist nicht ausprobiert. Wenn ja, lässt sich der Chip testen, bevor das NAS eingerichtet ist.</p>
@@ -159,7 +160,7 @@ node tools/test.js</code></pre>
           <thead><tr><th scope="col">Taste</th><th scope="col">Was passiert</th><th scope="col">Das sollte man sehen</th></tr></thead>
           <tbody>
             <tr><td>1 bis 5</td><td>Der Chip mit dieser Nummer ruft seine Gruppe.</td><td>Die App zeigt den Hinweis, die anderen Chips der Gruppe werden gerufen.</td></tr>
-            <tr><td>s</td><td>Chip 3 löst einen Notruf aus.</td><td>Der Notruf erscheint in der App der Bergbahn. Ohne Annahme geht er nach 60 Sekunden an den nächsten Mitarbeiter.</td></tr>
+            <tr><td>s</td><td>Chip 3 löst einen Notruf aus.</td><td>Der Notruf erscheint in der App der Bergbahn. Ohne Übernahme geht er nach 60 Sekunden an den nächsten Mitarbeiter.</td></tr>
           </tbody>
         </table>
       </div>
@@ -176,17 +177,18 @@ node tools/test.js</code></pre>
           <li>Schraub die Antenne an und spiel die Software auf.</li>
           <li>Prüf den Bildschirm: Er zeigt WLAN-Status, ob der Server erreichbar ist, den Paketzähler und den zuletzt gehörten Chip.</li>
         </ol>
-        <p>Schalte dann den Muster-Chip ein und leg ihn ans Fenster, damit er GPS bekommt. Der Paketzähler am Gateway sollte alle 20 Sekunden steigen, und die Ausgabe-Seite zeigt den Chip. Teste anschließend Gruppenruf und Notruf am echten Knopf: Bei Annahme des Notrufs in der App muss der Chip zweimal lang vibrieren.</p>
+        <p>Schalte dann den Muster-Chip ein und leg ihn ans Fenster, damit er GPS bekommt. Der Paketzähler am Gateway sollte alle 20 Sekunden steigen, und die Ausgabe-Seite zeigt den Chip. Teste anschließend Gruppenruf und Notruf am echten Knopf: Bei Übernahme des Notrufs in der App muss der Chip zweimal lang vibrieren.</p>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg><strong>Wichtig:</strong> Das Gateway spricht HTTPS und prüft ein Let's-Encrypt-Zertifikat. Der Server braucht also einen echten Domainnamen mit gültigem Zertifikat. Dieser Punkt muss vor Stufe 3 geklärt sein, der Weg dafür steht unter <a href="#nas">Das NAS als Server</a>. Sonst müsste die Gateway-Software für den Schultest angepasst werden. Ob das Paket dafür eine Einstellung hat, ist nicht geprüft.</p>
 
         <h2 id="stufe4" data-kurz="Stufe 4: Schulgelände">Stufe 4: Schulgelände</h2>
         <p>Stell das Gateway möglichst hoch ans Fenster, die Antenne senkrecht. Geh dann mit dem Chip in der Jacke über das Gelände.</p>
         <ul>
           <li><strong>Reichweite:</strong> Lade auf der Ausgabe-Seite das Funk-Protokoll herunter und schau dir die Signalstärke an. Gut ist sie ab −115 dBm, knapp ab −125 dBm.</li>
-          <li><strong>Ausfall:</strong> Schalte Gateway und WLAN absichtlich ab und schau, was der Chip anzeigt. Nach 90 Sekunden ohne Bestätigung muss er warnen. Die Ausgabe-Seite zeigt das Gateway nach 30 Sekunden als „weg“.</li>
+          <li><strong>Ausfall:</strong> Schalte Gateway und WLAN absichtlich ab und schau, was der Chip anzeigt. Nach 90 Sekunden ohne <a href="kapitel-anhang.html#g-ack">ACK</a> muss er warnen. Die Ausgabe-Seite zeigt das Gateway nach 30 Sekunden als „weg“.</li>
           <li><strong>Zwei Gateways:</strong> Hören beide denselben Chip, darf der Notruf nur einmal ankommen.</li>
-          <li><strong>Internet weg:</strong> Prüf die Schwachstelle aus Kapitel 1: Bekommt der Chip eine Bestätigung, obwohl die App den Notruf nicht hat?</li>
+          <li><strong>Internet weg:</strong> Prüf die Schwachstelle aus Kapitel 1: Bekommt der Chip ein ACK, obwohl die App den Notruf nicht hat?</li>
         </ul>
+        <p>Die vollständigen Tests mit Bestehenskriterien stehen in <a href="kapitel-16.html#testfaelle">Kapitel 16</a>. Prüfe im Schulversuch vor allem T1 und T2.</p>
         <p>Ein Schulgebäude ist kein Berg. Das Ergebnis sagt etwas darüber, ob alles zusammenspielt, aber wenig über die Reichweite im Gelände. <a href="kapitel-09.html">Kapitel 9</a> zeigt, wie wir sie messen.</p>
 
         <h2 id="stolpersteine" data-kurz="Stolpersteine">Stolpersteine</h2>
@@ -235,7 +237,7 @@ node tools/test.js</code></pre>
           <li><label><input type="checkbox" id="c10">HTTPS-Frage für das Gateway geklärt</label></li>
           <li><label><input type="checkbox" id="c11">Gateway geflasht, Bildschirm zeigt Server ok</label></li>
           <li><label><input type="checkbox" id="c12">Muster-Chip erscheint auf der Ausgabe-Seite</label></li>
-          <li><label><input type="checkbox" id="c13">Notruf am echten Knopf, Chip vibriert bei Annahme</label></li>
+          <li><label><input type="checkbox" id="c13">Notruf am echten Knopf, Chip vibriert bei Übernahme</label></li>
           <li><label><input type="checkbox" id="c14">Reichweite gemessen, Funk-Protokoll gespeichert</label></li>
           <li><label><input type="checkbox" id="c15">Ausfall-Test gemacht</label></li>
         </ul>

@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Die Gateways · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Welche Hardware die Gateways im Test nutzen, wie ihre Software aufgebaut ist und wie sie aufgestellt werden.">
-<link rel="stylesheet" href="assets/book.css?v=37">
-<script src="assets/book.js?v=37" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=39">
+<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
+<script src="assets/book.js?v=39" defer></script>
 </head>
 <body data-station="empfaenger">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -39,7 +40,7 @@
     </details>
     <article>
       <h1>Die Gateways</h1>
-      <p class="stand">Kapitel 8 · Stand 31. Oktober 2026</p>
+      <p class="stand">Kapitel 8 · Stand 1. November 2026</p>
 
       <div class="lesen">
         <p class="einstieg">Zwischen Chip und Server steht das Gateway: ein kleines Funkboard, das Notrufe hört und über WLAN weiterreicht. Dieses Kapitel zeigt, welche Hardware das im Test ist, wie die Software darauf aufgebaut ist, und wie die zwei Geräte aufgestellt werden.</p>
@@ -69,7 +70,7 @@
           <thead><tr><th scope="col">Teil der Software</th><th scope="col">Aufgabe</th></tr></thead>
           <tbody>
             <tr><td data-spalte="Teil">Funk, auf Kern 1</td><td data-spalte="Aufgabe">nimmt nur echte SkiTag-Pakete an (0xA7, 27 Byte), reicht sie über eine Warteschlange weiter, muss nie auf das Netz warten</td></tr>
-            <tr><td data-spalte="Teil">Netz, auf Kern 0</td><td data-spalte="Aufgabe">schickt jedes Paket mit RSSI, SNR und Alter als <code>POST /gw/up</code> mit Bearer-Passwort an den Server; die Antwort enthält die Downlinks, die dann gesendet werden</td></tr>
+            <tr><td data-spalte="Teil">Netz, auf Kern 0</td><td data-spalte="Aufgabe">schickt jedes Paket mit <a href="kapitel-anhang.html#g-rssi">RSSI</a>, SNR und Alter als <code>POST /gw/up</code> mit Bearer-Passwort an den Server; die Antwort enthält die Downlinks, die dann gesendet werden</td></tr>
             <tr><td data-spalte="Teil">Puffer</td><td data-spalte="Aufgabe">fällt das WLAN kurz aus, sammelt das Gateway bis zu 60 Pakete, statt sie zu verwerfen</td></tr>
             <tr><td data-spalte="Teil">Lebenszeichen</td><td data-spalte="Aufgabe">kommen keine neuen Pakete, meldet sich das Gateway trotzdem alle 10 Sekunden am Server</td></tr>
             <tr><td data-spalte="Teil">Bildschirm</td><td data-spalte="Aufgabe">zeigt WLAN-Status, Server ok oder Fehler, Paketzähler und den zuletzt gehörten Chip mit Signalstärke</td></tr>
@@ -80,12 +81,16 @@
         <p class="nach-tabelle">Die Verbindung zum Server läuft über TLS mit den ISRG-Stammzertifikaten von Let's Encrypt. Bleibt das Gateway 60 Sekunden ohne Reaktion stehen, startet ein Watchdog es neu.</p>
         <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Entschieden, aber am PC geschrieben. Laut Übergabe ist diese Software fertig, lief aber noch nie auf echter Hardware. Erst der Test mit den gelieferten Heltec-Boards zeigt, ob sie auf dem Board so läuft wie geplant.</p>
 
+        <h2 id="puffer" data-kurz="Puffer und Vorrang">Puffer und Vorrang</h2>
+        <p>Ist das WLAN weg, hält das Gateway bis zu 60 Pakete zurück. Bei 5 Chips reicht das rund 4 Minuten, bei mehr Chips oder vielen Wiederholungen entsprechend kürzer. Was bei vollem Puffer verworfen wird, steht nicht in unseren Unterlagen.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Vorrang für Notrufe gibt es hier nicht, und so wie das Paket aufgebaut ist, kann es ihn nicht geben: Das Ereignis ist verschlüsselt, das Gateway sieht nur Bytes. Dass der Chip weiter wiederholt, fängt das meist auf, ersetzt aber keinen Vorrang. Möglich wäre eine eigene lesbare Kennung für Notrufe im Kopf, die der Prüfwert mit schützt. Das verrät nach außen, dass ein Notruf läuft, und ändert das Protokoll.</p>
+
         <h2 id="aufstellung-test" data-kurz="Aufstellung im Test">Aufstellung im Test</h2>
         <p>Für den Test kommt ein Gateway jeweils innen an ein Fenster einer Bergstation, möglichst hoch, mit senkrechter Antenne und Blick auf die Pisten. Strom und WLAN liefert die Station selbst, vorher muss geklärt sein, ob das dort genutzt werden darf.</p>
         <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Geschätzt. Diese Aufstellung ist ein erster Plan, nicht gemessen: Wärmeschutzglas kann Funk stark dämpfen, eine Antenne außerhalb des Fensters wäre besser. Ob das an den Bergstationen so möglich ist, klärt Kapitel 11.</p>
 
         <h2 id="mehrere-gateways" data-kurz="Wenn mehrere Gateways gleichzeitig hören">Wenn mehrere Gateways gleichzeitig hören</h2>
-        <p>Hören beide Gateways denselben Chip, verwirft der Server das doppelte Paket über den Zähler, siehe <a href="kapitel-04.html">Kapitel 4</a>. Für Befehle an den Chip merkt sich der Server, welches Gateway ihn in den letzten 15 Minuten am besten empfangen hat, und schickt den Downlink über genau dieses.</p>
+        <p>Hören beide Gateways denselben Chip, verwirft der Server das doppelte Paket über den Zähler, siehe <a href="kapitel-04.html">Kapitel 4</a>. Für Befehle an den Chip merkt sich der Server, welches Gateway ihn in den letzten 15 Minuten am besten empfangen hat, und schickt den <a href="kapitel-anhang.html#g-downlink">Downlink</a> über genau dieses.</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
@@ -93,6 +98,7 @@
           <tbody>
             <tr class="zeile-offen"><td data-spalte="Punkt">Fällt ein Gateway aus, passiert nichts automatisch.</td><td data-spalte="Warum">Die Ausgabe-Seite zeigt es nach 30 Sekunden nur als „weg“. Soll jemand benachrichtigt werden, und überlappen sich die Gateways so, dass einer den anderen ersetzen kann?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td data-spalte="Punkt">Die Software lief noch nie auf echter Hardware.</td><td data-spalte="Warum">Erprobt sind nur Simulator und PC. Erst das Flashen und der Test mit Maximilians Muster-Chip zeigen, ob Funk, WLAN-Wechsel und Watchdog auf dem Board wie geplant arbeiten.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Uhrzeit und Stammzertifikate im Gateway.</td><td data-spalte="Warum">Um ein Zertifikat zu prüfen, braucht das Gateway eine richtige Uhrzeit, und die Stammzertifikate stehen fest in <code>zertifikate.h</code>. Wechselt Let's Encrypt seine Stammzertifikate, braucht das Gateway neue Software. Wie die Software das löst, wissen wir nicht.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td data-spalte="Punkt">Zertifikat für den eigenen Server bei KitzSki.</td><td data-spalte="Warum">DuckDNS war für den ursprünglich gemieteten Cloud-Server gedacht. Steht der Server stattdessen vor Ort bei KitzSki, braucht das Gateway eine Lösung für DNS und Zertifikat, um sich sicher zu melden. Näher dazu in Kapitel 12.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
@@ -101,7 +107,7 @@
       <div class="lesen">
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
-          <p><strong>Fest:</strong> Zwei Heltec WiFi LoRa 32 V3 mit Außenantenne sind die Gateway-Hardware für den Test.</p>
+          <p><strong>Fest:</strong> Zwei Heltec WiFi LoRa 32 V3 mit Stabantenne sind die Gateway-Hardware für den Test.</p>
           <p><strong>Entschieden:</strong> Die Software trennt Funk und Netz auf zwei Kernen, damit der Funk nie auf das Netz warten muss, und puffert bis zu 60 Pakete bei einem WLAN-Ausfall. Fertig geschrieben ist sie, geprüft nur am PC.</p>
           <p><strong>Offen:</strong> Ob sie auf echter Hardware wie geplant läuft, was bei einem Gateway-Ausfall geschehen soll, und wie sich das Gateway beim eigenen Server statt in der Cloud sicher anmeldet.</p>
         </div>

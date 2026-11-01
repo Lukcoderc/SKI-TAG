@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vom Knopfdruck zur App · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie ein Notruf vom SkiTag-Chip bis in die App der Bergbahn kommt.">
-<link rel="stylesheet" href="assets/book.css?v=37">
-<script src="assets/book.js?v=37" defer></script>
-<script src="assets/szene.js?v=37" defer></script>
-<script src="assets/signalweg.js?v=37" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=39">
+<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
+<script src="assets/book.js?v=39" defer></script>
+<script src="assets/szene.js?v=39" defer></script>
+<script src="assets/signalweg.js?v=39" defer></script>
 </head>
 <body data-station="knopf">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -41,7 +42,7 @@
     </details>
     <article>
       <h1>Vom Knopfdruck zur App</h1>
-      <p class="stand">Kapitel 1 · Stand 30. Oktober 2026</p>
+      <p class="stand">Kapitel 1 · Stand 1. November 2026</p>
 
       <div class="lesen">
         <p class="einstieg">Jemand stürzt auf der Piste und kann nicht mehr weiterfahren. Die Person hat kein Handy dabei und hält den Knopf am Chip. Kurz darauf sieht ein Mitarbeiter der Bergbahn in seiner App einen roten Punkt mit dem genauen Ort. Dieses Buch erklärt alles, was dazwischen passiert.</p>
@@ -176,12 +177,12 @@
               <div class="normal">
                 <h3>Chip sendet</h3>
                 <p>Sind die fünf Sekunden vorbei, sendet der Chip den Notruf mit seiner GPS-Position.</p>
-                <p>Das geschieht über LoRa, eine Funktechnik für kleine Datenmengen und große Entfernungen. Der Chip braucht dafür weder SIM-Karte noch Handynetz. Er wiederholt den Notruf so lange, bis der Server ihn bestätigt.</p>
+                <p>Das geschieht über LoRa, eine Funktechnik für kleine Datenmengen und große Entfernungen. Der Chip braucht dafür weder SIM-Karte noch Handynetz. Er wiederholt den Notruf so lange, bis ein <a href="kapitel-anhang.html#g-ack">ACK</a> vom Server kommt.</p>
               </div>
               <div class="ausfall">
                 <h4>Wenn kein Gateway den Chip hört</h4>
                 <p>Dann kommt nichts an, und der Chip sendet weiter: zuerst alle 4 bis 8 Sekunden, nach 6 Versuchen alle 15 bis 25 Sekunden. Bei einem Notruf hört er nie auf, andere Meldungen gibt er nach 8 Versuchen auf.</p>
-                <p>Bleibt die Bestätigung 90 Sekunden lang aus, blinkt der Chip doppelt rot und vibriert jede Minute. Für die verletzte Person heißt das: selbst 140 rufen.</p>
+                <p>Bleibt das ACK 90 Sekunden lang aus, blinkt der Chip doppelt rot und vibriert jede Minute. Für die verletzte Person heißt das: selbst 140 rufen.</p>
               </div>
             </div>
           </article>
@@ -209,8 +210,8 @@
               </div>
               <div class="ausfall">
                 <h4>Wenn Server oder Netzverbindung ausfallen</h4>
-                <p>Fällt der Server oder die Verbindung vom Gateway zum Server aus, kommt der Notruf nicht an. Der Chip merkt das an der fehlenden Bestätigung und warnt die Person nach 90 Sekunden.</p>
-                <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Die größte Schwachstelle ist das Internet des Servers: Fällt nur dieses aus, kann der Server dem Chip den Notruf bestätigen, obwohl die App ihn nicht bekommt. Die Person am Chip glaubt dann, dass Hilfe kommt. Wie das gelöst wird, ist noch offen.</p>
+                <p>Fällt der Server oder die Verbindung vom Gateway zum Server aus, kommt der Notruf nicht an. Der Chip merkt das am fehlenden ACK und warnt die Person nach 90 Sekunden.</p>
+                <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Die größte Schwachstelle ist das Internet des Servers: Fällt nur dieses aus, kann der Server dem Chip den Notruf bestätigen, obwohl die App ihn nicht bekommt. Der Chip warnt dann nicht, obwohl niemand Bescheid weiß. Lösungsvorschläge stehen in <a href="kapitel-14.html#ack">Kapitel 14</a>, entschieden ist noch nichts.</p>
               </div>
             </div>
           </article>
@@ -223,17 +224,17 @@
               </div>
               <div class="ausfall">
                 <h4>Wenn niemand reagiert</h4>
-                <p>Nimmt der Mitarbeiter den Notruf 60 Sekunden lang nicht an, geht er an den nächsten.</p>
+                <p>Übernimmt der Mitarbeiter den Notruf 60 Sekunden lang nicht, geht er an den nächsten. Was nach dem letzten geschieht, ist noch offen, siehe <a href="kapitel-07.html#eskalation">Kapitel 7</a>.</p>
                 <p>Ist die letzte Position älter als 2 Minuten, wird sie als „alt“ markiert. Gibt es gar keine Position, nimmt der Server die des Gateways und markiert sie als „ungefähr“.</p>
               </div>
             </div>
           </article>
-          <article class="schritt" id="schritt-rueckweg" data-kurz="Bestätigung kommt zurück" data-frage="Warum kann das dauern?">
+          <article class="schritt" id="schritt-rueckweg" data-kurz="Übernahme kommt zurück" data-frage="Warum kann das dauern?">
             <div class="schritt-inhalt">
               <div class="normal">
-                <h3>Bestätigung kommt zurück</h3>
-                <p>Sobald jemand übernimmt, meldet die App das über Mobilfunk an den Server. Der schickt die Bestätigung über Kabel zum Gateway, das den Chip zuletzt am besten gehört hat, und von dort per Funk zum Chip.</p>
-                <p>Der Chip vibriert zweimal lang und blinkt rot. Die verletzte Person weiß damit: Hilfe kommt.</p>
+                <h3>Übernahme kommt zurück</h3>
+                <p>Sobald jemand übernimmt, meldet die App das über Mobilfunk an den Server. Der schickt HELP 1 über Kabel zum Gateway, das den Chip zuletzt am besten gehört hat, und von dort per Funk zum Chip.</p>
+                <p>Der Chip vibriert zweimal lang und blinkt rot. Die verletzte Person weiß damit: Ein Mensch hat übernommen.</p>
               </div>
               <div class="ausfall hinweis">
                 <h4>Warum das dauern kann</h4>
@@ -308,7 +309,7 @@
               <li>Wie viele Gateways braucht KitzSki, und wo stehen sie?</li>
               <li>Woher kommen Strom und Netz an den Stationen?</li>
               <li>Wie wird der Reichweiten-Alarm gelöst, sodass nur die aufpassende Person vibriert?</li>
-              <li>Was wird wie lange gespeichert (DSGVO)?</li>
+              <li>Was wird wie lange gespeichert (<a href="kapitel-anhang.html#g-dsgvo">DSGVO</a>)?</li>
             </ul>
           </div>
       </div>

@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ausblick Serie · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was sich vom Test zum Betrieb mit hunderten Chips ändern muss und was das kostet.">
-<link rel="stylesheet" href="assets/book.css?v=37">
-<script src="assets/book.js?v=37" defer></script>
-<script src="assets/serienkosten.js?v=37" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=39">
+<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
+<script src="assets/book.js?v=39" defer></script>
+<script src="assets/serienkosten.js?v=39" defer></script>
 </head>
 <body data-station="knopf">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -53,12 +54,12 @@
           <thead><tr><th scope="col">Thema</th><th scope="col">Heute</th><th scope="col">Für die Serie</th><th scope="col">Kapitel</th></tr></thead>
           <tbody>
             <tr><td>Funk</td><td data-spalte="Heute">Ein Kanal, 5 feste Fenster</td><td data-spalte="Serie">Mehrere Kanäle, kürzere Sendezeit, Notruf getrennt auf 869,525 MHz</td><td data-spalte="Kapitel">5</td></tr>
-            <tr><td>Protokoll</td><td data-spalte="Heute">Eigenes Protokoll, 256 Chip-Nummern</td><td data-spalte="Serie">LoRaWAN als erster Kandidat, oder eigenes Protokoll mit längerer Nummer</td><td data-spalte="Kapitel">3, 4</td></tr>
+            <tr><td>Protokoll</td><td data-spalte="Heute">Eigenes Protokoll, 256 Chip-Nummern</td><td data-spalte="Serie"><a href="kapitel-anhang.html#g-lorawan">LoRaWAN</a> als erster Kandidat, oder eigenes Protokoll mit längerer Nummer</td><td data-spalte="Kapitel">3, 4</td></tr>
             <tr><td>Gateways</td><td data-spalte="Heute">2 Funkboards am Fenster</td><td data-spalte="Serie">Rund 4 bis 21 Geräte außen, mit Kabel und Blitzschutz</td><td data-spalte="Kapitel">10, 11</td></tr>
             <tr><td>Rückkanal</td><td data-spalte="Heute">Antwort direkt nach dem Paket</td><td data-spalte="Serie">Nur für Ereignisse, keine Bestätigung jeder Position</td><td data-spalte="Kapitel">6</td></tr>
-            <tr><td>Server</td><td data-spalte="Heute">Ein Rechner</td><td data-spalte="Serie">Zweiter Rechner oder schneller Ersatz, Überwachung, Bereitschaft</td><td data-spalte="Kapitel">12, 14</td></tr>
-            <tr><td>App</td><td data-spalte="Heute">Web-App ohne Push</td><td data-spalte="Serie">Echte App mit Push für Mitarbeiter</td><td data-spalte="Kapitel">13</td></tr>
-            <tr><td>Sicherheit</td><td data-spalte="Heute">Ein Schlüssel, selbst gebaute Stromchiffre aus SipHash</td><td data-spalte="Serie">Eigener Schlüssel je Chip, AES-CCM oder gleichwertig, Schlüsselwechsel, Downlink je Chip geschützt</td><td data-spalte="Kapitel">15</td></tr>
+            <tr><td>Server</td><td data-spalte="Heute">Ein Rechner, Speicherung vor dem <a href="kapitel-anhang.html#g-ack">ACK</a> nicht belegt</td><td data-spalte="Serie">Erst speichern, dann ACK, zweiter Rechner oder schneller Ersatz, Überwachung, Bereitschaft</td><td data-spalte="Kapitel">12, 14</td></tr>
+            <tr><td>Alarmierung</td><td data-spalte="Heute">Web-App ohne Push, keine Zustellung sichtbar</td><td data-spalte="Serie">Echte App mit Push, Empfangsbestätigung, zweiter Weg über den Leitstand</td><td data-spalte="Kapitel">13</td></tr>
+            <tr><td>Sicherheit</td><td data-spalte="Heute">Ein Schlüssel, selbst gebaute <a href="kapitel-anhang.html#g-stromchiffre">Stromchiffre</a> aus SipHash</td><td data-spalte="Serie">Eigener Schlüssel je Chip, AES-CCM oder gleichwertig, Schlüsselwechsel, <a href="kapitel-anhang.html#g-downlink">Downlink</a> je Chip geschützt</td><td data-spalte="Kapitel">15</td></tr>
             <tr><td>Daten</td><td data-spalte="Heute">Löschen von Hand</td><td data-spalte="Serie">Automatische Fristen, rechtlich geprüft</td><td data-spalte="Kapitel">15</td></tr>
           </tbody>
         </table>
@@ -67,7 +68,7 @@
       <div class="lesen">
         <h2 id="lorawan" data-kurz="LoRaWAN oder eigenes Protokoll">LoRaWAN oder eigenes Protokoll</h2>
         <p>Das ist die größte Entscheidung. Fertige Gateways hören 8 Kanäle zugleich, und mit ChirpStack gibt es einen quelloffenen Netzwerk-Server für den eigenen Betrieb. Eigene Schlüssel pro Gerät und AES sind dort schon eingebaut. Das Protokoll müssten wir also nicht weiter selbst pflegen.</p>
-        <p>Der Preis steht in <a href="kapitel-05.html#lorawan-preis">Kapitel 5</a>: Auf den LoRaWAN-Kanälen gelten 25 mW und 1 % Sendezeit. Unser Takt mit SF9 alle 20 Sekunden passt dort nicht, und die Reichweite sinkt. Die Rechnung aus Kapitel 5 bleibt daher der Maßstab: Weniger Sendezeit oder ein längerer Takt für Positionen, 869,525 MHz für Notrufe.</p>
+        <p>Der Preis steht in <a href="kapitel-05.html#lorawan-preis">Kapitel 5</a>: Auf den LoRaWAN-Kanälen gelten 25 mW und 1 % Sendezeit. Unser Takt mit <a href="kapitel-anhang.html#g-sf9">SF9</a> alle 20 Sekunden passt dort nicht, und die Reichweite sinkt. Die Rechnung aus Kapitel 5 bleibt daher der Maßstab: Weniger Sendezeit oder ein längerer Takt für Positionen, 869,525 MHz für Notrufe.</p>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Ob Notrufe unter LoRaWAN so schnell wie heute ankommen und wie gut das am Berg geht, ist nicht geprüft. Am besten baut man das nach dem Test als kleinen Versuch nach.</p>
 
         <h2 id="kosten" data-kurz="Was das Netz kosten könnte">Was das Netz kosten könnte</h2>

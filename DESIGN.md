@@ -265,7 +265,7 @@ Quiet, square and signage-like. Controls read as labels on a plane until they ar
 The signature of the book, present on every chapter page.
 
 - **Structure:** Twilight Plane band with the book name top left and the rope strip below. The rope is a 2px Haze line in three sagging spans that climb from left to right, keeping its stroke width at any page width.
-- **Stations:** the six steps of an emergency call: 1. Knopf drücken, 2. Chip sendet, 3. Gateway leitet weiter, 4. Server entscheidet, 5. Mitarbeiter wird alarmiert, 6. Bestätigung kommt zurück, spread from 6% to 94% across, with more room before the last station for its long label. Each is a label above an 18px ring (15px at phone width), with a Twilight Plane fill and a 2px Snow border. They link to the matching step of the Chapter 1 walkthrough. Below 1280px the rope shows numbers only, and the name sits in the tab. The first and last labels align inward so they stay on screen.
+- **Stations:** the six steps of an emergency call: 1. Knopf drücken, 2. Chip sendet, 3. Gateway leitet weiter, 4. Server entscheidet, 5. Mitarbeiter wird alarmiert, 6. Übernahme kommt zurück, spread from 6% to 94% across, with more room before the last station for its long label. Each is a label above an 18px ring (15px at phone width), with a Twilight Plane fill and a 2px Snow border. They link to the matching step of the Chapter 1 walkthrough. Below 1280px the rope shows numbers only, and the name sits in the tab. The first and last labels align inward so they stay on screen.
 - **Hover:** the ring turns amber.
 - **Current:** name and ring turn amber, and the name goes to weight 700.
 - **Cabin:** a 36px by 22px amber cabin (30px by 19px at phone width) on a 2px hanger, with a Twilight Plane window, hanging under the rope at the current station.
@@ -301,11 +301,19 @@ Every chapter is assembled the same way, so a new chapter needs no layout decisi
 
 ### Start Page
 
-`docs/index.html` is the book's front door: the rope band and page contents stay, the chapter list is hidden because the page itself is the contents. Title, stamp line, lead, one main button, the system diagram, the status legend, then the chapters in thematic groups. Each chapter is one row on the Twilight Plane with number, title link, one sentence and the status mark that prevails in it. Rows, not cards. The page is static HTML, so it works without JavaScript.
+`docs/index.html` is the book's front door: the rope band, chapter list and page contents stay, as on every chapter page, with Übersicht as the current entry. Title, stamp line, lead, one main button, the system diagram, the status legend, then the chapters in thematic groups. Each chapter is one row on the Twilight Plane with number, title link, one sentence and the status mark that prevails in it. Rows, not cards. The page is static HTML, so it works without JavaScript.
 
 ### Diagram
 
 A static inline SVG on the Twilight Plane with a caption, built from zones in Deep Twilight, boxes on the Upper Plane, Barlow labels at 16, 17 and 20px and 2px Haze lines. An amber line is the path of an emergency call. Red appears only as the Offen mark and its text, and red text never sits on the Upper Plane. Anything that is only a proposal carries the Offen mark. Below 820px the drawing keeps a 720px width and scrolls inside its own wrapper, with a hint in the caption.
+
+### Test Case
+
+A Twilight Plane block per test: a Title heading with its number, then four labelled rows for Ausgangslage, Durchführung, Erwartet and Bestanden, split by Upper Plane hairlines. Below 820px the labels stack above their text.
+
+### Print
+
+`assets/druck.css` loads with `media="print"` only. It swaps the tokens for a light palette, hides the rope, side lists and controls, shows every walkthrough step and the `nur-ohne-js` tables instead of calculators, and prints source URLs.
 
 ### Calculator
 
