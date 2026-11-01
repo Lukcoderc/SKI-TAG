@@ -301,7 +301,7 @@ Every chapter is assembled the same way, so a new chapter needs no layout decisi
 
 ### Start Page
 
-`docs/index.html` is the book's front door: the rope band, chapter list and page contents stay, as on every chapter page, with Übersicht as the current entry. Title, stamp line, lead, one main button, the system diagram, the status legend, then the chapters in thematic groups. Each chapter is one row on the Twilight Plane with number, title link, one sentence and the status mark that prevails in it. Rows, not cards. The page is static HTML, so it works without JavaScript.
+`Netzwerk Buch/docs/index.html` is the book's front door: the rope band, chapter list and page contents stay, as on every chapter page, with Übersicht as the current entry. Title, stamp line, lead, one main button, the system diagram, the status legend, then the chapters in thematic groups. Each chapter is one row on the Twilight Plane with number, title link, one sentence and the status mark that prevails in it. Rows, not cards. The page is static HTML, so it works without JavaScript.
 
 ### Diagram
 

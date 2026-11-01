@@ -1,8 +1,8 @@
 ---
 version: 1
 slug: "docs-kapitel-01-html"
-primary_target: "docs/kapitel-01.html"
-related_targets: ["docs/index.html"]
+primary_target: "Netzwerk Buch/docs/kapitel-01.html"
+related_targets: ["Netzwerk Buch/docs/index.html"]
 ---
 
 # Netzwerk-Buch, Kapitelseiten

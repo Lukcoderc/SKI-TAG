@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Static HTML, CSS and a little JS without a build step, served by GitHub Pages from `docs/`.
+Static HTML, CSS and a little JS without a build step, served by GitHub Pages from `Netzwerk Buch/docs/`.
 
 ## Users
 
