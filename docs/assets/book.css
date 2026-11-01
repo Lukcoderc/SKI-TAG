@@ -314,6 +314,8 @@ main ol.inhalt { list-style: none; padding: 0; margin-top: 18px; background: var
 .abd-gateway { fill: var(--flaeche-hell); stroke: var(--dunst); stroke-width: 1.5; }
 .abd-gateway.an { fill: var(--schnee); stroke: var(--dunkel); stroke-width: 2.5; }
 .abd-werte { grid-template-columns: repeat(2, 1fr); margin-top: 0; margin-bottom: 14px; }
+#abd-waehlen { margin: 12px 0; background: var(--flaeche-hell); }
+#abd-liste { max-height: 420px; overflow-y: auto; }
 
 /* Ergebnis und Quellen */
 .urteil { margin-top: 18px; padding: 18px 20px; background: var(--flaeche); }

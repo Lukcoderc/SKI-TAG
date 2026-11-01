@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Schnittstelle zur App · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie App und Server zusammenspielen, welche Endpunkte es gibt und wo es noch hakt.">
-<link rel="stylesheet" href="assets/book.css?v=39">
-<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
-<script src="assets/book.js?v=39" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=40">
+<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
+<script src="assets/book.js?v=40" defer></script>
 </head>
 <body data-station="app">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -124,7 +124,7 @@
         <table class="stapel">
           <thead><tr><th scope="col">In der App</th><th scope="col">Bedeutung</th><th scope="col">Befehl an den Chip</th></tr></thead>
           <tbody>
-            <tr><td><code>new</code></td><td data-spalte="Bedeutung">Wartet auf die Übernahme, je Mitarbeiter 60 Sekunden</td><td data-spalte="Chip">Vorher das <a href="kapitel-anhang.html#g-ack">ACK</a>, sobald der Server ihn hat</td></tr>
+            <tr><td><code>new</code></td><td data-spalte="Bedeutung">Wartet auf die Übernahme, Zeitablauf siehe <a href="kapitel-07.html#eskalation">Kapitel 7</a></td><td data-spalte="Chip">Vorher das <a href="kapitel-anhang.html#g-ack">ACK</a>, sobald der Server ihn hat</td></tr>
             <tr><td><code>accepted</code></td><td data-spalte="Bedeutung">Ein Mensch hat übernommen</td><td data-spalte="Chip">HELP 1, der Chip vibriert zweimal lang</td></tr>
             <tr><td><code>onsite</code></td><td data-spalte="Bedeutung">Jemand ist vor Ort</td><td data-spalte="Chip">HELP 2</td></tr>
             <tr><td><code>done</code></td><td data-spalte="Bedeutung">Erledigt</td><td data-spalte="Chip">HELP 3</td></tr>
@@ -145,8 +145,8 @@
           <tbody>
             <tr class="zeile-offen"><td>Echte App mit Push</td><td data-spalte="Wozu">Alarm auch bei gesperrtem Handy. Laut App-Repo später mit Capacitor geplant. Auf dem iPhone gibt es Web-Push ab iOS 16.4 nur vom Home-Bildschirm.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Lauter Alarm</td><td data-spalte="Wozu">Ton und Vibration, bis jemand reagiert. Push allein kann stumm oder verspätet ankommen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Empfangsbestätigung der App</td><td data-spalte="Wozu">Macht die Stufe Zustellung erst sichtbar.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Anwesenheit</td><td data-spalte="Wozu">Die App meldet sich regelmäßig. Der Server bietet Notrufe nur Erreichbaren an und schaltet bei niemandem sofort weiter.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Empfangsbestätigung der App</td><td data-spalte="Wozu">Macht die Stufe Zustellung sichtbar. Sie zählt erst, wenn der Alarm angezeigt wird, und muss binnen 15 s beim Server sein.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Anwesenheit</td><td data-spalte="Wozu">Die App meldet sich regelmäßig. Der Server bietet Notrufe nur Erreichbaren an. Ist niemand erreichbar, springt er sofort zur Alarmierung von Leitstand und allen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Neuer Abgleich</td><td data-spalte="Wozu">Nach einer Unterbrechung holt die App alle offenen Notrufe, sonst gehen Meldungen in der Lücke verloren.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Zweiter Weg ohne App</td><td data-spalte="Wozu">Leitstand, Telefon oder Betriebsfunk. Push hängt an fremden Diensten und am Mobilfunk.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>

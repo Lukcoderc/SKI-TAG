@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sendeintervall und Kapazität · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie oft ein SkiTag-Chip sendet und wie viele Chips das Netz verkraftet.">
-<link rel="stylesheet" href="assets/book.css?v=39">
-<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
-<script src="assets/book.js?v=39" defer></script>
-<script src="assets/funk.js?v=39" defer></script>
-<script src="assets/kapazitaet.js?v=39" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=40">
+<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
+<script src="assets/book.js?v=40" defer></script>
+<script src="assets/funk.js?v=40" defer></script>
+<script src="assets/kapazitaet.js?v=40" defer></script>
 </head>
 <body data-station="chip">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -114,7 +114,7 @@
         <p class="nach-tabelle">Das Modell ist grob. Es zählt nur Positionen, keine Wiederholungen und keine Zeit, in der ein Gateway beim Senden taub ist. Beides verschlechtert das Ergebnis. Besser wird es durch den <a href="kapitel-anhang.html#g-capture-effekt">Capture-Effekt</a>: Dabei setzt sich das stärkere von zwei Paketen durch. In einer Simulation von Bor und Kollegen stieg der Anteil ankommender Pakete dadurch von 51 auf 80 %. Dieselbe Studie kommt aber zum Schluss, dass LoRa mit festen Einstellungen und einem einzigen Empfänger schlecht skaliert. Erst mehrere Empfänger und passende Einstellungen je Gerät ändern das.</p>
 
         <h2 id="lorawan-preis" data-kurz="Der Preis mehrerer Kanäle">Der Preis mehrerer Kanäle</h2>
-        <p>Mehr Kanäle sind die naheliegende Lösung, und LoRaWAN nutzt in Europa dafür unter anderem 868,1, 868,3 und 868,5 MHz. Dort gelten aber strengere Regeln als auf unserer Frequenz:</p>
+        <p>Mehr Kanäle sind die naheliegende Lösung. LoRaWAN schreibt in Europa die drei Pflichtkanäle 868,1, 868,3 und 868,5 MHz vor, und ein Netz kann weitere festlegen. Dort gelten aber strengere Regeln als auf unserer Frequenz:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
@@ -126,7 +126,7 @@
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Ein Wechsel kostet also doppelt: Wir müssten auf SF8 oder niedriger gehen und mit 25 mW statt 100 mW senden. Mit SF8 und 25 mW sinkt die erlaubte Dämpfung von 149 auf rund 140 dB. Bei freier Sicht bleibt davon gut ein Drittel der Reichweite, und damit bräuchte das Gebiet mehr Gateways. Außerdem würde der Notruf mit seinen schnellen Wiederholungen dort die 1 % sprengen, wenn er auf diesen Kanälen liefe. Eine mögliche Lösung wäre, dass normale Positionen auf den 868-Kanälen laufen und Notrufe auf 869,525 MHz.</p>
+        <p class="nach-tabelle">Ein Wechsel kostet also doppelt: Wir müssten auf SF8 oder niedriger gehen und mit 25 mW statt 100 mW senden. Mit SF8 und 25 mW sinkt die erlaubte Dämpfung von 149 auf rund 140 dB. Bei freier Sicht bleibt davon gut ein Drittel der Reichweite, und damit bräuchte das Gebiet mehr Gateways. Außerdem würde der Notruf mit seinen schnellen Wiederholungen dort die 1 % sprengen, wenn er auf diesen Kanälen liefe. Eine mögliche Lösung wäre, dass normale Positionen auf den 868-Kanälen laufen und Notrufe auf einem eigenen Kanal im Band 869,40 bis 869,65 MHz. Das wäre kein reines LoRaWAN mehr, und 869,525 MHz selbst ist dort der Antwort-Kanal, siehe <a href="kapitel-17.html#lorawan">Kapitel 17</a>.</p>
         <p>Das heißt nicht, dass LoRaWAN ausscheidet. Es heißt aber, dass die Empfehlung aus <a href="kapitel-03.html#ergebnis">Kapitel 3</a> nicht kostenlos ist.</p>
 
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>

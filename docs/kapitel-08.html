@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Die Gateways · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Welche Hardware die Gateways im Test nutzen, wie ihre Software aufgebaut ist und wie sie aufgestellt werden.">
-<link rel="stylesheet" href="assets/book.css?v=39">
-<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
-<script src="assets/book.js?v=39" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=40">
+<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
+<script src="assets/book.js?v=40" defer></script>
 </head>
 <body data-station="empfaenger">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -63,7 +63,7 @@
         <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Fest"><use href="#mark-fest"/></svg>Fest. Es ist ausdrücklich die Version V3, <strong>nicht V4</strong>: Die Gateway-Software ist für den V3-Chipsatz gebaut.</p>
 
         <h2 id="software" data-kurz="Wie die Software aufgebaut ist">Wie die Software aufgebaut ist</h2>
-        <p>Die Gateway-Software liegt im Ordner <code>firmware/skitag_empfaenger</code>, kompiliert mit ESP32-Core 3.0.7 für das Board „Heltec WiFi LoRa 32(V3)“, mit den Bibliotheken RadioLib, ArduinoJson und U8g2. Eingestellt wird sie über <code>config.h</code>: ein Name (E1, E2), bis zu drei WLANs (etwa ein Hütten-WLAN und ein Handy-Hotspot als Rückfall), die Server-Adresse, ein eigenes Gateway-Passwort und die Funkeinstellungen, die exakt zu denen des Chips passen müssen.</p>
+        <p>Der folgende Abschnitt beschreibt die Software laut Übergabe. Sie liegt weder in diesem Repository noch uns vor und ist nicht geprüft, siehe <a href="kapitel-anhang.html#nachweis">Was geprüft ist</a>. Laut Übergabe liegt die Gateway-Software im Paket <code>skitag-test.zip</code> im Ordner <code>firmware/skitag_empfaenger</code>, kompiliert mit ESP32-Core 3.0.7 für das Board „Heltec WiFi LoRa 32(V3)“, mit den Bibliotheken RadioLib, ArduinoJson und U8g2. Eingestellt wird sie über <code>config.h</code>: ein Name (E1, E2), bis zu drei WLANs (etwa ein Hütten-WLAN und ein Handy-Hotspot als Rückfall), die Server-Adresse, ein eigenes Gateway-Passwort und die Funkeinstellungen, die exakt zu denen des Chips passen müssen.</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
@@ -82,8 +82,44 @@
         <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Entschieden, aber am PC geschrieben. Laut Übergabe ist diese Software fertig, lief aber noch nie auf echter Hardware. Erst der Test mit den gelieferten Heltec-Boards zeigt, ob sie auf dem Board so läuft wie geplant.</p>
 
         <h2 id="puffer" data-kurz="Puffer und Vorrang">Puffer und Vorrang</h2>
-        <p>Ist das WLAN weg, hält das Gateway bis zu 60 Pakete zurück. Bei 5 Chips reicht das rund 4 Minuten, bei mehr Chips oder vielen Wiederholungen entsprechend kürzer. Was bei vollem Puffer verworfen wird, steht nicht in unseren Unterlagen.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Vorrang für Notrufe gibt es hier nicht, und so wie das Paket aufgebaut ist, kann es ihn nicht geben: Das Ereignis ist verschlüsselt, das Gateway sieht nur Bytes. Dass der Chip weiter wiederholt, fängt das meist auf, ersetzt aber keinen Vorrang. Möglich wäre eine eigene lesbare Kennung für Notrufe im Kopf, die der Prüfwert mit schützt. Das verrät nach außen, dass ein Notruf läuft, und ändert das Protokoll.</p>
+        <p>Ist das WLAN weg, hält das Gateway laut Übergabe bis zu 60 Pakete zurück, je Paket 27 Byte plus RSSI, SNR und Alter. Was bei vollem Puffer verworfen wird, steht nicht in unseren Unterlagen. Wie schnell er voll ist, hängt davon ab, wie viele Pakete ein Gateway überhaupt dekodieren kann:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Lage</th><th scope="col">Pakete pro Sekunde</th><th scope="col">60 Pakete voll nach</th></tr></thead>
+          <tbody>
+            <tr><td>5 Chips, alle 20 s</td><td data-spalte="Pakete/s">0,25</td><td data-spalte="Voll nach">rund 4 Minuten</td></tr>
+            <tr><td>Ein Kanal, bestmögliche Nutzung ohne Fenster</td><td data-spalte="Pakete/s">rund 0,8</td><td data-spalte="Voll nach">rund 74 Sekunden</td></tr>
+            <tr><td>Ein Kanal, lückenlos belegt</td><td data-spalte="Pakete/s">rund 4,4</td><td data-spalte="Voll nach">rund 14 Sekunden</td></tr>
+            <tr><td>8 Kanäle, je bestmöglich ohne Fenster</td><td data-spalte="Pakete/s">rund 6,5</td><td data-spalte="Voll nach">rund 9 Sekunden</td></tr>
+            <tr><td>500 Chips alle 20 s, jedes Paket empfangen</td><td data-spalte="Pakete/s">25</td><td data-spalte="Voll nach">rund 2,4 Sekunden</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Gerechnet, nicht gemessen. Die 25 Pakete sind nur eine Obergrenze: Auf einem Kanal mit 226 ms pro Paket passen höchstens 4,4 Pakete pro Sekunde. Bei 500 Chips ist also schon der Kanal das Problem, siehe <a href="kapitel-05.html">Kapitel 5</a>. Für 5 Chips reichen 60 Pakete, für hunderte Chips nicht, egal wie viele Kanäle es gibt.</p>
+        <p>Für den Betrieb schlagen wir deshalb einen Puffer in drei Klassen vor, den das Gateway ohne Schlüssel führen kann:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Klasse</th><th scope="col">Inhalt</th><th scope="col">Speicher</th><th scope="col">Bei Platzmangel</th></tr></thead>
+          <tbody>
+            <tr><td>1, kritisch</td><td data-spalte="Inhalt">Pakete mit Notruf-Kennung im Kopf</td><td data-spalte="Speicher">Eigener Bereich, je Chip nur das neueste, höchstens 32 Plätze</td><td data-spalte="Platzmangel">Das älteste Paket fällt weg. Ein echter Notruf kommt mit der nächsten Wiederholung wieder hinein.</td></tr>
+            <tr><td>2, Ereignis</td><td data-spalte="Inhalt">Pakete mit Ereignis-Kennung, etwa Gruppenruf</td><td data-spalte="Speicher">Eigener Bereich, höchstens 64 Plätze</td><td data-spalte="Platzmangel">Ältestes zuerst. Der Chip wiederholt ohnehin bis zum ACK.</td></tr>
+            <tr><td>3, Position</td><td data-spalte="Inhalt">Normale Positionen</td><td data-spalte="Speicher">Je Chip nur die neueste, erkannt an Chip-Nummer und Zähler</td><td data-spalte="Platzmangel">Überschreibt die ältere Position desselben Chips</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Gesendet wird in dieser Reihenfolge. Bei 500 Chips und rund 40 Byte je Eintrag braucht Klasse 3 rund 20 KB Speicher. Das ist nur eine Überschlagsrechnung, nicht auf dem Board geprüft.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Damit das geht, braucht das Paket eine lesbare Kennung für die Klasse, denn das Ereignis selbst ist verschlüsselt. Diese Kennung wird vom Prüfwert mit abgedeckt, den nur der Server prüfen kann. Das Gateway hat keinen Schlüssel und soll auch keinen bekommen, weil es zugänglich steht. Es behandelt die Kennung also nur als Hinweis:</p>
+        <ul>
+          <li>Ein gefälschtes Notruf-Paket löst keinen Alarm aus, denn der Server verwirft es am Prüfwert.</li>
+          <li>Eine Flut gefälschter Pakete kann höchstens Klasse 1 füllen. Die feste Platzzahl je Chip und Klasse begrenzt das, Klasse 2 und 3 bleiben unberührt.</li>
+          <li>Echte Notrufe überstehen das, weil der Chip bis zum ACK wiederholt. Gegen Störsender hilft das nicht.</li>
+          <li>Die Kennung verrät Mithörenden, dass ein Notruf läuft. Inhalt und Position bleiben verschlüsselt.</li>
+        </ul>
+        <p>Bei Stromausfall ist der Puffer weg. Das verliert keinen bestätigten Notruf, denn das Gateway gibt nie ein ACK. Ein Notruf im Puffer ist also unbestätigt, und der Chip wiederholt ihn. Dauerhaft gespeichert wird deshalb nur am Server, im Gateway nicht. Der Flash-Speicher würde das auch nicht lange aushalten.</p>
 
         <h2 id="aufstellung-test" data-kurz="Aufstellung im Test">Aufstellung im Test</h2>
         <p>Für den Test kommt ein Gateway jeweils innen an ein Fenster einer Bergstation, möglichst hoch, mit senkrechter Antenne und Blick auf die Pisten. Strom und WLAN liefert die Station selbst, vorher muss geklärt sein, ob das dort genutzt werden darf.</p>

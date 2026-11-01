@@ -13,7 +13,7 @@ The SkiTag "Netzwerk-Buch" (network book): a static HTML/CSS/JS reference book d
 
 ## Commands
 
-There is no build, lint, test or package-install step. To work on a chapter, open the `.html` file directly in a browser (or serve `docs/` with any static file server) and reload.
+There is no build, lint or package-install step. Checks run with Node from `tools/`: `node tools/pruefe-buch.mjs` (structure, links, versions), `node tools/pruefe-rechnung.mjs` (the book's numbers) and `node tools/abdeckung-tabelle.mjs` (chapter 10 against `docs/assets/abdeckung-daten.js`, `--schreiben` regenerates the tables). To work on a chapter, open the `.html` file directly in a browser (or serve `docs/` with any static file server) and reload.
 
 ```
 git status / add / commit   # normal git workflow, see "Push policy" below

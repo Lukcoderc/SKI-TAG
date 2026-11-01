@@ -39,7 +39,7 @@ const AUSFAELLE = [
   {
     "name": "Server direkt nach dem ACK",
     "notruf": "Wird nicht dauerhaft gespeichert, ist er verloren. Der Chip wiederholt nicht mehr.",
-    "chip": "Keine Warnung, der Chip hat ja ein ACK.",
+    "chip": "Heute keine Warnung, der Chip hat ja ein ACK. Vorschlag: Warnung 180 s nach dem ersten Senden.",
     "wer": "Niemand. Das verhindert nur die Regel aus Kapitel 12: erst speichern, dann ACK."
   },
   {
@@ -51,20 +51,20 @@ const AUSFAELLE = [
   {
     "name": "Internet am Server",
     "notruf": "Erreicht das Gateway den Server noch, nimmt er den Notruf an. Die Apps bekommen ihn aber nicht.",
-    "chip": "Der Chip bekommt ein ACK und warnt deshalb nicht.",
+    "chip": "Der Chip bekommt ein ACK und warnt heute deshalb nicht. Vorschlag: Warnung 180 s nach dem ersten Senden.",
     "wer": "Niemand. Das ist die gefährlichste Lücke."
   },
   {
     "name": "App geschlossen oder Handy ohne Netz",
-    "notruf": "Der Server wartet 60 Sekunden, dann ist der nächste Mitarbeiter dran. Er merkt nicht, dass nichts ankam.",
-    "chip": "Hat ein ACK, aber kein HELP 1. Er zeigt also keine Übernahme, warnt aber auch nicht.",
+    "notruf": "Der Server wartet heute 60 Sekunden, dann ist der nächste Mitarbeiter dran. Er merkt nicht, dass nichts ankam. Vorschlag: Weitergabe nach 15 s ohne Zustellung.",
+    "chip": "Hat ein ACK, aber kein HELP 1. Er zeigt also keine Übernahme. Vorschlag: Warnung 180 s nach dem ersten Senden.",
     "wer": "Niemand, solange noch ein Mitarbeiter übrig ist."
   },
   {
     "name": "Niemand übernimmt",
     "notruf": "Was nach dem letzten Mitarbeiter geschieht, ist nicht festgelegt.",
-    "chip": "Kein HELP 1, keine Warnung.",
-    "wer": "Nicht geregelt. Vorschlag: Eskalation aus Kapitel 7."
+    "chip": "Kein HELP 1. Vorschlag: Warnung 180 s nach dem ersten Senden.",
+    "wer": "Nicht geregelt. Vorschlag: Zeitablauf aus Kapitel 7, der Leitstand erfährt es bei T0 + 120 s."
   },
   {
     "name": "GPS-Empfang",

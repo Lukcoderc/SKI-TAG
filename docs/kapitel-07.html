@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SOS: Vorrang und Fehlalarme · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie ein Notruf vor Fehlalarmen geschützt ist und warum ihn fast nichts aufhalten kann.">
-<link rel="stylesheet" href="assets/book.css?v=39">
-<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
-<script src="assets/book.js?v=39" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=40">
+<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
+<script src="assets/book.js?v=40" defer></script>
 </head>
 <body data-station="server">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -84,7 +84,7 @@
         <p class="nach-tabelle">Der Unterschied zu allem anderen ist der letzte Punkt: Ein normales Ereignis gibt nach 8 Versuchen auf, ein Notruf nicht. Der Chip wiederholt ihn, bis ein Gateway ihm ein <a href="kapitel-anhang.html#g-ack">ACK</a> bringt, siehe <a href="kapitel-06.html">Kapitel 6</a>.</p>
 
         <h2 id="vorrang-im-server" data-kurz="Vorrang bei den Mitarbeitern">Vorrang bei den Mitarbeitern</h2>
-        <p>Beim Server geht der Vorrang weiter. Ein Notruf wird dem nächsten freien Mitarbeiter angeboten. Übernimmt er ihn nicht binnen 60 Sekunden, bietet der Server ihn dem nächsten an. Was nach dem letzten geschieht, regelt der Abschnitt <a href="#eskalation">Wenn niemand übernimmt</a>. In der App genügt ein Tipp auf „Einsatz übernehmen“, danach sehen alle anderen, dass schon jemand unterwegs ist, statt dass mehrere gleichzeitig losfahren.</p>
+        <p>Beim Server geht der Vorrang weiter. Ein Notruf wird dem nächsten freien Mitarbeiter angeboten. Übernimmt er ihn nicht binnen 60 Sekunden, bietet der Server ihn dem nächsten an. Was nach dem letzten geschieht, regelt der Abschnitt <a href="#eskalation">Der Zeitablauf eines Notrufs</a>. In der App genügt ein Tipp auf „Einsatz übernehmen“, danach sehen alle anderen, dass schon jemand unterwegs ist, statt dass mehrere gleichzeitig losfahren.</p>
         <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Entschieden. Übernahme, „vor Ort“ und „erledigt“ gehen als <a href="kapitel-anhang.html#g-help">HELP</a> 1, 2, 3 an den Chip zurück, siehe <a href="#stufen">Die Stufen eines Notrufs</a>.</p>
 
         <h2 id="stufen" data-kurz="Die Stufen eines Notrufs">Die Stufen eines Notrufs</h2>
@@ -95,7 +95,7 @@
           <thead><tr><th scope="col">Stufe</th><th scope="col">Bedeutet</th><th scope="col">Bedeutet nicht</th><th scope="col">Am Chip</th><th scope="col">Stand</th></tr></thead>
           <tbody>
             <tr><td>ACK</td><td data-spalte="Bedeutet">Der Server hat den Notruf empfangen.</td><td data-spalte="Nicht">Dass ein Mensch davon weiß.</td><td data-spalte="Am Chip">Schnelle Wiederholungen enden. Der Chip zeigt keine Hilfe an.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
-            <tr class="zeile-offen"><td>Zustellung</td><td data-spalte="Bedeutet">Eine Mitarbeiter-App hat den Alarm technisch erhalten.</td><td data-spalte="Nicht">Dass jemand ihn gesehen hat.</td><td data-spalte="Am Chip">Nichts</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Zustellung</td><td data-spalte="Bedeutet">Eine Mitarbeiter-App hat den Alarm angezeigt.</td><td data-spalte="Nicht">Dass jemand ihn gesehen hat.</td><td data-spalte="Am Chip">Nichts</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr><td>HELP 1, Übernahme</td><td data-spalte="Bedeutet">Ein Mensch hat den Einsatz per Tipp übernommen.</td><td data-spalte="Nicht">Dass schon jemand da ist.</td><td data-spalte="Am Chip">Vibriert zweimal lang, blinkt rot.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
             <tr><td>HELP 2, vor Ort</td><td data-spalte="Bedeutet">Die Person ist beim Notruf angekommen.</td><td data-spalte="Nicht">Dass der Einsatz vorbei ist.</td><td data-spalte="Am Chip">Rückmeldung legt Maximilian fest.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
             <tr><td>HELP 3, erledigt</td><td data-spalte="Bedeutet">Der Einsatz ist abgeschlossen.</td><td data-spalte="Nicht"></td><td data-spalte="Am Chip">Rückmeldung legt Maximilian fest.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
@@ -105,23 +105,152 @@
       <div class="lesen">
         <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Zwei Lücken bestehen. Die Stufe Zustellung gibt es heute nicht: Der Server sieht nur „angeboten“, nicht „angekommen“. Und ein ACK ist laut unseren Unterlagen nicht an eine dauerhafte Speicherung gebunden, siehe <a href="kapitel-12.html#speichern">Kapitel 12</a>. Beides muss vor dem Testtag geklärt sein.</p>
 
-        <h2 id="eskalation" data-kurz="Wenn niemand übernimmt">Wenn niemand übernimmt</h2>
-        <p>Gebaut ist nur der erste Schritt: Nach 60 Sekunden ohne Übernahme geht der Notruf an den nächsten freien Mitarbeiter. Was nach dem letzten geschieht, ist nicht festgelegt. Im Beispielmodus der App bleibt der Alarm dann stehen. Das darf im Betrieb nicht sein. Unser Vorschlag:</p>
+        <h2 id="eskalation" data-kurz="Der Zeitablauf">Der Zeitablauf eines Notrufs</h2>
+        <p>Für einen Notruf gilt genau dieser eine Ablauf, und alle Kapitel verwenden ihn. Es gibt zwei Uhren: Die <strong>Chip-Uhr</strong> beginnt beim ersten Senden, die <strong>Server-Uhr T0</strong> beim dauerhaften Speichern. T0 liegt also immer später. Das ist gewollt: Der Chip warnt im Zweifel früher.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Laut Übergabe gebaut sind nur die 90 s in Z2 und die 60 s in Z5. <svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Alles andere ist unser Vorschlag und nicht abgestimmt, auch die Zustellung, der Leitstand und die 180 s am Chip. Wer im Leitstand handelt, muss die Bergbahn festlegen, nicht die Software.</p>
+      </div>
+
+      <div class="testfall">
+        <h3>Z1: Chip sendet, noch kein ACK</h3>
+        <dl>
+          <div><dt>Zeitmesser startet</dt><dd>Chip-Uhr: erstes Senden, nach Ablauf der 5 s Abbruch-Zeit</dd></div>
+          <div><dt>Frist</dt><dd>Bis zum ACK, ohne Grenze</dd></div>
+          <div><dt>Server</dt><dd>Weiß noch nichts.</dd></div>
+          <div><dt>Chip</dt><dd>Wiederholt alle 4 bis 8 s, nach 6 Versuchen alle 15 bis 25 s.</dd></div>
+          <div><dt>Mitarbeiter-App</dt><dd>Nichts.</dd></div>
+          <div><dt>Leitstand</dt><dd>Nichts.</dd></div>
+          <div><dt>Wenn etwas verloren geht</dt><dd>Ein verlorenes Paket fängt die nächste Wiederholung auf.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3>Z2: Warnung ohne ACK</h3>
+        <dl>
+          <div><dt>Zeitmesser startet</dt><dd>Chip-Uhr</dd></div>
+          <div><dt>Frist</dt><dd>90 s</dd></div>
+          <div><dt>Server</dt><dd>Weiß noch nichts.</dd></div>
+          <div><dt>Chip</dt><dd>Warnt: blinkt doppelt rot, vibriert jede Minute, heißt 140 rufen. Wiederholt weiter.</dd></div>
+          <div><dt>Mitarbeiter-App</dt><dd>Nichts.</dd></div>
+          <div><dt>Leitstand</dt><dd>Nichts, außer eine Störung ist gemeldet.</dd></div>
+          <div><dt>Wenn etwas verloren geht</dt><dd>Nichts zu verlieren, die Warnung entsteht im Chip.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3>Z3: Notruf gespeichert, ACK</h3>
+        <dl>
+          <div><dt>Zeitmesser startet</dt><dd>Server-Uhr T0: Notruf dauerhaft gespeichert</dd></div>
+          <div><dt>Frist</dt><dd>Keine</dd></div>
+          <div><dt>Server</dt><dd>Speichert, sendet dann das ACK. Weitere Kopien bestätigt er erneut, T0 bleibt.</dd></div>
+          <div><dt>Chip</dt><dd>Beendet die schnellen Wiederholungen, meldet aber weiter die Position mit „Notruf läuft“. Eine Warnung bleibt stehen.</dd></div>
+          <div><dt>Mitarbeiter-App</dt><dd>Nichts.</dd></div>
+          <div><dt>Leitstand</dt><dd>Nichts.</dd></div>
+          <div><dt>Wenn etwas verloren geht</dt><dd>Geht das ACK verloren, wiederholt der Chip, und der Server bestätigt noch einmal.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3>Z4: Angebot</h3>
+        <dl>
+          <div><dt>Zeitmesser startet</dt><dd>Server-Uhr, ab T0</dd></div>
+          <div><dt>Frist</dt><dd>15 s für die Zustellung, 60 s für die Übernahme</dd></div>
+          <div><dt>Server</dt><dd>Bietet dem nächsten freien, erreichbaren Mitarbeiter an.</dd></div>
+          <div><dt>Chip</dt><dd>Unverändert.</dd></div>
+          <div><dt>Mitarbeiter-App</dt><dd>Zeigt und meldet den Alarm laut. Erst die Anzeige gilt als Zustellung.</dd></div>
+          <div><dt>Leitstand</dt><dd>Sieht den Notruf in der Liste.</dd></div>
+          <div><dt>Wenn etwas verloren geht</dt><dd>Fehlt die Zustellung nach 15 s, geht der Notruf sofort an den Nächsten.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3>Z5: Weitergabe</h3>
+        <dl>
+          <div><dt>Zeitmesser startet</dt><dd>Beginn des jeweiligen Angebots</dd></div>
+          <div><dt>Frist</dt><dd>60 s</dd></div>
+          <div><dt>Server</dt><dd>Bietet dem nächsten freien, erreichbaren Mitarbeiter an.</dd></div>
+          <div><dt>Chip</dt><dd>Unverändert.</dd></div>
+          <div><dt>Mitarbeiter-App</dt><dd>Beim Bisherigen endet das Angebot, beim Nächsten beginnt es.</dd></div>
+          <div><dt>Leitstand</dt><dd>Sieht die Weitergabe.</dd></div>
+          <div><dt>Wenn etwas verloren geht</dt><dd>Wie Z4.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3>Z6: Alle und Leitstand</h3>
+        <dl>
+          <div><dt>Zeitmesser startet</dt><dd>T0</dd></div>
+          <div><dt>Frist</dt><dd>120 s</dd></div>
+          <div><dt>Server</dt><dd>Alarmiert alle im Dienst und den Leitstand gleichzeitig.</dd></div>
+          <div><dt>Chip</dt><dd>Unverändert.</dd></div>
+          <div><dt>Mitarbeiter-App</dt><dd>Alle Apps alarmieren.</dd></div>
+          <div><dt>Leitstand</dt><dd><strong>Wird hier alarmiert.</strong></dd></div>
+          <div><dt>Wenn etwas verloren geht</dt><dd>Bestätigt der Leitstand nicht binnen 15 s, gilt das als Störung, siehe Kapitel 14.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3>Z7: Chip warnt ohne Übernahme</h3>
+        <dl>
+          <div><dt>Zeitmesser startet</dt><dd>Chip-Uhr</dd></div>
+          <div><dt>Frist</dt><dd>180 s</dd></div>
+          <div><dt>Server</dt><dd>Unverändert.</dd></div>
+          <div><dt>Chip</dt><dd>Warnt wie in Z2, wenn HELP 1 fehlt, auch wenn ein ACK kam.</dd></div>
+          <div><dt>Mitarbeiter-App</dt><dd>Unverändert.</dd></div>
+          <div><dt>Leitstand</dt><dd>Unverändert.</dd></div>
+          <div><dt>Wenn etwas verloren geht</dt><dd>Nichts zu verlieren, die Warnung entsteht im Chip.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3>Z8: Leitstand handelt</h3>
+        <dl>
+          <div><dt>Zeitmesser startet</dt><dd>T0</dd></div>
+          <div><dt>Frist</dt><dd>180 s</dd></div>
+          <div><dt>Server</dt><dd>Hält den Notruf offen und weiter alarmiert.</dd></div>
+          <div><dt>Chip</dt><dd>Unverändert.</dd></div>
+          <div><dt>Mitarbeiter-App</dt><dd>Unverändert.</dd></div>
+          <div><dt>Leitstand</dt><dd>Handelt ohne App nach Plan: Telefon, Betriebsfunk, Rettungskette.</dd></div>
+          <div><dt>Wenn etwas verloren geht</dt><dd>Der Plan darf nicht von App oder Server abhängen.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3>Z9: Übernahme</h3>
+        <dl>
+          <div><dt>Zeitmesser startet</dt><dd>Tipp auf „Übernehmen“</dd></div>
+          <div><dt>Frist</dt><dd>Bis der Chip HELP 1 quittiert</dd></div>
+          <div><dt>Server</dt><dd>Sendet HELP 1 bei jedem Paket des Chips, bis <code>dlAck</code> stimmt.</dd></div>
+          <div><dt>Chip</dt><dd>Vibriert zweimal lang und beendet die Warnung.</dd></div>
+          <div><dt>Mitarbeiter-App</dt><dd>Zeigt „Übernommen, Chip hat es noch nicht bestätigt“, bis die Quittung da ist.</dd></div>
+          <div><dt>Leitstand</dt><dd>Sieht, wer übernommen hat.</dd></div>
+          <div><dt>Wenn etwas verloren geht</dt><dd>Geht HELP 1 verloren, kommt es mit dem nächsten Paket, bis zu 20 s später. Geht der Tipp verloren, läuft die Eskalation weiter, und die App meldet einen Fehler.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3>Z10: Vor Ort und erledigt</h3>
+        <dl>
+          <div><dt>Zeitmesser startet</dt><dd>Tipp in der App</dd></div>
+          <div><dt>Frist</dt><dd>Keine</dd></div>
+          <div><dt>Server</dt><dd>Sendet HELP 2, dann HELP 3, und schließt den Notruf.</dd></div>
+          <div><dt>Chip</dt><dd>Rückmeldung legt Maximilian fest. Nach HELP 3 endet „Notruf läuft“.</dd></div>
+          <div><dt>Mitarbeiter-App</dt><dd>Zeigt den Stand.</dd></div>
+          <div><dt>Leitstand</dt><dd>Sieht den Stand.</dd></div>
+          <div><dt>Wenn etwas verloren geht</dt><dd>Wie Z9.</dd></div>
+        </dl>
+      </div>
+
+      <div class="lesen">
+        <h2 id="fragen-ablauf" data-kurz="Antworten zum Ablauf">Antworten zum Ablauf</h2>
       </div>
       <div class="tabelle">
-        <table class="stapel">
-          <thead><tr><th scope="col">Zeit nach dem ACK</th><th scope="col">Was geschieht</th><th scope="col">Stand</th></tr></thead>
+        <table>
+          <thead><tr><th scope="col">Frage</th><th scope="col">Antwort</th></tr></thead>
           <tbody>
-            <tr><td>0 s</td><td data-spalte="Was">Der nächste freie Mitarbeiter bekommt das Angebot.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
-            <tr><td>60 s</td><td data-spalte="Was">Der nächste freie Mitarbeiter bekommt das Angebot.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
-            <tr class="zeile-offen"><td>120 s</td><td data-spalte="Was">Alle im Dienst und der Leitstand werden gleichzeitig alarmiert.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>180 s</td><td data-spalte="Was">Der Leitstand handelt nach Plan, ohne die App: Telefon, Betriebsfunk, Rettungskette. Der Chip warnt: 140 rufen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Keine freien Mitarbeiter</td><td data-spalte="Was">Die Leiter springt sofort auf 120 s.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr><td>Wann beginnt die 180-Sekunden-Frist am Chip?</td><td data-spalte="Antwort">Beim ersten Senden, also weder beim Knopfdruck noch beim ACK. Es gibt am Chip nur diese eine Uhr.</td></tr>
+            <tr><td>Was, wenn das ACK erst nach 90 Sekunden kommt?</td><td data-spalte="Antwort">Der Chip warnt bereits. Das ACK beendet die schnellen Wiederholungen, die Warnung bleibt.</td></tr>
+            <tr><td>Setzt ein ACK die Warnung zurück?</td><td data-spalte="Antwort">Nein. Nur HELP 1 beendet sie, denn nur HELP 1 beweist einen Menschen.</td></tr>
+            <tr><td>Was, wenn HELP 1 verloren geht?</td><td data-spalte="Antwort">Der Server wiederholt es bei jedem Paket des Chips, bis die Quittung kommt. Heute sind es laut Übergabe höchstens 6 Versuche, für HELP soll diese Grenze entfallen.</td></tr>
+            <tr><td>Wann erfährt der Leitstand von einem Notruf?</td><td data-spalte="Antwort">Bei T0 + 120 s. Sofort, wenn kein Mitarbeiter frei und erreichbar ist.</td></tr>
+            <tr><td>Was, wenn kein Mitarbeiter verfügbar ist?</td><td data-spalte="Antwort">Der Server springt sofort auf Z6, ohne die 120 s abzuwarten.</td></tr>
+            <tr><td>Was, wenn die App verbunden ist, aber nichts anzeigt?</td><td data-spalte="Antwort">Dann fehlt die Zustellung, denn sie zählt erst mit der Anzeige. Nach 15 s geht der Notruf an den Nächsten.</td></tr>
           </tbody>
         </table>
       </div>
+
       <div class="lesen">
-        <p class="nach-tabelle">Die Zeiten ab 120 s sind Vorschläge und nicht abgestimmt. Wer dort handelt, muss die Bergbahn festlegen, nicht die Software. Der Abschnitt <a href="kapitel-14.html#rettung">Technik ist noch keine Rettung</a> zeigt, was dafür nötig ist.</p>
+        <p class="nach-tabelle">Dieser Ablauf gilt für einen einzelnen Notruf. Fällt die Alarmierung selbst aus, etwa weil keine App verbunden ist, gilt zusätzlich die Regel für Störungen in <a href="kapitel-14.html#infrastruktur">Kapitel 14</a>: Sie wartet nicht auf einen Notruf.</p>
 
         <h2 id="was-noch-offen-ist" data-kurz="Was noch offen ist">Was noch offen ist</h2>
         <p>Diese Fragen sind mit dem jetzigen Stand noch nicht beantwortet:</p>

@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Testplan Februar 2027 · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was vor dem Testtag fertig sein muss, was geprüft wird und wann ein Test bestanden ist.">
-<link rel="stylesheet" href="assets/book.css?v=39">
-<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
-<script src="assets/book.js?v=39" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=40">
+<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
+<script src="assets/book.js?v=40" defer></script>
 </head>
 <body data-station="knopf">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -82,7 +82,7 @@
           <div><dt>Ausgangslage</dt><dd>Server läuft, Protokoll der Notrufe ist leer.</dd></div>
           <div><dt>Durchführung</dt><dd>Notruf senden und mitschneiden, wann gespeichert und wann das <a href="kapitel-anhang.html#g-ack">ACK</a> gesendet wird. 20-mal.</dd></div>
           <div><dt>Erwartet</dt><dd>Der Eintrag liegt auf dem Datenträger, bevor das ACK das Gateway verlässt.</dd></div>
-          <div><dt>Bestanden, wenn</dt><dd>20 von 20 in der richtigen Reihenfolge, jedes ACK innerhalb der 1,4 Sekunden.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>20 von 20 in der richtigen Reihenfolge, mit <code>fsync</code> vor dem ACK, und jedes ACK innerhalb der 1,4 Sekunden.</dd></div>
         </dl>
       </div>
       <div class="testfall">
@@ -90,8 +90,8 @@
         <dl>
           <div><dt>Ausgangslage</dt><dd>Wie T1, ein Mitarbeiter ist angemeldet.</dd></div>
           <div><dt>Durchführung</dt><dd>Server-Prozess unmittelbar nach dem Empfang hart beenden, vor und nach dem ACK. Danach neu starten. Je 10-mal.</dd></div>
-          <div><dt>Erwartet</dt><dd>Ohne ACK sendet der Chip weiter. Mit ACK ist der Notruf nach dem Neustart wieder offen.</dd></div>
-          <div><dt>Bestanden, wenn</dt><dd>20 von 20 Notrufen sind nach dem Neustart offen und werden angeboten. Kein Notruf geht verloren.</dd></div>
+          <div><dt>Erwartet</dt><dd>Ohne ACK sendet der Chip weiter. Mit ACK ist der Notruf nach dem Neustart wieder offen, T0 bleibt erhalten.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>20 von 20 Notrufen sind nach dem Neustart offen, und die Eskalation läuft mit dem ursprünglichen T0 weiter. Kein Notruf geht verloren.</dd></div>
         </dl>
       </div>
       <div class="testfall">
@@ -150,7 +150,7 @@
           <div><dt>Ausgangslage</dt><dd>2 Gateways hören den Chip.</dd></div>
           <div><dt>Durchführung</dt><dd>Ein Gateway vom Strom trennen, dann einen Notruf senden.</dd></div>
           <div><dt>Erwartet</dt><dd>Das zweite Gateway übernimmt. Die Ausgabe-Seite zeigt nach 30 Sekunden „weg“.</dd></div>
-          <div><dt>Bestanden, wenn</dt><dd>Notruf kommt an. Mit Überwachung wird jemand binnen 60 Sekunden benachrichtigt.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Notruf kommt an. Die Störung wird spätestens 60 Sekunden nach dem letzten Lebenszeichen gemeldet.</dd></div>
         </dl>
       </div>
       <div class="testfall">
@@ -176,8 +176,8 @@
         <dl>
           <div><dt>Ausgangslage</dt><dd>Gateway erreicht den Server intern, Apps nur über das Internet.</dd></div>
           <div><dt>Durchführung</dt><dd>Internet trennen, Notruf senden.</dd></div>
-          <div><dt>Erwartet</dt><dd>Der Server erkennt, dass keine App verbunden ist.</dd></div>
-          <div><dt>Bestanden, wenn</dt><dd>Kein Chip und keine Anzeige meldet eine Übernahme. Der Leitstand wird binnen 60 Sekunden gewarnt.</dd></div>
+          <div><dt>Erwartet</dt><dd>Der Server erkennt die Störung und meldet sie, unabhängig vom Notruf. Der Notruf selbst folgt dem Zeitablauf aus Kapitel 7.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Kein Chip und keine Anzeige meldet eine Übernahme. Die Störung ist spätestens nach 60 Sekunden beim Leitstand, der Chip warnt spätestens 180 Sekunden nach dem ersten Senden.</dd></div>
         </dl>
       </div>
       <div class="testfall">
@@ -195,7 +195,7 @@
           <div><dt>Ausgangslage</dt><dd>Mitarbeiter 1 ohne Netz, Mitarbeiter 2 erreichbar.</dd></div>
           <div><dt>Durchführung</dt><dd>Notruf senden.</dd></div>
           <div><dt>Erwartet</dt><dd>Der Server erkennt die fehlende Zustellung und bietet weiter an.</dd></div>
-          <div><dt>Bestanden, wenn</dt><dd>Mitarbeiter 2 hat den Notruf spätestens nach 60 Sekunden, Zustellung ist im Verlauf sichtbar.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Mitarbeiter 2 hat den Notruf spätestens 15 Sekunden nach dem Angebot an Mitarbeiter 1, die fehlende Zustellung ist im Verlauf sichtbar.</dd></div>
         </dl>
       </div>
       <div class="testfall">
@@ -204,7 +204,7 @@
           <div><dt>Ausgangslage</dt><dd>Mitarbeiter angemeldet, niemand tippt.</dd></div>
           <div><dt>Durchführung</dt><dd>Notruf senden und warten.</dd></div>
           <div><dt>Erwartet</dt><dd>Die Eskalation läuft durch alle Stufen.</dd></div>
-          <div><dt>Bestanden, wenn</dt><dd>Jede Stufe ist im Verlauf belegt. Nach 180 Sekunden warnt der Chip, und der Leitstand ist alarmiert. Die Rettung wird dabei nicht wirklich gerufen.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Jede Stufe ist mit Zeit im Verlauf belegt: Weitergabe bei 60 Sekunden, Leitstand bei T0 + 120 Sekunden, Handeln bei T0 + 180 Sekunden, Warnung am Chip 180 Sekunden nach dem ersten Senden. Die Rettung wird dabei nicht wirklich gerufen.</dd></div>
         </dl>
       </div>
       <div class="testfall">
@@ -231,12 +231,12 @@
         </dl>
       </div>
       <div class="testfall">
-        <h3 id="t17">T17: Volle Gateway-Puffer</h3>
+        <h3 id="t17">T17: Volle Gateway-Puffer und Vorrang</h3>
         <dl>
-          <div><dt>Ausgangslage</dt><dd>Gateway ohne Netz, Chips senden.</dd></div>
-          <div><dt>Durchführung</dt><dd>Warten, bis mehr als 60 Pakete anfallen, dann einen Notruf senden und das Netz zurückgeben.</dd></div>
-          <div><dt>Erwartet</dt><dd>Verhalten bei vollem Puffer ist dokumentiert.</dd></div>
-          <div><dt>Bestanden, wenn</dt><dd>Der Notruf kommt spätestens mit der nächsten Wiederholung an. Das Gateway stürzt nicht ab.</dd></div>
+          <div><dt>Ausgangslage</dt><dd>Gateway ohne Netz. Ein Prüfprogramm spielt Pakete von 500 simulierten Chips ein. Das Programm gibt es noch nicht, der Simulator kann laut Übergabe 5 Chips.</dd></div>
+          <div><dt>Durchführung</dt><dd>Puffer füllen, dann echte und gefälschte Notruf-Pakete einspielen, danach das Netz zurückgeben.</dd></div>
+          <div><dt>Erwartet</dt><dd>Mit den Klassen aus Kapitel 8 bleiben Notrufe erhalten, je Chip überlebt nur die neueste Position. Heute ist nur das Verhalten bei vollem Puffer zu dokumentieren.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Jeder echte Notruf kommt an, spätestens mit der nächsten Wiederholung. Gefälschte Pakete lösen keinen Alarm aus und verdrängen echte nicht dauerhaft. Das Gateway stürzt nicht ab.</dd></div>
         </dl>
       </div>
       <div class="testfall">

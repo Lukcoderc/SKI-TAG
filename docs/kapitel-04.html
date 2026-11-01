@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Funkprotokoll · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie Chip, Gateway und Server über Funk miteinander sprechen: Pakete, Zeitfenster und Schutz.">
-<link rel="stylesheet" href="assets/book.css?v=39">
-<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
-<script src="assets/book.js?v=39" defer></script>
-<script src="assets/paket.js?v=39" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=40">
+<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
+<script src="assets/book.js?v=40" defer></script>
+<script src="assets/paket.js?v=40" defer></script>
 </head>
 <body data-station="chip">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -65,6 +65,8 @@
       </div>
 
       <div class="lesen">
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Dieses Kapitel beruht auf der Übergabe. <code>proto.h</code> und <code>proto.js</code> lagen nicht vor, siehe <a href="kapitel-anhang.html#nachweis">Was geprüft ist</a>.</p>
+
         <h2 id="pakete" data-kurz="Wie ein Paket aussieht">Wie ein Paket aussieht</h2>
         <p>Es gibt zwei Arten von Paketen. Der Uplink geht vom Chip zum Server und ist immer 27 Byte groß. Der <a href="kapitel-anhang.html#g-downlink">Downlink</a> geht vom Server zu den Chips und ist höchstens 34 Byte groß. Klick auf ein Feld, um zu sehen, was darin steht.</p>
       </div>
@@ -157,8 +159,8 @@
             <tr class="zeile-offen"><td>Ein Notruf sendet außerhalb seines Fensters.</td><td>Er kann mit dem Paket eines anderen Chips zusammenstoßen. Die Wiederholung fängt das ab, wie gut, zeigt erst der Test.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Alle Chips teilen sich einen Schlüssel.</td><td>Mietchips gehen durch viele Hände. Wer einen Chip ausliest, könnte alle lesen und fälschen. Vorschlag für den Betrieb: ein eigener Schlüssel pro Chip und ein geprüftes Verfahren wie <a href="kapitel-anhang.html#g-aes-ccm">AES-CCM</a>, siehe <a href="kapitel-15.html#serie-krypto">Kapitel 15</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Die Quittung <code>dlAck</code> ist nur 1 Byte groß.</td><td>Der Downlink-Zähler läuft mit 16 pro Sekunde, sein unterstes Byte wiederholt sich also alle 16 Sekunden. Ein zufällig gleicher Wert könnte einen verlorenen Befehl als angekommen melden. Das Risiko ist klein, aber bei HELP 1 unerwünscht.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Das Gateway erkennt keinen Notruf.</td><td>Das Ereignis ist verschlüsselt. Das Gateway kann Notrufe deshalb weder im Puffer vorziehen noch beim Senden bevorzugen, siehe <a href="kapitel-08.html#puffer">Kapitel 8</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Der Prüfwert ist nur 32 Bit lang.</td><td>Für den Test genügt das. LoRaWAN nutzt ebenfalls 32 Bit, mehr dazu in <a href="kapitel-15.html#funk">Kapitel 15</a>. Es hängt mit der Wahl der Verschlüsselung zusammen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Das Gateway erkennt keinen Notruf.</td><td>Das Ereignis ist verschlüsselt. Das Gateway kann Notrufe deshalb nicht vorziehen. <a href="kapitel-08.html#puffer">Kapitel 8</a> schlägt eine lesbare, vom Prüfwert abgedeckte Kennung vor.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Der Prüfwert ist nur 32 Bit lang.</td><td>LoRaWAN nutzt ebenfalls 32 Bit. NIST erlaubt so kurze Prüfwerte nur nach einer Risikoanalyse, siehe <a href="kapitel-15.html#serie-krypto">Kapitel 15</a>. Es hängt mit der Wahl der Verschlüsselung zusammen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Ein neu aufgespielter Chip beginnt wieder bei Zähler 0.</td><td>Wird der Flash gelöscht, hält der Server alle Pakete für alt. Vielleicht braucht die Ausgabe-Seite eine Funktion zum Zurücksetzen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Es gibt nur 5 feste Fenster in einem Kanal.</td><td>Mehr Chips passen so nicht in den Takt. Die Rechnung dazu steht in <a href="kapitel-05.html#fenster">Kapitel 5</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>

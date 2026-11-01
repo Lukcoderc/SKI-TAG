@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Warum LoRa · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was LoRa macht, welche Grenzen es hat und welche Alternativen es für SkiTag gäbe.">
-<link rel="stylesheet" href="assets/book.css?v=39">
-<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
-<script src="assets/book.js?v=39" defer></script>
-<script src="assets/funk.js?v=39" defer></script>
-<script src="assets/sf-rechner.js?v=39" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=40">
+<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
+<script src="assets/book.js?v=40" defer></script>
+<script src="assets/funk.js?v=40" defer></script>
+<script src="assets/sf-rechner.js?v=40" defer></script>
 </head>
 <body data-station="chip">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -102,9 +102,9 @@
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Das steht in der europäischen Empfehlung ERC/REC 70-03 in der Fassung vom Oktober 2026. Österreich setzt den Eintrag laut deren Länderliste um, und die österreichische Frequenznutzungsverordnung führt das Band für Short Range Devices. Das Band ist für Funkgeräte mit kurzer Reichweite freigegeben und gehört niemandem allein, alle Nutzer teilen es sich. Statt der 10 % Sendezeit erlaubt die Regel auch ein Verfahren, das vor dem Senden den Kanal prüft.</p>
-        <p>ERP ist die abgestrahlte Leistung, also Sender plus Antennengewinn. SkiTag bleibt klar unter der Grenze: Chip und Gateway senden mit 20 dBm, das sind 100 mW am Antennenanschluss. Mit der 3-dBi-Antenne strahlt das Gateway rund 120 mW ERP ab. Den Gewinn der Chip-Antenne kennen wir nicht, die Grenze von 500 mW ist damit aber nicht in Reichweite. Der Chip kommt auf rund 1,1 % Sendezeit. Selbst bei einem Notruf, der im schnellsten Fall alle 4 Sekunden wiederholt wird, sind es rund 5,7 %.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Ein Risiko bleibt: 869,525 MHz ist in LoRaWAN-Netzen in Europa die Standardfrequenz für Antworten an Geräte. Gibt es im Gebiet ein solches Netz, kann es unseren Kanal mitbenutzen. Das zeigt erst eine Messung vor Ort.</p>
+        <p class="nach-tabelle">Das steht im EU-Beschluss 2022/180 (Zeile 54), in der europäischen Empfehlung ERC/REC 70-03 in der Fassung vom Oktober 2026 und in ETSI EN 300 220-2. Österreich setzt den Eintrag laut deren Länderliste um, und die österreichische Frequenznutzungsverordnung führt das Band für Short Range Devices. Das Band ist für Funkgeräte mit kurzer Reichweite freigegeben und gehört niemandem allein, alle Nutzer teilen es sich. Statt der 10 % Sendezeit erlaubt die Regel auch ein Verfahren, das vor dem Senden den Kanal prüft. Der Bezugszeitraum der Sendezeit steht in ETSI EN 300 220-1, die wir nicht einsehen konnten. Die Übergabe rechnet je Stunde.</p>
+        <p>ERP ist die abgestrahlte Leistung, bezogen auf einen Dipol: Senderleistung plus Antennengewinn in dBi, minus 2,15 dB, minus Kabelverlust. 500 mW ERP sind 27 dBm ERP, das entspricht rund 29,15 dBm EIRP. SkiTag bleibt klar unter der Grenze: Chip und Gateway senden mit 20 dBm, das sind 100 mW am Antennenanschluss. Mit der 3-dBi-Antenne strahlt das Gateway ohne Kabelverlust rund 20,85 dBm ERP ab, also rund 120 mW. Jedes Kabel senkt das, auch für den Empfang. Den Gewinn der Chip-Antenne kennen wir nicht, die Grenze von 500 mW ist damit aber nicht in Reichweite. Der Chip kommt auf rund 1,1 % Sendezeit. Selbst bei einem Notruf, der im schnellsten Fall alle 4 Sekunden wiederholt wird, sind es rund 5,7 %.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>SkiTag nutzt diese Frequenz mit einem eigenen Protokoll, und das ist zulässig. Ein Risiko bleibt: 869,525 MHz ist in LoRaWAN-Netzen in Europa die Standardfrequenz für Antworten an Geräte. Gibt es im Gebiet ein solches Netz, teilen wir uns den Kanal. Das zeigt erst eine Messung vor Ort, mehr dazu in <a href="kapitel-17.html#lorawan">Kapitel 17</a>.</p>
 
         <h2 id="reichweite" data-kurz="Wie weit LoRa kommt">Wie weit LoRa kommt</h2>
         <p>Für SkiTag sind 5 bis 15 km bei freier Sicht geschätzt. Rechnerisch passt das: Bei 20 dBm Sendeleistung und rund −129 dBm Empfindlichkeit darf das Signal auf dem Weg 149 dB verlieren. Im freien Raum gehen über 15 km nur rund 115 dB verloren.</p>
@@ -142,6 +142,8 @@
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
         <ul class="quellen">
+          <li><a href="https://www.rtr.at/TKP/was_wir_tun/telekommunikation/spectrum/bands/5000MHz/EU_2022_180_de.pdf">Durchführungsbeschluss (EU) 2022/180</a>, Zeile 54, über die RTR</li>
+          <li><a href="https://www.etsi.org/deliver/etsi_en/300200_300299/30022002/03.02.01_60/en_30022002v030201p.pdf">ETSI EN 300 220-2 V3.2.1</a>, Tabelle der Teilbänder</li>
           <li><a href="https://docdb.cept.org/document/845">ERC Recommendation 70-03</a>, CEPT, Fassung Oktober 2026, Annex 1 Eintrag h1.7 und Appendix 1</li>
           <li><a href="https://www.ris.bka.gv.at/Dokumente/BgblAuth/BGBLA_2019_II_397/COO_2026_100_2_1702011.pdfsig">Frequenznutzungsverordnung, Anlage 2</a>, BGBl. II Nr. 397/2019</li>
           <li><a href="https://www.semtech.com/products/wireless-rf/lora-connect/sx1262">Semtech SX1261/2 Datenblatt</a>, Rev. 2.2, Dezember 2024, Tabellen 3-8 und 6-1</li>

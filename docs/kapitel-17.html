@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ausblick Serie · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was sich vom Test zum Betrieb mit hunderten Chips ändern muss und was das kostet.">
-<link rel="stylesheet" href="assets/book.css?v=39">
-<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
-<script src="assets/book.js?v=39" defer></script>
-<script src="assets/serienkosten.js?v=39" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=40">
+<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
+<script src="assets/book.js?v=40" defer></script>
+<script src="assets/serienkosten.js?v=40" defer></script>
 </head>
 <body data-station="knopf">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -53,10 +53,11 @@
         <table class="stapel">
           <thead><tr><th scope="col">Thema</th><th scope="col">Heute</th><th scope="col">Für die Serie</th><th scope="col">Kapitel</th></tr></thead>
           <tbody>
-            <tr><td>Funk</td><td data-spalte="Heute">Ein Kanal, 5 feste Fenster</td><td data-spalte="Serie">Mehrere Kanäle, kürzere Sendezeit, Notruf getrennt auf 869,525 MHz</td><td data-spalte="Kapitel">5</td></tr>
+            <tr><td>Funk</td><td data-spalte="Heute">Ein Kanal, 5 feste Fenster</td><td data-spalte="Serie">Mehrere Kanäle, kürzere Sendezeit, Notruf auf einem eigenen Kanal im Band 869,40 bis 869,65 MHz</td><td data-spalte="Kapitel">5</td></tr>
             <tr><td>Protokoll</td><td data-spalte="Heute">Eigenes Protokoll, 256 Chip-Nummern</td><td data-spalte="Serie"><a href="kapitel-anhang.html#g-lorawan">LoRaWAN</a> als erster Kandidat, oder eigenes Protokoll mit längerer Nummer</td><td data-spalte="Kapitel">3, 4</td></tr>
             <tr><td>Gateways</td><td data-spalte="Heute">2 Funkboards am Fenster</td><td data-spalte="Serie">Rund 4 bis 21 Geräte außen, mit Kabel und Blitzschutz</td><td data-spalte="Kapitel">10, 11</td></tr>
             <tr><td>Rückkanal</td><td data-spalte="Heute">Antwort direkt nach dem Paket</td><td data-spalte="Serie">Nur für Ereignisse, keine Bestätigung jeder Position</td><td data-spalte="Kapitel">6</td></tr>
+            <tr><td>Gateway-Puffer</td><td data-spalte="Heute">60 Pakete ohne Vorrang</td><td data-spalte="Serie">Drei Klassen, je Chip nur die neueste Position, lesbare Kennung im Kopf</td><td data-spalte="Kapitel">8</td></tr>
             <tr><td>Server</td><td data-spalte="Heute">Ein Rechner, Speicherung vor dem <a href="kapitel-anhang.html#g-ack">ACK</a> nicht belegt</td><td data-spalte="Serie">Erst speichern, dann ACK, zweiter Rechner oder schneller Ersatz, Überwachung, Bereitschaft</td><td data-spalte="Kapitel">12, 14</td></tr>
             <tr><td>Alarmierung</td><td data-spalte="Heute">Web-App ohne Push, keine Zustellung sichtbar</td><td data-spalte="Serie">Echte App mit Push, Empfangsbestätigung, zweiter Weg über den Leitstand</td><td data-spalte="Kapitel">13</td></tr>
             <tr><td>Sicherheit</td><td data-spalte="Heute">Ein Schlüssel, selbst gebaute <a href="kapitel-anhang.html#g-stromchiffre">Stromchiffre</a> aus SipHash</td><td data-spalte="Serie">Eigener Schlüssel je Chip, AES-CCM oder gleichwertig, Schlüsselwechsel, <a href="kapitel-anhang.html#g-downlink">Downlink</a> je Chip geschützt</td><td data-spalte="Kapitel">15</td></tr>
@@ -67,9 +68,37 @@
 
       <div class="lesen">
         <h2 id="lorawan" data-kurz="LoRaWAN oder eigenes Protokoll">LoRaWAN oder eigenes Protokoll</h2>
-        <p>Das ist die größte Entscheidung. Fertige Gateways hören 8 Kanäle zugleich, und mit ChirpStack gibt es einen quelloffenen Netzwerk-Server für den eigenen Betrieb. Eigene Schlüssel pro Gerät und AES sind dort schon eingebaut. Das Protokoll müssten wir also nicht weiter selbst pflegen.</p>
-        <p>Der Preis steht in <a href="kapitel-05.html#lorawan-preis">Kapitel 5</a>: Auf den LoRaWAN-Kanälen gelten 25 mW und 1 % Sendezeit. Unser Takt mit <a href="kapitel-anhang.html#g-sf9">SF9</a> alle 20 Sekunden passt dort nicht, und die Reichweite sinkt. Die Rechnung aus Kapitel 5 bleibt daher der Maßstab: Weniger Sendezeit oder ein längerer Takt für Positionen, 869,525 MHz für Notrufe.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Ob Notrufe unter LoRaWAN so schnell wie heute ankommen und wie gut das am Berg geht, ist nicht geprüft. Am besten baut man das nach dem Test als kleinen Versuch nach.</p>
+        <p>Das ist die größte Entscheidung. Dabei muss man zwei Dinge trennen: Die Frequenz 869,525 MHz ist für ein eigenes LoRa-Protokoll zulässig, solange die Regeln des Bandes eingehalten sind. Im Standard LoRaWAN hat dieselbe Frequenz aber eine feste Aufgabe, und die ist nicht der Empfang von Geräten.</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">LoRaWAN EU868</th><th scope="col">Vorgabe</th><th scope="col">Quelle</th></tr></thead>
+          <tbody>
+            <tr><td>Pflicht-Uplink-Kanäle</td><td data-spalte="Vorgabe">868,1, 868,3 und 868,5 MHz, 125 kHz, DR0 bis DR5 (SF12 bis SF7), weitere Kanäle legt das Netz fest</td><td data-spalte="Quelle">RP002, Tabelle 6</td></tr>
+            <tr><td>Antwortfenster</td><td data-spalte="Vorgabe">RX1 1 Sekunde nach dem Uplink auf dem Uplink-Kanal, RX2 eine Sekunde später</td><td data-spalte="Quelle">RP002, Standardwerte</td></tr>
+            <tr><td>RX2</td><td data-spalte="Vorgabe">869,525 MHz, Standard DR0 (SF12). The Things Network nutzt abweichend SF9.</td><td data-spalte="Quelle">RP002, TTN</td></tr>
+            <tr><td>Class B</td><td data-spalte="Vorgabe">Beacon ebenfalls auf 869,525 MHz</td><td data-spalte="Quelle">RP002</td></tr>
+            <tr><td>Sendeleistung</td><td data-spalte="Vorgabe">Standard höchstens +16 dBm EIRP, das entspricht ungefähr den 25 mW ERP der 868-Kanäle</td><td data-spalte="Quelle">RP002</td></tr>
+            <tr><td>Klasse A</td><td data-spalte="Vorgabe">Geräte hören nur nach eigenem Senden. Ein Gruppenruf wartet also wie heute auf das nächste Paket.</td><td data-spalte="Quelle">RP002</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Für die Serie gibt es deshalb drei Wege:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Weg</th><th scope="col">Vorteile</th><th scope="col">Nachteile</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr class="zeile-offen"><td>Eigenes Protokoll, mehrere Kanäle</td><td data-spalte="Vorteile">Volle Kontrolle, 500 mW ERP und 10 % im Band 869,4 bis 869,65 MHz, Vorrang frei gestaltbar</td><td data-spalte="Nachteile">Das Band ist 250 kHz breit, es passen höchstens zwei Kanäle mit 125 kHz nebeneinander. Mehr Kanäle müssten in die strengeren 868-Bänder. Alles bleibt Eigenbau.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Reines LoRaWAN</td><td data-spalte="Vorteile">Fertiger Standard mit geprüfter Verschlüsselung und Schlüsseln je Gerät, 8 Kanäle je Gateway, Netzserver wie ChirpStack</td><td data-spalte="Nachteile">25 mW ERP und 1 % Sendezeit, SF9 alle 20 s passt nicht. Ein Notruf hat keinen Vorrang und unterliegt denselben Grenzen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>LoRaWAN plus eigener Notruf-Kanal</td><td data-spalte="Vorteile">Positionen im Standard, Notruf mit voller Leistung im Band 869,4 bis 869,65 MHz</td><td data-spalte="Nachteile">Kein reines LoRaWAN mehr. Der Chip muss zwei Verfahren beherrschen, und das Gateway muss den Kanal zusätzlich hören. Das ist nicht geprüft.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Ein eigener Notruf-Kanal kann RX2 im Band nicht ganz ausweichen: Der Kanal auf 869,525 MHz belegt mit 125 kHz den Bereich 869,4625 bis 869,5875 MHz, an den Rändern bleiben nur je 62,5 kHz. Dort senden Gateways, auch aus fremden Netzen, ihre RX2-Antworten. Es gibt drei Auswege, alle ungeprüft: ein schmaler Kanal mit 62,5 kHz am Bandrand, was die Sendezeit verdoppelt und genauere Quarze braucht, ein versetzter Kanal mit 125 kHz, der RX2 nur teilweise überlappt, oder derselbe Kanal mit eigenen Gateways und vorheriger Messung, ob dort ein fremdes Netz sendet. Andere Bänder scheiden praktisch aus: 869,3 bis 869,4 MHz ist auf Alarmanlagen und 10 mW ERP beschränkt, 869,7 bis 870 MHz auf 25 mW ERP und 1 %.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Empfehlung für die Planung: LoRaWAN plus eigener Notruf-Kanal ist der am weitesten tragende Kandidat, entschieden ist nichts. Ob ein Gateway den zusätzlichen Kanal hört und wie schnell Notrufe so ankommen, muss ein Versuch nach dem Test zeigen. Ob die Geräte in Österreich so betrieben werden dürfen, ist für den konkreten Aufbau mit der Fernmeldebehörde zu klären.</p>
 
         <h2 id="kosten" data-kurz="Was das Netz kosten könnte">Was das Netz kosten könnte</h2>
         <p>Für eine erste Größenordnung kannst du die Annahmen selbst einstellen. Der Gerätepreis ist ein Händlerpreis aus <a href="kapitel-11.html#geraete">Kapitel 11</a>. Zubehör, Montage und Server sind nur Annahmen ohne Angebot, darum stehen sie am Anfang auf 0 €.</p>
@@ -118,6 +147,10 @@
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
         <ul class="quellen">
+          <li><a href="https://lora-alliance.org/wp-content/uploads/2021/05/RP002-1.0.3-FINAL-1.pdf">LoRaWAN Regional Parameters RP002-1.0.3</a>, LoRa Alliance, 2021</li>
+          <li><a href="https://www.thethingsnetwork.org/docs/lorawan/frequency-plans/">The Things Network: Frequency Plans</a></li>
+          <li><a href="https://www.rtr.at/TKP/was_wir_tun/telekommunikation/spectrum/bands/5000MHz/EU_2022_180_de.pdf">Durchführungsbeschluss (EU) 2022/180</a>, Zeile 54, über die RTR</li>
+          <li><a href="https://www.etsi.org/deliver/etsi_en/300200_300299/30022002/03.02.01_60/en_30022002v030201p.pdf">ETSI EN 300 220-2 V3.2.1</a>, Tabelle der Teilbänder</li>
           <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
           <li>Pitch-Präsentation SkiTag, internes Dokument</li>
           <li><a href="https://www.chirpstack.io/">ChirpStack</a>, quelloffener LoRaWAN-Netzwerk-Server</li>

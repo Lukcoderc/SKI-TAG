@@ -1,11 +1,13 @@
-// Karte der Abdeckung: Gateways an- und ausschalten, jeder Pistenpunkt zeigt das beste Signal.
+// Karte der Abdeckung: Stationen wählen, jeder Pistenpunkt zeigt das beste Signal.
 const GUT_DBM = -115;
 const KNAPP_DBM = -125;
 const ORT_RAND = 44;
-const { breite, hoehe, punkte, gateways, orte, start } = window.ABDECKUNG;
+const ZIELE = { gut: [GUT_DBM, 1], knapp: [KNAPP_DBM, 1], zwei: [GUT_DBM, 2] };
+const { breite, hoehe, punkte, gateways, orte } = window.ABDECKUNG;
 const karte = document.getElementById("abd-karte");
 const liste = document.getElementById("abd-liste");
-const zuschlagRegler = document.getElementById("abd-zuschlag");
+const zuschlagWahl = document.getElementById("abd-zuschlag");
+const zielWahl = document.getElementById("abd-ziel");
 
 karte.setAttribute("viewBox", `0 0 ${breite} ${hoehe}`);
 const spur = (klasse) => {
@@ -25,12 +27,11 @@ orte.forEach((ort) => {
   karte.append(text);
 });
 
-const haken = gateways.map((g, i) => {
+const haken = gateways.map((g) => {
   const li = document.createElement("li");
   const label = document.createElement("label");
   const feld = document.createElement("input");
   feld.type = "checkbox";
-  feld.checked = i < start;
   feld.addEventListener("change", zeichne);
   const name = document.createElement("span");
   name.textContent = `${g.name}, ${g.hoehe} m`;
@@ -49,28 +50,35 @@ const haken = gateways.map((g, i) => {
 });
 
 function zeichne() {
-  const zuschlag = +zuschlagRegler.value;
+  const grenze = (dbm) => Math.round((dbm + +zuschlagWahl.value) * 10);
   const aktiv = gateways.filter((_, i) => haken[i].checked);
   const wege = { gut: [], knapp: [], kein: [] };
   let gut = 0, knapp = 0, doppelt = 0;
   punkte.forEach(([x, y], i) => {
-    const pegel = aktiv.map((g) => g.pegel[i] - zuschlag);
-    const bester = pegel.length ? Math.max(...pegel) : -999;
-    const klasse = bester >= GUT_DBM ? "gut" : bester >= KNAPP_DBM ? "knapp" : "kein";
+    const pegel = aktiv.map((g) => g.pegel[i]);
+    const bester = pegel.length ? Math.max(...pegel) : -9999;
+    const klasse = bester >= grenze(GUT_DBM) ? "gut" : bester >= grenze(KNAPP_DBM) ? "knapp" : "kein";
     if (klasse === "gut") gut++;
     if (klasse !== "kein") knapp++;
-    if (pegel.filter((p) => p >= GUT_DBM).length >= 2) doppelt++;
+    if (pegel.filter((p) => p >= grenze(GUT_DBM)).length >= 2) doppelt++;
     wege[klasse].push(`M${x} ${y}h0`);
   });
   Object.keys(spuren).forEach((k) => spuren[k].setAttribute("d", wege[k].join("")));
   gateways.forEach((g, i) => g.marke.setAttribute("class", haken[i].checked ? "abd-gateway an" : "abd-gateway"));
-  const anteil = (n) => `${zahlDe((n / punkte.length) * 100)} %`;
-  document.getElementById("abd-zuschlag-wert").textContent = `${zuschlag} dB`;
+  const anteil = (n) => `${zahlDe((n / punkte.length) * 100, 1)} %`;
   document.getElementById("abd-zahl").textContent = aktiv.length;
   document.getElementById("abd-gut").textContent = anteil(gut);
   document.getElementById("abd-knapp").textContent = anteil(knapp);
   document.getElementById("abd-doppelt").textContent = anteil(doppelt);
 }
 
-zuschlagRegler.addEventListener("input", zeichne);
-zeichne();
+function waehle() {
+  const [schwelle, noetig] = ZIELE[zielWahl.value];
+  const { wahl } = waehleStationen(gateways, punkte.length, +zuschlagWahl.value, schwelle, noetig);
+  haken.forEach((h, i) => { h.checked = wahl.includes(i); });
+  zeichne();
+}
+
+zuschlagWahl.addEventListener("change", zeichne);
+document.getElementById("abd-waehlen").addEventListener("click", waehle);
+waehle();

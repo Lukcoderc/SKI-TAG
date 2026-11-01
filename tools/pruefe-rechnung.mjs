@@ -1,0 +1,17 @@
+// Rechnet die Kernzahlen des Buchs unabhängig nach, mit eigenen Formeln.
+// node tools/pruefe-rechnung.mjs
+const ok = (n, ist, soll, tol) => console.log(Math.abs(ist - soll) <= tol ? "OK  " : "FEHL", n, "ist", +ist.toFixed(3), "Buch", soll);
+const toa = (sf, pl) => { const ts = 2 ** sf / 125000, de = sf >= 11 ? 1 : 0; const n = 8 + Math.max(Math.ceil((8 * pl - 4 * sf + 44) / (4 * (sf - 2 * de))) * 5, 0); return (12.25 + n) * ts * 1000; };
+ok("ToA SF9 27B", toa(9, 27), 226, 1); ok("ToA SF7 27B", toa(7, 27), 67, 1); ok("ToA SF12 27B", toa(12, 27), 1647, 1); ok("ToA SF9 34B", toa(9, 34), 247, 1); ok("ToA SF9 31B", toa(9, 31), 247, 1);
+ok("Chip Duty %", toa(9, 27) / 20000 * 100, 1.1, 0.05); ok("SOS Duty 4s %", toa(9, 27) / 4000 * 100, 5.7, 0.05); ok("GW Duty %", 300 / 3600 * 100, 8.3, 0.05); ok("GW Downlinks/h", 300000 / toa(9, 34), 1215, 5);
+const p = (n) => Math.exp(-2 * n * toa(9, 27) / 1000 / 20) * 100; for (const [n, s] of [[5, 89], [20, 64], [50, 32], [100, 10]]) ok("ALOHA " + n, p(n), s, 0.6);
+const fspl = (km) => 32.44 + 20 * Math.log10(km) + 20 * Math.log10(869.525); for (const [k, s] of [[1, 91], [5, 105], [15, 115]]) ok("FSPL " + k, fspl(k), s, 0.6);
+ok("Budget", 20 + 129, 149, 0); ok("Budget+Ant", 20 + 3 + 129, 152, 0); ok("-92", 23 - fspl(5) - 10, -92, 0.6); ok("-118", 23 - fspl(1) - 50, -118, 0.6); ok("-132", 23 - fspl(5) - 50, -132, 0.6);
+const lam = 299.792458 / 869.525, J = (v) => 6.9 + 20 * Math.log10(Math.sqrt((v - .1) ** 2 + 1) + v - .1), g = (h, d) => J(h * Math.sqrt(2 * d / (lam * (d / 2) ** 2)));
+ok("Grat 50m 5km", g(50, 5000), 23, 0.6); ok("Fresnel r 10km", Math.sqrt(lam * 5000 * 5000 / 10000), 29, 0.6); ok("Fresnel 60%", .6 * Math.sqrt(lam * 5000 * 5000 / 10000), 18, 0.6);
+ok("Wald 100m", 26.5 * (1 - Math.exp(-100 * .17 / 26.5)), 13, 0.6); ok("-133", 23 - fspl(15) - g(50, 15000) - 26.5 * (1 - Math.exp(-17 / 26.5)) - 10, -133, 0.6); ok("-116", 23 - fspl(5) - g(50, 5000) - 10, -116, 0.6);
+ok("ERP Gateway dBm", 20 + 3 - 2.15, 20.85, .01); ok("500mW dBm", 10 * Math.log10(500), 27, .05); ok("SF8 25mW Budget", 14 - (-126.5), 140.5, .1); ok("Reichweite Faktor", 10 ** ((149 - 140.5) / 20), 2.66, .01);
+ok("Puffer min (5 Chips)", 60 / 15, 4, 0); ok("500 Chips /s", 500 / 20, 25, 0); ok("Log MB 5", 5 * 180 * 8 * 200 / 1e6, 1.44, .01); ok("Log MB 500", 500 * 180 * 8 * 200 / 1e6, 144, .01);
+ok("Akku min h", 1000 / 52, 19, .3); ok("Akku max h", 1000 / 24, 41, .7); ok("Code 36^6 Mrd", 36 ** 6 / 1e9, 2.2, .03); ok("2880/1e6 %", 2880 / 1e6 * 100, 0.3, .02); ok("2^32 Mrd", 2 ** 32 / 1e9, 4.3, .05); ok("Fenster 66", Math.floor(20 / .3), 66, 0); ok("Fenster 11", Math.floor(20 / 1.7), 11, 0); ok("dlAck Umlauf s", 256 / 16, 16, 0); ok("Geraete 12x540", 12 * 540, 6480, 0);
+ok("50 km/h in 20 s", 50 / 3.6 * 20, 280, 3); ok("Tempo max km/h", 255 / 4 * 3.6, 230, 1); ok("Rundung Breite cm", 111320 / 1e6 * 100, 11, .2);
+ok("ToA 16B", toa(9, 16), 165, 1); ok("ToA 35B", toa(9, 35), 247, 1); ok("Fehlversuche Tag", .1 / (toa(9, 27) / 1000) * 86400, 38000, 300); ok("Treffer Jahr %", .1 / (toa(9, 27) / 1000) * 86400 * 365 / 2 ** 32 * 100, .32, .02); ok("Kanal max /s", 1000 / toa(9, 27), 4.4, .05); ok("ALOHA max /s", .184 * 1000 / toa(9, 27), .81, .02); ok("60 bei .81 s", 60 / .814, 74, 1); ok("60 bei 4,4 s", 60 / 4.42, 14, .5); ok("60 bei 6,5 s", 60 / 6.5, 9, .5); ok("60 bei 25 s", 60 / 25, 2.4, 0); ok("Duty 247/20s", toa(9, 31) / 20000 * 100, 1.2, .05); ok("Duty 247/4s", toa(9, 31) / 4000 * 100, 6.2, .05); ok("EIRP", 27 + 2.15, 29.15, .001);

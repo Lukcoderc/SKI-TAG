@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anforderungen · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was das SkiTag-Netzwerk können muss, im Test 2027 und im echten Betrieb.">
-<link rel="stylesheet" href="assets/book.css?v=39">
-<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
-<script src="assets/book.js?v=39" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=40">
+<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
+<script src="assets/book.js?v=40" defer></script>
 </head>
 <body data-station="knopf">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -68,7 +68,7 @@
             <tr class="zeile-offen"><td>Beim Reichweiten-Alarm vibriert nur die Person, die aufpasst.</td><td>Das Ziel ist klar: Das Kind soll nichts merken. Heute vibriert aber das Kind, und die App rechnet nur, solange sie offen ist.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Ein ACK kommt erst, wenn der Notruf dauerhaft gespeichert ist.</td><td>Sonst kann ein Absturz einen bestätigten Notruf löschen, und der Chip warnt nicht mehr. Im Code nicht geprüft, siehe <a href="kapitel-12.html#speichern">Kapitel 12</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Ein Alarm erreicht einen Menschen, auch bei gesperrtem Handy.</td><td>Heute läuft er nur bei offener App. Der Server erfährt außerdem nicht, ob er ankam, siehe <a href="kapitel-13.html#alarm">Kapitel 13</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Nimmt niemand an, greift eine feste Eskalation.</td><td>Festgelegt sind nur die 60 Sekunden je Mitarbeiter, siehe <a href="kapitel-07.html#eskalation">Kapitel 7</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Nimmt niemand an, greift eine feste Eskalation.</td><td>Gebaut sind nur die 60 Sekunden je Mitarbeiter. Der vollständige Vorschlag steht in <a href="kapitel-07.html#eskalation">Kapitel 7</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Ein Notruf ist innerhalb einer festen Zeit beim Mitarbeiter.</td><td>Dafür gibt es noch keinen Zielwert. Ohne ihn lässt sich beim Test nicht sagen, ob das Netz schnell genug ist.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Daten werden nur so lange gespeichert wie nötig.</td><td>Positionen sind personenbezogen. Heute gibt es keine Frist, nach dem Test wird von Hand gelöscht.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
@@ -108,7 +108,7 @@
           <li>Ein Notruf kommt von der Piste bis in die App, und der Chip zeigt die Rückmeldung an.</li>
           <li>Die Reichweite ist gemessen: die Teststrecke fahren und die Signalstärke auswerten. Gut ist sie ab −115 dBm, knapp ab −125 dBm.</li>
           <li>Der Ausfall ist geprobt: Gateway und WLAN werden absichtlich abgeschaltet, und wir sehen, was der Chip anzeigt.</li>
-          <li>Der Server bestätigt dem Chip keinen Notruf, den die App nicht bekommen hat. Das ist noch ungeprüft, siehe <a href="kapitel-01.html#schritt-server-ausfall">Kapitel 1</a>.</li>
+          <li>Der Server bestätigt dem Chip keinen Notruf, den die App nicht bekommen hat. Das ist noch ungeprüft, siehe <a href="kapitel-01.html#schritt-server">Kapitel 1</a>.</li>
           <li>Gäste geben Rückmeldung, ob sie Chip und App verstehen.</li>
         </ul>
         <p>Die genauen Tests stehen in <a href="kapitel-16.html">Kapitel 16</a>.</p>

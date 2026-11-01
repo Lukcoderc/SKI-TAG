@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Standortplanung KitzSki · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie viele Gateways KitzSki braucht: ein Modell aus echten Pisten und Gelände.">
-<link rel="stylesheet" href="assets/book.css?v=39">
-<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
-<script src="assets/book.js?v=39" defer></script>
-<script src="assets/funk.js?v=39" defer></script>
-<script src="assets/abdeckung-daten.js?v=39" defer></script>
-<script src="assets/abdeckung.js?v=39" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=40">
+<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
+<script src="assets/book.js?v=40" defer></script>
+<script src="assets/funk.js?v=40" defer></script>
+<script src="assets/abdeckung-daten.js?v=40" defer></script>
+<script src="assets/abdeckung-wahl.js?v=40" defer></script>
+<script src="assets/abdeckung.js?v=40" defer></script>
 </head>
 <body data-station="empfaenger">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -58,10 +59,10 @@
           <li><strong>Funk:</strong> Freiraum plus Beugung an den Graten nach ITU-R P.526.</li>
           <li><strong>Zuschlag:</strong> pauschal 10 dB für Körper und Chip-Antenne. Das ist geschätzt, weil diese Werte noch fehlen.</li>
         </ul>
-        <p>Dann wurde schrittweise jene Station gewählt, die am meisten noch unversorgte Pistenpunkte dazugewinnt. Das Modell prüft nur, ob ein Paket ein Gateway erreicht. Wie viele Chips das Netz gleichzeitig trägt, ist eine andere Frage, siehe <a href="kapitel-05.html">Kapitel 5</a>.</p>
+        <p>Dann wurde schrittweise jene Station gewählt, die am meisten noch unversorgte Pistenpunkte dazugewinnt, bis mindestens 95 % erreicht sind. Dieses gierige Verfahren ist einfach und nachvollziehbar, findet aber nicht sicher die kleinste mögliche Zahl. Für jede Kombination aus Zuschlag und Ziel wählt es eigene Stationen aus allen 59 Standorten. Das Modell prüft nur, ob ein Paket ein Gateway erreicht. Wie viele Chips das Netz gleichzeitig trägt, ist eine andere Frage, siehe <a href="kapitel-05.html">Kapitel 5</a>.</p>
 
         <h2 id="karte" data-kurz="Die Karte zum Ausprobieren">Die Karte zum Ausprobieren</h2>
-        <p>Schalte Gateways ein und aus und erhöhe den Zuschlag. Norden ist oben, jeder Punkt ist ein Stück Piste. Ein runder Punkt in Bernstein heißt gut, ein kleiner heller knapp, ein rotes Quadrat kein ausreichender Empfang. Die Rauten sind mögliche Gateways.</p>
+        <p>Wähle Zuschlag und Ziel und lass die Stationen dafür wählen, oder setze selbst Haken. Die Karte rechnet mit denselben Daten wie die Tabelle unten. Änderst du nur den Zuschlag, bleiben die Stationen gleich: So siehst du, wie eine Auswahl bei mehr Dämpfung einbricht. Norden ist oben, jeder Punkt ist ein Stück Piste. Ein runder Punkt in Bernstein heißt gut, ein kleiner heller knapp, ein rotes Quadrat kein ausreichender Empfang. Die Rauten sind mögliche Gateways.</p>
       </div>
 
       <section class="abdeckung" aria-label="Karte der Abdeckung bei KitzSki">
@@ -73,7 +74,11 @@
             <div><dt>Mindestens knapp</dt><dd id="abd-knapp"></dd></div>
             <div><dt>Von zweien gut gehört</dt><dd id="abd-doppelt"></dd></div>
           </dl>
-          <div class="rechner-regler"><label for="abd-zuschlag">Zuschlag: <output id="abd-zuschlag-wert"></output></label><input id="abd-zuschlag" type="range" min="0" max="40" step="5" value="10"></div>
+          <div class="rechner-wahl">
+            <label>Zuschlag <select id="abd-zuschlag"><option value="0">0 dB</option><option value="10" selected>10 dB</option><option value="20">20 dB</option><option value="30">30 dB</option><option value="36.5">36,5 dB</option></select></label>
+            <label>Ziel <select id="abd-ziel"><option value="gut" selected>Gut</option><option value="knapp">Knapp</option><option value="zwei">Gut von zwei</option></select></label>
+          </div>
+          <button class="knopf" type="button" id="abd-waehlen">Stationen für dieses Ziel wählen</button>
           <ul class="checkliste" id="abd-liste"></ul>
         </div>
       </section>
@@ -81,7 +86,7 @@
       <div class="tabelle nur-ohne-js">
         <table>
           <thead><tr><th scope="col">Die 4 Stationen aus der Reihenfolge unten, Zuschlag</th><th scope="col">Gut</th><th scope="col">Mindestens knapp</th></tr></thead>
-          <tbody><tr><td>0 dB</td><td>97 %</td><td>99 %</td></tr><tr><td>10 dB</td><td>95 %</td><td>97 %</td></tr><tr><td>20 dB</td><td>91 %</td><td>95 %</td></tr><tr><td>30 dB</td><td>67 %</td><td>91 %</td></tr><tr><td>36,5 dB</td><td>33 %</td><td>83 %</td></tr></tbody>
+          <tbody><tr><td>0 dB</td><td>97,5 %</td><td>99,3 %</td></tr><tr><td>10 dB</td><td>95,2 %</td><td>97,5 %</td></tr><tr><td>20 dB</td><td>91,5 %</td><td>95,2 %</td></tr><tr><td>30 dB</td><td>67,4 %</td><td>91,5 %</td></tr><tr><td>36,5 dB</td><td>33,0 %</td><td>82,5 %</td></tr></tbody>
         </table>
       </div>
 
@@ -89,17 +94,17 @@
         <p class="nach-tabelle">Geodaten: © OpenStreetMap-Mitwirkende, ODbL. Gelände: Terrain Tiles on AWS.</p>
 
         <h2 id="wieviele" data-kurz="Wie viele Gateways">Wie viele Gateways</h2>
-        <p>So viele Gateways braucht das Modell, um 95 % der Pistenpunkte zu erreichen:</p>
+        <p>So viele Gateways braucht das Modell, um mindestens 95 % der 1220 Pistenpunkte zu erreichen, dahinter steht der erreichte Anteil. Die Tabelle wird mit <code>tools/abdeckung-tabelle.mjs</code> aus den Daten der Karte erzeugt.</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
           <thead><tr><th scope="col">Zuschlag</th><th scope="col">Für „gut“ (−115 dBm)</th><th scope="col">Für „knapp“ (−125 dBm)</th><th scope="col">„Gut“ von zwei Gateways</th></tr></thead>
           <tbody>
-            <tr><td data-spalte="Zuschlag">0 dB</td><td data-spalte="Gut">3</td><td data-spalte="Knapp">3</td><td data-spalte="Doppelt">8</td></tr>
-            <tr><td data-spalte="Zuschlag"><strong>10 dB</strong></td><td data-spalte="Gut"><strong>4</strong></td><td data-spalte="Knapp"><strong>3</strong></td><td data-spalte="Doppelt"><strong>12</strong></td></tr>
-            <tr><td data-spalte="Zuschlag">20 dB</td><td data-spalte="Gut">5</td><td data-spalte="Knapp">4</td><td data-spalte="Doppelt">21</td></tr>
-            <tr><td data-spalte="Zuschlag">30 dB</td><td data-spalte="Gut">14</td><td data-spalte="Knapp">5</td><td data-spalte="Doppelt">47, nur 93 % erreicht</td></tr>
-            <tr><td data-spalte="Zuschlag">36,5 dB</td><td data-spalte="Gut">44, 92 % erreicht</td><td data-spalte="Knapp">9, 95 % erreicht</td><td data-spalte="Doppelt">57, nur 76 % erreicht</td></tr>
+            <tr><td data-spalte="Zuschlag">0 dB</td><td data-spalte="Gut">3, 95,3 %</td><td data-spalte="Knapp">3, 96,4 %</td><td data-spalte="Doppelt">8, 95,2 %</td></tr>
+            <tr><td data-spalte="Zuschlag"><strong>10 dB</strong></td><td data-spalte="Gut"><strong>4, 95,2 %</strong></td><td data-spalte="Knapp"><strong>3, 95,3 %</strong></td><td data-spalte="Doppelt"><strong>12, 95,3 %</strong></td></tr>
+            <tr><td data-spalte="Zuschlag">20 dB</td><td data-spalte="Gut">5, 95,2 %</td><td data-spalte="Knapp">4, 95,2 %</td><td data-spalte="Doppelt">21, 95,3 %</td></tr>
+            <tr><td data-spalte="Zuschlag">30 dB</td><td data-spalte="Gut">14, 95,2 %</td><td data-spalte="Knapp">5, 95,2 %</td><td data-spalte="Doppelt">47, nur 92,7 %</td></tr>
+            <tr><td data-spalte="Zuschlag">36,5 dB</td><td data-spalte="Gut">44, nur 91,6 %</td><td data-spalte="Knapp">9, 95,3 %</td><td data-spalte="Doppelt">57, nur 75,8 %</td></tr>
           </tbody>
         </table>
       </div>

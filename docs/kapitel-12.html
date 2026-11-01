@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Der Server · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was der SkiTag-Server macht, was er bei KitzSki braucht und wie er erreichbar wird.">
-<link rel="stylesheet" href="assets/book.css?v=39">
-<link rel="stylesheet" href="assets/druck.css?v=39" media="print">
-<script src="assets/book.js?v=39" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=40">
+<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
+<script src="assets/book.js?v=40" defer></script>
 </head>
 <body data-station="server">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -45,7 +45,7 @@
       <div class="lesen">
         <p class="einstieg">Der Server ist die Zentrale von SkiTag. Chips und Gateways liefern nur Daten, entschieden wird hier. Dieses Kapitel erklärt, was er tut, warum er bei KitzSki steht und trotzdem aus dem Internet erreichbar sein muss.</p>
         <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Entschieden ist ein eigener Server vor Ort in der IT-Abteilung von KitzSki, kein gemieteter in der Cloud. Für den Schultest läuft derselbe Aufbau auf einem NAS, siehe <a href="kapitel-18.html#nas">Kapitel 18</a>.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Die Server-Software lag beim Schreiben nicht vor. Alles hier stammt aus der Übergabe und ist laut ihr nur am PC getestet.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Die Server-Software lag beim Schreiben nicht vor. Alles hier stammt aus der Übergabe und ist laut ihr nur am PC getestet, siehe <a href="kapitel-anhang.html#nachweis">Was geprüft ist</a>.</p>
 
         <h2 id="aufgaben" data-kurz="Was er tut">Was er tut</h2>
       </div>
@@ -55,7 +55,7 @@
           <tbody>
             <tr><td>Pakete prüfen</td><td data-spalte="Ablauf">Entschlüsselt jedes Paket, prüft den Prüfwert und verwirft Duplikate.</td></tr>
             <tr><td>Ort bestimmen</td><td data-spalte="Ablauf">Sucht die nächste Strecke im Umkreis von 40 m aus der KitzSki-Karte. Lifte bevorzugt er bei 1,5 bis 9 m/s.</td></tr>
-            <tr><td>Notruf führen</td><td data-spalte="Ablauf">Bietet ihn dem nächsten freien Mitarbeiter an, nach 60 Sekunden dem nächsten.</td></tr>
+            <tr><td>Notruf führen</td><td data-spalte="Ablauf">Bietet ihn dem nächsten freien Mitarbeiter an, nach 60 Sekunden dem nächsten. Der ganze Ablauf steht in <a href="kapitel-07.html#eskalation">Kapitel 7</a>.</td></tr>
             <tr><td>Position bewerten</td><td data-spalte="Ablauf">Älter als 2 Minuten gilt als „alt“. Ohne Position gilt die des Gateways, markiert als „ungefähr“.</td></tr>
             <tr><td>Antworten senden</td><td data-spalte="Ablauf">Über das Gateway mit dem besten <a href="kapitel-anhang.html#g-rssi">RSSI</a> der letzten 15 Minuten.</td></tr>
             <tr><td>App bedienen</td><td data-spalte="Ablauf">Anmeldung, Gruppen, Live-Positionen, Notrufe, Lifte, Treffpunkt.</td></tr>
@@ -74,7 +74,7 @@
           <li>Paket prüfen und entschlüsseln.</li>
           <li>Notruf in ein Protokoll schreiben, das nur wächst, und mit <code>fsync</code> wirklich auf den Datenträger bringen.</li>
           <li>Erst dann das ACK in die Antwort an das Gateway legen.</li>
-          <li>Beim Start zuerst dieses Protokoll einlesen und alle offenen Notrufe weiterführen, samt Zählern und Eskalation.</li>
+          <li>Beim Start zuerst dieses Protokoll einlesen und alle offenen Notrufe weiterführen, samt Zählern. Die Uhr T0 läuft dabei weiter, sie beginnt nicht neu.</li>
         </ol>
         <p>Das muss schnell gehen, denn das Gateway sendet eine Antwort nur bis 1,4 Sekunden nach dem Empfang. Ein NAS oder Server mit Schreibcache braucht einen Datenträger, der <code>fsync</code> wirklich einhält, sonst ist die Zusage wertlos.</p>
         <p>Als zweite Sicherung schlagen wir vor: Der Chip meldet in jedem Paket das Status-Bit „Notruf läuft“. Sieht der Server dieses Bit und kennt keinen offenen Notruf, legt er ihn neu an und meldet das. Ob der Chip das Bit nach dem ACK weiter setzt, muss Maximilian bestätigen.</p>
@@ -126,7 +126,7 @@
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Nicht der Funk begrenzt den Server, sondern die offenen Live-Verbindungen der Apps. Jede App hält mindestens einen Stream offen. Ohne HTTP/2 erlaubt ein Browser nur 6 solcher Verbindungen. Wie viele Apps der Server gleichzeitig trägt, muss ein Lasttest zeigen.</p>
+        <p class="nach-tabelle">Die 25 Pakete sind eine Obergrenze, die ein Kanal gar nicht erreicht, siehe <a href="kapitel-08.html#puffer">Kapitel 8</a>. Nicht der Funk begrenzt den Server, sondern die offenen Live-Verbindungen der Apps. Jede App hält mindestens einen Stream offen. Ohne HTTP/2 erlaubt ein Browser nur 6 solcher Verbindungen. Wie viele Apps der Server gleichzeitig trägt, muss ein Lasttest zeigen.</p>
 
         <h2 id="betrieb" data-kurz="Wer sich kümmert">Wer sich kümmert</h2>
         <p>Ein Server für Notrufe braucht jemanden, der ihn betreut. Das ist noch nicht geregelt:</p>
