@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anhang · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Kosten, offene Punkte, Glossar und alle Quellen des SkiTag Netzwerk-Buchs.">
-<link rel="stylesheet" href="assets/book.css?v=43">
-<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
-<script src="assets/book.js?v=43" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=45">
+<link rel="stylesheet" href="assets/druck.css?v=45" media="print">
+<script src="assets/book.js?v=45" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -43,10 +43,10 @@
       <p class="stand">Anhang · Stand 2. November 2026</p>
 
       <div class="lesen">
-        <p class="einstieg">Hier steht zum Nachschlagen, was über das ganze Buch verteilt ist: die Kosten, alle offenen Punkte aus der Übergabe, die wichtigsten Begriffe und sämtliche Quellen.</p>
+        <p class="einstieg">Hier steht zum Nachschlagen, was über das ganze Buch verteilt ist: die Kosten, die wichtigsten Begriffe und sämtliche Quellen. Die offenen Punkte stehen unter <a href="kapitel-entscheidungen.html">Entscheidungen und offene Punkte</a>.</p>
 
                 <h2 id="nachweis" data-kurz="Was geprüft ist">Was geprüft ist und was nicht</h2>
-        <p>Dieses Buch beschreibt Software, die uns nicht vorliegt. Die Ordner <code>firmware/</code> und <code>server/</code>, <code>proto.h</code>, <code>proto.js</code> und <code>config.h</code> sind nicht in diesem Repository, sondern laut Übergabe im Paket <code>skitag-test.zip</code>. Das Paket lag nie vor.</p>
+        <p>Die Ordner <code>firmware/</code> und <code>server/</code>, <code>proto.h</code>, <code>proto.js</code> und <code>config.h</code> sind nicht in diesem Repository, sondern im Paket <code>skitag-test.zip</code>. Das Paket ist der Stand für den ersten Test, nicht die finale Firmware. Wir haben es gelesen, aber nichts daraus ausgeführt.</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
@@ -54,17 +54,17 @@
           <tbody>
             <tr><td>Rechner, Karte, Formeln dieses Buchs</td><td data-spalte="Grundlage">Vorhandener Code in <code>docs/assets/</code>, geprüft mit <code>tools/</code></td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-fest"/></svg>Fest</td></tr>
             <tr><td>App und ihre Endpunkte</td><td data-spalte="Grundlage">Öffentliches App-Repo gelesen, Stand 29. Oktober 2026, nicht ausgeführt</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</td></tr>
-            <tr class="zeile-offen"><td>Paketformat, Verschlüsselung, Zähler</td><td data-spalte="Grundlage">Nur Übergabe</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Gateway-Software, Bibliotheken, Puffer</td><td data-spalte="Grundlage">Nur Übergabe</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Server, Speicherung, Eskalation, Selbsttest mit 58 Prüfungen</td><td data-spalte="Grundlage">Nur Übergabe, nicht selbst ausgeführt</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Docker, Caddy, Zertifikate</td><td data-spalte="Grundlage">Nur Übergabe, Konfiguration nicht gesehen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Chip-Software und Hardware</td><td data-spalte="Grundlage">Nur Übergabe</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Paketformat, Verschlüsselung, Zähler</td><td data-spalte="Grundlage">Test-Version gelesen, nicht ausgeführt</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Gateway-Software, Bibliotheken, Puffer</td><td data-spalte="Grundlage">Test-Version gelesen, nicht ausgeführt</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Server, Speicherung, Eskalation, Selbsttest mit 58 Prüfungen</td><td data-spalte="Grundlage">Test-Version gelesen, nicht ausgeführt</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Docker, Caddy, Zertifikate</td><td data-spalte="Grundlage">Test-Version gelesen, nicht ausgeführt</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Chip-Software und Hardware</td><td data-spalte="Grundlage">Test-Version gelesen, nicht ausgeführt</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr><td>Funk am Berg</td><td data-spalte="Grundlage">Nur gerechnet, nichts gemessen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</td></tr>
           </tbody>
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Für eine echte Prüfung werden gebraucht: <code>skitag-test.zip</code> mit <code>proto.h</code>, <code>proto.js</code>, Server, Docker-Setup und Gateway-Software, der Test-Bauplan und die Hardware. Liegt der Code in einem eigenen Repository, gehört hier die Verknüpfung dazu. Bis dahin gelten alle Angaben aus der Übergabe als nicht verifiziert.</p>
+        <p class="nach-tabelle">Für eine echte Prüfung fehlen der Test-Bauplan, die Hardware und ein Lauf des Codes. Bis dahin gelten die Angaben aus der Übergabe als nicht erprobt.</p>
 
         <h2 id="kosten" data-kurz="Kosten">Kosten</h2>
         <p>Alle Beträge ohne Versand. Die Rechnung für den Schultest steht in <a href="kapitel-16.html#material">Kapitel 16</a>, die für die Serie in <a href="kapitel-18.html#kosten">Kapitel 18</a>.</p>
@@ -74,44 +74,12 @@
           <thead><tr><th scope="col">Posten</th><th scope="col">Betrag</th><th scope="col">Stand</th></tr></thead>
           <tbody>
             <tr><td>Schultest</td><td data-spalte="Betrag">24 bis 40 €</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</td></tr>
-            <tr><td>Bergtest mit 1 Gateway</td><td data-spalte="Betrag">40 bis 56 €</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</td></tr>
-            <tr><td>Bergtest mit 2 Gateways</td><td data-spalte="Betrag">80 bis 112 €</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</td></tr>
+            <tr><td>Gateways für den Bergtest</td><td data-spalte="Betrag">Gerät offen, ein Heltec-Gateway kostet 40 bis 56 €</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</td></tr>
             <tr><td>Server im Schultest</td><td data-spalte="Betrag">0 €, NAS vorhanden</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
             <tr class="zeile-offen"><td>Server bei KitzSki</td><td data-spalte="Betrag">Hardware, Betrag nicht bekannt</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Domain und Zertifikat</td><td data-spalte="Betrag">Betrag nicht bekannt</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Prototyp-Chips und Ladebox</td><td data-spalte="Betrag">Bereich von Maximilian, Betrag nicht bekannt</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr><td>12 Außen-Gateways, nur Geräte</td><td data-spalte="Betrag">rund 6 500 €, nach Modell</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="lesen">
-        <h2 id="offene-punkte" data-kurz="Offene Punkte">Alle offenen Punkte</h2>
-        <p>Die Übergabe nennt 12 Punkte, die Prüfung des Buchs hat weitere ergeben. So weit sind sie:</p>
-      </div>
-      <div class="tabelle">
-        <table class="stapel">
-          <thead><tr><th scope="col">Nr.</th><th scope="col">Thema</th><th scope="col">Wo im Buch</th><th scope="col">Stand</th></tr></thead>
-          <tbody>
-            <tr class="zeile-offen"><td>1</td><td data-spalte="Thema">Ohne Internet</td><td data-spalte="Wo"><a href="kapitel-14.html#ohne-internet">Kapitel 14</a>, drei mögliche Bedeutungen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr><td>2</td><td data-spalte="Thema">Standorte und Reichweite</td><td data-spalte="Wo"><a href="kapitel-09.html">Kapitel 9</a>, Modell ohne Messung</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</td></tr>
-            <tr class="zeile-offen"><td>3</td><td data-spalte="Thema">Strom und Netz</td><td data-spalte="Wo"><a href="kapitel-10.html">Kapitel 10</a>, Fragen an KitzSki</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>4</td><td data-spalte="Thema">Reichweiten-Alarm</td><td data-spalte="Wo"><a href="kapitel-12.html#radius">Kapitel 12</a>, Vorschlag</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>5</td><td data-spalte="Thema">Notruf hat Vorrang</td><td data-spalte="Wo"><a href="kapitel-13.html">Kapitel 13</a>, im Test beobachten</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr><td>6</td><td data-spalte="Thema">Rückkanal</td><td data-spalte="Wo"><a href="kapitel-06.html">Kapitel 6</a>, begründet</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
-            <tr class="zeile-offen"><td>7</td><td data-spalte="Thema">Ausfall eines Gateways</td><td data-spalte="Wo"><a href="kapitel-14.html#infrastruktur">Kapitel 14</a>, Vorschlag</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>8</td><td data-spalte="Thema">Datenschutz</td><td data-spalte="Wo"><a href="kapitel-15.html">Kapitel 15</a>, braucht rechtliche Prüfung</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>9</td><td data-spalte="Thema">Viele Chips</td><td data-spalte="Wo"><a href="kapitel-18.html">Kapitel 18</a>, Zahl fehlt</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>10</td><td data-spalte="Thema">Sicherheit in der Serie</td><td data-spalte="Wo"><a href="kapitel-15.html#funk">Kapitel 15</a>, Empfehlung</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>11</td><td data-spalte="Thema">Zähler nach Neu-Aufspielen</td><td data-spalte="Wo"><a href="kapitel-15.html#funk">Kapitel 15</a>, auch ein Sicherheitsrisiko</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>12</td><td data-spalte="Thema">Noch nie auf echter Hardware</td><td data-spalte="Wo"><a href="kapitel-16.html">Kapitel 16</a> und <a href="kapitel-17.html">Kapitel 17</a></td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>13</td><td data-spalte="Thema">Erst speichern, dann ACK</td><td data-spalte="Wo"><a href="kapitel-11.html#speichern">Kapitel 11</a>, im Code zu prüfen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>14</td><td data-spalte="Thema">Alarm erreicht einen Menschen</td><td data-spalte="Wo"><a href="kapitel-12.html#alarm">Kapitel 12</a>, Bausteine fehlen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>15</td><td data-spalte="Thema">Eskalation nach dem letzten Mitarbeiter</td><td data-spalte="Wo"><a href="kapitel-13.html#eskalation">Kapitel 13</a>, Vorschlag</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>16</td><td data-spalte="Thema">Vorrang für Notrufe im Gateway</td><td data-spalte="Wo"><a href="kapitel-07.html#puffer">Kapitel 7</a>, heute nicht möglich</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>17</td><td data-spalte="Thema">Prüfungen im Server für jede Anfrage</td><td data-spalte="Wo"><a href="kapitel-12.html#api-sicherheit">Kapitel 12</a>, Code nötig</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>18</td><td data-spalte="Thema">Rettungsablauf mit der Bergbahn</td><td data-spalte="Wo"><a href="kapitel-14.html#rettung">Kapitel 14</a>, mit KitzSki zu klären</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>19</td><td data-spalte="Thema">Dürfen die Prototypen funken?</td><td data-spalte="Wo"><a href="kapitel-17.html#offen">Kapitel 17</a>, Fernmeldebehörde fragen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
       </div>
@@ -127,34 +95,56 @@
             <tr id="g-aead"><td>AEAD</td><td data-spalte="Bedeutung">Verschlüsselung, die zugleich die Echtheit prüft. Beispiel: AES-CCM.</td></tr>
             <tr id="g-aes"><td>AES</td><td data-spalte="Bedeutung">Standard-Baustein für Verschlüsselung. Erst eine Betriebsart wie CCM macht daraus ein vollständiges Verfahren.</td></tr>
             <tr id="g-aes-ccm"><td>AES-CCM</td><td data-spalte="Bedeutung">Standardverfahren, das mit AES verschlüsselt und einen Prüfwert erzeugt. Empfehlung für die Serie.</td></tr>
+            <tr id="g-angabe"><td>Angabe</td><td data-spalte="Bedeutung">Aufgabenstellung für dieses Buch. Daher stammen die Fragen aus Kapitel 2.</td></tr>
+            <tr id="g-ausgabe-seite"><td>Ausgabe-Seite</td><td data-spalte="Bedeutung">Webseite des Servers mit Passwort: Chips ausgeben und zurücknehmen, Akku und Funk ansehen, Protokoll laden.</td></tr>
+            <tr id="g-bauplan"><td>Bauplan</td><td data-spalte="Bedeutung">Test-Bauplan, die Anleitung des Teams für den Aufbau des Tests. Liegt diesem Buch nicht vor.</td></tr>
+            <tr id="g-bearer"><td>Bearer</td><td data-spalte="Bedeutung">Art, ein Passwort oder Token im Kopf einer Anfrage mitzuschicken.</td></tr>
+            <tr id="g-bereitschaft"><td>Bereitschaft</td><td data-spalte="Bedeutung">Vorschlag: eine erreichbare Person, die bei technischen Störungen benachrichtigt wird.</td></tr>
             <tr id="g-bergstation"><td>Bergstation, Talstation</td><td data-spalte="Bedeutung">Oberes und unteres Ende eines Lifts, mögliche Standorte für Gateways.</td></tr>
             <tr id="g-caddy"><td>Caddy</td><td data-spalte="Bedeutung">Programm vor dem Server, das HTTPS und das Zertifikat übernimmt.</td></tr>
             <tr id="g-capture-effekt"><td>Capture-Effekt</td><td data-spalte="Bedeutung">Treffen zwei Pakete zusammen, setzt sich oft das stärkere durch.</td></tr>
+            <tr id="g-chirp"><td>Chirp</td><td data-spalte="Bedeutung">Funkton von LoRa, dessen Frequenz gleichmäßig ansteigt.</td></tr>
+            <tr id="g-cloud"><td>Cloud</td><td data-spalte="Bedeutung">Gemieteter Rechner im Internet, im Gegensatz zum eigenen Gerät vor Ort.</td></tr>
+            <tr id="g-cors"><td>CORS</td><td data-spalte="Bedeutung">Regel im Browser: Eine Webseite darf nur mit einem fremden Server sprechen, wenn dieser das erlaubt.</td></tr>
+            <tr id="g-crc"><td>CRC</td><td data-spalte="Bedeutung">Prüfsumme, mit der ein Empfänger Funkfehler erkennt. Sie schützt nicht vor Fälschung.</td></tr>
+            <tr id="g-datenblatt"><td>Datenblatt</td><td data-spalte="Bedeutung">Technische Angaben des Herstellers zu einem Bauteil.</td></tr>
             <tr id="g-db"><td>dB, dBm</td><td data-spalte="Bedeutung">dB beschreibt ein Verhältnis, etwa eine Dämpfung. dBm ist eine absolute Leistung. −115 dBm ist sehr wenig.</td></tr>
             <tr id="g-dbi"><td>dBi</td><td data-spalte="Bedeutung">Gewinn einer Antenne im Vergleich zu einem gedachten Kugelstrahler.</td></tr>
             <tr id="g-dlack"><td>dlAck</td><td data-spalte="Bedeutung">Letztes Byte im Uplink: Damit quittiert der Chip den letzten Downlink.</td></tr>
+            <tr id="g-dns"><td>DNS</td><td data-spalte="Bedeutung">Dienst, der einen Namen im Internet in eine Adresse übersetzt.</td></tr>
             <tr id="g-docker"><td>Docker</td><td data-spalte="Bedeutung">Verpackt den Server samt Umgebung, damit er überall gleich läuft.</td></tr>
-            <tr id="g-downlink"><td>Downlink</td><td data-spalte="Bedeutung">Funk vom Gateway zum Chip, bis 34 Byte. Das Gateway hört währenddessen nichts.</td></tr>
+            <tr id="g-downlink"><td>Downlink</td><td data-spalte="Bedeutung">Paket vom Server zu den Chips, das letzte Stück per Funk vom Gateway, bis 34 Byte. Das Gateway hört währenddessen nichts.</td></tr>
             <tr id="g-dsgvo"><td>DSGVO</td><td data-spalte="Bedeutung">Datenschutz-Grundverordnung der EU.</td></tr>
             <tr id="g-duckdns"><td>DuckDNS</td><td data-spalte="Bedeutung">Kostenloser Dienst für einen Namen im Internet.</td></tr>
             <tr id="g-duty-cycle"><td>Duty Cycle</td><td data-spalte="Bedeutung">Anteil der Zeit, in der ein Gerät senden darf. Unser Band erlaubt 10 % oder ein Verfahren mit Kanalprüfung, der Chip nutzt rund 1,1 %, das Gateway ist auf 8,3 % begrenzt.</td></tr>
             <tr id="g-eirp"><td>EIRP, ERP</td><td data-spalte="Bedeutung">Abgestrahlte Leistung: Sender plus Antennengewinn minus Kabelverlust. EIRP bezieht sich auf einen Kugelstrahler, ERP auf einen Dipol und liegt 2,15 dB darunter.</td></tr>
+            <tr id="g-empfindlichkeit"><td>Empfindlichkeit</td><td data-spalte="Bedeutung">Schwächstes Signal, das ein Empfänger noch versteht.</td></tr>
+            <tr id="g-endpunkt"><td>Endpunkt</td><td data-spalte="Bedeutung">Adresse am Server für eine bestimmte Aufgabe, etwa <code>POST /login</code>.</td></tr>
             <tr id="g-eskalation"><td>Eskalation</td><td data-spalte="Bedeutung">Fester Zeitablauf, wenn niemand einen Notruf übernimmt. Gebaut sind die 60 Sekunden je Mitarbeiter, der Rest ist ein Vorschlag, siehe <a href="kapitel-13.html#eskalation">Kapitel 13</a>.</td></tr>
+            <tr id="g-etsi"><td>ETSI</td><td data-spalte="Bedeutung">Europäische Normungsstelle für Telekommunikation.</td></tr>
             <tr id="g-fakedata"><td>fakeData</td><td data-spalte="Bedeutung">Einstellung der App: Sie läuft mit Beispieldaten statt mit dem echten Server.</td></tr>
+            <tr id="g-flash"><td>Flash</td><td data-spalte="Bedeutung">Speicher im Chip, der seinen Inhalt auch ohne Strom behält.</td></tr>
             <tr id="g-fresnel-zone"><td>Fresnel-Zone</td><td data-spalte="Bedeutung">Raum um die Sichtlinie, den das Funksignal braucht.</td></tr>
             <tr id="g-fsync"><td>fsync</td><td data-spalte="Bedeutung">Befehl, der Daten wirklich auf den Datenträger schreibt, statt sie im Speicher zu halten.</td></tr>
-            <tr id="g-gateway"><td>Gateway</td><td data-spalte="Bedeutung">Gerät an der Station, das Funkpakete hört und an den Server weiterreicht. Im Test ein Heltec V3.</td></tr>
+            <tr id="g-gateway"><td>Gateway</td><td data-spalte="Bedeutung">Gerät an der Station, das Funkpakete hört und an den Server weiterreicht. Im Schultest ein Heltec V3.</td></tr>
             <tr id="g-help"><td>HELP</td><td data-spalte="Bedeutung">Befehl an den Chip: 1 Übernahme, 2 vor Ort, 3 erledigt. Erst HELP 1 heißt, dass ein Mensch den Notruf hat.</td></tr>
-            <tr id="g-heltec-v3"><td>Heltec V3</td><td data-spalte="Bedeutung">Kleines Funkboard mit WLAN und Bildschirm, im Test das Gateway.</td></tr>
+            <tr id="g-heltec-v3"><td>Heltec V3</td><td data-spalte="Bedeutung">Kleines Funkboard mit WLAN und Bildschirm, im Schultest das Gateway.</td></tr>
             <tr id="g-https"><td>HTTPS</td><td data-spalte="Bedeutung">Verschlüsselte Verbindung im Netz, etwa zwischen Gateway und Server.</td></tr>
+            <tr id="g-ladebox"><td>Ladebox</td><td data-spalte="Bedeutung">Box, in der die Chips geladen werden. Dort sendet ein Chip nur alle 60 Sekunden.</td></tr>
             <tr id="g-leitstand"><td>Leitstand</td><td data-spalte="Bedeutung">Vorschlag: eine ständig besetzte Stelle der Bergbahn für Notrufe. Noch nicht geplant oder vereinbart. Sie wird bei T0 + 120 s und bei Störungen sofort informiert.</td></tr>
             <tr id="g-let-s-encrypt"><td>Let's Encrypt</td><td data-spalte="Bedeutung">Kostenlose Stelle für Zertifikate, die das Gateway beim Server prüft.</td></tr>
             <tr id="g-lora"><td>LoRa</td><td data-spalte="Bedeutung">Funkverfahren mit großer Reichweite und wenig Daten.</td></tr>
-            <tr id="g-lorawan"><td>LoRaWAN</td><td data-spalte="Bedeutung">Fertiges Netzprotokoll auf LoRa-Basis mit mehreren Kanälen und eigenen Schlüsseln pro Gerät. SkiTag nutzt im Test LoRa direkt, nicht LoRaWAN.</td></tr>
+            <tr id="g-lorawan"><td>LoRaWAN</td><td data-spalte="Bedeutung">Fertiges Netzprotokoll auf LoRa-Basis mit mehreren Kanälen und eigenen Schlüsseln pro Gerät. SkiTag nutzt im Schultest LoRa direkt, nicht LoRaWAN. Für den Test am Berg ist das offen.</td></tr>
             <tr id="g-mac"><td>MAC, Prüfwert</td><td data-spalte="Bedeutung">Kurzer Wert, der zeigt, dass ein Paket echt und unverändert ist.</td></tr>
+            <tr id="g-mietbeleg"><td>Mietbeleg</td><td data-spalte="Bedeutung">Beleg, den ein Gast bei der Ausgabe eines Chips bekommt.</td></tr>
             <tr id="g-nas"><td>NAS</td><td data-spalte="Bedeutung">Netzwerkspeicher. Im Schultest läuft darauf der Server.</td></tr>
+            <tr id="g-nist"><td>NIST</td><td data-spalte="Bedeutung">US-Normungsbehörde, deren Regeln für Verschlüsselung weit verbreitet sind.</td></tr>
             <tr id="g-nonce"><td>Nonce</td><td data-spalte="Bedeutung">Einmalwert für einen Schlüssel, bei AES-CCM 7 bis 13 Byte. Wiederholt er sich, bricht der Schutz.</td></tr>
+            <tr id="g-pitch"><td>Pitch-Präsentation</td><td data-spalte="Bedeutung">Interne Vorstellung des Projekts mit 21 Folien.</td></tr>
             <tr id="g-poe"><td>PoE</td><td data-spalte="Bedeutung">Strom und Daten über dasselbe Netzwerkkabel.</td></tr>
+            <tr id="g-port"><td>Port</td><td data-spalte="Bedeutung">Nummer eines Eingangs an einem Rechner. HTTPS nutzt Port 443.</td></tr>
+            <tr id="g-praeambel"><td>Präambel</td><td data-spalte="Bedeutung">Vorlauf eines Funkpakets, an dem der Empfänger es erkennt.</td></tr>
+            <tr id="g-proto"><td>proto.h, proto.js</td><td data-spalte="Bedeutung">Dateien, die das Funkprotokoll im Chip und im Server festlegen.</td></tr>
             <tr id="g-push"><td>Push</td><td data-spalte="Bedeutung">Nachricht aufs Handy, auch wenn die App geschlossen ist.</td></tr>
             <tr id="g-replay"><td>Replay</td><td data-spalte="Bedeutung">Angriff, bei dem ein aufgezeichnetes Paket später noch einmal gesendet wird. Der Zähler soll das verhindern.</td></tr>
             <tr id="g-rssi"><td>RSSI</td><td data-spalte="Bedeutung">Stärke eines empfangenen Signals in dBm. Gut ab −115 dBm, knapp ab −125 dBm.</td></tr>
@@ -165,9 +155,14 @@
             <tr id="g-spreading-factor"><td>Spreading Factor</td><td data-spalte="Bedeutung">Regler zwischen Reichweite und Sendezeit: Höher reicht weiter, sendet aber länger.</td></tr>
             <tr id="g-sse"><td>SSE</td><td data-spalte="Bedeutung">Server-Sent Events, Live-Stream vom Server zur App.</td></tr>
             <tr id="g-stromchiffre"><td>Stromchiffre</td><td data-spalte="Bedeutung">Verschlüsselung, bei der ein Schlüsselstrom per XOR mit den Daten verknüpft wird.</td></tr>
+            <tr id="g-sync-word"><td>Sync-Word</td><td data-spalte="Bedeutung">Kennung am Anfang eines Funkpakets, die fremde Netze ausblendet.</td></tr>
             <tr id="g-t0"><td>T0</td><td data-spalte="Bedeutung">Zeitpunkt, an dem der Server einen Notruf dauerhaft gespeichert hat. Ab hier zählen Weitergabe und Leitstand.</td></tr>
-            <tr id="g-uebernahme"><td>Übernahme</td><td data-spalte="Bedeutung">Ein Mensch tippt in der App auf „Übernehmen“. Das löst HELP 1 aus und ist der erste Beweis, dass jemand Bescheid weiß.</td></tr>
-            <tr id="g-uplink"><td>Uplink</td><td data-spalte="Bedeutung">Funk vom Chip zum Gateway, bei SkiTag 27 Byte.</td></tr>
+            <tr id="g-tls"><td>TLS</td><td data-spalte="Bedeutung">Verschlüsselung, die hinter HTTPS steckt.</td></tr>
+            <tr id="g-token"><td>Token</td><td data-spalte="Bedeutung">Zufälliger Zugangsnachweis, den eine App nach der Anmeldung mitschickt.</td></tr>
+            <tr id="g-uebergabe"><td>Übergabe</td><td data-spalte="Bedeutung">Dokument „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026 mit dem Stand des Projekts. Viele Aussagen im Buch stammen daraus.</td></tr>
+            <tr id="g-uebernahme"><td>Übernahme</td><td data-spalte="Bedeutung">Ein Mensch tippt in der App auf „Annehmen“. Das löst HELP 1 aus und ist der erste Beweis, dass jemand Bescheid weiß.</td></tr>
+            <tr id="g-uplink"><td>Uplink</td><td data-spalte="Bedeutung">Paket vom Chip zum Server, das erste Stück per Funk zum Gateway, bei SkiTag 27 Byte.</td></tr>
+            <tr id="g-watchdog"><td>Watchdog</td><td data-spalte="Bedeutung">Eingebaute Überwachung, die ein Gerät neu startet, wenn es hängt.</td></tr>
             <tr id="g-zaehler"><td>Zähler</td><td data-spalte="Bedeutung">Zahl in jedem Paket, die nur steigt. Sie schützt gegen wiederholte alte Pakete.</td></tr>
             <tr id="g-zeitfenster"><td>Zeitfenster</td><td data-spalte="Bedeutung">Fester Abschnitt von 4 Sekunden, in dem nur ein bestimmter Chip seine Position sendet.</td></tr>
             <tr id="g-zustellung"><td>Zustellung</td><td data-spalte="Bedeutung">Eine App hat einen Alarm angezeigt. Das heißt noch nicht, dass jemand ihn gesehen hat. Diese Stufe fehlt heute.</td></tr>
@@ -194,7 +189,6 @@
           <li><a href="https://caddy.community/t/dns-challenge-with-duckdns/14994">Caddy-Forum: DNS-Prüfung mit DuckDNS</a> und <a href="https://caddy.community/t/caddy-on-synology-dsm-7-2/29803">Caddy auf Synology</a></li>
           <li><a href="https://www.chirpstack.io/">ChirpStack</a>, quelloffener LoRaWAN-Netzwerk-Server</li>
           <li><a href="https://doi.org/10.1109/ACCESS.2024.3498448">Chueca und andere: Improving Communication Signal Transmission in Multiple Low-e Windows</a>, IEEE Access 2024</li>
-          <li><a href="https://github.com/tobiass3/SKI-TAG/blob/main/docs/datenformat.md">Datenformat der App</a></li>
           <li><a href="https://dsb.gv.at/sites/site0344/media/downloads/erlaeuterungen_zur_dsfa-v.pdf">Datenschutzbehörde: Erläuterungen zur Folgenabschätzung</a></li>
           <li><a href="https://docdb.cept.org/document/845">ERC Recommendation 70-03</a>, CEPT, Fassung Oktober 2026, Annex 1 Eintrag h1.7 und Appendix 1</li>
           <li><a href="https://www.ris.bka.gv.at/Dokumente/BgblAuth/BGBLA_2019_II_397/COO_2026_100_2_1702011.pdfsig">Frequenznutzungsverordnung, Anlage 2</a>, BGBl. II Nr. 397/2019</li>
@@ -211,8 +205,6 @@
           <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/EventSource">MDN: EventSource</a>, Grenze ohne HTTP/2</li>
           <li><a href="https://spectra.de/media/f8/2e/7a/1639734930/Datasheet-UG67.pdf">Milesight UG67 Datenblatt</a></li>
           <li><a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, Pisten und Lifte, ODbL, Stand 1. November 2026</li>
-          <li>Pitch-Präsentation SkiTag und Übergabe vom 29. Oktober 2026, interne Dokumente</li>
-          <li>Pitch-Präsentation SkiTag, internes Dokument</li>
           <li><a href="https://arxiv.org/pdf/1704.04174">Pop, Raza, Kulkarni, Sooriyabandara: Does Bidirectional Traffic Do More Harm Than Good in LoRaWAN Based LPWA Networks?</a>, 2017</li>
           <li><a href="kapitel-03.html#quellen">Quellen aus Kapitel 3</a> zu Frequenzband und Funkchip</li>
           <li><a href="https://github.com/jgromes/RadioLib">RadioLib</a> und <a href="https://github.com/olikraus/u8g2">U8g2</a>, verwendete Bibliotheken</li>
@@ -239,7 +231,7 @@
       </div>
 
       <div class="blaettern">
-        <a href="kapitel-18.html">Zurück: Kapitel 18, Ausblick Serie</a>
+        <a href="kapitel-entscheidungen.html">Zurück: Entscheidungen und offene Punkte</a>
         <span></span>
       </div>
     </article>

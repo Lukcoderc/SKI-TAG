@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Strom und Netzanbindung · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie die Gateways an Strom und Internet kommen und warum das Fenster das größte Hindernis ist.">
-<link rel="stylesheet" href="assets/book.css?v=43">
-<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
-<script src="assets/book.js?v=43" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=45">
+<link rel="stylesheet" href="assets/druck.css?v=45" media="print">
+<script src="assets/book.js?v=45" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -40,15 +40,24 @@
     </details>
     <article>
       <h1>Strom und Netzanbindung</h1>
-      <p class="stand">Kapitel 10 · Stand 2. November 2026</p>
-      <p class="vorwissen">Baut auf: <a href="kapitel-07.html">Kapitel 7</a>, <a href="kapitel-09.html">Kapitel 9</a></p>
+      <p class="stand">Kapitel 10 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-07.html">Kapitel 7, Die Gateways</a> · <a href="kapitel-09.html">Kapitel 9, Standortplanung KitzSki</a></p>
 
       <div class="lesen">
-        <p class="einstieg">Ein Gateway braucht an jedem Standort drei Dinge: Strom, einen Weg zum Server und einen guten Platz für die Antenne. Im Test genügen Steckdose, WLAN und Fenster. Dieses Kapitel zeigt, wo das reicht, wo nicht, und was wir mit KitzSki klären müssen.</p>
+        <p class="einstieg">Ein Gateway braucht an jedem Standort drei Dinge: Strom, einen Weg zum Server und einen guten Platz für die Antenne. Einem kleinen Gerät im Test genügen Steckdose, WLAN und Fenster. Dieses Kapitel zeigt, wo das reicht, wo nicht, und was wir mit KitzSki klären müssen.</p>
+        <div class="kurz">
+          <p class="kurz-titel">Kurz gesagt</p>
+          <ul>
+            <li>Ein kleines Gerät im Test kommt mit Steckdose, WLAN und Fenster aus.</li>
+            <li>Beschichtetes Glas kann den Empfang stark dämpfen, darum wird es beim Aufstellen gemessen.</li>
+            <li>Für den Betrieb empfehlen wir das Netz der Bergbahn als Hauptweg und Mobilfunk als Reserve.</li>
+          </ul>
+          <p><strong>Offen:</strong> Strom, Netz und Montage an den Stationen klärt KitzSki.</p>
+        </div>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Mit KitzSki ist dazu noch nichts geklärt. Alles zum Betrieb sind Möglichkeiten, keine Entscheidungen.</p>
 
         <h2 id="test" data-kurz="Was im Test reicht">Was im Test reicht</h2>
-        <p>Der Heltec V3 bekommt seinen Strom über USB-C, laut Datenblatt mit 5 V und mindestens 500 mA. Ein kleines Netzteil genügt. Er arbeitet von −20 bis 70 °C, gehört aber ohne Gehäuse nach innen. Sein WLAN läuft nur auf 2,4 GHz, und in <code>config.h</code> stehen bis zu drei Netze.</p>
+        <p>Als Beispiel für ein kleines Gerät: Der Heltec V3 bekommt seinen Strom über USB-C, laut Datenblatt mit 5 V und mindestens 500 mA. Ein kleines Netzteil genügt. Er arbeitet von −20 bis 70 °C, gehört aber ohne Gehäuse nach innen. Sein WLAN läuft nur auf 2,4 GHz, und in <code>config.h</code> stehen bis zu drei Netze.</p>
         <p>Vor dem Aufstellen fragen wir an jeder Station:</p>
         <ul>
           <li>Dürfen wir Steckdose und WLAN nutzen?</li>
@@ -64,7 +73,7 @@
         <table class="stapel">
           <thead><tr><th scope="col">Abstand, freie Sicht</th><th scope="col">Antenne außen</th><th scope="col">Hinter 40 dB Glas</th></tr></thead>
           <tbody>
-            <tr><td>1 km</td><td data-spalte="Außen">rund −78 dBm, gut</td><td data-spalte="Hinter Glas">rund −118 dBm, knapp</td></tr>
+            <tr><td>1 km</td><td data-spalte="Außen">rund −78 <a href="kapitel-anhang.html#g-db">dBm</a>, gut</td><td data-spalte="Hinter Glas">rund −118 dBm, knapp</td></tr>
             <tr><td>5 km</td><td data-spalte="Außen">rund −92 dBm, gut</td><td data-spalte="Hinter Glas">rund −132 dBm, kein Empfang</td></tr>
           </tbody>
         </table>
@@ -109,7 +118,7 @@
         <p>Eine Antenne auf einer Bergstation ist ein bevorzugtes Ziel für Blitze. Die Hersteller raten zu drei Dingen: einem Ableiter direkt am Antennenanschluss, einer Erdung von Mast und Gerät und einem Überspannungsschutz, wo das Netzwerkkabel ins Gebäude führt. Ohne Erdung nützt der Ableiter nichts.</p>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Die Anleitungen gelten nicht speziell für das Hochgebirge. Das Erdungskonzept muss eine Elektrofachkraft an der Station planen, das können wir nicht selbst festlegen.</p>
 
-        <h2 id="offen" data-kurz="Was noch offen ist">Was mit KitzSki zu klären ist</h2>
+        <h2 id="offen" data-kurz="Was noch offen ist">Was noch offen ist</h2>
       </div>
       <div class="tabelle">
         <table class="stapel">

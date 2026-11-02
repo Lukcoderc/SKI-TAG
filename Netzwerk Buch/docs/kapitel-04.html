@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Funkprotokoll · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie Chip, Gateway und Server über Funk miteinander sprechen: Pakete, Zeitfenster und Schutz.">
-<link rel="stylesheet" href="assets/book.css?v=43">
-<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
-<script src="assets/book.js?v=43" defer></script>
-<script src="assets/paket.js?v=43" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=45">
+<link rel="stylesheet" href="assets/druck.css?v=45" media="print">
+<script src="assets/book.js?v=45" defer></script>
+<script src="assets/paket.js?v=45" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -41,13 +41,22 @@
     </details>
     <article>
       <h1>Funkprotokoll</h1>
-      <p class="stand">Kapitel 4 · Stand 2. November 2026</p>
-      <p class="vorwissen">Baut auf: <a href="kapitel-03.html">Kapitel 3</a></p>
+      <p class="stand">Kapitel 4 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-03.html">Kapitel 3, Warum LoRa</a></p>
 
       <div class="lesen">
         <p class="einstieg">Damit Chip und Server sich verstehen, müssen beide dieselbe Sprache sprechen: wie ein Paket aufgebaut ist, wann gesendet werden darf und wie man erkennt, dass eine Nachricht echt ist. Diese Sprache heißt Funkprotokoll.</p>
-        <p>SkiTag nutzt LoRa direkt und kein <a href="kapitel-anhang.html#g-lorawan">LoRaWAN</a>. Das Protokoll ist also selbst gebaut, gemeinsam mit Maximilian. Die Regel dazu ist einfach: Es gibt nur eine Wahrheit, nämlich <code>proto.h</code> im Chip und <code>proto.js</code> im Server. Ändert jemand etwas daran, ändern beide gleichzeitig.</p>
-        <p>Dieses Kapitel gibt den Stand der Übergabe vom 29. Oktober wieder. Der Code selbst wurde dafür nicht geprüft, und getestet ist alles bisher nur am PC.</p>
+        <div class="kurz">
+          <p class="kurz-titel">Kurz gesagt</p>
+          <ul>
+            <li>Ein Paket vom Chip ist 27 Byte groß, eines zum Chip höchstens 34 Byte.</li>
+            <li>Jeder Chip hat ein Zeitfenster von 4 Sekunden im Takt von 20 Sekunden. Ein Notruf wartet nicht darauf.</li>
+            <li>Der Inhalt ist mit einer selbst gebauten Stromchiffre verschlüsselt, jedes Paket trägt einen Prüfwert.</li>
+          </ul>
+          <p><strong>Offen:</strong> Für 5 Chips reicht das Protokoll, für hunderte Chips nicht.</p>
+        </div>
+        <p>SkiTag nutzt heute LoRa direkt und kein <a href="kapitel-anhang.html#g-lorawan">LoRaWAN</a>. Das Protokoll ist also selbst gebaut, gemeinsam mit Maximilian. Die Regel dazu ist einfach: Es gibt nur eine Wahrheit, nämlich <code>proto.h</code> im Chip und <code>proto.js</code> im Server. Ändert jemand etwas daran, ändern beide gleichzeitig. Das gilt für den Schultest. Ob das Protokoll auch mit dem LoRa-Gateway läuft, das am Berg geplant ist, ist offen, siehe <a href="kapitel-07.html">Kapitel 7</a>.</p>
+        <p>Dieses Kapitel gibt den Stand der <a href="kapitel-anhang.html#g-uebergabe">Übergabe</a> vom 29. Oktober wieder. Der Code der Test-Version liegt vor, ausgeführt haben wir ihn nicht. Getestet ist alles bisher nur am PC.</p>
 
         <h2 id="einstellungen" data-kurz="Die Funkeinstellungen">Die Funkeinstellungen</h2>
         <p>Chip und Gateway müssen exakt gleich eingestellt sein, sonst hören sie einander nicht. Warum diese Werte gewählt sind, steht in <a href="kapitel-03.html#sf">Kapitel 3</a>.</p>
@@ -58,15 +67,15 @@
           <tbody>
             <tr><td>Frequenz</td><td>869,525 MHz</td></tr>
             <tr><td>Modulation</td><td><a href="kapitel-anhang.html#g-sf9">SF9</a>, Bandbreite 125 kHz, Fehlerschutz CR 4/5</td></tr>
-            <tr><td>Präambel und Prüfsumme</td><td>8 Symbole, CRC an</td></tr>
-            <tr><td>Sendeleistung</td><td>Chip und Gateway je 20 dBm</td></tr>
-            <tr><td>Sync-Word</td><td>Privat: <code>0x1424</code> im Chip, <code>0x12</code> im Gateway. Das ist derselbe Wert in zwei Schreibweisen der Bibliotheken.</td></tr>
+            <tr><td><a href="kapitel-anhang.html#g-praeambel">Präambel</a> und Prüfsumme</td><td>8 Symbole, CRC an</td></tr>
+            <tr><td>Sendeleistung</td><td>Chip und Gateway je 20 <a href="kapitel-anhang.html#g-db">dBm</a></td></tr>
+            <tr><td><a href="kapitel-anhang.html#g-sync-word">Sync-Word</a></td><td>Privat: <code>0x1424</code> im Chip, <code>0x12</code> im Gateway. Das ist derselbe Wert in zwei Schreibweisen der Bibliotheken.</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="lesen">
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Dieses Kapitel beruht auf der Übergabe. <code>proto.h</code> und <code>proto.js</code> lagen nicht vor, siehe <a href="kapitel-anhang.html#nachweis">Was geprüft ist</a>.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Dieses Kapitel beruht auf der Übergabe. <code>proto.h</code> und <code>proto.js</code> liegen als Test-Version vor und passen zu diesem Kapitel, siehe <a href="kapitel-anhang.html#nachweis">Was geprüft ist</a>.</p>
 
         <h2 id="pakete" data-kurz="Wie ein Paket aussieht">Wie ein Paket aussieht</h2>
         <p>Es gibt zwei Arten von Paketen. Der Uplink geht vom Chip zum Server und ist immer 27 Byte groß. Der <a href="kapitel-anhang.html#g-downlink">Downlink</a> geht vom Server zu den Chips und ist höchstens 34 Byte groß. Klick auf ein Feld, um zu sehen, was darin steht.</p>
@@ -118,7 +127,7 @@
         <figcaption>Schema mit fünf Chips. Die Antwort kommt nur, wenn es etwas zu melden gibt.</figcaption>
       </figure>
       <div class="lesen">
-        <p class="nach-tabelle">Ohne GPS-Zeit sendet der Chip alle 20 Sekunden plus 0 bis 3 Sekunden Zufall, in der Ladebox nur alle 60 Sekunden. Ereignisse warten nicht auf ihr Fenster: Ein Notruf geht sofort raus und wird wiederholt, bis der Server bestätigt.</p>
+        <p class="nach-tabelle">Ohne GPS-Zeit sendet der Chip alle 20 Sekunden plus 0 bis 3 Sekunden Zufall, in der <a href="kapitel-anhang.html#g-ladebox">Ladebox</a> nur alle 60 Sekunden. Ereignisse warten nicht auf ihr Fenster: Ein Notruf geht sofort raus und wird wiederholt, bis der Server bestätigt.</p>
         <p>Der Server schickt einem Chip nur direkt nach einem Paket genau dieses Chips etwas zurück. Das Paket darf dabei höchstens 1 Sekunde alt sein, und das Gateway sendet die Antwort nur, wenn seit dem Empfang höchstens 1,4 Sekunden vergangen sind. So landet die Antwort noch im Fenster des Chips. Die Folge: Ein Gruppenruf kann bis zu 20 Sekunden brauchen.</p>
 
         <h2 id="wortschatz" data-kurz="Ereignisse und Befehle">Ereignisse und Befehle</h2>
@@ -139,7 +148,7 @@
       </div>
 
       <div class="lesen">
-        <h2 id="zustellung" data-kurz="Wie nichts verloren geht">Wie nichts verloren geht</h2>
+        <h2 id="zustellung" data-kurz="Wiederholen und bestätigen">Wiederholen und bestätigen</h2>
         <p>Funk ist unzuverlässig, also wiederholen beide Seiten. Ein Ereignis geht sofort raus, dann alle 4 bis 8 Sekunden, nach 6 Versuchen alle 15 bis 25 Sekunden, bis ein ACK kommt. Normale Ereignisse geben nach 8 Versuchen auf, ein Notruf nie.</p>
         <p>Der Server versucht jeden Befehl bis zu sechsmal. Ob ein Befehl ankam, sieht er am letzten Byte im Uplink: Dort meldet der Chip den Zähler seines letzten Downlinks. Hören zwei Gateways dasselbe Paket, verwirft der Server das Duplikat an seinem Zähler. Was ACK und HELP genau bedeuten, legt <a href="kapitel-13.html#stufen">Kapitel 13</a> fest.</p>
 
@@ -149,20 +158,21 @@
         <p>Der Zähler schützt gegen alte Pakete: Wer ein aufgezeichnetes Paket später noch einmal sendet, kommt nicht durch, weil der Server jeden Zähler verwirft, der nicht größer ist als der letzte. Der Chip reserviert seinen Zähler dafür im Flash-Speicher in 1000er-Schritten, damit er nach einem Neustart nie zurückspringt.</p>
         <p>Der Schlüssel steht im Chip und auf dem Server, aber nie in diesem Buch oder im Repo. Vor dem Test wird ein neuer erzeugt, weil der Beispiel-Schlüssel bekannt ist.</p>
 
-        <h2 id="grenzen" data-kurz="Wo die Grenzen liegen">Wo die Grenzen liegen</h2>
-        <p>Für 5 Chips im Test reicht das Protokoll. Für den Betrieb reicht es so noch nicht:</p>
+        <h2 id="grenzen" data-kurz="Was noch offen ist">Was noch offen ist</h2>
+        <p>Für 5 Chips im Schultest reicht das Protokoll. Für den Betrieb reicht es so noch nicht:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
           <thead><tr><th scope="col">Grenze</th><th scope="col">Warum sie zählt</th><th scope="col">Stand</th></tr></thead>
           <tbody>
+            <tr class="zeile-offen"><td>Das LoRa-Gateway am Berg ist nicht geprüft.</td><td>Dieses Protokoll ist für den Heltec geschrieben. Versteht ein gekauftes Gerät es nicht, muss sich das Protokoll, das Gerät oder die Wahl für den Test am Berg ändern.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Die Chip-Nummer ist nur 1 Byte groß.</td><td>Damit gibt es höchstens 256 Nummern, im Betrieb sind aber hunderte Chips geplant. Für mehr müsste das Paket geändert werden.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Ein Notruf sendet außerhalb seines Fensters.</td><td>Er kann mit dem Paket eines anderen Chips zusammenstoßen. Die Wiederholung fängt das ab, wie gut, zeigt erst der Test.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Alle Chips teilen sich einen Schlüssel.</td><td>Mietchips gehen durch viele Hände. Wer einen Chip ausliest, könnte alle lesen und fälschen. Vorschlag für den Betrieb: ein eigener Schlüssel pro Chip und ein geprüftes Verfahren wie <a href="kapitel-anhang.html#g-aes-ccm">AES-CCM</a>, siehe <a href="kapitel-15.html#serie-krypto">Kapitel 15</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Die Quittung <code>dlAck</code> ist nur 1 Byte groß.</td><td>Der Downlink-Zähler läuft mit 16 pro Sekunde, sein unterstes Byte wiederholt sich also alle 16 Sekunden. Ein zufällig gleicher Wert könnte einen verlorenen Befehl als angekommen melden. Das Risiko ist klein, aber bei HELP 1 unerwünscht.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Die Quittung <code>dlAck</code> ist nur 1 Byte groß.</td><td>Der Chip bestätigt einen Befehl mit nur 1 Byte. Dieses Byte nimmt alle 16 Sekunden wieder denselben Wert an, weil der Downlink-Zähler mit 16 pro Sekunde läuft. Passt es zufällig, hält der Server einen verlorenen Befehl für angekommen. Das ist unwahrscheinlich, bei HELP 1 aber unerwünscht.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Das Gateway erkennt keinen Notruf.</td><td>Das Ereignis ist verschlüsselt. Das Gateway kann Notrufe deshalb nicht vorziehen. <a href="kapitel-07.html#puffer">Kapitel 7</a> schlägt eine lesbare, vom Prüfwert abgedeckte Kennung vor.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Der Prüfwert ist nur 32 Bit lang.</td><td>LoRaWAN nutzt ebenfalls 32 Bit. NIST erlaubt so kurze Prüfwerte nur nach einer Risikoanalyse, siehe <a href="kapitel-15.html#serie-krypto">Kapitel 15</a>. Es hängt mit der Wahl der Verschlüsselung zusammen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Ein neu aufgespielter Chip beginnt wieder bei Zähler 0.</td><td>Wird der Flash gelöscht, hält der Server alle Pakete für alt. Vielleicht braucht die Ausgabe-Seite eine Funktion zum Zurücksetzen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Der Prüfwert ist nur 32 Bit lang.</td><td>LoRaWAN nutzt ebenfalls 32 Bit. <a href="kapitel-anhang.html#g-nist">NIST</a> erlaubt so kurze Prüfwerte nur nach einer Risikoanalyse, siehe <a href="kapitel-15.html#serie-krypto">Kapitel 15</a>. Es hängt mit der Wahl der Verschlüsselung zusammen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Ein neu aufgespielter Chip beginnt wieder bei Zähler 0.</td><td>Wird der <a href="kapitel-anhang.html#g-flash">Flash</a> gelöscht, hält der Server alle Pakete für alt. Vielleicht braucht die <a href="kapitel-anhang.html#g-ausgabe-seite">Ausgabe-Seite</a> eine Funktion zum Zurücksetzen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Es gibt nur 5 feste Fenster in einem Kanal.</td><td>Mehr Chips passen so nicht in den Takt. Die Rechnung dazu steht in <a href="kapitel-05.html#fenster">Kapitel 5</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
@@ -175,6 +185,12 @@
           <li>Dieses Kapitel und das Hardware-Buch müssen in diesen Punkten genau gleich sein. Bei einem Widerspruch gilt der Code.</li>
           <li>Schlüssel und Passwörter gehören nie in ein öffentliches Repo.</li>
         </ul>
+
+        <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
+        <div class="urteil">
+          <p><strong>Entschieden:</strong> Das eigene Protokoll gilt für den Schultest: 27 Byte vom Chip, bis 34 Byte zum Chip, 5 Zeitfenster in einem Kanal.</p>
+          <p><strong>Offen:</strong> Für den Betrieb reicht es nicht, und ob es mit dem LoRa-Gateway am Berg läuft, ist nicht geprüft.</p>
+        </div>
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
         <ul class="quellen">

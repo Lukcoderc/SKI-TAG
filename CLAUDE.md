@@ -13,7 +13,7 @@ The SkiTag "Netzwerk-Buch" (network book): a static HTML/CSS/JS reference book d
 
 ## Commands
 
-There is no build, lint or package-install step. Checks run with Node from `Netzwerk Buch/tools/`: `node "Netzwerk Buch/tools/pruefe-buch.mjs"` (structure, links, versions, chapter order, chapter numbers in links, Baut-auf lines), `node "Netzwerk Buch/tools/pruefe-rechnung.mjs"` (the book's numbers) and `node "Netzwerk Buch/tools/abdeckung-tabelle.mjs"` (chapter 9 against `Netzwerk Buch/docs/assets/abdeckung-daten.js`, `--schreiben` regenerates the tables). To work on a chapter, open the `.html` file directly in a browser (or serve `Netzwerk Buch/docs/` with any static file server) and reload.
+There is no build, lint or package-install step. Checks run with Node from `Netzwerk Buch/tools/`: `node "Netzwerk Buch/tools/pruefe-buch.mjs"` (structure, links, versions, chapter order, chapter numbers in links, Baut-auf lines, Kurz-gesagt boxes, Ergebnis sections, glossary, terms, mark counts, search data), `node "Netzwerk Buch/tools/pruefe-rechnung.mjs"` (the book's numbers) and `node "Netzwerk Buch/tools/abdeckung-tabelle.mjs"` (chapter 9 against `Netzwerk Buch/docs/assets/abdeckung-daten.js`, `--schreiben` regenerates the tables). After changing chapter text or status marks run `node "Netzwerk Buch/tools/zaehle-marken.mjs" --schreiben` (counts on the start page) and `node "Netzwerk Buch/tools/suchindex.mjs" --schreiben` (`assets/suche-daten.js`). To work on a chapter, open the `.html` file directly in a browser (or serve `Netzwerk Buch/docs/` with any static file server) and reload.
 
 ```
 git status / add / commit   # normal git workflow, see "Push policy" below
@@ -31,12 +31,12 @@ Every chapter in `Netzwerk Buch/docs/kapitel-NN.html` is built from the same fix
 2. **Plain `<body>`:** the top rope bar was removed on 2026-11-02, so pages have no `.seil` header and no `data-station`. Only a slim `<header class="streifen">` in its colour remains, holding nothing but the book name.
 3. **Register in the chapter list:** add/update the chapter's entry in the shared `KAPITEL` array in `Netzwerk Buch/docs/assets/book.js`, in reading order and with its group in `teil`. An entry needs `datei` to become a real nav link; omitting it keeps it listed but unlinked ("noch nicht geschrieben").
 4. **Heading block:** `<h1>` title, then `<p class="stand">Kapitel N · Stand [date]</p>` directly below (never above), then `<p class="vorwissen">Baut auf: ...</p>` with links to the earlier chapters it relies on (not on chapter 1). The book builds up: a chapter must be readable with only what comes before it, and forward references only point to where a topic is deepened.
-5. **Opening:** one `<p class="einstieg">` lead paragraph inside a `.lesen` wrapper, then normal body paragraphs.
+5. **Opening:** one `<p class="einstieg">` lead paragraph inside a `.lesen` wrapper, directly followed by a `<div class="kurz">` box („Kurz gesagt“: at most three points plus the most important open question), then normal body paragraphs.
 6. **Sections:** each `<h2>` needs an `id`; give it `data-kurz="..."` when the heading text is long. The page-contents sidebar and mobile fold are built automatically from these by `book.js` — don't hand-write that nav.
 7. **Wide material:** tables (`.tabelle` wrapping `<table>`, add `.stapel` for 3-column tables that need to stack on phones, `data-spalte` on cells for the stacked labels), status conclusions (`.urteil`), and interactive widgets live outside the `.lesen` column; everything else (including status marks `svg.mark` with `<use href="#mark-...">`) stays inside it.
 8. **Status marks:** every claim is tagged Fest / Entschieden / Geschätzt / Offen (fixed / decided / estimated / open) using the shared SVG symbols — shape carries the meaning, always paired with its word. Keep estimates labelled as estimates until something is actually measured; this project has not yet been tested on real hardware.
 9. **Open-points tables:** use `<tr class="zeile-offen">` for rows marked Offen.
-10. **Start page:** `Netzwerk Buch/docs/index.html` lists every chapter by hand with one sentence and a status mark. Update it when a chapter is added, renamed or changes status.
+10. **Start page:** `Netzwerk Buch/docs/index.html` lists every page by hand with one sentence. The counted status marks below each chapter come from `tools/zaehle-marken.mjs`, never write them by hand. Update the page when a chapter is added or renamed. Open points live in `kapitel-entscheidungen.html`, not in the appendix.
 11. **Ending:** `<div class="blaettern">` with Zurück/Weiter links. Link to a next/previous chapter only if it exists; otherwise use a plain `<span>` with "(noch nicht geschrieben)".
 12. **Cache-busting versions:** `assets/book.css`, `assets/druck.css` (print only) and `assets/book.js` are referenced with `?v=N` on every chapter page. **Whenever you edit either file, bump `N` in every single `Netzwerk Buch/docs/kapitel-*.html` file and in `Netzwerk Buch/docs/index.html` to the same new value** — GitHub Pages lets browsers cache for ~10 minutes, and a stale script against a new page breaks the nav JS. Per-chapter widget scripts (see below) carry their own independent `?v=N` and only need bumping on pages that load them.
 
@@ -44,7 +44,7 @@ Every chapter in `Netzwerk Buch/docs/kapitel-NN.html` is built from the same fix
 
 - `assets/book.js` is the only script loaded on every page. It builds the grouped chapter nav and the page-contents nav purely from the DOM (`KAPITEL` array plus `<h2 id>`s) — there is no per-page nav markup to maintain. It also declares `SVG_NS` and `ohneBewegung`, which chapter widgets use as globals.
 - `assets/book.css` holds all design tokens as CSS custom properties (colors, spacing, type) per `DESIGN.md`. Don't introduce new colors/sizes/radii inline; add a token if something is genuinely missing.
-- Each chapter-specific interactive widget (SF-Rechner, Kapazitätsrechner, Paket-Bauplan, Wartezeit-Regler, Funkbögen, Hangszene, Checkliste) is its own file in `Netzwerk Buch/docs/assets/` (`sf-rechner.js`, `kapazitaet.js`, `paket.js`, `wartezeit.js`, `funk.js`, `szene.js`, `signalweg.js`, `checkliste.js`) and is `<script defer>`-included only on the chapter(s) that use it. Follow this pattern for new interactive elements rather than growing `book.js`.
+- The search (`suche.js`, `suche-daten.js`) is loaded by `book.js` on first focus of the search field. Each chapter-specific interactive widget (SF-Rechner, Kapazitätsrechner, Paket-Bauplan, Wartezeit-Regler, Funkbögen, Hangszene, Checkliste) is its own file in `Netzwerk Buch/docs/assets/` (`sf-rechner.js`, `kapazitaet.js`, `paket.js`, `wartezeit.js`, `funk.js`, `szene.js`, `signalweg.js`, `checkliste.js`) and is `<script defer>`-included only on the chapter(s) that use it. Follow this pattern for new interactive elements rather than growing `book.js`.
 - Fonts (Barlow Semi Condensed, Source Sans 3) are self-hosted as woff2 under `Netzwerk Buch/docs/assets/fonts/` specifically so the page makes no requests to Google — don't switch to a CDN font.
 - Every interactive widget needs a no-JS fallback (a plain table marked `nur-ohne-js`), per the existing pattern in e.g. `kapitel-06.html`.
 
@@ -54,8 +54,8 @@ Every chapter in `Netzwerk Buch/docs/kapitel-NN.html` is built from the same fix
 
 ## Content ground rules (from `PRODUCT.md`)
 
-- Chapter 13 (`#stufen`) is the single definition of ACK, Zustellung and HELP 1 to 3. Use these words everywhere: ACK is never a human, Übernahme is HELP 1.
-- Firmware, server code and `proto.h` were not available when the book was written. Describe them as stated in the handover, never as verified.
+- Chapter 13 (`#stufen`) is the single definition of ACK, Zustellung and HELP 1 to 3. Use these words everywhere: ACK is never a human, Übernahme is HELP 1. The button in the app is called „Annehmen“; tapping it is the Übernahme.
+- Firmware, server code and `proto.h` exist as the first-test version in `skitag-test.zip` (outside this repo, never commit it: it holds the example key). It is not the final firmware. The code was read but not run, so never describe it as tested or verified.
 
 - Distinguish explicitly between what's **fixed**, **decided**, and still **open** — never blur the three.
 - Explain the path of a real signal/event rather than listing components.

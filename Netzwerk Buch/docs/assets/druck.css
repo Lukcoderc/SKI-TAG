@@ -1,7 +1,7 @@
 /* Druckansicht: helle Fläche, alle Inhalte, keine Bedienelemente. */
 html { color-scheme: light; scroll-behavior: auto; }
 body { --dunkel: #fff; --flaeche: #f3f5f8; --flaeche-hell: #dfe5ec; --schnee: #13233a; --dunst: #3c4a5a; --licht: #7a5200; --notruf: #b3261e; font-size: 11pt; line-height: 1.45; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-.streifen, .kapitel-nav, .seiten-nav, .seite-klein, .blaettern, .rechner, .abdeckung, .knopf, .schema-hinweis, .schritt-wahl, .bedienung, .szene, .start-los { display: none !important; }
+.streifen, .zum-inhalt, .blaettern-oben, .kapitel-nav, .seiten-nav, .seite-klein, .blaettern, .rechner, .abdeckung, .knopf, .schema-hinweis, .schritt-wahl, .bedienung, .szene, .start-los { display: none !important; }
 .schritt, .schritt [hidden], .schritt-inhalt > * { display: block !important; content-visibility: visible !important; }
 .js .nur-ohne-js { display: block; }
 .buch, .start .buch { display: block; padding: 0; }

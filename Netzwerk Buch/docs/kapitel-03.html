@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Warum LoRa · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was LoRa macht, welche Grenzen es hat und welche Alternativen es für SkiTag gäbe.">
-<link rel="stylesheet" href="assets/book.css?v=43">
-<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
-<script src="assets/book.js?v=43" defer></script>
-<script src="assets/funk.js?v=43" defer></script>
-<script src="assets/sf-rechner.js?v=43" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=45">
+<link rel="stylesheet" href="assets/druck.css?v=45" media="print">
+<script src="assets/book.js?v=45" defer></script>
+<script src="assets/funk.js?v=45" defer></script>
+<script src="assets/sf-rechner.js?v=45" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -42,21 +42,30 @@
     </details>
     <article>
       <h1>Warum LoRa</h1>
-      <p class="stand">Kapitel 3 · Stand 2. November 2026</p>
-      <p class="vorwissen">Baut auf: <a href="kapitel-01.html">Kapitel 1</a>, <a href="kapitel-02.html">Kapitel 2</a></p>
+      <p class="stand">Kapitel 3 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-01.html">Kapitel 1, Vom Knopfdruck zur App</a> · <a href="kapitel-02.html">Kapitel 2, Anforderungen</a></p>
 
       <div class="lesen">
         <p class="einstieg">Der Chip hat kein Handynetz, nur einen kleinen Akku, und das nächste Gateway kann Kilometer entfernt sein. LoRa ist für genau so eine Lage gebaut: wenige Daten, sehr weit, mit wenig Strom. Dieses Kapitel erklärt, wie das geht, wo die Grenzen liegen und was die Alternativen wären.</p>
+        <div class="kurz">
+          <p class="kurz-titel">Kurz gesagt</p>
+          <ul>
+            <li>LoRa überträgt wenige Daten sehr weit und braucht dafür wenig Strom.</li>
+            <li>SkiTag sendet auf 869,525 MHz mit SF9, weil dieses Band am meisten erlaubt.</li>
+            <li>Für den Schultest bleibt es bei LoRa direkt.</li>
+          </ul>
+          <p><strong>Offen:</strong> Bleibt es am Berg beim eigenen Protokoll, oder kommt LoRaWAN?</p>
+        </div>
         <p>Dass SkiTag LoRa nutzt, steht fest. Die Prüfung hier zeigt, warum das sinnvoll ist. Offen ist noch, wie das Funknetz für den echten Betrieb aussehen soll.</p>
       </div>
 
       <div class="lesen">
         <h2 id="was-ist-lora" data-kurz="Was LoRa macht">Was LoRa macht</h2>
-        <p>LoRa steht für Long Range und ist eine Funktechnik der Firma Semtech. Sie sendet keine festen Töne, sondern Chirps: Die Frequenz läuft innerhalb des Kanals gleichmäßig von unten nach oben, wie ein Pfeifton, der ansteigt. Die Daten stecken darin, an welcher Stelle ein Chirp beginnt.</p>
+        <p>LoRa steht für Long Range und ist eine Funktechnik der Firma Semtech. Sie sendet keine festen Töne, sondern <a href="kapitel-anhang.html#g-chirp">Chirps</a>: Die Frequenz läuft innerhalb des Kanals gleichmäßig von unten nach oben, wie ein Pfeifton, der ansteigt. Die Daten stecken darin, an welcher Stelle ein Chirp beginnt.</p>
         <p>Der Empfänger kennt dieses Muster und rechnet es aus dem Rauschen heraus. Darum versteht er ein Signal, das schwächer ist als das Rauschen selbst. Bei der Einstellung von SkiTag darf es laut Datenblatt rund 12,5 dB darunter liegen, also etwa 18-mal schwächer.</p>
         <p>Der Preis dafür ist die Geschwindigkeit. LoRa überträgt nur wenige Byte, und das auch noch langsam. Ein Paket von SkiTag ist 27 Byte groß. Für Position, Akkustand und Notruf reicht das, für ein Foto oder ein Gespräch nicht.</p>
 
-        <h2 id="sf" data-kurz="Der wichtigste Regler">Der wichtigste Regler</h2>
+        <h2 id="sf" data-kurz="Spreading Factor: Reichweite gegen Sendezeit">Spreading Factor: Reichweite gegen Sendezeit</h2>
         <p>Der Spreading Factor (SF) legt fest, wie lang ein Chirp dauert. Ein Schritt nach oben verdoppelt die Sendezeit und holt dafür rund 2,5 dB mehr Reichweite heraus. SkiTag nutzt <a href="kapitel-anhang.html#g-sf9">SF9</a>. Schieb den Regler, um zu sehen, was andere Werte bedeuten würden.</p>
       </div>
 
@@ -79,7 +88,7 @@
         <table>
           <thead><tr><th scope="col">Einstellung</th><th scope="col">Sendezeit für 27 Byte</th><th scope="col">Empfindlichkeit</th></tr></thead>
           <tbody>
-            <tr><td>SF7</td><td>67 ms</td><td>−124 dBm</td></tr>
+            <tr><td>SF7</td><td>67 ms</td><td>−124 <a href="kapitel-anhang.html#g-db">dBm</a></td></tr>
             <tr><td>SF9 (SkiTag)</td><td>226 ms</td><td>rund −129 dBm</td></tr>
             <tr><td>SF12</td><td>1647 ms</td><td>−137 dBm</td></tr>
           </tbody>
@@ -87,7 +96,7 @@
       </div>
 
       <div class="lesen">
-        <p class="nach-tabelle">Die Werte für SF7 und SF12 stammen aus dem Datenblatt des Funkchips SX1262, der im Gateway steckt. Die Werte dazwischen sind daraus abgeleitet. Die Sendezeit ist mit der Formel von Semtech gerechnet und bestätigt die 226 ms aus der Übergabe.</p>
+        <p class="nach-tabelle">Die Werte für SF7 und SF12 stammen aus dem Datenblatt des Funkchips SX1262, der im Gateway steckt. Die Werte dazwischen sind daraus abgeleitet. Die Sendezeit ist mit der Formel von Semtech gerechnet und bestätigt die 226 ms aus der <a href="kapitel-anhang.html#g-uebergabe">Übergabe</a>.</p>
 
         <h2 id="frequenz" data-kurz="Warum 869,525 MHz">Warum 869,525 MHz</h2>
         <p>LoRa darf in Europa nicht auf beliebigen Frequenzen senden. SkiTag nutzt das kleine Band von 869,40 bis 869,65 MHz, weil es deutlich mehr erlaubt als die Bänder daneben:</p>
@@ -103,8 +112,20 @@
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Das steht im EU-Beschluss 2022/180 (Zeile 54), in der europäischen Empfehlung ERC/REC 70-03 in der Fassung vom Oktober 2026 und in ETSI EN 300 220-2. Österreich setzt den Eintrag laut deren Länderliste um, und die österreichische Frequenznutzungsverordnung führt das Band für Short Range Devices. Das Band ist für Funkgeräte mit kurzer Reichweite freigegeben und gehört niemandem allein, alle Nutzer teilen es sich. Statt der 10 % Sendezeit erlaubt die Regel auch ein Verfahren, das vor dem Senden den Kanal prüft. Der Bezugszeitraum der Sendezeit steht in ETSI EN 300 220-1, die wir nicht einsehen konnten. Die Übergabe rechnet je Stunde.</p>
-        <p>ERP ist die abgestrahlte Leistung, bezogen auf einen Dipol: Senderleistung plus Antennengewinn in dBi, minus 2,15 dB, minus Kabelverlust. 500 mW ERP sind 27 dBm ERP, das entspricht rund 29,15 dBm EIRP. SkiTag bleibt klar unter der Grenze: Chip und Gateway senden mit 20 dBm, das sind 100 mW am Antennenanschluss. Mit der 3-dBi-Antenne strahlt das Gateway ohne Kabelverlust rund 20,85 dBm ERP ab, also rund 120 mW. Jedes Kabel senkt das, auch für den Empfang. Den Gewinn der Chip-Antenne kennen wir nicht, die Grenze von 500 mW ist damit aber nicht in Reichweite. Der Chip kommt auf rund 1,1 % Sendezeit. Selbst bei einem Notruf, der im schnellsten Fall alle 4 Sekunden wiederholt wird, sind es rund 5,7 %.</p>
+        <p class="nach-tabelle">Das steht im EU-Beschluss 2022/180 (Zeile 54), in der europäischen Empfehlung ERC/REC 70-03 in der Fassung vom Oktober 2026 und in <a href="kapitel-anhang.html#g-etsi">ETSI</a> EN 300 220-2. Österreich setzt den Eintrag laut deren Länderliste um, und die österreichische Frequenznutzungsverordnung führt das Band für Short Range Devices. Das Band ist für Funkgeräte mit kurzer Reichweite freigegeben und gehört niemandem allein, alle Nutzer teilen es sich. Statt der 10 % Sendezeit erlaubt die Regel auch ein Verfahren, das vor dem Senden den Kanal prüft. Der Bezugszeitraum der Sendezeit steht in ETSI EN 300 220-1, die wir nicht einsehen konnten. Die Übergabe rechnet je Stunde.</p>
+        <p>ERP ist die abgestrahlte Leistung, bezogen auf einen Dipol: Senderleistung plus Antennengewinn in dBi, minus 2,15 dB, minus Kabelverlust. 500 mW ERP sind 27 dBm ERP, das entspricht rund 29,15 dBm EIRP. SkiTag bleibt klar unter den Grenzen des Bandes:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Wert</th><th scope="col">Erlaubt</th><th scope="col">Gateway</th><th scope="col">Chip</th></tr></thead>
+          <tbody>
+            <tr><td>Abgestrahlte Leistung (ERP)</td><td data-spalte="Erlaubt">500 mW, 27 dBm</td><td data-spalte="Gateway">Rund 120 mW, rund 20,85 dBm, mit 3-dBi-Antenne ohne Kabelverlust</td><td data-spalte="Chip">100 mW am Antennenanschluss, Antennengewinn unbekannt</td></tr>
+            <tr><td>Sendezeit</td><td data-spalte="Erlaubt">10 %</td><td data-spalte="Gateway">8,3 %</td><td data-spalte="Chip">Rund 1,1 %, beim schnellsten Notruf rund 5,7 %</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Chip und Gateway senden mit 20 dBm. Jedes Kabel senkt die Leistung, auch für den Empfang. Den Gewinn der Chip-Antenne kennen wir nicht, die Grenze von 500 mW ist damit aber nicht in Reichweite. Der schnellste Notruf wird alle 4 Sekunden wiederholt.</p>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>SkiTag nutzt diese Frequenz mit einem eigenen Protokoll, und das ist zulässig. Ein Risiko bleibt: 869,525 MHz ist in LoRaWAN-Netzen in Europa die Standardfrequenz für Antworten an Geräte. Gibt es im Gebiet ein solches Netz, teilen wir uns den Kanal. Das zeigt erst eine Messung vor Ort, mehr dazu in <a href="kapitel-18.html#lorawan">Kapitel 18</a>.</p>
 
         <h2 id="reichweite" data-kurz="Wie weit LoRa kommt">Wie weit LoRa kommt</h2>
@@ -119,7 +140,7 @@
         <table class="stapel">
           <thead><tr><th scope="col">Technik</th><th scope="col">Stärke</th><th scope="col">Problem für SkiTag</th><th scope="col">Urteil</th></tr></thead>
           <tbody>
-            <tr><td>LoRa direkt (heute)</td><td data-spalte="Stärke">Eigenes Netz, keine Gebühren, volle Kontrolle über Rückkanal und Zeitfenster</td><td data-spalte="Problem">Das ganze Protokoll ist selbst gebaut, und ein Kanal trägt nur wenige Chips</td><td data-spalte="Urteil">Richtig für den Test</td></tr>
+            <tr><td>LoRa direkt (heute)</td><td data-spalte="Stärke">Eigenes Netz, keine Gebühren, volle Kontrolle über Rückkanal und Zeitfenster</td><td data-spalte="Problem">Das ganze Protokoll ist selbst gebaut, und ein Kanal trägt nur wenige Chips</td><td data-spalte="Urteil">Richtig für den Schultest</td></tr>
             <tr><td><a href="kapitel-anhang.html#g-lorawan">LoRaWAN</a></td><td data-spalte="Stärke">Gleicher Funk, fertiger Standard, Gateways hören bis zu 8 Kanäle gleichzeitig</td><td data-spalte="Problem">Geräte senden ohne Absprache, Pakete können kollidieren, und Antworten kommen nur direkt nach dem Senden</td><td data-spalte="Urteil">Ernster Kandidat für den Betrieb</td></tr>
             <tr><td>NB-IoT und LTE-M</td><td data-spalte="Stärke">Nutzen vorhandene Handymasten, kein eigenes Funknetz nötig</td><td data-spalte="Problem">Brauchen SIM und Mobilfunkanbieter, und nur dort, wo Mobilfunk reicht, kommt ein Notruf an</td><td data-spalte="Urteil">Passt nicht zum Versprechen</td></tr>
             <tr><td>Sigfox</td><td data-spalte="Stärke">Sehr sparsam und weit</td><td data-spalte="Problem">Fremdes Netz, nur wenige Antworten pro Tag, und der Betreiber musste 2025 in Frankreich erneut vor Gericht</td><td data-spalte="Urteil">Scheidet aus</td></tr>
@@ -136,7 +157,7 @@
 
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
-          <p><strong>Für den Test bleibt es bei LoRa direkt.</strong> Die Software ist dafür gebaut, 5 Chips brauchen kein großes Netz, und es entstehen keine laufenden Kosten.</p>
+          <p><strong>Für den Schultest bleibt es bei LoRa direkt.</strong> Die Software ist dafür gebaut, 5 Chips brauchen kein großes Netz, und es entstehen keine laufenden Kosten. Für den Test am Berg ist ein LoRa-Gateway geplant. Ob es dort bei unserem eigenen Protokoll bleibt oder LoRaWAN zum Einsatz kommt, ist offen, siehe <a href="kapitel-07.html">Kapitel 7</a>.</p>
           <p><strong>Für den Betrieb ist LoRaWAN der erste Kandidat, aber nicht entschieden.</strong> Es löst das Problem mit vielen Chips und Kanälen. Dafür müsste geklärt werden, ob Notrufe in einem Netz ohne feste Zeitfenster schnell und sicher genug ankommen.</p>
         </div>
         <p class="nach-tabelle">Beides sind Empfehlungen dieses Kapitels. Was das für die Kapazität bedeutet, rechnet <a href="kapitel-05.html#lorawan-preis">Kapitel 5</a> durch. Die Entscheidung für den Betrieb fällt in Kapitel 18, wenn die Messungen vorliegen.</p>

@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Das Netzwerk von SkiTag: alle Kapitel, das Gesamtbild und der Stand jeder Aussage.">
-<link rel="stylesheet" href="assets/book.css?v=43">
-<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
-<script src="assets/book.js?v=43" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=45">
+<link rel="stylesheet" href="assets/druck.css?v=45" media="print">
+<script src="assets/book.js?v=45" defer></script>
 </head>
 <body class="start">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -44,21 +44,21 @@
 
       <div class="lesen">
         <p class="einstieg">SkiTag ist ein Mietchip, der im Skigebiet Notrufe mit Standort sendet, ohne Handy und ohne Handynetz. Dieses Buch erklärt das Netz dahinter: vom Knopf am Chip über Gateway und Server bis in die App der Bergbahn. Es folgt dem Weg des Signals, jedes Kapitel baut auf den vorigen auf.</p>
-        <p class="start-los"><a class="knopf knopf-haupt" href="kapitel-01.html">Mit Kapitel 1 beginnen</a> <a href="kapitel-anhang.html#glossar">Zum Glossar</a></p>
+        <p class="start-los"><a class="knopf knopf-haupt" href="kapitel-kurz.html">SkiTag in 5 Minuten</a> <a href="kapitel-01.html">Mit Kapitel 1 beginnen</a> <a href="kapitel-fragen.html">Häufige Fragen</a> <a href="kapitel-anhang.html#glossar">Glossar</a></p>
 
         <h2 id="system" data-kurz="Das System">Das System auf einen Blick</h2>
         <p>Der Chip funkt zum Gateway, das Gateway reicht weiter, der Server entscheidet, und die App zeigt das Ergebnis.</p>
       </div>
       <figure class="schema">
         <div class="schema-rahmen" tabindex="0" role="group" aria-label="Gesamtbild von SkiTag: Der Chip funkt per LoRa zum Gateway am Berg, das Gateway reicht die Pakete an den Server bei KitzSki weiter, der Server erreicht über Internet und Mobilfunk die Apps. Der Weg eines Notrufs ist hervorgehoben. Ein Leitstand ist nur ein Vorschlag.">
-          <svg viewBox="0 0 960 520" role="img" aria-label="Gesamtbild von SkiTag: Der Chip funkt per LoRa zum Gateway am Berg, das Gateway reicht die Pakete an den Server bei KitzSki weiter, der Server erreicht über Internet und Mobilfunk die Apps. Der Weg eines Notrufs ist hervorgehoben. Ein Leitstand ist nur ein Vorschlag." data-schema="architektur"><defs><marker id="sb-spitze" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze" d="M0 0 10 5 0 10Z"/></marker><marker id="sb-spitze-licht" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze-licht" d="M0 0 10 5 0 10Z"/></marker></defs><rect class="sb-zone" x="16" y="16" width="300" height="488"/><text class="sb-zone-name" x="34" y="46">Am Berg</text><rect class="sb-zone" x="332" y="16" width="296" height="488"/><text class="sb-zone-name" x="350" y="46">Bei KitzSki</text><rect class="sb-zone" x="644" y="16" width="300" height="488"/><text class="sb-zone-name" x="662" y="46">Unterwegs</text><rect class="sb-box" x="36" y="64" width="260" height="92"/><text class="sb-titel" x="50" y="105.5">Chip</text><text class="sb-text" x="50" y="129.5">GPS, Knopf, Vibration, ohne SIM</text><path class="sb-linie sb-licht sb-beide" d="M166 156V252"/><text class="sb-titel" x="180" y="196">LoRa</text><text class="sb-text" x="180" y="220">869,525 MHz, SF9</text><rect class="sb-box" x="36" y="252" width="260" height="92"/><text class="sb-titel" x="50" y="293.5">Gateway</text><text class="sb-text" x="50" y="317.5">Reicht Pakete ungelesen weiter</text><text class="sb-text" x="36" y="374">Im Test: 2 Heltec V3 am Fenster</text><text class="sb-text" x="36" y="398">einer Bergstation</text><path class="sb-linie sb-licht sb-beide" d="M296 298H352"/><rect class="sb-box" x="352" y="64" width="256" height="92"/><text class="sb-titel" x="366" y="105.5">Ausgabe-Seite</text><text class="sb-text" x="366" y="129.5">Chips ausgeben, Funk ansehen</text><path class="sb-linie sb-pfeil" d="M584 252V156"/><text class="sb-text" x="352" y="236">WLAN, später Kabel, HTTPS</text><rect class="sb-box" x="352" y="252" width="256" height="92"/><text class="sb-titel" x="366" y="293.5">Server</text><text class="sb-text" x="366" y="317.5">Prüft, entscheidet, bestätigt</text><path class="sb-linie sb-gestrichelt sb-pfeil" d="M480 344V392"/><rect class="sb-box sb-fein" x="352" y="392" width="256" height="92"/><text class="sb-titel" x="366" y="433.5">Leitstand</text><text class="sb-text" x="366" y="457.5">Vorschlag aus Kapitel 14</text><use class="sb-offen" href="#mark-offen" x="576" y="404" width="16" height="16"/><path class="sb-linie sb-licht sb-beide" d="M608 298H664"/><text class="sb-text" x="664" y="236">HTTPS und Live-Stream</text><rect class="sb-box" x="664" y="252" width="260" height="92"/><text class="sb-titel" x="678" y="293.5">Internet und Mobilfunk</text><text class="sb-text" x="678" y="317.5">Hängt nicht an unserem Funknetz</text><rect class="sb-box" x="664" y="64" width="260" height="92"/><text class="sb-titel" x="678" y="105.5">App für Gäste</text><text class="sb-text" x="678" y="129.5">Gruppe, Karte, Treffpunkt</text><path class="sb-linie sb-pfeil sb-beide" d="M880 252V156"/><path class="sb-linie sb-licht sb-beide" d="M794 344V392"/><rect class="sb-box" x="664" y="392" width="260" height="92"/><text class="sb-titel" x="678" y="433.5">App für Mitarbeiter</text><text class="sb-text" x="678" y="457.5">Notruf sehen und annehmen</text></svg>
+          <svg viewBox="0 0 960 520" role="img" aria-label="Gesamtbild von SkiTag: Der Chip funkt per LoRa zum Gateway am Berg, das Gateway reicht die Pakete an den Server bei KitzSki weiter, der Server erreicht über Internet und Mobilfunk die Apps. Der Weg eines Notrufs ist hervorgehoben. Ein Leitstand ist nur ein Vorschlag." data-schema="architektur"><defs><marker id="sb-spitze" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze" d="M0 0 10 5 0 10Z"/></marker><marker id="sb-spitze-licht" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze-licht" d="M0 0 10 5 0 10Z"/></marker></defs><rect class="sb-zone" x="16" y="16" width="300" height="488"/><text class="sb-zone-name" x="34" y="46">Am Berg</text><rect class="sb-zone" x="332" y="16" width="296" height="488"/><text class="sb-zone-name" x="350" y="46">Bei KitzSki</text><rect class="sb-zone" x="644" y="16" width="300" height="488"/><text class="sb-zone-name" x="662" y="46">Unterwegs</text><rect class="sb-box" x="36" y="64" width="260" height="92"/><text class="sb-titel" x="50" y="105.5">Chip</text><text class="sb-text" x="50" y="129.5">GPS, Knopf, Vibration, ohne SIM</text><path class="sb-linie sb-licht sb-beide" d="M166 156V252"/><text class="sb-titel" x="180" y="196">LoRa</text><text class="sb-text" x="180" y="220">869,525 MHz, SF9</text><rect class="sb-box" x="36" y="252" width="260" height="92"/><text class="sb-titel" x="50" y="293.5">Gateway</text><text class="sb-text" x="50" y="317.5">Reicht Pakete ungelesen weiter</text><text class="sb-text" x="36" y="374">Schultest: 1 Heltec V3</text><text class="sb-text" x="36" y="398">Berg: Gondelstation, Gerät offen</text><path class="sb-linie sb-licht sb-beide" d="M296 298H352"/><rect class="sb-box" x="352" y="64" width="256" height="92"/><text class="sb-titel" x="366" y="105.5">Ausgabe-Seite</text><text class="sb-text" x="366" y="129.5">Chips ausgeben, Funk ansehen</text><path class="sb-linie sb-pfeil" d="M584 252V156"/><text class="sb-text" x="352" y="236">WLAN, später Kabel, HTTPS</text><rect class="sb-box" x="352" y="252" width="256" height="92"/><text class="sb-titel" x="366" y="293.5">Server</text><text class="sb-text" x="366" y="317.5">Prüft, entscheidet, bestätigt</text><path class="sb-linie sb-gestrichelt sb-pfeil" d="M480 344V392"/><rect class="sb-box sb-fein" x="352" y="392" width="256" height="92"/><text class="sb-titel" x="366" y="433.5">Leitstand</text><text class="sb-text" x="366" y="457.5">Vorschlag aus Kapitel 14</text><use class="sb-offen" href="#mark-offen" x="576" y="404" width="16" height="16"/><path class="sb-linie sb-licht sb-beide" d="M608 298H664"/><text class="sb-text" x="664" y="236">HTTPS und Live-Stream</text><rect class="sb-box" x="664" y="252" width="260" height="92"/><text class="sb-titel" x="678" y="293.5">Internet und Mobilfunk</text><text class="sb-text" x="678" y="317.5">Hängt nicht an unserem Funknetz</text><rect class="sb-box" x="664" y="64" width="260" height="92"/><text class="sb-titel" x="678" y="105.5">App für Gäste</text><text class="sb-text" x="678" y="129.5">Gruppe, Karte, Treffpunkt</text><path class="sb-linie sb-pfeil sb-beide" d="M880 252V156"/><path class="sb-linie sb-licht sb-beide" d="M794 344V392"/><rect class="sb-box" x="664" y="392" width="260" height="92"/><text class="sb-titel" x="678" y="433.5">App für Mitarbeiter</text><text class="sb-text" x="678" y="457.5">Notruf sehen und annehmen</text></svg>
         </div>
         <figcaption>Der hervorgehobene Weg ist der eines Notrufs, in beide Richtungen. Der Leitstand ist kein geplanter Teil, sondern ein offener Vorschlag.<span class="schema-hinweis"> Zum Ansehen seitlich wischen.</span></figcaption>
       </figure>
 
       <div class="lesen">
         <h2 id="stand" data-kurz="Wie sicher etwas ist">Wie sicher eine Aussage ist</h2>
-        <p>Jede Aussage trägt eine dieser Marken. In der Liste unten steht bei jedem Kapitel die Marke, die dort überwiegt. Das ist unsere Einschätzung. Auf echter Hardware ist noch nichts getestet.</p>
+        <p>Jede Aussage trägt eine dieser Marken. In der Liste unten steht bei jedem Kapitel, wie oft jede Marke dort vorkommt. Auf echter Hardware ist noch nichts getestet.</p>
       </div>
       <dl class="legende">
         <div><dt><span class="inhalt-stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-fest"/></svg>Fest</span></dt><dd>Steht unverrückbar, etwa durch Gesetz oder Hardware.</dd></div>
@@ -68,13 +68,24 @@
       </dl>
 
       <div class="lesen">
+        <h2 id="einstieg">Einstieg</h2>
+        <p>Wer nur den Überblick braucht oder eine bestimmte Antwort sucht, fängt hier an.</p>
+      </div>
+      <nav aria-label="Einstieg">
+        <ol class="inhalt">
+          <li><span class="inhalt-nr">K</span><div><a href="kapitel-kurz.html">SkiTag in 5 Minuten</a><p>Das Projekt ohne Vorwissen erklärt, mit dem Stand von heute.</p></div></li>
+          <li><span class="inhalt-nr">F</span><div><a href="kapitel-fragen.html">Häufige Fragen</a><p>Kurze Antworten mit Verweis auf das passende Kapitel.</p></div></li>
+        </ol>
+      </nav>
+
+      <div class="lesen">
         <h2 id="grundlagen">Grundlagen</h2>
         <p>Worum es geht und was das Netz können muss.</p>
       </div>
       <nav aria-label="Grundlagen">
         <ol class="inhalt">
-          <li><span class="inhalt-nr">1</span><div><a href="kapitel-01.html">Vom Knopfdruck zur App</a><p>Der Weg eines Notrufs in sechs Schritten, mit Szene am Hang.</p></div><span class="inhalt-stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</span></li>
-          <li><span class="inhalt-nr">2</span><div><a href="kapitel-02.html">Anforderungen</a><p>Was das Netz können muss, im Test und im Betrieb.</p></div><span class="inhalt-stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</span></li>
+          <li><span class="inhalt-nr">1</span><div><a href="kapitel-01.html">Vom Knopfdruck zur App</a><p>Der Weg eines Notrufs in sechs Schritten, mit Szene am Hang.</p><p class="inhalt-zahlen"><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-fest"/></svg>1 Fest</span><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>1 Entschieden</span><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>1 Geschätzt</span><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>4 Offen</span></p></div></li>
+          <li><span class="inhalt-nr">2</span><div><a href="kapitel-02.html">Anforderungen</a><p>Was das Netz können muss, im Test und im Betrieb.</p><p class="inhalt-zahlen"><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-fest"/></svg>2 Fest</span><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>6 Entschieden</span><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>1 Geschätzt</span><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>7 Offen</span></p></div></li>
         </ol>
       </nav>
 
@@ -84,10 +95,10 @@
       </div>
       <nav aria-label="Funk">
         <ol class="inhalt">
-          <li><span class="inhalt-nr">3</span><div><a href="kapitel-03.html">Warum LoRa</a><p>Spreading Factor, Frequenz, Reichweite und Alternativen.</p></div><span class="inhalt-stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</span></li>
-          <li><span class="inhalt-nr">4</span><div><a href="kapitel-04.html">Funkprotokoll</a><p>Pakete, Zeitfenster und Schutz. Noch mit Maximilian abzugleichen.</p></div><span class="inhalt-stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</span></li>
-          <li><span class="inhalt-nr">5</span><div><a href="kapitel-05.html">Sendeintervall und Kapazität</a><p>Wie viele Chips ein Kanal trägt, mit Rechner.</p></div><span class="inhalt-stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</span></li>
-          <li><span class="inhalt-nr">6</span><div><a href="kapitel-06.html">Rückkanal zum Chip</a><p>Warum der Chip Antworten bekommt und wie lange sie dauern.</p></div><span class="inhalt-stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</span></li>
+          <li><span class="inhalt-nr">3</span><div><a href="kapitel-03.html">Warum LoRa</a><p>Spreading Factor, Frequenz, Reichweite und Alternativen.</p><p class="inhalt-zahlen"><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>1 Offen</span></p></div></li>
+          <li><span class="inhalt-nr">4</span><div><a href="kapitel-04.html">Funkprotokoll</a><p>Pakete, Zeitfenster und Schutz. Noch mit Maximilian abzugleichen.</p><p class="inhalt-zahlen"><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>10 Offen</span></p></div></li>
+          <li><span class="inhalt-nr">5</span><div><a href="kapitel-05.html">Sendeintervall und Kapazität</a><p>Wie viele Chips ein Kanal trägt, mit Rechner.</p><p class="inhalt-zahlen"><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>1 Geschätzt</span><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>2 Offen</span></p></div></li>
+          <li><span class="inhalt-nr">6</span><div><a href="kapitel-06.html">Rückkanal zum Chip</a><p>Warum der Chip Antworten bekommt und wie lange sie dauern.</p><p class="inhalt-zahlen"><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>2 Offen</span></p></div></li>
         </ol>
       </nav>
 
@@ -97,10 +108,10 @@
       </div>
       <nav aria-label="Gateways am Berg">
         <ol class="inhalt">
-          <li><span class="inhalt-nr">7</span><div><a href="kapitel-07.html">Die Gateways</a><p>Hardware, Software und Aufstellung im Test.</p></div><span class="inhalt-stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</span></li>
-          <li><span class="inhalt-nr">8</span><div><a href="kapitel-08.html">Reichweite im Gelände</a><p>Was Grate und Wald kosten, mit Rechner für eine Funkstrecke.</p></div><span class="inhalt-stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</span></li>
-          <li><span class="inhalt-nr">9</span><div><a href="kapitel-09.html">Standortplanung KitzSki</a><p>Wie viele Gateways das Gebiet braucht, mit Karte der Abdeckung.</p></div><span class="inhalt-stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</span></li>
-          <li><span class="inhalt-nr">10</span><div><a href="kapitel-10.html">Strom und Netzanbindung</a><p>Fenster, Strom, Weg zum Server und Blitzschutz.</p></div><span class="inhalt-stand inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</span></li>
+          <li><span class="inhalt-nr">7</span><div><a href="kapitel-07.html">Die Gateways</a><p>Hardware, Software und Aufstellung im Test.</p><p class="inhalt-zahlen"><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-fest"/></svg>1 Fest</span><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>1 Entschieden</span><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>1 Geschätzt</span><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>6 Offen</span></p></div></li>
+          <li><span class="inhalt-nr">8</span><div><a href="kapitel-08.html">Reichweite im Gelände</a><p>Was Grate und Wald kosten, mit Rechner für eine Funkstrecke.</p><p class="inhalt-zahlen"><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>1 Geschätzt</span><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>7 Offen</span></p></div></li>
+          <li><span class="inhalt-nr">9</span><div><a href="kapitel-09.html">Standortplanung KitzSki</a><p>Wie viele Gateways das Gebiet braucht, mit Karte der Abdeckung.</p><p class="inhalt-zahlen"><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>1 Geschätzt</span><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>5 Offen</span></p></div></li>
+          <li><span class="inhalt-nr">10</span><div><a href="kapitel-10.html">Strom und Netzanbindung</a><p>Fenster, Strom, Weg zum Server und Blitzschutz.</p><p class="inhalt-zahlen"><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>1 Geschätzt</span><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>12 Offen</span></p></div></li>
         </ol>
       </nav>
 
@@ -110,8 +121,8 @@
       </div>
       <nav aria-label="Server und App">
         <ol class="inhalt">
-          <li><span class="inhalt-nr">11</span><div><a href="kapitel-11.html">Der Server</a><p>Aufgaben, Standort bei KitzSki und Erreichbarkeit.</p></div><span class="inhalt-stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</span></li>
-          <li><span class="inhalt-nr">12</span><div><a href="kapitel-12.html">Schnittstelle zur App</a><p>Was gebaut ist, Endpunkte, Datenfluss und ob der Alarm einen Menschen erreicht.</p></div><span class="inhalt-stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</span></li>
+          <li><span class="inhalt-nr">11</span><div><a href="kapitel-11.html">Der Server</a><p>Aufgaben, Standort bei KitzSki und Erreichbarkeit.</p><p class="inhalt-zahlen"><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>1 Entschieden</span><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>1 Geschätzt</span><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>9 Offen</span></p></div></li>
+          <li><span class="inhalt-nr">12</span><div><a href="kapitel-12.html">Schnittstelle zur App</a><p>Was gebaut ist, Endpunkte, Datenfluss und ob der Alarm einen Menschen erreicht.</p><p class="inhalt-zahlen"><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>2 Entschieden</span><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>1 Geschätzt</span><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>14 Offen</span></p></div></li>
         </ol>
       </nav>
 
@@ -121,9 +132,9 @@
       </div>
       <nav aria-label="Notruf und Sicherheit">
         <ol class="inhalt">
-          <li><span class="inhalt-nr">13</span><div><a href="kapitel-13.html">SOS: Vorrang und Fehlalarme</a><p>Vorrang, Fehlalarme, die Stufen eines Notrufs und die Eskalation.</p></div><span class="inhalt-stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</span></li>
-          <li><span class="inhalt-nr">14</span><div><a href="kapitel-14.html">Ausfallsicherheit und Betrieb</a><p>Ausfälle durchspielen, Überwachung und Tagesablauf.</p></div><span class="inhalt-stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</span></li>
-          <li><span class="inhalt-nr">15</span><div><a href="kapitel-15.html">Sicherheit und Datenschutz</a><p>Stromchiffre, Sicherheitsgrenzen, Daten und rechtliche Fragen.</p></div><span class="inhalt-stand inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</span></li>
+          <li><span class="inhalt-nr">13</span><div><a href="kapitel-13.html">SOS: Vorrang und Fehlalarme</a><p>Vorrang, Fehlalarme, die Stufen eines Notrufs und die Eskalation.</p><p class="inhalt-zahlen"><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-fest"/></svg>1 Fest</span><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>6 Entschieden</span><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>7 Offen</span></p></div></li>
+          <li><span class="inhalt-nr">14</span><div><a href="kapitel-14.html">Ausfallsicherheit und Betrieb</a><p>Ausfälle durchspielen, Überwachung und Tagesablauf.</p><p class="inhalt-zahlen"><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-fest"/></svg>1 Fest</span><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>1 Geschätzt</span><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>15 Offen</span></p></div></li>
+          <li><span class="inhalt-nr">15</span><div><a href="kapitel-15.html">Sicherheit und Datenschutz</a><p>Stromchiffre, Sicherheitsgrenzen, Daten und rechtliche Fragen.</p><p class="inhalt-zahlen"><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-fest"/></svg>2 Fest</span><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>4 Entschieden</span><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>3 Geschätzt</span><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>38 Offen</span></p></div></li>
         </ol>
       </nav>
 
@@ -133,9 +144,9 @@
       </div>
       <nav aria-label="Test und Serie">
         <ol class="inhalt">
-          <li><span class="inhalt-nr">16</span><div><a href="kapitel-16.html">Testen in der Schule</a><p>Wie wir Chip, Gateway und Server in der Schule testen, mit Checkliste.</p></div><span class="inhalt-stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</span></li>
-          <li><span class="inhalt-nr">17</span><div><a href="kapitel-17.html">Testplan Februar 2027</a><p>Vorbereitung, 25 Tests mit Bestehenskriterien und Sicherheit am Testtag.</p></div><span class="inhalt-stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</span></li>
-          <li><span class="inhalt-nr">18</span><div><a href="kapitel-18.html">Ausblick Serie</a><p>LoRaWAN oder eigenes Protokoll, mit Kostenrechner.</p></div><span class="inhalt-stand inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</span></li>
+          <li><span class="inhalt-nr">16</span><div><a href="kapitel-16.html">Testen in der Schule</a><p>Wie wir Chip, Gateway und Server in der Schule testen, mit Checkliste.</p><p class="inhalt-zahlen"><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>1 Entschieden</span><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>1 Geschätzt</span><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>3 Offen</span></p></div></li>
+          <li><span class="inhalt-nr">17</span><div><a href="kapitel-17.html">Testplan Februar 2027</a><p>Vorbereitung und Sicherheit am Testtag am Berg.</p><p class="inhalt-zahlen"><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>8 Offen</span></p></div></li>
+          <li><span class="inhalt-nr">18</span><div><a href="kapitel-18.html">Ausblick auf den Betrieb</a><p>LoRaWAN oder eigenes Protokoll, mit Kostenrechner.</p><p class="inhalt-zahlen"><span><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>1 Geschätzt</span><span class="inhalt-offen"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>5 Offen</span></p></div></li>
         </ol>
       </nav>
 
@@ -144,7 +155,8 @@
       </div>
       <nav aria-label="Nachschlagen">
         <ol class="inhalt">
-          <li><span class="inhalt-nr">A</span><div><a href="kapitel-anhang.html">Anhang</a><p>Kosten, alle offenen Punkte, Glossar und alle Quellen.</p></div></li>
+          <li><span class="inhalt-nr">E</span><div><a href="kapitel-entscheidungen.html">Entscheidungen und offene Punkte</a><p>Was entschieden ist und was noch zu klären ist.</p></div></li>
+          <li><span class="inhalt-nr">A</span><div><a href="kapitel-anhang.html">Anhang</a><p>Nachweis, Kosten, Glossar und alle Quellen.</p></div></li>
         </ol>
       </nav>
     </article>

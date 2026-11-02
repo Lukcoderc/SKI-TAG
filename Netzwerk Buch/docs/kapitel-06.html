@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rückkanal zum Chip · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Warum der Server dem Chip antwortet, was das kostet und wo es hakt.">
-<link rel="stylesheet" href="assets/book.css?v=43">
-<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
-<script src="assets/book.js?v=43" defer></script>
-<script src="assets/wartezeit.js?v=43" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=45">
+<link rel="stylesheet" href="assets/druck.css?v=45" media="print">
+<script src="assets/book.js?v=45" defer></script>
+<script src="assets/wartezeit.js?v=45" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -41,11 +41,20 @@
     </details>
     <article>
       <h1>Rückkanal zum Chip</h1>
-      <p class="stand">Kapitel 6 · Stand 2. November 2026</p>
-      <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4</a>, <a href="kapitel-05.html">Kapitel 5</a></p>
+      <p class="stand">Kapitel 6 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4, Funkprotokoll</a> · <a href="kapitel-05.html">Kapitel 5, Sendeintervall und Kapazität</a></p>
 
       <div class="lesen">
         <p class="einstieg">Wer im Schnee liegt und den Knopf hält, will wissen, ob jemand kommt. Dafür muss der Server dem Chip antworten können. Das ist der Rückkanal. Die Frage aus der Angabe lautet, ob er möglich ist, und die Antwort ist: Ja, er ist schon gebaut.</p>
+        <div class="kurz">
+          <p class="kurz-titel">Kurz gesagt</p>
+          <ul>
+            <li>Der Rückkanal ist nötig und schon gebaut.</li>
+            <li>Ein ACK heißt nur, dass der Server den Notruf hat. Erst HELP 1 heißt, dass ein Mensch übernommen hat.</li>
+            <li>Antworten warten auf das nächste Paket des Chips, also bis zu 20 Sekunden.</li>
+          </ul>
+          <p><strong>Offen:</strong> Warnt der Chip auch, wenn nach dem ACK kein HELP 1 kommt?</p>
+        </div>
         <p>Dieses Kapitel begründet, warum es ihn braucht, was er kostet und wo er noch langsam ist. Getestet ist er bisher nur am PC.</p>
 
         <h2 id="wozu" data-kurz="Wozu der Rückkanal da ist">Wozu der Rückkanal da ist</h2>
@@ -64,7 +73,7 @@
       </div>
       <div class="lesen">
         <p class="nach-tabelle">Wichtig ist der Unterschied zwischen ACK und HELP. Ein ACK heißt nur, dass der Server den Notruf hat. Erst HELP 1 heißt, dass ein Mensch ihn übernommen hat. Ein ACK darf am Chip deshalb nie wie „Hilfe kommt“ aussehen. Die verbindlichen Stufen stehen in <a href="kapitel-13.html#stufen">Kapitel 13</a>.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Eine Lücke bleibt: Die Warnung nach 90 Sekunden greift nur, solange kein ACK kam. Kommt danach kein HELP 1, warnt der Chip laut Übergabe nicht mehr. Der <a href="kapitel-13.html#eskalation">Zeitablauf in Kapitel 13</a> schlägt dafür eine zweite Frist vor.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Eine Lücke bleibt: Die Warnung nach 90 Sekunden greift nur, solange kein ACK kam. Kommt danach kein HELP 1, warnt der Chip laut <a href="kapitel-anhang.html#g-uebergabe">Übergabe</a> nicht mehr. Der <a href="kapitel-13.html#eskalation">Zeitablauf in Kapitel 13</a> schlägt dafür eine zweite Frist vor.</p>
 
         <h2 id="kosten" data-kurz="Was er kostet">Was der Rückkanal kostet</h2>
         <p>Ein Kanal in beide Richtungen ist nicht gratis. Der Preis fällt an drei Stellen an:</p>
@@ -77,6 +86,12 @@
         <h2 id="wartezeit" data-kurz="Warum Antworten warten">Warum Antworten warten</h2>
         <p>Der Server antwortet einem Chip nur direkt nach einem Paket genau dieses Chips. Das hält die Antwort im richtigen Zeitfenster, aber sie muss warten, bis der Chip sich das nächste Mal meldet. Stell ein, wann der Befehl im Server entsteht. Der Chip sendet hier in Sekunde 8 seines Takts.</p>
       </div>
+      <figure class="schema">
+        <div class="schema-rahmen" tabindex="0" role="group" aria-label="Ablauf einer Antwort an den Chip: Ein Befehl entsteht kurz nach einem Paket und wartet bis zu 20 Sekunden auf das nächste Paket des Chips. Danach sendet das Gateway spätestens nach 1,4 Sekunden.">
+          <svg viewBox="0 0 960 250" role="img" aria-label="Ablauf einer Antwort an den Chip: Ein Befehl entsteht kurz nach einem Paket und wartet bis zu 20 Sekunden auf das nächste Paket des Chips. Danach sendet das Gateway spätestens nach 1,4 Sekunden."><defs><marker id="sb-spitze" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze" d="M0 0 10 5 0 10Z"/></marker><marker id="sb-spitze-licht" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze-licht" d="M0 0 10 5 0 10Z"/></marker></defs><path class="sb-linie" d="M40 150H916"/><rect class="sb-box" x="77" y="120" width="26" height="60"/><rect class="sb-box" x="807" y="120" width="26" height="60"/><text class="sb-text" x="77" y="108">Paket des Chips</text><text class="sb-text" x="767" y="108">Nächstes Paket</text><path class="sb-linie sb-licht sb-pfeil" d="M150 150H801"/><text class="sb-text" x="158" y="140">Befehl wartet im Server, unterwegs bis zu 20 s</text><path class="sb-linie sb-licht sb-pfeil" d="M821 180V214"/><text class="sb-text" x="617" y="236">Antwort spätestens nach 1,4 s</text></svg>
+        </div>
+        <figcaption>Der Server antwortet nur direkt nach einem Paket dieses Chips. In der <a href="kapitel-anhang.html#g-ladebox">Ladebox</a> dauert es bis zu 60 s, beim Notruf rund 8 s, später bis 25 s.<span class="schema-hinweis"> Zum Ansehen seitlich wischen.</span></figcaption>
+      </figure>
 
       <section class="rechner" aria-label="Wartezeit eines Befehls">
         <div class="bauplan-wahl">

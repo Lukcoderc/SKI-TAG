@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Standortplanung KitzSki · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie viele Gateways KitzSki braucht: ein Modell aus echten Pisten und Gelände.">
-<link rel="stylesheet" href="assets/book.css?v=43">
-<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
-<script src="assets/book.js?v=43" defer></script>
-<script src="assets/funk.js?v=43" defer></script>
-<script src="assets/abdeckung-daten.js?v=43" defer></script>
-<script src="assets/abdeckung-wahl.js?v=43" defer></script>
-<script src="assets/abdeckung.js?v=43" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=45">
+<link rel="stylesheet" href="assets/druck.css?v=45" media="print">
+<script src="assets/book.js?v=45" defer></script>
+<script src="assets/funk.js?v=45" defer></script>
+<script src="assets/abdeckung-daten.js?v=45" defer></script>
+<script src="assets/abdeckung-wahl.js?v=45" defer></script>
+<script src="assets/abdeckung.js?v=45" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -44,11 +44,20 @@
     </details>
     <article>
       <h1>Standortplanung KitzSki</h1>
-      <p class="stand">Kapitel 9 · Stand 2. November 2026</p>
-      <p class="vorwissen">Baut auf: <a href="kapitel-05.html">Kapitel 5</a>, <a href="kapitel-08.html">Kapitel 8</a></p>
+      <p class="stand">Kapitel 9 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-05.html">Kapitel 5, Sendeintervall und Kapazität</a> · <a href="kapitel-08.html">Kapitel 8, Reichweite im Gelände</a></p>
 
       <div class="lesen">
         <p class="einstieg">Wie viele Gateways braucht ein Skigebiet wie KitzSki, und wo stehen sie? Dafür wurde das Gelände von KitzSki mit einem Modell durchgerechnet. Das Ergebnis ist kein Plan, sondern eine erste Größenordnung und eine Liste von Stationen, die man sich ansehen sollte.</p>
+        <div class="kurz">
+          <p class="kurz-titel">Kurz gesagt</p>
+          <ul>
+            <li>Das Modell braucht 4 Gateways, wenn jeder Punkt nur eines hören muss.</li>
+            <li>Damit zwei Gateways einander ersetzen können, sind es rund 12.</li>
+            <li>Das Modell kennt keinen Wald und ist darum zu optimistisch.</li>
+          </ul>
+          <p><strong>Offen:</strong> Welche Stationen es werden und wie viel Reserve das Netz braucht.</p>
+        </div>
         <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Alle Ergebnisse hier sind gerechnet, nicht gemessen. Das Modell kennt weder Wald noch Gebäude und ist deshalb zu optimistisch.</p>
 
         <h2 id="modell" data-kurz="Wie gerechnet wurde">Wie gerechnet wurde</h2>
@@ -56,7 +65,7 @@
           <li><strong>Pisten und Lifte:</strong> aus OpenStreetMap, 173 km Piste und 48 Lifte. Die Region nennt 233 Abfahrtskilometer, davon 196 präpariert, und 58 Bahnen und Lifte. OpenStreetMap ist also nicht vollständig. Das Gebiet wurde von Hand abgegrenzt, Nachbarn wie Westendorf und Wildkogel sind nicht dabei.</li>
           <li><strong>Gelände:</strong> ein Höhenmodell mit rund 26 m Raster.</li>
           <li><strong>Punkte:</strong> alle 120 m ein Punkt auf der Piste, zusammen 1 220, mit dem Chip 1,2 m über dem Boden.</li>
-          <li><strong>Mögliche Standorte:</strong> 59 Liftstationen, 20 dBm und 3 dBi. Angenommen ist eine Antenne außen, 8 m über dem Boden. Die Testgeräte stehen dagegen innen am Fenster.</li>
+          <li><strong>Mögliche Standorte:</strong> 59 Liftstationen, 20 <a href="kapitel-anhang.html#g-db">dBm</a> und 3 dBi. Angenommen ist eine Antenne außen, 8 m über dem Boden. Beim Test stehen die Gateways dagegen an einer Gondelstation, genauer Platz offen.</li>
           <li><strong>Funk:</strong> Freiraum plus Beugung an den Graten nach ITU-R P.526.</li>
           <li><strong>Zuschlag:</strong> pauschal 10 dB für Körper und Chip-Antenne. Das ist geschätzt, weil diese Werte noch fehlen.</li>
         </ul>
@@ -130,7 +139,7 @@
         <p class="nach-tabelle">Das erste Gateway allein erreicht schon fast zwei Drittel der Punkte. Das zeigt die Stärke hoher Standorte, heißt aber nicht, dass genau diese Stationen die richtigen sind. Ob dort Strom, Netz und ein Platz für die Antenne vorhanden sind, weiß das Modell nicht. Die Namen stammen aus OpenStreetMap und bezeichnen das obere oder untere Ende eines Lifts.</p>
 
         <h2 id="test" data-kurz="Für den Testtag">Für den Testtag</h2>
-        <p>Beim Testtag im Februar oder März laufen 5 Chips mit 2 Gateways an Bergstationen. Die Standorte sollten deshalb nicht nach dem ganzen Gebiet gewählt werden, sondern nach der Teststrecke: Beide Gateways sollten sie hören, damit auch das Überlappen geprüft werden kann. Welche Strecke das wird, ist noch offen.</p>
+        <p>Beim Testtag im Februar oder März laufen 5 Chips, die Gateways stehen an einer Gondelstation. Welche das wird, dazu Gerät und Anzahl, ist noch offen. Die Station sollte nicht nach dem ganzen Gebiet gewählt werden, sondern nach der Teststrecke. Mit mehr als einem Gateway sollten alle sie hören, damit auch das Überlappen geprüft werden kann. Welche Strecke das wird, ist noch offen.</p>
 
         <h2 id="offen" data-kurz="Was noch offen ist">Was noch offen ist</h2>
       </div>
@@ -141,7 +150,7 @@
             <tr class="zeile-offen"><td data-spalte="Punkt">Wald fehlt im Modell</td><td data-spalte="Warum">Viele Pisten führen durch Wald. Die echte Zahl an Gateways dürfte über dem Modell liegen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td data-spalte="Punkt">Strom, Netz und Zugang an den Stationen</td><td data-spalte="Warum">Die Stationen sind nach Funk gewählt. Ob ein Gateway dort stehen darf, muss KitzSki klären, siehe Kapitel 10.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td data-spalte="Punkt">Pisten abseits</td><td data-spalte="Warum">Gerechnet sind nur Pisten. Skirouten und freies Gelände fehlen, ein Notruf kann aber auch dort nötig sein.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Welche Strecke beim Test</td><td data-spalte="Warum">Davon hängt ab, wo die 2 Gateways hinkommen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Welche Strecke beim Test</td><td data-spalte="Warum">Davon hängt ab, welche Gondelstation es wird.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td data-spalte="Punkt">Wie viel Reserve</td><td data-spalte="Warum">Reicht ein Gateway pro Punkt, oder sollen immer zwei hören? Das entscheidet zwischen rund 4 und rund 12 Gateways.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>

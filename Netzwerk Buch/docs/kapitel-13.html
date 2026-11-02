@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SOS: Vorrang und Fehlalarme · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie ein Notruf vor Fehlalarmen geschützt ist und warum ihn fast nichts aufhalten kann.">
-<link rel="stylesheet" href="assets/book.css?v=43">
-<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
-<script src="assets/book.js?v=43" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=45">
+<link rel="stylesheet" href="assets/druck.css?v=45" media="print">
+<script src="assets/book.js?v=45" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -39,12 +39,21 @@
       <ol></ol>
     </details>
     <article>
-      <h1>SOS: Vorrang und Schutz vor Fehlalarmen</h1>
-      <p class="stand">Kapitel 13 · Stand 2. November 2026</p>
-      <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4</a>, <a href="kapitel-05.html">Kapitel 5</a>, <a href="kapitel-06.html">Kapitel 6</a>, <a href="kapitel-11.html">Kapitel 11</a>, <a href="kapitel-12.html">Kapitel 12</a></p>
+      <h1>SOS: Vorrang und Fehlalarme</h1>
+      <p class="stand">Kapitel 13 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4, Funkprotokoll</a> · <a href="kapitel-05.html">Kapitel 5, Sendeintervall und Kapazität</a> · <a href="kapitel-06.html">Kapitel 6, Rückkanal zum Chip</a> · <a href="kapitel-11.html">Kapitel 11, Der Server</a> · <a href="kapitel-12.html">Kapitel 12, Schnittstelle zur App</a></p>
 
       <div class="lesen">
         <p class="einstieg">Ein Notruf darf nicht untergehen, und ein Fehlalarm darf nicht so viel Aufwand auslösen wie ein echter. Dieses Kapitel zeigt, wie der Chip einen Notruf von einem einfachen Ruf unterscheidet, warum ihn danach fast nichts mehr aufhält, und wo das noch nicht erprobt ist.</p>
+        <div class="kurz">
+          <p class="kurz-titel">Kurz gesagt</p>
+          <ul>
+            <li>Ein Notruf entsteht erst nach 3 Sekunden Halten und 5 Sekunden Abbruch-Zeit.</li>
+            <li>Der Chip wiederholt ihn, bis der Server bestätigt, und gibt nie auf. Der Server bietet ihn dem nächsten freien Mitarbeiter an, nach 60 Sekunden dem nächsten.</li>
+            <li>Erst HELP 1 beweist, dass ein Mensch Bescheid weiß. Ein ACK heißt nur: Der Server hat den Notruf.</li>
+          </ul>
+          <p><strong>Offen:</strong> Was nach dem letzten Mitarbeiter geschieht und wie schnell ein Notruf ankommen muss.</p>
+        </div>
         <p>Das beantwortet Frage 6 aus der Angabe, siehe <a href="kapitel-02.html#fragen">Kapitel 2</a>: Wie wird ein SOS vor Fehlalarmen geschützt und bevorzugt behandelt?</p>
         <p>Funk, Gateway, Server und App sind jetzt bekannt. Hier kommen sie zusammen: Dieses Kapitel legt fest, was ein Notruf auf dem ganzen Weg bedeutet und was in welcher Frist geschieht.</p>
 
@@ -65,9 +74,9 @@
         <p class="nach-tabelle">Für den Server gibt es also nur drei Ereignisse, die er von einem Chip bekommen kann: CALL, SOS und BOOT beim Start. Welche Geste dahintersteckt, entscheidet allein der Chip, siehe <a href="kapitel-04.html">Kapitel 4</a>.</p>
 
         <h2 id="schutz-vor-fehlalarm" data-kurz="Schutz vor Fehlalarmen">Schutz vor Fehlalarmen</h2>
-        <p>Ein Notruf entsteht nicht durch einen einzigen Druck. Laut Übergabe braucht es 3 Sekunden Halten und danach eine 5-Sekunden-Abbruch-Zeit, bevor das Ereignis überhaupt gesendet wird. Das ist eine Festlegung in der Chip-Software von Maximilian, aber sie bestimmt, was im Netzwerk überhaupt ankommt, darum gehört sie in dieses Kapitel.</p>
+        <p>Ein Notruf entsteht nicht durch einen einzigen Druck. Laut <a href="kapitel-anhang.html#g-uebergabe">Übergabe</a> braucht es 3 Sekunden Halten und danach eine 5-Sekunden-Abbruch-Zeit, bevor das Ereignis überhaupt gesendet wird. Das ist eine Festlegung in der Chip-Software von Maximilian, aber sie bestimmt, was im Netzwerk überhaupt ankommt, darum gehört sie in dieses Kapitel.</p>
         <p><svg class="mark mark-im-text" role="img" aria-label="Fest"><use href="#mark-fest"/></svg>Fest. Die Pitch-Präsentation nennt den Grund ausdrücklich: Der Halten-Zwang verhindert Fehlalarme durch versehentliches Drücken, etwa in der Jackentasche oder beim Sturz selbst.</p>
-        <p>Zwei Folgen sind aus dem Protokoll ersichtlich. Erstens: Ein kurzer, versehentlicher Druck löst höchstens einen Gruppenruf aus, nie einen Notruf, denn CALL und SOS sind getrennte Gesten. Zweitens: Solange die 5 Sekunden Abbruch-Zeit laufen, ist noch nichts gesendet. Im Protokoll gibt es kein Ereignis für „Notruf abgebrochen“, was dafür spricht, dass ein losgelassener Knopf innerhalb der Abbruch-Zeit gar nichts über Funk auslöst. Sicher ist das nicht, denn das steht nicht ausdrücklich in der Übergabe und ist mit Maximilian zu bestätigen.</p>
+        <p>Zwei Folgen sind aus dem Protokoll ersichtlich. Erstens: Ein kurzer, versehentlicher Druck löst höchstens einen Gruppenruf aus, nie einen Notruf, denn CALL und SOS sind getrennte Gesten. Zweitens: Solange die 5 Sekunden Abbruch-Zeit laufen, ist noch nichts gesendet. Abgebrochen wird durch einen weiteren Druck auf den Knopf, Loslassen genügt nicht. Im Protokoll gibt es dafür kein Ereignis, über Funk geschieht also gar nichts.</p>
 
         <h2 id="vorrang-im-funk" data-kurz="Vorrang auf der Funkstrecke">Vorrang auf der Funkstrecke</h2>
         <p>Ist das Ereignis einmal ausgelöst, bekommt es auf dem Funkweg Vorrang vor allem anderen. Eine Positionsmeldung wartet auf ihr eigenes 4-Sekunden-Fenster im 20-Sekunden-Takt, siehe <a href="kapitel-05.html">Kapitel 5</a>. Ein Ereignis wartet nicht: Es wird sofort gesendet, auch außerhalb des eigenen Fensters.</p>
@@ -76,7 +85,7 @@
         <table class="stapel">
           <thead><tr><th scope="col">Was gesendet wird</th><th scope="col">Erster Versand</th><th scope="col">Wiederholung</th><th scope="col">Gibt auf?</th></tr></thead>
           <tbody>
-            <tr><td data-spalte="Was">Positionsmeldung</td><td data-spalte="Erster Versand">im eigenen 4-s-Fenster</td><td data-spalte="Wiederholung">alle 20 s, in der Ladebox alle 60 s</td><td data-spalte="Gibt auf">entfällt, es gibt immer eine neue</td></tr>
+            <tr><td data-spalte="Was">Positionsmeldung</td><td data-spalte="Erster Versand">im eigenen 4-s-Fenster</td><td data-spalte="Wiederholung">alle 20 s, in der <a href="kapitel-anhang.html#g-ladebox">Ladebox</a> alle 60 s</td><td data-spalte="Gibt auf">entfällt, es gibt immer eine neue</td></tr>
             <tr><td data-spalte="Was">CALL, BOOT</td><td data-spalte="Erster Versand">sofort, auch außerhalb des Fensters</td><td data-spalte="Wiederholung">alle 4 bis 8 s, nach 6 Versuchen alle 15 bis 25 s</td><td data-spalte="Gibt auf">nach 8 Versuchen</td></tr>
             <tr><td data-spalte="Was">SOS</td><td data-spalte="Erster Versand">sofort, auch außerhalb des Fensters</td><td data-spalte="Wiederholung">gleich wie CALL</td><td data-spalte="Gibt auf"><strong>nie</strong>, bis der Server bestätigt</td></tr>
           </tbody>
@@ -86,12 +95,18 @@
         <p class="nach-tabelle">Der Unterschied zu allem anderen ist der letzte Punkt: Ein normales Ereignis gibt nach 8 Versuchen auf, ein Notruf nicht. Der Chip wiederholt ihn, bis ein Gateway ihm ein <a href="kapitel-anhang.html#g-ack">ACK</a> bringt, siehe <a href="kapitel-06.html">Kapitel 6</a>.</p>
 
         <h2 id="vorrang-im-server" data-kurz="Vorrang bei den Mitarbeitern">Vorrang bei den Mitarbeitern</h2>
-        <p>Beim Server geht der Vorrang weiter. Ein Notruf wird dem nächsten freien Mitarbeiter angeboten. Übernimmt er ihn nicht binnen 60 Sekunden, bietet der Server ihn dem nächsten an. Was nach dem letzten geschieht, regelt der Abschnitt <a href="#eskalation">Der Zeitablauf eines Notrufs</a>. In der App genügt ein Tipp auf „Einsatz übernehmen“, danach sehen alle anderen, dass schon jemand unterwegs ist, statt dass mehrere gleichzeitig losfahren.</p>
+        <p>Beim Server geht der Vorrang weiter. Ein Notruf wird dem nächsten freien Mitarbeiter angeboten. Übernimmt er ihn nicht binnen 60 Sekunden, bietet der Server ihn dem nächsten an. Was nach dem letzten geschieht, regelt der Abschnitt <a href="#eskalation">Der Zeitablauf eines Notrufs</a>. In der App genügt ein Tipp auf „Annehmen“, danach sehen alle anderen, dass schon jemand unterwegs ist, statt dass mehrere gleichzeitig losfahren.</p>
         <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Entschieden. Übernahme, „vor Ort“ und „erledigt“ gehen als <a href="kapitel-anhang.html#g-help">HELP</a> 1, 2, 3 an den Chip zurück, siehe <a href="#stufen">Die Stufen eines Notrufs</a>.</p>
 
         <h2 id="stufen" data-kurz="Die Stufen eines Notrufs">Die Stufen eines Notrufs</h2>
         <p>Dieses Kapitel ist die verbindliche Quelle für die folgenden Begriffe, alle anderen Kapitel verwenden sie genauso. Wichtig ist: Jede Stufe sagt nur, was sie sagt. Keine davon beweist die nächste.</p>
       </div>
+      <figure class="schema">
+        <div class="schema-rahmen" tabindex="0" role="group" aria-label="Treppe mit fünf Stufen eines Notrufs: ACK, Zustellung, HELP 1, HELP 2 und HELP 3. Die Stufe Zustellung gibt es noch nicht.">
+          <svg viewBox="0 0 960 340" role="img" aria-label="Treppe mit fünf Stufen eines Notrufs: ACK, Zustellung, HELP 1, HELP 2 und HELP 3. Die Stufe Zustellung gibt es noch nicht."><rect class="sb-box" x="16" y="212" width="172" height="112"/><text class="sb-titel" x="28" y="242">ACK</text><text class="sb-text" x="28" y="266">Server hat den Notruf</text><text class="sb-text" x="28" y="288">Kein Mensch weiß es</text><rect class="sb-box" x="202" y="168" width="172" height="112"/><text class="sb-titel" x="214" y="198">Zustellung</text><text class="sb-text" x="214" y="222">App zeigt den Alarm</text><text class="sb-text" x="214" y="244">Noch nicht gelesen</text><use class="sb-offen" href="#mark-offen" x="348" y="178" width="16" height="16"/><rect class="sb-box" x="388" y="124" width="172" height="112"/><text class="sb-titel" x="400" y="154">HELP 1, Übernahme</text><text class="sb-text" x="400" y="178">Ein Mensch nimmt an</text><text class="sb-text" x="400" y="200">Chip vibriert zweimal</text><rect class="sb-box" x="574" y="80" width="172" height="112"/><text class="sb-titel" x="586" y="110">HELP 2, vor Ort</text><text class="sb-text" x="586" y="134">Jemand ist angekommen</text><text class="sb-text" x="586" y="156">Einsatz läuft noch</text><rect class="sb-box" x="760" y="36" width="172" height="112"/><text class="sb-titel" x="772" y="66">HELP 3, erledigt</text><text class="sb-text" x="772" y="90">Einsatz abgeschlossen</text></svg>
+        </div>
+        <figcaption>Jede Stufe sagt nur, was sie sagt, keine beweist die nächste. Die Stufe Zustellung gibt es heute nicht, darum die Raute.<span class="schema-hinweis"> Zum Ansehen seitlich wischen.</span></figcaption>
+      </figure>
       <div class="tabelle">
         <table class="stapel">
           <thead><tr><th scope="col">Stufe</th><th scope="col">Bedeutet</th><th scope="col">Bedeutet nicht</th><th scope="col">Am Chip</th><th scope="col">Stand</th></tr></thead>
@@ -99,18 +114,24 @@
             <tr><td>ACK</td><td data-spalte="Bedeutet">Der Server hat den Notruf empfangen.</td><td data-spalte="Nicht">Dass ein Mensch davon weiß.</td><td data-spalte="Am Chip">Schnelle Wiederholungen enden. Der Chip zeigt keine Hilfe an.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
             <tr class="zeile-offen"><td>Zustellung</td><td data-spalte="Bedeutet">Eine Mitarbeiter-App hat den Alarm angezeigt.</td><td data-spalte="Nicht">Dass jemand ihn gesehen hat.</td><td data-spalte="Am Chip">Nichts</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr><td>HELP 1, Übernahme</td><td data-spalte="Bedeutet">Ein Mensch hat den Einsatz per Tipp übernommen.</td><td data-spalte="Nicht">Dass schon jemand da ist.</td><td data-spalte="Am Chip">Vibriert zweimal lang, blinkt rot.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
-            <tr><td>HELP 2, vor Ort</td><td data-spalte="Bedeutet">Die Person ist beim Notruf angekommen.</td><td data-spalte="Nicht">Dass der Einsatz vorbei ist.</td><td data-spalte="Am Chip">Rückmeldung legt Maximilian fest.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
-            <tr><td>HELP 3, erledigt</td><td data-spalte="Bedeutet">Der Einsatz ist abgeschlossen.</td><td data-spalte="Nicht"></td><td data-spalte="Am Chip">Rückmeldung legt Maximilian fest.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>HELP 2, vor Ort</td><td data-spalte="Bedeutet">Die Person ist beim Notruf angekommen.</td><td data-spalte="Nicht">Dass der Einsatz vorbei ist.</td><td data-spalte="Am Chip">Vibriert wie bei HELP 1.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>HELP 3, erledigt</td><td data-spalte="Bedeutet">Der Einsatz ist abgeschlossen.</td><td data-spalte="Nicht"></td><td data-spalte="Am Chip">Geht zurück auf normal, 3 Sekunden grün.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
           </tbody>
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Zwei Lücken bestehen. Die Stufe Zustellung gibt es heute nicht: Der Server sieht nur „angeboten“, nicht „angekommen“. Und ein ACK ist laut unseren Unterlagen nicht an eine dauerhafte Speicherung gebunden, siehe <a href="kapitel-11.html#speichern">Kapitel 11</a>. Beides muss vor dem Testtag geklärt sein.</p>
+        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Zwei Lücken bestehen. Die Stufe Zustellung gibt es heute nicht: Der Server sieht nur „angeboten“, nicht „angekommen“. Und in der Test-Version geht das ACK noch vor dem Speichern raus, siehe <a href="kapitel-11.html#speichern">Kapitel 11</a>. Beides muss vor dem Testtag geklärt sein.</p>
 
         <h2 id="eskalation" data-kurz="Der Zeitablauf">Der Zeitablauf eines Notrufs</h2>
         <p>Für einen Notruf gilt genau dieser eine Ablauf, und alle Kapitel verwenden ihn. Es gibt zwei Uhren: Die <strong>Chip-Uhr</strong> beginnt beim ersten Senden, die <strong>Server-Uhr T0</strong> beim dauerhaften Speichern. T0 liegt also immer später. Das ist gewollt: Der Chip warnt im Zweifel früher.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Laut Übergabe gebaut sind nur die 90 s in Z2 und die 60 s in Z5. <svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Alles andere ist unser Vorschlag und nicht abgestimmt. Das gilt auch für den <a href="kapitel-anhang.html#g-leitstand">Leitstand</a>, eine ständig besetzte Stelle der Bergbahn, die es bisher nur als Idee gibt, auch die Zustellung, der Leitstand und die 180 s am Chip. Wer im Leitstand handelt, muss die Bergbahn festlegen, nicht die Software.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>In der Test-Version gebaut sind nur die 90 s in Z2 und die 60 s in Z5. <svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Alles andere ist unser Vorschlag und nicht abgestimmt, auch die Zustellung und die 180 s am Chip. Das gilt ebenso für den <a href="kapitel-anhang.html#g-leitstand">Leitstand</a>, eine ständig besetzte Stelle der Bergbahn, die es bisher nur als Idee gibt. Wer im Leitstand handelt, muss die Bergbahn festlegen, nicht die Software.</p>
       </div>
+      <figure class="schema">
+        <div class="schema-rahmen" tabindex="0" role="group" aria-label="Zeitleiste eines Notrufs von 0 bis 200 Sekunden mit den Spuren Chip, Server, App und Leitstand. Gebaut sind die Warnung nach 90 Sekunden und die Weitergabe nach 60 Sekunden, alles andere ist ein Vorschlag.">
+          <svg viewBox="0 0 960 360" role="img" aria-label="Zeitleiste eines Notrufs von 0 bis 200 Sekunden mit den Spuren Chip, Server, App und Leitstand. Gebaut sind die Warnung nach 90 Sekunden und die Weitergabe nach 60 Sekunden, alles andere ist ein Vorschlag."><text class="sb-titel" x="20" y="76">Chip</text><path class="sb-linie" d="M150 70H930"/><text class="sb-titel" x="20" y="156">Server</text><path class="sb-linie" d="M150 150H930"/><text class="sb-titel" x="20" y="231">App</text><path class="sb-linie" d="M150 225H930"/><text class="sb-titel" x="20" y="306">Leitstand</text><path class="sb-linie" d="M150 300H930"/><path class="sb-linie sb-licht" d="M150 58V82"/><text class="sb-text" x="156" y="54">Z1 sendet</text><path class="sb-linie sb-licht" d="M501 58V82"/><text class="sb-text" x="507" y="54">Z2 Warnung ohne ACK</text><path class="sb-linie sb-gestrichelt" d="M852 58V82"/><text class="sb-text" x="748" y="54">Z7 ohne HELP 1</text><path class="sb-linie sb-licht" d="M189 138V162"/><text class="sb-text" x="195" y="134">Z3 T0, ACK</text><path class="sb-linie sb-licht" d="M423 138V162"/><text class="sb-text" x="429" y="134">Z5 Weitergabe</text><path class="sb-linie sb-gestrichelt" d="M657 138V162"/><text class="sb-text" x="663" y="134">Z6 alle</text><path class="sb-linie sb-gestrichelt" d="M189 213V237"/><text class="sb-text" x="195" y="209">Z4 Angebot, Zustellung in 15 s</text><path class="sb-linie sb-gestrichelt" d="M657 288V312"/><text class="sb-text" x="663" y="284">Z6 alarmiert</text><path class="sb-linie sb-gestrichelt" d="M891 288V312"/><text class="sb-text" x="807" y="284">Z8 handelt</text><text class="sb-text" x="142" y="342">0 s</text><text class="sb-text" x="376" y="342">60 s</text><text class="sb-text" x="610" y="342">120 s</text><text class="sb-text" x="844" y="342">180 s</text></svg>
+        </div>
+        <figcaption>Schematisch: T0 liegt immer etwas nach dem ersten Senden, hier angenommen 10 s. Durchgezogen ist gebaut, gestrichelt ist ein Vorschlag. Z9 und Z10 sind der Tipp auf „Annehmen“ und alles danach, das geht jederzeit.<span class="schema-hinweis"> Zum Ansehen seitlich wischen.</span></figcaption>
+      </figure>
 
       <div class="testfall">
         <h3>Z1: Chip sendet, noch kein ACK</h3>
@@ -142,7 +163,7 @@
           <div><dt>Zeitmesser startet</dt><dd>Server-Uhr T0: Notruf dauerhaft gespeichert</dd></div>
           <div><dt>Frist</dt><dd>Keine</dd></div>
           <div><dt>Server</dt><dd>Speichert, sendet dann das ACK. Weitere Kopien bestätigt er erneut, T0 bleibt.</dd></div>
-          <div><dt>Chip</dt><dd>Beendet die schnellen Wiederholungen, meldet aber weiter die Position mit „Notruf läuft“. Eine Warnung bleibt stehen.</dd></div>
+          <div><dt>Chip</dt><dd>Beendet die schnellen Wiederholungen, meldet aber weiter die Position mit „Notruf läuft“. Vorschlag: Eine Warnung bleibt stehen, in der Test-Version beendet das ACK sie noch.</dd></div>
           <div><dt>Mitarbeiter-App</dt><dd>Nichts.</dd></div>
           <div><dt>Leitstand</dt><dd>Nichts.</dd></div>
           <div><dt>Wenn etwas verloren geht</dt><dd>Geht das ACK verloren, wiederholt der Chip, und der Server bestätigt noch einmal.</dd></div>
@@ -211,7 +232,7 @@
       <div class="testfall">
         <h3>Z9: Übernahme</h3>
         <dl>
-          <div><dt>Zeitmesser startet</dt><dd>Tipp auf „Übernehmen“</dd></div>
+          <div><dt>Zeitmesser startet</dt><dd>Tipp auf „Annehmen“</dd></div>
           <div><dt>Frist</dt><dd>Bis der Chip HELP 1 quittiert</dd></div>
           <div><dt>Server</dt><dd>Sendet HELP 1 bei jedem Paket des Chips, bis <code>dlAck</code> stimmt.</dd></div>
           <div><dt>Chip</dt><dd>Vibriert zweimal lang und beendet die Warnung.</dd></div>
@@ -226,7 +247,7 @@
           <div><dt>Zeitmesser startet</dt><dd>Tipp in der App</dd></div>
           <div><dt>Frist</dt><dd>Keine</dd></div>
           <div><dt>Server</dt><dd>Sendet HELP 2, dann HELP 3, und schließt den Notruf.</dd></div>
-          <div><dt>Chip</dt><dd>Rückmeldung legt Maximilian fest. Nach HELP 3 endet „Notruf läuft“.</dd></div>
+          <div><dt>Chip</dt><dd>Bei HELP 2 vibriert er wie bei HELP 1. Nach HELP 3 endet „Notruf läuft“.</dd></div>
           <div><dt>Mitarbeiter-App</dt><dd>Zeigt den Stand.</dd></div>
           <div><dt>Leitstand</dt><dd>Sieht den Stand.</dd></div>
           <div><dt>Wenn etwas verloren geht</dt><dd>Wie Z9.</dd></div>
@@ -241,9 +262,9 @@
           <thead><tr><th scope="col">Frage</th><th scope="col">Antwort</th></tr></thead>
           <tbody>
             <tr><td>Wann beginnt die 180-Sekunden-Frist am Chip?</td><td data-spalte="Antwort">Beim ersten Senden, also weder beim Knopfdruck noch beim ACK. Es gibt am Chip nur diese eine Uhr.</td></tr>
-            <tr><td>Was, wenn das ACK erst nach 90 Sekunden kommt?</td><td data-spalte="Antwort">Der Chip warnt bereits. Das ACK beendet die schnellen Wiederholungen, die Warnung bleibt.</td></tr>
-            <tr><td>Setzt ein ACK die Warnung zurück?</td><td data-spalte="Antwort">Nein. Nur HELP 1 beendet sie, denn nur HELP 1 beweist einen Menschen.</td></tr>
-            <tr><td>Was, wenn HELP 1 verloren geht?</td><td data-spalte="Antwort">Der Server wiederholt es bei jedem Paket des Chips, bis die Quittung kommt. Heute sind es laut Übergabe höchstens 6 Versuche, für HELP soll diese Grenze entfallen.</td></tr>
+            <tr><td>Was, wenn das ACK erst nach 90 Sekunden kommt?</td><td data-spalte="Antwort">Der Chip warnt bereits. Das ACK beendet die schnellen Wiederholungen. Vorschlag: Die Warnung bleibt. In der Test-Version endet sie mit dem ACK.</td></tr>
+            <tr><td>Setzt ein ACK die Warnung zurück?</td><td data-spalte="Antwort">Vorschlag: Nein, nur HELP 1 beendet sie, denn nur HELP 1 beweist einen Menschen. In der Test-Version beendet sie noch das ACK.</td></tr>
+            <tr><td>Was, wenn HELP 1 verloren geht?</td><td data-spalte="Antwort">Der Server wiederholt es bei jedem Paket des Chips, bis die Quittung kommt. In der Test-Version sind es höchstens 6 Versuche, für HELP soll diese Grenze entfallen.</td></tr>
             <tr><td>Wann erfährt der Leitstand von einem Notruf?</td><td data-spalte="Antwort">Bei T0 + 120 s. Sofort, wenn kein Mitarbeiter frei und erreichbar ist.</td></tr>
             <tr><td>Was, wenn kein Mitarbeiter verfügbar ist?</td><td data-spalte="Antwort">Der Server springt sofort auf Z6, ohne die 120 s abzuwarten.</td></tr>
             <tr><td>Was, wenn die App verbunden ist, aber nichts anzeigt?</td><td data-spalte="Antwort">Dann fehlt die Zustellung, denn sie zählt erst mit der Anzeige. Nach 15 s geht der Notruf an den Nächsten.</td></tr>
@@ -262,8 +283,8 @@
           <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
           <tbody>
             <tr class="zeile-offen"><td data-spalte="Punkt">Senden außerhalb des eigenen Fensters kann mit dem Paket eines anderen Chips zusammenstoßen.</td><td data-spalte="Warum">Bei 5 Testchips unwahrscheinlich, bei hunderten im Betrieb unklar. Reicht die Wiederholung, um das auszugleichen?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Nach dem letzten Mitarbeiter bleibt der Notruf liegen.</td><td data-spalte="Warum">Hat jeder Mitarbeiter ein Angebot verstreichen lassen, findet die Test-Version niemanden mehr. Der Notruf bleibt ohne Zuständigen. Der Zeitablauf oben ist dort noch nicht gebaut.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td data-spalte="Punkt">Es gibt keinen Zielwert, wie schnell ein Notruf beim Mitarbeiter sein muss, siehe <a href="kapitel-02.html#muss">Kapitel 2</a>.</td><td data-spalte="Warum">Ohne Zielwert lässt sich beim Test nicht sagen, ob der Vorrang in der Praxis ausreicht.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Ob ein abgebrochener Knopfdruck innerhalb der 5-Sekunden-Abbruch-Zeit wirklich nichts sendet.</td><td data-spalte="Warum">Steht nicht ausdrücklich in der Übergabe, nur aus dem Protokoll geschlossen. Mit Maximilian zu bestätigen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
       </div>

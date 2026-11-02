@@ -38,13 +38,13 @@ const AUSFAELLE = [
   },
   {
     "name": "Server direkt nach dem ACK",
-    "notruf": "Wird nicht dauerhaft gespeichert, ist er verloren. Der Chip wiederholt nicht mehr.",
+    "notruf": "Ist er nicht gespeichert, ist er im Server weg. Der Chip meldet aber weiter „Notruf läuft“, und der Server legt ihn beim nächsten Paket neu an. Das ursprüngliche T0 geht dabei verloren.",
     "chip": "Heute keine Warnung, der Chip hat ja ein ACK. Vorschlag: Warnung 180 s nach dem ersten Senden.",
-    "wer": "Niemand. Das verhindert nur die Regel aus Kapitel 11: erst speichern, dann ACK."
+    "wer": "Niemand. Die Regel aus Kapitel 11, erst speichern, dann ACK, hält T0 und Verlauf fest."
   },
   {
     "name": "Stromausfall am Server",
-    "notruf": "Wie bei einem Absturz. Nach dem Neustart muss der Server offene Notrufe wieder aufnehmen.",
+    "notruf": "Wie bei einem Absturz. Nach dem Neustart liest der Server den letzten Stand, der bis zu 5 Sekunden alt sein kann. Ein noch nicht angekommenes HELP 1 ist weg.",
     "chip": "Warnt nach 90 Sekunden, solange kein ACK kam.",
     "wer": "Niemand automatisch."
   },
@@ -62,9 +62,15 @@ const AUSFAELLE = [
   },
   {
     "name": "Niemand übernimmt",
-    "notruf": "Was nach dem letzten Mitarbeiter geschieht, ist nicht festgelegt.",
+    "notruf": "Nach dem letzten Mitarbeiter bleibt der Notruf in der Test-Version ohne Zuständigen liegen.",
     "chip": "Kein HELP 1. Vorschlag: Warnung 180 s nach dem ersten Senden.",
     "wer": "Nicht geregelt. Vorschlag: Zeitablauf aus Kapitel 13, der Leitstand erfährt es bei T0 + 120 s."
+  },
+  {
+    "name": "Chip startet neu",
+    "notruf": "Läuft weiter. Der Chip hat den Notruf im Flash gespeichert und sendet ihn erneut.",
+    "chip": "Wiederholt wieder von vorn.",
+    "wer": "Die Ausgabe-Seite zeigt, dass der Chip neu gestartet ist."
   },
   {
     "name": "GPS-Empfang",

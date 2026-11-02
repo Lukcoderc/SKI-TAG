@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reichweite im Gelände · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was die Reichweite von LoRa am Berg bestimmt und wie SkiTag sie misst.">
-<link rel="stylesheet" href="assets/book.css?v=43">
-<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
-<script src="assets/book.js?v=43" defer></script>
-<script src="assets/funk.js?v=43" defer></script>
-<script src="assets/funkstrecke.js?v=43" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=45">
+<link rel="stylesheet" href="assets/druck.css?v=45" media="print">
+<script src="assets/book.js?v=45" defer></script>
+<script src="assets/funk.js?v=45" defer></script>
+<script src="assets/funkstrecke.js?v=45" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -42,17 +42,32 @@
     </details>
     <article>
       <h1>Reichweite im Gelände</h1>
-      <p class="stand">Kapitel 8 · Stand 2. November 2026</p>
-      <p class="vorwissen">Baut auf: <a href="kapitel-03.html">Kapitel 3</a>, <a href="kapitel-07.html">Kapitel 7</a></p>
+      <p class="stand">Kapitel 8 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-03.html">Kapitel 3, Warum LoRa</a> · <a href="kapitel-07.html">Kapitel 7, Die Gateways</a></p>
 
       <div class="lesen">
         <p class="einstieg">Wie weit kommt ein Chip am Berg? Eine einzelne Zahl gibt es dafür nicht. Über freie Täler reicht das Signal viele Kilometer, hinter einem Grat manchmal nur wenige hundert Meter. Dieses Kapitel erklärt, was die Reichweite bestimmt, und wie wir sie messen.</p>
+        <div class="kurz">
+          <p class="kurz-titel">Kurz gesagt</p>
+          <ul>
+            <li>Am Berg entscheidet das Gelände, nicht der Abstand.</li>
+            <li>Ein Grat kostet rund 23 dB, zwischen 5 und 15 km liegen nur 10 dB.</li>
+            <li>5 bis 15 km bei freier Sicht sind rechnerisch plausibel, gemessen ist nichts.</li>
+          </ul>
+          <p><strong>Offen:</strong> Wie viel kosten Körper, Schnee und die Antenne im Chip?</p>
+        </div>
         <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Gemessen ist bei KitzSki noch nichts. Alle Zahlen hier sind Rechnungen oder Schätzungen, bis der Reichweiten-Test sie bestätigt.</p>
 
         <h2 id="budget" data-kurz="Was das Signal verlieren darf">Was das Signal verlieren darf</h2>
-        <p>Der Chip sendet mit 20 dBm, das Gateway versteht bei <a href="kapitel-anhang.html#g-sf9">SF9</a> noch rund −129 dBm. Das sind die 149 dB aus <a href="kapitel-03.html#reichweite">Kapitel 3</a>, mit den 3 dBi der Gateway-Antenne rund 152 dB. Davon lebt die Reichweite: Jedes Hindernis nimmt sich einen Teil davon.</p>
-        <p>Die Übergabe setzt dafür zwei Schwellen: Ab −115 dBm gilt der Empfang als gut, ab −125 dBm als knapp. Für einen Notruf zählt „gut“, denn etwas Reserve braucht es immer.</p>
+        <p>Der Chip sendet mit 20 <a href="kapitel-anhang.html#g-db">dBm</a>, das Gateway versteht bei <a href="kapitel-anhang.html#g-sf9">SF9</a> noch rund −129 dBm. Das sind die 149 dB aus <a href="kapitel-03.html#reichweite">Kapitel 3</a>, mit den 3 dBi der Gateway-Antenne rund 152 dB. Davon lebt die Reichweite: Jedes Hindernis nimmt sich einen Teil davon.</p>
+        <p>Die <a href="kapitel-anhang.html#g-uebergabe">Übergabe</a> setzt dafür zwei Schwellen: Ab −115 dBm gilt der Empfang als gut, ab −125 dBm als knapp. Für einen Notruf zählt „gut“, denn etwas Reserve braucht es immer.</p>
       </div>
+      <figure class="schema">
+        <div class="schema-rahmen" tabindex="0" role="group" aria-label="Balken der Dämpfung: Das Signal darf 149 Dezibel verlieren. Beispiel: 105 Dezibel für 5 Kilometer, rund 23 Dezibel für einen Grat und rund 13 Dezibel für 100 Meter Wald. Es bleiben rund 8 Dezibel, Körper und Schnee sind nicht bekannt.">
+          <svg viewBox="0 0 960 240" role="img" aria-label="Balken der Dämpfung: Das Signal darf 149 Dezibel verlieren. Beispiel: 105 Dezibel für 5 Kilometer, rund 23 Dezibel für einen Grat und rund 13 Dezibel für 100 Meter Wald. Es bleiben rund 8 Dezibel, Körper und Schnee sind nicht bekannt."><text class="sb-zone-name" x="20" y="28">Was das Signal verlieren darf</text><rect class="sb-zone" x="20" y="44" width="864.1999999999999" height="34"/><text class="sb-text" x="28" y="67">Erlaubt: 149 dB</text><rect class="sb-box" x="20" y="92" width="607" height="34"/><text class="sb-text" x="28" y="115">5 km freie Strecke: 105 dB</text><rect class="sb-box" x="629" y="92" width="131.4" height="34"/><text class="sb-text" x="637" y="115">Grat: rund 23</text><rect class="sb-box" x="762.4" y="92" width="73.39999999999999" height="34"/><text class="sb-text" x="770.4" y="115">Wald: 13</text><text class="sb-text" x="537.8" y="158">Rest: rund 8 dB für alles Unbekannte</text><path class="sb-linie" d="M857.8 126V146"/><use class="sb-offen" href="#mark-offen" x="537.8" y="172" width="16" height="16"/><text class="sb-text" x="561.8" y="186">Körper und Schnee: keine belastbare Zahl</text></svg>
+        </div>
+        <figcaption>Beispiel, gerechnet ohne Antennengewinn: Grat 50 m über der Sichtlinie in der Mitte, Chip 100 m im Wald. Für Körper und Schnee fehlt eine belastbare Zahl.<span class="schema-hinweis"> Zum Ansehen seitlich wischen.</span></figcaption>
+      </figure>
       <div class="tabelle">
         <table class="stapel">
           <thead><tr><th scope="col">Was dazwischenliegt</th><th scope="col">Verlust</th><th scope="col">Herkunft</th></tr></thead>
@@ -99,7 +114,7 @@
       </div>
 
       <div class="lesen">
-        <h2 id="unbekannt" data-kurz="Was wir noch nicht wissen">Was wir noch nicht wissen</h2>
+        <h2 id="unbekannt" data-kurz="Was noch offen ist">Was noch offen ist</h2>
       </div>
       <div class="tabelle">
         <table class="stapel">
@@ -118,9 +133,9 @@
         <h2 id="messen" data-kurz="Wie wir messen">Wie wir messen</h2>
         <p>Rechnen ersetzt das Messen nicht, es sagt nur, wo man genau hinschauen sollte. Der Reichweiten-Test läuft so:</p>
         <ol>
-          <li>Die zwei Gateways stehen an ihren Plätzen, das Funk-Protokoll zeichnet jedes Paket mit <a href="kapitel-anhang.html#g-rssi">RSSI</a> auf.</li>
+          <li>Die Gateways stehen an ihren Plätzen, das Funk-Protokoll zeichnet jedes Paket mit <a href="kapitel-anhang.html#g-rssi">RSSI</a> auf.</li>
           <li>Jemand fährt mit dem Chip in der Jacke einen Tag lang die Teststrecke ab. Das ganze Gebiet lässt sich so nicht messen, dafür braucht es später mehr Gateways und mehrere Personen.</li>
-          <li>Das Protokoll wird von der Ausgabe-Seite heruntergeladen und nach Position ausgewertet.</li>
+          <li>Das Protokoll wird von der <a href="kapitel-anhang.html#g-ausgabe-seite">Ausgabe-Seite</a> heruntergeladen und nach Position ausgewertet.</li>
           <li>Pisten unter −115 dBm und Lücken ohne Pakete werden markiert.</li>
           <li>Für den Ausfall-Test werden Gateway und WLAN abgeschaltet, und es wird geprüft, was der Chip anzeigt.</li>
         </ol>

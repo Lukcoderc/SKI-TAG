@@ -2,6 +2,8 @@
 // Reihenfolge der Kapitel und ob jeder Verweis zur richtigen Kapitelnummer zeigt.
 // node "Netzwerk Buch/tools/pruefe-buch.mjs"
 import { readFileSync, readdirSync } from "node:fs";
+import { mitZahlen } from "./zaehle-marken.mjs";
+import { aktuell } from "./suchindex.mjs";
 
 const docs = new URL("../docs/", import.meta.url);
 const seiten = readdirSync(docs).filter((n) => n.endsWith(".html"));
@@ -42,7 +44,7 @@ const kapitel = [...readFileSync(new URL("assets/book.js", docs), "utf8").matchA
 const inBuch = new Set(kapitel.map((k) => k.datei));
 for (const n of seiten) if (n !== "index.html" && !inBuch.has(n)) fehler.push(n + ": fehlt in book.js");
 const start = inhalt["index.html"];
-const aufStart = [...start.slice(start.indexOf('id="grundlagen"')).matchAll(/class="inhalt-nr">\w+<\/span><div><a href="([^"]+)">([^<]+)/g)];
+const aufStart = [...start.slice(start.indexOf('id="einstieg"')).matchAll(/class="inhalt-nr">\w+<\/span><div><a href="([^"]+)">([^<]+)/g)];
 if (aufStart.map((m) => m[1] + m[2]).join() !== kapitel.map((k) => k.datei + k.titel).join()) fehler.push("index.html: Liste passt nicht zu book.js");
 const teile = [...new Set(kapitel.map((k) => k.teil))];
 const koepfe = [...start.matchAll(/<h2 id="[^"]+"(?: data-kurz="[^"]*")?>([^<]+)<\/h2>/g)].map((m) => m[1]);
@@ -55,14 +57,28 @@ kapitel.forEach((k, i) => {
   const block = c.match(/<div class="blaettern">([\s\S]*?)<\/div>/)?.[1] ?? "";
   if (vor && !block.includes(`href="${vor.datei}"`)) fehler.push(k.datei + ": Zurück zeigt nicht auf " + vor.datei);
   if (nach && !block.includes(`href="${nach.datei}"`)) fehler.push(k.datei + ": Weiter zeigt nicht auf " + nach.datei);
-  if (k.nr !== "A" && !c.includes(`<p class="stand">Kapitel ${k.nr} · Stand`)) fehler.push(k.datei + ": Stand-Zeile");
+  const zahl = /^\d+$/.test(k.nr);
+  if (zahl && !c.includes(`<p class="stand">Kapitel ${k.nr} · Stand`)) fehler.push(k.datei + ": Stand-Zeile");
+  if (zahl && !c.includes('class="kurz"')) fehler.push(k.datei + ": Kurz gesagt fehlt");
+  if (zahl && !c.includes('id="ergebnis"')) fehler.push(k.datei + ": Ergebnis fehlt");
   for (const m of (c.match(/<p class="vorwissen">.*<\/p>/)?.[0] ?? "").matchAll(/Kapitel (\d+)/g)) {
     rueckwaerts++;
     if (+m[1] >= +k.nr) fehler.push(k.datei + ": baut auf späterem Kapitel " + m[1]);
   }
-  if (k.nr > 1 && k.nr !== "A" && !c.includes('class="vorwissen"')) fehler.push(k.datei + ": Baut-auf-Zeile fehlt");
+  if (zahl && +k.nr > 1 && !c.includes('class="vorwissen"')) fehler.push(k.datei + ": Baut-auf-Zeile fehlt");
 });
 for (const n of seiten) if (/class="seil|data-station/.test(inhalt[n])) fehler.push(n + ": Seil noch vorhanden");
+
+// Einheitliche Begriffe: Der Knopf heißt „Annehmen“, die Stufe HELP 1 heißt Übernahme.
+for (const n of seiten) for (const w of ["„Übernehmen“", "Einsatz übernehmen", "Ausblick Serie"]) if (inhalt[n].includes(w)) fehler.push(n + ": Begriff " + w);
+// Abkürzungen und Eigenbegriffe müssen im Glossar stehen.
+const anhang = inhalt["kapitel-anhang.html"];
+const glossar = anhang.slice(anhang.indexOf('id="glossar"'), anhang.indexOf('id="quellen"'));
+for (const w of ["ACK", "AES", "CORS", "CRC", "dB", "DNS", "EIRP", "ETSI", "HELP", "HTTPS", "LoRa", "NIST", "RSSI", "SNR", "SSE", "TLS", "Token", "Übergabe", "Ladebox", "Ausgabe-Seite"]) {
+  if (!glossar.includes(`<td>${w}`)) fehler.push("Glossar fehlt: " + w);
+}
+if (mitZahlen(start) !== start) fehler.push("index.html: Marken veraltet, tools/zaehle-marken.mjs --schreiben");
+if (!aktuell()) fehler.push("Suchdaten veraltet, tools/suchindex.mjs --schreiben");
 
 if (versionen.size !== 1) fehler.push("Versionen uneinheitlich: " + [...versionen].join(", "));
 console.log(seiten.length + " Seiten, " + links + " interne Links, " + kapitel.length + " Einträge in " + teile.length + " Gruppen, " + rueckwaerts + " Baut-auf-Verweise, Version " + [...versionen].join(", "));

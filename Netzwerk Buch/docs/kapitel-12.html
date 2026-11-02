@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Schnittstelle zur App · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie App und Server zusammenspielen, welche Endpunkte es gibt und wo es noch hakt.">
-<link rel="stylesheet" href="assets/book.css?v=43">
-<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
-<script src="assets/book.js?v=43" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=45">
+<link rel="stylesheet" href="assets/druck.css?v=45" media="print">
+<script src="assets/book.js?v=45" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -40,15 +40,24 @@
     </details>
     <article>
       <h1>Schnittstelle zur App</h1>
-      <p class="stand">Kapitel 12 · Stand 2. November 2026</p>
-      <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4</a>, <a href="kapitel-06.html">Kapitel 6</a>, <a href="kapitel-11.html">Kapitel 11</a></p>
+      <p class="stand">Kapitel 12 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4, Funkprotokoll</a> · <a href="kapitel-06.html">Kapitel 6, Rückkanal zum Chip</a> · <a href="kapitel-11.html">Kapitel 11, Der Server</a></p>
 
       <div class="lesen">
         <p class="einstieg">Die App weiß nichts von Funk. Sie spricht nur mit dem Server. Dieses Kapitel zeigt, welche Sprache die beiden sprechen, wie aus 27 Byte ein Punkt auf der Karte wird, und welche Punkte Tobias und Lukas gemeinsam lösen müssen.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Grundlage ist die Datei <code>js/services/api.js</code> aus dem öffentlichen App-Repo, Stand 29. Oktober 2026. Die App läuft dort noch mit Beispieldaten (<code>fakeData: true</code>). Die Server-Seite und die Änderung aus <code>app-aenderung</code> lagen beim Schreiben nicht vor, die Übereinstimmung ist also nicht geprüft.</p>
+        <div class="kurz">
+          <p class="kurz-titel">Kurz gesagt</p>
+          <ul>
+            <li>Die App spricht nur mit dem Server, die Grenze ist die Datei <code>api.js</code>.</li>
+            <li>Sie läuft heute noch mit Beispieldaten.</li>
+            <li>Notrufe kommen über einen Live-Stream, der nur bei offener App läuft.</li>
+          </ul>
+          <p><strong>Offen:</strong> Wie erreicht ein Alarm einen Menschen, wenn das Handy gesperrt ist?</p>
+        </div>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Grundlage ist die Datei <code>js/services/api.js</code> aus dem öffentlichen App-Repo, Stand 29. Oktober 2026. Die App läuft dort noch mit Beispieldaten (<code>fakeData: true</code>). Die Server-Seite und die Änderung aus <code>app-aenderung</code> liegen als Test-Version vor. Wir haben sie gelesen, aber nicht ausprobiert.</p>
 
-        <h2 id="regel" data-kurz="Eine Datei als Grenze">Eine Datei als Grenze</h2>
-        <p>In der App kennt nur <code>api.js</code> den Server. Ändert sich etwas an der Schnittstelle, wird nur diese Datei angepasst. Der Server muss dazu passen, nicht umgekehrt. Das steht so auch in der Übergabe.</p>
+        <h2 id="regel" data-kurz="api.js verbindet App und Server"><code>api.js</code> verbindet App und Server</h2>
+        <p>In der App kennt nur <code>api.js</code> den Server. Ändert sich etwas an der Schnittstelle, wird nur diese Datei angepasst. Der Server muss dazu passen, nicht umgekehrt. Das steht so auch in der <a href="kapitel-anhang.html#g-uebergabe">Übergabe</a>.</p>
 
         <h2 id="gebaut" data-kurz="Was gebaut ist">Was gebaut ist und was nicht</h2>
         <p>Die App sieht fertig aus, läuft aber gegen Beispieldaten. Das ist für die Vorführung gut, darf aber nicht mit einem echten Ablauf verwechselt werden:</p>
@@ -60,7 +69,7 @@
             <tr><td>Datenquelle</td><td data-spalte="Stand"><code>fakeData: true</code>, Server-Adresse ist ein Platzhalter</td><td data-spalte="Folge">Alles in der App ist simuliert, bis das umgestellt ist.</td></tr>
             <tr><td>Notrufe bei der Bergbahn</td><td data-spalte="Stand">Simuliert im Browser. Kollegen übernehmen dort von selbst.</td><td data-spalte="Folge">Ein gelungener Durchlauf beweist nichts über den echten Ablauf.</td></tr>
             <tr><td>Live-Streams</td><td data-spalte="Stand">Code für den echten Server ist da.</td><td data-spalte="Folge">Von uns nicht gegen den Server geprüft.</td></tr>
-            <tr><td>Anmeldung</td><td data-spalte="Stand"><code>api.js</code> sendet kein Token. Die Änderung dafür lag uns nicht vor.</td><td data-spalte="Folge">Sicherheit der Schnittstelle ist nicht beurteilbar.</td></tr>
+            <tr><td>Anmeldung</td><td data-spalte="Stand"><code>api.js</code> sendet kein <a href="kapitel-anhang.html#g-token">Token</a>. Die Änderung in <code>app-aenderung</code> schickt es mit, bei Live-Daten in der Adresse.</td><td data-spalte="Folge">Nicht gegen den Server ausprobiert.</td></tr>
             <tr><td>Push, Benachrichtigung, Ton, Vibration, Bildschirm wach halten</td><td data-spalte="Stand">Im Code nicht gefunden. <code>service-worker.js</code> und <code>manifest.json</code> sind leer.</td><td data-spalte="Folge">Eine Mitarbeiter-App kann heute nicht von selbst alarmieren.</td></tr>
             <tr><td>Kein Mitarbeiter mehr frei</td><td data-spalte="Stand">In der Simulation bleibt der Alarm ohne Zuständigen stehen.</td><td data-spalte="Folge">Es fehlt die Eskalation, siehe <a href="kapitel-13.html#eskalation">Kapitel 13</a>.</td></tr>
             <tr><td>Text „Hilfe ist unterwegs“</td><td data-spalte="Stand">Der Text existiert, die Anzeige dazu liegt nicht im öffentlichen Code.</td><td data-spalte="Folge">Er darf erst ab <a href="kapitel-anhang.html#g-help">HELP</a> 1 erscheinen.</td></tr>
@@ -69,22 +78,22 @@
       </div>
       <div class="lesen">
         <h2 id="endpunkte" data-kurz="Die Endpunkte">Die Endpunkte</h2>
-        <p>Diese Wege erwartet die App. Die letzte Spalte sagt, ob der Server sie laut Übergabe schon kann.</p>
+        <p>Diese Wege erwartet die App. Die letzte Spalte sagt, ob der Server der Test-Version sie kennt.</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
           <thead><tr><th scope="col">Bereich</th><th scope="col">Endpunkte</th><th scope="col">Im Server</th></tr></thead>
           <tbody>
-            <tr><td>Anmeldung</td><td data-spalte="Endpunkte"><code>POST /login</code></td><td data-spalte="Im Server">Ja, laut Übergabe</td></tr>
-            <tr><td>Gruppen</td><td data-spalte="Endpunkte"><code>GET /groups/{id}</code>, <code>POST /groups/{id}/signal</code></td><td data-spalte="Im Server">Ja, laut Übergabe</td></tr>
-            <tr><td>Treffpunkt</td><td data-spalte="Endpunkte"><code>GET</code>, <code>PUT</code>, <code>DELETE /groups/{id}/meeting</code></td><td data-spalte="Im Server">Ja, laut Übergabe</td></tr>
-            <tr><td>Live-Positionen</td><td data-spalte="Endpunkte"><code>/chips/{id}/stream</code>, <code>/chips/stream</code></td><td data-spalte="Im Server">Ja, laut Übergabe</td></tr>
-            <tr><td>Notruf</td><td data-spalte="Endpunkte"><code>POST /sos</code>, <code>DELETE /sos/{id}</code>, <code>/alarms/stream</code>, <code>POST /alarms/{id}/{aktion}</code></td><td data-spalte="Im Server">Ja, laut Übergabe</td></tr>
-            <tr><td>Lifte</td><td data-spalte="Endpunkte"><code>GET /lifts</code>, <code>PUT /lifts/{name}</code></td><td data-spalte="Im Server">Ja, laut Übergabe</td></tr>
-            <tr><td>Mitarbeiter</td><td data-spalte="Endpunkte"><code>GET /staff</code>, <code>PUT /staff/{id}/state</code></td><td data-spalte="Im Server">Nicht belegt</td></tr>
-            <tr><td>Freunde</td><td data-spalte="Endpunkte"><code>/chips/{id}/friend-code</code>, <code>POST /groups/{id}/members</code></td><td data-spalte="Im Server">Nicht belegt</td></tr>
-            <tr><td>Pisten</td><td data-spalte="Endpunkte"><code>GET /pistes</code></td><td data-spalte="Im Server">Nicht belegt</td></tr>
-            <tr><td>Skischule</td><td data-spalte="Endpunkte"><code>/schools/...</code>, <code>POST /chips/signal</code>, <code>POST /alarms</code> für Suchaufträge</td><td data-spalte="Im Server">Nicht belegt</td></tr>
+            <tr><td>Anmeldung</td><td data-spalte="Endpunkte"><code>POST /login</code></td><td data-spalte="Im Server">Ja</td></tr>
+            <tr><td>Gruppen</td><td data-spalte="Endpunkte"><code>GET /groups/{id}</code>, <code>POST /groups/{id}/signal</code></td><td data-spalte="Im Server">Ja</td></tr>
+            <tr><td>Treffpunkt</td><td data-spalte="Endpunkte"><code>GET</code>, <code>PUT</code>, <code>DELETE /groups/{id}/meeting</code></td><td data-spalte="Im Server">Ja</td></tr>
+            <tr><td>Live-Positionen</td><td data-spalte="Endpunkte"><code>/chips/{id}/stream</code>, <code>/chips/stream</code></td><td data-spalte="Im Server">Ja</td></tr>
+            <tr><td>Notruf</td><td data-spalte="Endpunkte"><code>POST /sos</code>, <code>DELETE /sos/{id}</code>, <code>/alarms/stream</code>, <code>POST /alarms/{id}/{aktion}</code></td><td data-spalte="Im Server">Ja</td></tr>
+            <tr><td>Lifte</td><td data-spalte="Endpunkte"><code>GET /lifts</code>, <code>PUT /lifts/{name}</code></td><td data-spalte="Im Server">Ja</td></tr>
+            <tr><td>Mitarbeiter</td><td data-spalte="Endpunkte"><code>GET /staff</code>, <code>PUT /staff/{id}/state</code></td><td data-spalte="Im Server">Ja</td></tr>
+            <tr><td>Freunde</td><td data-spalte="Endpunkte"><code>/chips/{id}/friend-code</code>, <code>POST /groups/{id}/members</code></td><td data-spalte="Im Server">Ja</td></tr>
+            <tr><td>Pisten</td><td data-spalte="Endpunkte"><code>GET /pistes</code></td><td data-spalte="Im Server">Liefert nur eine leere Liste</td></tr>
+            <tr><td>Skischule</td><td data-spalte="Endpunkte"><code>/schools/...</code>, <code>POST /chips/signal</code>, <code>POST /alarms</code> für Suchaufträge</td><td data-spalte="Im Server">Nur <code>POST /chips/signal</code> und <code>POST /alarms</code></td></tr>
           </tbody>
         </table>
       </div>
@@ -137,7 +146,7 @@
 
         <h2 id="alarm" data-kurz="Erreicht der Alarm das Handy?">Erreicht der Alarm einen Menschen?</h2>
         <p>Das ist die wichtigste offene Frage dieses Kapitels. Notrufe kommen über einen Live-Stream, und der läuft nur, solange die App offen ist. Liegt das Handy gesperrt in der Tasche, kommt nach heutigem Stand nichts an. Die Weitergabe nach 60 Sekunden hilft dann auch nicht, wenn es allen Mitarbeitern so geht.</p>
-        <p>Dazu kommt: Der Server sieht nur, dass er einen Notruf angeboten hat. Er erfährt nicht, ob er ankam, und erst recht nicht, ob ihn jemand gelesen hat. Dass eine App einen Alarm angezeigt hat, heißt im Buch <a href="kapitel-anhang.html#g-zustellung">Zustellung</a>. Auch das ist noch keine Kenntnisnahme. Erst der Tipp auf „Übernehmen“ beweist, dass ein Mensch Bescheid weiß.</p>
+        <p>Dazu kommt: Der Server sieht nur, dass er einen Notruf angeboten hat. Er erfährt nicht, ob er ankam, und erst recht nicht, ob ihn jemand gelesen hat. Dass eine App einen Alarm angezeigt hat, heißt im Buch <a href="kapitel-anhang.html#g-zustellung">Zustellung</a>. Auch das ist noch keine Kenntnisnahme. Erst der Tipp auf „Annehmen“ beweist, dass ein Mensch Bescheid weiß.</p>
         <p>Für eine verlässliche Alarmierung braucht es deshalb mehr als einen Stream:</p>
       </div>
       <div class="tabelle">
@@ -156,34 +165,34 @@
       <div class="lesen">
         <p class="nach-tabelle">Für den Testtag gilt eine Behelfsregel: Die Mitarbeiter halten die App offen und das Display an. Für den Betrieb reicht das nicht. Bis die Bausteine stehen, darf sich niemand auf die App allein verlassen.</p>
 
-        <h2 id="technik" data-kurz="Technische Stolpersteine">Technische Stolpersteine</h2>
+        <h2 id="technik" data-kurz="Was noch offen ist">Was noch offen ist</h2>
       </div>
       <div class="tabelle">
         <table class="stapel">
           <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
           <tbody>
-            <tr class="zeile-offen"><td>Anmeldung an Streams</td><td data-spalte="Warum">Der Browser-Baustein <code>EventSource</code> kann keinen eigenen Header senden. Das Token muss dann in die Adresse oder in ein Cookie. In der Adresse landet es leicht in Protokollen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Code und Name</td><td data-spalte="Warum">Laut Übergabe genügt ein 6-stelliger Code. Die App schickt Code und Name, ihr Datenformat nennt 6 Zeichen mit Buchstaben, und der Server soll den Namen gegen den Mietbeleg prüfen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Andere Domain</td><td data-spalte="Warum">Liegt die App auf einer anderen Adresse als der Server, braucht er passende CORS-Freigaben.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Anmeldung an Streams</td><td data-spalte="Warum">Die App bekommt Live-Daten über einen Baustein des Browsers namens <code>EventSource</code>. Er kann das <a href="kapitel-anhang.html#g-token">Token</a>, also den Zugangsnachweis, nicht wie sonst üblich mitschicken. Die Test-Version schreibt es deshalb in die Adresse. Dort landet es leicht in Protokollen, und wer diese liest, hätte den Zugang.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Code und Name</td><td data-spalte="Warum">Der Code hat 6 Zeichen aus Buchstaben und Zahlen. Die App schickt Code und Name, die Test-Version prüft aber nur den Code und nicht den <a href="kapitel-anhang.html#g-mietbeleg">Mietbeleg</a>. Der Ablauf um Mitternacht steht nur auf dem Beleg, der Server kennt ihn nicht.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr><td>Andere Domain</td><td data-spalte="Warum">Die Einstellung <code>appOrigin</code> legt fest, welche Adresse der App erlaubt ist. Ohne Eintrag gilt jede, darum muss sie gesetzt werden.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
             <tr class="zeile-offen"><td>Chip-Nummer</td><td data-spalte="Warum">Das Funkpaket hat Platz für 256 Nummern, die App zählt vierstellig.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>„Alt“ und „ungefähr“</td><td data-spalte="Warum">Der Server liefert beides. Ob die App es zeigt, ist offen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Notruf aus der App</td><td data-spalte="Warum">Wird er zurückgenommen, während derselbe Chip noch sendet, muss der Server beides zusammenführen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Notruf aus der App</td><td data-spalte="Warum">Löst jemand in der App einen Notruf aus, während derselbe Chip sendet, entstehen in der Test-Version zwei getrennte Notrufe.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="lesen">
         <h2 id="api-sicherheit" data-kurz="Sicherheit der Schnittstelle">Sicherheit der Schnittstelle</h2>
-        <p>Jeder Endpunkt ist aus dem Internet erreichbar. Darum muss der Server jede Anfrage selbst prüfen und darf der App nichts glauben. Besonders heikel sind diese Punkte, im Server-Code konnten wir sie nicht prüfen:</p>
+        <p>Jeder Endpunkt ist aus dem Internet erreichbar. Darum muss der Server jede Anfrage selbst prüfen und darf der App nichts glauben. Besonders heikel sind diese Punkte, die Test-Version löst sie noch nicht alle:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
           <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
           <tbody>
-            <tr class="zeile-offen"><td>Notruf für fremde Chips</td><td data-spalte="Warum"><code>POST /sos</code> nennt die Chip-Nummer selbst. Der Server muss prüfen, ob die Anfrage zu diesem Chip gehört, sonst kann jeder Fehlalarme auslösen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Notruf beenden</td><td data-spalte="Warum"><code>DELETE /sos/{id}</code> darf nur die betroffene Person oder das Personal. Sonst könnte ein Fremder einen echten Notruf abbrechen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Daten anderer</td><td data-spalte="Warum">Gäste dürfen nur die eigene Gruppe sehen. Positionsstreams aller Chips sind nur für Personal.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Einsätze steuern</td><td data-spalte="Warum">Nur Personal darf Einsätze übernehmen, und nur die zuständige Person darf sie abschließen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr><td>Notruf für fremde Chips</td><td data-spalte="Warum">Die Test-Version prüft das: Gäste dürfen nur für den eigenen Chip und die eigene Gruppe auslösen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr class="zeile-offen"><td>Notruf beenden</td><td data-spalte="Warum"><code>DELETE /sos/{id}</code> sollte nur die betroffene Person oder das Personal dürfen. In der Test-Version kann das jedes Gruppenmitglied, auch bei einem Notruf vom Chip. Der Chip bekommt dann HELP 3.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Daten anderer</td><td data-spalte="Warum">Gäste sehen nur die eigene Gruppe, Streams aller Chips nur das Personal. Es gibt aber eine Lücke: Der Freundescode hat 4 Ziffern, Fehlversuche zählen nicht, und niemand muss zustimmen. So lassen sich fremde Chips in die eigene Gruppe holen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Einsätze steuern</td><td data-spalte="Warum">Nur Personal darf Einsätze steuern, das prüft die Test-Version. Wer abschließt, prüft sie nicht, und zwei Mitarbeiter können denselben Notruf annehmen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
       </div>

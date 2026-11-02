@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Testen in der Schule · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Anleitung: SkiTag in der Schule testen und simulieren, vom Laptop bis zum echten Funk.">
-<link rel="stylesheet" href="assets/book.css?v=43">
-<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
-<script src="assets/book.js?v=43" defer></script>
-<script src="assets/checkliste.js?v=43" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=45">
+<link rel="stylesheet" href="assets/druck.css?v=45" media="print">
+<script src="assets/book.js?v=45" defer></script>
+<script src="assets/checkliste.js?v=45" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -41,12 +41,21 @@
     </details>
     <article>
       <h1>Testen in der Schule</h1>
-      <p class="stand">Kapitel 16 · Stand 2. November 2026</p>
-      <p class="vorwissen">Baut auf: <a href="kapitel-07.html">Kapitel 7</a>, <a href="kapitel-11.html">Kapitel 11</a>, <a href="kapitel-12.html">Kapitel 12</a></p>
+      <p class="stand">Kapitel 16 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-07.html">Kapitel 7, Die Gateways</a> · <a href="kapitel-11.html">Kapitel 11, Der Server</a> · <a href="kapitel-12.html">Kapitel 12, Schnittstelle zur App</a></p>
 
       <div class="lesen">
         <p class="einstieg">Bis hier ist alles Plan und Rechnung. In der Schule testen wir zum ersten Mal den ganzen Weg, im Kleinen: Ein Chip sendet, ein Gateway hört ihn, das NAS spielt den Server, und die App zeigt den Notruf. Dieses Kapitel sagt, was wir dafür brauchen und wie der Test abläuft.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Diese Anleitung beruht auf der Übergabe. Das Paket <code>skitag-test.zip</code> und der SkiTag Test-Bauplan lagen beim Schreiben nicht vor, die Befehle sind also nicht ausprobiert. Bei einem Widerspruch gilt der Bauplan.</p>
+        <div class="kurz">
+          <p class="kurz-titel">Kurz gesagt</p>
+          <ul>
+            <li>Der Schultest prüft den ganzen Weg im Kleinen: Chip, 1 Heltec V3, NAS und App.</li>
+            <li>Das Material kostet 24 bis 40 €, ohne Versand.</li>
+            <li>Er zeigt das Zusammenspiel, aber wenig über die Reichweite am Berg.</li>
+          </ul>
+          <p><strong>Offen:</strong> Klappt das Zertifikat auf dem NAS? Die Befehle sind noch nicht ausprobiert.</p>
+        </div>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Diese Anleitung beruht auf der <a href="kapitel-anhang.html#g-uebergabe">Übergabe</a> und dem Paket <code>skitag-test.zip</code>, dem ersten Test-Stand. Der SkiTag Test-Bauplan lag beim Schreiben nicht vor, und die Befehle sind nicht ausprobiert. Bei einem Widerspruch gilt der <a href="kapitel-anhang.html#g-bauplan">Bauplan</a>.</p>
 
         <h2 id="aufbau" data-kurz="Der Aufbau">Der Aufbau</h2>
         <p>Alle Geräte stehen im selben Raum oder im selben Gebäude:</p>
@@ -57,8 +66,16 @@
           <li><strong>App:</strong> Sie zeigt den Notruf, und dort wird er übernommen.</li>
         </ol>
 
+        </div>
+      <figure class="schema">
+        <div class="schema-rahmen" tabindex="0" role="group" aria-label="Aufbau des Schultests: Der Chip funkt zum Heltec V3, der Heltec schickt die Pakete über WLAN an das NAS mit Caddy und Server. Die App auf dem Handy spricht ebenfalls mit dem NAS. Internet braucht das NAS für das Zertifikat.">
+          <svg viewBox="0 0 960 270" role="img" aria-label="Aufbau des Schultests: Der Chip funkt zum Heltec V3, der Heltec schickt die Pakete über WLAN an das NAS mit Caddy und Server. Die App auf dem Handy spricht ebenfalls mit dem NAS. Internet braucht das NAS für das Zertifikat."><defs><marker id="sb-spitze" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze" d="M0 0 10 5 0 10Z"/></marker><marker id="sb-spitze-licht" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze-licht" d="M0 0 10 5 0 10Z"/></marker></defs><rect class="sb-box" x="20" y="90" width="170" height="92"/><text class="sb-titel" x="32" y="120">Chip</text><text class="sb-text" x="32" y="144">Muster-Chip</text><rect class="sb-box" x="260" y="90" width="170" height="92"/><text class="sb-titel" x="272" y="120">Gateway</text><text class="sb-text" x="272" y="144">1 Heltec V3</text><rect class="sb-box" x="500" y="90" width="190" height="92"/><text class="sb-titel" x="512" y="120">NAS</text><text class="sb-text" x="512" y="144">Caddy und Server</text><rect class="sb-box" x="760" y="90" width="180" height="92"/><text class="sb-titel" x="772" y="120">Handy</text><text class="sb-text" x="772" y="144">App</text><path class="sb-linie sb-licht sb-pfeil" d="M190 136H260"/><text class="sb-text" x="204" y="126">LoRa</text><path class="sb-linie sb-licht sb-pfeil" d="M430 136H500"/><text class="sb-text" x="444" y="126">WLAN</text><path class="sb-linie sb-licht sb-beide" d="M690 136H760"/><path class="sb-linie sb-gestrichelt sb-pfeil" d="M595 182V222"/><text class="sb-text" x="450" y="246">Internet, nur für das Zertifikat</text></svg>
+        </div>
+        <figcaption>Alle Geräte stehen im selben Raum oder Gebäude.<span class="schema-hinweis"> Zum Ansehen seitlich wischen.</span></figcaption>
+      </figure>
+      <div class="lesen">
         <h2 id="gateway" data-kurz="Welches Gateway">Welches Gateway wir brauchen</h2>
-        <p><strong>Wir brauchen einen Heltec WiFi LoRa 32 V3 für 868 MHz, mit der beigelegten Antenne.</strong> Das ist das Gateway aus <a href="kapitel-07.html">Kapitel 7</a>. Die Software dafür ist genau für dieses Board geschrieben, nicht für V4. Eines reicht, das zweite kommt erst für den Bergtest dazu. Das Geld ist also nicht verloren.</p>
+        <p><strong>Wir brauchen einen Heltec WiFi LoRa 32 V3 für 868 MHz, mit der beigelegten Antenne.</strong> Das ist das Gateway aus <a href="kapitel-07.html">Kapitel 7</a>. Die Software dafür ist genau für dieses Board geschrieben, nicht für V4. Eines reicht. Ob der Heltec auch am Berg zum Einsatz kommt, ist offen, geplant ist dort ein LoRa-Gateway.</p>
         <p>Ohne Gateway geht es nicht: Leuchtdiode und Vibrieren zeigen nur, dass die Software des Chips läuft. Ob er wirklich funkt, zeigt nur ein Gerät, das sein Paket empfängt.</p>
         <p>Günstigere Alternativen lohnen sich nicht:</p>
       </div>
@@ -94,29 +111,29 @@
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Die Spanne kommt vom Heltec: 39,95 € stehen in der Übergabe vom Oktober 2026, 24,10 € verlangte ein Händler am 1. November 2026 als Vorbestellung mit 10 bis 20 Tagen Lieferzeit. Stabantenne und Netzteil für je 8 € braucht es erst, wenn das Gateway fern vom Laptop stehen soll. Alles davon lässt sich beim Bergtest weiterverwenden.</p>
+        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Die Spanne kommt vom Heltec: 39,95 € stehen in der Übergabe vom Oktober 2026, 24,10 € verlangte ein Händler am 1. November 2026 als Vorbestellung mit 10 bis 20 Tagen Lieferzeit. Stabantenne und Netzteil für je 8 € braucht es erst, wenn das Gateway fern vom Laptop stehen soll. Ob sich davon etwas beim Bergtest weiterverwenden lässt, hängt vom Gerät ab, das dort zum Einsatz kommt.</p>
 
         <h2 id="nas" data-kurz="Das NAS als Server">Das NAS als Server</h2>
         <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Für den Schultest läuft der Server auf einem NAS, das schon vorhanden ist. Am Berg bleibt es beim eigenen Server bei der KitzSki-IT. Vier Dinge müssen vorher passen:</p>
         <ul>
           <li><strong>Docker:</strong> Das NAS muss Docker können. Nicht jedes Modell kann das, also im Datenblatt nachsehen.</li>
-          <li><strong>Ports:</strong> Caddy will die Ports 80 und 443. Auf Synology-Geräten sind die schon belegt. Dann muss der Server auf andere Ports, und das Gateway muss sie kennen. Ob <code>config.h</code> eine Adresse mit Port annimmt, ist nicht geprüft.</li>
+          <li><strong>Ports:</strong> Caddy will die Ports 80 und 443. Auf Synology-Geräten sind die schon belegt. Dann muss der Server auf andere Ports, und das Gateway muss sie kennen. In <code>config.h</code> lässt sich dafür eine Adresse mit <a href="kapitel-anhang.html#g-port">Port</a> eintragen.</li>
           <li><strong>Zertifikat:</strong> Das Gateway spricht HTTPS und verlangt ein Let's-Encrypt-Zertifikat. Das geht auch ohne offene Ports: Ein kostenloser DuckDNS-Name zeigt auf die interne Adresse des NAS, und Caddy weist die Domain über einen DNS-Eintrag nach (DNS-01). Dafür braucht Caddy das DuckDNS-Modul, und das NAS braucht zum Holen des Zertifikats Internet.</li>
           <li><strong>Netz:</strong> Gateway und NAS müssen sich erreichen. Das Gateway kann nur WLAN mit 2,4 GHz. Ein kleiner eigener Router mit NAS, Gateway, Laptop und Handy umgeht das Schulnetz. Er braucht aber selbst Internet, sonst bekommt das NAS kein Zertifikat, und das Gateway findet den Namen nicht. Manche Router sperren außerdem Namen, die auf eine interne Adresse zeigen.</li>
         </ul>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Das haben wir nicht ausprobiert, und das Docker-Setup lag beim Schreiben nicht vor. Ob es das DuckDNS-Modul enthält, klärt der Bauplan. Sonst muss Caddy dafür neu gebaut werden.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Das haben wir nicht ausprobiert. Das Docker-Setup im Paket nutzt <code>caddy:2</code> ohne DuckDNS-Modul und fest die Ports 80 und 443. Für den Weg über <a href="kapitel-anhang.html#g-dns">DNS</a> muss Caddy also neu gebaut werden.</p>
 
         <h2 id="ablauf" data-kurz="So läuft der Test">So läuft der Test</h2>
         <h3>1. Vorbereiten</h3>
         <p>Entpacke das Paket und erzeuge eigene Schlüssel und Passwörter, denn der Beispiel-Schlüssel ist bekannt:</p>
         <pre class="befehl"><code>node tools/neuer-schluessel.js</code></pre>
-        <p>Trag die Werte in <code>config.json</code> ein: Schlüssel, Gateway-Passwort, Passwort der Ausgabe-Seite und Mitarbeiter. Derselbe Schlüssel muss auch im Chip stehen, das macht Maximilian. Schlüssel, Passwörter und der DuckDNS-Token gehören nie in ein Repo.</p>
+        <p>Trag die Werte in <code>config.json</code> ein: Schlüssel, Gateway-Passwort, Passwort der <a href="kapitel-anhang.html#g-ausgabe-seite">Ausgabe-Seite</a> und Mitarbeiter. Derselbe Schlüssel muss auch im Chip stehen, das macht Maximilian. Schlüssel, Passwörter und der DuckDNS-Token gehören nie in ein Repo.</p>
 
         <h3>2. Server starten</h3>
         <p>Prüfe die Server-Logik auf dem Laptop:</p>
         <pre class="befehl"><code>cd server
 node tools/test.js</code></pre>
-        <p>Laut Übergabe sollen 58 von 58 Prüfungen bestehen. Lege dann auf dem NAS eine Datei <code>.env</code> mit <code>DOMAIN</code> und <code>EMAIL</code> an, mit DuckDNS auch den Token, und starte den Server:</p>
+        <p>Laut Übergabe sollen 58 von 58 Prüfungen bestehen. Lege dann auf dem NAS eine Datei <code>.env</code> mit <code>DOMAIN</code> und <code>EMAIL</code> an, mit DuckDNS auch den <a href="kapitel-anhang.html#g-token">Token</a>, und starte den Server:</p>
         <pre class="befehl"><code>docker compose up -d --build</code></pre>
         <p>Öffne die Ausgabe-Seite <code>/ausgabe</code> mit ihrem Passwort. Liegt der Chip noch nicht vor, spielt <code>node tools/simulator.js &lt;Server-Adresse&gt; 5</code> fünf Chips nach.</p>
 
@@ -141,18 +158,18 @@ node tools/test.js</code></pre>
           <tbody>
             <tr><td>Chip einschalten</td><td data-spalte="Ergebnis">Der Paketzähler am Heltec steigt alle 20 Sekunden, die Ausgabe-Seite zeigt den Chip.</td></tr>
             <tr><td>Knopf kurz drücken</td><td data-spalte="Ergebnis">Gruppenruf, kein Notruf.</td></tr>
-            <tr><td>Knopf 3 Sekunden halten und in den 5 Sekunden abbrechen</td><td data-spalte="Ergebnis">Es entsteht kein Notruf.</td></tr>
+            <tr><td>Knopf 3 Sekunden halten und in den 5 Sekunden durch einen weiteren Druck abbrechen</td><td data-spalte="Ergebnis">Es entsteht kein Notruf.</td></tr>
             <tr><td>Knopf 3 Sekunden halten und warten</td><td data-spalte="Ergebnis">Der Notruf erscheint in der App. Solange niemand übernimmt, zeigt der Chip keine Hilfe an.</td></tr>
             <tr><td>In der App übernehmen</td><td data-spalte="Ergebnis">Der Chip vibriert zweimal lang.</td></tr>
             <tr><td>Niemand übernimmt</td><td data-spalte="Ergebnis">Nach 60 Sekunden geht der Notruf an den nächsten Mitarbeiter.</td></tr>
             <tr><td>Gateway ausschalten, dann Notruf auslösen</td><td data-spalte="Ergebnis">Nach 90 Sekunden ohne <a href="kapitel-anhang.html#g-ack">ACK</a> warnt der Chip. Die Ausgabe-Seite zeigt das Gateway nach 30 Sekunden als „weg“.</td></tr>
-            <tr><td>Server direkt nach einem Notruf hart beenden und neu starten</td><td data-spalte="Ergebnis">Der Notruf ist danach wieder offen, siehe <a href="kapitel-17.html#t2">T2</a>.</td></tr>
-            <tr><td>Mit dem Chip in der Jacke durch das Gebäude gehen</td><td data-spalte="Ergebnis">Im Funk-Protokoll der Ausgabe-Seite steht die Signalstärke. Gut ist sie ab −115 dBm, knapp ab −125 dBm.</td></tr>
+            <tr><td>Server direkt nach einem Notruf hart beenden und neu starten</td><td data-spalte="Ergebnis">Der Notruf ist danach wieder offen.</td></tr>
+            <tr><td>Mit dem Chip in der Jacke durch das Gebäude gehen</td><td data-spalte="Ergebnis">Im Funk-Protokoll der Ausgabe-Seite steht die Signalstärke. Gut ist sie ab −115 <a href="kapitel-anhang.html#g-db">dBm</a>, knapp ab −125 dBm.</td></tr>
           </tbody>
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle"><strong>Das ist ein Prüf-Notruf.</strong> Er geht nur an eingeweihte Personen, nie an die Rettung. Ein Schulgebäude ist außerdem kein Berg: Der Test zeigt, ob alles zusammenspielt, aber wenig über die Reichweite im Gelände, siehe <a href="kapitel-08.html">Kapitel 8</a>. Die vollständigen Tests stehen in <a href="kapitel-17.html#testfaelle">Kapitel 17</a>.</p>
+        <p class="nach-tabelle"><strong>Das ist ein Prüf-Notruf.</strong> Er geht nur an eingeweihte Personen, nie an die Rettung. Ein Schulgebäude ist außerdem kein Berg: Der Test zeigt, ob alles zusammenspielt, aber wenig über die Reichweite im Gelände, siehe <a href="kapitel-08.html">Kapitel 8</a>. Den Test am Berg beschreibt <a href="kapitel-17.html">Kapitel 17</a>.</p>
 
         <h2 id="stolpersteine" data-kurz="Stolpersteine">Stolpersteine</h2>
       </div>
@@ -162,7 +179,7 @@ node tools/test.js</code></pre>
           <tbody>
             <tr><td>Gateway kommt nicht ins WLAN</td><td data-spalte="Ursache">Schulnetze haben oft Anmeldeseiten oder sperren Geräte.</td><td data-spalte="Lösung">Eigenen Router mit Internet für NAS und Gateway aufstellen. Ein Handy-Hotspot allein hilft nur, wenn das NAS aus dem Internet erreichbar ist.</td></tr>
             <tr><td>Bildschirm zeigt Server-Fehler</td><td data-spalte="Ursache">Adresse, Passwort oder Zertifikat stimmen nicht.</td><td data-spalte="Lösung">Beides mit <code>config.json</code> vergleichen, siehe <a href="#nas">Das NAS als Server</a>.</td></tr>
-            <tr><td>Paketzähler bleibt stehen</td><td data-spalte="Ursache">Funk-Einstellungen oder Sync-Word sind ungleich.</td><td data-spalte="Lösung">Mit <a href="kapitel-04.html#einstellungen">Kapitel 4</a> vergleichen.</td></tr>
+            <tr><td>Paketzähler bleibt stehen</td><td data-spalte="Ursache">Funk-Einstellungen oder <a href="kapitel-anhang.html#g-sync-word">Sync-Word</a> sind ungleich.</td><td data-spalte="Lösung">Mit <a href="kapitel-04.html#einstellungen">Kapitel 4</a> vergleichen.</td></tr>
             <tr><td>Chip hat keine Position</td><td data-spalte="Ursache">Drinnen gibt es kaum GPS.</td><td data-spalte="Lösung">Ans Fenster legen oder ins Freie gehen.</td></tr>
             <tr><td>Server verwirft alle Pakete</td><td data-spalte="Ursache">Nach neuem Aufspielen beginnt der Zähler bei 0.</td><td data-spalte="Lösung">Mit Maximilian klären, siehe <a href="kapitel-04.html#grenzen">Kapitel 4</a>.</td></tr>
             <tr><td>Caddy startet nicht</td><td data-spalte="Ursache">Ports 80 oder 443 sind vom NAS belegt.</td><td data-spalte="Lösung">Andere Ports zuweisen, siehe <a href="#nas">Das NAS als Server</a>.</td></tr>
@@ -209,6 +226,13 @@ node tools/test.js</code></pre>
 
       <div class="lesen">
         <p class="nach-tabelle">Der Server speichert Positionen und ein Funk-Protokoll. Löscht beides nach dem Test, und holt euch das Einverständnis aller, die einen Chip tragen. Eine Vorlage dafür steht im Bauplan. Die Verschlüsselung gilt nicht als sicher, siehe die Grenzen in <a href="kapitel-15.html#siphash">Kapitel 15</a>.</p>
+
+        <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
+        <div class="urteil">
+          <p><strong>Entschieden:</strong> Der Schultest läuft mit 1 Heltec V3 und dem Server auf einem vorhandenen NAS.</p>
+          <p><strong>Geschätzt:</strong> Das Material kostet 24 bis 40 €, ohne Versand.</p>
+          <p><strong>Offen:</strong> Zertifikat und Ports auf dem NAS, und ob alle Befehle so laufen, wie sie hier stehen.</p>
+        </div>
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
         <ul class="quellen">

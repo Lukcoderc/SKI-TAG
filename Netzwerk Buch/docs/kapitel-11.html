@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Der Server · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was der SkiTag-Server macht, was er bei KitzSki braucht und wie er erreichbar wird.">
-<link rel="stylesheet" href="assets/book.css?v=43">
-<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
-<script src="assets/book.js?v=43" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=45">
+<link rel="stylesheet" href="assets/druck.css?v=45" media="print">
+<script src="assets/book.js?v=45" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -40,13 +40,22 @@
     </details>
     <article>
       <h1>Der Server</h1>
-      <p class="stand">Kapitel 11 · Stand 2. November 2026</p>
-      <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4</a>, <a href="kapitel-07.html">Kapitel 7</a></p>
+      <p class="stand">Kapitel 11 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4, Funkprotokoll</a> · <a href="kapitel-07.html">Kapitel 7, Die Gateways</a></p>
 
       <div class="lesen">
         <p class="einstieg">Der Server ist die Zentrale von SkiTag. Chips und Gateways liefern nur Daten, entschieden wird hier. Dieses Kapitel erklärt, was er tut, warum er bei KitzSki steht und trotzdem aus dem Internet erreichbar sein muss.</p>
+        <div class="kurz">
+          <p class="kurz-titel">Kurz gesagt</p>
+          <ul>
+            <li>Der Server ist die Zentrale: Hier wird geprüft und entschieden.</li>
+            <li>Er steht vor Ort bei KitzSki, bleibt für die App aber über das Internet erreichbar.</li>
+            <li>Für Notrufe gilt die Forderung: erst speichern, dann ACK.</li>
+          </ul>
+          <p><strong>Offen:</strong> Freigabe durch die IT, eigene Domain, Betreuung und Backup.</p>
+        </div>
         <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Entschieden ist ein eigener Server vor Ort in der IT-Abteilung von KitzSki, kein gemieteter in der Cloud. Für den Schultest läuft derselbe Aufbau auf einem NAS, siehe <a href="kapitel-16.html#nas">Kapitel 16</a>.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Die Server-Software lag beim Schreiben nicht vor. Alles hier stammt aus der Übergabe und ist laut ihr nur am PC getestet, siehe <a href="kapitel-anhang.html#nachweis">Was geprüft ist</a>.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Die Server-Software liegt als Test-Version vor, nicht als finale Fassung. Wir haben sie gelesen, aber nicht ausgeführt. Das meiste hier stammt aus der <a href="kapitel-anhang.html#g-uebergabe">Übergabe</a> und ist laut ihr nur am PC getestet, siehe <a href="kapitel-anhang.html#nachweis">Was geprüft ist</a>.</p>
 
         <h2 id="aufgaben" data-kurz="Was er tut">Was er tut</h2>
       </div>
@@ -60,17 +69,17 @@
             <tr><td>Position bewerten</td><td data-spalte="Ablauf">Älter als 2 Minuten gilt als „alt“. Ohne Position gilt die des Gateways, markiert als „ungefähr“.</td></tr>
             <tr><td>Antworten senden</td><td data-spalte="Ablauf">Über das Gateway mit dem besten <a href="kapitel-anhang.html#g-rssi">RSSI</a> der letzten 15 Minuten.</td></tr>
             <tr><td>App bedienen</td><td data-spalte="Ablauf">Anmeldung, Gruppen, Live-Positionen, Notrufe, Lifte, Treffpunkt.</td></tr>
-            <tr><td>Chips ausgeben</td><td data-spalte="Ablauf">Ausgabe-Seite <code>/ausgabe</code> mit Passwort: Gruppen bilden, Belege drucken, Akku und Funk ansehen, Protokoll laden.</td></tr>
+            <tr><td>Chips ausgeben</td><td data-spalte="Ablauf"><a href="kapitel-anhang.html#g-ausgabe-seite">Ausgabe-Seite</a> <code>/ausgabe</code> mit Passwort: Gruppen bilden, Belege drucken, Akku und Funk ansehen, Protokoll laden.</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="lesen">
         <h2 id="aufbau" data-kurz="Wie er aufgebaut ist">Wie er aufgebaut ist</h2>
-        <p>Der Server läuft auf Ubuntu 24.04 in Docker, geschrieben in Node.js 22 ohne npm-Pakete. Davor steht Caddy, das HTTPS übernimmt und das Zertifikat besorgt. Der Start ist ein einziger Befehl, und die Einstellungen stehen in <code>config.json</code>.</p>
+        <p>Der Server läuft in Docker auf einem Rechner mit Ubuntu 24.04, geschrieben in Node.js 22 ohne npm-Pakete. Davor steht Caddy, das HTTPS übernimmt und das Zertifikat besorgt. Der Start ist ein einziger Befehl, und die Einstellungen stehen in <code>config.json</code>.</p>
         <h2 id="speichern" data-kurz="Erst speichern, dann ACK">Erst speichern, dann ACK</h2>
-        <p>Der Zustand liegt im Speicher und wird laut Übergabe alle 5 Sekunden nach <code>daten/state.json</code> geschrieben. Das Funk-Protokoll landet pro Tag in einer eigenen Datei. Für Positionen reicht das. Für Notrufe ist es gefährlich: Stürzt der Server ab, nachdem er ein <a href="kapitel-anhang.html#g-ack">ACK</a> gesendet hat, aber bevor er gespeichert hat, ist der Notruf weg. Der Chip wiederholt ihn dann nicht mehr und warnt auch nicht.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Ob der Server das heute so macht, wissen wir nicht, denn der Code lag nicht vor. Gefordert ist diese Reihenfolge:</p>
+        <p>Der Zustand liegt im Speicher und wird laut Übergabe alle 5 Sekunden nach <code>daten/state.json</code> geschrieben. Das Funk-Protokoll landet pro Tag in einer eigenen Datei. Für Positionen reicht das. Für Notrufe ist es gefährlich: Stürzt der Server ab, nachdem er ein <a href="kapitel-anhang.html#g-ack">ACK</a> gesendet hat, aber bevor er gespeichert hat, ist der Notruf weg. Der Chip wiederholt ihn dann nicht mehr als Ereignis und warnt auch nicht.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>In der Test-Version geht das ACK noch vor dem Speichern raus, gespeichert wird alle 5 Sekunden und ohne <code>fsync</code>. Gefordert ist diese Reihenfolge:</p>
         <ol>
           <li>Paket prüfen und entschlüsseln.</li>
           <li>Notruf in ein Protokoll schreiben, das nur wächst, und mit <code>fsync</code> wirklich auf den Datenträger bringen.</li>
@@ -78,7 +87,7 @@
           <li>Beim Start zuerst dieses Protokoll einlesen und alle offenen Notrufe weiterführen, samt Zählern. Der Zeitpunkt des Speicherns bleibt erhalten, denn von ihm hängen die späteren Fristen ab. Im Buch heißt er <a href="kapitel-anhang.html#g-t0">T0</a>, der Zeitablauf dazu steht in <a href="kapitel-13.html#eskalation">Kapitel 13</a>.</li>
         </ol>
         <p>Das muss schnell gehen, denn das Gateway sendet eine Antwort nur bis 1,4 Sekunden nach dem Empfang. Ein NAS oder Server mit Schreibcache braucht einen Datenträger, der <code>fsync</code> wirklich einhält, sonst ist die Zusage wertlos.</p>
-        <p>Als zweite Sicherung schlagen wir vor: Der Chip meldet in jedem Paket das Status-Bit „Notruf läuft“. Sieht der Server dieses Bit und kennt keinen offenen Notruf, legt er ihn neu an und meldet das. Ob der Chip das Bit nach dem ACK weiter setzt, muss Maximilian bestätigen.</p>
+        <p>Eine zweite Sicherung ist in der Test-Version schon gebaut: Der Chip meldet in jedem Paket das Status-Bit „Notruf läuft“, auch nach dem ACK. Sieht der Server dieses Bit und kennt keinen offenen Notruf, legt er ihn neu an. Das klappt nur, solange der Chip ein Gateway erreicht, und der ursprüngliche Zeitpunkt T0 geht dabei verloren.</p>
 
         <h2 id="standort" data-kurz="Warum vor Ort, warum Internet">Warum vor Ort und trotzdem im Internet</h2>
         <p>Vor Ort heißt: eigene Kontrolle und keine laufende Miete. Es heißt nicht: unabhängig vom Internet. Die App läuft über Mobilfunk, sie erreicht den Server also von außen. Drei Gegenstellen brauchen ihn:</p>
@@ -89,7 +98,7 @@
           <tbody>
             <tr><td>Gateways</td><td data-spalte="Von wo">Aus dem Netz der Bergbahn oder über WLAN</td><td data-spalte="Wozu">Pakete abliefern, Antworten holen</td></tr>
             <tr><td>Apps von Gästen und Mitarbeitern</td><td data-spalte="Von wo">Über Mobilfunk aus dem Internet</td><td data-spalte="Wozu">Positionen sehen, Notrufe annehmen</td></tr>
-            <tr><td>Let's Encrypt</td><td data-spalte="Von wo">Aus dem Internet oder über DNS</td><td data-spalte="Wozu">Prüfen, dass die Domain uns gehört</td></tr>
+            <tr><td>Let's Encrypt</td><td data-spalte="Von wo">Aus dem Internet oder über <a href="kapitel-anhang.html#g-dns">DNS</a></td><td data-spalte="Wozu">Prüfen, dass die Domain uns gehört</td></tr>
           </tbody>
         </table>
       </div>
@@ -100,7 +109,7 @@
         <div class="schema-rahmen" tabindex="0" role="group" aria-label="Netzwerkstruktur: Die Gateways hängen an WLAN oder dem Netz der Bergbahn, das zum Server bei der KitzSki-IT führt. Dort stehen Caddy, der Server und seine Daten. Über Port 443 erreichen die Apps den Server aus dem Internet, Let's Encrypt stellt das Zertifikat aus.">
           <svg viewBox="0 0 960 470" role="img" aria-label="Netzwerkstruktur: Die Gateways hängen an WLAN oder dem Netz der Bergbahn, das zum Server bei der KitzSki-IT führt. Dort stehen Caddy, der Server und seine Daten. Über Port 443 erreichen die Apps den Server aus dem Internet, Let's Encrypt stellt das Zertifikat aus." data-schema="netzwerk"><defs><marker id="sb-spitze" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze" d="M0 0 10 5 0 10Z"/></marker><marker id="sb-spitze-licht" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze-licht" d="M0 0 10 5 0 10Z"/></marker></defs><rect class="sb-zone" x="16" y="16" width="216" height="438"/><text class="sb-zone-name" x="34" y="46">Stationen</text><rect class="sb-zone" x="248" y="16" width="200" height="438"/><text class="sb-zone-name" x="266" y="46">Netz</text><rect class="sb-zone" x="464" y="16" width="240" height="438"/><text class="sb-zone-name" x="482" y="46">KitzSki-IT</text><rect class="sb-zone" x="720" y="16" width="224" height="438"/><text class="sb-zone-name" x="738" y="46">Internet</text><rect class="sb-box" x="34" y="74" width="180" height="80"/><text class="sb-titel" x="48" y="109.5">Gateway E1</text><text class="sb-text" x="48" y="133.5">Bergstation</text><rect class="sb-box" x="34" y="298" width="180" height="80"/><text class="sb-titel" x="48" y="333.5">Gateway E2</text><text class="sb-text" x="48" y="357.5">Bergstation</text><path class="sb-linie sb-pfeil" d="M214 114H268V200"/><path class="sb-linie sb-pfeil" d="M214 338H268V272"/><rect class="sb-box" x="266" y="200" width="164" height="72"/><text class="sb-titel" x="280" y="243">WLAN oder Kabel</text><use class="sb-offen" href="#mark-offen" x="404" y="208" width="16" height="16"/><text class="sb-text" x="284" y="304">Im Test WLAN.</text><text class="sb-text" x="284" y="328">Für den Betrieb</text><text class="sb-text" x="284" y="352">mit KitzSki zu klären.</text><path class="sb-linie sb-pfeil" d="M430 236H482"/><rect class="sb-box" x="482" y="200" width="204" height="72"/><text class="sb-titel" x="496" y="231.5">Caddy</text><text class="sb-text" x="496" y="255.5">HTTPS, Zertifikat</text><path class="sb-linie sb-pfeil sb-beide" d="M584 200V154"/><rect class="sb-box" x="482" y="74" width="204" height="80"/><text class="sb-titel" x="496" y="109.5">Server</text><text class="sb-text" x="496" y="133.5">Node.js in Docker</text><path class="sb-linie sb-pfeil sb-beide" d="M584 272V318"/><rect class="sb-box" x="482" y="318" width="204" height="80"/><text class="sb-titel" x="496" y="353.5">Daten</text><text class="sb-text" x="496" y="377.5">state.json, Funk-Protokoll</text><path class="sb-linie sb-pfeil sb-beide" d="M686 236H738"/><text class="sb-titel" x="692" y="184">Port 443</text><use class="sb-offen" href="#mark-offen" x="766" y="169" width="16" height="16"/><rect class="sb-box" x="738" y="200" width="188" height="72"/><text class="sb-titel" x="752" y="243">Internet</text><path class="sb-linie sb-pfeil sb-beide" d="M832 200V154"/><rect class="sb-box" x="738" y="74" width="188" height="80"/><text class="sb-titel" x="752" y="109.5">Apps</text><text class="sb-text" x="752" y="133.5">Über Mobilfunk</text><path class="sb-linie sb-pfeil sb-gestrichelt" d="M832 272V318"/><rect class="sb-box" x="738" y="318" width="188" height="80"/><text class="sb-titel" x="752" y="353.5">Let's Encrypt</text><text class="sb-text" x="752" y="377.5">Prüft die Domain</text></svg>
         </div>
-        <figcaption>Vorschlag für den Betrieb. Die Freigabe von Port 443 und das Netz zu den Stationen sind mit der IT noch nicht geklärt.<span class="schema-hinweis"> Zum Ansehen seitlich wischen.</span></figcaption>
+        <figcaption>Vorschlag für den Betrieb. Die Freigabe von <a href="kapitel-anhang.html#g-port">Port</a> 443 und das Netz zu den Stationen sind mit der IT noch nicht geklärt.<span class="schema-hinweis"> Zum Ansehen seitlich wischen.</span></figcaption>
       </figure>
 
       <div class="lesen">
@@ -112,7 +121,7 @@
           <li>Im Netz der Bergbahn zeigt die Domain direkt auf die interne Adresse. Gateways erreichen den Server dann auch, wenn das Internet ausfällt.</li>
         </ol>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Ob die IT das so erlaubt, ist nicht geklärt. Das ist nur ein Vorschlag.</p>
-        <p>Das Docker-Setup lag uns nicht vor. Vor dem Betrieb ist darin zu prüfen: Startet der Dienst nach einem Absturz oder Stromausfall von selbst neu? Liegen <code>daten/</code> und die Zertifikate außerhalb der Container, damit ein Update sie nicht löscht? Prüft ein Gesundheitstest, ob der Server wirklich arbeitet und nicht nur läuft?</p>
+        <p>Das Docker-Setup der Test-Version startet den Dienst nach einem Absturz von selbst neu, und <code>daten/</code> und die Zertifikate liegen außerhalb der Container, damit ein Update sie nicht löscht. Es fehlt ein Gesundheitstest, der prüft, ob der Server wirklich arbeitet und nicht nur läuft.</p>
 
         <h2 id="groesse" data-kurz="Wie groß er sein muss">Wie groß er sein muss</h2>
         <p>Die Datenmenge aus dem Funk ist klein. Die Rechnung für das Funk-Protokoll nimmt rund 200 Byte pro Zeile und 8 Stunden Betrieb an, beides geschätzt:</p>
@@ -129,7 +138,7 @@
       <div class="lesen">
         <p class="nach-tabelle">Die 25 Pakete sind eine Obergrenze, die ein Kanal gar nicht erreicht, siehe <a href="kapitel-07.html#puffer">Kapitel 7</a>. Nicht der Funk begrenzt den Server, sondern die offenen Live-Verbindungen der Apps. Jede App hält mindestens einen Stream offen. Ohne HTTP/2 erlaubt ein Browser nur 6 solcher Verbindungen. Wie viele Apps der Server gleichzeitig trägt, muss ein Lasttest zeigen.</p>
 
-        <h2 id="betrieb" data-kurz="Wer sich kümmert">Wer sich kümmert</h2>
+        <h2 id="betrieb" data-kurz="Was noch offen ist">Was noch offen ist</h2>
         <p>Ein Server für Notrufe braucht jemanden, der ihn betreut. Das ist noch nicht geregelt:</p>
       </div>
       <div class="tabelle">

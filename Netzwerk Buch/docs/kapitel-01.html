@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vom Knopfdruck zur App · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie ein Notruf vom SkiTag-Chip bis in die App der Bergbahn kommt.">
-<link rel="stylesheet" href="assets/book.css?v=43">
-<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
-<script src="assets/book.js?v=43" defer></script>
-<script src="assets/szene.js?v=43" defer></script>
-<script src="assets/signalweg.js?v=43" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=45">
+<link rel="stylesheet" href="assets/druck.css?v=45" media="print">
+<script src="assets/book.js?v=45" defer></script>
+<script src="assets/szene.js?v=45" defer></script>
+<script src="assets/signalweg.js?v=45" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -42,10 +42,19 @@
     </details>
     <article>
       <h1>Vom Knopfdruck zur App</h1>
-      <p class="stand">Kapitel 1 · Stand 2. November 2026</p>
+      <p class="stand">Kapitel 1 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
 
       <div class="lesen">
         <p class="einstieg">Jemand stürzt auf der Piste und kann nicht mehr weiterfahren. Die Person hat kein Handy dabei und hält den Knopf am Chip. Kurz darauf sieht ein Mitarbeiter der Bergbahn in seiner App einen roten Punkt mit dem genauen Ort. Dieses Buch erklärt alles, was dazwischen passiert.</p>
+        <div class="kurz">
+          <p class="kurz-titel">Kurz gesagt</p>
+          <ul>
+            <li>Der Chip funkt per LoRa zum Gateway, das Gateway reicht das Paket an den Server weiter, und der Server alarmiert den nächsten freien Mitarbeiter in der App.</li>
+            <li>Wer den Chip trägt, braucht weder Handy noch SIM-Karte.</li>
+            <li>Ein kurzer Druck ruft die eigene Gruppe, 3 Sekunden Halten löst den Notruf aus.</li>
+          </ul>
+          <p><strong>Offen:</strong> Muss die Notruf-Kette auch bei einem Internetausfall funktionieren?</p>
+        </div>
         <p>SkiTag ist ein Mietchip für das Skigebiet. Er schickt Notrufe mit Standort an die Bergbahn und kann die eigene Gruppe rufen, ohne Handy und ohne Handynetz. Damit das klappt, braucht es ein eigenes kleines Netzwerk am Berg. Um dieses Netzwerk geht es hier.</p>
       </div>
 
@@ -55,7 +64,7 @@
       </div>
       <figure class="schema">
         <div class="schema-rahmen" tabindex="0" role="group" aria-label="Gesamtbild von SkiTag: Der Chip funkt per LoRa zum Gateway am Berg, das Gateway reicht die Pakete an den Server bei KitzSki weiter, der Server erreicht über Internet und Mobilfunk die Apps. Der Weg eines Notrufs ist hervorgehoben. Ein Leitstand ist nur ein Vorschlag.">
-          <svg viewBox="0 0 960 520" role="img" aria-label="Gesamtbild von SkiTag: Der Chip funkt per LoRa zum Gateway am Berg, das Gateway reicht die Pakete an den Server bei KitzSki weiter, der Server erreicht über Internet und Mobilfunk die Apps. Der Weg eines Notrufs ist hervorgehoben. Ein Leitstand ist nur ein Vorschlag." data-schema="architektur"><defs><marker id="sb-spitze" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze" d="M0 0 10 5 0 10Z"/></marker><marker id="sb-spitze-licht" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze-licht" d="M0 0 10 5 0 10Z"/></marker></defs><rect class="sb-zone" x="16" y="16" width="300" height="488"/><text class="sb-zone-name" x="34" y="46">Am Berg</text><rect class="sb-zone" x="332" y="16" width="296" height="488"/><text class="sb-zone-name" x="350" y="46">Bei KitzSki</text><rect class="sb-zone" x="644" y="16" width="300" height="488"/><text class="sb-zone-name" x="662" y="46">Unterwegs</text><rect class="sb-box" x="36" y="64" width="260" height="92"/><text class="sb-titel" x="50" y="105.5">Chip</text><text class="sb-text" x="50" y="129.5">GPS, Knopf, Vibration, ohne SIM</text><path class="sb-linie sb-licht sb-beide" d="M166 156V252"/><text class="sb-titel" x="180" y="196">LoRa</text><text class="sb-text" x="180" y="220">869,525 MHz, SF9</text><rect class="sb-box" x="36" y="252" width="260" height="92"/><text class="sb-titel" x="50" y="293.5">Gateway</text><text class="sb-text" x="50" y="317.5">Reicht Pakete ungelesen weiter</text><text class="sb-text" x="36" y="374">Im Test: 2 Heltec V3 am Fenster</text><text class="sb-text" x="36" y="398">einer Bergstation</text><path class="sb-linie sb-licht sb-beide" d="M296 298H352"/><rect class="sb-box" x="352" y="64" width="256" height="92"/><text class="sb-titel" x="366" y="105.5">Ausgabe-Seite</text><text class="sb-text" x="366" y="129.5">Chips ausgeben, Funk ansehen</text><path class="sb-linie sb-pfeil" d="M584 252V156"/><text class="sb-text" x="352" y="236">WLAN, später Kabel, HTTPS</text><rect class="sb-box" x="352" y="252" width="256" height="92"/><text class="sb-titel" x="366" y="293.5">Server</text><text class="sb-text" x="366" y="317.5">Prüft, entscheidet, bestätigt</text><path class="sb-linie sb-gestrichelt sb-pfeil" d="M480 344V392"/><rect class="sb-box sb-fein" x="352" y="392" width="256" height="92"/><text class="sb-titel" x="366" y="433.5">Leitstand</text><text class="sb-text" x="366" y="457.5">Vorschlag aus Kapitel 14</text><use class="sb-offen" href="#mark-offen" x="576" y="404" width="16" height="16"/><path class="sb-linie sb-licht sb-beide" d="M608 298H664"/><text class="sb-text" x="664" y="236">HTTPS und Live-Stream</text><rect class="sb-box" x="664" y="252" width="260" height="92"/><text class="sb-titel" x="678" y="293.5">Internet und Mobilfunk</text><text class="sb-text" x="678" y="317.5">Hängt nicht an unserem Funknetz</text><rect class="sb-box" x="664" y="64" width="260" height="92"/><text class="sb-titel" x="678" y="105.5">App für Gäste</text><text class="sb-text" x="678" y="129.5">Gruppe, Karte, Treffpunkt</text><path class="sb-linie sb-pfeil sb-beide" d="M880 252V156"/><path class="sb-linie sb-licht sb-beide" d="M794 344V392"/><rect class="sb-box" x="664" y="392" width="260" height="92"/><text class="sb-titel" x="678" y="433.5">App für Mitarbeiter</text><text class="sb-text" x="678" y="457.5">Notruf sehen und annehmen</text></svg>
+          <svg viewBox="0 0 960 520" role="img" aria-label="Gesamtbild von SkiTag: Der Chip funkt per LoRa zum Gateway am Berg, das Gateway reicht die Pakete an den Server bei KitzSki weiter, der Server erreicht über Internet und Mobilfunk die Apps. Der Weg eines Notrufs ist hervorgehoben. Ein Leitstand ist nur ein Vorschlag." data-schema="architektur"><defs><marker id="sb-spitze" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze" d="M0 0 10 5 0 10Z"/></marker><marker id="sb-spitze-licht" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze-licht" d="M0 0 10 5 0 10Z"/></marker></defs><rect class="sb-zone" x="16" y="16" width="300" height="488"/><text class="sb-zone-name" x="34" y="46">Am Berg</text><rect class="sb-zone" x="332" y="16" width="296" height="488"/><text class="sb-zone-name" x="350" y="46">Bei KitzSki</text><rect class="sb-zone" x="644" y="16" width="300" height="488"/><text class="sb-zone-name" x="662" y="46">Unterwegs</text><rect class="sb-box" x="36" y="64" width="260" height="92"/><text class="sb-titel" x="50" y="105.5">Chip</text><text class="sb-text" x="50" y="129.5">GPS, Knopf, Vibration, ohne SIM</text><path class="sb-linie sb-licht sb-beide" d="M166 156V252"/><text class="sb-titel" x="180" y="196">LoRa</text><text class="sb-text" x="180" y="220">869,525 MHz, SF9</text><rect class="sb-box" x="36" y="252" width="260" height="92"/><text class="sb-titel" x="50" y="293.5">Gateway</text><text class="sb-text" x="50" y="317.5">Reicht Pakete ungelesen weiter</text><text class="sb-text" x="36" y="374">Schultest: 1 Heltec V3</text><text class="sb-text" x="36" y="398">Berg: Gondelstation, Gerät offen</text><path class="sb-linie sb-licht sb-beide" d="M296 298H352"/><rect class="sb-box" x="352" y="64" width="256" height="92"/><text class="sb-titel" x="366" y="105.5">Ausgabe-Seite</text><text class="sb-text" x="366" y="129.5">Chips ausgeben, Funk ansehen</text><path class="sb-linie sb-pfeil" d="M584 252V156"/><text class="sb-text" x="352" y="236">WLAN, später Kabel, HTTPS</text><rect class="sb-box" x="352" y="252" width="256" height="92"/><text class="sb-titel" x="366" y="293.5">Server</text><text class="sb-text" x="366" y="317.5">Prüft, entscheidet, bestätigt</text><path class="sb-linie sb-gestrichelt sb-pfeil" d="M480 344V392"/><rect class="sb-box sb-fein" x="352" y="392" width="256" height="92"/><text class="sb-titel" x="366" y="433.5">Leitstand</text><text class="sb-text" x="366" y="457.5">Vorschlag aus Kapitel 14</text><use class="sb-offen" href="#mark-offen" x="576" y="404" width="16" height="16"/><path class="sb-linie sb-licht sb-beide" d="M608 298H664"/><text class="sb-text" x="664" y="236">HTTPS und Live-Stream</text><rect class="sb-box" x="664" y="252" width="260" height="92"/><text class="sb-titel" x="678" y="293.5">Internet und Mobilfunk</text><text class="sb-text" x="678" y="317.5">Hängt nicht an unserem Funknetz</text><rect class="sb-box" x="664" y="64" width="260" height="92"/><text class="sb-titel" x="678" y="105.5">App für Gäste</text><text class="sb-text" x="678" y="129.5">Gruppe, Karte, Treffpunkt</text><path class="sb-linie sb-pfeil sb-beide" d="M880 252V156"/><path class="sb-linie sb-licht sb-beide" d="M794 344V392"/><rect class="sb-box" x="664" y="392" width="260" height="92"/><text class="sb-titel" x="678" y="433.5">App für Mitarbeiter</text><text class="sb-text" x="678" y="457.5">Notruf sehen und annehmen</text></svg>
         </div>
         <figcaption>Der hervorgehobene Weg ist der eines Notrufs, in beide Richtungen. Der Leitstand ist kein geplanter Teil, sondern ein offener Vorschlag.<span class="schema-hinweis"> Zum Ansehen seitlich wischen.</span></figcaption>
       </figure>
@@ -168,7 +177,7 @@
               </div>
               <div class="ausfall hinweis">
                 <h4>Wenn es ein Versehen war</h4>
-                <p>Nach dem Halten bleiben fünf Sekunden, um den Notruf abzubrechen. So kommt ein versehentlich ausgelöster Notruf gar nicht erst bei der Bergbahn an.</p>
+                <p>Nach dem Halten bleiben fünf Sekunden, um den Notruf abzubrechen: Ein weiterer Druck auf den Knopf genügt. So kommt ein versehentlich ausgelöster Notruf gar nicht erst bei der Bergbahn an.</p>
               </div>
             </div>
           </article>
@@ -196,7 +205,7 @@
               <div class="ausfall">
                 <h4>Wenn das Gateway ausfällt</h4>
                 <p>Ist das WLAN nur kurz weg, hebt das Gateway bis zu 60 Pakete auf und schickt sie nach.</p>
-                <p>Fällt es ganz aus, zeigt es die Ausgabe-Seite des Servers, über die Chips verliehen werden, nach 30 Sekunden als „weg“. Mehr passiert bisher nicht.</p>
+                <p>Fällt es ganz aus, zeigt es die <a href="kapitel-anhang.html#g-ausgabe-seite">Ausgabe-Seite</a> des Servers, über die Chips verliehen werden, nach 30 Sekunden als „weg“. Mehr passiert bisher nicht.</p>
                 <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Ob ein anderes Gateway einspringen kann, hängt davon ab, wie weit sich ihre Reichweiten überlappen. Das ist noch nicht gemessen.</p>
               </div>
             </div>
@@ -238,7 +247,7 @@
               </div>
               <div class="ausfall hinweis">
                 <h4>Warum das dauern kann</h4>
-                <p>Ein Gateway darf einem Chip nur direkt nach einem Paket dieses Chips antworten. Ein Gruppenruf kann deshalb bis zu 20 Sekunden brauchen, in der Ladebox bis zu 60.</p>
+                <p>Ein Gateway darf einem Chip nur direkt nach einem Paket dieses Chips antworten. Ein Gruppenruf kann deshalb bis zu 20 Sekunden brauchen, in der <a href="kapitel-anhang.html#g-ladebox">Ladebox</a> bis zu 60.</p>
                 <p>Der Server versucht jeden Befehl bis zu sechsmal, bis der Chip ihn bestätigt.</p>
               </div>
             </div>
@@ -315,8 +324,25 @@
       </div>
       <div class="lesen">
         <h2 id="test" data-kurz="Der Test 2027">Der Test Anfang 2027</h2>
-        <p>Die Prototypen sollen im Jänner 2027 fertig sein, der Testtag folgt im Februar oder März. Dabei sind 5 Chips, 2 Gateways an Bergstationen, ein Server und die echte App. Im Test sind die Gateways noch kleine Funkboards, für den Start im Skigebiet in der Saison 27/28 braucht es richtige Geräte.</p>
-        <p>Die Software für Gateways und Server ist geschrieben, lief bisher aber nur am PC. Der Selbsttest des Servers besteht dort alle 58 Prüfungen, ein Simulator spielt 5 fahrende Chips. Auf echter Hardware lief sie noch nie.</p>
+        <p>Die Prototypen sollen im Jänner 2027 fertig sein, der Testtag folgt im Februar oder März. Dabei sind 5 Chips, ein Server und die echte App. Die Gateways stehen an einer Gondelstation. Geplant ist ein LoRa-Gateway, Gerät und Anzahl stehen aber noch nicht fest. Für den Start im Skigebiet in der Saison 27/28 braucht es richtige Geräte.</p>
+        <p>Laut <a href="kapitel-anhang.html#g-uebergabe">Übergabe</a> ist die Software für Gateways und Server geschrieben und lief bisher nur am PC. Dort soll der Selbsttest des Servers alle 58 Prüfungen bestehen, ein Simulator spielt 5 fahrende Chips. Selbst ausgeführt haben wir das nicht, und auf echter Hardware lief die Software noch nie. Sie ist außerdem nur der Stand für den ersten Test, nicht die finale Firmware.</p>
+
+        <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
+        <div class="urteil">
+          <p><strong>Fest:</strong> Der Chip funkt über LoRa zu Gateways an den Stationen, von dort geht es zum Server und zur App. Wer den Chip trägt, braucht weder Handy noch SIM-Karte.</p>
+          <p><strong>Entschieden:</strong> Eigener Server vor Ort bei KitzSki, über das Internet erreichbar.</p>
+          <p><strong>Offen:</strong> Was „ohne Internet“ bedeutet, wie viele Gateways es braucht und woher Strom und Netz kommen.</p>
+        </div>
+
+        <h2 id="unterlagen" data-kurz="Woher das Wissen stammt">Woher das Wissen stammt</h2>
+        <p>Vier Unterlagen tauchen im Buch immer wieder auf:</p>
+        <ul>
+          <li><strong>Übergabe:</strong> das Dokument „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026 mit dem Stand des Projekts.</li>
+          <li><strong>Angabe:</strong> die Aufgabenstellung für dieses Buch, daher stammen die Fragen aus Kapitel 2.</li>
+          <li><strong>Test-Bauplan:</strong> die Anleitung des Teams für den Aufbau des Tests. Sie liegt diesem Buch nicht vor.</li>
+          <li><strong>Pitch-Präsentation:</strong> die interne Vorstellung des Projekts mit 21 Folien.</li>
+        </ul>
+        <p>Dazu kommt das Paket <code>skitag-test.zip</code> mit dem Code für den ersten Test. Wir haben ihn gelesen, aber nicht ausgeführt.</p>
 
         <h2 id="aufbau" data-kurz="Wie das Buch aufgebaut ist">Wie das Buch aufgebaut ist</h2>
         <p>Das Buch folgt dem Weg des Signals. Jedes Kapitel setzt nur voraus, was davor steht, und nennt am Anfang, worauf es aufbaut. Verweise nach vorn zeigen nur, wo ein Thema später vertieft wird. Zum Verstehen braucht man sie nicht.</p>
@@ -331,7 +357,7 @@
       </div>
 
       <div class="blaettern">
-        <span></span>
+        <a href="kapitel-fragen.html">Zurück: Häufige Fragen</a>
         <a href="kapitel-02.html">Weiter: Kapitel 2, Anforderungen</a>
       </div>
     </article>
