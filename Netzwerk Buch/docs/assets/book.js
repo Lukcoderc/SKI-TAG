@@ -1,8 +1,8 @@
 // Kapitelliste und Seitennavigation für alle Seiten.
 // Die Reihenfolge folgt dem Weg des Signals: Jedes Kapitel setzt nur voraus, was davor steht.
 const KAPITEL = [
-  { teil: "Einstieg", nr: "K", titel: "SkiTag in 5 Minuten", datei: "kapitel-kurz.html" },
-  { teil: "Einstieg", nr: "F", titel: "Häufige Fragen", datei: "kapitel-fragen.html" },
+  { teil: "Einstieg", nr: "", titel: "SkiTag in 5 Minuten", datei: "kapitel-kurz.html" },
+  { teil: "Einstieg", nr: "", titel: "Häufige Fragen", datei: "kapitel-fragen.html" },
   { teil: "Grundlagen", nr: 1, titel: "Vom Knopfdruck zur App", datei: "kapitel-01.html" },
   { teil: "Grundlagen", nr: 2, titel: "Anforderungen", datei: "kapitel-02.html" },
   { teil: "Funk", nr: 3, titel: "Warum LoRa", datei: "kapitel-03.html" },
@@ -21,8 +21,8 @@ const KAPITEL = [
   { teil: "Test und Serie", nr: 16, titel: "Testen in der Schule", datei: "kapitel-16.html" },
   { teil: "Test und Serie", nr: 17, titel: "Testplan Februar 2027", datei: "kapitel-17.html" },
   { teil: "Test und Serie", nr: 18, titel: "Ausblick auf den Betrieb", datei: "kapitel-18.html" },
-  { teil: "Nachschlagen", nr: "E", titel: "Entscheidungen und offene Punkte", datei: "kapitel-entscheidungen.html" },
-  { teil: "Nachschlagen", nr: "A", titel: "Anhang", datei: "kapitel-anhang.html" },
+  { teil: "Nachschlagen", nr: "", titel: "Entscheidungen und offene Punkte", datei: "kapitel-entscheidungen.html" },
+  { teil: "Nachschlagen", nr: "", titel: "Anhang", datei: "kapitel-anhang.html" },
 ];
 // schmal nur hier, SVG_NS und ohneBewegung nutzen auch die Kapitel-Skripte.
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -31,22 +31,26 @@ const schmal = matchMedia("(max-width: 820px)");
 
 function baueKapitelEintrag(k, seite) {
   const li = document.createElement("li");
-  const nr = document.createElement("span");
-  nr.textContent = k.nr;
-  li.append(nr);
+  if (k.nr) {
+    const nr = document.createElement("span");
+    nr.textContent = k.nr;
+    li.append(nr);
+  } else {
+    li.classList.add("ohne-nr");
+  }
   if (k.datei) {
     const a = document.createElement("a");
     a.href = k.datei;
     a.textContent = k.titel;
     if (k.datei === seite) {
-      li.className = "aktiv";
+      li.classList.add("aktiv");
       a.setAttribute("aria-current", "page");
     }
     li.append(a);
   } else {
     const titel = document.createElement("span");
     titel.textContent = k.titel;
-    li.className = "kommt";
+    li.classList.add("kommt");
     li.title = "Noch nicht geschrieben";
     li.append(titel);
   }

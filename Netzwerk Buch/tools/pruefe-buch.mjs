@@ -39,12 +39,12 @@ for (const n of seiten) {
 }
 
 // Reihenfolge aus book.js gegen Dateien, Startseite, Blättern und Stand-Zeile.
-const kapitel = [...readFileSync(new URL("assets/book.js", docs), "utf8").matchAll(/\{ teil: "([^"]+)", nr: ("?\w+"?), titel: "([^"]+)", datei: "([^"]+)" \}/g)]
+const kapitel = [...readFileSync(new URL("assets/book.js", docs), "utf8").matchAll(/\{ teil: "([^"]+)", nr: ("?\w*"?), titel: "([^"]+)", datei: "([^"]+)" \}/g)]
   .map((m) => ({ teil: m[1], nr: m[2].replaceAll('"', ""), titel: m[3], datei: m[4] }));
 const inBuch = new Set(kapitel.map((k) => k.datei));
 for (const n of seiten) if (n !== "index.html" && !inBuch.has(n)) fehler.push(n + ": fehlt in book.js");
 const start = inhalt["index.html"];
-const aufStart = [...start.slice(start.indexOf('id="einstieg"')).matchAll(/class="inhalt-nr">\w+<\/span><div><a href="([^"]+)">([^<]+)/g)];
+const aufStart = [...start.slice(start.indexOf('id="einstieg"')).matchAll(/class="inhalt-nr">\w*<\/span><div><a href="([^"]+)">([^<]+)/g)];
 if (aufStart.map((m) => m[1] + m[2]).join() !== kapitel.map((k) => k.datei + k.titel).join()) fehler.push("index.html: Liste passt nicht zu book.js");
 const teile = [...new Set(kapitel.map((k) => k.teil))];
 const koepfe = [...start.matchAll(/<h2 id="[^"]+"(?: data-kurz="[^"]*")?>([^<]+)<\/h2>/g)].map((m) => m[1]);
