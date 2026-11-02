@@ -3,17 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Standortplanung KitzSki · SkiTag Netzwerk-Buch</title>
-<meta name="description" content="Wie viele Gateways KitzSki braucht: ein Modell aus echten Pisten und Gelände.">
-<link rel="stylesheet" href="assets/book.css?v=40">
-<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
-<script src="assets/book.js?v=40" defer></script>
-<script src="assets/funk.js?v=40" defer></script>
-<script src="assets/abdeckung-daten.js?v=40" defer></script>
-<script src="assets/abdeckung-wahl.js?v=40" defer></script>
-<script src="assets/abdeckung.js?v=40" defer></script>
+<title>Strom und Netzanbindung · SkiTag Netzwerk-Buch</title>
+<meta name="description" content="Wie die Gateways an Strom und Internet kommen und warum das Fenster das größte Hindernis ist.">
+<link rel="stylesheet" href="assets/book.css?v=43">
+<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
+<script src="assets/book.js?v=43" defer></script>
 </head>
-<body data-station="empfaenger">
+<body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
   <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
@@ -21,8 +17,8 @@
   <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<header class="seil">
-  <a class="seil-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+<header class="streifen">
+  <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
 </header>
 
 <div class="buch">
@@ -43,105 +39,87 @@
       <ol></ol>
     </details>
     <article>
-      <h1>Standortplanung KitzSki</h1>
-      <p class="stand">Kapitel 10 · Stand 1. November 2026</p>
+      <h1>Strom und Netzanbindung</h1>
+      <p class="stand">Kapitel 10 · Stand 2. November 2026</p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-07.html">Kapitel 7</a>, <a href="kapitel-09.html">Kapitel 9</a></p>
 
       <div class="lesen">
-        <p class="einstieg">Wie viele Gateways braucht ein Skigebiet wie KitzSki, und wo stehen sie? Dafür wurde das Gelände von KitzSki mit einem Modell durchgerechnet. Das Ergebnis ist kein Plan, sondern eine erste Größenordnung und eine Liste von Stationen, die man sich ansehen sollte.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Alle Ergebnisse hier sind gerechnet, nicht gemessen. Das Modell kennt weder Wald noch Gebäude und ist deshalb zu optimistisch.</p>
+        <p class="einstieg">Ein Gateway braucht an jedem Standort drei Dinge: Strom, einen Weg zum Server und einen guten Platz für die Antenne. Im Test genügen Steckdose, WLAN und Fenster. Dieses Kapitel zeigt, wo das reicht, wo nicht, und was wir mit KitzSki klären müssen.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Mit KitzSki ist dazu noch nichts geklärt. Alles zum Betrieb sind Möglichkeiten, keine Entscheidungen.</p>
 
-        <h2 id="modell" data-kurz="Wie gerechnet wurde">Wie gerechnet wurde</h2>
+        <h2 id="test" data-kurz="Was im Test reicht">Was im Test reicht</h2>
+        <p>Der Heltec V3 bekommt seinen Strom über USB-C, laut Datenblatt mit 5 V und mindestens 500 mA. Ein kleines Netzteil genügt. Er arbeitet von −20 bis 70 °C, gehört aber ohne Gehäuse nach innen. Sein WLAN läuft nur auf 2,4 GHz, und in <code>config.h</code> stehen bis zu drei Netze.</p>
+        <p>Vor dem Aufstellen fragen wir an jeder Station:</p>
         <ul>
-          <li><strong>Pisten und Lifte:</strong> aus OpenStreetMap, 173 km Piste und 48 Lifte. Die Region nennt 233 Abfahrtskilometer, davon 196 präpariert, und 58 Bahnen und Lifte. OpenStreetMap ist also nicht vollständig. Das Gebiet wurde von Hand abgegrenzt, Nachbarn wie Westendorf und Wildkogel sind nicht dabei.</li>
-          <li><strong>Gelände:</strong> ein Höhenmodell mit rund 26 m Raster.</li>
-          <li><strong>Punkte:</strong> alle 120 m ein Punkt auf der Piste, zusammen 1 220, mit dem Chip 1,2 m über dem Boden.</li>
-          <li><strong>Mögliche Standorte:</strong> 59 Liftstationen, 20 dBm und 3 dBi. Angenommen ist eine Antenne außen, 8 m über dem Boden. Die Testgeräte stehen dagegen innen am Fenster.</li>
-          <li><strong>Funk:</strong> Freiraum plus Beugung an den Graten nach ITU-R P.526.</li>
-          <li><strong>Zuschlag:</strong> pauschal 10 dB für Körper und Chip-Antenne. Das ist geschätzt, weil diese Werte noch fehlen.</li>
+          <li>Dürfen wir Steckdose und WLAN nutzen?</li>
+          <li>Gibt es ein Netz mit 2,4 GHz, ohne Anmeldeseite?</li>
+          <li>Bleibt der Strom auch nachts an, und was geschieht bei einem Stromausfall?</li>
+          <li>Wer hat Zugang, wenn das Gerät neu gestartet werden muss?</li>
         </ul>
-        <p>Dann wurde schrittweise jene Station gewählt, die am meisten noch unversorgte Pistenpunkte dazugewinnt, bis mindestens 95 % erreicht sind. Dieses gierige Verfahren ist einfach und nachvollziehbar, findet aber nicht sicher die kleinste mögliche Zahl. Für jede Kombination aus Zuschlag und Ziel wählt es eigene Stationen aus allen 59 Standorten. Das Modell prüft nur, ob ein Paket ein Gateway erreicht. Wie viele Chips das Netz gleichzeitig trägt, ist eine andere Frage, siehe <a href="kapitel-05.html">Kapitel 5</a>.</p>
 
-        <h2 id="karte" data-kurz="Die Karte zum Ausprobieren">Die Karte zum Ausprobieren</h2>
-        <p>Wähle Zuschlag und Ziel und lass die Stationen dafür wählen, oder setze selbst Haken. Die Karte rechnet mit denselben Daten wie die Tabelle unten. Änderst du nur den Zuschlag, bleiben die Stationen gleich: So siehst du, wie eine Auswahl bei mehr Dämpfung einbricht. Norden ist oben, jeder Punkt ist ein Stück Piste. Ein runder Punkt in Bernstein heißt gut, ein kleiner heller knapp, ein rotes Quadrat kein ausreichender Empfang. Die Rauten sind mögliche Gateways.</p>
-      </div>
-
-      <section class="abdeckung" aria-label="Karte der Abdeckung bei KitzSki">
-        <svg id="abd-karte" role="img" aria-label="Karte der Pisten von KitzSki mit der gerechneten Abdeckung"></svg>
-        <div class="abd-steuerung">
-          <dl class="rechner-werte abd-werte">
-            <div><dt>Gateways</dt><dd id="abd-zahl"></dd></div>
-            <div><dt>Gut</dt><dd id="abd-gut"></dd></div>
-            <div><dt>Mindestens knapp</dt><dd id="abd-knapp"></dd></div>
-            <div><dt>Von zweien gut gehört</dt><dd id="abd-doppelt"></dd></div>
-          </dl>
-          <div class="rechner-wahl">
-            <label>Zuschlag <select id="abd-zuschlag"><option value="0">0 dB</option><option value="10" selected>10 dB</option><option value="20">20 dB</option><option value="30">30 dB</option><option value="36.5">36,5 dB</option></select></label>
-            <label>Ziel <select id="abd-ziel"><option value="gut" selected>Gut</option><option value="knapp">Knapp</option><option value="zwei">Gut von zwei</option></select></label>
-          </div>
-          <button class="knopf" type="button" id="abd-waehlen">Stationen für dieses Ziel wählen</button>
-          <ul class="checkliste" id="abd-liste"></ul>
-        </div>
-      </section>
-
-      <div class="tabelle nur-ohne-js">
-        <table>
-          <thead><tr><th scope="col">Die 4 Stationen aus der Reihenfolge unten, Zuschlag</th><th scope="col">Gut</th><th scope="col">Mindestens knapp</th></tr></thead>
-          <tbody><tr><td>0 dB</td><td>97,5 %</td><td>99,3 %</td></tr><tr><td>10 dB</td><td>95,2 %</td><td>97,5 %</td></tr><tr><td>20 dB</td><td>91,5 %</td><td>95,2 %</td></tr><tr><td>30 dB</td><td>67,4 %</td><td>91,5 %</td></tr><tr><td>36,5 dB</td><td>33,0 %</td><td>82,5 %</td></tr></tbody>
-        </table>
-      </div>
-
-      <div class="lesen">
-        <p class="nach-tabelle">Geodaten: © OpenStreetMap-Mitwirkende, ODbL. Gelände: Terrain Tiles on AWS.</p>
-
-        <h2 id="wieviele" data-kurz="Wie viele Gateways">Wie viele Gateways</h2>
-        <p>So viele Gateways braucht das Modell, um mindestens 95 % der 1220 Pistenpunkte zu erreichen, dahinter steht der erreichte Anteil. Die Tabelle wird mit <code>tools/abdeckung-tabelle.mjs</code> aus den Daten der Karte erzeugt.</p>
+        <h2 id="fenster" data-kurz="Das Fenster als Hindernis">Das Fenster als Hindernis</h2>
+        <p>Moderne Fenster tragen oft eine dünne Metallschicht für den Wärmeschutz. Für Funk ist das fast eine Wand: Eine Studie nennt für WLAN und Mobilfunk 40 bis 50 dB Dämpfung. Für 868 MHz haben wir keine Messung. Was 40 dB bedeuten würden, zeigt diese Rechnung mit 10 dB Zuschlag wie in <a href="kapitel-09.html">Kapitel 9</a>:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
-          <thead><tr><th scope="col">Zuschlag</th><th scope="col">Für „gut“ (−115 dBm)</th><th scope="col">Für „knapp“ (−125 dBm)</th><th scope="col">„Gut“ von zwei Gateways</th></tr></thead>
+          <thead><tr><th scope="col">Abstand, freie Sicht</th><th scope="col">Antenne außen</th><th scope="col">Hinter 40 dB Glas</th></tr></thead>
           <tbody>
-            <tr><td data-spalte="Zuschlag">0 dB</td><td data-spalte="Gut">3, 95,3 %</td><td data-spalte="Knapp">3, 96,4 %</td><td data-spalte="Doppelt">8, 95,2 %</td></tr>
-            <tr><td data-spalte="Zuschlag"><strong>10 dB</strong></td><td data-spalte="Gut"><strong>4, 95,2 %</strong></td><td data-spalte="Knapp"><strong>3, 95,3 %</strong></td><td data-spalte="Doppelt"><strong>12, 95,3 %</strong></td></tr>
-            <tr><td data-spalte="Zuschlag">20 dB</td><td data-spalte="Gut">5, 95,2 %</td><td data-spalte="Knapp">4, 95,2 %</td><td data-spalte="Doppelt">21, 95,3 %</td></tr>
-            <tr><td data-spalte="Zuschlag">30 dB</td><td data-spalte="Gut">14, 95,2 %</td><td data-spalte="Knapp">5, 95,2 %</td><td data-spalte="Doppelt">47, nur 92,7 %</td></tr>
-            <tr><td data-spalte="Zuschlag">36,5 dB</td><td data-spalte="Gut">44, nur 91,6 %</td><td data-spalte="Knapp">9, 95,3 %</td><td data-spalte="Doppelt">57, nur 75,8 %</td></tr>
+            <tr><td>1 km</td><td data-spalte="Außen">rund −78 dBm, gut</td><td data-spalte="Hinter Glas">rund −118 dBm, knapp</td></tr>
+            <tr><td>5 km</td><td data-spalte="Außen">rund −92 dBm, gut</td><td data-spalte="Hinter Glas">rund −132 dBm, kein Empfang</td></tr>
           </tbody>
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Die Zahl für einfache Abdeckung bleibt erstaunlich klein, weil Stationen hoch liegen und weit über die Täler sehen. Liegt der Chip zusätzlich im Wald, rechnet ITU-R P.833 mit bis zu 26,5 dB. Zusammen mit den 10 dB ergibt das die Zeile mit 36,5 dB, und dort reicht das Modell nicht mehr aus. Die rechte Spalte ist die wichtigere: Soll bei einem Ausfall ein zweites Gateway einspringen, oder soll ein Chip hinter einem Hindernis noch gehört werden, steigt die Zahl stark.</p>
+        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Geschätzt. Der Glaswert ist von anderen Frequenzen übernommen, und nicht jedes Fenster ist beschichtet. Trotzdem ist das die größte einzelne Unsicherheit im Test: Hinter dem falschen Fenster schrumpft die Reichweite von Kilometern auf wenige hundert Meter.</p>
+        <p>Darum messen wir beim Aufstellen beide Fälle: einmal mit geschlossenem Fenster, einmal mit Antenne im Freien oder offenem Fenster, jeweils mit dem Chip am selben Ort. Der Unterschied im <a href="kapitel-anhang.html#g-rssi">RSSI</a> zeigt die echte Dämpfung. Ist sie groß, muss die Antenne über ein kurzes Kabel nach außen.</p>
 
-        <h2 id="reihenfolge" data-kurz="Welche Stationen zuerst">Welche Stationen zuerst</h2>
-        <p>Bei 10 dB Zuschlag und der Schwelle „gut“ wählt das Modell diese Reihenfolge:</p>
+        <h2 id="betrieb" data-kurz="Strom und Netz im Betrieb">Strom und Netz im Betrieb</h2>
+        <p>Im Betrieb soll das Gateway außen an der Station hängen, am besten mit einem einzigen Kabel. Das erlaubt Power over Ethernet (<a href="kapitel-anhang.html#g-poe">PoE</a>): Strom und Daten laufen über dasselbe Netzwerkkabel. Für den Weg zum Server gibt es mehrere Möglichkeiten:</p>
       </div>
       <div class="tabelle">
-        <table>
-          <thead><tr><th scope="col">Nr.</th><th scope="col">Station</th><th scope="col">Höhe</th><th scope="col">Pisten erreicht</th></tr></thead>
+        <table class="stapel">
+          <thead><tr><th scope="col">Weg zum Server</th><th scope="col">Vorteil</th><th scope="col">Nachteil</th><th scope="col">Stand</th></tr></thead>
           <tbody>
-            <tr><td>1</td><td>Brunelle oben</td><td>1962 m</td><td>63,9 %</td></tr>
-            <tr><td>2</td><td>Gaisberg oben</td><td>1259 m</td><td>81,1 %</td></tr>
-            <tr><td>3</td><td>3S Bahn unten</td><td>1781 m</td><td>90,6 %</td></tr>
-            <tr><td>4</td><td>Bärenbadkogel II oben</td><td>1864 m</td><td>95,2 %</td></tr>
+            <tr class="zeile-offen"><td>Netzwerkkabel im Netz der Bergbahn</td><td data-spalte="Vorteil">Stabil, läuft auch ohne Internet bis zum Server vor Ort</td><td data-spalte="Nachteil">Hängt davon ab, ob die Stationen vernetzt sind und wir hineindürfen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Mobilfunk mit SIM-Karte</td><td data-spalte="Vorteil">Geht ohne Leitung, gut als Reserve</td><td data-spalte="Nachteil">Laufende Kosten, hängt am Handynetz, das am Berg auch überlastet sein kann</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>WLAN einer Hütte</td><td data-spalte="Vorteil">Billig, im Test erprobt</td><td data-spalte="Nachteil">Fremdes Netz, kein Einfluss auf Ausfälle</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Eigene Funkstrecke zwischen Stationen</td><td data-spalte="Vorteil">Überbrückt Orte ohne Leitung</td><td data-spalte="Nachteil">Mehr Technik, die ausfallen kann</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Das erste Gateway allein erreicht schon fast zwei Drittel der Punkte. Das zeigt die Stärke hoher Standorte, heißt aber nicht, dass genau diese Stationen die richtigen sind. Ob dort Strom, Netz und ein Platz für die Antenne vorhanden sind, weiß das Modell nicht. Die Namen stammen aus OpenStreetMap und bezeichnen das obere oder untere Ende eines Lifts.</p>
+        <p class="nach-tabelle">Wir empfehlen das Netz der Bergbahn als Hauptweg und Mobilfunk als Reserve, falls KitzSki das erlaubt. So hängt der Weg zum Server nicht am öffentlichen Internet, siehe <a href="kapitel-14.html#ohne-internet">Kapitel 14</a>.</p>
 
-        <h2 id="test" data-kurz="Für den Testtag">Für den Testtag</h2>
-        <p>Beim Testtag im Februar oder März laufen 5 Chips mit 2 Gateways an Bergstationen. Die Standorte sollten deshalb nicht nach dem ganzen Gebiet gewählt werden, sondern nach der Teststrecke: Beide Gateways sollten sie hören, damit auch das Überlappen geprüft werden kann. Welche Strecke das wird, ist noch offen.</p>
+        <h2 id="geraete" data-kurz="Was für Geräte das sind">Was für Geräte das wären</h2>
+        <p>Für außen kommen fertige Geräte in Frage. Diese zwei stehen für den Preisbereich, sie sind keine Auswahl:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Gerät</th><th scope="col">Preis</th><th scope="col">Ausstattung</th></tr></thead>
+          <tbody>
+            <tr><td>RAK7289 V2</td><td data-spalte="Preis">537,76 € inkl. 19 % USt, Händlerpreis am 1. November 2026</td><td data-spalte="Ausstattung">8 oder 16 Kanäle, PoE 802.3af mit Überspannungsschutz, Anschluss für Solar oder Akku</td></tr>
+            <tr><td>Milesight UG67</td><td data-spalte="Preis">rund 550 bis 900 € je nach Händler und Ausstattung</td><td data-spalte="Ausstattung">IP67, 4G, WLAN und PoE, laut Datenblatt −40 bis 70 °C</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Diese Geräte sind für <a href="kapitel-anhang.html#g-lorawan">LoRaWAN</a> gebaut. Ob sie unser eigenes Protokoll annehmen, ist nicht geprüft. Dazu kommen Antenne, Montage und Blitzschutz. Das hängt an der Entscheidung für die Serie in <a href="kapitel-18.html">Kapitel 18</a>.</p>
 
-        <h2 id="offen" data-kurz="Was noch offen ist">Was noch offen ist</h2>
+        <h2 id="blitz" data-kurz="Blitzschutz">Blitzschutz</h2>
+        <p>Eine Antenne auf einer Bergstation ist ein bevorzugtes Ziel für Blitze. Die Hersteller raten zu drei Dingen: einem Ableiter direkt am Antennenanschluss, einer Erdung von Mast und Gerät und einem Überspannungsschutz, wo das Netzwerkkabel ins Gebäude führt. Ohne Erdung nützt der Ableiter nichts.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Die Anleitungen gelten nicht speziell für das Hochgebirge. Das Erdungskonzept muss eine Elektrofachkraft an der Station planen, das können wir nicht selbst festlegen.</p>
+
+        <h2 id="offen" data-kurz="Was noch offen ist">Was mit KitzSki zu klären ist</h2>
       </div>
       <div class="tabelle">
         <table class="stapel">
           <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
           <tbody>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Wald fehlt im Modell</td><td data-spalte="Warum">Viele Pisten führen durch Wald. Die echte Zahl an Gateways dürfte über dem Modell liegen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Strom, Netz und Zugang an den Stationen</td><td data-spalte="Warum">Die Stationen sind nach Funk gewählt. Ob ein Gateway dort stehen darf, muss KitzSki klären, siehe Kapitel 11.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Pisten abseits</td><td data-spalte="Warum">Gerechnet sind nur Pisten. Skirouten und freies Gelände fehlen, ein Notruf kann aber auch dort nötig sein.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Welche Strecke beim Test</td><td data-spalte="Warum">Davon hängt ab, wo die 2 Gateways hinkommen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Wie viel Reserve</td><td data-spalte="Warum">Reicht ein Gateway pro Punkt, oder sollen immer zwei hören? Das entscheidet zwischen rund 4 und rund 12 Gateways.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Strom an den Stationen</td><td data-spalte="Warum">Läuft er rund um die Uhr, auch nach Betriebsschluss und außerhalb der Saison? Gibt es eine Notstromversorgung?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Netz der Bergbahn</td><td data-spalte="Warum">Sind die Stationen vernetzt, und dürfen wir dieses Netz mitnutzen?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Montage außen</td><td data-spalte="Warum">Wo darf eine Antenne hin, und wer montiert sie? An Liftanlagen selbst gelten vermutlich eigene Regeln.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Glas der Stationen</td><td data-spalte="Warum">Welche Fenster sind beschichtet? Erst die Messung zeigt es.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Standorte ohne Strom</td><td data-spalte="Warum">Reichen Stationen aus, oder braucht es Solar an abgelegenen Punkten?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
       </div>
@@ -149,25 +127,25 @@
       <div class="lesen">
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
-          <p><strong>Geschätzt:</strong> KitzSki kommt nach dem Modell mit 4 Gateways aus, wenn jeder Punkt nur eines hören muss. Das ist eine Untergrenze.</p>
-          <p><strong>Geschätzt:</strong> Für die Planung ist es besser, mit rund 12 Gateways zu rechnen, damit zwei einander ersetzen können. Für Kosten und Strom ist das die ehrlichere Zahl.</p>
-          <p><strong>Offen:</strong> Die Standorte selbst. Sie stehen erst fest, wenn Reichweiten-Test und KitzSki bestätigt haben.</p>
+          <p><strong>Fest:</strong> Der Heltec braucht 5 V über USB-C und bis zu drei WLANs sind einstellbar.</p>
+          <p><strong>Geschätzt:</strong> Beschichtetes Glas kann den Empfang so stark dämpfen, dass nur noch wenige hundert Meter bleiben. Darum wird es beim Aufstellen gemessen.</p>
+          <p><strong>Offen:</strong> Strom, Netz und Montage an den Stationen. Das entscheidet KitzSki.</p>
         </div>
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
         <ul class="quellen">
-          <li><a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, Pisten und Lifte, ODbL, Stand 1. November 2026</li>
-          <li><a href="https://registry.opendata.aws/terrain-tiles/">Terrain Tiles on AWS</a>, Höhendaten</li>
-          <li><a href="https://www.itu.int/rec/R-REC-P.526/en">ITU-R P.526-16</a>, November 2025, Beugung an Kanten</li>
-          <li><a href="https://www.itu.int/rec/R-REC-P.833/en">ITU-R P.833-10</a>, September 2021, Dämpfung in Wald</li>
-          <li><a href="https://www.kitzbueheler-alpen.com/de/winter/skifahren-snowboarden/skigebiet-kitzbuehel-kirchberg.html">KitzSki bei Kitzbüheler Alpen</a>, Pisten und Lifte</li>
-          <li>Pitch-Präsentation SkiTag und Übergabe vom 29. Oktober 2026, interne Dokumente</li>
+          <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
+          <li><a href="https://resource.heltec.cn/download/WiFi_LoRa_32_V3/HTIT-WB32LA_V3.2.pdf">Heltec WiFi LoRa 32 V3 Datenblatt</a>, Rev. 1.1</li>
+          <li><a href="https://doi.org/10.1109/ACCESS.2024.3498448">Chueca und andere: Improving Communication Signal Transmission in Multiple Low-e Windows</a>, IEEE Access 2024</li>
+          <li><a href="https://iot-shop.de/en/shop/rak-7289-v2-wisgate-edge-pro-outdoor-lorawan-gateway-6007">RAK7289 V2</a>, Händlerseite</li>
+          <li><a href="https://spectra.de/media/f8/2e/7a/1639734930/Datasheet-UG67.pdf">Milesight UG67 Datenblatt</a></li>
+          <li><a href="https://thethingsnetwork.org/docs/gateways/lightning-protection">The Things Network: Blitzschutz</a> und <a href="https://docs.rakwireless.com/product-categories/accessories/lora-spd/overview/">RAK Lightning Arrestor</a></li>
         </ul>
       </div>
 
       <div class="blaettern">
-        <a href="kapitel-09.html">Zurück: Kapitel 9, Reichweite im Gelände</a>
-        <a href="kapitel-11.html">Weiter: Kapitel 11, Strom und Netzanbindung</a>
+        <a href="kapitel-09.html">Zurück: Kapitel 9, Standortplanung KitzSki</a>
+        <a href="kapitel-11.html">Weiter: Kapitel 11, Der Server</a>
       </div>
     </article>
   </main>

@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Testen in der Schule · SkiTag Netzwerk-Buch</title>
-<meta name="description" content="Anleitung: SkiTag in der Schule testen und simulieren, vom Laptop bis zum echten Funk.">
-<link rel="stylesheet" href="assets/book.css?v=40">
-<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
-<script src="assets/book.js?v=40" defer></script>
-<script src="assets/checkliste.js?v=40" defer></script>
+<title>Ausblick Serie · SkiTag Netzwerk-Buch</title>
+<meta name="description" content="Was sich vom Test zum Betrieb mit hunderten Chips ändern muss und was das kostet.">
+<link rel="stylesheet" href="assets/book.css?v=43">
+<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
+<script src="assets/book.js?v=43" defer></script>
+<script src="assets/serienkosten.js?v=43" defer></script>
 </head>
-<body data-station="knopf">
+<body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
   <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
@@ -18,8 +18,8 @@
   <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<header class="seil">
-  <a class="seil-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+<header class="streifen">
+  <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
 </header>
 
 <div class="buch">
@@ -40,190 +40,128 @@
       <ol></ol>
     </details>
     <article>
-      <h1>Testen in der Schule</h1>
+      <h1>Ausblick Serie</h1>
       <p class="stand">Kapitel 18 · Stand 2. November 2026</p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-05.html">Kapitel 5</a>, <a href="kapitel-09.html">Kapitel 9</a>, <a href="kapitel-15.html">Kapitel 15</a>, <a href="kapitel-17.html">Kapitel 17</a></p>
 
       <div class="lesen">
-        <p class="einstieg">In der Schule testen wir den ganzen Weg im Kleinen: Ein Chip sendet, ein Empfänger hört ihn, das NAS spielt den Server, und die App zeigt den Notruf. Dieses Kapitel sagt, was wir dafür brauchen und wie der Test abläuft.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Diese Anleitung beruht auf der Übergabe. Das Paket <code>skitag-test.zip</code> und der SkiTag Test-Bauplan lagen beim Schreiben nicht vor, die Befehle sind also nicht ausprobiert. Bei einem Widerspruch gilt der Bauplan.</p>
+        <p class="einstieg">Der Test beweist die Idee mit 5 Chips. Ab der Saison 27/28 sollen es hunderte im ganzen Skigebiet sein. Dieses Kapitel fasst zusammen, was sich dafür ändern muss, und in welcher Reihenfolge wir das entscheiden.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Hier ist fast nichts entschieden. Eine Zahl fehlt für alles Weitere: Wie viele Chips sind im Gebiet maximal gleichzeitig unterwegs? Die soll Tobias aus dem Geschäftsmodell liefern.</p>
 
-        <h2 id="aufbau" data-kurz="Der Aufbau">Der Aufbau</h2>
-        <p>Alle Geräte stehen im selben Raum oder im selben Gebäude:</p>
-        <ol>
-          <li><strong>Chip:</strong> Der Muster-Chip von Maximilian sendet alle 20 Sekunden seine Position und bei Knopfdruck einen Notruf.</li>
-          <li><strong>Empfänger:</strong> Ein Heltec V3 hört den Chip per Funk und schickt die Pakete über WLAN weiter.</li>
-          <li><strong>Server:</strong> Das NAS prüft die Pakete und entscheidet, was geschieht.</li>
-          <li><strong>App:</strong> Sie zeigt den Notruf, und dort wird er übernommen.</li>
-        </ol>
-
-        <h2 id="empfaenger" data-kurz="Welcher Empfänger">Welchen Empfänger wir brauchen</h2>
-        <p><strong>Wir brauchen einen Heltec WiFi LoRa 32 V3 für 868 MHz, mit der beigelegten Antenne.</strong> Das ist kein Zusatzgerät, sondern das Gateway für den Test, im Buch heißt der Empfänger so. Die Software dafür ist genau für dieses Board geschrieben, nicht für V4. Einer reicht, und für den Bergtest braucht es ohnehin 2 davon, das Geld ist also nicht verloren.</p>
-        <p>Ohne Empfänger geht es nicht: Leuchtdiode und Vibrieren zeigen nur, dass die Software des Chips läuft. Ob er wirklich funkt, zeigt nur ein Gerät, das sein Paket empfängt.</p>
-        <p>Günstigere Alternativen lohnen sich nicht:</p>
+        <h2 id="aenderungen" data-kurz="Was sich ändern muss">Was sich ändern muss</h2>
       </div>
       <div class="tabelle">
         <table class="stapel">
-          <thead><tr><th scope="col">Möglichkeit</th><th scope="col">Kosten</th><th scope="col">Warum nicht</th></tr></thead>
+          <thead><tr><th scope="col">Thema</th><th scope="col">Heute</th><th scope="col">Für die Serie</th><th scope="col">Kapitel</th></tr></thead>
           <tbody>
-            <tr><td>XIAO ESP32-S3 mit Wio-SX1262</td><td data-spalte="Kosten">rund 23 €</td><td data-spalte="Warum nicht">Fast derselbe Preis, kein Bildschirm, die Software müsste umgeschrieben werden.</td></tr>
-            <tr><td>Zweites RAK3272S-Board am Laptop</td><td data-spalte="Kosten">rund 15 $ plus USB-Adapter</td><td data-spalte="Warum nicht">Zeigt nur, ob der Chip sendet. Nichts kommt zum Server. Nur sinnvoll, wenn Maximilian schon eines hat.</td></tr>
-            <tr><td>RTL-SDR-Stick</td><td data-spalte="Kosten">rund 45 $ mit Antenne</td><td data-spalte="Warum nicht">Teurer, kann nur mithören und nichts weiterleiten.</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="lesen">
-        <p class="nach-tabelle">Der Heltec reicht für den Test, weil alle Chips auf einer Frequenz mit <a href="kapitel-anhang.html#g-sf9">SF9</a> senden. Sein Funkchip hört nur einen Kanal. Ob für hunderte Chips gekaufte Gateways nötig sind, ist offen, siehe <a href="kapitel-17.html#lorawan">Kapitel 17</a>.</p>
-
-        <h2 id="material" data-kurz="Was wir brauchen">Was wir brauchen und was es kostet</h2>
-      </div>
-      <div class="tabelle">
-        <table class="stapel">
-          <thead><tr><th scope="col">Teil</th><th scope="col">Preis</th><th scope="col">Hinweis</th></tr></thead>
-          <tbody>
-            <tr><td>Heltec WiFi LoRa 32 V3, 868 MHz</td><td data-spalte="Preis">24,10 bis 39,95 €</td><td data-spalte="Hinweis">Nicht V4. Eine LoRa-Antenne liegt bei. Das Board nie ohne Antenne senden lassen.</td></tr>
-            <tr><td>USB-C-Datenkabel</td><td data-spalte="Preis">0 €, vorhanden</td><td data-spalte="Hinweis">Zum Aufspielen und für den Strom vom Laptop.</td></tr>
-            <tr><td>NAS mit Docker</td><td data-spalte="Preis">0 €, vorhanden</td><td data-spalte="Hinweis">Darauf läuft der Server samt Caddy für HTTPS.</td></tr>
-            <tr><td>Laptop mit Node.js 22</td><td data-spalte="Preis">0 €, vorhanden</td><td data-spalte="Hinweis">Für Selbsttest, Schlüssel und Aufspielen.</td></tr>
-            <tr><td>DuckDNS-Name</td><td data-spalte="Preis">0 €</td><td data-spalte="Hinweis">Für das Zertifikat.</td></tr>
-            <tr><td>Paket <code>skitag-test.zip</code></td><td data-spalte="Preis">0 €</td><td data-spalte="Hinweis">Kommt von Maximilian.</td></tr>
-            <tr><td>Kleiner WLAN-Router</td><td data-spalte="Preis">0 € mit altem Gerät</td><td data-spalte="Hinweis">Nur nötig, wenn das WLAN der Schule nicht geht. Ein neuer ist nicht eingerechnet.</td></tr>
-            <tr class="zeile-offen"><td>Muster-Chip</td><td data-spalte="Preis" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td><td data-spalte="Hinweis">Von Maximilian. Der Preis liegt uns nicht vor und ist nicht im Gesamtpreis.</td></tr>
-            <tr><td><strong>Gesamt</strong></td><td data-spalte="Preis"><strong>24 bis 40 €</strong></td><td data-spalte="Hinweis">Dazu kommt der Versand.</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="lesen">
-        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Die Spanne kommt vom Heltec: 39,95 € stehen in der Übergabe vom Oktober 2026, 24,10 € verlangte ein Händler am 1. November 2026 als Vorbestellung mit 10 bis 20 Tagen Lieferzeit. Stabantenne und Netzteil für je 8 € braucht es erst, wenn das Gateway fern vom Laptop stehen soll. Alles davon lässt sich beim Bergtest weiterverwenden.</p>
-
-        <h2 id="nas" data-kurz="Das NAS als Server">Das NAS als Server</h2>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Für den Schultest läuft der Server auf einem NAS, das schon vorhanden ist. Am Berg bleibt es beim eigenen Server bei der KitzSki-IT. Vier Dinge müssen vorher passen:</p>
-        <ul>
-          <li><strong>Docker:</strong> Das NAS muss Docker können. Nicht jedes Modell kann das, also im Datenblatt nachsehen.</li>
-          <li><strong>Ports:</strong> Caddy will die Ports 80 und 443. Auf Synology-Geräten sind die schon belegt. Dann muss der Server auf andere Ports, und das Gateway muss sie kennen. Ob <code>config.h</code> eine Adresse mit Port annimmt, ist nicht geprüft.</li>
-          <li><strong>Zertifikat:</strong> Das Gateway spricht HTTPS und verlangt ein Let's-Encrypt-Zertifikat. Das geht auch ohne offene Ports: Ein kostenloser DuckDNS-Name zeigt auf die interne Adresse des NAS, und Caddy weist die Domain über einen DNS-Eintrag nach (DNS-01). Dafür braucht Caddy das DuckDNS-Modul, und das NAS braucht zum Holen des Zertifikats Internet.</li>
-          <li><strong>Netz:</strong> Gateway und NAS müssen sich erreichen. Das Gateway kann nur WLAN mit 2,4 GHz. Ein kleiner eigener Router mit NAS, Gateway, Laptop und Handy umgeht das Schulnetz. Er braucht aber selbst Internet, sonst bekommt das NAS kein Zertifikat, und das Gateway findet den Namen nicht. Manche Router sperren außerdem Namen, die auf eine interne Adresse zeigen.</li>
-        </ul>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Das haben wir nicht ausprobiert, und das Docker-Setup lag beim Schreiben nicht vor. Ob es das DuckDNS-Modul enthält, klärt der Bauplan. Sonst muss Caddy dafür neu gebaut werden.</p>
-
-        <h2 id="ablauf" data-kurz="So läuft der Test">So läuft der Test</h2>
-        <h3>1. Vorbereiten</h3>
-        <p>Entpacke das Paket und erzeuge eigene Schlüssel und Passwörter, denn der Beispiel-Schlüssel ist bekannt:</p>
-        <pre class="befehl"><code>node tools/neuer-schluessel.js</code></pre>
-        <p>Trag die Werte in <code>config.json</code> ein: Schlüssel, Gateway-Passwort, Passwort der Ausgabe-Seite und Mitarbeiter. Derselbe Schlüssel muss auch im Chip stehen, das macht Maximilian. Schlüssel, Passwörter und der DuckDNS-Token gehören nie in ein Repo.</p>
-
-        <h3>2. Server starten</h3>
-        <p>Prüfe die Server-Logik auf dem Laptop:</p>
-        <pre class="befehl"><code>cd server
-node tools/test.js</code></pre>
-        <p>Laut Übergabe sollen 58 von 58 Prüfungen bestehen. Lege dann auf dem NAS eine Datei <code>.env</code> mit <code>DOMAIN</code> und <code>EMAIL</code> an, mit DuckDNS auch den Token, und starte den Server:</p>
-        <pre class="befehl"><code>docker compose up -d --build</code></pre>
-        <p>Öffne die Ausgabe-Seite <code>/ausgabe</code> mit ihrem Passwort. Liegt der Chip noch nicht vor, spielt <code>node tools/simulator.js &lt;Server-Adresse&gt; 5</code> fünf Chips nach.</p>
-
-        <h3>3. Empfänger einrichten</h3>
-        <ol>
-          <li>Installiere in der Arduino-Umgebung den ESP32-Core 3.0.7 und die Bibliotheken RadioLib, ArduinoJson und U8g2.</li>
-          <li>Öffne <code>firmware/skitag_empfaenger</code> und wähle das Board „Heltec WiFi LoRa 32(V3)“.</li>
-          <li>Trag in <code>config.h</code> den Namen (E1), das WLAN, die Server-Adresse und das Gateway-Passwort ein. Die Funk-Einstellungen müssen exakt wie im Chip sein.</li>
-          <li>Schraub die Antenne an und spiel die Software auf.</li>
-          <li>Der Bildschirm zeigt WLAN-Status, ob der Server erreichbar ist, den Paketzähler und den zuletzt gehörten Chip.</li>
-        </ol>
-
-        <h3>4. App verbinden</h3>
-        <p>Die App läuft heute mit Beispieldaten. Für den Test muss Tobias sie auf den Server umstellen und die geänderte <code>api.js</code> aus dem Ordner <code>app-aenderung</code> einbauen. Halte die App offen und das Display an, denn von selbst alarmiert sie nicht, siehe <a href="kapitel-13.html#alarm">Kapitel 13</a>.</p>
-
-        <h3>5. Chip einschalten und testen</h3>
-        <p>Leg den Muster-Chip ans Fenster, damit er GPS bekommt, und prüfe dann der Reihe nach:</p>
-      </div>
-      <div class="tabelle">
-        <table class="stapel">
-          <thead><tr><th scope="col">Was wir tun</th><th scope="col">Das muss geschehen</th></tr></thead>
-          <tbody>
-            <tr><td>Chip einschalten</td><td data-spalte="Ergebnis">Der Paketzähler am Heltec steigt alle 20 Sekunden, die Ausgabe-Seite zeigt den Chip.</td></tr>
-            <tr><td>Knopf kurz drücken</td><td data-spalte="Ergebnis">Gruppenruf, kein Notruf.</td></tr>
-            <tr><td>Knopf 3 Sekunden halten und in den 5 Sekunden abbrechen</td><td data-spalte="Ergebnis">Es entsteht kein Notruf.</td></tr>
-            <tr><td>Knopf 3 Sekunden halten und warten</td><td data-spalte="Ergebnis">Der Notruf erscheint in der App. Solange niemand übernimmt, zeigt der Chip keine Hilfe an.</td></tr>
-            <tr><td>In der App übernehmen</td><td data-spalte="Ergebnis">Der Chip vibriert zweimal lang.</td></tr>
-            <tr><td>Niemand übernimmt</td><td data-spalte="Ergebnis">Nach 60 Sekunden geht der Notruf an den nächsten Mitarbeiter.</td></tr>
-            <tr><td>Empfänger ausschalten, dann Notruf auslösen</td><td data-spalte="Ergebnis">Nach 90 Sekunden ohne <a href="kapitel-anhang.html#g-ack">ACK</a> warnt der Chip. Die Ausgabe-Seite zeigt das Gateway nach 30 Sekunden als „weg“.</td></tr>
-            <tr><td>Server direkt nach einem Notruf hart beenden und neu starten</td><td data-spalte="Ergebnis">Der Notruf ist danach wieder offen, siehe <a href="kapitel-16.html#t2">T2</a>.</td></tr>
-            <tr><td>Mit dem Chip in der Jacke durch das Gebäude gehen</td><td data-spalte="Ergebnis">Im Funk-Protokoll der Ausgabe-Seite steht die Signalstärke. Gut ist sie ab −115 dBm, knapp ab −125 dBm.</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="lesen">
-        <p class="nach-tabelle"><strong>Das ist ein Prüf-Notruf.</strong> Er geht nur an eingeweihte Personen, nie an die Rettung. Ein Schulgebäude ist außerdem kein Berg: Der Test zeigt, ob alles zusammenspielt, aber wenig über die Reichweite im Gelände, siehe <a href="kapitel-09.html">Kapitel 9</a>. Die vollständigen Tests stehen in <a href="kapitel-16.html#testfaelle">Kapitel 16</a>.</p>
-
-        <h2 id="stolpersteine" data-kurz="Stolpersteine">Stolpersteine</h2>
-      </div>
-      <div class="tabelle">
-        <table class="stapel">
-          <thead><tr><th scope="col">Problem</th><th scope="col">Mögliche Ursache</th><th scope="col">Was hilft</th></tr></thead>
-          <tbody>
-            <tr><td>Gateway kommt nicht ins WLAN</td><td data-spalte="Ursache">Schulnetze haben oft Anmeldeseiten oder sperren Geräte.</td><td data-spalte="Lösung">Eigenen Router mit Internet für NAS und Gateway aufstellen. Ein Handy-Hotspot allein hilft nur, wenn das NAS aus dem Internet erreichbar ist.</td></tr>
-            <tr><td>Bildschirm zeigt Server-Fehler</td><td data-spalte="Ursache">Adresse, Passwort oder Zertifikat stimmen nicht.</td><td data-spalte="Lösung">Beides mit <code>config.json</code> vergleichen, siehe <a href="#nas">Das NAS als Server</a>.</td></tr>
-            <tr><td>Paketzähler bleibt stehen</td><td data-spalte="Ursache">Funk-Einstellungen oder Sync-Word sind ungleich.</td><td data-spalte="Lösung">Mit <a href="kapitel-04.html#einstellungen">Kapitel 4</a> vergleichen.</td></tr>
-            <tr><td>Chip hat keine Position</td><td data-spalte="Ursache">Drinnen gibt es kaum GPS.</td><td data-spalte="Lösung">Ans Fenster legen oder ins Freie gehen.</td></tr>
-            <tr><td>Server verwirft alle Pakete</td><td data-spalte="Ursache">Nach neuem Aufspielen beginnt der Zähler bei 0.</td><td data-spalte="Lösung">Mit Maximilian klären, siehe <a href="kapitel-04.html#grenzen">Kapitel 4</a>.</td></tr>
-            <tr><td>Caddy startet nicht</td><td data-spalte="Ursache">Ports 80 oder 443 sind vom NAS belegt.</td><td data-spalte="Lösung">Andere Ports zuweisen, siehe <a href="#nas">Das NAS als Server</a>.</td></tr>
-            <tr><td>Heltec-Software läuft nicht</td><td data-spalte="Ursache">Falsches Board, zum Beispiel V4.</td><td data-spalte="Lösung">V3 verwenden, Board-Einstellung prüfen.</td></tr>
+            <tr><td>Funk</td><td data-spalte="Heute">Ein Kanal, 5 feste Fenster</td><td data-spalte="Serie">Mehrere Kanäle, kürzere Sendezeit, Notruf auf einem eigenen Kanal im Band 869,40 bis 869,65 MHz</td><td data-spalte="Kapitel">5</td></tr>
+            <tr><td>Protokoll</td><td data-spalte="Heute">Eigenes Protokoll, 256 Chip-Nummern</td><td data-spalte="Serie"><a href="kapitel-anhang.html#g-lorawan">LoRaWAN</a> als erster Kandidat, oder eigenes Protokoll mit längerer Nummer</td><td data-spalte="Kapitel">3, 4</td></tr>
+            <tr><td>Rückkanal</td><td data-spalte="Heute">Antwort direkt nach dem Paket</td><td data-spalte="Serie">Nur für Ereignisse, keine Bestätigung jeder Position</td><td data-spalte="Kapitel">6</td></tr>
+            <tr><td>Gateways</td><td data-spalte="Heute">2 Funkboards am Fenster</td><td data-spalte="Serie">Rund 4 bis 21 Geräte außen, mit Kabel und Blitzschutz</td><td data-spalte="Kapitel">9, 10</td></tr>
+            <tr><td>Gateway-Puffer</td><td data-spalte="Heute">60 Pakete ohne Vorrang</td><td data-spalte="Serie">Drei Klassen, je Chip nur die neueste Position, lesbare Kennung im Kopf</td><td data-spalte="Kapitel">7</td></tr>
+            <tr><td>Server</td><td data-spalte="Heute">Ein Rechner, Speicherung vor dem <a href="kapitel-anhang.html#g-ack">ACK</a> nicht belegt</td><td data-spalte="Serie">Erst speichern, dann ACK, zweiter Rechner oder schneller Ersatz, Überwachung, Bereitschaft</td><td data-spalte="Kapitel">11, 14</td></tr>
+            <tr><td>Alarmierung</td><td data-spalte="Heute">Web-App ohne Push, keine Zustellung sichtbar</td><td data-spalte="Serie">Echte App mit Push, Empfangsbestätigung, zweiter Weg über den Leitstand</td><td data-spalte="Kapitel">12</td></tr>
+            <tr><td>Sicherheit</td><td data-spalte="Heute">Ein Schlüssel, selbst gebaute <a href="kapitel-anhang.html#g-stromchiffre">Stromchiffre</a> aus SipHash</td><td data-spalte="Serie">Eigener Schlüssel je Chip, AES-CCM oder gleichwertig, Schlüsselwechsel, <a href="kapitel-anhang.html#g-downlink">Downlink</a> je Chip geschützt</td><td data-spalte="Kapitel">15</td></tr>
+            <tr><td>Daten</td><td data-spalte="Heute">Löschen von Hand</td><td data-spalte="Serie">Automatische Fristen, rechtlich geprüft</td><td data-spalte="Kapitel">15</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="lesen">
-        <h2 id="checkliste" data-kurz="Checkliste">Checkliste</h2>
-        <p>Hak ab, was erledigt ist. Der Stand bleibt in diesem Browser gespeichert.</p>
+        <h2 id="lorawan" data-kurz="LoRaWAN oder eigenes Protokoll">LoRaWAN oder eigenes Protokoll</h2>
+        <p>Das ist die größte Entscheidung. Dabei muss man zwei Dinge trennen: Die Frequenz 869,525 MHz ist für ein eigenes LoRa-Protokoll zulässig, solange die Regeln des Bandes eingehalten sind. Im Standard LoRaWAN hat dieselbe Frequenz aber eine feste Aufgabe, und die ist nicht der Empfang von Geräten.</p>
       </div>
-      <section class="rechner checkliste-feld" aria-label="Checkliste für den Schultest">
-        <p class="checkliste-stand" id="liste-stand"></p>
-        <h3>Vor dem Test</h3>
-        <ul class="checkliste">
-          <li><label><input type="checkbox" id="c1">Paket <code>skitag-test.zip</code>, Test-Bauplan und Muster-Chip von Maximilian bekommen</label></li>
-          <li><label><input type="checkbox" id="c2">Mit der Schule geklärt: Raum, Strom, WLAN und ob wir funken dürfen</label></li>
-          <li><label><input type="checkbox" id="c20">1 Heltec V3 mit 868 MHz bestellt</label></li>
-          <li><label><input type="checkbox" id="c18">NAS geprüft: Docker läuft, Ports geklärt</label></li>
-          <li><label><input type="checkbox" id="c19">DuckDNS-Name angelegt, Zertifikat kommt an</label></li>
-          <li><label><input type="checkbox" id="c4">Neue Schlüssel und Passwörter erzeugt</label></li>
-          <li><label><input type="checkbox" id="c5">Selbsttest: 58 von 58</label></li>
-          <li><label><input type="checkbox" id="c6">Server läuft, Ausgabe-Seite geht auf</label></li>
-          <li><label><input type="checkbox" id="c11">Heltec bespielt, Bildschirm zeigt Server ok</label></li>
-          <li><label><input type="checkbox" id="c3">App mit dem Server verbunden</label></li>
-        </ul>
-        <h3>Beim Test</h3>
-        <ul class="checkliste">
-          <li><label><input type="checkbox" id="c12">Chip erscheint auf der Ausgabe-Seite</label></li>
-          <li><label><input type="checkbox" id="c8">Gruppenruf kommt an</label></li>
-          <li><label><input type="checkbox" id="c13">Notruf am echten Knopf, Chip vibriert bei Übernahme</label></li>
-          <li><label><input type="checkbox" id="c15">Empfänger ausgeschaltet, Chip warnt nach 90 Sekunden</label></li>
-          <li><label><input type="checkbox" id="c9">Server neu gestartet, Notruf ist wieder offen</label></li>
-          <li><label><input type="checkbox" id="c14">Funk-Protokoll gespeichert</label></li>
-        </ul>
-        <h3>Danach</h3>
-        <ul class="checkliste">
-          <li><label><input type="checkbox" id="c16">Daten gelöscht: <code>daten/state.json</code> und <code>daten/log-*.ndjson</code></label></li>
-          <li><label><input type="checkbox" id="c17">Ergebnisse ins Team gegeben</label></li>
-        </ul>
-        <button class="knopf" type="button" id="liste-reset">Liste zurücksetzen</button>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">LoRaWAN EU868</th><th scope="col">Vorgabe</th><th scope="col">Quelle</th></tr></thead>
+          <tbody>
+            <tr><td>Pflicht-Uplink-Kanäle</td><td data-spalte="Vorgabe">868,1, 868,3 und 868,5 MHz, 125 kHz, DR0 bis DR5 (SF12 bis SF7), weitere Kanäle legt das Netz fest</td><td data-spalte="Quelle">RP002, Tabelle 6</td></tr>
+            <tr><td>Antwortfenster</td><td data-spalte="Vorgabe">RX1 1 Sekunde nach dem Uplink auf dem Uplink-Kanal, RX2 eine Sekunde später</td><td data-spalte="Quelle">RP002, Standardwerte</td></tr>
+            <tr><td>RX2</td><td data-spalte="Vorgabe">869,525 MHz, Standard DR0 (SF12). The Things Network nutzt abweichend SF9.</td><td data-spalte="Quelle">RP002, TTN</td></tr>
+            <tr><td>Class B</td><td data-spalte="Vorgabe">Beacon ebenfalls auf 869,525 MHz</td><td data-spalte="Quelle">RP002</td></tr>
+            <tr><td>Sendeleistung</td><td data-spalte="Vorgabe">Standard höchstens +16 dBm EIRP, das entspricht ungefähr den 25 mW ERP der 868-Kanäle</td><td data-spalte="Quelle">RP002</td></tr>
+            <tr><td>Klasse A</td><td data-spalte="Vorgabe">Geräte hören nur nach eigenem Senden. Ein Gruppenruf wartet also wie heute auf das nächste Paket.</td><td data-spalte="Quelle">RP002</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Für die Serie gibt es deshalb drei Wege:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Weg</th><th scope="col">Vorteile</th><th scope="col">Nachteile</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr class="zeile-offen"><td>Eigenes Protokoll, mehrere Kanäle</td><td data-spalte="Vorteile">Volle Kontrolle, 500 mW ERP und 10 % im Band 869,4 bis 869,65 MHz, Vorrang frei gestaltbar</td><td data-spalte="Nachteile">Das Band ist 250 kHz breit, es passen höchstens zwei Kanäle mit 125 kHz nebeneinander. Mehr Kanäle müssten in die strengeren 868-Bänder. Alles bleibt Eigenbau.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Reines LoRaWAN</td><td data-spalte="Vorteile">Fertiger Standard mit geprüfter Verschlüsselung und Schlüsseln je Gerät, 8 Kanäle je Gateway, Netzserver wie ChirpStack</td><td data-spalte="Nachteile">25 mW ERP und 1 % Sendezeit, SF9 alle 20 s passt nicht. Ein Notruf hat keinen Vorrang und unterliegt denselben Grenzen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>LoRaWAN plus eigener Notruf-Kanal</td><td data-spalte="Vorteile">Positionen im Standard, Notruf mit voller Leistung im Band 869,4 bis 869,65 MHz</td><td data-spalte="Nachteile">Kein reines LoRaWAN mehr. Der Chip muss zwei Verfahren beherrschen, und das Gateway muss den Kanal zusätzlich hören. Das ist nicht geprüft.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Ein eigener Notruf-Kanal kann RX2 im Band nicht ganz ausweichen: Der Kanal auf 869,525 MHz belegt mit 125 kHz den Bereich 869,4625 bis 869,5875 MHz, an den Rändern bleiben nur je 62,5 kHz. Dort senden Gateways, auch aus fremden Netzen, ihre RX2-Antworten. Es gibt drei Auswege, alle ungeprüft: ein schmaler Kanal mit 62,5 kHz am Bandrand, was die Sendezeit verdoppelt und genauere Quarze braucht, ein versetzter Kanal mit 125 kHz, der RX2 nur teilweise überlappt, oder derselbe Kanal mit eigenen Gateways und vorheriger Messung, ob dort ein fremdes Netz sendet. Andere Bänder scheiden praktisch aus: 869,3 bis 869,4 MHz ist auf Alarmanlagen und 10 mW ERP beschränkt, 869,7 bis 870 MHz auf 25 mW ERP und 1 %.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Empfehlung für die Planung: LoRaWAN plus eigener Notruf-Kanal ist der am weitesten tragende Kandidat, entschieden ist nichts. Ob ein Gateway den zusätzlichen Kanal hört und wie schnell Notrufe so ankommen, muss ein Versuch nach dem Test zeigen. Ob die Geräte in Österreich so betrieben werden dürfen, ist für den konkreten Aufbau mit der Fernmeldebehörde zu klären.</p>
+
+        <h2 id="kosten" data-kurz="Was das Netz kosten könnte">Was das Netz kosten könnte</h2>
+        <p>Für eine erste Größenordnung kannst du die Annahmen selbst einstellen. Der Gerätepreis ist ein Händlerpreis aus <a href="kapitel-10.html#geraete">Kapitel 10</a>. Zubehör, Montage und Server sind nur Annahmen ohne Angebot, darum stehen sie am Anfang auf 0 €.</p>
+      </div>
+      <section class="rechner" aria-label="Rechner für die Kosten des Netzes">
+        <div class="rechner-regler"><label for="ser-anzahl">Gateways: <output id="ser-anzahl-wert"></output></label><input id="ser-anzahl" type="range" min="2" max="30" step="1" value="12"></div>
+        <div class="rechner-regler"><label for="ser-preis">Preis je Gerät: <output id="ser-preis-wert"></output></label><input id="ser-preis" type="range" min="200" max="1000" step="10" value="540"></div>
+        <div class="rechner-regler"><label for="ser-zubehoer">Zubehör und Montage je Gateway, Annahme: <output id="ser-zubehoer-wert"></output></label><input id="ser-zubehoer" type="range" min="0" max="1000" step="50" value="0"></div>
+        <div class="rechner-regler"><label for="ser-server">Server einmalig, Annahme: <output id="ser-server-wert"></output></label><input id="ser-server" type="range" min="0" max="5000" step="100" value="0"></div>
+        <dl class="rechner-werte">
+          <div><dt>Gateways gesamt</dt><dd id="ser-gateways"></dd></div>
+          <div><dt>Netz gesamt</dt><dd id="ser-gesamt"></dd></div>
+        </dl>
+        <p class="rechner-text">Ohne laufende Kosten für Mobilfunk, Strom, Domain und Betreuung.</p>
       </section>
+      <div class="tabelle nur-ohne-js">
+        <table>
+          <thead><tr><th scope="col">Gateways</th><th scope="col">Nur die Geräte, je rund 540 €</th></tr></thead>
+          <tbody>
+            <tr><td>4, jeder Punkt hört eines</td><td data-spalte="Nur die Geräte, je rund 540 €">rund 2 160 €</td></tr>
+            <tr><td>12, jeder Punkt hört zwei</td><td data-spalte="Nur die Geräte, je rund 540 €">rund 6 480 €</td></tr>
+            <tr><td>21, mit mehr Reserve</td><td data-spalte="Nur die Geräte, je rund 540 €">rund 11 340 €</td></tr>
+          </tbody>
+        </table>
+      </div>
 
       <div class="lesen">
-        <p class="nach-tabelle">Der Server speichert Positionen und ein Funk-Protokoll. Löscht beides nach dem Test, und holt euch das Einverständnis aller, die einen Chip tragen. Eine Vorlage dafür steht im Bauplan. Die Verschlüsselung gilt nicht als sicher, siehe die Grenzen in <a href="kapitel-15.html#siphash">Kapitel 15</a>.</p>
+        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Die Anzahl stammt aus dem Modell in <a href="kapitel-09.html#wieviele">Kapitel 9</a>, nicht aus einer Messung. Die Kosten wandern in das Buch von Tobias, hier stehen sie nur als Rahmen.</p>
+
+        <h2 id="reihenfolge" data-kurz="In welcher Reihenfolge">In welcher Reihenfolge</h2>
+        <ol>
+          <li><strong>Nach dem Test:</strong> Ergebnisse ins Buch, Reichweite und Akku sind gemessen.</li>
+          <li><strong>Frühjahr 2027:</strong> Tobias nennt die Zahl gleichzeitiger Chips. Danach fällt die Entscheidung über das Funkverfahren.</li>
+          <li><strong>Sommer 2027:</strong> Gespräche mit Bergrettung und Bergbahnen, Versuch mit dem gewählten Verfahren, rechtliche Prüfung.</li>
+          <li><strong>Herbst 2027:</strong> Gateways montieren, Reichweite im ganzen Gebiet messen.</li>
+          <li><strong>Saison 27/28:</strong> Start im Skigebiet.</li>
+        </ol>
+        <p>Die Termine für Sommer 2027 und die Saison stammen aus der Präsentation, die Schritte dazwischen sind unser Vorschlag.</p>
+
+        <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
+        <div class="urteil">
+          <p><strong>Fest:</strong> Das heutige Protokoll hat 5 Fenster in einem Kanal und 256 Chip-Nummern. Für hunderte Chips reicht das nicht, siehe <a href="kapitel-05.html">Kapitel 5</a>.</p>
+          <p><strong>Geschätzt:</strong> Allein die Geräte kosten bei 12 Gateways rund 6 500 €, dazu kommen Zubehör, Montage und Betrieb.</p>
+          <p><strong>Offen:</strong> Die Zahl gleichzeitiger Chips und damit die Wahl des Funkverfahrens.</p>
+        </div>
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
         <ul class="quellen">
+          <li><a href="https://lora-alliance.org/wp-content/uploads/2021/05/RP002-1.0.3-FINAL-1.pdf">LoRaWAN Regional Parameters RP002-1.0.3</a>, LoRa Alliance, 2021</li>
+          <li><a href="https://www.thethingsnetwork.org/docs/lorawan/frequency-plans/">The Things Network: Frequency Plans</a></li>
+          <li><a href="https://www.rtr.at/TKP/was_wir_tun/telekommunikation/spectrum/bands/5000MHz/EU_2022_180_de.pdf">Durchführungsbeschluss (EU) 2022/180</a>, Zeile 54, über die RTR</li>
+          <li><a href="https://www.etsi.org/deliver/etsi_en/300200_300299/30022002/03.02.01_60/en_30022002v030201p.pdf">ETSI EN 300 220-2 V3.2.1</a>, Tabelle der Teilbänder</li>
           <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
-          <li>SkiTag Test-Bauplan, liegt dem Team vor, für dieses Kapitel nicht eingesehen</li>
-          <li><a href="https://openelab.io/de/products/heltec-wifi-lora-esp32-v3">Heltec WiFi LoRa 32 V3 bei OpenELAB</a> und <a href="https://openelab.io/a/s/products/seeed-studio-xiao-esp32s3-wio">XIAO ESP32-S3 mit Wio-SX1262</a>, Preise am 1. November 2026</li>
-          <li><a href="https://news.rakwireless.com/things-to-consider-when-picking-a-lorawan-gateway/">RAK: Worauf es bei einem LoRaWAN-Gateway ankommt</a> und <a href="https://thethingsnetwork.org/docs/lorawan/concentrators">The Things Network zu Konzentratoren</a></li>
-          <li><a href="https://wiki.seeedstudio.com/wio_sx1262_with_xiao_esp32s3_kit/">Seeed Wiki zum XIAO-Kit</a></li>
-          <li><a href="https://store.rakwireless.com/products/wisduo-breakout-board-rak3272s">RAK3272S im RAK-Shop</a>, <a href="https://forum.rakwireless.com/t/trouble-with-rak3272s/11916">RAK-Forum zu AT+PRECV</a></li>
-          <li><a href="https://www.rtl-sdr.com/rtl-sdr-blog-black-friday-sale-discounts-on-rtl-sdr-v3-youloop-qo-100-bullseye-flightaware-ads-b-lna-rsp-enclosure/">RTL-SDR Blog</a>, Preis ohne Datum, und <a href="https://github.com/rpp0/gr-lora">gr-lora</a></li>
-          <li><a href="https://caddy.community/t/dns-challenge-with-duckdns/14994">Caddy-Forum: DNS-Prüfung mit DuckDNS</a> und <a href="https://caddy.community/t/caddy-on-synology-dsm-7-2/29803">Caddy auf Synology</a></li>
+          <li>Pitch-Präsentation SkiTag, internes Dokument</li>
+          <li><a href="https://www.chirpstack.io/">ChirpStack</a>, quelloffener LoRaWAN-Netzwerk-Server</li>
+          <li><a href="https://iot-shop.de/en/shop/rak-7289-v2-wisgate-edge-pro-outdoor-lorawan-gateway-6007">RAK7289 V2</a>, Händlerseite</li>
+          <li><a href="https://thethingsnetwork.org/docs/lorawan/security">The Things Network: LoRaWAN-Sicherheit</a></li>
         </ul>
       </div>
 
       <div class="blaettern">
-        <a href="kapitel-17.html">Zurück: Kapitel 17, Ausblick Serie</a>
+        <a href="kapitel-17.html">Zurück: Kapitel 17, Testplan Februar 2027</a>
         <a href="kapitel-anhang.html">Weiter: Anhang</a>
       </div>
     </article>

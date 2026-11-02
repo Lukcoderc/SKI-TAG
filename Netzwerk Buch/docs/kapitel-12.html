@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Der Server · SkiTag Netzwerk-Buch</title>
-<meta name="description" content="Was der SkiTag-Server macht, was er bei KitzSki braucht und wie er erreichbar wird.">
-<link rel="stylesheet" href="assets/book.css?v=40">
-<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
-<script src="assets/book.js?v=40" defer></script>
+<title>Schnittstelle zur App · SkiTag Netzwerk-Buch</title>
+<meta name="description" content="Wie App und Server zusammenspielen, welche Endpunkte es gibt und wo es noch hakt.">
+<link rel="stylesheet" href="assets/book.css?v=43">
+<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
+<script src="assets/book.js?v=43" defer></script>
 </head>
-<body data-station="server">
+<body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
   <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
@@ -17,8 +17,8 @@
   <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<header class="seil">
-  <a class="seil-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+<header class="streifen">
+  <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
 </header>
 
 <div class="buch">
@@ -39,130 +39,185 @@
       <ol></ol>
     </details>
     <article>
-      <h1>Der Server</h1>
-      <p class="stand">Kapitel 12 · Stand 1. November 2026</p>
+      <h1>Schnittstelle zur App</h1>
+      <p class="stand">Kapitel 12 · Stand 2. November 2026</p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4</a>, <a href="kapitel-06.html">Kapitel 6</a>, <a href="kapitel-11.html">Kapitel 11</a></p>
 
       <div class="lesen">
-        <p class="einstieg">Der Server ist die Zentrale von SkiTag. Chips und Gateways liefern nur Daten, entschieden wird hier. Dieses Kapitel erklärt, was er tut, warum er bei KitzSki steht und trotzdem aus dem Internet erreichbar sein muss.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Entschieden ist ein eigener Server vor Ort in der IT-Abteilung von KitzSki, kein gemieteter in der Cloud. Für den Schultest läuft derselbe Aufbau auf einem NAS, siehe <a href="kapitel-18.html#nas">Kapitel 18</a>.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Die Server-Software lag beim Schreiben nicht vor. Alles hier stammt aus der Übergabe und ist laut ihr nur am PC getestet, siehe <a href="kapitel-anhang.html#nachweis">Was geprüft ist</a>.</p>
+        <p class="einstieg">Die App weiß nichts von Funk. Sie spricht nur mit dem Server. Dieses Kapitel zeigt, welche Sprache die beiden sprechen, wie aus 27 Byte ein Punkt auf der Karte wird, und welche Punkte Tobias und Lukas gemeinsam lösen müssen.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Grundlage ist die Datei <code>js/services/api.js</code> aus dem öffentlichen App-Repo, Stand 29. Oktober 2026. Die App läuft dort noch mit Beispieldaten (<code>fakeData: true</code>). Die Server-Seite und die Änderung aus <code>app-aenderung</code> lagen beim Schreiben nicht vor, die Übereinstimmung ist also nicht geprüft.</p>
 
-        <h2 id="aufgaben" data-kurz="Was er tut">Was er tut</h2>
+        <h2 id="regel" data-kurz="Eine Datei als Grenze">Eine Datei als Grenze</h2>
+        <p>In der App kennt nur <code>api.js</code> den Server. Ändert sich etwas an der Schnittstelle, wird nur diese Datei angepasst. Der Server muss dazu passen, nicht umgekehrt. Das steht so auch in der Übergabe.</p>
+
+        <h2 id="gebaut" data-kurz="Was gebaut ist">Was gebaut ist und was nicht</h2>
+        <p>Die App sieht fertig aus, läuft aber gegen Beispieldaten. Das ist für die Vorführung gut, darf aber nicht mit einem echten Ablauf verwechselt werden:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
-          <thead><tr><th scope="col">Aufgabe</th><th scope="col">So läuft es</th></tr></thead>
+          <thead><tr><th scope="col">Bereich</th><th scope="col">Stand im App-Repo</th><th scope="col">Folge</th></tr></thead>
           <tbody>
-            <tr><td>Pakete prüfen</td><td data-spalte="Ablauf">Entschlüsselt jedes Paket, prüft den Prüfwert und verwirft Duplikate.</td></tr>
-            <tr><td>Ort bestimmen</td><td data-spalte="Ablauf">Sucht die nächste Strecke im Umkreis von 40 m aus der KitzSki-Karte. Lifte bevorzugt er bei 1,5 bis 9 m/s.</td></tr>
-            <tr><td>Notruf führen</td><td data-spalte="Ablauf">Bietet ihn dem nächsten freien Mitarbeiter an, nach 60 Sekunden dem nächsten. Der ganze Ablauf steht in <a href="kapitel-07.html#eskalation">Kapitel 7</a>.</td></tr>
-            <tr><td>Position bewerten</td><td data-spalte="Ablauf">Älter als 2 Minuten gilt als „alt“. Ohne Position gilt die des Gateways, markiert als „ungefähr“.</td></tr>
-            <tr><td>Antworten senden</td><td data-spalte="Ablauf">Über das Gateway mit dem besten <a href="kapitel-anhang.html#g-rssi">RSSI</a> der letzten 15 Minuten.</td></tr>
-            <tr><td>App bedienen</td><td data-spalte="Ablauf">Anmeldung, Gruppen, Live-Positionen, Notrufe, Lifte, Treffpunkt.</td></tr>
-            <tr><td>Chips ausgeben</td><td data-spalte="Ablauf">Ausgabe-Seite <code>/ausgabe</code> mit Passwort: Gruppen bilden, Belege drucken, Akku und Funk ansehen, Protokoll laden.</td></tr>
+            <tr><td>Datenquelle</td><td data-spalte="Stand"><code>fakeData: true</code>, Server-Adresse ist ein Platzhalter</td><td data-spalte="Folge">Alles in der App ist simuliert, bis das umgestellt ist.</td></tr>
+            <tr><td>Notrufe bei der Bergbahn</td><td data-spalte="Stand">Simuliert im Browser. Kollegen übernehmen dort von selbst.</td><td data-spalte="Folge">Ein gelungener Durchlauf beweist nichts über den echten Ablauf.</td></tr>
+            <tr><td>Live-Streams</td><td data-spalte="Stand">Code für den echten Server ist da.</td><td data-spalte="Folge">Von uns nicht gegen den Server geprüft.</td></tr>
+            <tr><td>Anmeldung</td><td data-spalte="Stand"><code>api.js</code> sendet kein Token. Die Änderung dafür lag uns nicht vor.</td><td data-spalte="Folge">Sicherheit der Schnittstelle ist nicht beurteilbar.</td></tr>
+            <tr><td>Push, Benachrichtigung, Ton, Vibration, Bildschirm wach halten</td><td data-spalte="Stand">Im Code nicht gefunden. <code>service-worker.js</code> und <code>manifest.json</code> sind leer.</td><td data-spalte="Folge">Eine Mitarbeiter-App kann heute nicht von selbst alarmieren.</td></tr>
+            <tr><td>Kein Mitarbeiter mehr frei</td><td data-spalte="Stand">In der Simulation bleibt der Alarm ohne Zuständigen stehen.</td><td data-spalte="Folge">Es fehlt die Eskalation, siehe <a href="kapitel-13.html#eskalation">Kapitel 13</a>.</td></tr>
+            <tr><td>Text „Hilfe ist unterwegs“</td><td data-spalte="Stand">Der Text existiert, die Anzeige dazu liegt nicht im öffentlichen Code.</td><td data-spalte="Folge">Er darf erst ab <a href="kapitel-anhang.html#g-help">HELP</a> 1 erscheinen.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <h2 id="endpunkte" data-kurz="Die Endpunkte">Die Endpunkte</h2>
+        <p>Diese Wege erwartet die App. Die letzte Spalte sagt, ob der Server sie laut Übergabe schon kann.</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Bereich</th><th scope="col">Endpunkte</th><th scope="col">Im Server</th></tr></thead>
+          <tbody>
+            <tr><td>Anmeldung</td><td data-spalte="Endpunkte"><code>POST /login</code></td><td data-spalte="Im Server">Ja, laut Übergabe</td></tr>
+            <tr><td>Gruppen</td><td data-spalte="Endpunkte"><code>GET /groups/{id}</code>, <code>POST /groups/{id}/signal</code></td><td data-spalte="Im Server">Ja, laut Übergabe</td></tr>
+            <tr><td>Treffpunkt</td><td data-spalte="Endpunkte"><code>GET</code>, <code>PUT</code>, <code>DELETE /groups/{id}/meeting</code></td><td data-spalte="Im Server">Ja, laut Übergabe</td></tr>
+            <tr><td>Live-Positionen</td><td data-spalte="Endpunkte"><code>/chips/{id}/stream</code>, <code>/chips/stream</code></td><td data-spalte="Im Server">Ja, laut Übergabe</td></tr>
+            <tr><td>Notruf</td><td data-spalte="Endpunkte"><code>POST /sos</code>, <code>DELETE /sos/{id}</code>, <code>/alarms/stream</code>, <code>POST /alarms/{id}/{aktion}</code></td><td data-spalte="Im Server">Ja, laut Übergabe</td></tr>
+            <tr><td>Lifte</td><td data-spalte="Endpunkte"><code>GET /lifts</code>, <code>PUT /lifts/{name}</code></td><td data-spalte="Im Server">Ja, laut Übergabe</td></tr>
+            <tr><td>Mitarbeiter</td><td data-spalte="Endpunkte"><code>GET /staff</code>, <code>PUT /staff/{id}/state</code></td><td data-spalte="Im Server">Nicht belegt</td></tr>
+            <tr><td>Freunde</td><td data-spalte="Endpunkte"><code>/chips/{id}/friend-code</code>, <code>POST /groups/{id}/members</code></td><td data-spalte="Im Server">Nicht belegt</td></tr>
+            <tr><td>Pisten</td><td data-spalte="Endpunkte"><code>GET /pistes</code></td><td data-spalte="Im Server">Nicht belegt</td></tr>
+            <tr><td>Skischule</td><td data-spalte="Endpunkte"><code>/schools/...</code>, <code>POST /chips/signal</code>, <code>POST /alarms</code> für Suchaufträge</td><td data-spalte="Im Server">Nicht belegt</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="lesen">
-        <h2 id="aufbau" data-kurz="Wie er aufgebaut ist">Wie er aufgebaut ist</h2>
-        <p>Der Server läuft auf Ubuntu 24.04 in Docker, geschrieben in Node.js 22 ohne npm-Pakete. Davor steht Caddy, das HTTPS übernimmt und das Zertifikat besorgt. Der Start ist ein einziger Befehl, und die Einstellungen stehen in <code>config.json</code>.</p>
-        <h2 id="speichern" data-kurz="Erst speichern, dann ACK">Erst speichern, dann ACK</h2>
-        <p>Der Zustand liegt im Speicher und wird laut Übergabe alle 5 Sekunden nach <code>daten/state.json</code> geschrieben. Das Funk-Protokoll landet pro Tag in einer eigenen Datei. Für Positionen reicht das. Für Notrufe ist es gefährlich: Stürzt der Server ab, nachdem er ein <a href="kapitel-anhang.html#g-ack">ACK</a> gesendet hat, aber bevor er gespeichert hat, ist der Notruf weg. Der Chip wiederholt ihn dann nicht mehr und warnt auch nicht.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Ob der Server das heute so macht, wissen wir nicht, denn der Code lag nicht vor. Gefordert ist diese Reihenfolge:</p>
-        <ol>
-          <li>Paket prüfen und entschlüsseln.</li>
-          <li>Notruf in ein Protokoll schreiben, das nur wächst, und mit <code>fsync</code> wirklich auf den Datenträger bringen.</li>
-          <li>Erst dann das ACK in die Antwort an das Gateway legen.</li>
-          <li>Beim Start zuerst dieses Protokoll einlesen und alle offenen Notrufe weiterführen, samt Zählern. Die Uhr T0 läuft dabei weiter, sie beginnt nicht neu.</li>
-        </ol>
-        <p>Das muss schnell gehen, denn das Gateway sendet eine Antwort nur bis 1,4 Sekunden nach dem Empfang. Ein NAS oder Server mit Schreibcache braucht einen Datenträger, der <code>fsync</code> wirklich einhält, sonst ist die Zusage wertlos.</p>
-        <p>Als zweite Sicherung schlagen wir vor: Der Chip meldet in jedem Paket das Status-Bit „Notruf läuft“. Sieht der Server dieses Bit und kennt keinen offenen Notruf, legt er ihn neu an und meldet das. Ob der Chip das Bit nach dem ACK weiter setzt, muss Maximilian bestätigen.</p>
-
-        <h2 id="standort" data-kurz="Warum vor Ort, warum Internet">Warum vor Ort und trotzdem im Internet</h2>
-        <p>Vor Ort heißt: eigene Kontrolle und keine laufende Miete. Es heißt nicht: unabhängig vom Internet. Die App läuft über Mobilfunk, sie erreicht den Server also von außen. Drei Gegenstellen brauchen ihn:</p>
-      </div>
-      <div class="tabelle">
-        <table class="stapel">
-          <thead><tr><th scope="col">Wer</th><th scope="col">Von wo</th><th scope="col">Wozu</th></tr></thead>
-          <tbody>
-            <tr><td>Gateways</td><td data-spalte="Von wo">Aus dem Netz der Bergbahn oder über WLAN</td><td data-spalte="Wozu">Pakete abliefern, Antworten holen</td></tr>
-            <tr><td>Apps von Gästen und Mitarbeitern</td><td data-spalte="Von wo">Über Mobilfunk aus dem Internet</td><td data-spalte="Wozu">Positionen sehen, Notrufe annehmen</td></tr>
-            <tr><td>Let's Encrypt</td><td data-spalte="Von wo">Aus dem Internet oder über DNS</td><td data-spalte="Wozu">Prüfen, dass die Domain uns gehört</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="lesen">
-        <p class="nach-tabelle">So könnte das Netz im Betrieb aussehen:</p>
+        <h2 id="weg" data-kurz="Vom Paket zum Punkt">Vom Paket zum Punkt auf der Karte</h2>
+        <p>Ein Paket läuft durch vier Stationen, die Antwort denselben Weg zurück:</p>
       </div>
       <figure class="schema">
-        <div class="schema-rahmen" tabindex="0" role="group" aria-label="Netzwerkstruktur: Die Gateways hängen an WLAN oder dem Netz der Bergbahn, das zum Server bei der KitzSki-IT führt. Dort stehen Caddy, der Server und seine Daten. Über Port 443 erreichen die Apps den Server aus dem Internet, Let's Encrypt stellt das Zertifikat aus.">
-          <svg viewBox="0 0 960 470" role="img" aria-label="Netzwerkstruktur: Die Gateways hängen an WLAN oder dem Netz der Bergbahn, das zum Server bei der KitzSki-IT führt. Dort stehen Caddy, der Server und seine Daten. Über Port 443 erreichen die Apps den Server aus dem Internet, Let's Encrypt stellt das Zertifikat aus." data-schema="netzwerk"><defs><marker id="sb-spitze" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze" d="M0 0 10 5 0 10Z"/></marker><marker id="sb-spitze-licht" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze-licht" d="M0 0 10 5 0 10Z"/></marker></defs><rect class="sb-zone" x="16" y="16" width="216" height="438"/><text class="sb-zone-name" x="34" y="46">Stationen</text><rect class="sb-zone" x="248" y="16" width="200" height="438"/><text class="sb-zone-name" x="266" y="46">Netz</text><rect class="sb-zone" x="464" y="16" width="240" height="438"/><text class="sb-zone-name" x="482" y="46">KitzSki-IT</text><rect class="sb-zone" x="720" y="16" width="224" height="438"/><text class="sb-zone-name" x="738" y="46">Internet</text><rect class="sb-box" x="34" y="74" width="180" height="80"/><text class="sb-titel" x="48" y="109.5">Gateway E1</text><text class="sb-text" x="48" y="133.5">Bergstation</text><rect class="sb-box" x="34" y="298" width="180" height="80"/><text class="sb-titel" x="48" y="333.5">Gateway E2</text><text class="sb-text" x="48" y="357.5">Bergstation</text><path class="sb-linie sb-pfeil" d="M214 114H268V200"/><path class="sb-linie sb-pfeil" d="M214 338H268V272"/><rect class="sb-box" x="266" y="200" width="164" height="72"/><text class="sb-titel" x="280" y="243">WLAN oder Kabel</text><use class="sb-offen" href="#mark-offen" x="404" y="208" width="16" height="16"/><text class="sb-text" x="284" y="304">Im Test WLAN.</text><text class="sb-text" x="284" y="328">Für den Betrieb</text><text class="sb-text" x="284" y="352">mit KitzSki zu klären.</text><path class="sb-linie sb-pfeil" d="M430 236H482"/><rect class="sb-box" x="482" y="200" width="204" height="72"/><text class="sb-titel" x="496" y="231.5">Caddy</text><text class="sb-text" x="496" y="255.5">HTTPS, Zertifikat</text><path class="sb-linie sb-pfeil sb-beide" d="M584 200V154"/><rect class="sb-box" x="482" y="74" width="204" height="80"/><text class="sb-titel" x="496" y="109.5">Server</text><text class="sb-text" x="496" y="133.5">Node.js in Docker</text><path class="sb-linie sb-pfeil sb-beide" d="M584 272V318"/><rect class="sb-box" x="482" y="318" width="204" height="80"/><text class="sb-titel" x="496" y="353.5">Daten</text><text class="sb-text" x="496" y="377.5">state.json, Funk-Protokoll</text><path class="sb-linie sb-pfeil sb-beide" d="M686 236H738"/><text class="sb-titel" x="692" y="184">Port 443</text><use class="sb-offen" href="#mark-offen" x="766" y="169" width="16" height="16"/><rect class="sb-box" x="738" y="200" width="188" height="72"/><text class="sb-titel" x="752" y="243">Internet</text><path class="sb-linie sb-pfeil sb-beide" d="M832 200V154"/><rect class="sb-box" x="738" y="74" width="188" height="80"/><text class="sb-titel" x="752" y="109.5">Apps</text><text class="sb-text" x="752" y="133.5">Über Mobilfunk</text><path class="sb-linie sb-pfeil sb-gestrichelt" d="M832 272V318"/><rect class="sb-box" x="738" y="318" width="188" height="80"/><text class="sb-titel" x="752" y="353.5">Let's Encrypt</text><text class="sb-text" x="752" y="377.5">Prüft die Domain</text></svg>
+        <div class="schema-rahmen" tabindex="0" role="group" aria-label="Datenfluss: Auf dem Hinweg geht ein 27 Byte großes Paket vom Chip über Gateway und Server als JSON zur App. Auf dem Rückweg geht die Annahme von der App über den Server und das Gateway als HELP zum Chip.">
+          <svg viewBox="0 0 960 410" role="img" aria-label="Datenfluss: Auf dem Hinweg geht ein 27 Byte großes Paket vom Chip über Gateway und Server als JSON zur App. Auf dem Rückweg geht die Annahme von der App über den Server und das Gateway als HELP zum Chip." data-schema="datenfluss"><defs><marker id="sb-spitze" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze" d="M0 0 10 5 0 10Z"/></marker><marker id="sb-spitze-licht" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" orient="auto-start-reverse"><path class="sb-spitze-licht" d="M0 0 10 5 0 10Z"/></marker></defs><text class="sb-zone-name" x="20" y="34">Hinweg: eine Position oder ein Notruf</text><rect class="sb-box" x="20" y="84" width="200" height="96"/><text class="sb-titel" x="34" y="117">Chip</text><text class="sb-text" x="34" y="141">27 Byte</text><text class="sb-text" x="34" y="162">verschlüsselt</text><rect class="sb-box" x="260" y="84" width="200" height="96"/><text class="sb-titel" x="274" y="117">Gateway</text><text class="sb-text" x="274" y="141">Ergänzt RSSI,</text><text class="sb-text" x="274" y="162">SNR und Alter</text><rect class="sb-box" x="500" y="84" width="200" height="96"/><text class="sb-titel" x="514" y="117">Server</text><text class="sb-text" x="514" y="141">Prüft, entschlüsselt,</text><text class="sb-text" x="514" y="162">ordnet Piste zu</text><rect class="sb-box" x="740" y="84" width="200" height="96"/><text class="sb-titel" x="754" y="117">App</text><text class="sb-text" x="754" y="141">JSON mit Position</text><text class="sb-text" x="754" y="162">oder Notruf</text><path class="sb-linie sb-licht sb-pfeil" d="M220 132H260"/><text class="sb-text" x="240" y="70" text-anchor="middle">LoRa</text><path class="sb-linie sb-licht sb-pfeil" d="M460 132H500"/><text class="sb-text" x="480" y="70" text-anchor="middle">POST /gw/up</text><path class="sb-linie sb-licht sb-pfeil" d="M700 132H740"/><text class="sb-text" x="720" y="70" text-anchor="middle">Live-Stream, SSE</text><text class="sb-zone-name" x="20" y="226">Rückweg: Ein Mitarbeiter nimmt den Notruf an</text><rect class="sb-box" x="20" y="276" width="200" height="96"/><text class="sb-titel" x="34" y="309">Chip</text><text class="sb-text" x="34" y="333">HELP 1: vibriert</text><text class="sb-text" x="34" y="354">zweimal lang</text><rect class="sb-box" x="260" y="276" width="200" height="96"/><text class="sb-titel" x="274" y="309">Gateway</text><text class="sb-text" x="274" y="333">Sendet höchstens</text><text class="sb-text" x="274" y="354">1,4 s nach Empfang</text><rect class="sb-box" x="500" y="276" width="200" height="96"/><text class="sb-titel" x="514" y="309">Server</text><text class="sb-text" x="514" y="333">Wartet auf das</text><text class="sb-text" x="514" y="354">nächste Paket</text><rect class="sb-box" x="740" y="276" width="200" height="96"/><text class="sb-titel" x="754" y="309">App</text><text class="sb-text" x="754" y="333">Tippt auf</text><text class="sb-text" x="754" y="354">„Annehmen“</text><path class="sb-linie sb-licht sb-pfeil" d="M740 324H700"/><text class="sb-text" x="720" y="262" text-anchor="middle">POST /alarms/{id}/accept</text><path class="sb-linie sb-licht sb-pfeil" d="M500 324H460"/><text class="sb-text" x="480" y="262" text-anchor="middle">Antwort auf /gw/up</text><path class="sb-linie sb-licht sb-pfeil" d="M260 324H220"/><text class="sb-text" x="240" y="262" text-anchor="middle">LoRa, Downlink</text></svg>
         </div>
-        <figcaption>Vorschlag für den Betrieb. Die Freigabe von Port 443 und das Netz zu den Stationen sind mit der IT noch nicht geklärt.<span class="schema-hinweis"> Zum Ansehen seitlich wischen.</span></figcaption>
+        <figcaption>Eine Antwort an den Chip wartet auf sein nächstes Paket. Darum dauert ein Gruppenruf bis zu 20 Sekunden.<span class="schema-hinweis"> Zum Ansehen seitlich wischen.</span></figcaption>
       </figure>
-
       <div class="lesen">
-        <h2 id="erreichbar" data-kurz="Wie er erreichbar wird">Wie er erreichbar wird</h2>
-        <p>Die Domain braucht ein gültiges Zertifikat, denn das Gateway prüft es. DuckDNS war für einen Cloud-Server gedacht. Für den Betrieb empfehlen wir eine eigene Domain und diesen Aufbau:</p>
-        <ol>
-          <li>KitzSki gibt Port 443 für den Server frei, am besten in einem abgetrennten Netzbereich.</li>
-          <li>Caddy holt das Zertifikat über Port 80 oder über einen DNS-Eintrag.</li>
-          <li>Im Netz der Bergbahn zeigt die Domain direkt auf die interne Adresse. Gateways erreichen den Server dann auch, wenn das Internet ausfällt.</li>
-        </ol>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Ob die IT das so erlaubt, ist nicht geklärt. Das ist nur ein Vorschlag.</p>
-        <p>Das Docker-Setup lag uns nicht vor. Vor dem Betrieb ist darin zu prüfen: Startet der Dienst nach einem Absturz oder Stromausfall von selbst neu? Liegen <code>daten/</code> und die Zertifikate außerhalb der Container, damit ein Update sie nicht löscht? Prüft ein Gesundheitstest, ob der Server wirklich arbeitet und nicht nur läuft?</p>
-
-        <h2 id="groesse" data-kurz="Wie groß er sein muss">Wie groß er sein muss</h2>
-        <p>Die Datenmenge aus dem Funk ist klein. Die Rechnung für das Funk-Protokoll nimmt rund 200 Byte pro Zeile und 8 Stunden Betrieb an, beides geschätzt:</p>
+        <p class="nach-tabelle">Der Server übersetzt das Paket aus <a href="kapitel-04.html#pakete">Kapitel 4</a> in das Format der App:</p>
       </div>
       <div class="tabelle">
-        <table>
-          <thead><tr><th scope="col">Chips</th><th scope="col">Pakete pro Sekunde</th><th scope="col">Protokoll pro Tag</th></tr></thead>
+        <table class="stapel">
+          <thead><tr><th scope="col">Im Funkpaket</th><th scope="col">In der App</th><th scope="col">Umrechnung</th></tr></thead>
           <tbody>
-            <tr><td>5, Test</td><td data-spalte="Pakete pro Sekunde">0,25</td><td data-spalte="Protokoll pro Tag">rund 1,4 MB</td></tr>
-            <tr><td>500</td><td data-spalte="Pakete pro Sekunde">25</td><td data-spalte="Protokoll pro Tag">rund 144 MB</td></tr>
+            <tr><td>Chip-Nummer, 1 Byte</td><td data-spalte="App"><code>chip</code>, etwa „CHIP-0042“</td><td data-spalte="Umrechnung">Tabelle im Server</td></tr>
+            <tr><td>Breite und Länge, je 4 Byte</td><td data-spalte="App"><code>lat</code>, <code>lng</code></td><td data-spalte="Umrechnung">Durch 1 000 000</td></tr>
+            <tr><td>Höhe, 2 Byte</td><td data-spalte="App"><code>alt</code> in Metern</td><td data-spalte="Umrechnung">Direkt</td></tr>
+            <tr><td>Tempo, 1 Byte</td><td data-spalte="App"><code>speed</code> in m/s</td><td data-spalte="Umrechnung">Durch 4</td></tr>
+            <tr><td>Akku, 1 Byte</td><td data-spalte="App"><code>battery</code> in Prozent</td><td data-spalte="Umrechnung">Direkt</td></tr>
+            <tr><td>Nichts</td><td data-spalte="App"><code>kind</code>, <code>ref</code>: Piste, Lift oder Fußweg</td><td data-spalte="Umrechnung">Rechnet der Server</td></tr>
+            <tr><td>Empfangszeit</td><td data-spalte="App"><code>time</code>, in Millisekunden</td><td data-spalte="Umrechnung">Setzt der Server</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <h2 id="notruf" data-kurz="Der Notruf">Der Notruf in beiden Sprachen</h2>
+        <p>Ein Notruf hat in der App vier Zustände. Der Server übersetzt sie in die Stufen aus <a href="kapitel-13.html#stufen">Kapitel 13</a>:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">In der App</th><th scope="col">Bedeutung</th><th scope="col">Befehl an den Chip</th></tr></thead>
+          <tbody>
+            <tr><td><code>new</code></td><td data-spalte="Bedeutung">Wartet auf die Übernahme, Zeitablauf siehe <a href="kapitel-13.html#eskalation">Kapitel 13</a></td><td data-spalte="Chip">Vorher das <a href="kapitel-anhang.html#g-ack">ACK</a>, sobald der Server ihn hat</td></tr>
+            <tr><td><code>accepted</code></td><td data-spalte="Bedeutung">Ein Mensch hat übernommen</td><td data-spalte="Chip">HELP 1, der Chip vibriert zweimal lang</td></tr>
+            <tr><td><code>onsite</code></td><td data-spalte="Bedeutung">Jemand ist vor Ort</td><td data-spalte="Chip">HELP 2</td></tr>
+            <tr><td><code>done</code></td><td data-spalte="Bedeutung">Erledigt</td><td data-spalte="Chip">HELP 3</td></tr>
           </tbody>
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Die 25 Pakete sind eine Obergrenze, die ein Kanal gar nicht erreicht, siehe <a href="kapitel-08.html#puffer">Kapitel 8</a>. Nicht der Funk begrenzt den Server, sondern die offenen Live-Verbindungen der Apps. Jede App hält mindestens einen Stream offen. Ohne HTTP/2 erlaubt ein Browser nur 6 solcher Verbindungen. Wie viele Apps der Server gleichzeitig trägt, muss ein Lasttest zeigen.</p>
+        <p class="nach-tabelle">Ein Notruf kann aus zwei Quellen kommen: vom Knopf am Chip oder aus der Gäste-App über <code>POST /sos</code>. Über die App lässt er sich auch zurücknehmen („Mir geht's gut“). Am Chip gibt es dafür nur die 5 Sekunden Abbruch-Zeit vor dem Senden.</p>
 
-        <h2 id="betrieb" data-kurz="Wer sich kümmert">Wer sich kümmert</h2>
-        <p>Ein Server für Notrufe braucht jemanden, der ihn betreut. Das ist noch nicht geregelt:</p>
+        <h2 id="alarm" data-kurz="Erreicht der Alarm das Handy?">Erreicht der Alarm einen Menschen?</h2>
+        <p>Das ist die wichtigste offene Frage dieses Kapitels. Notrufe kommen über einen Live-Stream, und der läuft nur, solange die App offen ist. Liegt das Handy gesperrt in der Tasche, kommt nach heutigem Stand nichts an. Die Weitergabe nach 60 Sekunden hilft dann auch nicht, wenn es allen Mitarbeitern so geht.</p>
+        <p>Dazu kommt: Der Server sieht nur, dass er einen Notruf angeboten hat. Er erfährt nicht, ob er ankam, und erst recht nicht, ob ihn jemand gelesen hat. Dass eine App einen Alarm angezeigt hat, heißt im Buch <a href="kapitel-anhang.html#g-zustellung">Zustellung</a>. Auch das ist noch keine Kenntnisnahme. Erst der Tipp auf „Übernehmen“ beweist, dass ein Mensch Bescheid weiß.</p>
+        <p>Für eine verlässliche Alarmierung braucht es deshalb mehr als einen Stream:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Baustein</th><th scope="col">Wozu</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr class="zeile-offen"><td>Echte App mit Push</td><td data-spalte="Wozu">Alarm auch bei gesperrtem Handy. Laut App-Repo später mit Capacitor geplant. Auf dem iPhone gibt es Web-Push ab iOS 16.4 nur vom Home-Bildschirm.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Lauter Alarm</td><td data-spalte="Wozu">Ton und Vibration, bis jemand reagiert. Push allein kann stumm oder verspätet ankommen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Empfangsbestätigung der App</td><td data-spalte="Wozu">Macht die Stufe Zustellung sichtbar. Sie zählt erst, wenn der Alarm angezeigt wird, und muss binnen 15 s beim Server sein.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Anwesenheit</td><td data-spalte="Wozu">Die App meldet sich regelmäßig. Der Server bietet Notrufe nur Erreichbaren an. Ist niemand erreichbar, springt er sofort zur Alarmierung aller. Dazu gehört auch der <a href="kapitel-anhang.html#g-leitstand">Leitstand</a>, eine vorgeschlagene ständig besetzte Stelle der Bergbahn.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Neuer Abgleich</td><td data-spalte="Wozu">Nach einer Unterbrechung holt die App alle offenen Notrufe, sonst gehen Meldungen in der Lücke verloren.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Zweiter Weg ohne App</td><td data-spalte="Wozu">Leitstand, Telefon oder Betriebsfunk. Push hängt an fremden Diensten und am Mobilfunk.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Für den Testtag gilt eine Behelfsregel: Die Mitarbeiter halten die App offen und das Display an. Für den Betrieb reicht das nicht. Bis die Bausteine stehen, darf sich niemand auf die App allein verlassen.</p>
+
+        <h2 id="technik" data-kurz="Technische Stolpersteine">Technische Stolpersteine</h2>
       </div>
       <div class="tabelle">
         <table class="stapel">
           <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
           <tbody>
-            <tr class="zeile-offen"><td>Platz, Strom und Anschluss bei der IT</td><td data-spalte="Warum">Ohne das steht nichts. Dazu gehört die Frage nach einer Notstromversorgung.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Wer ist zuständig</td><td data-spalte="Warum">Im Betrieb muss jemand erreichbar sein, wenn der Server ausfällt. Das Team kann das nicht rund um die Uhr leisten.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Sicherung</td><td data-spalte="Warum"><code>state.json</code> und Protokolle brauchen ein Backup, das zur Löschfrist aus Kapitel 15 passt.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Aktualisierungen</td><td data-spalte="Warum">Wann darf der Server neu starten, ohne einen Notruf zu gefährden? Am ehesten außerhalb der Liftzeiten.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Karten</td><td data-spalte="Warum">Laut Präsentation laufen die Karten schon auf eigenen Servern, in der App stehen aber noch fremde Kartenkacheln.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Anmeldung an Streams</td><td data-spalte="Warum">Der Browser-Baustein <code>EventSource</code> kann keinen eigenen Header senden. Das Token muss dann in die Adresse oder in ein Cookie. In der Adresse landet es leicht in Protokollen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Code und Name</td><td data-spalte="Warum">Laut Übergabe genügt ein 6-stelliger Code. Die App schickt Code und Name, ihr Datenformat nennt 6 Zeichen mit Buchstaben, und der Server soll den Namen gegen den Mietbeleg prüfen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Andere Domain</td><td data-spalte="Warum">Liegt die App auf einer anderen Adresse als der Server, braucht er passende CORS-Freigaben.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Chip-Nummer</td><td data-spalte="Warum">Das Funkpaket hat Platz für 256 Nummern, die App zählt vierstellig.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>„Alt“ und „ungefähr“</td><td data-spalte="Warum">Der Server liefert beides. Ob die App es zeigt, ist offen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Notruf aus der App</td><td data-spalte="Warum">Wird er zurückgenommen, während derselbe Chip noch sendet, muss der Server beides zusammenführen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="lesen">
+        <h2 id="api-sicherheit" data-kurz="Sicherheit der Schnittstelle">Sicherheit der Schnittstelle</h2>
+        <p>Jeder Endpunkt ist aus dem Internet erreichbar. Darum muss der Server jede Anfrage selbst prüfen und darf der App nichts glauben. Besonders heikel sind diese Punkte, im Server-Code konnten wir sie nicht prüfen:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
+          <tbody>
+            <tr class="zeile-offen"><td>Notruf für fremde Chips</td><td data-spalte="Warum"><code>POST /sos</code> nennt die Chip-Nummer selbst. Der Server muss prüfen, ob die Anfrage zu diesem Chip gehört, sonst kann jeder Fehlalarme auslösen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Notruf beenden</td><td data-spalte="Warum"><code>DELETE /sos/{id}</code> darf nur die betroffene Person oder das Personal. Sonst könnte ein Fremder einen echten Notruf abbrechen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Daten anderer</td><td data-spalte="Warum">Gäste dürfen nur die eigene Gruppe sehen. Positionsstreams aller Chips sind nur für Personal.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Einsätze steuern</td><td data-spalte="Warum">Nur Personal darf Einsätze übernehmen, und nur die zuständige Person darf sie abschließen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <h2 id="radius" data-kurz="Der Reichweiten-Alarm">Der Reichweiten-Alarm</h2>
+        <p>Verlässt ein Kind den eingestellten Radius, soll nur die Person vibrieren, die aufpasst. Heute ruft die App dafür die Gruppe mit dem eigenen Chip als Absender. Der Server schickt aber an alle außer dem Absender, also vibriert das Kind, und gerechnet wird nur bei offener App.</p>
+        <p>Unser Vorschlag: Der Server prüft den Abstand selbst und ruft nur den Chip der aufpassenden Person. Das geht ohne neuen Funkbefehl, denn es vibriert wie ein normaler Gruppenruf. Die App muss dem Server nur Radius und Aufpasser mitteilen, dafür fehlt noch ein Endpunkt. Wie Eltern den Radius eingeben, bleibt Sache von Tobias.</p>
+
+        <h2 id="regeln" data-kurz="Regeln fürs Team">Regeln fürs Team</h2>
+        <ul>
+          <li>Der Server richtet sich nach <code>api.js</code>. Änderungen daran sprechen Tobias und Lukas ab.</li>
+          <li>Das Datenformat der App gilt als Vertrag. Neue Felder dürfen dazukommen, vorhandene ändern sich nur gemeinsam.</li>
+          <li>Vor dem Test wird die App einmal komplett gegen den echten Server geprüft, nicht nur gegen Beispieldaten.</li>
+        </ul>
+
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
-          <p><strong>Entschieden:</strong> Eigener Server vor Ort bei KitzSki, mit Docker und Caddy. Das Paket bleibt gleich, nur der Standort ändert sich.</p>
-          <p><strong>Geschätzt:</strong> Die Funkdaten sind klein: Bei 500 Chips sind es rund 25 Pakete pro Sekunde und rund 144 MB Protokoll am Tag.</p>
-          <p><strong>Offen:</strong> Ob ein ACK erst nach dem dauerhaften Speichern kommt, dazu Freigabe durch die IT, eigene Domain, Betreuung und Backup.</p>
+          <p><strong>Fest:</strong> Die App kennt den Server nur über <code>api.js</code>, und Chips kennt sie nur als Daten vom Server. Sie läuft heute mit Beispieldaten.</p>
+          <p><strong>Geschätzt:</strong> Notrufe, Gruppen, Positionen, Lifte und Treffpunkt passen laut Übergabe zusammen. Geprüft ist das nicht.</p>
+          <p><strong>Offen:</strong> Wie ein Alarm einen Menschen auch bei gesperrtem Handy erreicht, die Stufe Zustellung, die Sicherheit der Schnittstelle und der Reichweiten-Alarm.</p>
         </div>
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
         <ul class="quellen">
           <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
-          <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/EventSource">MDN: EventSource</a>, Grenze ohne HTTP/2</li>
-          <li><a href="https://letsencrypt.org/certificates/">ISRG-Stammzertifikate</a>, Let's Encrypt</li>
+          <li><a href="https://github.com/tobiass3/SKI-TAG/blob/main/js/services/api.js">api.js</a> und <a href="https://github.com/tobiass3/SKI-TAG/blob/main/docs/datenformat.md">Datenformat</a> der App</li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/EventSource">MDN: EventSource</a></li>
+          <li><a href="https://webkit.org/blog/13878/web-push-for-web-apps-on-ios-and-ipados/">WebKit: Web Push für Web-Apps auf iOS</a></li>
         </ul>
       </div>
 
       <div class="blaettern">
-        <a href="kapitel-11.html">Zurück: Kapitel 11, Strom und Netzanbindung</a>
-        <a href="kapitel-13.html">Weiter: Kapitel 13, Schnittstelle zur App</a>
+        <a href="kapitel-11.html">Zurück: Kapitel 11, Der Server</a>
+        <a href="kapitel-13.html">Weiter: Kapitel 13, SOS: Vorrang und Fehlalarme</a>
       </div>
     </article>
   </main>

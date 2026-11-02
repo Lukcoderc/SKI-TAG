@@ -3,14 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ausblick Serie · SkiTag Netzwerk-Buch</title>
-<meta name="description" content="Was sich vom Test zum Betrieb mit hunderten Chips ändern muss und was das kostet.">
-<link rel="stylesheet" href="assets/book.css?v=40">
-<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
-<script src="assets/book.js?v=40" defer></script>
-<script src="assets/serienkosten.js?v=40" defer></script>
+<title>Testplan Februar 2027 · SkiTag Netzwerk-Buch</title>
+<meta name="description" content="Was vor dem Testtag fertig sein muss, was geprüft wird und wann ein Test bestanden ist.">
+<link rel="stylesheet" href="assets/book.css?v=43">
+<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
+<script src="assets/book.js?v=43" defer></script>
 </head>
-<body data-station="knopf">
+<body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
   <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
@@ -18,8 +17,8 @@
   <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<header class="seil">
-  <a class="seil-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+<header class="streifen">
+  <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
 </header>
 
 <div class="buch">
@@ -40,128 +39,341 @@
       <ol></ol>
     </details>
     <article>
-      <h1>Ausblick Serie</h1>
-      <p class="stand">Kapitel 17 · Stand 1. November 2026</p>
+      <h1>Testplan Februar 2027</h1>
+      <p class="stand">Kapitel 17 · Stand 2. November 2026</p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-13.html">Kapitel 13</a>, <a href="kapitel-14.html">Kapitel 14</a>, <a href="kapitel-15.html">Kapitel 15</a>, <a href="kapitel-16.html">Kapitel 16</a></p>
 
       <div class="lesen">
-        <p class="einstieg">Der Test beweist die Idee mit 5 Chips. Ab der Saison 27/28 sollen es hunderte im ganzen Skigebiet sein. Dieses Kapitel fasst zusammen, was sich dafür ändern muss, und in welcher Reihenfolge wir das entscheiden.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Hier ist fast nichts entschieden. Eine Zahl fehlt für alles Weitere: Wie viele Chips sind im Gebiet maximal gleichzeitig unterwegs? Die soll Tobias aus dem Geschäftsmodell liefern.</p>
+        <p class="einstieg">Der Schultest prüft das Zusammenspiel im Kleinen. Im Februar oder März 2027 kommt alles zum ersten Mal am Berg zusammen: 5 Chips, 2 Gateways, Server und echte App an einer Bergbahn. Dieses Kapitel legt fest, was vorher stehen muss, was wir prüfen und wann ein Punkt als bestanden gilt.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Datum, Ort und Piste stehen noch nicht fest, und die Bergbahn hat dem Test laut unseren Unterlagen noch nicht zugesagt. Die Bedingungen für „bestanden“ sind unser Vorschlag.</p>
 
-        <h2 id="aenderungen" data-kurz="Was sich ändern muss">Was sich ändern muss</h2>
+        <h2 id="vorher" data-kurz="Was vorher stehen muss">Was vorher stehen muss</h2>
+        <p>Die Prototypen sollen im Jänner 2027 fertig sein. Diese Reihenfolge schlagen wir vor, jeder Schritt baut auf dem vorigen auf:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
-          <thead><tr><th scope="col">Thema</th><th scope="col">Heute</th><th scope="col">Für die Serie</th><th scope="col">Kapitel</th></tr></thead>
+          <thead><tr><th scope="col">Schritt</th><th scope="col">Wer</th><th scope="col">Fertig, wenn</th></tr></thead>
           <tbody>
-            <tr><td>Funk</td><td data-spalte="Heute">Ein Kanal, 5 feste Fenster</td><td data-spalte="Serie">Mehrere Kanäle, kürzere Sendezeit, Notruf auf einem eigenen Kanal im Band 869,40 bis 869,65 MHz</td><td data-spalte="Kapitel">5</td></tr>
-            <tr><td>Protokoll</td><td data-spalte="Heute">Eigenes Protokoll, 256 Chip-Nummern</td><td data-spalte="Serie"><a href="kapitel-anhang.html#g-lorawan">LoRaWAN</a> als erster Kandidat, oder eigenes Protokoll mit längerer Nummer</td><td data-spalte="Kapitel">3, 4</td></tr>
-            <tr><td>Gateways</td><td data-spalte="Heute">2 Funkboards am Fenster</td><td data-spalte="Serie">Rund 4 bis 21 Geräte außen, mit Kabel und Blitzschutz</td><td data-spalte="Kapitel">10, 11</td></tr>
-            <tr><td>Rückkanal</td><td data-spalte="Heute">Antwort direkt nach dem Paket</td><td data-spalte="Serie">Nur für Ereignisse, keine Bestätigung jeder Position</td><td data-spalte="Kapitel">6</td></tr>
-            <tr><td>Gateway-Puffer</td><td data-spalte="Heute">60 Pakete ohne Vorrang</td><td data-spalte="Serie">Drei Klassen, je Chip nur die neueste Position, lesbare Kennung im Kopf</td><td data-spalte="Kapitel">8</td></tr>
-            <tr><td>Server</td><td data-spalte="Heute">Ein Rechner, Speicherung vor dem <a href="kapitel-anhang.html#g-ack">ACK</a> nicht belegt</td><td data-spalte="Serie">Erst speichern, dann ACK, zweiter Rechner oder schneller Ersatz, Überwachung, Bereitschaft</td><td data-spalte="Kapitel">12, 14</td></tr>
-            <tr><td>Alarmierung</td><td data-spalte="Heute">Web-App ohne Push, keine Zustellung sichtbar</td><td data-spalte="Serie">Echte App mit Push, Empfangsbestätigung, zweiter Weg über den Leitstand</td><td data-spalte="Kapitel">13</td></tr>
-            <tr><td>Sicherheit</td><td data-spalte="Heute">Ein Schlüssel, selbst gebaute <a href="kapitel-anhang.html#g-stromchiffre">Stromchiffre</a> aus SipHash</td><td data-spalte="Serie">Eigener Schlüssel je Chip, AES-CCM oder gleichwertig, Schlüsselwechsel, <a href="kapitel-anhang.html#g-downlink">Downlink</a> je Chip geschützt</td><td data-spalte="Kapitel">15</td></tr>
-            <tr><td>Daten</td><td data-spalte="Heute">Löschen von Hand</td><td data-spalte="Serie">Automatische Fristen, rechtlich geprüft</td><td data-spalte="Kapitel">15</td></tr>
+            <tr><td>1. Schultest</td><td data-spalte="Wer">Lukas</td><td data-spalte="Fertig">1 Heltec V3 ist da, Checkliste aus <a href="kapitel-16.html#checkliste">Kapitel 16</a> abgehakt</td></tr>
+            <tr><td>2. Hardware für den Berg</td><td data-spalte="Wer">Lukas</td><td data-spalte="Fertig">Zweites Heltec V3, 2 Antennen, 2 Netzteile sind da</td></tr>
+            <tr><td>3. Server bei KitzSki</td><td data-spalte="Wer">Lukas mit der IT</td><td data-spalte="Fertig">Simulator läuft gegen den echten Server</td></tr>
+            <tr><td>4. App gegen den Server</td><td data-spalte="Wer">Tobias und Lukas</td><td data-spalte="Fertig"><code>fakeData</code> aus, Notruf läuft durch</td></tr>
+            <tr><td>5. Abnahme vor dem Berg</td><td data-spalte="Wer">Lukas, Maximilian, Tobias</td><td data-spalte="Fertig">T1 bis T20 durchgeführt und bewertet</td></tr>
+            <tr><td>6. Prototypen und Ladebox</td><td data-spalte="Wer">Maximilian</td><td data-spalte="Fertig">5 Chips mit neuem Schlüssel, Ladebox mit 5 Plätzen</td></tr>
+            <tr><td>7. Standorte klären</td><td data-spalte="Wer">Lukas mit KitzSki</td><td data-spalte="Fertig">Stationen, Strom und WLAN sind zugesagt</td></tr>
+            <tr><td>8. Reichweite vorab messen</td><td data-spalte="Wer">Lukas</td><td data-spalte="Fertig">Teststrecke gefahren, Protokoll gespeichert</td></tr>
+            <tr><td>9. Einwilligungen</td><td data-spalte="Wer">Tobias</td><td data-spalte="Fertig">Vorlage geprüft, Ablauf am Stand klar</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="lesen">
-        <h2 id="lorawan" data-kurz="LoRaWAN oder eigenes Protokoll">LoRaWAN oder eigenes Protokoll</h2>
-        <p>Das ist die größte Entscheidung. Dabei muss man zwei Dinge trennen: Die Frequenz 869,525 MHz ist für ein eigenes LoRa-Protokoll zulässig, solange die Regeln des Bandes eingehalten sind. Im Standard LoRaWAN hat dieselbe Frequenz aber eine feste Aufgabe, und die ist nicht der Empfang von Geräten.</p>
+        <h2 id="testfaelle" data-kurz="Wie bewertet wird">Wie bewertet wird</h2>
+        <p>Jeder Test hat Ausgangslage, Durchführung, Erwartung und ein Bestehenskriterium. Die Kriterien und Zeiten sind unser Vorschlag. Durchgeführt ist noch keiner dieser Tests, und einige werden mit dem heutigen Stand durchfallen. Das ist gewollt: Ein durchgefallener Test ist ein Ergebnis, das ins Buch gehört, und wird nie schöngerechnet.</p>
+        <p><strong>Grenze für den Testtag:</strong> T1, T2, T5, T9, T11 und T14 müssen bestanden sein, bevor Chips an Gäste gehen. T12 ist mit der heutigen App nicht bestehbar. Darum halten die Mitarbeiter die App beim Testtag offen.</p>
       </div>
-      <div class="tabelle">
-        <table class="stapel">
-          <thead><tr><th scope="col">LoRaWAN EU868</th><th scope="col">Vorgabe</th><th scope="col">Quelle</th></tr></thead>
-          <tbody>
-            <tr><td>Pflicht-Uplink-Kanäle</td><td data-spalte="Vorgabe">868,1, 868,3 und 868,5 MHz, 125 kHz, DR0 bis DR5 (SF12 bis SF7), weitere Kanäle legt das Netz fest</td><td data-spalte="Quelle">RP002, Tabelle 6</td></tr>
-            <tr><td>Antwortfenster</td><td data-spalte="Vorgabe">RX1 1 Sekunde nach dem Uplink auf dem Uplink-Kanal, RX2 eine Sekunde später</td><td data-spalte="Quelle">RP002, Standardwerte</td></tr>
-            <tr><td>RX2</td><td data-spalte="Vorgabe">869,525 MHz, Standard DR0 (SF12). The Things Network nutzt abweichend SF9.</td><td data-spalte="Quelle">RP002, TTN</td></tr>
-            <tr><td>Class B</td><td data-spalte="Vorgabe">Beacon ebenfalls auf 869,525 MHz</td><td data-spalte="Quelle">RP002</td></tr>
-            <tr><td>Sendeleistung</td><td data-spalte="Vorgabe">Standard höchstens +16 dBm EIRP, das entspricht ungefähr den 25 mW ERP der 868-Kanäle</td><td data-spalte="Quelle">RP002</td></tr>
-            <tr><td>Klasse A</td><td data-spalte="Vorgabe">Geräte hören nur nach eigenem Senden. Ein Gruppenruf wartet also wie heute auf das nächste Paket.</td><td data-spalte="Quelle">RP002</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="lesen">
-        <p class="nach-tabelle">Für die Serie gibt es deshalb drei Wege:</p>
-      </div>
-      <div class="tabelle">
-        <table class="stapel">
-          <thead><tr><th scope="col">Weg</th><th scope="col">Vorteile</th><th scope="col">Nachteile</th><th scope="col">Stand</th></tr></thead>
-          <tbody>
-            <tr class="zeile-offen"><td>Eigenes Protokoll, mehrere Kanäle</td><td data-spalte="Vorteile">Volle Kontrolle, 500 mW ERP und 10 % im Band 869,4 bis 869,65 MHz, Vorrang frei gestaltbar</td><td data-spalte="Nachteile">Das Band ist 250 kHz breit, es passen höchstens zwei Kanäle mit 125 kHz nebeneinander. Mehr Kanäle müssten in die strengeren 868-Bänder. Alles bleibt Eigenbau.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Reines LoRaWAN</td><td data-spalte="Vorteile">Fertiger Standard mit geprüfter Verschlüsselung und Schlüsseln je Gerät, 8 Kanäle je Gateway, Netzserver wie ChirpStack</td><td data-spalte="Nachteile">25 mW ERP und 1 % Sendezeit, SF9 alle 20 s passt nicht. Ein Notruf hat keinen Vorrang und unterliegt denselben Grenzen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>LoRaWAN plus eigener Notruf-Kanal</td><td data-spalte="Vorteile">Positionen im Standard, Notruf mit voller Leistung im Band 869,4 bis 869,65 MHz</td><td data-spalte="Nachteile">Kein reines LoRaWAN mehr. Der Chip muss zwei Verfahren beherrschen, und das Gateway muss den Kanal zusätzlich hören. Das ist nicht geprüft.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="lesen">
-        <p class="nach-tabelle">Ein eigener Notruf-Kanal kann RX2 im Band nicht ganz ausweichen: Der Kanal auf 869,525 MHz belegt mit 125 kHz den Bereich 869,4625 bis 869,5875 MHz, an den Rändern bleiben nur je 62,5 kHz. Dort senden Gateways, auch aus fremden Netzen, ihre RX2-Antworten. Es gibt drei Auswege, alle ungeprüft: ein schmaler Kanal mit 62,5 kHz am Bandrand, was die Sendezeit verdoppelt und genauere Quarze braucht, ein versetzter Kanal mit 125 kHz, der RX2 nur teilweise überlappt, oder derselbe Kanal mit eigenen Gateways und vorheriger Messung, ob dort ein fremdes Netz sendet. Andere Bänder scheiden praktisch aus: 869,3 bis 869,4 MHz ist auf Alarmanlagen und 10 mW ERP beschränkt, 869,7 bis 870 MHz auf 25 mW ERP und 1 %.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Empfehlung für die Planung: LoRaWAN plus eigener Notruf-Kanal ist der am weitesten tragende Kandidat, entschieden ist nichts. Ob ein Gateway den zusätzlichen Kanal hört und wie schnell Notrufe so ankommen, muss ein Versuch nach dem Test zeigen. Ob die Geräte in Österreich so betrieben werden dürfen, ist für den konkreten Aufbau mit der Fernmeldebehörde zu klären.</p>
 
-        <h2 id="kosten" data-kurz="Was das Netz kosten könnte">Was das Netz kosten könnte</h2>
-        <p>Für eine erste Größenordnung kannst du die Annahmen selbst einstellen. Der Gerätepreis ist ein Händlerpreis aus <a href="kapitel-11.html#geraete">Kapitel 11</a>. Zubehör, Montage und Server sind nur Annahmen ohne Angebot, darum stehen sie am Anfang auf 0 €.</p>
+      <div class="lesen">
+        <h2 id="t-labor">Vor dem Berg: Notruf und Speicherung</h2>
+        <p>Diese Tests laufen mit Testchip oder Simulator, ohne Gäste.</p>
       </div>
-      <section class="rechner" aria-label="Rechner für die Kosten des Netzes">
-        <div class="rechner-regler"><label for="ser-anzahl">Gateways: <output id="ser-anzahl-wert"></output></label><input id="ser-anzahl" type="range" min="2" max="30" step="1" value="12"></div>
-        <div class="rechner-regler"><label for="ser-preis">Preis je Gerät: <output id="ser-preis-wert"></output></label><input id="ser-preis" type="range" min="200" max="1000" step="10" value="540"></div>
-        <div class="rechner-regler"><label for="ser-zubehoer">Zubehör und Montage je Gateway, Annahme: <output id="ser-zubehoer-wert"></output></label><input id="ser-zubehoer" type="range" min="0" max="1000" step="50" value="0"></div>
-        <div class="rechner-regler"><label for="ser-server">Server einmalig, Annahme: <output id="ser-server-wert"></output></label><input id="ser-server" type="range" min="0" max="5000" step="100" value="0"></div>
-        <dl class="rechner-werte">
-          <div><dt>Gateways gesamt</dt><dd id="ser-gateways"></dd></div>
-          <div><dt>Netz gesamt</dt><dd id="ser-gesamt"></dd></div>
+      <div class="testfall">
+        <h3 id="t1">T1: Dauerhafte Speicherung vor ACK</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Server läuft, Protokoll der Notrufe ist leer.</dd></div>
+          <div><dt>Durchführung</dt><dd>Notruf senden und mitschneiden, wann gespeichert und wann das <a href="kapitel-anhang.html#g-ack">ACK</a> gesendet wird. 20-mal.</dd></div>
+          <div><dt>Erwartet</dt><dd>Der Eintrag liegt auf dem Datenträger, bevor das ACK das Gateway verlässt.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>20 von 20 in der richtigen Reihenfolge, mit <code>fsync</code> vor dem ACK, und jedes ACK innerhalb der 1,4 Sekunden.</dd></div>
         </dl>
-        <p class="rechner-text">Ohne laufende Kosten für Mobilfunk, Strom, Domain und Betreuung.</p>
-      </section>
-      <div class="tabelle nur-ohne-js">
-        <table>
-          <thead><tr><th scope="col">Gateways</th><th scope="col">Nur die Geräte, je rund 540 €</th></tr></thead>
+      </div>
+      <div class="testfall">
+        <h3 id="t2">T2: Serverabsturz direkt nach dem SOS</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Wie T1, ein Mitarbeiter ist angemeldet.</dd></div>
+          <div><dt>Durchführung</dt><dd>Server-Prozess unmittelbar nach dem Empfang hart beenden, vor und nach dem ACK. Danach neu starten. Je 10-mal.</dd></div>
+          <div><dt>Erwartet</dt><dd>Ohne ACK sendet der Chip weiter. Mit ACK ist der Notruf nach dem Neustart wieder offen, T0 bleibt erhalten.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>20 von 20 Notrufen sind nach dem Neustart offen, und die Eskalation läuft mit dem ursprünglichen T0 weiter. Kein Notruf geht verloren.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t3">T3: Stromausfall am Server</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Server läuft mit offenem Notruf, <a href="kapitel-anhang.html#g-help">HELP</a> 1 steht aus.</dd></div>
+          <div><dt>Durchführung</dt><dd>Strom hart trennen, nach 2 Minuten wieder einschalten.</dd></div>
+          <div><dt>Erwartet</dt><dd>Der Server startet von selbst und führt Notruf und Eskalation fort.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Notruf ist offen, Eskalation läuft weiter, keine Daten sind beschädigt.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t4">T4: Mehrere gleichzeitige Notrufe</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>5 Chips, 2 Mitarbeiter angemeldet.</dd></div>
+          <div><dt>Durchführung</dt><dd>Alle 5 Chips lösen binnen 10 Sekunden einen Notruf aus.</dd></div>
+          <div><dt>Erwartet</dt><dd>Jeder Notruf erscheint einmal und bekommt eine Zuständigkeit.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>5 von 5 ohne Doppel. Jeder bekommt ein ACK, die Zeit bis dahin ist notiert.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t5">T5: Stufen am Chip</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>1 Chip, 1 Mitarbeiter.</dd></div>
+          <div><dt>Durchführung</dt><dd>Notruf senden, dann in der App übernehmen, vor Ort melden, erledigen.</dd></div>
+          <div><dt>Erwartet</dt><dd>ACK zeigt keine Hilfe an. HELP 1 vibriert zweimal lang. HELP 2 und 3 kommen an.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Vor HELP 1 zeigt weder Chip noch App, dass Hilfe kommt.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t6">T6: Fehlalarm</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>1 Chip.</dd></div>
+          <div><dt>Durchführung</dt><dd>Kurz drücken. Dann 3 Sekunden halten und in den 5 Sekunden abbrechen. Je 10-mal.</dd></div>
+          <div><dt>Erwartet</dt><dd>Kurzer Druck ruft nur die Gruppe. Abbruch sendet keinen Notruf.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>0 Notrufe in 20 Versuchen.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t7">T7: Gruppenruf</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>2 Chips in einer Gruppe.</dd></div>
+          <div><dt>Durchführung</dt><dd>Knopf kurz drücken, 10-mal.</dd></div>
+          <div><dt>Erwartet</dt><dd>Der andere Chip vibriert, die Bergbahn sieht nichts.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>10 von 10, längste Zeit notiert, Vorgabe rund 20 Sekunden.</dd></div>
+        </dl>
+      </div>
+
+      <div class="lesen">
+        <h2 id="t-ausfall">Vor dem Berg: Ausfälle</h2>
+        <p>Hier fällt absichtlich etwas aus. Geprüft wird auch, ob es jemand merkt.</p>
+      </div>
+      <div class="testfall">
+        <h3 id="t8">T8: Verlust eines Gateways</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>2 Gateways hören den Chip.</dd></div>
+          <div><dt>Durchführung</dt><dd>Ein Gateway vom Strom trennen, dann einen Notruf senden.</dd></div>
+          <div><dt>Erwartet</dt><dd>Das zweite Gateway übernimmt. Die Ausgabe-Seite zeigt nach 30 Sekunden „weg“.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Notruf kommt an. Die Störung wird spätestens 60 Sekunden nach dem letzten Lebenszeichen gemeldet.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t9">T9: Alle Gateways weg</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Chip sendet, keine Gateways an.</dd></div>
+          <div><dt>Durchführung</dt><dd>Notruf auslösen und warten.</dd></div>
+          <div><dt>Erwartet</dt><dd>Der Chip wiederholt und warnt.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Warnung nach 90 Sekunden, plus höchstens 5 Sekunden Toleranz.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t10">T10: Stationsnetz weg</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Gateway ohne WLAN, Server läuft.</dd></div>
+          <div><dt>Durchführung</dt><dd>Notruf auslösen, nach 2 Minuten WLAN zurückgeben.</dd></div>
+          <div><dt>Erwartet</dt><dd>Gateway puffert und liefert nach. Chip warnt in der Zwischenzeit.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Notruf kommt nach dem Wiederverbinden an, Alter ist erkennbar.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t11">T11: Internet am Server weg</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Gateway erreicht den Server intern, Apps nur über das Internet.</dd></div>
+          <div><dt>Durchführung</dt><dd>Internet trennen, Notruf senden.</dd></div>
+          <div><dt>Erwartet</dt><dd>Der Server erkennt die Störung und meldet sie, unabhängig vom Notruf. Der Notruf selbst folgt dem Zeitablauf aus Kapitel 13.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Kein Chip und keine Anzeige meldet eine Übernahme. Die Störung ist spätestens nach 60 Sekunden beim Leitstand, der Chip warnt spätestens 180 Sekunden nach dem ersten Senden.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t12">T12: App im Hintergrund</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Mitarbeiter-App angemeldet, Handy gesperrt.</dd></div>
+          <div><dt>Durchführung</dt><dd>Notruf senden, auf iPhone und Android je 5-mal.</dd></div>
+          <div><dt>Erwartet</dt><dd>Das Handy alarmiert hörbar.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>5 von 5 je Gerät binnen 30 Sekunden. Mit heutiger App ist dieser Test nicht bestehbar.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t13">T13: App nicht erreichbar</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Mitarbeiter 1 ohne Netz, Mitarbeiter 2 erreichbar.</dd></div>
+          <div><dt>Durchführung</dt><dd>Notruf senden.</dd></div>
+          <div><dt>Erwartet</dt><dd>Der Server erkennt die fehlende Zustellung und bietet weiter an.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Mitarbeiter 2 hat den Notruf spätestens 15 Sekunden nach dem Angebot an Mitarbeiter 1, die fehlende Zustellung ist im Verlauf sichtbar.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t14">T14: Niemand übernimmt</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Mitarbeiter angemeldet, niemand tippt.</dd></div>
+          <div><dt>Durchführung</dt><dd>Notruf senden und warten.</dd></div>
+          <div><dt>Erwartet</dt><dd>Die Eskalation läuft durch alle Stufen.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Jede Stufe ist mit Zeit im Verlauf belegt: Weitergabe bei 60 Sekunden, Leitstand bei T0 + 120 Sekunden, Handeln bei T0 + 180 Sekunden, Warnung am Chip 180 Sekunden nach dem ersten Senden. Die Rettung wird dabei nicht wirklich gerufen.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t15">T15: Stromausfall an der Station</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Gateway läuft, 1 Chip sendet.</dd></div>
+          <div><dt>Durchführung</dt><dd>Strom trennen, nach 2 Minuten zurück.</dd></div>
+          <div><dt>Erwartet</dt><dd>Das Gateway startet von selbst und meldet sich am Server.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Binnen 2 Minuten wieder verbunden und Pakete werden empfangen.</dd></div>
+        </dl>
+      </div>
+
+      <div class="lesen">
+        <h2 id="t-funk">Vor dem Berg: Funk und Sicherheit</h2>
+        <p>Diese Tests prüfen die Grenzen des Kanals und den Schutz der Pakete.</p>
+      </div>
+      <div class="testfall">
+        <h3 id="t16">T16: Funkkollisionen</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>5 Chips im selben Raum, Fenster aktiv.</dd></div>
+          <div><dt>Durchführung</dt><dd>Alle 5 senden eine Stunde lang, dazu Notrufe außerhalb der Fenster.</dd></div>
+          <div><dt>Erwartet</dt><dd>Positionen stören sich kaum, Notrufe kommen durch Wiederholung an.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Paketverlust ist gemessen, jeder Notruf bekommt binnen 30 Sekunden ein ACK.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t17">T17: Volle Gateway-Puffer und Vorrang</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Gateway ohne Netz. Ein Prüfprogramm spielt Pakete von 500 simulierten Chips ein. Das Programm gibt es noch nicht, der Simulator kann laut Übergabe 5 Chips.</dd></div>
+          <div><dt>Durchführung</dt><dd>Puffer füllen, dann echte und gefälschte Notruf-Pakete einspielen, danach das Netz zurückgeben.</dd></div>
+          <div><dt>Erwartet</dt><dd>Mit den Klassen aus Kapitel 7 bleiben Notrufe erhalten, je Chip überlebt nur die neueste Position. Heute ist nur das Verhalten bei vollem Puffer zu dokumentieren.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Jeder echte Notruf kommt an, spätestens mit der nächsten Wiederholung. Gefälschte Pakete lösen keinen Alarm aus und verdrängen echte nicht dauerhaft. Das Gateway stürzt nicht ab.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t18">T18: Ungültige und manipulierte Nachrichten</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Server läuft, Protokoll aktiv.</dd></div>
+          <div><dt>Durchführung</dt><dd>Pakete mit falschem Prüfwert, falscher Länge, geändertem Kopf und fremder Kennung einspielen.</dd></div>
+          <div><dt>Erwartet</dt><dd>Der Server verwirft sie und läuft weiter.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>100 % verworfen, kein Notruf, kein Absturz, Protokolleintrag vorhanden.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t19">T19: Wiederholte Nachrichten</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Echtes Paket und echter <a href="kapitel-anhang.html#g-downlink">Downlink</a> sind aufgezeichnet.</dd></div>
+          <div><dt>Durchführung</dt><dd>Beide später erneut einspielen, auch nach einem Server-Neustart.</dd></div>
+          <div><dt>Erwartet</dt><dd>Server und Chip verwerfen sie.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>0 angenommene Wiederholungen, auch direkt nach dem Neustart.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t20">T20: Neu bespielter Chip</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Chip mit Zählerstand, dann Flash löschen.</dd></div>
+          <div><dt>Durchführung</dt><dd>Chip neu bespielen und senden.</dd></div>
+          <div><dt>Erwartet</dt><dd>Das Verhalten ist bekannt und führt nicht zu stillem Paketverlust.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Der Chip wird erkannt oder die Ausgabe-Seite meldet das Problem. Vor dem Test neuer Schlüssel.</dd></div>
+        </dl>
+      </div>
+
+      <div class="lesen">
+        <h2 id="t-berg">Am Testtag</h2>
+        <p>Diese Tests laufen an der Bergbahn. Vorher müssen T1 bis T20 bewertet sein.</p>
+      </div>
+      <div class="testfall">
+        <h3 id="t21">T21: Reichweite, Lage und Fenster</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Beide Gateways aufgestellt, Protokoll läuft.</dd></div>
+          <div><dt>Durchführung</dt><dd>Teststrecke fahren. Chip in der Jacke, liegend und unter der Person. Fenster zu und Antenne außen vergleichen.</dd></div>
+          <div><dt>Erwartet</dt><dd><a href="kapitel-anhang.html#g-rssi">RSSI</a> je Ort und Lage liegt vor.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Teststrecke mit −115 dBm oder besser, Lücken sind dokumentiert, Fensterdämpfung ist gemessen.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t22">T22: Notruf am Berg</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>2 eingeweihte Mitarbeiter, Testchip auf der Strecke.</dd></div>
+          <div><dt>Durchführung</dt><dd>5 Prüf-Notrufe von verschiedenen Orten.</dd></div>
+          <div><dt>Erwartet</dt><dd>Notruf kommt an, Übernahme kommt zurück.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>5 von 5. Zeit vom Knopf bis zur Übernahme ist je Notruf notiert.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t23">T23: Akku bei Kälte</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Chips voll geladen.</dd></div>
+          <div><dt>Durchführung</dt><dd>Einen Testtag lang betreiben, Temperatur notieren.</dd></div>
+          <div><dt>Erwartet</dt><dd>Ladestand ist über den Tag protokolliert.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Chip hält bis Liftschluss. Laufzeit ist gemessen.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t24">T24: Rückmeldung der Gäste</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Gäste haben eingewilligt und sind über den Test informiert.</dd></div>
+          <div><dt>Durchführung</dt><dd>Kurze Befragung am Stand.</dd></div>
+          <div><dt>Erwartet</dt><dd>Gäste verstehen Knopf, Warnung und dass 140 gilt.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Antworten sind gesammelt, Missverständnisse notiert.</dd></div>
+        </dl>
+      </div>
+      <div class="testfall">
+        <h3 id="t25">T25: Daten löschen</h3>
+        <dl>
+          <div><dt>Ausgangslage</dt><dd>Test ist beendet.</dd></div>
+          <div><dt>Durchführung</dt><dd><code>state.json</code> und Protokolle löschen, Backups prüfen.</dd></div>
+          <div><dt>Erwartet</dt><dd>Keine Positionsdaten bleiben übrig.</dd></div>
+          <div><dt>Bestanden, wenn</dt><dd>Löschung ist protokolliert, nur anonyme Messwerte bleiben.</dd></div>
+        </dl>
+      </div>
+
+      <div class="lesen">
+        <h2 id="sicherheit" data-kurz="Sicherheit am Testtag">Sicherheit am Testtag</h2>
+        <p><strong>Der Test ersetzt keinen Notruf.</strong> Alle mit einem Chip erfahren vorher: Bei einem echten Notfall gilt 140. Das sollte auch auf dem Beleg stehen. Kein Test darf einen echten Rettungsablauf beeinträchtigen.</p>
+        <ul>
+          <li>Prüf-Notrufe sind vorher mit der Bergbahn abgesprochen, klar als Test gekennzeichnet und gehen nur an eingeweihte Mitarbeiter, nie an die Rettung.</li>
+          <li>Bei einem echten Notfall im Gebiet stoppen alle Tests sofort.</li>
+          <li>Ein Mitglied des Teams ist den ganzen Tag über für die Bergbahn erreichbar.</li>
+          <li>Die Mitarbeiter halten die App offen, weil es noch kein Push gibt, siehe <a href="kapitel-12.html#alarm">Kapitel 12</a>.</li>
+          <li>Der Ablauf bei schlechtem Wetter und ein Ersatztermin stehen vorher fest.</li>
+        </ul>
+
+        <h2 id="daten" data-kurz="Was wir festhalten">Was wir festhalten</h2>
+        <p>Am Ende muss jede Anforderung aus <a href="kapitel-02.html#belegen">Kapitel 2</a> eine Messung haben. Dafür sichern wir:</p>
+        <ul>
+          <li>Funk-Protokoll beider Gateways mit RSSI, herunterzuladen auf der Ausgabe-Seite.</li>
+          <li>Die Zeit jedes Prüf-Notrufs vom Knopf bis zur Übernahme, für einen ersten Zielwert.</li>
+          <li>Eine Liste aller Ausfälle und was man dabei gesehen hat.</li>
+          <li>Antworten der Gäste.</li>
+        </ul>
+        <p>Danach kommen die Ergebnisse ins Buch: Aus Geschätzt wird Gemessen. Die Daten mit Positionen werden gelöscht, siehe <a href="kapitel-15.html#test">Kapitel 15</a>.</p>
+
+        <h2 id="offen" data-kurz="Was noch offen ist">Was noch offen ist</h2>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
           <tbody>
-            <tr><td>4, jeder Punkt hört eines</td><td data-spalte="Nur die Geräte, je rund 540 €">rund 2 160 €</td></tr>
-            <tr><td>12, jeder Punkt hört zwei</td><td data-spalte="Nur die Geräte, je rund 540 €">rund 6 480 €</td></tr>
-            <tr><td>21, mit mehr Reserve</td><td data-spalte="Nur die Geräte, je rund 540 €">rund 11 340 €</td></tr>
+            <tr class="zeile-offen"><td>Datum, Ort und Piste</td><td data-spalte="Warum">Davon hängen Standorte und Reichweiten-Test ab.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Zusage der Bergbahn</td><td data-spalte="Warum">Ohne sie gibt es weder Strom, WLAN noch Mitarbeiter für den Test.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Dürfen die Prototypen funken?</td><td data-spalte="Warum">Die Funkanlagen-Richtlinie erlaubt das Vorführen nicht konformer Geräte auf Messen unter Auflagen. Ob ein Testtag darunter fällt, wissen wir nicht. Das sollte vorher die Fernmeldebehörde beantworten.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Wer spielt die Mitarbeiter?</td><td data-spalte="Warum">Echtes Personal der Bergbahn oder das Team?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Haftung</td><td data-spalte="Warum">Was gilt, wenn sich jemand am Testtag auf den Chip verlässt?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Zielzeit für den Notruf</td><td data-spalte="Warum">Tobias soll sie festlegen, sonst lässt sich T22 nicht abschließend bewerten.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="lesen">
-        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Die Anzahl stammt aus dem Modell in <a href="kapitel-10.html#wieviele">Kapitel 10</a>, nicht aus einer Messung. Die Kosten wandern in das Buch von Tobias, hier stehen sie nur als Rahmen.</p>
-
-        <h2 id="reihenfolge" data-kurz="In welcher Reihenfolge">In welcher Reihenfolge</h2>
-        <ol>
-          <li><strong>Nach dem Test:</strong> Ergebnisse ins Buch, Reichweite und Akku sind gemessen.</li>
-          <li><strong>Frühjahr 2027:</strong> Tobias nennt die Zahl gleichzeitiger Chips. Danach fällt die Entscheidung über das Funkverfahren.</li>
-          <li><strong>Sommer 2027:</strong> Gespräche mit Bergrettung und Bergbahnen, Versuch mit dem gewählten Verfahren, rechtliche Prüfung.</li>
-          <li><strong>Herbst 2027:</strong> Gateways montieren, Reichweite im ganzen Gebiet messen.</li>
-          <li><strong>Saison 27/28:</strong> Start im Skigebiet.</li>
-        </ol>
-        <p>Die Termine für Sommer 2027 und die Saison stammen aus der Präsentation, die Schritte dazwischen sind unser Vorschlag.</p>
-
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
-          <p><strong>Fest:</strong> Das heutige Protokoll hat 5 Fenster in einem Kanal und 256 Chip-Nummern. Für hunderte Chips reicht das nicht, siehe <a href="kapitel-05.html">Kapitel 5</a>.</p>
-          <p><strong>Geschätzt:</strong> Allein die Geräte kosten bei 12 Gateways rund 6 500 €, dazu kommen Zubehör, Montage und Betrieb.</p>
-          <p><strong>Offen:</strong> Die Zahl gleichzeitiger Chips und damit die Wahl des Funkverfahrens.</p>
+          <p><strong>Fest:</strong> 5 Chips, 2 Gateways, eine Ladebox und die echte App, im Februar oder März 2027.</p>
+          <p><strong>Geschätzt:</strong> Die 25 Tests und ihre Bedingungen sind ein Vorschlag des Netzwerk-Teils. Durchgeführt ist noch keiner.</p>
+          <p><strong>Offen:</strong> Termin, Ort, Zusage der Bergbahn und die Frage, ob die Prototypen funken dürfen.</p>
         </div>
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
         <ul class="quellen">
-          <li><a href="https://lora-alliance.org/wp-content/uploads/2021/05/RP002-1.0.3-FINAL-1.pdf">LoRaWAN Regional Parameters RP002-1.0.3</a>, LoRa Alliance, 2021</li>
-          <li><a href="https://www.thethingsnetwork.org/docs/lorawan/frequency-plans/">The Things Network: Frequency Plans</a></li>
-          <li><a href="https://www.rtr.at/TKP/was_wir_tun/telekommunikation/spectrum/bands/5000MHz/EU_2022_180_de.pdf">Durchführungsbeschluss (EU) 2022/180</a>, Zeile 54, über die RTR</li>
-          <li><a href="https://www.etsi.org/deliver/etsi_en/300200_300299/30022002/03.02.01_60/en_30022002v030201p.pdf">ETSI EN 300 220-2 V3.2.1</a>, Tabelle der Teilbänder</li>
           <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
           <li>Pitch-Präsentation SkiTag, internes Dokument</li>
-          <li><a href="https://www.chirpstack.io/">ChirpStack</a>, quelloffener LoRaWAN-Netzwerk-Server</li>
-          <li><a href="https://iot-shop.de/en/shop/rak-7289-v2-wisgate-edge-pro-outdoor-lorawan-gateway-6007">RAK7289 V2</a>, Händlerseite</li>
-          <li><a href="https://thethingsnetwork.org/docs/lorawan/security">The Things Network: LoRaWAN-Sicherheit</a></li>
+          <li><a href="https://www.legislation.gov.uk/eudr/2014/53/article/9">Richtlinie 2014/53/EU, Art. 9</a>, Funkanlagen auf Messen</li>
         </ul>
       </div>
 
       <div class="blaettern">
-        <a href="kapitel-16.html">Zurück: Kapitel 16, Testplan Februar 2027</a>
-        <a href="kapitel-18.html">Weiter: Kapitel 18, Testen in der Schule</a>
+        <a href="kapitel-16.html">Zurück: Kapitel 16, Testen in der Schule</a>
+        <a href="kapitel-18.html">Weiter: Kapitel 18, Ausblick Serie</a>
       </div>
     </article>
   </main>

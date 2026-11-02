@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vom Knopfdruck zur App · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie ein Notruf vom SkiTag-Chip bis in die App der Bergbahn kommt.">
-<link rel="stylesheet" href="assets/book.css?v=40">
-<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
-<script src="assets/book.js?v=40" defer></script>
-<script src="assets/szene.js?v=40" defer></script>
-<script src="assets/signalweg.js?v=40" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=43">
+<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
+<script src="assets/book.js?v=43" defer></script>
+<script src="assets/szene.js?v=43" defer></script>
+<script src="assets/signalweg.js?v=43" defer></script>
 </head>
-<body data-station="knopf">
+<body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
   <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
@@ -19,8 +19,8 @@
   <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<header class="seil">
-  <a class="seil-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+<header class="streifen">
+  <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
 </header>
 
 <div class="buch">
@@ -42,7 +42,7 @@
     </details>
     <article>
       <h1>Vom Knopfdruck zur App</h1>
-      <p class="stand">Kapitel 1 · Stand 1. November 2026</p>
+      <p class="stand">Kapitel 1 · Stand 2. November 2026</p>
 
       <div class="lesen">
         <p class="einstieg">Jemand stürzt auf der Piste und kann nicht mehr weiterfahren. Die Person hat kein Handy dabei und hält den Knopf am Chip. Kurz darauf sieht ein Mitarbeiter der Bergbahn in seiner App einen roten Punkt mit dem genauen Ort. Dieses Buch erklärt alles, was dazwischen passiert.</p>
@@ -62,7 +62,7 @@
 
       <h2 id="signalweg" data-kurz="Der Weg eines Notrufs">Der Weg eines Notrufs</h2>
       <div class="lesen">
-        <p>Ein Notruf läuft in sechs Schritten. Oben am Seil siehst du, wo du gerade bist: Die Gondel fährt mit jedem Schritt eine Station weiter. Drück auf Start und geh Schritt für Schritt durch, oder sieh dir den ganzen Ablauf am Stück an. Bei jedem Schritt kannst du dir ansehen, was passiert, wenn dort etwas schiefgeht.</p>
+        <p>Ein Notruf läuft in sechs Schritten. Drück auf Start und geh Schritt für Schritt durch, oder sieh dir den ganzen Ablauf am Stück an. Bei jedem Schritt kannst du dir ansehen, was passiert, wenn dort etwas schiefgeht.</p>
       </div>
 
       <section class="signalweg" aria-label="Notruf Schritt für Schritt">
@@ -224,7 +224,7 @@
               </div>
               <div class="ausfall">
                 <h4>Wenn niemand reagiert</h4>
-                <p>Übernimmt der Mitarbeiter den Notruf 60 Sekunden lang nicht, geht er an den nächsten. Der ganze Zeitablauf steht in <a href="kapitel-07.html#eskalation">Kapitel 7</a>.</p>
+                <p>Übernimmt der Mitarbeiter den Notruf 60 Sekunden lang nicht, geht er an den nächsten. Der ganze Zeitablauf steht in <a href="kapitel-13.html#eskalation">Kapitel 13</a>.</p>
                 <p>Ist die letzte Position älter als 2 Minuten, wird sie als „alt“ markiert. Gibt es gar keine Position, nimmt der Server die des Gateways und markiert sie als „ungefähr“.</p>
               </div>
             </div>
@@ -317,6 +317,17 @@
         <h2 id="test" data-kurz="Der Test 2027">Der Test Anfang 2027</h2>
         <p>Die Prototypen sollen im Jänner 2027 fertig sein, der Testtag folgt im Februar oder März. Dabei sind 5 Chips, 2 Gateways an Bergstationen, ein Server und die echte App. Im Test sind die Gateways noch kleine Funkboards, für den Start im Skigebiet in der Saison 27/28 braucht es richtige Geräte.</p>
         <p>Die Software für Gateways und Server ist geschrieben, lief bisher aber nur am PC. Der Selbsttest des Servers besteht dort alle 58 Prüfungen, ein Simulator spielt 5 fahrende Chips. Auf echter Hardware lief sie noch nie.</p>
+
+        <h2 id="aufbau" data-kurz="Wie das Buch aufgebaut ist">Wie das Buch aufgebaut ist</h2>
+        <p>Das Buch folgt dem Weg des Signals. Jedes Kapitel setzt nur voraus, was davor steht, und nennt am Anfang, worauf es aufbaut. Verweise nach vorn zeigen nur, wo ein Thema später vertieft wird. Zum Verstehen braucht man sie nicht.</p>
+        <ul>
+          <li><strong>Grundlagen:</strong> Worum es geht und was das Netz können muss.</li>
+          <li><strong>Funk:</strong> Wie Chip und Gateway miteinander sprechen, in beide Richtungen.</li>
+          <li><strong>Gateways am Berg:</strong> Das Gerät, seine Reichweite, die Standorte, Strom und Netz.</li>
+          <li><strong>Server und App:</strong> Wo entschieden wird und wie es zum Menschen kommt.</li>
+          <li><strong>Notruf und Sicherheit:</strong> Alle Teile zusammen: Stufen eines Notrufs, Ausfälle, Angriffe und Datenschutz.</li>
+          <li><strong>Test und Serie:</strong> Von der Schule über den Testtag bis in den Betrieb.</li>
+        </ul>
       </div>
 
       <div class="blaettern">

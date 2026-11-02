@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Funkprotokoll · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie Chip, Gateway und Server über Funk miteinander sprechen: Pakete, Zeitfenster und Schutz.">
-<link rel="stylesheet" href="assets/book.css?v=40">
-<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
-<script src="assets/book.js?v=40" defer></script>
-<script src="assets/paket.js?v=40" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=43">
+<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
+<script src="assets/book.js?v=43" defer></script>
+<script src="assets/paket.js?v=43" defer></script>
 </head>
-<body data-station="chip">
+<body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
   <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
@@ -18,8 +18,8 @@
   <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<header class="seil">
-  <a class="seil-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+<header class="streifen">
+  <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
 </header>
 
 <div class="buch">
@@ -41,7 +41,8 @@
     </details>
     <article>
       <h1>Funkprotokoll</h1>
-      <p class="stand">Kapitel 4 · Stand 1. November 2026</p>
+      <p class="stand">Kapitel 4 · Stand 2. November 2026</p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-03.html">Kapitel 3</a></p>
 
       <div class="lesen">
         <p class="einstieg">Damit Chip und Server sich verstehen, müssen beide dieselbe Sprache sprechen: wie ein Paket aufgebaut ist, wann gesendet werden darf und wie man erkennt, dass eine Nachricht echt ist. Diese Sprache heißt Funkprotokoll.</p>
@@ -140,7 +141,7 @@
       <div class="lesen">
         <h2 id="zustellung" data-kurz="Wie nichts verloren geht">Wie nichts verloren geht</h2>
         <p>Funk ist unzuverlässig, also wiederholen beide Seiten. Ein Ereignis geht sofort raus, dann alle 4 bis 8 Sekunden, nach 6 Versuchen alle 15 bis 25 Sekunden, bis ein ACK kommt. Normale Ereignisse geben nach 8 Versuchen auf, ein Notruf nie.</p>
-        <p>Der Server versucht jeden Befehl bis zu sechsmal. Ob ein Befehl ankam, sieht er am letzten Byte im Uplink: Dort meldet der Chip den Zähler seines letzten Downlinks. Hören zwei Gateways dasselbe Paket, verwirft der Server das Duplikat an seinem Zähler. Was ACK und HELP genau bedeuten, legt <a href="kapitel-07.html#stufen">Kapitel 7</a> fest.</p>
+        <p>Der Server versucht jeden Befehl bis zu sechsmal. Ob ein Befehl ankam, sieht er am letzten Byte im Uplink: Dort meldet der Chip den Zähler seines letzten Downlinks. Hören zwei Gateways dasselbe Paket, verwirft der Server das Duplikat an seinem Zähler. Was ACK und HELP genau bedeuten, legt <a href="kapitel-13.html#stufen">Kapitel 13</a> fest.</p>
 
         <h2 id="schutz" data-kurz="Wie Pakete geschützt sind">Wie Pakete geschützt sind</h2>
         <p>Der Inhalt jedes Pakets ist verschlüsselt, und jedes Paket trägt einen Prüfwert, beides mit einem gemeinsamen Schlüssel von 128 Bit. Grundlage ist SipHash-2-4. SipHash selbst verschlüsselt aber nichts: Es ist eine Hash-Funktion mit Schlüssel, gedacht für Prüfwerte. Für die Verschlüsselung erzeugt es einen Schlüsselstrom, der per XOR mit dem Inhalt verknüpft wird. Das ist eine selbst gebaute <a href="kapitel-anhang.html#g-stromchiffre">Stromchiffre</a>.</p>
@@ -159,7 +160,7 @@
             <tr class="zeile-offen"><td>Ein Notruf sendet außerhalb seines Fensters.</td><td>Er kann mit dem Paket eines anderen Chips zusammenstoßen. Die Wiederholung fängt das ab, wie gut, zeigt erst der Test.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Alle Chips teilen sich einen Schlüssel.</td><td>Mietchips gehen durch viele Hände. Wer einen Chip ausliest, könnte alle lesen und fälschen. Vorschlag für den Betrieb: ein eigener Schlüssel pro Chip und ein geprüftes Verfahren wie <a href="kapitel-anhang.html#g-aes-ccm">AES-CCM</a>, siehe <a href="kapitel-15.html#serie-krypto">Kapitel 15</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Die Quittung <code>dlAck</code> ist nur 1 Byte groß.</td><td>Der Downlink-Zähler läuft mit 16 pro Sekunde, sein unterstes Byte wiederholt sich also alle 16 Sekunden. Ein zufällig gleicher Wert könnte einen verlorenen Befehl als angekommen melden. Das Risiko ist klein, aber bei HELP 1 unerwünscht.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Das Gateway erkennt keinen Notruf.</td><td>Das Ereignis ist verschlüsselt. Das Gateway kann Notrufe deshalb nicht vorziehen. <a href="kapitel-08.html#puffer">Kapitel 8</a> schlägt eine lesbare, vom Prüfwert abgedeckte Kennung vor.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Das Gateway erkennt keinen Notruf.</td><td>Das Ereignis ist verschlüsselt. Das Gateway kann Notrufe deshalb nicht vorziehen. <a href="kapitel-07.html#puffer">Kapitel 7</a> schlägt eine lesbare, vom Prüfwert abgedeckte Kennung vor.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Der Prüfwert ist nur 32 Bit lang.</td><td>LoRaWAN nutzt ebenfalls 32 Bit. NIST erlaubt so kurze Prüfwerte nur nach einer Risikoanalyse, siehe <a href="kapitel-15.html#serie-krypto">Kapitel 15</a>. Es hängt mit der Wahl der Verschlüsselung zusammen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Ein neu aufgespielter Chip beginnt wieder bei Zähler 0.</td><td>Wird der Flash gelöscht, hält der Server alle Pakete für alt. Vielleicht braucht die Ausgabe-Seite eine Funktion zum Zurücksetzen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Es gibt nur 5 feste Fenster in einem Kanal.</td><td>Mehr Chips passen so nicht in den Takt. Die Rechnung dazu steht in <a href="kapitel-05.html#fenster">Kapitel 5</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>

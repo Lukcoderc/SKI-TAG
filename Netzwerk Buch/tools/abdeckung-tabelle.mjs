@@ -1,5 +1,5 @@
-// Erzeugt die Tabellen in Kapitel 10 aus docs/assets/abdeckung-daten.js oder prüft sie.
-// node tools/abdeckung-tabelle.mjs             prüft, ob Kapitel 10 zu den Daten passt
+// Erzeugt die Tabellen in Kapitel 9 aus docs/assets/abdeckung-daten.js oder prüft sie.
+// node tools/abdeckung-tabelle.mjs             prüft, ob Kapitel 9 zu den Daten passt
 // node tools/abdeckung-tabelle.mjs --schreiben schreibt die Tabellen neu
 import { readFileSync, writeFileSync } from "node:fs";
 import vm from "node:vm";
@@ -29,7 +29,7 @@ const haupt = wahl(10, -115, 1).wahl;
 const reihe = haupt.map((k, i) => `            <tr><td>${i + 1}</td><td>${gateways[k].name}</td><td>${gateways[k].hoehe} m</td><td>${de(anteilMit(haupt.slice(0, i + 1), 10, -115))} %</td></tr>`);
 const ersatz = ZUSCHLAG.map((z) => `<tr><td>${dbText(z)}</td><td>${de(anteilMit(haupt, z, -115))} %</td><td>${de(anteilMit(haupt, z, -125))} %</td></tr>`).join("");
 
-const pfad = new URL("kapitel-10.html", docs);
+const pfad = new URL("kapitel-09.html", docs);
 const alt = readFileSync(pfad, "utf8").split(String.fromCharCode(13)).join("");
 const ersetze = (c, anker, text) => {
   const a = c.indexOf("<tbody>", c.indexOf(anker)), b = c.indexOf("</tbody>", a);
@@ -41,10 +41,10 @@ neu = ersetze(neu, 'class="tabelle nur-ohne-js"', `<tbody>${ersatz}`);
 
 if (process.argv.includes("--schreiben")) {
   writeFileSync(pfad, neu);
-  console.log("Kapitel 10 neu geschrieben.");
+  console.log("Kapitel 9 neu geschrieben.");
 } else if (neu === alt) {
-  console.log(`OK: Kapitel 10 passt zu den Daten (${gateways.length} Standorte, ${punkte.length} Punkte).`);
+  console.log(`OK: Kapitel 9 passt zu den Daten (${gateways.length} Standorte, ${punkte.length} Punkte).`);
 } else {
-  console.log("FEHLER: Kapitel 10 passt nicht zu abdeckung-daten.js.");
+  console.log("FEHLER: Kapitel 9 passt nicht zu abdeckung-daten.js.");
   process.exit(1);
 }

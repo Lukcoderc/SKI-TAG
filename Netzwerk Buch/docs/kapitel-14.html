@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ausfallsicherheit und Betrieb · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was passiert, wenn Teile des Netzes ausfallen, und wie der Betrieb überwacht wird.">
-<link rel="stylesheet" href="assets/book.css?v=40">
-<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
-<script src="assets/book.js?v=40" defer></script>
-<script src="assets/ausfall.js?v=40" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=43">
+<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
+<script src="assets/book.js?v=43" defer></script>
+<script src="assets/ausfall.js?v=43" defer></script>
 </head>
-<body data-station="server">
+<body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
   <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
@@ -18,8 +18,8 @@
   <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<header class="seil">
-  <a class="seil-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+<header class="streifen">
+  <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
 </header>
 
 <div class="buch">
@@ -41,7 +41,8 @@
     </details>
     <article>
       <h1>Ausfallsicherheit und Betrieb</h1>
-      <p class="stand">Kapitel 14 · Stand 1. November 2026</p>
+      <p class="stand">Kapitel 14 · Stand 2. November 2026</p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-07.html">Kapitel 7</a>, <a href="kapitel-11.html">Kapitel 11</a>, <a href="kapitel-12.html">Kapitel 12</a>, <a href="kapitel-13.html">Kapitel 13</a></p>
 
       <div class="lesen">
         <p class="einstieg">Ein Notruf-Netz wird nicht daran gemessen, wie es an guten Tagen läuft, sondern daran, was bei einem Ausfall geschieht. Dieses Kapitel geht jede Schwachstelle durch und zeigt, was die verletzte Person am Chip merkt.</p>
@@ -66,11 +67,11 @@
             <tr><td>WLAN an der Station</td><td data-spalte="Notruf">Das Gateway hört ihn und puffert bis zu 60 Pakete. Bei 5 Chips reicht das rund 4 Minuten. Erst wenn das Netz zurück ist, kommt er an.</td><td data-spalte="Am Chip">Warnt nach 90 Sekunden.</td><td data-spalte="Wer es merkt">Die Ausgabe-Seite zeigt das Gateway als „weg“.</td></tr>
             <tr><td>Strom an der Station</td><td data-spalte="Notruf">Wie beim Ausfall des Gateways. Der Inhalt des Puffers ist vermutlich verloren.</td><td data-spalte="Am Chip">Warnt nach 90 Sekunden, wenn kein anderes Gateway hört.</td><td data-spalte="Wer es merkt">Die Ausgabe-Seite zeigt das Gateway als „weg“.</td></tr>
             <tr><td>Server vor dem <a href="kapitel-anhang.html#g-ack">ACK</a></td><td data-spalte="Notruf">Kommt nicht an. Der Chip wiederholt weiter, nach dem Neustart kann er durchkommen.</td><td data-spalte="Am Chip">Warnt nach 90 Sekunden.</td><td data-spalte="Wer es merkt">Niemand automatisch. Auch die Ausgabe-Seite ist dann weg.</td></tr>
-            <tr><td>Server direkt nach dem ACK</td><td data-spalte="Notruf">Wird nicht dauerhaft gespeichert, ist er verloren. Der Chip wiederholt nicht mehr.</td><td data-spalte="Am Chip">Heute keine Warnung, der Chip hat ja ein ACK. Vorschlag: Warnung 180 s nach dem ersten Senden.</td><td data-spalte="Wer es merkt">Niemand. Das verhindert nur die Regel aus Kapitel 12: erst speichern, dann ACK.</td></tr>
+            <tr><td>Server direkt nach dem ACK</td><td data-spalte="Notruf">Wird nicht dauerhaft gespeichert, ist er verloren. Der Chip wiederholt nicht mehr.</td><td data-spalte="Am Chip">Heute keine Warnung, der Chip hat ja ein ACK. Vorschlag: Warnung 180 s nach dem ersten Senden.</td><td data-spalte="Wer es merkt">Niemand. Das verhindert nur die Regel aus Kapitel 11: erst speichern, dann ACK.</td></tr>
             <tr><td>Stromausfall am Server</td><td data-spalte="Notruf">Wie bei einem Absturz. Nach dem Neustart muss der Server offene Notrufe wieder aufnehmen.</td><td data-spalte="Am Chip">Warnt nach 90 Sekunden, solange kein ACK kam.</td><td data-spalte="Wer es merkt">Niemand automatisch.</td></tr>
             <tr><td>Internet am Server</td><td data-spalte="Notruf">Erreicht das Gateway den Server noch, nimmt er den Notruf an. Die Apps bekommen ihn aber nicht.</td><td data-spalte="Am Chip">Der Chip bekommt ein ACK und warnt heute deshalb nicht. Vorschlag: Warnung 180 s nach dem ersten Senden.</td><td data-spalte="Wer es merkt">Niemand. Das ist die gefährlichste Lücke.</td></tr>
             <tr><td>App geschlossen oder Handy ohne Netz</td><td data-spalte="Notruf">Der Server wartet heute 60 Sekunden, dann ist der nächste Mitarbeiter dran. Er merkt nicht, dass nichts ankam. Vorschlag: Weitergabe nach 15 s ohne Zustellung.</td><td data-spalte="Am Chip">Hat ein ACK, aber kein HELP 1. Er zeigt also keine Übernahme. Vorschlag: Warnung 180 s nach dem ersten Senden.</td><td data-spalte="Wer es merkt">Niemand, solange noch ein Mitarbeiter übrig ist.</td></tr>
-            <tr><td>Niemand übernimmt</td><td data-spalte="Notruf">Was nach dem letzten Mitarbeiter geschieht, ist nicht festgelegt.</td><td data-spalte="Am Chip">Kein HELP 1. Vorschlag: Warnung 180 s nach dem ersten Senden.</td><td data-spalte="Wer es merkt">Nicht geregelt. Vorschlag: Zeitablauf aus Kapitel 7, der Leitstand erfährt es bei T0 + 120 s.</td></tr>
+            <tr><td>Niemand übernimmt</td><td data-spalte="Notruf">Was nach dem letzten Mitarbeiter geschieht, ist nicht festgelegt.</td><td data-spalte="Am Chip">Kein HELP 1. Vorschlag: Warnung 180 s nach dem ersten Senden.</td><td data-spalte="Wer es merkt">Nicht geregelt. Vorschlag: Zeitablauf aus Kapitel 13, der Leitstand erfährt es bei T0 + 120 s.</td></tr>
             <tr><td>GPS-Empfang</td><td data-spalte="Notruf">Kommt an, mit der Position des Gateways, markiert als „ungefähr“.</td><td data-spalte="Am Chip">Sendet weiter, ohne eigene Uhrzeit etwas zufällig versetzt.</td><td data-spalte="Wer es merkt">Der Mitarbeiter sieht, dass die Position ungefähr ist, wenn die App es anzeigt.</td></tr>
           </tbody>
         </table>
@@ -90,9 +91,9 @@
         <p>Der schlimmste Fall ist nicht das Schweigen, sondern die falsche Sicherheit: Der Server bestätigt, aber kein Mensch hat den Notruf. Das System darf nie so tun, als wäre jemand alarmiert. Wir schlagen dafür vier Regeln vor:</p>
         <ol>
           <li><strong>Am Chip zählt nur HELP.</strong> Ein ACK stoppt die schnellen Wiederholungen, zeigt aber nie „Hilfe kommt“.</li>
-          <li><strong>Eine zweite Frist am Chip.</strong> Fehlt HELP 1 noch 180 Sekunden nach dem ersten Senden, warnt der Chip, auch wenn ein ACK kam. Nur HELP 1 beendet eine Warnung, siehe <a href="kapitel-07.html#eskalation">Zeitablauf in Kapitel 7</a>.</li>
+          <li><strong>Eine zweite Frist am Chip.</strong> Fehlt HELP 1 noch 180 Sekunden nach dem ersten Senden, warnt der Chip, auch wenn ein ACK kam. Nur HELP 1 beendet eine Warnung, siehe <a href="kapitel-13.html#eskalation">Zeitablauf in Kapitel 13</a>.</li>
           <li><strong>Der Server prüft seine Zuhörer.</strong> Ist keine Mitarbeiter-App erreichbar, ist das eine Störung und wird sofort gemeldet, siehe <a href="#infrastruktur">Störungen der Alarmierung</a>.</li>
-          <li><strong>Erst speichern, dann ACK.</strong> Siehe <a href="kapitel-12.html#speichern">Kapitel 12</a>.</li>
+          <li><strong>Erst speichern, dann ACK.</strong> Siehe <a href="kapitel-11.html#speichern">Kapitel 11</a>.</li>
         </ol>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Regel 1 und 2 ändern die Chip-Software und gehören zu Maximilian, Regel 3 und 4 zum Server. Wie ein ACK heute am Chip aussieht, ist nicht beschrieben.</p>
 
@@ -113,7 +114,7 @@
         <p class="nach-tabelle">Für ein Notruf-Versprechen zählt die dritte Stufe. Am einfachsten wäre ein Notfall-Empfänger in der Pistenrettung: ein Gateway mit Bildschirm oder Summer, das Notrufe direkt aus der Luft hört und anzeigt, ganz ohne Server. Es braucht dafür den Schlüssel, eine Änderung der Gateway-Software und rund 56 € Material. Welche Bedeutung gilt, müssen Tobias und Lukas mit Blick auf das Geschäftsmodell entscheiden.</p>
 
         <h2 id="infrastruktur" data-kurz="Störungen der Alarmierung">Störungen der Alarmierung</h2>
-        <p>Es gibt zwei getrennte Regeln. Der <a href="kapitel-07.html#eskalation">Zeitablauf in Kapitel 7</a> gilt für einen einzelnen Notruf, und dort erfährt der Leitstand nach 120 Sekunden davon. Die Regeln hier gelten für Störungen der Technik selbst. Sie laufen unabhängig von jedem Notruf und melden sofort, damit niemand erst beim nächsten Unfall merkt, dass etwas fehlt. Alles ist ein Vorschlag, gebaut ist nur die Anzeige „weg“ auf der Ausgabe-Seite.</p>
+        <p>Es gibt zwei getrennte Regeln. Der <a href="kapitel-13.html#eskalation">Zeitablauf in Kapitel 13</a> gilt für einen einzelnen Notruf, und dort erfährt der Leitstand nach 120 Sekunden davon. Die Regeln hier gelten für Störungen der Technik selbst. Sie laufen unabhängig von jedem Notruf und melden sofort, damit niemand erst beim nächsten Unfall merkt, dass etwas fehlt. Alles ist ein Vorschlag, gebaut ist nur die Anzeige „weg“ auf der Ausgabe-Seite.</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
@@ -130,7 +131,7 @@
       </div>
       <div class="lesen">
         <h2 id="rettung" data-kurz="Technik ist noch keine Rettung">Technik ist noch keine Rettung</h2>
-        <p>Selbst wenn alle Tests aus <a href="kapitel-16.html">Kapitel 16</a> bestanden sind, ist nur belegt, dass die Technik funktioniert. Ein einsatzbereiter Rettungsablauf braucht mehr, und das kann keine Software liefern:</p>
+        <p>Selbst wenn alle Tests aus <a href="kapitel-17.html">Kapitel 17</a> bestanden sind, ist nur belegt, dass die Technik funktioniert. Ein einsatzbereiter Rettungsablauf braucht mehr, und das kann keine Software liefern:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
@@ -163,10 +164,10 @@
         <table class="stapel">
           <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
           <tbody>
-            <tr class="zeile-offen"><td>Überlappen sich die Gateways?</td><td data-spalte="Warum">Nur dann ersetzt eines das andere. <a href="kapitel-10.html#wieviele">Kapitel 10</a> zeigt, was das kostet.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Überlappen sich die Gateways?</td><td data-spalte="Warum">Nur dann ersetzt eines das andere. <a href="kapitel-09.html#wieviele">Kapitel 9</a> zeigt, was das kostet.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Wer wird benachrichtigt?</td><td data-spalte="Warum">Ohne Bereitschaft nützt die beste Überwachung nichts.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
                         <tr class="zeile-offen"><td>Gesamtausfall</td><td data-spalte="Warum">Fällt alles aus, braucht die Bergbahn einen Hinweis an die Gäste, dass SkiTag nicht verfügbar ist.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Puffer im Gateway</td><td data-spalte="Warum">Für hunderte Chips reichen 60 Pakete nicht, und Vorrang für Notrufe ist heute nicht möglich. <a href="kapitel-08.html#puffer">Kapitel 8</a> schlägt drei Klassen vor.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Puffer im Gateway</td><td data-spalte="Warum">Für hunderte Chips reichen 60 Pakete nicht, und Vorrang für Notrufe ist heute nicht möglich. <a href="kapitel-07.html#puffer">Kapitel 7</a> schlägt drei Klassen vor.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
       </div>
@@ -187,7 +188,7 @@
       </div>
 
       <div class="blaettern">
-        <a href="kapitel-13.html">Zurück: Kapitel 13, Schnittstelle zur App</a>
+        <a href="kapitel-13.html">Zurück: Kapitel 13, SOS: Vorrang und Fehlalarme</a>
         <a href="kapitel-15.html">Weiter: Kapitel 15, Sicherheit und Datenschutz</a>
       </div>
     </article>

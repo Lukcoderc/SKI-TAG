@@ -40,7 +40,7 @@ const AUSFAELLE = [
     "name": "Server direkt nach dem ACK",
     "notruf": "Wird nicht dauerhaft gespeichert, ist er verloren. Der Chip wiederholt nicht mehr.",
     "chip": "Heute keine Warnung, der Chip hat ja ein ACK. Vorschlag: Warnung 180 s nach dem ersten Senden.",
-    "wer": "Niemand. Das verhindert nur die Regel aus Kapitel 12: erst speichern, dann ACK."
+    "wer": "Niemand. Das verhindert nur die Regel aus Kapitel 11: erst speichern, dann ACK."
   },
   {
     "name": "Stromausfall am Server",
@@ -64,7 +64,7 @@ const AUSFAELLE = [
     "name": "Niemand übernimmt",
     "notruf": "Was nach dem letzten Mitarbeiter geschieht, ist nicht festgelegt.",
     "chip": "Kein HELP 1. Vorschlag: Warnung 180 s nach dem ersten Senden.",
-    "wer": "Nicht geregelt. Vorschlag: Zeitablauf aus Kapitel 7, der Leitstand erfährt es bei T0 + 120 s."
+    "wer": "Nicht geregelt. Vorschlag: Zeitablauf aus Kapitel 13, der Leitstand erfährt es bei T0 + 120 s."
   },
   {
     "name": "GPS-Empfang",

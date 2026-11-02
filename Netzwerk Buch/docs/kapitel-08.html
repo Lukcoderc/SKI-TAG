@@ -3,13 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Die Gateways · SkiTag Netzwerk-Buch</title>
-<meta name="description" content="Welche Hardware die Gateways im Test nutzen, wie ihre Software aufgebaut ist und wie sie aufgestellt werden.">
-<link rel="stylesheet" href="assets/book.css?v=40">
-<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
-<script src="assets/book.js?v=40" defer></script>
+<title>Reichweite im Gelände · SkiTag Netzwerk-Buch</title>
+<meta name="description" content="Was die Reichweite von LoRa am Berg bestimmt und wie SkiTag sie misst.">
+<link rel="stylesheet" href="assets/book.css?v=43">
+<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
+<script src="assets/book.js?v=43" defer></script>
+<script src="assets/funk.js?v=43" defer></script>
+<script src="assets/funkstrecke.js?v=43" defer></script>
 </head>
-<body data-station="empfaenger">
+<body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
   <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
@@ -17,8 +19,8 @@
   <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<header class="seil">
-  <a class="seil-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+<header class="streifen">
+  <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
 </header>
 
 <div class="buch">
@@ -39,127 +41,111 @@
       <ol></ol>
     </details>
     <article>
-      <h1>Die Gateways</h1>
-      <p class="stand">Kapitel 8 · Stand 1. November 2026</p>
+      <h1>Reichweite im Gelände</h1>
+      <p class="stand">Kapitel 8 · Stand 2. November 2026</p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-03.html">Kapitel 3</a>, <a href="kapitel-07.html">Kapitel 7</a></p>
 
       <div class="lesen">
-        <p class="einstieg">Zwischen Chip und Server steht das Gateway: ein kleines Funkboard, das Notrufe hört und über WLAN weiterreicht. Dieses Kapitel zeigt, welche Hardware das im Test ist, wie die Software darauf aufgebaut ist, und wie die zwei Geräte aufgestellt werden.</p>
-        <p>Wie viele Gateways ein ganzes Skigebiet braucht und wo genau sie stehen sollen, klären erst Kapitel 9 bis 11. Hier geht es nur um das einzelne Gerät.</p>
+        <p class="einstieg">Wie weit kommt ein Chip am Berg? Eine einzelne Zahl gibt es dafür nicht. Über freie Täler reicht das Signal viele Kilometer, hinter einem Grat manchmal nur wenige hundert Meter. Dieses Kapitel erklärt, was die Reichweite bestimmt, und wie wir sie messen.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Gemessen ist bei KitzSki noch nichts. Alle Zahlen hier sind Rechnungen oder Schätzungen, bis der Reichweiten-Test sie bestätigt.</p>
 
-        <h2 id="hardware" data-kurz="Die Hardware im Test">Die Hardware im Test</h2>
-        <p>Für den Test braucht ein Gateway nur drei Teile, zusammen knapp 56€:</p>
+        <h2 id="budget" data-kurz="Was das Signal verlieren darf">Was das Signal verlieren darf</h2>
+        <p>Der Chip sendet mit 20 dBm, das Gateway versteht bei <a href="kapitel-anhang.html#g-sf9">SF9</a> noch rund −129 dBm. Das sind die 149 dB aus <a href="kapitel-03.html#reichweite">Kapitel 3</a>, mit den 3 dBi der Gateway-Antenne rund 152 dB. Davon lebt die Reichweite: Jedes Hindernis nimmt sich einen Teil davon.</p>
+        <p>Die Übergabe setzt dafür zwei Schwellen: Ab −115 dBm gilt der Empfang als gut, ab −125 dBm als knapp. Für einen Notruf zählt „gut“, denn etwas Reserve braucht es immer.</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
-          <thead><tr><th scope="col">Teil</th><th scope="col">Menge</th><th scope="col">Wofür</th></tr></thead>
+          <thead><tr><th scope="col">Was dazwischenliegt</th><th scope="col">Verlust</th><th scope="col">Herkunft</th></tr></thead>
           <tbody>
-            <tr><td data-spalte="Teil">Heltec WiFi LoRa 32 <strong>V3</strong>, 868 MHz (ESP32-S3 + SX1262, kleiner Bildschirm)</td><td data-spalte="Menge">2</td><td data-spalte="Wofür">hört die Chips, reicht die Pakete über WLAN an den Server weiter</td></tr>
-            <tr><td data-spalte="Teil">Stabantenne 868 MHz, 3 dBi (SMA), mit Adapterkabel IPEX auf SMA</td><td data-spalte="Menge">2</td><td data-spalte="Wofür">mehr Reichweite als die beigelegte Antenne</td></tr>
-            <tr><td data-spalte="Teil">USB-C-Netzteil 5V, 2A, mit 2m-Kabel</td><td data-spalte="Menge">2</td><td data-spalte="Wofür">Strom an der Station</td></tr>
+            <tr><td>Freie Strecke, 1 km</td><td data-spalte="Verlust">91 dB</td><td data-spalte="Herkunft">Rechnung</td></tr>
+            <tr><td>Freie Strecke, 5 km</td><td data-spalte="Verlust">105 dB</td><td data-spalte="Herkunft">Rechnung</td></tr>
+            <tr><td>Freie Strecke, 15 km</td><td data-spalte="Verlust">115 dB</td><td data-spalte="Herkunft">Rechnung</td></tr>
+            <tr><td>Grat, 50 m über der Sichtlinie, Mitte von 5 km</td><td data-spalte="Verlust">rund 23 dB zusätzlich</td><td data-spalte="Herkunft">Rechnung, Kantenbeugung nach ITU-R P.526</td></tr>
+            <tr><td>Chip 100 m tief im Wald</td><td data-spalte="Verlust">rund 13 dB zusätzlich</td><td data-spalte="Herkunft">ITU-R P.833, Richtwert bei 949 MHz, mehr als 26,5 dB werden es nicht</td></tr>
+            <tr class="zeile-offen"><td>Eigener Körper und Schnee über dem Chip</td><td data-spalte="Verlust">Keine belastbare Zahl gefunden</td><td class="stand-zelle" data-spalte="Stand"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
       </div>
-      <div class="lesen">
-        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Fest"><use href="#mark-fest"/></svg>Fest. Es ist ausdrücklich die Version V3, <strong>nicht V4</strong>: Die Gateway-Software ist für den V3-Chipsatz gebaut.</p>
 
-        <h2 id="software" data-kurz="Wie die Software aufgebaut ist">Wie die Software aufgebaut ist</h2>
-        <p>Der folgende Abschnitt beschreibt die Software laut Übergabe. Sie liegt weder in diesem Repository noch uns vor und ist nicht geprüft, siehe <a href="kapitel-anhang.html#nachweis">Was geprüft ist</a>. Laut Übergabe liegt die Gateway-Software im Paket <code>skitag-test.zip</code> im Ordner <code>firmware/skitag_empfaenger</code>, kompiliert mit ESP32-Core 3.0.7 für das Board „Heltec WiFi LoRa 32(V3)“, mit den Bibliotheken RadioLib, ArduinoJson und U8g2. Eingestellt wird sie über <code>config.h</code>: ein Name (E1, E2), bis zu drei WLANs (etwa ein Hütten-WLAN und ein Handy-Hotspot als Rückfall), die Server-Adresse, ein eigenes Gateway-Passwort und die Funkeinstellungen, die exakt zu denen des Chips passen müssen.</p>
+      <div class="lesen">
+        <p class="nach-tabelle">Die Strecke selbst ist also fast harmlos. Zwischen 5 und 15 km liegen nur 10 dB, ein einzelner Grat kostet mehr als doppelt so viel. Darum entscheidet das Gelände, nicht der Abstand.</p>
+
+        <h2 id="fresnel" data-kurz="Warum freie Sicht nicht reicht">Warum freie Sicht nicht reicht</h2>
+        <p>Funk läuft nicht auf einer dünnen Linie. Rund um die Sichtlinie braucht das Signal Platz, die sogenannte <a href="kapitel-anhang.html#g-fresnel-zone">Fresnel-Zone</a>. Bei 869 MHz und 10 km Strecke reicht sie in der Mitte rund 29 Meter um die Sichtlinie herum, ist also rund 59 Meter dick. Rund 18 Meter um die Linie sollten frei bleiben. Ein Chip, der knapp über eine Kuppe sieht, verliert also schon, obwohl man das Gateway sehen könnte.</p>
+        <p>Das gilt auch umgekehrt: Hinter einem Grat ist nicht sofort Schluss. Ein Teil des Signals biegt sich über die Kante. Das zeigte auch die Studie aus <a href="kapitel-03.html#reichweite">Kapitel 3</a>: In einer Schlucht kamen am Körper getragene Sender noch 300 Meter weit, weit weniger als im Flachen, aber nicht null.</p>
+
+        <h2 id="rechner" data-kurz="Eine Strecke selbst rechnen">Eine Strecke selbst rechnen</h2>
+        <p>Probiere aus, was einzelne Hindernisse ausmachen. Der Zuschlag steht für alles, was wir nicht kennen: Körper, Schnee, schlechte Lage der Antenne.</p>
       </div>
-      <div class="tabelle">
-        <table class="stapel">
-          <thead><tr><th scope="col">Teil der Software</th><th scope="col">Aufgabe</th></tr></thead>
-          <tbody>
-            <tr><td data-spalte="Teil">Funk, auf Kern 1</td><td data-spalte="Aufgabe">nimmt nur echte SkiTag-Pakete an (0xA7, 27 Byte), reicht sie über eine Warteschlange weiter, muss nie auf das Netz warten</td></tr>
-            <tr><td data-spalte="Teil">Netz, auf Kern 0</td><td data-spalte="Aufgabe">schickt jedes Paket mit <a href="kapitel-anhang.html#g-rssi">RSSI</a>, SNR und Alter als <code>POST /gw/up</code> mit Bearer-Passwort an den Server; die Antwort enthält die Downlinks, die dann gesendet werden</td></tr>
-            <tr><td data-spalte="Teil">Puffer</td><td data-spalte="Aufgabe">fällt das WLAN kurz aus, sammelt das Gateway bis zu 60 Pakete, statt sie zu verwerfen</td></tr>
-            <tr><td data-spalte="Teil">Lebenszeichen</td><td data-spalte="Aufgabe">kommen keine neuen Pakete, meldet sich das Gateway trotzdem alle 10 Sekunden am Server</td></tr>
-            <tr><td data-spalte="Teil">Bildschirm</td><td data-spalte="Aufgabe">zeigt WLAN-Status, Server ok oder Fehler, Paketzähler und den zuletzt gehörten Chip mit Signalstärke</td></tr>
-          </tbody>
+
+      <section class="rechner" aria-label="Rechner für eine Funkstrecke">
+        <div class="rechner-regler"><label for="str-km">Abstand: <output id="str-km-wert"></output></label><input id="str-km" type="range" min="0.2" max="20" step="0.2" value="5"></div>
+        <div class="rechner-regler"><label for="str-grat">Grat in der Mitte, über der Sichtlinie: <output id="str-grat-wert"></output></label><input id="str-grat" type="range" min="-30" max="150" step="5" value="-30"></div>
+        <div class="rechner-regler"><label for="str-wald">Chip so tief im Wald: <output id="str-wald-wert"></output></label><input id="str-wald" type="range" min="0" max="300" step="10" value="0"></div>
+        <div class="rechner-regler"><label for="str-zuschlag">Zuschlag, geschätzt: <output id="str-zuschlag-wert"></output></label><input id="str-zuschlag" type="range" min="0" max="20" step="1" value="10"></div>
+        <dl class="rechner-werte">
+          <div><dt>Freie Strecke</dt><dd id="str-frei"></dd></div>
+          <div><dt>Grat</dt><dd id="str-beugung"></dd></div>
+          <div><dt>Am Gateway</dt><dd id="str-pegel"></dd></div>
+          <div><dt>Empfang</dt><dd id="str-urteil"></dd></div>
+        </dl>
+        <p class="rechner-text" id="str-text"></p>
+      </section>
+      <div class="tabelle nur-ohne-js">
+        <table>
+          <thead><tr><th scope="col">Beispiel mit 10 dB Zuschlag</th><th scope="col">Am Gateway</th></tr></thead>
+          <tbody><tr><td>5 km frei</td><td>rund −92 dBm</td></tr><tr><td>5 km mit Grat, 50 m über der Sichtlinie</td><td>rund −116 dBm</td></tr><tr><td>15 km mit Grat, Chip 100 m im Wald</td><td>rund −133 dBm</td></tr></tbody>
         </table>
       </div>
-      <div class="lesen">
-        <p class="nach-tabelle">Die Verbindung zum Server läuft über TLS mit den ISRG-Stammzertifikaten von Let's Encrypt. Bleibt das Gateway 60 Sekunden ohne Reaktion stehen, startet ein Watchdog es neu.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Entschieden, aber am PC geschrieben. Laut Übergabe ist diese Software fertig, lief aber noch nie auf echter Hardware. Erst der Test mit den gelieferten Heltec-Boards zeigt, ob sie auf dem Board so läuft wie geplant.</p>
 
-        <h2 id="puffer" data-kurz="Puffer und Vorrang">Puffer und Vorrang</h2>
-        <p>Ist das WLAN weg, hält das Gateway laut Übergabe bis zu 60 Pakete zurück, je Paket 27 Byte plus RSSI, SNR und Alter. Was bei vollem Puffer verworfen wird, steht nicht in unseren Unterlagen. Wie schnell er voll ist, hängt davon ab, wie viele Pakete ein Gateway überhaupt dekodieren kann:</p>
-      </div>
-      <div class="tabelle">
-        <table class="stapel">
-          <thead><tr><th scope="col">Lage</th><th scope="col">Pakete pro Sekunde</th><th scope="col">60 Pakete voll nach</th></tr></thead>
-          <tbody>
-            <tr><td>5 Chips, alle 20 s</td><td data-spalte="Pakete/s">0,25</td><td data-spalte="Voll nach">rund 4 Minuten</td></tr>
-            <tr><td>Ein Kanal, bestmögliche Nutzung ohne Fenster</td><td data-spalte="Pakete/s">rund 0,8</td><td data-spalte="Voll nach">rund 74 Sekunden</td></tr>
-            <tr><td>Ein Kanal, lückenlos belegt</td><td data-spalte="Pakete/s">rund 4,4</td><td data-spalte="Voll nach">rund 14 Sekunden</td></tr>
-            <tr><td>8 Kanäle, je bestmöglich ohne Fenster</td><td data-spalte="Pakete/s">rund 6,5</td><td data-spalte="Voll nach">rund 9 Sekunden</td></tr>
-            <tr><td>500 Chips alle 20 s, jedes Paket empfangen</td><td data-spalte="Pakete/s">25</td><td data-spalte="Voll nach">rund 2,4 Sekunden</td></tr>
-          </tbody>
-        </table>
-      </div>
       <div class="lesen">
-        <p class="nach-tabelle">Gerechnet, nicht gemessen. Die 25 Pakete sind nur eine Obergrenze: Auf einem Kanal mit 226 ms pro Paket passen höchstens 4,4 Pakete pro Sekunde. Bei 500 Chips ist also schon der Kanal das Problem, siehe <a href="kapitel-05.html">Kapitel 5</a>. Für 5 Chips reichen 60 Pakete, für hunderte Chips nicht, egal wie viele Kanäle es gibt.</p>
-        <p>Für den Betrieb schlagen wir deshalb einen Puffer in drei Klassen vor, den das Gateway ohne Schlüssel führen kann:</p>
-      </div>
-      <div class="tabelle">
-        <table class="stapel">
-          <thead><tr><th scope="col">Klasse</th><th scope="col">Inhalt</th><th scope="col">Speicher</th><th scope="col">Bei Platzmangel</th></tr></thead>
-          <tbody>
-            <tr><td>1, kritisch</td><td data-spalte="Inhalt">Pakete mit Notruf-Kennung im Kopf</td><td data-spalte="Speicher">Eigener Bereich, je Chip nur das neueste, höchstens 32 Plätze</td><td data-spalte="Platzmangel">Das älteste Paket fällt weg. Ein echter Notruf kommt mit der nächsten Wiederholung wieder hinein.</td></tr>
-            <tr><td>2, Ereignis</td><td data-spalte="Inhalt">Pakete mit Ereignis-Kennung, etwa Gruppenruf</td><td data-spalte="Speicher">Eigener Bereich, höchstens 64 Plätze</td><td data-spalte="Platzmangel">Ältestes zuerst. Der Chip wiederholt ohnehin bis zum ACK.</td></tr>
-            <tr><td>3, Position</td><td data-spalte="Inhalt">Normale Positionen</td><td data-spalte="Speicher">Je Chip nur die neueste, erkannt an Chip-Nummer und Zähler</td><td data-spalte="Platzmangel">Überschreibt die ältere Position desselben Chips</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="lesen">
-        <p class="nach-tabelle">Gesendet wird in dieser Reihenfolge. Bei 500 Chips und rund 40 Byte je Eintrag braucht Klasse 3 rund 20 KB Speicher. Das ist nur eine Überschlagsrechnung, nicht auf dem Board geprüft.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Damit das geht, braucht das Paket eine lesbare Kennung für die Klasse, denn das Ereignis selbst ist verschlüsselt. Diese Kennung wird vom Prüfwert mit abgedeckt, den nur der Server prüfen kann. Das Gateway hat keinen Schlüssel und soll auch keinen bekommen, weil es zugänglich steht. Es behandelt die Kennung also nur als Hinweis:</p>
-        <ul>
-          <li>Ein gefälschtes Notruf-Paket löst keinen Alarm aus, denn der Server verwirft es am Prüfwert.</li>
-          <li>Eine Flut gefälschter Pakete kann höchstens Klasse 1 füllen. Die feste Platzzahl je Chip und Klasse begrenzt das, Klasse 2 und 3 bleiben unberührt.</li>
-          <li>Echte Notrufe überstehen das, weil der Chip bis zum ACK wiederholt. Gegen Störsender hilft das nicht.</li>
-          <li>Die Kennung verrät Mithörenden, dass ein Notruf läuft. Inhalt und Position bleiben verschlüsselt.</li>
-        </ul>
-        <p>Bei Stromausfall ist der Puffer weg. Das verliert keinen bestätigten Notruf, denn das Gateway gibt nie ein ACK. Ein Notruf im Puffer ist also unbestätigt, und der Chip wiederholt ihn. Dauerhaft gespeichert wird deshalb nur am Server, im Gateway nicht. Der Flash-Speicher würde das auch nicht lange aushalten.</p>
-
-        <h2 id="aufstellung-test" data-kurz="Aufstellung im Test">Aufstellung im Test</h2>
-        <p>Für den Test kommt ein Gateway jeweils innen an ein Fenster einer Bergstation, möglichst hoch, mit senkrechter Antenne und Blick auf die Pisten. Strom und WLAN liefert die Station selbst, vorher muss geklärt sein, ob das dort genutzt werden darf.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Geschätzt. Diese Aufstellung ist ein erster Plan, nicht gemessen: Wärmeschutzglas kann Funk stark dämpfen, eine Antenne außerhalb des Fensters wäre besser. Ob das an den Bergstationen so möglich ist, klärt Kapitel 11.</p>
-
-        <h2 id="mehrere-gateways" data-kurz="Wenn mehrere Gateways gleichzeitig hören">Wenn mehrere Gateways gleichzeitig hören</h2>
-        <p>Hören beide Gateways denselben Chip, verwirft der Server das doppelte Paket über den Zähler, siehe <a href="kapitel-04.html">Kapitel 4</a>. Für Befehle an den Chip merkt sich der Server, welches Gateway ihn in den letzten 15 Minuten am besten empfangen hat, und schickt den <a href="kapitel-anhang.html#g-downlink">Downlink</a> über genau dieses.</p>
+        <h2 id="unbekannt" data-kurz="Was wir noch nicht wissen">Was wir noch nicht wissen</h2>
       </div>
       <div class="tabelle">
         <table class="stapel">
           <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
           <tbody>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Fällt ein Gateway aus, passiert nichts automatisch.</td><td data-spalte="Warum">Die Ausgabe-Seite zeigt es nach 30 Sekunden nur als „weg“. Soll jemand benachrichtigt werden, und überlappen sich die Gateways so, dass einer den anderen ersetzen kann?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Die Software lief noch nie auf echter Hardware.</td><td data-spalte="Warum">Erprobt sind nur Simulator und PC. Erst das Flashen und der Test mit Maximilians Muster-Chip zeigen, ob Funk, WLAN-Wechsel und Watchdog auf dem Board wie geplant arbeiten.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Uhrzeit und Stammzertifikate im Gateway.</td><td data-spalte="Warum">Um ein Zertifikat zu prüfen, braucht das Gateway eine richtige Uhrzeit, und die Stammzertifikate stehen fest in <code>zertifikate.h</code>. Wechselt Let's Encrypt seine Stammzertifikate, braucht das Gateway neue Software. Wie die Software das löst, wissen wir nicht.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Zertifikat für den eigenen Server bei KitzSki.</td><td data-spalte="Warum">DuckDNS war für den ursprünglich gemieteten Cloud-Server gedacht. Steht der Server stattdessen vor Ort bei KitzSki, braucht das Gateway eine Lösung für DNS und Zertifikat, um sich sicher zu melden. Näher dazu in Kapitel 12.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Dämpfung durch den eigenen Körper</td><td data-spalte="Warum">Der Chip steckt in der Jacke. Liegt jemand darauf, kann ein großer Teil des Signals verloren gehen. Eine Messung bei 868 MHz auf einer Fähre fand je nach Lage am Körper Unterschiede von mehr als rund 5 dB im Mittel. Auf eine liegende Person im Schnee lässt sich das nicht übertragen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Dämpfung durch Schnee</td><td data-spalte="Warum">Bei einem Sturz oder einer Lawine liegt Schnee über dem Chip. Für 868 MHz wurde keine verlässliche Angabe gefunden, nasser Schnee dämpft vermutlich stärker als trockener.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Wald im Winter</td><td data-spalte="Warum">Der ITU-Wert stammt aus einem Mischwald bei St. Petersburg und aus Messungen bei 949 MHz. Fichten im Schnee sind nicht gemessen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Antenne des Chips</td><td data-spalte="Warum">Die kleine FPC-Antenne in der Jacke ist schlechter als eine freie Antenne. Das Modell rechnet mit 0 dBi.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Fenster der Station</td><td data-spalte="Warum">Wärmeschutzglas kann Funk stark dämpfen. Eine Antenne außen wäre besser, siehe Kapitel 10.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="lesen">
+        <h2 id="messen" data-kurz="Wie wir messen">Wie wir messen</h2>
+        <p>Rechnen ersetzt das Messen nicht, es sagt nur, wo man genau hinschauen sollte. Der Reichweiten-Test läuft so:</p>
+        <ol>
+          <li>Die zwei Gateways stehen an ihren Plätzen, das Funk-Protokoll zeichnet jedes Paket mit <a href="kapitel-anhang.html#g-rssi">RSSI</a> auf.</li>
+          <li>Jemand fährt mit dem Chip in der Jacke einen Tag lang die Teststrecke ab. Das ganze Gebiet lässt sich so nicht messen, dafür braucht es später mehr Gateways und mehrere Personen.</li>
+          <li>Das Protokoll wird von der Ausgabe-Seite heruntergeladen und nach Position ausgewertet.</li>
+          <li>Pisten unter −115 dBm und Lücken ohne Pakete werden markiert.</li>
+          <li>Für den Ausfall-Test werden Gateway und WLAN abgeschaltet, und es wird geprüft, was der Chip anzeigt.</li>
+        </ol>
+        <p>Dabei sollte auch ein liegender Chip geprüft werden, denn die wichtigste Lage ist die nach einem Sturz. Das Ergebnis fließt in die Standortplanung in <a href="kapitel-09.html">Kapitel 9</a> ein.</p>
+
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
-          <p><strong>Fest:</strong> Zwei Heltec WiFi LoRa 32 V3 mit Stabantenne sind die Gateway-Hardware für den Test.</p>
-          <p><strong>Entschieden:</strong> Die Software trennt Funk und Netz auf zwei Kernen, damit der Funk nie auf das Netz warten muss, und puffert bis zu 60 Pakete bei einem WLAN-Ausfall. Fertig geschrieben ist sie, geprüft nur am PC.</p>
-          <p><strong>Offen:</strong> Ob sie auf echter Hardware wie geplant läuft, was bei einem Gateway-Ausfall geschehen soll, und wie sich das Gateway beim eigenen Server statt in der Cloud sicher anmeldet.</p>
+          <p><strong>Geschätzt:</strong> Grate und Wald bestimmen die Reichweite stärker als die Entfernung. 5 bis 15 km bei freier Sicht sind rechnerisch plausibel, hinter einem Grat deutlich weniger.</p>
+          <p><strong>Offen:</strong> Körper, Schnee und Chip-Antenne. Erst der Test zeigt, wie viel Reserve wirklich nötig ist.</p>
         </div>
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
         <ul class="quellen">
+          <li><a href="https://www.ursi.org/proceedings/procGA17/papers/Paper_FK2-1(2148).pdf">Cwalina und andere: Radio Channel Measurements in 868 MHz Off-Body Communications in a Ferry Environment</a>, URSI GASS 2017</li>
+          <li><a href="https://www.itu.int/rec/R-REC-P.526/en">ITU-R P.526-16</a>, November 2025, Beugung an Kanten</li>
+          <li><a href="https://www.itu.int/rec/R-REC-P.833/en">ITU-R P.833-10</a>, September 2021, Gleichung 1 und Tabelle 1</li>
+          <li><a href="https://www.ursi.org/proceedings/procGA20/papers/YSASummaryBianco.pdf">Bianco, Mejia-Aguilar, Marrocco: Radio wave propagation of LoRa systems in mountains for Search and Rescue operations</a>, URSI GASS 2020</li>
+          <li><a href="https://www.semtech.com/products/wireless-rf/lora-connect/sx1262">Semtech SX1261/2 Datenblatt</a>, Rev. 2.2, Dezember 2024</li>
           <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
-          <li><a href="https://heltec.org/project/wifi-lora-32-v3/">Heltec WiFi LoRa 32(V3)</a>, Produktseite</li>
-          <li><a href="https://github.com/jgromes/RadioLib">RadioLib</a> und <a href="https://github.com/olikraus/u8g2">U8g2</a>, verwendete Bibliotheken</li>
-          <li><a href="https://letsencrypt.org/certificates/">ISRG-Stammzertifikate</a>, Let's Encrypt</li>
         </ul>
       </div>
 
       <div class="blaettern">
-        <a href="kapitel-07.html">Zurück: Kapitel 7, SOS: Vorrang und Fehlalarme</a>
-        <a href="kapitel-09.html">Weiter: Kapitel 9, Reichweite im Gelände</a>
+        <a href="kapitel-07.html">Zurück: Kapitel 7, Die Gateways</a>
+        <a href="kapitel-09.html">Weiter: Kapitel 9, Standortplanung KitzSki</a>
       </div>
     </article>
   </main>

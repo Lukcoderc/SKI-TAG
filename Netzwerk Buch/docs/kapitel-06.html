@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rückkanal zum Chip · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Warum der Server dem Chip antwortet, was das kostet und wo es hakt.">
-<link rel="stylesheet" href="assets/book.css?v=40">
-<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
-<script src="assets/book.js?v=40" defer></script>
-<script src="assets/wartezeit.js?v=40" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=43">
+<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
+<script src="assets/book.js?v=43" defer></script>
+<script src="assets/wartezeit.js?v=43" defer></script>
 </head>
-<body data-station="rueckweg">
+<body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
   <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
@@ -18,8 +18,8 @@
   <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<header class="seil">
-  <a class="seil-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+<header class="streifen">
+  <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
 </header>
 
 <div class="buch">
@@ -41,7 +41,8 @@
     </details>
     <article>
       <h1>Rückkanal zum Chip</h1>
-      <p class="stand">Kapitel 6 · Stand 1. November 2026</p>
+      <p class="stand">Kapitel 6 · Stand 2. November 2026</p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4</a>, <a href="kapitel-05.html">Kapitel 5</a></p>
 
       <div class="lesen">
         <p class="einstieg">Wer im Schnee liegt und den Knopf hält, will wissen, ob jemand kommt. Dafür muss der Server dem Chip antworten können. Das ist der Rückkanal. Die Frage aus der Angabe lautet, ob er möglich ist, und die Antwort ist: Ja, er ist schon gebaut.</p>
@@ -62,8 +63,8 @@
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Wichtig ist der Unterschied zwischen ACK und HELP. Ein ACK heißt nur, dass der Server den Notruf hat. Erst HELP 1 heißt, dass ein Mensch ihn übernommen hat. Ein ACK darf am Chip deshalb nie wie „Hilfe kommt“ aussehen. Die verbindlichen Stufen stehen in <a href="kapitel-07.html#stufen">Kapitel 7</a>.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Eine Lücke bleibt: Die Warnung nach 90 Sekunden greift nur, solange kein ACK kam. Kommt danach kein HELP 1, warnt der Chip laut Übergabe nicht mehr. Der <a href="kapitel-07.html#eskalation">Zeitablauf in Kapitel 7</a> schlägt dafür eine zweite Frist vor.</p>
+        <p class="nach-tabelle">Wichtig ist der Unterschied zwischen ACK und HELP. Ein ACK heißt nur, dass der Server den Notruf hat. Erst HELP 1 heißt, dass ein Mensch ihn übernommen hat. Ein ACK darf am Chip deshalb nie wie „Hilfe kommt“ aussehen. Die verbindlichen Stufen stehen in <a href="kapitel-13.html#stufen">Kapitel 13</a>.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Eine Lücke bleibt: Die Warnung nach 90 Sekunden greift nur, solange kein ACK kam. Kommt danach kein HELP 1, warnt der Chip laut Übergabe nicht mehr. Der <a href="kapitel-13.html#eskalation">Zeitablauf in Kapitel 13</a> schlägt dafür eine zweite Frist vor.</p>
 
         <h2 id="kosten" data-kurz="Was er kostet">Was der Rückkanal kostet</h2>
         <p>Ein Kanal in beide Richtungen ist nicht gratis. Der Preis fällt an drei Stellen an:</p>
@@ -139,7 +140,7 @@
 
       <div class="blaettern">
         <a href="kapitel-05.html">Zurück: Kapitel 5, Sendeintervall und Kapazität</a>
-        <a href="kapitel-07.html">Weiter: Kapitel 7, SOS: Vorrang und Fehlalarme</a>
+        <a href="kapitel-07.html">Weiter: Kapitel 7, Die Gateways</a>
       </div>
     </article>
   </main>

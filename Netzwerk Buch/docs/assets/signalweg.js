@@ -92,7 +92,7 @@ function spieleSzene(stoerung, verzoegerung = 0) {
 function holeSzeneInsBild() {
   const unten = szenenBild.getBoundingClientRect().bottom;
   const kopf = wahl.getBoundingClientRect().top;
-  const oben = document.querySelector(".seil").getBoundingClientRect().bottom + 8;
+  const oben = 60; // Streifen oben plus 8 px Abstand
   if (kopf >= oben && unten <= innerHeight) return 0;
   scrollBy({ top: kopf - oben, behavior: ohneBewegung.matches ? "auto" : "smooth" });
   return ohneBewegung.matches ? 0 : SCROLL_MS;
@@ -113,7 +113,6 @@ function zeige(i, { stoerung = false, merken = false, ruhig = false, auto = fals
   ausfall.dataset.an = String(stoerung);
   ausfall.textContent = stoerung ? "Zurück zum Normalfall" : schritte[i].dataset.frage || "Was, wenn es hier ausfällt?";
   const id = kurzId(schritte[i]);
-  window.Seil.fahreZu(i, { stoerung: stoerung && id !== "rueckweg" && id !== "knopf", sofort: ruhig });
   if (merken) history.replaceState(null, "", "#" + schritte[i].id + (stoerung ? AUSFALL_ENDUNG : ""));
   beschrifte();
   if (ruhig) return window.Szene.zeichne(id, 1, stoerung);

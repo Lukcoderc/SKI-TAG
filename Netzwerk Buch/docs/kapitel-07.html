@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SOS: Vorrang und Fehlalarme · SkiTag Netzwerk-Buch</title>
-<meta name="description" content="Wie ein Notruf vor Fehlalarmen geschützt ist und warum ihn fast nichts aufhalten kann.">
-<link rel="stylesheet" href="assets/book.css?v=40">
-<link rel="stylesheet" href="assets/druck.css?v=40" media="print">
-<script src="assets/book.js?v=40" defer></script>
+<title>Die Gateways · SkiTag Netzwerk-Buch</title>
+<meta name="description" content="Welche Hardware die Gateways im Test nutzen, wie ihre Software aufgebaut ist und wie sie aufgestellt werden.">
+<link rel="stylesheet" href="assets/book.css?v=43">
+<link rel="stylesheet" href="assets/druck.css?v=43" media="print">
+<script src="assets/book.js?v=43" defer></script>
 </head>
-<body data-station="server">
+<body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark-fest" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor"/></symbol>
   <symbol id="mark-entschieden" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="3" fill="currentColor"/></symbol>
@@ -17,8 +17,8 @@
   <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<header class="seil">
-  <a class="seil-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+<header class="streifen">
+  <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
 </header>
 
 <div class="buch">
@@ -39,229 +39,104 @@
       <ol></ol>
     </details>
     <article>
-      <h1>SOS: Vorrang und Schutz vor Fehlalarmen</h1>
-      <p class="stand">Kapitel 7 · Stand 1. November 2026</p>
+      <h1>Die Gateways</h1>
+      <p class="stand">Kapitel 7 · Stand 2. November 2026</p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4</a>, <a href="kapitel-05.html">Kapitel 5</a>, <a href="kapitel-06.html">Kapitel 6</a></p>
 
       <div class="lesen">
-        <p class="einstieg">Ein Notruf darf nicht untergehen, und ein Fehlalarm darf nicht so viel Aufwand auslösen wie ein echter. Dieses Kapitel zeigt, wie der Chip einen Notruf von einem einfachen Ruf unterscheidet, warum ihn danach fast nichts mehr aufhält, und wo das noch nicht erprobt ist.</p>
-        <p>Das beantwortet Frage 6 aus der Angabe, siehe <a href="kapitel-02.html#fragen">Kapitel 2</a>: Wie wird ein SOS vor Fehlalarmen geschützt und bevorzugt behandelt?</p>
+        <p class="einstieg">Zwischen Chip und Server steht das Gateway: ein kleines Funkboard, das Notrufe hört und über WLAN weiterreicht. Dieses Kapitel zeigt, welche Hardware das im Test ist, wie die Software darauf aufgebaut ist, und wie die zwei Geräte aufgestellt werden.</p>
+        <p>Wie viele Gateways ein ganzes Skigebiet braucht und wo genau sie stehen sollen, klären erst Kapitel 8 bis 10. Hier geht es nur um das einzelne Gerät.</p>
 
-        <h2 id="zwei-ereignisse" data-kurz="Zwei Ereignisse, eine Geste entscheidet">Zwei Ereignisse, eine Geste entscheidet</h2>
-        <p>Derselbe Knopf löst zwei völlig verschiedene Dinge aus, je nachdem, wie er gedrückt wird. Das Funkprotokoll aus <a href="kapitel-04.html">Kapitel 4</a> kennt dafür zwei eigene Ereignisse, CALL und SOS, die der Server unterschiedlich behandelt.</p>
+        <h2 id="hardware" data-kurz="Die Hardware im Test">Die Hardware im Test</h2>
+        <p>Für den Test braucht ein Gateway nur drei Teile, zusammen knapp 56€:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
-          <thead><tr><th scope="col">Geste am Chip</th><th scope="col">Ereignis</th><th scope="col">Was der Server tut</th><th scope="col">Bergbahn alarmiert?</th></tr></thead>
+          <thead><tr><th scope="col">Teil</th><th scope="col">Menge</th><th scope="col">Wofür</th></tr></thead>
           <tbody>
-            <tr><td data-spalte="Geste">Kurz drücken</td><td data-spalte="Ereignis">1 CALL</td><td data-spalte="Was der Server tut">Befehl „du wirst gerufen“ an die übrige Gruppe, Hinweis in der App</td><td data-spalte="Bergbahn">Nein</td></tr>
-            <tr><td data-spalte="Geste">3 Sekunden halten, dann 5 Sekunden Abbruch-Zeit</td><td data-spalte="Ereignis">3 SOS</td><td data-spalte="Was der Server tut">Notruf mit Position anlegen, dem nächsten freien Mitarbeiter anbieten</td><td data-spalte="Bergbahn">Ja</td></tr>
-            <tr><td data-spalte="Geste">Eigenen Chip an einer Unfallstelle halten (Helfer statt Betroffener)</td><td data-spalte="Ereignis">3 SOS</td><td data-spalte="Was der Server tut">Gleich wie oben, der Server unterscheidet nicht, wer gedrückt hat</td><td data-spalte="Bergbahn">Ja</td></tr>
+            <tr><td data-spalte="Teil">Heltec WiFi LoRa 32 <strong>V3</strong>, 868 MHz (ESP32-S3 + SX1262, kleiner Bildschirm)</td><td data-spalte="Menge">2</td><td data-spalte="Wofür">hört die Chips, reicht die Pakete über WLAN an den Server weiter</td></tr>
+            <tr><td data-spalte="Teil">Stabantenne 868 MHz, 3 dBi (SMA), mit Adapterkabel IPEX auf SMA</td><td data-spalte="Menge">2</td><td data-spalte="Wofür">mehr Reichweite als die beigelegte Antenne</td></tr>
+            <tr><td data-spalte="Teil">USB-C-Netzteil 5V, 2A, mit 2m-Kabel</td><td data-spalte="Menge">2</td><td data-spalte="Wofür">Strom an der Station</td></tr>
           </tbody>
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Für den Server gibt es also nur drei Ereignisse, die er von einem Chip bekommen kann: CALL, SOS und BOOT beim Start. Welche Geste dahintersteckt, entscheidet allein der Chip, siehe <a href="kapitel-04.html">Kapitel 4</a>.</p>
+        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Fest"><use href="#mark-fest"/></svg>Fest. Es ist ausdrücklich die Version V3, <strong>nicht V4</strong>: Die Gateway-Software ist für den V3-Chipsatz gebaut.</p>
 
-        <h2 id="schutz-vor-fehlalarm" data-kurz="Schutz vor Fehlalarmen">Schutz vor Fehlalarmen</h2>
-        <p>Ein Notruf entsteht nicht durch einen einzigen Druck. Laut Übergabe braucht es 3 Sekunden Halten und danach eine 5-Sekunden-Abbruch-Zeit, bevor das Ereignis überhaupt gesendet wird. Das ist eine Festlegung in der Chip-Software von Maximilian, aber sie bestimmt, was im Netzwerk überhaupt ankommt, darum gehört sie in dieses Kapitel.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Fest"><use href="#mark-fest"/></svg>Fest. Die Pitch-Präsentation nennt den Grund ausdrücklich: Der Halten-Zwang verhindert Fehlalarme durch versehentliches Drücken, etwa in der Jackentasche oder beim Sturz selbst.</p>
-        <p>Zwei Folgen sind aus dem Protokoll ersichtlich. Erstens: Ein kurzer, versehentlicher Druck löst höchstens einen Gruppenruf aus, nie einen Notruf, denn CALL und SOS sind getrennte Gesten. Zweitens: Solange die 5 Sekunden Abbruch-Zeit laufen, ist noch nichts gesendet. Im Protokoll gibt es kein Ereignis für „Notruf abgebrochen“, was dafür spricht, dass ein losgelassener Knopf innerhalb der Abbruch-Zeit gar nichts über Funk auslöst. Sicher ist das nicht, denn das steht nicht ausdrücklich in der Übergabe und ist mit Maximilian zu bestätigen.</p>
-
-        <h2 id="vorrang-im-funk" data-kurz="Vorrang auf der Funkstrecke">Vorrang auf der Funkstrecke</h2>
-        <p>Ist das Ereignis einmal ausgelöst, bekommt es auf dem Funkweg Vorrang vor allem anderen. Eine Positionsmeldung wartet auf ihr eigenes 4-Sekunden-Fenster im 20-Sekunden-Takt, siehe <a href="kapitel-05.html">Kapitel 5</a>. Ein Ereignis wartet nicht: Es wird sofort gesendet, auch außerhalb des eigenen Fensters.</p>
+        <h2 id="software" data-kurz="Wie die Software aufgebaut ist">Wie die Software aufgebaut ist</h2>
+        <p>Der folgende Abschnitt beschreibt die Software laut Übergabe. Sie liegt weder in diesem Repository noch uns vor und ist nicht geprüft, siehe <a href="kapitel-anhang.html#nachweis">Was geprüft ist</a>. Laut Übergabe liegt die Gateway-Software im Paket <code>skitag-test.zip</code> im Ordner <code>firmware/skitag_empfaenger</code>, kompiliert mit ESP32-Core 3.0.7 für das Board „Heltec WiFi LoRa 32(V3)“, mit den Bibliotheken RadioLib, ArduinoJson und U8g2. Eingestellt wird sie über <code>config.h</code>: ein Name (E1, E2), bis zu drei WLANs (etwa ein Hütten-WLAN und ein Handy-Hotspot als Rückfall), die Server-Adresse, ein eigenes Gateway-Passwort und die Funkeinstellungen, die exakt zu denen des Chips passen müssen.</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
-          <thead><tr><th scope="col">Was gesendet wird</th><th scope="col">Erster Versand</th><th scope="col">Wiederholung</th><th scope="col">Gibt auf?</th></tr></thead>
+          <thead><tr><th scope="col">Teil der Software</th><th scope="col">Aufgabe</th></tr></thead>
           <tbody>
-            <tr><td data-spalte="Was">Positionsmeldung</td><td data-spalte="Erster Versand">im eigenen 4-s-Fenster</td><td data-spalte="Wiederholung">alle 20 s, in der Ladebox alle 60 s</td><td data-spalte="Gibt auf">entfällt, es gibt immer eine neue</td></tr>
-            <tr><td data-spalte="Was">CALL, BOOT</td><td data-spalte="Erster Versand">sofort, auch außerhalb des Fensters</td><td data-spalte="Wiederholung">alle 4 bis 8 s, nach 6 Versuchen alle 15 bis 25 s</td><td data-spalte="Gibt auf">nach 8 Versuchen</td></tr>
-            <tr><td data-spalte="Was">SOS</td><td data-spalte="Erster Versand">sofort, auch außerhalb des Fensters</td><td data-spalte="Wiederholung">gleich wie CALL</td><td data-spalte="Gibt auf"><strong>nie</strong>, bis der Server bestätigt</td></tr>
+            <tr><td data-spalte="Teil">Funk, auf Kern 1</td><td data-spalte="Aufgabe">nimmt nur echte SkiTag-Pakete an (0xA7, 27 Byte), reicht sie über eine Warteschlange weiter, muss nie auf das Netz warten</td></tr>
+            <tr><td data-spalte="Teil">Netz, auf Kern 0</td><td data-spalte="Aufgabe">schickt jedes Paket mit <a href="kapitel-anhang.html#g-rssi">RSSI</a>, SNR und Alter als <code>POST /gw/up</code> mit Bearer-Passwort an den Server; die Antwort enthält die Downlinks, die dann gesendet werden</td></tr>
+            <tr><td data-spalte="Teil">Puffer</td><td data-spalte="Aufgabe">fällt das WLAN kurz aus, sammelt das Gateway bis zu 60 Pakete, statt sie zu verwerfen</td></tr>
+            <tr><td data-spalte="Teil">Lebenszeichen</td><td data-spalte="Aufgabe">kommen keine neuen Pakete, meldet sich das Gateway trotzdem alle 10 Sekunden am Server</td></tr>
+            <tr><td data-spalte="Teil">Bildschirm</td><td data-spalte="Aufgabe">zeigt WLAN-Status, Server ok oder Fehler, Paketzähler und den zuletzt gehörten Chip mit Signalstärke</td></tr>
           </tbody>
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Der Unterschied zu allem anderen ist der letzte Punkt: Ein normales Ereignis gibt nach 8 Versuchen auf, ein Notruf nicht. Der Chip wiederholt ihn, bis ein Gateway ihm ein <a href="kapitel-anhang.html#g-ack">ACK</a> bringt, siehe <a href="kapitel-06.html">Kapitel 6</a>.</p>
+        <p class="nach-tabelle">Die Verbindung zum Server läuft über TLS mit den ISRG-Stammzertifikaten von Let's Encrypt. Bleibt das Gateway 60 Sekunden ohne Reaktion stehen, startet ein Watchdog es neu.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Entschieden, aber am PC geschrieben. Laut Übergabe ist diese Software fertig, lief aber noch nie auf echter Hardware. Erst der Test mit den gelieferten Heltec-Boards zeigt, ob sie auf dem Board so läuft wie geplant.</p>
 
-        <h2 id="vorrang-im-server" data-kurz="Vorrang bei den Mitarbeitern">Vorrang bei den Mitarbeitern</h2>
-        <p>Beim Server geht der Vorrang weiter. Ein Notruf wird dem nächsten freien Mitarbeiter angeboten. Übernimmt er ihn nicht binnen 60 Sekunden, bietet der Server ihn dem nächsten an. Was nach dem letzten geschieht, regelt der Abschnitt <a href="#eskalation">Der Zeitablauf eines Notrufs</a>. In der App genügt ein Tipp auf „Einsatz übernehmen“, danach sehen alle anderen, dass schon jemand unterwegs ist, statt dass mehrere gleichzeitig losfahren.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Entschieden. Übernahme, „vor Ort“ und „erledigt“ gehen als <a href="kapitel-anhang.html#g-help">HELP</a> 1, 2, 3 an den Chip zurück, siehe <a href="#stufen">Die Stufen eines Notrufs</a>.</p>
-
-        <h2 id="stufen" data-kurz="Die Stufen eines Notrufs">Die Stufen eines Notrufs</h2>
-        <p>Dieses Kapitel ist die verbindliche Quelle für die folgenden Begriffe, alle anderen Kapitel verwenden sie genauso. Wichtig ist: Jede Stufe sagt nur, was sie sagt. Keine davon beweist die nächste.</p>
+        <h2 id="puffer" data-kurz="Puffer und Vorrang">Puffer und Vorrang</h2>
+        <p>Ist das WLAN weg, hält das Gateway laut Übergabe bis zu 60 Pakete zurück, je Paket 27 Byte plus RSSI, SNR und Alter. Was bei vollem Puffer verworfen wird, steht nicht in unseren Unterlagen. Wie schnell er voll ist, hängt davon ab, wie viele Pakete ein Gateway überhaupt dekodieren kann:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
-          <thead><tr><th scope="col">Stufe</th><th scope="col">Bedeutet</th><th scope="col">Bedeutet nicht</th><th scope="col">Am Chip</th><th scope="col">Stand</th></tr></thead>
+          <thead><tr><th scope="col">Lage</th><th scope="col">Pakete pro Sekunde</th><th scope="col">60 Pakete voll nach</th></tr></thead>
           <tbody>
-            <tr><td>ACK</td><td data-spalte="Bedeutet">Der Server hat den Notruf empfangen.</td><td data-spalte="Nicht">Dass ein Mensch davon weiß.</td><td data-spalte="Am Chip">Schnelle Wiederholungen enden. Der Chip zeigt keine Hilfe an.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
-            <tr class="zeile-offen"><td>Zustellung</td><td data-spalte="Bedeutet">Eine Mitarbeiter-App hat den Alarm angezeigt.</td><td data-spalte="Nicht">Dass jemand ihn gesehen hat.</td><td data-spalte="Am Chip">Nichts</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr><td>HELP 1, Übernahme</td><td data-spalte="Bedeutet">Ein Mensch hat den Einsatz per Tipp übernommen.</td><td data-spalte="Nicht">Dass schon jemand da ist.</td><td data-spalte="Am Chip">Vibriert zweimal lang, blinkt rot.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
-            <tr><td>HELP 2, vor Ort</td><td data-spalte="Bedeutet">Die Person ist beim Notruf angekommen.</td><td data-spalte="Nicht">Dass der Einsatz vorbei ist.</td><td data-spalte="Am Chip">Rückmeldung legt Maximilian fest.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
-            <tr><td>HELP 3, erledigt</td><td data-spalte="Bedeutet">Der Einsatz ist abgeschlossen.</td><td data-spalte="Nicht"></td><td data-spalte="Am Chip">Rückmeldung legt Maximilian fest.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>5 Chips, alle 20 s</td><td data-spalte="Pakete/s">0,25</td><td data-spalte="Voll nach">rund 4 Minuten</td></tr>
+            <tr><td>Ein Kanal, bestmögliche Nutzung ohne Fenster</td><td data-spalte="Pakete/s">rund 0,8</td><td data-spalte="Voll nach">rund 74 Sekunden</td></tr>
+            <tr><td>Ein Kanal, lückenlos belegt</td><td data-spalte="Pakete/s">rund 4,4</td><td data-spalte="Voll nach">rund 14 Sekunden</td></tr>
+            <tr><td>8 Kanäle, je bestmöglich ohne Fenster</td><td data-spalte="Pakete/s">rund 6,5</td><td data-spalte="Voll nach">rund 9 Sekunden</td></tr>
+            <tr><td>500 Chips alle 20 s, jedes Paket empfangen</td><td data-spalte="Pakete/s">25</td><td data-spalte="Voll nach">rund 2,4 Sekunden</td></tr>
           </tbody>
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Zwei Lücken bestehen. Die Stufe Zustellung gibt es heute nicht: Der Server sieht nur „angeboten“, nicht „angekommen“. Und ein ACK ist laut unseren Unterlagen nicht an eine dauerhafte Speicherung gebunden, siehe <a href="kapitel-12.html#speichern">Kapitel 12</a>. Beides muss vor dem Testtag geklärt sein.</p>
-
-        <h2 id="eskalation" data-kurz="Der Zeitablauf">Der Zeitablauf eines Notrufs</h2>
-        <p>Für einen Notruf gilt genau dieser eine Ablauf, und alle Kapitel verwenden ihn. Es gibt zwei Uhren: Die <strong>Chip-Uhr</strong> beginnt beim ersten Senden, die <strong>Server-Uhr T0</strong> beim dauerhaften Speichern. T0 liegt also immer später. Das ist gewollt: Der Chip warnt im Zweifel früher.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Laut Übergabe gebaut sind nur die 90 s in Z2 und die 60 s in Z5. <svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Alles andere ist unser Vorschlag und nicht abgestimmt, auch die Zustellung, der Leitstand und die 180 s am Chip. Wer im Leitstand handelt, muss die Bergbahn festlegen, nicht die Software.</p>
-      </div>
-
-      <div class="testfall">
-        <h3>Z1: Chip sendet, noch kein ACK</h3>
-        <dl>
-          <div><dt>Zeitmesser startet</dt><dd>Chip-Uhr: erstes Senden, nach Ablauf der 5 s Abbruch-Zeit</dd></div>
-          <div><dt>Frist</dt><dd>Bis zum ACK, ohne Grenze</dd></div>
-          <div><dt>Server</dt><dd>Weiß noch nichts.</dd></div>
-          <div><dt>Chip</dt><dd>Wiederholt alle 4 bis 8 s, nach 6 Versuchen alle 15 bis 25 s.</dd></div>
-          <div><dt>Mitarbeiter-App</dt><dd>Nichts.</dd></div>
-          <div><dt>Leitstand</dt><dd>Nichts.</dd></div>
-          <div><dt>Wenn etwas verloren geht</dt><dd>Ein verlorenes Paket fängt die nächste Wiederholung auf.</dd></div>
-        </dl>
-      </div>
-      <div class="testfall">
-        <h3>Z2: Warnung ohne ACK</h3>
-        <dl>
-          <div><dt>Zeitmesser startet</dt><dd>Chip-Uhr</dd></div>
-          <div><dt>Frist</dt><dd>90 s</dd></div>
-          <div><dt>Server</dt><dd>Weiß noch nichts.</dd></div>
-          <div><dt>Chip</dt><dd>Warnt: blinkt doppelt rot, vibriert jede Minute, heißt 140 rufen. Wiederholt weiter.</dd></div>
-          <div><dt>Mitarbeiter-App</dt><dd>Nichts.</dd></div>
-          <div><dt>Leitstand</dt><dd>Nichts, außer eine Störung ist gemeldet.</dd></div>
-          <div><dt>Wenn etwas verloren geht</dt><dd>Nichts zu verlieren, die Warnung entsteht im Chip.</dd></div>
-        </dl>
-      </div>
-      <div class="testfall">
-        <h3>Z3: Notruf gespeichert, ACK</h3>
-        <dl>
-          <div><dt>Zeitmesser startet</dt><dd>Server-Uhr T0: Notruf dauerhaft gespeichert</dd></div>
-          <div><dt>Frist</dt><dd>Keine</dd></div>
-          <div><dt>Server</dt><dd>Speichert, sendet dann das ACK. Weitere Kopien bestätigt er erneut, T0 bleibt.</dd></div>
-          <div><dt>Chip</dt><dd>Beendet die schnellen Wiederholungen, meldet aber weiter die Position mit „Notruf läuft“. Eine Warnung bleibt stehen.</dd></div>
-          <div><dt>Mitarbeiter-App</dt><dd>Nichts.</dd></div>
-          <div><dt>Leitstand</dt><dd>Nichts.</dd></div>
-          <div><dt>Wenn etwas verloren geht</dt><dd>Geht das ACK verloren, wiederholt der Chip, und der Server bestätigt noch einmal.</dd></div>
-        </dl>
-      </div>
-      <div class="testfall">
-        <h3>Z4: Angebot</h3>
-        <dl>
-          <div><dt>Zeitmesser startet</dt><dd>Server-Uhr, ab T0</dd></div>
-          <div><dt>Frist</dt><dd>15 s für die Zustellung, 60 s für die Übernahme</dd></div>
-          <div><dt>Server</dt><dd>Bietet dem nächsten freien, erreichbaren Mitarbeiter an.</dd></div>
-          <div><dt>Chip</dt><dd>Unverändert.</dd></div>
-          <div><dt>Mitarbeiter-App</dt><dd>Zeigt und meldet den Alarm laut. Erst die Anzeige gilt als Zustellung.</dd></div>
-          <div><dt>Leitstand</dt><dd>Sieht den Notruf in der Liste.</dd></div>
-          <div><dt>Wenn etwas verloren geht</dt><dd>Fehlt die Zustellung nach 15 s, geht der Notruf sofort an den Nächsten.</dd></div>
-        </dl>
-      </div>
-      <div class="testfall">
-        <h3>Z5: Weitergabe</h3>
-        <dl>
-          <div><dt>Zeitmesser startet</dt><dd>Beginn des jeweiligen Angebots</dd></div>
-          <div><dt>Frist</dt><dd>60 s</dd></div>
-          <div><dt>Server</dt><dd>Bietet dem nächsten freien, erreichbaren Mitarbeiter an.</dd></div>
-          <div><dt>Chip</dt><dd>Unverändert.</dd></div>
-          <div><dt>Mitarbeiter-App</dt><dd>Beim Bisherigen endet das Angebot, beim Nächsten beginnt es.</dd></div>
-          <div><dt>Leitstand</dt><dd>Sieht die Weitergabe.</dd></div>
-          <div><dt>Wenn etwas verloren geht</dt><dd>Wie Z4.</dd></div>
-        </dl>
-      </div>
-      <div class="testfall">
-        <h3>Z6: Alle und Leitstand</h3>
-        <dl>
-          <div><dt>Zeitmesser startet</dt><dd>T0</dd></div>
-          <div><dt>Frist</dt><dd>120 s</dd></div>
-          <div><dt>Server</dt><dd>Alarmiert alle im Dienst und den Leitstand gleichzeitig.</dd></div>
-          <div><dt>Chip</dt><dd>Unverändert.</dd></div>
-          <div><dt>Mitarbeiter-App</dt><dd>Alle Apps alarmieren.</dd></div>
-          <div><dt>Leitstand</dt><dd><strong>Wird hier alarmiert.</strong></dd></div>
-          <div><dt>Wenn etwas verloren geht</dt><dd>Bestätigt der Leitstand nicht binnen 15 s, gilt das als Störung, siehe Kapitel 14.</dd></div>
-        </dl>
-      </div>
-      <div class="testfall">
-        <h3>Z7: Chip warnt ohne Übernahme</h3>
-        <dl>
-          <div><dt>Zeitmesser startet</dt><dd>Chip-Uhr</dd></div>
-          <div><dt>Frist</dt><dd>180 s</dd></div>
-          <div><dt>Server</dt><dd>Unverändert.</dd></div>
-          <div><dt>Chip</dt><dd>Warnt wie in Z2, wenn HELP 1 fehlt, auch wenn ein ACK kam.</dd></div>
-          <div><dt>Mitarbeiter-App</dt><dd>Unverändert.</dd></div>
-          <div><dt>Leitstand</dt><dd>Unverändert.</dd></div>
-          <div><dt>Wenn etwas verloren geht</dt><dd>Nichts zu verlieren, die Warnung entsteht im Chip.</dd></div>
-        </dl>
-      </div>
-      <div class="testfall">
-        <h3>Z8: Leitstand handelt</h3>
-        <dl>
-          <div><dt>Zeitmesser startet</dt><dd>T0</dd></div>
-          <div><dt>Frist</dt><dd>180 s</dd></div>
-          <div><dt>Server</dt><dd>Hält den Notruf offen und weiter alarmiert.</dd></div>
-          <div><dt>Chip</dt><dd>Unverändert.</dd></div>
-          <div><dt>Mitarbeiter-App</dt><dd>Unverändert.</dd></div>
-          <div><dt>Leitstand</dt><dd>Handelt ohne App nach Plan: Telefon, Betriebsfunk, Rettungskette.</dd></div>
-          <div><dt>Wenn etwas verloren geht</dt><dd>Der Plan darf nicht von App oder Server abhängen.</dd></div>
-        </dl>
-      </div>
-      <div class="testfall">
-        <h3>Z9: Übernahme</h3>
-        <dl>
-          <div><dt>Zeitmesser startet</dt><dd>Tipp auf „Übernehmen“</dd></div>
-          <div><dt>Frist</dt><dd>Bis der Chip HELP 1 quittiert</dd></div>
-          <div><dt>Server</dt><dd>Sendet HELP 1 bei jedem Paket des Chips, bis <code>dlAck</code> stimmt.</dd></div>
-          <div><dt>Chip</dt><dd>Vibriert zweimal lang und beendet die Warnung.</dd></div>
-          <div><dt>Mitarbeiter-App</dt><dd>Zeigt „Übernommen, Chip hat es noch nicht bestätigt“, bis die Quittung da ist.</dd></div>
-          <div><dt>Leitstand</dt><dd>Sieht, wer übernommen hat.</dd></div>
-          <div><dt>Wenn etwas verloren geht</dt><dd>Geht HELP 1 verloren, kommt es mit dem nächsten Paket, bis zu 20 s später. Geht der Tipp verloren, läuft die Eskalation weiter, und die App meldet einen Fehler.</dd></div>
-        </dl>
-      </div>
-      <div class="testfall">
-        <h3>Z10: Vor Ort und erledigt</h3>
-        <dl>
-          <div><dt>Zeitmesser startet</dt><dd>Tipp in der App</dd></div>
-          <div><dt>Frist</dt><dd>Keine</dd></div>
-          <div><dt>Server</dt><dd>Sendet HELP 2, dann HELP 3, und schließt den Notruf.</dd></div>
-          <div><dt>Chip</dt><dd>Rückmeldung legt Maximilian fest. Nach HELP 3 endet „Notruf läuft“.</dd></div>
-          <div><dt>Mitarbeiter-App</dt><dd>Zeigt den Stand.</dd></div>
-          <div><dt>Leitstand</dt><dd>Sieht den Stand.</dd></div>
-          <div><dt>Wenn etwas verloren geht</dt><dd>Wie Z9.</dd></div>
-        </dl>
-      </div>
-
-      <div class="lesen">
-        <h2 id="fragen-ablauf" data-kurz="Antworten zum Ablauf">Antworten zum Ablauf</h2>
+        <p class="nach-tabelle">Gerechnet, nicht gemessen. Die 25 Pakete sind nur eine Obergrenze: Auf einem Kanal mit 226 ms pro Paket passen höchstens 4,4 Pakete pro Sekunde. Bei 500 Chips ist also schon der Kanal das Problem, siehe <a href="kapitel-05.html">Kapitel 5</a>. Für 5 Chips reichen 60 Pakete, für hunderte Chips nicht, egal wie viele Kanäle es gibt.</p>
+        <p>Für den Betrieb schlagen wir deshalb einen Puffer in drei Klassen vor, den das Gateway ohne Schlüssel führen kann:</p>
       </div>
       <div class="tabelle">
-        <table>
-          <thead><tr><th scope="col">Frage</th><th scope="col">Antwort</th></tr></thead>
+        <table class="stapel">
+          <thead><tr><th scope="col">Klasse</th><th scope="col">Inhalt</th><th scope="col">Speicher</th><th scope="col">Bei Platzmangel</th></tr></thead>
           <tbody>
-            <tr><td>Wann beginnt die 180-Sekunden-Frist am Chip?</td><td data-spalte="Antwort">Beim ersten Senden, also weder beim Knopfdruck noch beim ACK. Es gibt am Chip nur diese eine Uhr.</td></tr>
-            <tr><td>Was, wenn das ACK erst nach 90 Sekunden kommt?</td><td data-spalte="Antwort">Der Chip warnt bereits. Das ACK beendet die schnellen Wiederholungen, die Warnung bleibt.</td></tr>
-            <tr><td>Setzt ein ACK die Warnung zurück?</td><td data-spalte="Antwort">Nein. Nur HELP 1 beendet sie, denn nur HELP 1 beweist einen Menschen.</td></tr>
-            <tr><td>Was, wenn HELP 1 verloren geht?</td><td data-spalte="Antwort">Der Server wiederholt es bei jedem Paket des Chips, bis die Quittung kommt. Heute sind es laut Übergabe höchstens 6 Versuche, für HELP soll diese Grenze entfallen.</td></tr>
-            <tr><td>Wann erfährt der Leitstand von einem Notruf?</td><td data-spalte="Antwort">Bei T0 + 120 s. Sofort, wenn kein Mitarbeiter frei und erreichbar ist.</td></tr>
-            <tr><td>Was, wenn kein Mitarbeiter verfügbar ist?</td><td data-spalte="Antwort">Der Server springt sofort auf Z6, ohne die 120 s abzuwarten.</td></tr>
-            <tr><td>Was, wenn die App verbunden ist, aber nichts anzeigt?</td><td data-spalte="Antwort">Dann fehlt die Zustellung, denn sie zählt erst mit der Anzeige. Nach 15 s geht der Notruf an den Nächsten.</td></tr>
+            <tr><td>1, kritisch</td><td data-spalte="Inhalt">Pakete mit Notruf-Kennung im Kopf</td><td data-spalte="Speicher">Eigener Bereich, je Chip nur das neueste, höchstens 32 Plätze</td><td data-spalte="Platzmangel">Das älteste Paket fällt weg. Ein echter Notruf kommt mit der nächsten Wiederholung wieder hinein.</td></tr>
+            <tr><td>2, Ereignis</td><td data-spalte="Inhalt">Pakete mit Ereignis-Kennung, etwa Gruppenruf</td><td data-spalte="Speicher">Eigener Bereich, höchstens 64 Plätze</td><td data-spalte="Platzmangel">Ältestes zuerst. Der Chip wiederholt ohnehin bis zum ACK.</td></tr>
+            <tr><td>3, Position</td><td data-spalte="Inhalt">Normale Positionen</td><td data-spalte="Speicher">Je Chip nur die neueste, erkannt an Chip-Nummer und Zähler</td><td data-spalte="Platzmangel">Überschreibt die ältere Position desselben Chips</td></tr>
           </tbody>
         </table>
       </div>
-
       <div class="lesen">
-        <p class="nach-tabelle">Dieser Ablauf gilt für einen einzelnen Notruf. Fällt die Alarmierung selbst aus, etwa weil keine App verbunden ist, gilt zusätzlich die Regel für Störungen in <a href="kapitel-14.html#infrastruktur">Kapitel 14</a>: Sie wartet nicht auf einen Notruf.</p>
+        <p class="nach-tabelle">Gesendet wird in dieser Reihenfolge. Bei 500 Chips und rund 40 Byte je Eintrag braucht Klasse 3 rund 20 KB Speicher. Das ist nur eine Überschlagsrechnung, nicht auf dem Board geprüft.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Damit das geht, braucht das Paket eine lesbare Kennung für die Klasse, denn das Ereignis selbst ist verschlüsselt. Diese Kennung wird vom Prüfwert mit abgedeckt, den nur der Server prüfen kann. Das Gateway hat keinen Schlüssel und soll auch keinen bekommen, weil es zugänglich steht. Es behandelt die Kennung also nur als Hinweis:</p>
+        <ul>
+          <li>Ein gefälschtes Notruf-Paket löst keinen Alarm aus, denn der Server verwirft es am Prüfwert.</li>
+          <li>Eine Flut gefälschter Pakete kann höchstens Klasse 1 füllen. Die feste Platzzahl je Chip und Klasse begrenzt das, Klasse 2 und 3 bleiben unberührt.</li>
+          <li>Echte Notrufe überstehen das, weil der Chip bis zum ACK wiederholt. Gegen Störsender hilft das nicht.</li>
+          <li>Die Kennung verrät Mithörenden, dass ein Notruf läuft. Inhalt und Position bleiben verschlüsselt.</li>
+        </ul>
+        <p>Bei Stromausfall ist der Puffer weg. Das verliert keinen bestätigten Notruf, denn das Gateway gibt nie ein ACK. Ein Notruf im Puffer ist also unbestätigt, und der Chip wiederholt ihn. Dauerhaft gespeichert wird deshalb nur am Server, im Gateway nicht. Der Flash-Speicher würde das auch nicht lange aushalten.</p>
 
-        <h2 id="was-noch-offen-ist" data-kurz="Was noch offen ist">Was noch offen ist</h2>
-        <p>Diese Fragen sind mit dem jetzigen Stand noch nicht beantwortet:</p>
+        <h2 id="aufstellung-test" data-kurz="Aufstellung im Test">Aufstellung im Test</h2>
+        <p>Für den Test kommt ein Gateway jeweils innen an ein Fenster einer Bergstation, möglichst hoch, mit senkrechter Antenne und Blick auf die Pisten. Strom und WLAN liefert die Station selbst, vorher muss geklärt sein, ob das dort genutzt werden darf.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Geschätzt. Diese Aufstellung ist ein erster Plan, nicht gemessen: Wärmeschutzglas kann Funk stark dämpfen, eine Antenne außerhalb des Fensters wäre besser. Ob das an den Bergstationen so möglich ist, klärt Kapitel 10.</p>
+
+        <h2 id="mehrere-gateways" data-kurz="Wenn mehrere Gateways gleichzeitig hören">Wenn mehrere Gateways gleichzeitig hören</h2>
+        <p>Hören beide Gateways denselben Chip, verwirft der Server das doppelte Paket über den Zähler, siehe <a href="kapitel-04.html">Kapitel 4</a>. Für Befehle an den Chip merkt sich der Server, welches Gateway ihn in den letzten 15 Minuten am besten empfangen hat, und schickt den <a href="kapitel-anhang.html#g-downlink">Downlink</a> über genau dieses.</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
           <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
           <tbody>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Senden außerhalb des eigenen Fensters kann mit dem Paket eines anderen Chips zusammenstoßen.</td><td data-spalte="Warum">Bei 5 Testchips unwahrscheinlich, bei hunderten im Betrieb unklar. Reicht die Wiederholung, um das auszugleichen?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Es gibt keinen Zielwert, wie schnell ein Notruf beim Mitarbeiter sein muss, siehe <a href="kapitel-02.html#muss">Kapitel 2</a>.</td><td data-spalte="Warum">Ohne Zielwert lässt sich beim Test nicht sagen, ob der Vorrang in der Praxis ausreicht.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Ob ein abgebrochener Knopfdruck innerhalb der 5-Sekunden-Abbruch-Zeit wirklich nichts sendet.</td><td data-spalte="Warum">Steht nicht ausdrücklich in der Übergabe, nur aus dem Protokoll geschlossen. Mit Maximilian zu bestätigen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Fällt ein Gateway aus, passiert nichts automatisch.</td><td data-spalte="Warum">Die Ausgabe-Seite zeigt es nach 30 Sekunden nur als „weg“. Soll jemand benachrichtigt werden, und überlappen sich die Gateways so, dass einer den anderen ersetzen kann?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Die Software lief noch nie auf echter Hardware.</td><td data-spalte="Warum">Erprobt sind nur Simulator und PC. Erst das Flashen und der Test mit Maximilians Muster-Chip zeigen, ob Funk, WLAN-Wechsel und Watchdog auf dem Board wie geplant arbeiten.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Uhrzeit und Stammzertifikate im Gateway.</td><td data-spalte="Warum">Um ein Zertifikat zu prüfen, braucht das Gateway eine richtige Uhrzeit, und die Stammzertifikate stehen fest in <code>zertifikate.h</code>. Wechselt Let's Encrypt seine Stammzertifikate, braucht das Gateway neue Software. Wie die Software das löst, wissen wir nicht.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Zertifikat für den eigenen Server bei KitzSki.</td><td data-spalte="Warum">DuckDNS war für den ursprünglich gemieteten Cloud-Server gedacht. Steht der Server stattdessen vor Ort bei KitzSki, braucht das Gateway eine Lösung für DNS und Zertifikat, um sich sicher zu melden. Näher dazu in Kapitel 11.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
       </div>
@@ -269,21 +144,23 @@
       <div class="lesen">
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
-          <p><strong>Entschieden:</strong> Ein Notruf entsteht erst nach 3 Sekunden Halten und einer 5-Sekunden-Abbruch-Zeit. Ein kurzer Druck ruft nur die eigene Gruppe, ohne die Bergbahn zu alarmieren.</p>
-          <p><strong>Entschieden:</strong> Ein ausgelöster Notruf wird sofort gesendet, nie aufgegeben und dem nächsten freien Mitarbeiter angeboten, mit Weitergabe nach 60 Sekunden ohne Übernahme.</p>
-          <p><strong>Offen:</strong> Ob sofortiges Senden außerhalb des eigenen Zeitfensters im Betrieb trägt, welche Zeit ein Notruf höchstens brauchen darf, die Stufe Zustellung und was nach dem letzten Mitarbeiter geschieht.</p>
+          <p><strong>Fest:</strong> Zwei Heltec WiFi LoRa 32 V3 mit Stabantenne sind die Gateway-Hardware für den Test.</p>
+          <p><strong>Entschieden:</strong> Die Software trennt Funk und Netz auf zwei Kernen, damit der Funk nie auf das Netz warten muss, und puffert bis zu 60 Pakete bei einem WLAN-Ausfall. Fertig geschrieben ist sie, geprüft nur am PC.</p>
+          <p><strong>Offen:</strong> Ob sie auf echter Hardware wie geplant läuft, was bei einem Gateway-Ausfall geschehen soll, und wie sich das Gateway beim eigenen Server statt in der Cloud sicher anmeldet.</p>
         </div>
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
         <ul class="quellen">
           <li>Übergabe „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026, internes Dokument</li>
-          <li>SKI-Tag_Präsentation.pptx, interne Pitch-Präsentation, 21 Folien, Abschnitt „Der Chip: ein Knopf, drei Funktionen“</li>
+          <li><a href="https://heltec.org/project/wifi-lora-32-v3/">Heltec WiFi LoRa 32(V3)</a>, Produktseite</li>
+          <li><a href="https://github.com/jgromes/RadioLib">RadioLib</a> und <a href="https://github.com/olikraus/u8g2">U8g2</a>, verwendete Bibliotheken</li>
+          <li><a href="https://letsencrypt.org/certificates/">ISRG-Stammzertifikate</a>, Let's Encrypt</li>
         </ul>
       </div>
 
       <div class="blaettern">
         <a href="kapitel-06.html">Zurück: Kapitel 6, Rückkanal zum Chip</a>
-        <a href="kapitel-08.html">Weiter: Kapitel 8, Die Gateways</a>
+        <a href="kapitel-08.html">Weiter: Kapitel 8, Reichweite im Gelände</a>
       </div>
     </article>
   </main>
