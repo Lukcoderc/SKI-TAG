@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ausblick auf den Betrieb · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was sich vom Test zum Betrieb mit hunderten Chips ändern muss und was das kostet.">
-<link rel="stylesheet" href="assets/book.css?v=46">
-<link rel="stylesheet" href="assets/druck.css?v=46" media="print">
-<script src="assets/book.js?v=46" defer></script>
-<script src="assets/serienkosten.js?v=46" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=48">
+<link rel="stylesheet" href="assets/druck.css?v=48" media="print">
+<script src="assets/book.js?v=48" defer></script>
+<script src="assets/serienkosten.js?v=48" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -68,8 +68,8 @@
             <tr><td>Rückkanal</td><td data-spalte="Heute">Antwort direkt nach dem Paket</td><td data-spalte="Serie">Nur für Ereignisse, keine Bestätigung jeder Position</td><td data-spalte="Kapitel">6</td></tr>
             <tr><td>Gateways</td><td data-spalte="Heute">Im Test an einer Gondelstation, geplant ist ein LoRa-Gateway</td><td data-spalte="Serie">Rund 4 bis 21 Geräte außen, mit Kabel und Blitzschutz</td><td data-spalte="Kapitel">9, 10</td></tr>
             <tr><td>Gateway-Puffer</td><td data-spalte="Heute">60 Pakete ohne Vorrang</td><td data-spalte="Serie">Drei Klassen, je Chip nur die neueste Position, lesbare Kennung im Kopf</td><td data-spalte="Kapitel">7</td></tr>
-            <tr><td>Server</td><td data-spalte="Heute">Ein Rechner, Speicherung vor dem <a href="kapitel-anhang.html#g-ack">ACK</a> nicht belegt</td><td data-spalte="Serie">Erst speichern, dann ACK, zweiter Rechner oder schneller Ersatz, Überwachung, <a href="kapitel-anhang.html#g-bereitschaft">Bereitschaft</a></td><td data-spalte="Kapitel">11, 14</td></tr>
-            <tr><td>Alarmierung</td><td data-spalte="Heute">Web-App ohne Push, keine Zustellung sichtbar</td><td data-spalte="Serie">Echte App mit Push, Empfangsbestätigung, zweiter Weg über den Leitstand</td><td data-spalte="Kapitel">12</td></tr>
+            <tr><td>Server</td><td data-spalte="Heute">Ein Rechner, Speicherung vor der <a href="kapitel-anhang.html#g-empfangsbestaetigung">Empfangsbestätigung</a> (ACK) nicht belegt</td><td data-spalte="Serie">Erst speichern, dann bestätigen, zweiter Rechner oder schneller Ersatz, Überwachung, <a href="kapitel-anhang.html#g-bereitschaft">Bereitschaft</a></td><td data-spalte="Kapitel">11, 14</td></tr>
+            <tr><td>Alarmierung</td><td data-spalte="Heute">Web-App ohne Push, keine Zustellung sichtbar</td><td data-spalte="Serie">Echte App mit Push, Rückmeldung der App, zweiter Weg über den Leitstand</td><td data-spalte="Kapitel">12</td></tr>
             <tr><td>Sicherheit</td><td data-spalte="Heute">Ein Schlüssel, selbst gebaute <a href="kapitel-anhang.html#g-stromchiffre">Stromchiffre</a> aus SipHash</td><td data-spalte="Serie">Eigener Schlüssel je Chip, AES-CCM oder gleichwertig, Schlüsselwechsel, <a href="kapitel-anhang.html#g-downlink">Downlink</a> je Chip geschützt</td><td data-spalte="Kapitel">15</td></tr>
             <tr><td>Daten</td><td data-spalte="Heute">Löschen von Hand</td><td data-spalte="Serie">Automatische Fristen, rechtlich geprüft</td><td data-spalte="Kapitel">15</td></tr>
           </tbody>

@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Strom und Netzanbindung · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie die Gateways an Strom und Internet kommen und warum das Fenster das größte Hindernis ist.">
-<link rel="stylesheet" href="assets/book.css?v=46">
-<link rel="stylesheet" href="assets/druck.css?v=46" media="print">
-<script src="assets/book.js?v=46" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=48">
+<link rel="stylesheet" href="assets/druck.css?v=48" media="print">
+<script src="assets/book.js?v=48" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -83,13 +83,13 @@
         <p>Darum messen wir beim Aufstellen beide Fälle: einmal mit geschlossenem Fenster, einmal mit Antenne im Freien oder offenem Fenster, jeweils mit dem Chip am selben Ort. Der Unterschied im <a href="kapitel-anhang.html#g-rssi">RSSI</a> zeigt die echte Dämpfung. Ist sie groß, muss die Antenne über ein kurzes Kabel nach außen.</p>
 
         <h2 id="betrieb" data-kurz="Strom und Netz im Betrieb">Strom und Netz im Betrieb</h2>
-        <p>Im Betrieb soll das Gateway außen an der Station hängen, am besten mit einem einzigen Kabel. Das erlaubt Power over Ethernet (<a href="kapitel-anhang.html#g-poe">PoE</a>): Strom und Daten laufen über dasselbe Netzwerkkabel. Für den Weg zum Server gibt es mehrere Möglichkeiten:</p>
+        <p>Im Betrieb soll das Gateway außen an der Station hängen, am besten mit einem einzigen Kabel. Das erlaubt Power over Ethernet (<a href="kapitel-anhang.html#g-poe">PoE</a>): Strom und Daten laufen über dasselbe Netzwerkkabel. Entschieden ist: Im Betrieb hängen die Gateways am Kabel. Offen ist, ob es das Netz der Bergbahn ist und welcher Weg als Reserve dient:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
           <thead><tr><th scope="col">Weg zum Server</th><th scope="col">Vorteil</th><th scope="col">Nachteil</th><th scope="col">Stand</th></tr></thead>
           <tbody>
-            <tr class="zeile-offen"><td>Netzwerkkabel im Netz der Bergbahn</td><td data-spalte="Vorteil">Stabil, läuft auch ohne Internet bis zum Server vor Ort</td><td data-spalte="Nachteil">Hängt davon ab, ob die Stationen vernetzt sind und wir hineindürfen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr><td>Netzwerkkabel</td><td data-spalte="Vorteil">Stabil, läuft auch ohne Internet bis zum Server vor Ort</td><td data-spalte="Nachteil">Hängt davon ab, ob die Stationen vernetzt sind und wir hineindürfen</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
             <tr class="zeile-offen"><td>Mobilfunk mit SIM-Karte</td><td data-spalte="Vorteil">Geht ohne Leitung, gut als Reserve</td><td data-spalte="Nachteil">Laufende Kosten, hängt am Handynetz, das am Berg auch überlastet sein kann</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>WLAN einer Hütte</td><td data-spalte="Vorteil">Billig, im Test erprobt</td><td data-spalte="Nachteil">Fremdes Netz, kein Einfluss auf Ausfälle</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Eigene Funkstrecke zwischen Stationen</td><td data-spalte="Vorteil">Überbrückt Orte ohne Leitung</td><td data-spalte="Nachteil">Mehr Technik, die ausfallen kann</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>

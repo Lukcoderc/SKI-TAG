@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rückkanal zum Chip · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Warum der Server dem Chip antwortet, was das kostet und wo es hakt.">
-<link rel="stylesheet" href="assets/book.css?v=46">
-<link rel="stylesheet" href="assets/druck.css?v=46" media="print">
-<script src="assets/book.js?v=46" defer></script>
-<script src="assets/wartezeit.js?v=46" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=48">
+<link rel="stylesheet" href="assets/druck.css?v=48" media="print">
+<script src="assets/book.js?v=48" defer></script>
+<script src="assets/wartezeit.js?v=48" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -50,10 +50,10 @@
           <p class="kurz-titel">Kurz gesagt</p>
           <ul>
             <li>Der Rückkanal ist nötig und schon gebaut.</li>
-            <li>Ein ACK heißt nur, dass der Server den Notruf hat. Erst HELP 1 heißt, dass ein Mensch übernommen hat.</li>
+            <li>Eine <a href="kapitel-anhang.html#g-empfangsbestaetigung">Empfangsbestätigung</a> (ACK) heißt nur, dass der Server den Notruf hat. Erst die <a href="kapitel-anhang.html#g-uebernahme-meldung">Übernahme-Meldung</a> (HELP 1) heißt, dass ein Mensch übernommen hat.</li>
             <li>Antworten warten auf das nächste Paket des Chips, also bis zu 20 Sekunden.</li>
           </ul>
-          <p><strong>Offen:</strong> Warnt der Chip auch, wenn nach dem ACK kein HELP 1 kommt?</p>
+          <p><strong>Offen:</strong> Warnt der Chip auch, wenn nach der Empfangsbestätigung keine Übernahme-Meldung kommt?</p>
         </div>
         <p>Dieses Kapitel begründet, warum es ihn braucht, was er kostet und wo er noch langsam ist. Getestet ist er bisher nur am PC.</p>
 
@@ -64,16 +64,16 @@
         <table>
           <thead><tr><th scope="col">Nachricht</th><th scope="col">Bedeutung</th><th scope="col">Am Chip</th></tr></thead>
           <tbody>
-            <tr><td><a href="kapitel-anhang.html#g-ack">ACK</a></td><td data-spalte="Bedeutung">Der Server hat das Ereignis empfangen. Kein Mensch weiß davon.</td><td data-spalte="Am Chip">Der Chip hört auf zu wiederholen und zeigt keine Hilfe an.</td></tr>
-            <tr><td><a href="kapitel-anhang.html#g-help">HELP</a> 1, 2, 3</td><td data-spalte="Bedeutung">Ein Mensch hat übernommen, ist vor Ort, hat erledigt.</td><td data-spalte="Am Chip">Bei der Übernahme vibriert er zweimal lang und blinkt rot.</td></tr>
+            <tr><td>Empfangsbestätigung (ACK)</td><td data-spalte="Bedeutung">Der Server hat das Ereignis empfangen. Kein Mensch weiß davon.</td><td data-spalte="Am Chip">Der Chip hört auf zu wiederholen und zeigt keine Hilfe an.</td></tr>
+            <tr><td>Übernahme-, Vor-Ort- und Erledigt-Meldung (HELP 1, 2, 3)</td><td data-spalte="Bedeutung">Ein Mensch hat übernommen, ist vor Ort, hat erledigt.</td><td data-spalte="Am Chip">Bei der Übernahme vibriert er zweimal lang und blinkt rot.</td></tr>
             <tr><td>CALL</td><td>Jemand aus der Gruppe ruft.</td><td>Er vibriert.</td></tr>
-            <tr><td>Keine Antwort</td><td>Nach 90 Sekunden fehlt das ACK.</td><td>Er blinkt doppelt rot und vibriert jede Minute: selbst 140 rufen.</td></tr>
+            <tr><td>Keine Antwort</td><td>Nach 90 Sekunden fehlt die Empfangsbestätigung.</td><td>Er blinkt doppelt rot und vibriert jede Minute: selbst 140 rufen.</td></tr>
           </tbody>
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Wichtig ist der Unterschied zwischen ACK und HELP. Ein ACK heißt nur, dass der Server den Notruf hat. Erst HELP 1 heißt, dass ein Mensch ihn übernommen hat. Ein ACK darf am Chip deshalb nie wie „Hilfe kommt“ aussehen. Die verbindlichen Stufen stehen in <a href="kapitel-13.html#stufen">Kapitel 13</a>.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Eine Lücke bleibt: Die Warnung nach 90 Sekunden greift nur, solange kein ACK kam. Kommt danach kein HELP 1, warnt der Chip laut <a href="kapitel-anhang.html#g-uebergabe">Übergabe</a> nicht mehr. Der <a href="kapitel-13.html#eskalation">Zeitablauf in Kapitel 13</a> schlägt dafür eine zweite Frist vor.</p>
+        <p class="nach-tabelle">Wichtig ist der Unterschied zwischen Empfangsbestätigung und Übernahme-Meldung. Eine Empfangsbestätigung heißt nur, dass der Server den Notruf hat. Erst die Übernahme-Meldung heißt, dass ein Mensch ihn übernommen hat. Eine Empfangsbestätigung darf am Chip deshalb nie wie „Hilfe kommt“ aussehen. Die verbindlichen Stufen stehen in <a href="kapitel-13.html#stufen">Kapitel 13</a>.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Eine Lücke bleibt: Die Warnung nach 90 Sekunden greift nur, solange keine Empfangsbestätigung kam. Kommt danach keine Übernahme-Meldung, warnt der Chip laut <a href="kapitel-anhang.html#g-uebergabe">Übergabe</a> nicht mehr. Der <a href="kapitel-13.html#eskalation">Zeitablauf in Kapitel 13</a> schlägt dafür eine zweite Frist vor.</p>
 
         <h2 id="kosten" data-kurz="Was er kostet">Was der Rückkanal kostet</h2>
         <p>Ein Kanal in beide Richtungen ist nicht gratis. Der Preis fällt an drei Stellen an:</p>
@@ -119,7 +119,7 @@
       </div>
 
       <div class="lesen">
-        <p class="nach-tabelle">Beim Notruf ist das ACK schnell, weil der Chip wiederholt und so oft Gelegenheit für eine Antwort bietet. HELP 1 dagegen wartet nach dem ACK auf das nächste normale Paket, also bis zu 20 Sekunden. Spürbar ist es beim Gruppenruf: Ein Freund drückt den Knopf, und der eigene Chip vibriert bis zu 20 Sekunden später.</p>
+        <p class="nach-tabelle">Beim Notruf ist die Empfangsbestätigung schnell, weil der Chip wiederholt und so oft Gelegenheit für eine Antwort bietet. Die Übernahme-Meldung dagegen wartet nach der Empfangsbestätigung auf das nächste normale Paket, also bis zu 20 Sekunden. Spürbar ist es beim Gruppenruf: Ein Freund drückt den Knopf, und der eigene Chip vibriert bis zu 20 Sekunden später.</p>
 
         <h2 id="widerspruch" data-kurz="Ein offener Widerspruch">Ein offener Widerspruch</h2>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Der Chip hört heute dauernd mit, der Server sendet ihm aber nur direkt nach seinem eigenen Paket etwas. Damit bezahlt der Chip für das ständige Zuhören, nutzt es aber kaum. Das lässt sich in beide Richtungen auflösen:</p>
@@ -139,7 +139,7 @@
 
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
-          <p><strong>Der Rückkanal ist möglich und nötig.</strong> Das ACK beendet die Wiederholungen, und HELP 1 sagt der Person am Chip, dass ein Mensch übernommen hat.</p>
+          <p><strong>Der Rückkanal ist möglich und nötig.</strong> Die Empfangsbestätigung beendet die Wiederholungen, und die Übernahme-Meldung sagt der Person am Chip, dass ein Mensch übernommen hat.</p>
           <p><strong>Für den Test bleibt er, wie er ist.</strong> Bis zu 20 Sekunden beim Gruppenruf sind dafür vertretbar.</p>
           <p><strong>Für den Betrieb ist er die eigentliche Engstelle.</strong> Gateway-Zeit ist knapp, also sollten Antworten auf Ereignisse beschränkt bleiben und nicht jede Position bestätigt werden.</p>
         </div>

@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reichweite im Gelände · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was die Reichweite von LoRa am Berg bestimmt und wie SkiTag sie misst.">
-<link rel="stylesheet" href="assets/book.css?v=46">
-<link rel="stylesheet" href="assets/druck.css?v=46" media="print">
-<script src="assets/book.js?v=46" defer></script>
-<script src="assets/funk.js?v=46" defer></script>
-<script src="assets/funkstrecke.js?v=46" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=48">
+<link rel="stylesheet" href="assets/druck.css?v=48" media="print">
+<script src="assets/book.js?v=48" defer></script>
+<script src="assets/funk.js?v=48" defer></script>
+<script src="assets/funkstrecke.js?v=48" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -57,6 +57,30 @@
           <p><strong>Offen:</strong> Wie viel kosten Körper, Schnee und die Antenne im Chip?</p>
         </div>
         <p><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Gemessen ist bei KitzSki noch nichts. Alle Zahlen hier sind Rechnungen oder Schätzungen, bis der Reichweiten-Test sie bestätigt.</p>
+
+        <h2 id="db" data-kurz="Was dB und dBm bedeuten">Was dB und dBm bedeuten</h2>
+        <p>Ein Funksignal wird auf dem Weg zum Gateway unvorstellbar schwach. Damit man mit so kleinen Zahlen rechnen kann, misst man es in einer eigenen Einheit:</p>
+        <ul>
+          <li><strong>dBm</strong> ist eine Leistung. 0 dBm ist 1 Milliwatt. Jede 10 dBm mehr heißen zehnmal so viel, jede 10 dBm weniger ein Zehntel. Chip und Gateway senden mit 20 dBm, also mit 100 Milliwatt.</li>
+          <li><strong>dB</strong> ist ein Verhältnis, etwa wie viel unterwegs verloren geht. 3 dB heißen halb so viel, 10 dB ein Zehntel, 20 dB ein Hundertstel.</li>
+          <li>Der Vorteil: Statt zu multiplizieren, zieht man ab. Sendeleistung in dBm minus alle Verluste in dB ergibt, was beim Gateway ankommt.</li>
+        </ul>
+        <p>Darum stehen am Empfänger negative Zahlen. Sie zeigen, wie winzig der Rest der Sendeleistung ist:</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Pegel</th><th scope="col">Im Vergleich zu den 100 mW beim Senden</th><th scope="col">Was das für das Signal heißt</th></tr></thead>
+          <tbody>
+            <tr><td>20 dBm</td><td data-spalte="Im Vergleich">Die volle Sendeleistung</td><td data-spalte="Bedeutung">So verlässt das Paket den Chip.</td></tr>
+            <tr><td>−92 dBm</td><td data-spalte="Im Vergleich">112 dB weniger, rund ein 160-Milliardstel</td><td data-spalte="Bedeutung">Etwa 5 km bei freier Sicht: 20 dBm plus 3 dBi Antenne, minus 105 dB Strecke und 10 dB Zuschlag für Körper und Schnee. Sicherer Empfang mit viel Reserve.</td></tr>
+            <tr><td>−115 dBm</td><td data-spalte="Im Vergleich">135 dB weniger, rund ein 30-Billionstel</td><td data-spalte="Bedeutung">Grenze für „gut“. Darüber kommt ein Notruf zuverlässig an.</td></tr>
+            <tr><td>−125 dBm</td><td data-spalte="Im Vergleich">145 dB weniger, rund ein 300-Billionstel</td><td data-spalte="Bedeutung">Grenze für „knapp“. Es kommt noch an, aber schon kleine Störungen reichen.</td></tr>
+            <tr><td>−129 dBm</td><td data-spalte="Im Vergleich">149 dB weniger, rund ein 800-Billionstel</td><td data-spalte="Bedeutung">Darunter versteht das Gateway bei SF9 nichts mehr.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle">Zwei Faustregeln helfen beim Lesen der folgenden Abschnitte. Bei freier Sicht kostet die doppelte Entfernung nur rund 6 dB. Ein einzelner Grat kostet dagegen leicht 20 dB und mehr. Und die Grenze „gut“ liegt 14 dB über dem, was das Gateway gerade noch versteht. Diese Reserve ist rund das 25-Fache und fängt Körper, Schnee und Schwankungen ab.</p>
 
         <h2 id="budget" data-kurz="Was das Signal verlieren darf">Was das Signal verlieren darf</h2>
         <p>Der Chip sendet mit 20 <a href="kapitel-anhang.html#g-db">dBm</a>, das Gateway versteht bei <a href="kapitel-anhang.html#g-sf9">SF9</a> noch rund −129 dBm. Das sind die 149 dB aus <a href="kapitel-03.html#reichweite">Kapitel 3</a>, mit den 3 dBi der Gateway-Antenne rund 152 dB. Davon lebt die Reichweite: Jedes Hindernis nimmt sich einen Teil davon.</p>
@@ -135,7 +159,7 @@
         <ol>
           <li>Die Gateways stehen an ihren Plätzen, das Funk-Protokoll zeichnet jedes Paket mit <a href="kapitel-anhang.html#g-rssi">RSSI</a> auf.</li>
           <li>Jemand fährt mit dem Chip in der Jacke einen Tag lang die Teststrecke ab. Das ganze Gebiet lässt sich so nicht messen, dafür braucht es später mehr Gateways und mehrere Personen.</li>
-          <li>Das Protokoll wird von der <a href="kapitel-anhang.html#g-ausgabe-seite">Ausgabe-Seite</a> heruntergeladen und nach Position ausgewertet.</li>
+          <li>Das Protokoll wird von der <a href="kapitel-anhang.html#g-ausgabe-seite">Ausgabe-Seite</a> heruntergeladen, der Webseite des Servers für den Verleih der Chips, und nach Position ausgewertet.</li>
           <li>Pisten unter −115 dBm und Lücken ohne Pakete werden markiert.</li>
           <li>Für den Ausfall-Test werden Gateway und WLAN abgeschaltet, und es wird geprüft, was der Chip anzeigt.</li>
         </ol>

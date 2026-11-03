@@ -16,6 +16,7 @@
   --kopf: "Barlow Semi Condensed", "Arial Narrow", sans-serif;
   --text: "Source Sans 3", "Segoe UI", sans-serif;
   --streifen: 52px;
+  --rundung: 6px;
   --rand: max(20px, calc((100vw - 1360px) / 4 + 22px));
 }
 
@@ -310,15 +311,35 @@ main ol.inhalt { list-style: none; padding: 0; margin-top: 18px; background: var
 .js .abdeckung { display: grid; }
 #abd-karte { display: block; width: 100%; height: auto; background: var(--dunkel); }
 #abd-karte path { fill: none; stroke-width: 5; stroke-linecap: round; }
+#abd-karte .karte-piste { stroke: var(--schnee); stroke-width: 1.6; opacity: .4; }
+#abd-karte .karte-lift { stroke: var(--dunst); stroke-width: 1.5; stroke-dasharray: 5 4; stroke-linecap: butt; opacity: .7; }
 #abd-karte .abd-gut { stroke: var(--licht); }
 #abd-karte .abd-knapp { stroke: var(--schnee); stroke-width: 3; }
-#abd-karte .abd-kein { stroke: var(--notruf); stroke-width: 7; stroke-linecap: square; }
+#abd-karte .abd-kein { stroke: var(--notruf); stroke-width: 9; stroke-linecap: square; }
+.abd-kreise circle { fill: var(--licht); fill-opacity: .12; stroke: var(--licht); stroke-width: 2; }
 .abd-ort { font: 600 20px/1 var(--text); text-anchor: middle; fill: var(--dunst); stroke: var(--dunkel); stroke-width: 4; paint-order: stroke; }
 .abd-gateway { fill: var(--flaeche-hell); stroke: var(--dunst); stroke-width: 1.5; }
 .abd-gateway.an { fill: var(--schnee); stroke: var(--dunkel); stroke-width: 2.5; }
-.abd-werte { grid-template-columns: repeat(2, 1fr); margin-top: 0; margin-bottom: 14px; }
-#abd-waehlen { margin: 12px 0; background: var(--flaeche-hell); }
-#abd-liste { max-height: 420px; overflow-y: auto; }
+.abd-werte { grid-template-columns: repeat(2, 1fr); margin-top: 0; margin-bottom: 4px; }
+.abd-steuerung [hidden] { display: none; }
+.abd-titel { margin-top: 18px; font: 700 17px/1.3 var(--kopf); }
+.abd-liste { margin-top: 6px; font-size: 17px; max-height: 420px; overflow-y: auto; }
+.abd-hinweis { margin-top: 10px; font-size: 16px; line-height: 1.45; color: var(--notruf); }
+.abd-klein { margin-top: 8px; font-size: 15px; line-height: 1.45; color: var(--dunst); }
+.abd-punkt { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--flaeche-hell); }
+.abd-punkt > p:not(.abd-titel):not(.abd-klein) { margin-top: 6px; font-size: 16px; line-height: 1.45; }
+#abd-schlimmst { margin-top: 10px; background: var(--flaeche-hell); }
+#abd-karte { cursor: pointer; }
+#abd-karte .abd-linie { stroke: var(--schnee); stroke-width: 2.5; stroke-dasharray: 8 5; }
+#abd-karte .abd-linie.loch { stroke: var(--notruf); }
+#abd-karte .abd-wahl { fill: none; stroke: var(--schnee); stroke-width: 3; }
+#abd-profil { display: block; width: 100%; height: auto; margin-top: 10px; background: var(--dunkel); border-radius: calc(var(--rundung) * .7); }
+#abd-profil .profil-gelaende { fill: var(--flaeche-hell); }
+#abd-profil .profil-grat { fill: none; stroke: var(--notruf); stroke-width: 3; stroke-linecap: round; }
+#abd-profil .profil-sicht { stroke: var(--licht); stroke-width: 1.5; stroke-dasharray: 4 3; }
+#abd-profil .profil-gateway { fill: var(--schnee); }
+#abd-profil .profil-punkt { fill: var(--licht); }
+#abd-profil text { font: 600 11px/1 var(--text); fill: var(--dunst); }
 
 /* Ergebnis und Quellen */
 .urteil { margin-top: 18px; padding: 18px 20px; background: var(--flaeche); }
@@ -327,6 +348,12 @@ main ol.inhalt { list-style: none; padding: 0; margin-top: 18px; background: var
 
 /* Weiterblättern */
 .blaettern { display: flex; justify-content: space-between; gap: 20px; margin-top: 72px; padding-top: 20px; font: 500 18px/1.3 var(--kopf); color: var(--dunst); }
+
+/* Leicht abgerundete Kästen. Eckig wird es wieder mit --rundung: 0. */
+.kurz, .urteil, .status > div, .signalweg, .rechner, .bauplan, .zeit-bild, .befehl, .legende div, main ol.inhalt, .schema, .testfall, .abdeckung, .tabelle, .seite-klein { border-radius: var(--rundung); }
+.signalweg, .schema, .zeit-bild, main ol.inhalt { overflow: hidden; }
+.sb-box { rx: calc(var(--rundung) * .7); }
+.sb-zone { rx: var(--rundung); }
 
 @media (max-width: 1180px) {
   .buch { grid-template-columns: 220px minmax(0, 1fr); }
@@ -350,7 +377,7 @@ main ol.inhalt { list-style: none; padding: 0; margin-top: 18px; background: var
   .seite-mobil p { font-weight: 700; color: var(--schnee); }
   .seite-mobil ol { padding: 6px 0 0; }
   .seite-mobil li { display: block; padding: 0; }
-  .kapitel-nav { position: static; max-height: none; margin-bottom: 24px; background: var(--flaeche); }
+  .kapitel-nav { position: static; max-height: none; margin-bottom: 24px; background: var(--flaeche); border-radius: var(--rundung); }
   .streifen { padding: 0 16px; }
   .suche { margin: 0 14px 10px; }
   .suche input { background: var(--flaeche-hell); }
@@ -369,6 +396,7 @@ main ol.inhalt { list-style: none; padding: 0; margin-top: 18px; background: var
   .stapel td { padding: 2px 0; }
   .stapel td:first-child { font-weight: 600; }
   .stapel td[data-spalte]::before { content: attr(data-spalte) ": "; font-weight: 600; color: var(--dunst); }
+  .stapel td:empty { display: none; }
   .rechner, .bauplan, .abdeckung { padding: 16px; }
   .testfall dl div { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .legende { grid-template-columns: minmax(0, 1fr); }

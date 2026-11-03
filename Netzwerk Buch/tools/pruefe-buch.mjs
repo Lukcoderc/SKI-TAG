@@ -70,7 +70,13 @@ kapitel.forEach((k, i) => {
 for (const n of seiten) if (/class="seil|data-station/.test(inhalt[n])) fehler.push(n + ": Seil noch vorhanden");
 
 // Einheitliche Begriffe: Der Knopf heißt „Annehmen“, die Stufe HELP 1 heißt Übernahme.
-for (const n of seiten) for (const w of ["„Übernehmen“", "Einsatz übernehmen", "Ausblick Serie"]) if (inhalt[n].includes(w)) fehler.push(n + ": Begriff " + w);
+for (const n of seiten) for (const w of ["„Übernehmen“", "Einsatz übernehmen", "Ausblick Serie", "kein keine", "Kein Keine"]) if (inhalt[n].includes(w)) fehler.push(n + ": Begriff " + w);
+// ACK und HELP stehen nur in Klammern, in der Protokolltabelle, im Glossar und in den Häufigen Fragen.
+for (const n of seiten) {
+  if (n === "kapitel-anhang.html" || n === "kapitel-fragen.html") continue;
+  const rest = inhalt[n].replace(/\((?:ACK|HELP)[^)]*\)/g, "").replace(/<td>\d (?:ACK|HELP)<\/td>/g, "").replace("heißen die Meldungen ACK und HELP 1 bis 3", "");
+  for (const m of rest.matchAll(/.{0,30}\b(?:ACK|HELP)\b.{0,30}/g)) fehler.push(n + ": Fachwort ohne Klammer: " + m[0]);
+}
 // Abkürzungen und Eigenbegriffe müssen im Glossar stehen.
 const anhang = inhalt["kapitel-anhang.html"];
 const glossar = anhang.slice(anhang.indexOf('id="glossar"'), anhang.indexOf('id="quellen"'));

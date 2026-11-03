@@ -9,6 +9,8 @@ const kontext = { window: {} };
 vm.createContext(kontext);
 vm.runInContext(readFileSync(new URL("assets/abdeckung-daten.js", docs), "utf8"), kontext);
 vm.runInContext(readFileSync(new URL("assets/abdeckung-wahl.js", docs), "utf8"), kontext);
+vm.runInContext(readFileSync(new URL("assets/karte-daten.js", docs), "utf8"), kontext);
+vm.runInContext(readFileSync(new URL("assets/reichweite-wahl.js", docs), "utf8"), kontext);
 const { gateways, punkte } = kontext.window.ABDECKUNG;
 const wahl = (z, s, n) => kontext.waehleStationen(gateways, punkte.length, z, s, n);
 const de = (x, s = 1) => x.toFixed(s).replace(".", ",");
@@ -27,7 +29,6 @@ const zeilen = ZUSCHLAG.map((z) => {
 });
 const haupt = wahl(10, -115, 1).wahl;
 const reihe = haupt.map((k, i) => `            <tr><td>${i + 1}</td><td>${gateways[k].name}</td><td>${gateways[k].hoehe} m</td><td>${de(anteilMit(haupt.slice(0, i + 1), 10, -115))} %</td></tr>`);
-const ersatz = ZUSCHLAG.map((z) => `<tr><td>${dbText(z)}</td><td>${de(anteilMit(haupt, z, -115))} %</td><td>${de(anteilMit(haupt, z, -125))} %</td></tr>`).join("");
 
 const pfad = new URL("kapitel-09.html", docs);
 const alt = readFileSync(pfad, "utf8").split(String.fromCharCode(13)).join("");
@@ -37,7 +38,22 @@ const ersetze = (c, anker, text) => {
 };
 let neu = ersetze(alt, 'id="wieviele"', `<tbody>\n${zeilen.join("\n")}\n          `);
 neu = ersetze(neu, 'id="reihenfolge"', `<tbody>\n${reihe.join("\n")}\n          `);
-neu = ersetze(neu, 'class="tabelle nur-ohne-js"', `<tbody>${ersatz}`);
+const RADIEN = [0.3, 0.5, 1, 2, 3, 5, 10, 15];
+const kreise = RADIEN.map((r) => {
+  const { wahl: w, anteil } = kontext.waehleKreise(gateways, punkte, r * kontext.window.KARTE.proKm);
+  const text = anteil >= 95 ? String(w.length) : `nicht erreichbar, mit ${w.length} Stationen ${de(anteil)} %`;
+  return `            <tr><td>${de(r, r % 1 ? 1 : 0)} km</td><td>${text}</td></tr>`;
+});
+neu = ersetze(neu, 'id="radien"', `<tbody>\n${kreise.join("\n")}\n          `);
+const kreisZahl = (r) => kontext.waehleKreise(gateways, punkte, r * kontext.window.KARTE.proKm).wahl.length;
+const ersatz = [
+  ["Mit Gelände", "Jeder Punkt hört ein Gateway gut, 10 dB Zuschlag", wahl(10, -115, 1).wahl.length],
+  ["Mit Gelände", "Jeder Punkt hört zwei Gateways gut, 10 dB Zuschlag", wahl(10, -115, 2).wahl.length],
+  ["Als Kreis", "2 km Reichweite", kreisZahl(2)],
+  ["Als Kreis", "3 km Reichweite", kreisZahl(3)],
+  ["Als Kreis", "5 km Reichweite", kreisZahl(5)],
+].map(([r, a, n]) => `            <tr><td>${r}</td><td>${a}</td><td>${n}</td></tr>`);
+neu = ersetze(neu, 'class="tabelle nur-ohne-js"', `<tbody>\n${ersatz.join("\n")}\n          `);
 
 if (process.argv.includes("--schreiben")) {
   writeFileSync(pfad, neu);

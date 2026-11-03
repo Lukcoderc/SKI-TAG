@@ -70,6 +70,7 @@ typography:
 rounded:
   fokus: "2px"
   knopf: "3px"
+  flaeche: "6px"
   voll: "50%"
 spacing:
   eng: "6px"
@@ -226,7 +227,7 @@ There is no elevation. Depth is three flat tonal planes stacked by value: Deep T
 
 ## Shapes
 
-Corners are almost absent. Planes (panels, tables, tab strip) are square. Buttons take a barely softened corner (3px), focus outlines 2px. Roundness is kept for the world's own objects: the status marks and the figures of the slope scene.
+Corners are slightly softened. Planes (panels, tables, diagrams, the summary box, the mobile fold) take a 6px radius from the token `--rundung`; boxes and zones inside diagrams take a little less. Buttons keep their barely softened corner (3px), focus outlines 2px. The top stripe and the side lists stay square. Setting `--rundung` to 0 restores the old square look in one place.
 
 The status marks are the system's silhouette vocabulary, drawn on a 16-unit grid with a 2-unit stroke:
 
@@ -243,7 +244,7 @@ A failure heading never uses a new shape: where something is open or disturbed, 
 
 ## Components
 
-Quiet, square and signage-like. Controls read as labels on a plane until they are hovered or current.
+Quiet, softly cornered and signage-like. Controls read as labels on a plane until they are hovered or current.
 
 ### Chapter Page
 
@@ -304,7 +305,7 @@ A how-to chapter uses numbered stages as sections, command blocks on the Twiligh
 
 ### Status Panels
 
-- **Style:** a stack of square Twilight Plane panels with 18px by 20px padding, 6px apart, in the fixed order Fest, Entschieden, Geschätzt, Offen.
+- **Style:** a stack of softly cornered Twilight Plane panels with 18px by 20px padding, 6px apart, in the fixed order Fest, Entschieden, Geschätzt, Offen.
 - **Heading:** Title Status with a 20px mark beside it. The Offen heading and its mark are red.
 - **Table status:** a Stand column with a 16px mark beside its word, in Label Strong. The Offen row turns mark and word red.
 - **Inline mark:** a 16px Offen mark at the start of a paragraph, red, labelled for screen readers as "Offen". It is built for Offen only.
@@ -357,5 +358,5 @@ The script is wired to these five steps and exists once per page. A later chapte
 - **Don't** add fades, slides or hover transitions. States change instantly; the walkthrough's slope scene is what moves, along with smooth anchor scrolling.
 - **Don't** put a small label above a heading. The stamp line goes below the chapter title, and sections have none.
 - **Don't** set uppercase or letter-spaced labels.
-- **Don't** round planes, or give a control any radius other than the button corner.
+- **Don't** give a plane any radius other than `--rundung`, or a control any radius other than the button corner.
 - **Don't** stage photos or invent measurements. Until real ones exist, the slope scene and the marks are the book's picture language.

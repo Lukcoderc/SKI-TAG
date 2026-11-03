@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anforderungen · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was das SkiTag-Netzwerk können muss, im Test 2027 und im echten Betrieb.">
-<link rel="stylesheet" href="assets/book.css?v=46">
-<link rel="stylesheet" href="assets/druck.css?v=46" media="print">
-<script src="assets/book.js?v=46" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=48">
+<link rel="stylesheet" href="assets/druck.css?v=48" media="print">
+<script src="assets/book.js?v=48" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -44,7 +44,7 @@
       <p class="vorwissen">Baut auf: <a href="kapitel-01.html">Kapitel 1, Vom Knopfdruck zur App</a></p>
 
       <div class="lesen">
-        <p class="einstieg">Ein Netzwerk für Notrufe darf nicht nur meistens funktionieren. Dieses Kapitel legt fest, was es können muss, warum das so ist und was davon schon beim Test im Frühjahr 2027 gelten muss.</p>
+        <p class="einstieg">Ein Netzwerk für Notrufe darf nicht nur meistens funktionieren. Dieses Kapitel legt fest, was es können muss, warum das so ist und was davon schon beim Test im Frühjahr 2027 gelten muss. Dazu kommt, was wir dafür kaufen müssen und was es kostet.</p>
         <div class="kurz">
           <p class="kurz-titel">Kurz gesagt</p>
           <ul>
@@ -68,7 +68,7 @@
             <tr><td>Ein Notruf funktioniert ohne Handy und ohne SIM-Karte.</td><td>Das ist das Kernversprechen: Der Chip in der Jacke genügt.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-fest"/></svg>Fest</td></tr>
             <tr><td>Der Chip funkt über LoRa zu Gateways an den Stationen.</td><td>So braucht der Chip kein Handynetz und erreicht trotzdem große Entfernungen.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-fest"/></svg>Fest</td></tr>
             <tr><td>Ein Notruf geht an den nächsten freien Mitarbeiter, nach 60 Sekunden ohne Übernahme an den nächsten.</td><td>Es sollen nicht alle ausrücken, aber es darf auch niemand übersehen werden.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
-            <tr><td>Der Chip bekommt eine Rückmeldung: <a href="kapitel-anhang.html#g-ack">ACK</a>, Übernahme durch einen Menschen oder Warnung nach 90 Sekunden.</td><td>Die verletzte Person muss wissen, ob sie jemand gehört hat.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>Der Chip bekommt eine Rückmeldung: <a href="kapitel-anhang.html#g-empfangsbestaetigung">Empfangsbestätigung</a> (ACK), Übernahme durch einen Menschen oder Warnung nach 90 Sekunden.</td><td>Die verletzte Person muss wissen, ob sie jemand gehört hat.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
             <tr><td>Ein kurzer Druck ruft die eigene Gruppe, nicht die Bergbahn.</td><td>Die Bergbahn bekommt nur echte Notrufe.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
             <tr><td>Der Chip sendet seine Position alle 20 Sekunden, in der <a href="kapitel-anhang.html#g-ladebox">Ladebox</a> nur alle 60 Sekunden.</td><td>App und Notruf brauchen eine aktuelle Position. <a href="kapitel-05.html#takt">Kapitel 5</a> prüft, ob der Takt passt.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
             <tr><td>Die App läuft über Mobilfunk.</td><td>Gäste und Mitarbeiter sollen sie auch außerhalb des Netzes der Bergbahn nutzen können.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
@@ -76,7 +76,7 @@
             <tr><td>Die Gateways decken die Pisten ab.</td><td>Ohne Empfang kommt kein Notruf an. Geschätzt sind 5 bis 15 km bei freier Sicht, hinter einem Grat oft gar nichts.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</td></tr>
             <tr class="zeile-offen"><td>Die Notruf-Kette läuft auch ohne Internet.</td><td>So steht es im Geschäftsmodell. Unklar ist, ob das nur für die Person am Chip gilt oder für die ganze Kette.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Beim Reichweiten-Alarm vibriert nur die Person, die aufpasst.</td><td>Das Ziel ist klar: Das Kind soll nichts merken. Heute vibriert aber das Kind, und die App rechnet nur, solange sie offen ist.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Ein ACK kommt erst, wenn der Notruf dauerhaft gespeichert ist.</td><td>Sonst kann ein Absturz einen bestätigten Notruf aus dem Server löschen. In der Test-Version kommt das ACK noch vor dem Speichern, siehe <a href="kapitel-11.html#speichern">Kapitel 11</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Eine Empfangsbestätigung kommt erst, wenn der Notruf dauerhaft gespeichert ist.</td><td>Sonst kann ein Absturz einen bestätigten Notruf aus dem Server löschen. In der Test-Version kommt die Empfangsbestätigung noch vor dem Speichern, siehe <a href="kapitel-11.html#speichern">Kapitel 11</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Ein Alarm erreicht einen Menschen, auch bei gesperrtem Handy.</td><td>Heute läuft er nur bei offener App. Der Server erfährt außerdem nicht, ob er ankam, siehe <a href="kapitel-12.html#alarm">Kapitel 12</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Nimmt niemand an, greift eine feste Eskalation.</td><td>Gebaut sind nur die 60 Sekunden je Mitarbeiter. Der vollständige Vorschlag steht in <a href="kapitel-13.html#eskalation">Kapitel 13</a>.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Ein Notruf ist innerhalb einer festen Zeit beim Mitarbeiter.</td><td>Dafür gibt es noch keinen Zielwert. Ohne ihn lässt sich beim Test nicht sagen, ob das Netz schnell genug ist.</td><td class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
@@ -96,7 +96,7 @@
             <tr><td>Ort</td><td data-spalte="Test">Eine Piste bei einer Bergbahn</td><td data-spalte="Betrieb">Das ganze Skigebiet</td></tr>
             <tr><td>Chips</td><td data-spalte="Test">5 Prototypen</td><td data-spalte="Betrieb">Hunderte, die genaue Zahl ist offen</td></tr>
             <tr><td>Gateways</td><td data-spalte="Test">An einer Gondelstation. Geplant ist ein LoRa-Gateway, Gerät und Anzahl sind offen</td><td data-spalte="Betrieb">Richtige Geräte an den Liftstationen, Anzahl offen, Antenne möglichst außen</td></tr>
-            <tr><td>Verbindung zum Server</td><td data-spalte="Test">WLAN, notfalls Handy-Hotspot</td><td data-spalte="Betrieb">Kabel, mit KitzSki noch zu klären</td></tr>
+            <tr><td>Verbindung zum Server</td><td data-spalte="Test">WLAN, notfalls Handy-Hotspot</td><td data-spalte="Betrieb">Kabel</td></tr>
             <tr><td>Funk</td><td data-spalte="Test">Ein Kanal, 5 feste Zeitfenster von je 4 Sekunden</td><td data-spalte="Betrieb">Offen: <a href="kapitel-anhang.html#g-lorawan">LoRaWAN</a>, mehrere Kanäle oder längere Abstände</td></tr>
             <tr><td>Sicherheit</td><td data-spalte="Test">Ein Schlüssel für alle Chips</td><td data-spalte="Betrieb">Vorschlag: eigener Schlüssel pro Chip und Standard-Verschlüsselung</td></tr>
             <tr><td>Ausgabe der Chips</td><td data-spalte="Test">Von Hand</td><td data-spalte="Betrieb">Automaten, rund um die Uhr</td></tr>
@@ -107,6 +107,52 @@
       </div>
       <div class="lesen">
         <p class="nach-tabelle">Gleich bleibt in beiden Fällen der Weg eines Notrufs aus <a href="kapitel-01.html#signalweg">Kapitel 1</a> und der eigene Server bei KitzSki.</p>
+
+        <h2 id="einkauf-test" data-kurz="Einkaufsliste für den Test">Einkaufsliste für den Test</h2>
+        <p>Für den Test im Februar oder März 2027 muss man noch nicht viel für das Netzwerk kaufen. Die Liste rechnet mit dem Gateway, für das die Software aus dem Test gebaut ist, dem Heltec V3, siehe <a href="kapitel-07.html#hardware">Kapitel 7</a>. Antenne, Adapter und Netzteil kommen dazu, weil das Gateway an der Station fern vom Laptop steht.</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Teil</th><th scope="col">Menge</th><th scope="col">Einzelpreis</th><th scope="col">Zusammen</th><th scope="col">Wo kaufen</th></tr></thead>
+          <tbody>
+            <tr><td>Heltec WiFi LoRa 32 V3, 868 MHz, nicht V4</td><td data-spalte="Menge">2</td><td data-spalte="Einzelpreis">21,00 €</td><td data-spalte="Zusammen">42,00 €</td><td data-spalte="Wo kaufen"><a href="https://www.tinytronics.nl/nl/development-boards/microcontroller-boards/met-lora/heltec-wi-fi-lora-32-esp32-s3-sx1262-met-0.96-inch-oled-display">Tinytronics</a></td></tr>
+            <tr><td>Stabantenne 868 MHz, 3 dBi, SMA-Stecker (Delock 89769)</td><td data-spalte="Menge">2</td><td data-spalte="Einzelpreis">19,90 €</td><td data-spalte="Zusammen">39,80 €</td><td data-spalte="Wo kaufen"><a href="https://www.berrybase.de/en/lora-868-mhz-antenna-sma-connector-3-dbi-omnidirectional-with-tilt-joint-black">BerryBase</a></td></tr>
+            <tr><td>Adapterkabel SMA-Buchse auf IPEX (U.FL), 10 cm</td><td data-spalte="Menge">2</td><td data-spalte="Einzelpreis">1,20 €</td><td data-spalte="Zusammen">2,40 €</td><td data-spalte="Wo kaufen"><a href="https://www.tinytronics.nl/en/cables-and-connectors/cables-and-adapters/others/sma-female-to-ufl-female-cable">Tinytronics</a></td></tr>
+            <tr><td>USB-C-Netzteil 5,1 V, 3 A, 1,5 m Kabel (Raspberry Pi)</td><td data-spalte="Menge">2</td><td data-spalte="Einzelpreis">9,00 €</td><td data-spalte="Zusammen">18,00 €</td><td data-spalte="Wo kaufen"><a href="https://www.tinytronics.nl/en/power/power-supplies/5v/raspberry-pi-usb-c-power-supply-5.1v-3a-black">Tinytronics</a></td></tr>
+            <tr><td><strong>Netz zusammen</strong></td><td data-spalte="Menge"></td><td data-spalte="Einzelpreis"></td><td data-spalte="Zusammen"><strong>102,20 €</strong></td><td data-spalte="Wo kaufen"></td></tr>
+            <tr><td>Chip, Teile für einen Prototyp</td><td data-spalte="Menge">5</td><td data-spalte="Einzelpreis">etwa 105 bis 112 €</td><td data-spalte="Zusammen">525 bis 560 €</td><td data-spalte="Wo kaufen">Bauteile im <a href="https://ma-xi.github.io/SKI-TAG-Hardware/kapitel-01.html">Werkstattbuch</a> von Maximilian</td></tr>
+            <tr class="zeile-offen"><td>Ladebox mit 6 Plätzen</td><td data-spalte="Menge">1</td><td data-spalte="Einzelpreis" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td><td data-spalte="Zusammen">nicht eingerechnet</td><td data-spalte="Wo kaufen">Bereich von Maximilian</td></tr>
+            <tr class="zeile-offen"><td>Server bei KitzSki</td><td data-spalte="Menge">1</td><td data-spalte="Einzelpreis" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td><td data-spalte="Zusammen">nicht eingerechnet</td><td data-spalte="Wo kaufen">Mit der IT von KitzSki klären</td></tr>
+            <tr><td>WLAN an der Station, Handy-Hotspot als Reserve, Laptop</td><td data-spalte="Menge"></td><td data-spalte="Einzelpreis">0 €</td><td data-spalte="Zusammen">0 €</td><td data-spalte="Wo kaufen">Von der Bergbahn oder vorhanden</td></tr>
+            <tr><td><strong>Test zusammen</strong></td><td data-spalte="Menge"></td><td data-spalte="Einzelpreis"></td><td data-spalte="Zusammen"><strong>rund 627 bis 662 €</strong></td><td data-spalte="Wo kaufen">Dazu Versand, Ladebox und Server</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Geschätzt. Zwei Heltec stehen so in der Übergabe, wie viele Gateways am Berg wirklich stehen, ist offen. Die Teile je Chip schätzt Maximilian im Werkstattbuch, eine Stückliste mit Preisen gibt es dort noch nicht. Geplant ist am Berg ein LoRa-Gateway statt des Heltec. Wird es das, kommen seine Preise aus der Liste unten dazu, und die Gateway-Software muss dafür angepasst werden.</p>
+
+        <h2 id="einkauf-betrieb" data-kurz="Einzelpreise für den Betrieb">Einzelpreise für den Betrieb</h2>
+        <p>Für das ganze Skigebiet steht noch nicht fest, wie viele Gateways und Chips es braucht. Darum stehen hier nur Einzelpreise. Wie viele Gateways es werden könnten, schätzt <a href="kapitel-09.html">Kapitel 9</a>, was das Netz zusammen kosten könnte, rechnet <a href="kapitel-18.html#kosten">Kapitel 18</a>.</p>
+      </div>
+      <div class="tabelle">
+        <table class="stapel">
+          <thead><tr><th scope="col">Teil</th><th scope="col">Einzelpreis</th><th scope="col">Wo kaufen</th><th scope="col">Hinweis</th></tr></thead>
+          <tbody>
+            <tr><td>Außen-Gateway RAK7289 V2, 16 Kanäle</td><td data-spalte="Einzelpreis">440,00 € ohne USt, 537,76 € mit 19 % USt</td><td data-spalte="Wo kaufen"><a href="https://exp-tech.de/en/products/rak7289v2-wisgate-edge-pro-16-channel-outdoor-lorawan-gateway">EXP Tech</a>, <a href="https://iot-shop.de/en/shop/rak7289-wisgate-edge-pro-outdoor-lorawan-gateway-6007">IoT-Shop</a></td><td data-spalte="Hinweis">PoE-Injektor und Halterung liegen bei, die Antenne nicht. Ob es unser eigenes Protokoll annimmt, ist nicht geprüft.</td></tr>
+            <tr><td>Außen-Gateway Milesight UG67 mit 4G</td><td data-spalte="Einzelpreis">789,90 € ohne USt</td><td data-spalte="Wo kaufen"><a href="https://invibitshop.com/products/milesight-ug67-outdoor-lorawan-gateway-4g-wifi-ethernet-eu868">Invibit</a></td><td data-spalte="Hinweis">Die zweite Möglichkeit aus Kapitel 10. Mobilfunk als Reserve ist eingebaut.</td></tr>
+            <tr><td>Außenantenne 868 MHz, 3 dBi, N-Buchse (Delock 89583)</td><td data-spalte="Einzelpreis">rund 45 bis 62 €</td><td data-spalte="Wo kaufen"><a href="https://www.berrybase.de/en/lora-868-mhz-antenne-n-buchse-3-dbi-32-cm-omnidirektional-starr-mastmontage-weiss-outdoor">BerryBase</a></td><td data-spalte="Hinweis">Für die Montage am Mast, eine pro Gateway.</td></tr>
+            <tr><td>Blitzschutz für den Antennenanschluss (RAKwireless, N-Typ)</td><td data-spalte="Einzelpreis">55,60 €</td><td data-spalte="Wo kaufen"><a href="https://openelab.io/de/products/rakwireless-lightning-arrestor-for-n">OpenELAB</a></td><td data-spalte="Hinweis">Direkt an der Antenne, wirkt nur mit Erdung, siehe Kapitel 10.</td></tr>
+            <tr><td>Überspannungsschutz für das Netzwerkkabel (Ubiquiti ETH-SP-G2)</td><td data-spalte="Einzelpreis">rund 19 €</td><td data-spalte="Wo kaufen"><a href="https://pood.datafox.ee/net-acc-surge-protector-eth-sp-g2-ubiquiti">Datafox</a></td><td data-spalte="Hinweis">Wo das Kabel ins Gebäude führt, einer pro Gateway.</td></tr>
+            <tr class="zeile-offen"><td>Antennenkabel, Netzwerkkabel, Mast und Montage</td><td data-spalte="Einzelpreis" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td><td data-spalte="Wo kaufen">Je Station verschieden</td><td data-spalte="Hinweis">Hängt von Station, Kabelweg und Erdung ab. Die Erdung plant eine Elektrofachkraft.</td></tr>
+            <tr><td>Server vor Ort, Beispiel: Mini-PC mit Intel N100, 16 GB, 512 GB</td><td data-spalte="Einzelpreis">rund 250 bis 280 €</td><td data-spalte="Wo kaufen"><a href="https://www.smartzone.de/geekom-mini-air-12-im-test/">Test mit Preis</a></td><td data-spalte="Hinweis">Nur ein Beispiel für die Größe, einer für das ganze Netz. Ob die IT von KitzSki selbst einen Server stellt, ist offen.</td></tr>
+            <tr><td>Eigene Domain mit .at</td><td data-spalte="Einzelpreis">12,08 € im ersten Jahr, danach 13,48 € pro Jahr</td><td data-spalte="Wo kaufen"><a href="https://www.ovhcloud.com/de/domains/tld/at/">OVHcloud</a></td><td data-spalte="Hinweis">Für das HTTPS-Zertifikat, laufende Kosten.</td></tr>
+            <tr><td>Chip, Teile für einen Prototyp</td><td data-spalte="Einzelpreis">etwa 105 bis 112 €</td><td data-spalte="Wo kaufen"><a href="https://ma-xi.github.io/SKI-TAG-Hardware/kapitel-01.html">Werkstattbuch</a></td><td data-spalte="Hinweis">Schätzung von Maximilian für den Prototyp. Was ein Chip in Serie kostet, ist offen.</td></tr>
+            <tr class="zeile-offen"><td>Lade-Schubladen und Automaten für den Verleih</td><td data-spalte="Einzelpreis" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td><td data-spalte="Wo kaufen">Bereich von Maximilian und Tobias</td><td data-spalte="Hinweis">Nicht Teil des Netzes, der Vollständigkeit halber hier.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Alle Preise vom 3. November 2026 und ohne Versand. Wo nichts anderes steht, ist die Umsatzsteuer dabei. Händlerpreise ändern sich schnell, vor dem Kauf neu prüfen. Die Shop-Seiten sind gelesen, außer bei der Außenantenne und dem Mini-PC: Deren Preise stammen aus Suchtreffern und einem Test.</p>
 
         <h2 id="vorgaben" data-kurz="Vorgaben von außen">Vorgaben von außen</h2>
         <p>Nicht alles können wir selbst bestimmen. Der Funk läuft in einem Frequenzband mit festen Grenzen: 869,40 bis 869,65 MHz, bis 500 mW <a href="kapitel-anhang.html#g-eirp">ERP</a> und höchstens 10 % Sendezeit.</p>
@@ -145,6 +191,7 @@
         <div class="urteil">
           <p><strong>Fest:</strong> Ein Notruf funktioniert ohne Handy und ohne SIM-Karte, über LoRa zu Gateways an den Stationen.</p>
           <p><strong>Entschieden:</strong> Weitergabe nach 60 Sekunden, Rückmeldung am Chip, App über Mobilfunk, Server vor Ort.</p>
+          <p><strong>Geschätzt:</strong> Der Test kostet rund 100 € für das Netz und 525 bis 560 € für 5 Chips, dazu Versand, Ladebox und Server.</p>
           <p><strong>Offen:</strong> Ohne Internet, Reichweiten-Alarm, Alarm bei gesperrtem Handy, Eskalation, Zielzeit und Löschfristen.</p>
         </div>
       </div>

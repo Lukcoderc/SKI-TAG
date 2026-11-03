@@ -31,39 +31,39 @@ const AUSFAELLE = [
     "wer": "Die Ausgabe-Seite zeigt das Gateway als „weg“."
   },
   {
-    "name": "Server vor dem ACK",
+    "name": "Server vor der Empfangsbestätigung",
     "notruf": "Kommt nicht an. Der Chip wiederholt weiter, nach dem Neustart kann er durchkommen.",
     "chip": "Warnt nach 90 Sekunden.",
     "wer": "Niemand automatisch. Auch die Ausgabe-Seite ist dann weg."
   },
   {
-    "name": "Server direkt nach dem ACK",
+    "name": "Server direkt nach der Empfangsbestätigung",
     "notruf": "Ist er nicht gespeichert, ist er im Server weg. Der Chip meldet aber weiter „Notruf läuft“, und der Server legt ihn beim nächsten Paket neu an. Das ursprüngliche T0 geht dabei verloren.",
-    "chip": "Heute keine Warnung, der Chip hat ja ein ACK. Vorschlag: Warnung 180 s nach dem ersten Senden.",
-    "wer": "Niemand. Die Regel aus Kapitel 11, erst speichern, dann ACK, hält T0 und Verlauf fest."
+    "chip": "Heute keine Warnung, der Chip hat ja eine Empfangsbestätigung. Vorschlag: Warnung 180 s nach dem ersten Senden.",
+    "wer": "Niemand. Die Regel aus Kapitel 11, erst speichern, dann bestätigen, hält T0 und Verlauf fest."
   },
   {
     "name": "Stromausfall am Server",
-    "notruf": "Wie bei einem Absturz. Nach dem Neustart liest der Server den letzten Stand, der bis zu 5 Sekunden alt sein kann. Ein noch nicht angekommenes HELP 1 ist weg.",
-    "chip": "Warnt nach 90 Sekunden, solange kein ACK kam.",
+    "notruf": "Wie bei einem Absturz. Nach dem Neustart liest der Server den letzten Stand, der bis zu 5 Sekunden alt sein kann. Eine noch nicht angekommene Übernahme-Meldung ist weg.",
+    "chip": "Warnt nach 90 Sekunden, solange keine Empfangsbestätigung kam.",
     "wer": "Niemand automatisch."
   },
   {
     "name": "Internet am Server",
     "notruf": "Erreicht das Gateway den Server noch, nimmt er den Notruf an. Die Apps bekommen ihn aber nicht.",
-    "chip": "Der Chip bekommt ein ACK und warnt heute deshalb nicht. Vorschlag: Warnung 180 s nach dem ersten Senden.",
+    "chip": "Der Chip bekommt eine Empfangsbestätigung und warnt heute deshalb nicht. Vorschlag: Warnung 180 s nach dem ersten Senden.",
     "wer": "Niemand. Das ist die gefährlichste Lücke."
   },
   {
     "name": "App geschlossen oder Handy ohne Netz",
     "notruf": "Der Server wartet heute 60 Sekunden, dann ist der nächste Mitarbeiter dran. Er merkt nicht, dass nichts ankam. Vorschlag: Weitergabe nach 15 s ohne Zustellung.",
-    "chip": "Hat ein ACK, aber kein HELP 1. Er zeigt also keine Übernahme. Vorschlag: Warnung 180 s nach dem ersten Senden.",
+    "chip": "Hat eine Empfangsbestätigung, aber keine Übernahme-Meldung. Er zeigt also keine Übernahme. Vorschlag: Warnung 180 s nach dem ersten Senden.",
     "wer": "Niemand, solange noch ein Mitarbeiter übrig ist."
   },
   {
     "name": "Niemand übernimmt",
     "notruf": "Nach dem letzten Mitarbeiter bleibt der Notruf in der Test-Version ohne Zuständigen liegen.",
-    "chip": "Kein HELP 1. Vorschlag: Warnung 180 s nach dem ersten Senden.",
+    "chip": "Keine Übernahme-Meldung. Vorschlag: Warnung 180 s nach dem ersten Senden.",
     "wer": "Nicht geregelt. Vorschlag: Zeitablauf aus Kapitel 13, der Leitstand erfährt es bei T0 + 120 s."
   },
   {

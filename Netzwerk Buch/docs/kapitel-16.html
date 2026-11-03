@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Testen in der Schule · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Anleitung: SkiTag in der Schule testen und simulieren, vom Laptop bis zum echten Funk.">
-<link rel="stylesheet" href="assets/book.css?v=46">
-<link rel="stylesheet" href="assets/druck.css?v=46" media="print">
-<script src="assets/book.js?v=46" defer></script>
-<script src="assets/checkliste.js?v=46" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=48">
+<link rel="stylesheet" href="assets/druck.css?v=48" media="print">
+<script src="assets/book.js?v=48" defer></script>
+<script src="assets/checkliste.js?v=48" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -135,7 +135,7 @@
 node tools/test.js</code></pre>
         <p>Laut Übergabe sollen 58 von 58 Prüfungen bestehen. Lege dann auf dem NAS eine Datei <code>.env</code> mit <code>DOMAIN</code> und <code>EMAIL</code> an, mit DuckDNS auch den <a href="kapitel-anhang.html#g-token">Token</a>, und starte den Server:</p>
         <pre class="befehl"><code>docker compose up -d --build</code></pre>
-        <p>Öffne die Ausgabe-Seite <code>/ausgabe</code> mit ihrem Passwort. Liegt der Chip noch nicht vor, spielt <code>node tools/simulator.js &lt;Server-Adresse&gt; 5</code> fünf Chips nach.</p>
+        <p>Öffne die Ausgabe-Seite <code>/ausgabe</code> mit ihrem Passwort. Über sie werden später am Verleih die Chips an Gäste gegeben und zurückgenommen, und sie zeigt Akku und Funk jedes Chips. Liegt der Chip noch nicht vor, spielt <code>node tools/simulator.js &lt;Server-Adresse&gt; 5</code> fünf Chips nach.</p>
 
         <h3>3. Gateway einrichten</h3>
         <ol>
@@ -162,7 +162,7 @@ node tools/test.js</code></pre>
             <tr><td>Knopf 3 Sekunden halten und warten</td><td data-spalte="Ergebnis">Der Notruf erscheint in der App. Solange niemand übernimmt, zeigt der Chip keine Hilfe an.</td></tr>
             <tr><td>In der App übernehmen</td><td data-spalte="Ergebnis">Der Chip vibriert zweimal lang.</td></tr>
             <tr><td>Niemand übernimmt</td><td data-spalte="Ergebnis">Nach 60 Sekunden geht der Notruf an den nächsten Mitarbeiter.</td></tr>
-            <tr><td>Gateway ausschalten, dann Notruf auslösen</td><td data-spalte="Ergebnis">Nach 90 Sekunden ohne <a href="kapitel-anhang.html#g-ack">ACK</a> warnt der Chip. Die Ausgabe-Seite zeigt das Gateway nach 30 Sekunden als „weg“.</td></tr>
+            <tr><td>Gateway ausschalten, dann Notruf auslösen</td><td data-spalte="Ergebnis">Nach 90 Sekunden ohne <a href="kapitel-anhang.html#g-empfangsbestaetigung">Empfangsbestätigung</a> (ACK) warnt der Chip. Die Ausgabe-Seite zeigt das Gateway nach 30 Sekunden als „weg“.</td></tr>
             <tr><td>Server direkt nach einem Notruf hart beenden und neu starten</td><td data-spalte="Ergebnis">Der Notruf ist danach wieder offen.</td></tr>
             <tr><td>Mit dem Chip in der Jacke durch das Gebäude gehen</td><td data-spalte="Ergebnis">Im Funk-Protokoll der Ausgabe-Seite steht die Signalstärke. Gut ist sie ab −115 <a href="kapitel-anhang.html#g-db">dBm</a>, knapp ab −125 dBm.</td></tr>
           </tbody>

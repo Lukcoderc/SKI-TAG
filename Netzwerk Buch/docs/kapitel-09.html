@@ -5,13 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Standortplanung KitzSki · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie viele Gateways KitzSki braucht: ein Modell aus echten Pisten und Gelände.">
-<link rel="stylesheet" href="assets/book.css?v=46">
-<link rel="stylesheet" href="assets/druck.css?v=46" media="print">
-<script src="assets/book.js?v=46" defer></script>
-<script src="assets/funk.js?v=46" defer></script>
-<script src="assets/abdeckung-daten.js?v=46" defer></script>
-<script src="assets/abdeckung-wahl.js?v=46" defer></script>
-<script src="assets/abdeckung.js?v=46" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=48">
+<link rel="stylesheet" href="assets/druck.css?v=48" media="print">
+<script src="assets/book.js?v=48" defer></script>
+<script src="assets/funk.js?v=48" defer></script>
+<script src="assets/abdeckung-daten.js?v=48" defer></script>
+<script src="assets/karte-daten.js?v=49" defer></script>
+<script src="assets/abdeckung-wahl.js?v=48" defer></script>
+<script src="assets/reichweite-wahl.js?v=48" defer></script>
+<script src="assets/abdeckung.js?v=50" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -71,38 +73,6 @@
         </ul>
         <p>Dann wurde schrittweise jene Station gewählt, die am meisten noch unversorgte Pistenpunkte dazugewinnt, bis mindestens 95 % erreicht sind. Dieses gierige Verfahren ist einfach und nachvollziehbar, findet aber nicht sicher die kleinste mögliche Zahl. Für jede Kombination aus Zuschlag und Ziel wählt es eigene Stationen aus allen 59 Standorten. Das Modell prüft nur, ob ein Paket ein Gateway erreicht. Wie viele Chips das Netz gleichzeitig trägt, ist eine andere Frage, siehe <a href="kapitel-05.html">Kapitel 5</a>.</p>
 
-        <h2 id="karte" data-kurz="Die Karte zum Ausprobieren">Die Karte zum Ausprobieren</h2>
-        <p>Wähle Zuschlag und Ziel und lass die Stationen dafür wählen, oder setze selbst Haken. Die Karte rechnet mit denselben Daten wie die Tabelle unten. Änderst du nur den Zuschlag, bleiben die Stationen gleich: So siehst du, wie eine Auswahl bei mehr Dämpfung einbricht. Norden ist oben, jeder Punkt ist ein Stück Piste. Ein runder Punkt in Bernstein heißt gut, ein kleiner heller knapp, ein rotes Quadrat kein ausreichender Empfang. Die Rauten sind mögliche Gateways.</p>
-      </div>
-
-      <section class="abdeckung" aria-label="Karte der Abdeckung bei KitzSki">
-        <svg id="abd-karte" role="img" aria-label="Karte der Pisten von KitzSki mit der gerechneten Abdeckung"></svg>
-        <div class="abd-steuerung">
-          <dl class="rechner-werte abd-werte">
-            <div><dt>Gateways</dt><dd id="abd-zahl"></dd></div>
-            <div><dt>Gut</dt><dd id="abd-gut"></dd></div>
-            <div><dt>Mindestens knapp</dt><dd id="abd-knapp"></dd></div>
-            <div><dt>Von zweien gut gehört</dt><dd id="abd-doppelt"></dd></div>
-          </dl>
-          <div class="rechner-wahl">
-            <label>Zuschlag <select id="abd-zuschlag"><option value="0">0 dB</option><option value="10" selected>10 dB</option><option value="20">20 dB</option><option value="30">30 dB</option><option value="36.5">36,5 dB</option></select></label>
-            <label>Ziel <select id="abd-ziel"><option value="gut" selected>Gut</option><option value="knapp">Knapp</option><option value="zwei">Gut von zwei</option></select></label>
-          </div>
-          <button class="knopf" type="button" id="abd-waehlen">Stationen für dieses Ziel wählen</button>
-          <ul class="checkliste" id="abd-liste"></ul>
-        </div>
-      </section>
-
-      <div class="tabelle nur-ohne-js">
-        <table>
-          <thead><tr><th scope="col">Die 4 Stationen aus der Reihenfolge unten, Zuschlag</th><th scope="col">Gut</th><th scope="col">Mindestens knapp</th></tr></thead>
-          <tbody><tr><td>0 dB</td><td>97,5 %</td><td>99,3 %</td></tr><tr><td>10 dB</td><td>95,2 %</td><td>97,5 %</td></tr><tr><td>20 dB</td><td>91,5 %</td><td>95,2 %</td></tr><tr><td>30 dB</td><td>67,4 %</td><td>91,5 %</td></tr><tr><td>36,5 dB</td><td>33,0 %</td><td>82,5 %</td></tr></tbody>
-        </table>
-      </div>
-
-      <div class="lesen">
-        <p class="nach-tabelle">Geodaten: © OpenStreetMap-Mitwirkende, ODbL. Gelände: Terrain Tiles on AWS.</p>
-
         <h2 id="wieviele" data-kurz="Wie viele Gateways">Wie viele Gateways</h2>
         <p>So viele Gateways braucht das Modell, um mindestens 95 % der 1220 Pistenpunkte zu erreichen, dahinter steht der erreichte Anteil. Die Tabelle wird mit <code>tools/abdeckung-tabelle.mjs</code> aus den Daten der Karte erzeugt.</p>
       </div>
@@ -138,6 +108,96 @@
       <div class="lesen">
         <p class="nach-tabelle">Das erste Gateway allein erreicht schon fast zwei Drittel der Punkte. Das zeigt die Stärke hoher Standorte, heißt aber nicht, dass genau diese Stationen die richtigen sind. Ob dort Strom, Netz und ein Platz für die Antenne vorhanden sind, weiß das Modell nicht. Die Namen stammen aus OpenStreetMap und bezeichnen das obere oder untere Ende eines Lifts.</p>
 
+        <h2 id="radien" data-kurz="Zum Vergleich: Kreise">Zum Vergleich: Reichweite als Kreise</h2>
+        <p>Die Tabellen oben rechnen mit dem Gelände. Einfacher, aber gröber ist ein Kreis: Jedes Gateway erreicht alles in einem festen Umkreis. Das zeigt schnell, wie viele Gateways es je nach Reichweite bräuchte.</p>
+        <p>Welcher Radius stimmt, ist nicht gemessen. Diese Werte geben den Rahmen:</p>
+        <ul>
+          <li><strong>5 bis 15 km</strong> bei freier Sicht, die Schätzung aus <a href="kapitel-03.html#reichweite">Kapitel 3</a> und <a href="kapitel-08.html">Kapitel 8</a>.</li>
+          <li><strong>300 m</strong> maß eine Forschungsgruppe in einer Schlucht in Südtirol, mit dem Sender am Körper und schwächeren Einstellungen als SkiTag.</li>
+          <li><strong>15 bis 30 dB</strong> kostet ein einzelner Grat. Dahinter bleibt nur ein Bruchteil der Reichweite, siehe <a href="kapitel-08.html#budget">Kapitel 8</a>.</li>
+        </ul>
+        <p>So viele Gateways braucht es, damit ihre Kreise mindestens 95 % der Pistenpunkte abdecken:</p>
+      </div>
+      <div class="tabelle">
+        <table>
+          <thead><tr><th scope="col">Reichweite je Gateway</th><th scope="col">Gateways für 95 % der Pistenpunkte</th></tr></thead>
+          <tbody>
+            <tr><td>0,3 km</td><td>nicht erreichbar, mit 58 Stationen 36,6 %</td></tr>
+            <tr><td>0,5 km</td><td>nicht erreichbar, mit 57 Stationen 65,2 %</td></tr>
+            <tr><td>1 km</td><td>nicht erreichbar, mit 38 Stationen 92,0 %</td></tr>
+            <tr><td>2 km</td><td>11</td></tr>
+            <tr><td>3 km</td><td>6</td></tr>
+            <tr><td>5 km</td><td>3</td></tr>
+            <tr><td>10 km</td><td>1</td></tr>
+            <tr><td>15 km</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lesen">
+        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Kreise kennen kein Gelände. Bei großen Radien sind sie zu optimistisch, weil Grate die Kreise zerschneiden. Bei kleinen Radien reichen die Stationen an den Liften nicht: Mit 0,3 oder 1 km erreichen auch alle 59 zusammen keine 95 %. Dass Kreise von 2 bis 3 km auf 6 bis 11 Gateways kommen, ähnlich den rund 12 aus dem Geländemodell mit Reserve, ist ein Hinweis, mehr nicht. Erst der Reichweiten-Test zeigt, welcher Radius im Gebiet gilt.</p>
+
+        <h2 id="karte" data-kurz="Wo das Signal hinkommt">Wo das Signal hinkommt</h2>
+        <p>Die Karte zeigt KitzSki von oben, Norden ist oben. Das Licht fällt von Nordwesten: Helle Flächen sind Hänge, die dorthin zeigen, dunkle liegen im Schatten. So sieht man Grate und Täler. Weiße Linien sind Pisten, gestrichelte Lifte, Rauten die 59 Liftstationen.</p>
+        <p>Wähle, wie gerechnet wird:</p>
+        <ul>
+          <li><strong>Mit Gelände:</strong> die genauere Rechnung aus den Tabellen oben. Du wählst, ob jeder Punkt ein oder zwei Gateways gut hören soll, und den Zuschlag.</li>
+          <li><strong>Als Kreis:</strong> der einfache Vergleich von eben. Du wählst die Reichweite.</li>
+        </ul>
+        <p>Die Karte sucht dann selbst die wenigsten Stationen für mindestens 95 % der Pisten, die hellen Rauten sind gewählt. Gelbe Punkte haben gutes Signal, weiße nur knappes oder nur von einem Gateway, rote sind Funklöcher.</p>
+        <p><strong>Warum ein Funkloch entsteht:</strong> Tippe auf einen Pistenpunkt. Neben der Karte steht dann, von welchem Gateway sein Signal kommt und was Strecke, Gelände und Zuschlag davon wegnehmen. Ein Schnitt durchs Gelände zeigt, ob ein Grat oder Hang zwischen Gateway und Piste in die Sichtlinie ragt. Am Anfang ist das schlimmste Funkloch gewählt.</p>
+        <p><strong>Was der Zuschlag bewirkt:</strong> Er steht für alles, was das Modell nicht kennt, etwa Körper, Chip-Antenne, Schnee und Wald. Jedes Dezibel Zuschlag macht das Signal an allen Punkten schwächer. Die Karte nimmt dann mehr Stationen dazu, bis wieder 95 % erreicht sind. Bei sehr viel Zuschlag geht das nicht mehr: Manche Pisten liegen so tief hinter Graten, dass von keiner Liftstation genug ankommt. Dann bleibt der Anteil unter 95 %, und dort helfen nur Gateways an anderen Orten als an Liften.</p>
+      </div>
+
+      <section class="abdeckung" aria-label="Karte der Abdeckung bei KitzSki">
+        <svg id="abd-karte" role="img" aria-label="Relief-Karte von KitzSki mit Pisten, Liften und der gerechneten Abdeckung. Ein Tipp auf einen Pistenpunkt erklärt sein Signal."></svg>
+        <div class="abd-steuerung">
+          <dl class="rechner-werte abd-werte">
+            <div><dt>Gateways</dt><dd id="abd-zahl"></dd></div>
+            <div><dt>Pisten erreicht</dt><dd id="abd-anteil"></dd></div>
+          </dl>
+          <p class="abd-hinweis" id="abd-hinweis" hidden></p>
+          <div class="rechner-wahl">
+            <label>Rechnung <select id="abd-art"><option value="gelaende" selected>Mit Gelände</option><option value="kreis">Als Kreis</option></select></label>
+          </div>
+          <div id="abd-gelaende">
+            <div class="rechner-wahl">
+              <label>Hören <select id="abd-ziel"><option value="ein" selected>ein Gateway</option><option value="zwei">zwei Gateways</option></select></label>
+              <label>Zuschlag <select id="abd-zuschlag"><option value="0">0 dB</option><option value="10" selected>10 dB</option><option value="20">20 dB</option><option value="30">30 dB</option><option value="36.5">36,5 dB</option></select></label>
+            </div>
+            <p class="abd-klein" id="abd-zuschlag-text"></p>
+          </div>
+          <div class="rechner-wahl" id="abd-kreis" hidden>
+            <label>Reichweite <select id="abd-radius"><option value="0.3">0,3 km</option><option value="0.5">0,5 km</option><option value="1">1 km</option><option value="2">2 km</option><option value="3">3 km</option><option value="5" selected>5 km</option><option value="10">10 km</option><option value="15">15 km</option></select></label>
+          </div>
+          <div class="abd-punkt" aria-live="polite">
+            <p class="abd-titel">Dieser Punkt</p>
+            <p id="abd-punkt-text"></p>
+            <p class="abd-klein" id="abd-punkt-rechnung"></p>
+            <svg id="abd-profil" role="img" aria-label="Schnitt durchs Gelände vom Gateway links zum Pistenpunkt rechts, mit Sichtlinie"></svg>
+            <p class="abd-klein">Schnitt durchs Gelände: links das Gateway mit Antenne 8 m über dem Boden, rechts der Chip. Gestrichelt die Sichtlinie, rot, wo ein Grat sie schneidet. Die Höhe ist stark überhöht.</p>
+            <button class="knopf" type="button" id="abd-schlimmst">Schlimmstes Funkloch zeigen</button>
+          </div>
+          <p class="abd-titel">Gewählte Stationen</p>
+          <ol class="abd-liste" id="abd-liste"></ol>
+        </div>
+      </section>
+
+      <div class="tabelle nur-ohne-js">
+        <table>
+          <thead><tr><th scope="col">Rechnung</th><th scope="col">Annahme</th><th scope="col">Gateways für 95 % der Pisten</th></tr></thead>
+          <tbody>
+            <tr><td>Mit Gelände</td><td>Jeder Punkt hört ein Gateway gut, 10 dB Zuschlag</td><td>4</td></tr>
+            <tr><td>Mit Gelände</td><td>Jeder Punkt hört zwei Gateways gut, 10 dB Zuschlag</td><td>12</td></tr>
+            <tr><td>Als Kreis</td><td>2 km Reichweite</td><td>11</td></tr>
+            <tr><td>Als Kreis</td><td>3 km Reichweite</td><td>6</td></tr>
+            <tr><td>Als Kreis</td><td>5 km Reichweite</td><td>3</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="lesen">
+        <p class="nach-tabelle">Karte: Relief aus Terrain Tiles on AWS, Pisten und Lifte © OpenStreetMap-Mitwirkende, ODbL.</p>
+
         <h2 id="test" data-kurz="Für den Testtag">Für den Testtag</h2>
         <p>Beim Testtag im Februar oder März laufen 5 Chips, die Gateways stehen an einer Gondelstation. Welche das wird, dazu Gerät und Anzahl, ist noch offen. Die Station sollte nicht nach dem ganzen Gebiet gewählt werden, sondern nach der Teststrecke. Mit mehr als einem Gateway sollten alle sie hören, damit auch das Überlappen geprüft werden kann. Welche Strecke das wird, ist noch offen.</p>
 
@@ -160,13 +220,16 @@
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
           <p><strong>Geschätzt:</strong> KitzSki kommt nach dem Modell mit 4 Gateways aus, wenn jeder Punkt nur eines hören muss. Das ist eine Untergrenze.</p>
+          <p><strong>Geschätzt:</strong> Als Kreis gerechnet braucht das Gebiet bei 2 km Reichweite 11 Gateways, bei 5 km nur 3. Das Gelände macht daraus mehr.</p>
           <p><strong>Geschätzt:</strong> Für die Planung ist es besser, mit rund 12 Gateways zu rechnen, damit zwei einander ersetzen können. Für Kosten und Strom ist das die ehrlichere Zahl.</p>
           <p><strong>Offen:</strong> Die Standorte selbst. Sie stehen erst fest, wenn Reichweiten-Test und KitzSki bestätigt haben.</p>
         </div>
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
         <ul class="quellen">
-          <li><a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, Pisten und Lifte, ODbL, Stand 1. November 2026</li>
+          <li><a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, Pisten und Lifte, ODbL, Stand 1. November 2026, für die Relief-Karte 3. November 2026</li>
+          <li><a href="http://www.pervasive.ing.uniroma2.it/Alab_people_marrocco_files/PAPERS/Bianco2020_2.pdf">Bianco und andere: LoRa System for Search and Rescue</a>, Messung in einer Schlucht in Südtirol</li>
+          <li><a href="https://fresnelpath.com/blog/lorawan-alpine-terrain">LoRaWAN in Mountains: Why Terrain Breaks Link Budgets</a>, Verlust an einem Grat</li>
           <li><a href="https://registry.opendata.aws/terrain-tiles/">Terrain Tiles on AWS</a>, Höhendaten</li>
           <li><a href="https://www.itu.int/rec/R-REC-P.526/en">ITU-R P.526-16</a>, November 2025, Beugung an Kanten</li>
           <li><a href="https://www.itu.int/rec/R-REC-P.833/en">ITU-R P.833-10</a>, September 2021, Dämpfung in Wald</li>

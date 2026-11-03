@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Die Gateways · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Welche Hardware die Gateways im Test nutzen, wie ihre Software aufgebaut ist und wie sie aufgestellt werden.">
-<link rel="stylesheet" href="assets/book.css?v=46">
-<link rel="stylesheet" href="assets/druck.css?v=46" media="print">
-<script src="assets/book.js?v=46" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=48">
+<link rel="stylesheet" href="assets/druck.css?v=48" media="print">
+<script src="assets/book.js?v=48" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -121,7 +121,7 @@
           <thead><tr><th scope="col">Klasse</th><th scope="col">Inhalt</th><th scope="col">Speicher</th><th scope="col">Bei Platzmangel</th></tr></thead>
           <tbody>
             <tr><td>1, kritisch</td><td data-spalte="Inhalt">Pakete mit Notruf-Kennung im Kopf</td><td data-spalte="Speicher">Eigener Bereich, je Chip nur das neueste, höchstens 32 Plätze</td><td data-spalte="Platzmangel">Das älteste Paket fällt weg. Ein echter Notruf kommt mit der nächsten Wiederholung wieder hinein.</td></tr>
-            <tr><td>2, Ereignis</td><td data-spalte="Inhalt">Pakete mit Ereignis-Kennung, etwa Gruppenruf</td><td data-spalte="Speicher">Eigener Bereich, höchstens 64 Plätze</td><td data-spalte="Platzmangel">Ältestes zuerst. Der Chip wiederholt ohnehin bis zum ACK.</td></tr>
+            <tr><td>2, Ereignis</td><td data-spalte="Inhalt">Pakete mit Ereignis-Kennung, etwa Gruppenruf</td><td data-spalte="Speicher">Eigener Bereich, höchstens 64 Plätze</td><td data-spalte="Platzmangel">Ältestes zuerst. Der Chip wiederholt ohnehin bis zur <a href="kapitel-anhang.html#g-empfangsbestaetigung">Empfangsbestätigung</a> (ACK).</td></tr>
             <tr><td>3, Position</td><td data-spalte="Inhalt">Normale Positionen</td><td data-spalte="Speicher">Je Chip nur die neueste, erkannt an Chip-Nummer und Zähler</td><td data-spalte="Platzmangel">Überschreibt die ältere Position desselben Chips</td></tr>
           </tbody>
         </table>
@@ -132,10 +132,10 @@
         <ul>
           <li>Ein gefälschtes Notruf-Paket löst keinen Alarm aus, denn der Server verwirft es am Prüfwert.</li>
           <li>Eine Flut gefälschter Pakete kann höchstens Klasse 1 füllen. Die feste Platzzahl je Chip und Klasse begrenzt das, Klasse 2 und 3 bleiben unberührt.</li>
-          <li>Echte Notrufe überstehen das, weil der Chip bis zum ACK wiederholt. Gegen Störsender hilft das nicht.</li>
+          <li>Echte Notrufe überstehen das, weil der Chip bis zur Empfangsbestätigung wiederholt. Gegen Störsender hilft das nicht.</li>
           <li>Die Kennung verrät Mithörenden, dass ein Notruf läuft. Inhalt und Position bleiben verschlüsselt.</li>
         </ul>
-        <p>Bei Stromausfall ist der Puffer weg. Das verliert keinen bestätigten Notruf, denn das Gateway gibt nie ein ACK. Ein Notruf im Puffer ist also unbestätigt, und der Chip wiederholt ihn. Dauerhaft gespeichert wird deshalb nur am Server, im Gateway nicht. Der Flash-Speicher würde das auch nicht lange aushalten.</p>
+        <p>Bei Stromausfall ist der Puffer weg. Das verliert keinen bestätigten Notruf, denn das Gateway gibt nie eine Empfangsbestätigung. Ein Notruf im Puffer ist also unbestätigt, und der Chip wiederholt ihn. Dauerhaft gespeichert wird deshalb nur am Server, im Gateway nicht. Der Flash-Speicher würde das auch nicht lange aushalten.</p>
 
         <h2 id="aufstellung-test" data-kurz="Aufstellung im Test">Aufstellung im Test</h2>
         <p>Beim Test am Berg stehen die Gateways an einer Gondelstation. Welche das ist und wo genau dort, ist noch offen. Die Übergabe plant je ein Gateway innen an einem Fenster, möglichst hoch, mit senkrechter Antenne und Blick auf die Pisten. Strom und WLAN liefert die Station selbst, vorher muss geklärt sein, ob das dort genutzt werden darf.</p>
@@ -149,7 +149,7 @@
           <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
           <tbody>
             <tr class="zeile-offen"><td data-spalte="Punkt">Welches Gateway kommt an den Berg?</td><td data-spalte="Warum">Geplant ist ein LoRa-Gateway. Die Software aus der Übergabe ist aber für den Heltec gebaut, und ob gekaufte Geräte unser Protokoll annehmen, ist nicht geprüft, siehe <a href="kapitel-10.html#geraete">Kapitel 10</a>.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Fällt ein Gateway aus, passiert nichts automatisch.</td><td data-spalte="Warum">Die <a href="kapitel-anhang.html#g-ausgabe-seite">Ausgabe-Seite</a> zeigt es nach 30 Sekunden nur als „weg“. Soll jemand benachrichtigt werden, und überlappen sich die Gateways so, dass einer den anderen ersetzen kann?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td data-spalte="Punkt">Fällt ein Gateway aus, passiert nichts automatisch.</td><td data-spalte="Warum">Die <a href="kapitel-anhang.html#g-ausgabe-seite">Ausgabe-Seite</a>, die Webseite für den Verleih der Chips, zeigt es nach 30 Sekunden nur als „weg“. Soll jemand benachrichtigt werden, und überlappen sich die Gateways so, dass einer den anderen ersetzen kann?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td data-spalte="Punkt">Die Software lief noch nie auf echter Hardware.</td><td data-spalte="Warum">Erprobt sind nur Simulator und PC. Erst das Flashen und der Test mit Maximilians Muster-Chip zeigen, ob Funk, WLAN-Wechsel und Watchdog auf dem Board wie geplant arbeiten.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td data-spalte="Punkt">Uhrzeit und Stammzertifikate im Gateway.</td><td data-spalte="Warum">Um ein Zertifikat zu prüfen, braucht das Gateway eine richtige Uhrzeit, und die Stammzertifikate stehen fest in <code>zertifikate.h</code>. Wechselt Let's Encrypt seine Stammzertifikate, braucht das Gateway neue Software. In der Test-Version stellt das Gateway keine Uhrzeit ein. Ob die Gültigkeit des Zertifikats dann geprüft wird, wissen wir nicht.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td data-spalte="Punkt">Zertifikat für den eigenen Server bei KitzSki.</td><td data-spalte="Warum">DuckDNS war für den ursprünglich gemieteten Cloud-Server gedacht. Steht der Server stattdessen vor Ort bei KitzSki, braucht das Gateway eine Lösung für <a href="kapitel-anhang.html#g-dns">DNS</a> und Zertifikat, um sich sicher zu melden. Näher dazu in Kapitel 11.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>

@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anhang · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Kosten, offene Punkte, Glossar und alle Quellen des SkiTag Netzwerk-Buchs.">
-<link rel="stylesheet" href="assets/book.css?v=46">
-<link rel="stylesheet" href="assets/druck.css?v=46" media="print">
-<script src="assets/book.js?v=46" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=48">
+<link rel="stylesheet" href="assets/druck.css?v=48" media="print">
+<script src="assets/book.js?v=48" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -67,7 +67,7 @@
         <p class="nach-tabelle">Für eine echte Prüfung fehlen der Test-Bauplan, die Hardware und ein Lauf des Codes. Bis dahin gelten die Angaben aus der Übergabe als nicht erprobt.</p>
 
         <h2 id="kosten" data-kurz="Kosten">Kosten</h2>
-        <p>Alle Beträge ohne Versand. Die Rechnung für den Schultest steht in <a href="kapitel-16.html#material">Kapitel 16</a>, die für die Serie in <a href="kapitel-18.html#kosten">Kapitel 18</a>.</p>
+        <p>Alle Beträge ohne Versand. Die Rechnung für den Schultest steht in <a href="kapitel-16.html#material">Kapitel 16</a>, die Einkaufsliste für den Test am Berg in <a href="kapitel-02.html#einkauf-test">Kapitel 2</a>, die für die Serie in <a href="kapitel-18.html#kosten">Kapitel 18</a>.</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
@@ -78,7 +78,8 @@
             <tr><td>Server im Schultest</td><td data-spalte="Betrag">0 €, NAS vorhanden</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
             <tr class="zeile-offen"><td>Server bei KitzSki</td><td data-spalte="Betrag">Hardware, Betrag nicht bekannt</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Domain und Zertifikat</td><td data-spalte="Betrag">Betrag nicht bekannt</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Prototyp-Chips und Ladebox</td><td data-spalte="Betrag">Bereich von Maximilian, Betrag nicht bekannt</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr><td>Prototyp-Chips</td><td data-spalte="Betrag">Teile etwa 105 bis 112 € je Chip, laut Werkstattbuch von Maximilian</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</td></tr>
+            <tr class="zeile-offen"><td>Ladebox</td><td data-spalte="Betrag">Bereich von Maximilian, Betrag nicht bekannt</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr><td>12 Außen-Gateways, nur Geräte</td><td data-spalte="Betrag">rund 6 500 €, nach Modell</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</td></tr>
           </tbody>
         </table>
@@ -91,12 +92,12 @@
         <table class="stapel">
           <thead><tr><th scope="col">Begriff</th><th scope="col">Bedeutung</th></tr></thead>
           <tbody>
-            <tr id="g-ack"><td>ACK</td><td data-spalte="Bedeutung">Bestätigung vom Server: Das Ereignis ist angekommen. Heißt nicht, dass ein Mensch es gesehen hat. Siehe <a href="kapitel-13.html#stufen">Kapitel 13</a>.</td></tr>
+            <tr id="g-ack"><td>ACK</td><td data-spalte="Bedeutung">Im Buch: Empfangsbestätigung. Bestätigung vom Server: Das Ereignis ist angekommen. Heißt nicht, dass ein Mensch es gesehen hat. Siehe <a href="kapitel-13.html#stufen">Kapitel 13</a>.</td></tr>
             <tr id="g-aead"><td>AEAD</td><td data-spalte="Bedeutung">Verschlüsselung, die zugleich die Echtheit prüft. Beispiel: AES-CCM.</td></tr>
             <tr id="g-aes"><td>AES</td><td data-spalte="Bedeutung">Standard-Baustein für Verschlüsselung. Erst eine Betriebsart wie CCM macht daraus ein vollständiges Verfahren.</td></tr>
             <tr id="g-aes-ccm"><td>AES-CCM</td><td data-spalte="Bedeutung">Standardverfahren, das mit AES verschlüsselt und einen Prüfwert erzeugt. Empfehlung für die Serie.</td></tr>
             <tr id="g-angabe"><td>Angabe</td><td data-spalte="Bedeutung">Aufgabenstellung für dieses Buch. Daher stammen die Fragen aus Kapitel 2.</td></tr>
-            <tr id="g-ausgabe-seite"><td>Ausgabe-Seite</td><td data-spalte="Bedeutung">Webseite des Servers mit Passwort: Chips ausgeben und zurücknehmen, Akku und Funk ansehen, Protokoll laden.</td></tr>
+            <tr id="g-ausgabe-seite"><td>Ausgabe-Seite</td><td data-spalte="Bedeutung">Webseite des Servers für den Verleih, mit Passwort. Dort gibt ein Mitarbeiter einem Gast einen Chip, teilt ihn einer Gruppe zu und druckt den Mietbeleg mit dem Code für die App. Bei der Rückgabe nimmt er ihn dort zurück. Außerdem zeigt sie Akku und Funk aller Chips und das Funk-Protokoll. Im Code heißt sie <code>/ausgabe</code>.</td></tr>
             <tr id="g-bauplan"><td>Bauplan</td><td data-spalte="Bedeutung">Test-Bauplan, die Anleitung des Teams für den Aufbau des Tests. Liegt diesem Buch nicht vor.</td></tr>
             <tr id="g-bearer"><td>Bearer</td><td data-spalte="Bedeutung">Art, ein Passwort oder Token im Kopf einer Anfrage mitzuschicken.</td></tr>
             <tr id="g-bereitschaft"><td>Bereitschaft</td><td data-spalte="Bedeutung">Vorschlag: eine erreichbare Person, die bei technischen Störungen benachrichtigt wird.</td></tr>
@@ -108,7 +109,7 @@
             <tr id="g-cors"><td>CORS</td><td data-spalte="Bedeutung">Regel im Browser: Eine Webseite darf nur mit einem fremden Server sprechen, wenn dieser das erlaubt.</td></tr>
             <tr id="g-crc"><td>CRC</td><td data-spalte="Bedeutung">Prüfsumme, mit der ein Empfänger Funkfehler erkennt. Sie schützt nicht vor Fälschung.</td></tr>
             <tr id="g-datenblatt"><td>Datenblatt</td><td data-spalte="Bedeutung">Technische Angaben des Herstellers zu einem Bauteil.</td></tr>
-            <tr id="g-db"><td>dB, dBm</td><td data-spalte="Bedeutung">dB beschreibt ein Verhältnis, etwa eine Dämpfung. dBm ist eine absolute Leistung. −115 dBm ist sehr wenig.</td></tr>
+            <tr id="g-db"><td>dB, dBm</td><td data-spalte="Bedeutung">dB beschreibt ein Verhältnis, etwa eine Dämpfung: 3 dB sind die Hälfte, 10 dB ein Zehntel. dBm ist eine Leistung, 0 dBm ist 1 Milliwatt, 20 dBm sind 100 Milliwatt. −115 dBm ist rund ein 30-Billionstel davon. Ausführlich in Kapitel 8.</td></tr>
             <tr id="g-dbi"><td>dBi</td><td data-spalte="Bedeutung">Gewinn einer Antenne im Vergleich zu einem gedachten Kugelstrahler.</td></tr>
             <tr id="g-dlack"><td>dlAck</td><td data-spalte="Bedeutung">Letztes Byte im Uplink: Damit quittiert der Chip den letzten Downlink.</td></tr>
             <tr id="g-dns"><td>DNS</td><td data-spalte="Bedeutung">Dienst, der einen Namen im Internet in eine Adresse übersetzt.</td></tr>
@@ -118,8 +119,10 @@
             <tr id="g-duckdns"><td>DuckDNS</td><td data-spalte="Bedeutung">Kostenloser Dienst für einen Namen im Internet.</td></tr>
             <tr id="g-duty-cycle"><td>Duty Cycle</td><td data-spalte="Bedeutung">Anteil der Zeit, in der ein Gerät senden darf. Unser Band erlaubt 10 % oder ein Verfahren mit Kanalprüfung, der Chip nutzt rund 1,1 %, das Gateway ist auf 8,3 % begrenzt.</td></tr>
             <tr id="g-eirp"><td>EIRP, ERP</td><td data-spalte="Bedeutung">Abgestrahlte Leistung: Sender plus Antennengewinn minus Kabelverlust. EIRP bezieht sich auf einen Kugelstrahler, ERP auf einen Dipol und liegt 2,15 dB darunter.</td></tr>
+            <tr id="g-empfangsbestaetigung"><td>Empfangsbestätigung</td><td data-spalte="Bedeutung">Rückmeldung vom Server an den Chip: Der Notruf ist angekommen. Heißt nicht, dass ein Mensch ihn gesehen hat. Im Protokoll heißt sie ACK.</td></tr>
             <tr id="g-empfindlichkeit"><td>Empfindlichkeit</td><td data-spalte="Bedeutung">Schwächstes Signal, das ein Empfänger noch versteht.</td></tr>
             <tr id="g-endpunkt"><td>Endpunkt</td><td data-spalte="Bedeutung">Adresse am Server für eine bestimmte Aufgabe, etwa <code>POST /login</code>.</td></tr>
+            <tr id="g-erledigt-meldung"><td>Erledigt-Meldung</td><td data-spalte="Bedeutung">Rückmeldung an den Chip: Der Einsatz ist abgeschlossen. Im Protokoll HELP 3.</td></tr>
             <tr id="g-eskalation"><td>Eskalation</td><td data-spalte="Bedeutung">Fester Zeitablauf, wenn niemand einen Notruf übernimmt. Gebaut sind die 60 Sekunden je Mitarbeiter, der Rest ist ein Vorschlag, siehe <a href="kapitel-13.html#eskalation">Kapitel 13</a>.</td></tr>
             <tr id="g-etsi"><td>ETSI</td><td data-spalte="Bedeutung">Europäische Normungsstelle für Telekommunikation.</td></tr>
             <tr id="g-fakedata"><td>fakeData</td><td data-spalte="Bedeutung">Einstellung der App: Sie läuft mit Beispieldaten statt mit dem echten Server.</td></tr>
@@ -127,7 +130,7 @@
             <tr id="g-fresnel-zone"><td>Fresnel-Zone</td><td data-spalte="Bedeutung">Raum um die Sichtlinie, den das Funksignal braucht.</td></tr>
             <tr id="g-fsync"><td>fsync</td><td data-spalte="Bedeutung">Befehl, der Daten wirklich auf den Datenträger schreibt, statt sie im Speicher zu halten.</td></tr>
             <tr id="g-gateway"><td>Gateway</td><td data-spalte="Bedeutung">Gerät an der Station, das Funkpakete hört und an den Server weiterreicht. Im Schultest ein Heltec V3.</td></tr>
-            <tr id="g-help"><td>HELP</td><td data-spalte="Bedeutung">Befehl an den Chip: 1 Übernahme, 2 vor Ort, 3 erledigt. Erst HELP 1 heißt, dass ein Mensch den Notruf hat.</td></tr>
+            <tr id="g-help"><td>HELP</td><td data-spalte="Bedeutung">Im Buch: Übernahme-, Vor-Ort- und Erledigt-Meldung. Befehl an den Chip: 1 Übernahme, 2 vor Ort, 3 erledigt. Erst HELP 1 heißt, dass ein Mensch den Notruf hat.</td></tr>
             <tr id="g-heltec-v3"><td>Heltec V3</td><td data-spalte="Bedeutung">Kleines Funkboard mit WLAN und Bildschirm, im Schultest das Gateway.</td></tr>
             <tr id="g-https"><td>HTTPS</td><td data-spalte="Bedeutung">Verschlüsselte Verbindung im Netz, etwa zwischen Gateway und Server.</td></tr>
             <tr id="g-ladebox"><td>Ladebox</td><td data-spalte="Bedeutung">Box, in der die Chips geladen werden. Dort sendet ein Chip nur alle 60 Sekunden.</td></tr>
@@ -136,7 +139,7 @@
             <tr id="g-lora"><td>LoRa</td><td data-spalte="Bedeutung">Funkverfahren mit großer Reichweite und wenig Daten.</td></tr>
             <tr id="g-lorawan"><td>LoRaWAN</td><td data-spalte="Bedeutung">Fertiges Netzprotokoll auf LoRa-Basis mit mehreren Kanälen und eigenen Schlüsseln pro Gerät. SkiTag nutzt im Schultest LoRa direkt, nicht LoRaWAN. Für den Test am Berg ist das offen.</td></tr>
             <tr id="g-mac"><td>MAC, Prüfwert</td><td data-spalte="Bedeutung">Kurzer Wert, der zeigt, dass ein Paket echt und unverändert ist.</td></tr>
-            <tr id="g-mietbeleg"><td>Mietbeleg</td><td data-spalte="Bedeutung">Beleg, den ein Gast bei der Ausgabe eines Chips bekommt.</td></tr>
+            <tr id="g-mietbeleg"><td>Mietbeleg</td><td data-spalte="Bedeutung">Beleg, den ein Gast beim Ausleihen eines Chips bekommt, mit dem Code für die App.</td></tr>
             <tr id="g-nas"><td>NAS</td><td data-spalte="Bedeutung">Netzwerkspeicher. Im Schultest läuft darauf der Server.</td></tr>
             <tr id="g-nist"><td>NIST</td><td data-spalte="Bedeutung">US-Normungsbehörde, deren Regeln für Verschlüsselung weit verbreitet sind.</td></tr>
             <tr id="g-nonce"><td>Nonce</td><td data-spalte="Bedeutung">Einmalwert für einen Schlüssel, bei AES-CCM 7 bis 13 Byte. Wiederholt er sich, bricht der Schutz.</td></tr>
@@ -160,8 +163,10 @@
             <tr id="g-tls"><td>TLS</td><td data-spalte="Bedeutung">Verschlüsselung, die hinter HTTPS steckt.</td></tr>
             <tr id="g-token"><td>Token</td><td data-spalte="Bedeutung">Zufälliger Zugangsnachweis, den eine App nach der Anmeldung mitschickt.</td></tr>
             <tr id="g-uebergabe"><td>Übergabe</td><td data-spalte="Bedeutung">Dokument „SkiTag: Netzwerk und Server“ vom 29. Oktober 2026 mit dem Stand des Projekts. Viele Aussagen im Buch stammen daraus.</td></tr>
-            <tr id="g-uebernahme"><td>Übernahme</td><td data-spalte="Bedeutung">Ein Mensch tippt in der App auf „Annehmen“. Das löst HELP 1 aus und ist der erste Beweis, dass jemand Bescheid weiß.</td></tr>
+            <tr id="g-uebernahme"><td>Übernahme</td><td data-spalte="Bedeutung">Ein Mensch tippt in der App auf „Annehmen“. Das löst die Übernahme-Meldung aus und ist der erste Beweis, dass jemand Bescheid weiß.</td></tr>
+            <tr id="g-uebernahme-meldung"><td>Übernahme-Meldung</td><td data-spalte="Bedeutung">Rückmeldung an den Chip: Ein Mensch hat den Notruf angenommen. Danach folgen Vor-Ort-Meldung und Erledigt-Meldung. Im Protokoll heißen sie HELP 1, 2 und 3.</td></tr>
             <tr id="g-uplink"><td>Uplink</td><td data-spalte="Bedeutung">Paket vom Chip zum Server, das erste Stück per Funk zum Gateway, bei SkiTag 27 Byte.</td></tr>
+            <tr id="g-vor-ort-meldung"><td>Vor-Ort-Meldung</td><td data-spalte="Bedeutung">Rückmeldung an den Chip: Jemand ist beim Notruf angekommen. Im Protokoll HELP 2.</td></tr>
             <tr id="g-watchdog"><td>Watchdog</td><td data-spalte="Bedeutung">Eingebaute Überwachung, die ein Gerät neu startet, wenn es hängt.</td></tr>
             <tr id="g-zaehler"><td>Zähler</td><td data-spalte="Bedeutung">Zahl in jedem Paket, die nur steigt. Sie schützt gegen wiederholte alte Pakete.</td></tr>
             <tr id="g-zeitfenster"><td>Zeitfenster</td><td data-spalte="Bedeutung">Fester Abschnitt von 4 Sekunden, in dem nur ein bestimmter Chip seine Position sendet.</td></tr>
