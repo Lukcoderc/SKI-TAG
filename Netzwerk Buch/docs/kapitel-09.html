@@ -3,17 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{document.documentElement.dataset.thema=localStorage.getItem("thema")||(matchMedia("(prefers-color-scheme: light)").matches?"hell":"dunkel")}catch(e){}</script>
 <title>Standortplanung KitzSki · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie viele Gateways KitzSki braucht: ein Modell aus echten Pisten und Gelände.">
-<link rel="stylesheet" href="assets/book.css?v=48">
-<link rel="stylesheet" href="assets/druck.css?v=48" media="print">
-<script src="assets/book.js?v=48" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=49">
+<link rel="stylesheet" href="assets/druck.css?v=49" media="print">
+<script src="assets/book.js?v=49" defer></script>
 <script src="assets/funk.js?v=48" defer></script>
 <script src="assets/abdeckung-daten.js?v=48" defer></script>
 <script src="assets/karte-daten.js?v=49" defer></script>
 <script src="assets/abdeckung-wahl.js?v=48" defer></script>
 <script src="assets/reichweite-wahl.js?v=48" defer></script>
-<script src="assets/abdeckung.js?v=50" defer></script>
+<script src="assets/abdeckung.js?v=52" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -23,8 +24,15 @@
   <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<header class="streifen">
-  <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+<header class="kopf">
+  <div class="kopf-innen">
+    <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+    <div class="kopf-titel">
+      <h1>Standortplanung KitzSki</h1>
+      <p class="stand">Kapitel 9 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-05.html">Kapitel 5, Sendeintervall und Kapazität</a> · <a href="kapitel-08.html">Kapitel 8, Reichweite im Gelände</a></p>
+    </div>
+  </div>
 </header>
 
 <div class="buch">
@@ -45,10 +53,6 @@
       <ol></ol>
     </details>
     <article>
-      <h1>Standortplanung KitzSki</h1>
-      <p class="stand">Kapitel 9 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
-      <p class="vorwissen">Baut auf: <a href="kapitel-05.html">Kapitel 5, Sendeintervall und Kapazität</a> · <a href="kapitel-08.html">Kapitel 8, Reichweite im Gelände</a></p>
-
       <div class="lesen">
         <p class="einstieg">Wie viele Gateways braucht ein Skigebiet wie KitzSki, und wo stehen sie? Dafür wurde das Gelände von KitzSki mit einem Modell durchgerechnet. Das Ergebnis ist kein Plan, sondern eine erste Größenordnung und eine Liste von Stationen, die man sich ansehen sollte.</p>
         <div class="kurz">
@@ -137,13 +141,13 @@
         <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Kreise kennen kein Gelände. Bei großen Radien sind sie zu optimistisch, weil Grate die Kreise zerschneiden. Bei kleinen Radien reichen die Stationen an den Liften nicht: Mit 0,3 oder 1 km erreichen auch alle 59 zusammen keine 95 %. Dass Kreise von 2 bis 3 km auf 6 bis 11 Gateways kommen, ähnlich den rund 12 aus dem Geländemodell mit Reserve, ist ein Hinweis, mehr nicht. Erst der Reichweiten-Test zeigt, welcher Radius im Gebiet gilt.</p>
 
         <h2 id="karte" data-kurz="Wo das Signal hinkommt">Wo das Signal hinkommt</h2>
-        <p>Die Karte zeigt KitzSki von oben, Norden ist oben. Das Licht fällt von Nordwesten: Helle Flächen sind Hänge, die dorthin zeigen, dunkle liegen im Schatten. So sieht man Grate und Täler. Weiße Linien sind Pisten, gestrichelte Lifte, Rauten die 59 Liftstationen.</p>
+        <p>Die Karte zeigt KitzSki von oben, Norden ist oben. Das Licht fällt von Nordwesten: Helle Flächen sind Hänge, die dorthin zeigen, dunkle liegen im Schatten. So sieht man Grate und Täler. Feine Linien sind Pisten, gestrichelte Lifte, Rauten die 59 Liftstationen.</p>
         <p>Wähle, wie gerechnet wird:</p>
         <ul>
           <li><strong>Mit Gelände:</strong> die genauere Rechnung aus den Tabellen oben. Du wählst, ob jeder Punkt ein oder zwei Gateways gut hören soll, und den Zuschlag.</li>
           <li><strong>Als Kreis:</strong> der einfache Vergleich von eben. Du wählst die Reichweite.</li>
         </ul>
-        <p>Die Karte sucht dann selbst die wenigsten Stationen für mindestens 95 % der Pisten, die hellen Rauten sind gewählt. Gelbe Punkte haben gutes Signal, weiße nur knappes oder nur von einem Gateway, rote sind Funklöcher.</p>
+        <p>Die Karte sucht dann selbst die wenigsten Stationen für mindestens 95 % der Pisten, die ausgefüllten Rauten sind gewählt. Blaugrüne Punkte haben gutes Signal, kleinere ohne Farbe nur knappes oder nur von einem Gateway, rote sind Funklöcher.</p>
         <p><strong>Warum ein Funkloch entsteht:</strong> Tippe auf einen Pistenpunkt. Neben der Karte steht dann, von welchem Gateway sein Signal kommt und was Strecke, Gelände und Zuschlag davon wegnehmen. Ein Schnitt durchs Gelände zeigt, ob ein Grat oder Hang zwischen Gateway und Piste in die Sichtlinie ragt. Am Anfang ist das schlimmste Funkloch gewählt.</p>
         <p><strong>Was der Zuschlag bewirkt:</strong> Er steht für alles, was das Modell nicht kennt, etwa Körper, Chip-Antenne, Schnee und Wald. Jedes Dezibel Zuschlag macht das Signal an allen Punkten schwächer. Die Karte nimmt dann mehr Stationen dazu, bis wieder 95 % erreicht sind. Bei sehr viel Zuschlag geht das nicht mehr: Manche Pisten liegen so tief hinter Graten, dass von keiner Liftstation genug ankommt. Dann bleibt der Anteil unter 95 %, und dort helfen nur Gateways an anderen Orten als an Liften.</p>
       </div>

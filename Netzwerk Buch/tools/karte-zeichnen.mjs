@@ -39,9 +39,10 @@ const hoeheLL = (la, lo) => {
 
 // Relief: Schummerung mit Licht von Nordwesten, leicht nach Höhe aufgehellt. Farben aus book.css.
 const MASS = 2, W = breite * MASS, H = hoehe * MASS, STUFEN = 32;
-const VON = [0x0a, 0x13, 0x22], BIS = [0x7d, 0x9a, 0xbf];
-const palette = Buffer.alloc(STUFEN * 3);
-for (let s = 0; s < STUFEN; s++) for (let c = 0; c < 3; c++) palette[s * 3 + c] = Math.round(VON[c] + ((BIS[c] - VON[c]) * s) / (STUFEN - 1));
+// Zwei Paletten für dieselben Stufen: dunkle und helle Ansicht des Buchs.
+const baue = (VON, BIS) => { const p = Buffer.alloc(STUFEN * 3); for (let s = 0; s < STUFEN; s++) for (let c = 0; c < 3; c++) p[s * 3 + c] = Math.round(VON[c] + ((BIS[c] - VON[c]) * s) / (STUFEN - 1)); return p; };
+const palette = baue([0x07, 0x0b, 0x12], [0x8f, 0x9b, 0xad]);
+const paletteHell = baue([0x86, 0x9a, 0xb0], [0xff, 0xff, 0xff]);
 const hoehen = new Float32Array((W + 2) * (H + 2));
 for (let y = -1; y <= H; y++) for (let x = -1; x <= W; x++) hoehen[(y + 1) * (W + 2) + x + 1] = hoeheLL(latVon((y + 0.5) / MASS), lonVon((x + 0.5) / MASS));
 const zelleM = 1 / (f * MASS);
@@ -71,8 +72,11 @@ const chunk = (art, daten) => {
 };
 const ihdr = Buffer.alloc(13);
 ihdr.writeUInt32BE(W, 0); ihdr.writeUInt32BE(H, 4); ihdr[8] = 8; ihdr[9] = 3;
-const png = Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), chunk("IHDR", ihdr), chunk("PLTE", palette), chunk("IDAT", deflateSync(zeilen, { level: 9 })), chunk("IEND", Buffer.alloc(0))]);
+const idat = chunk("IDAT", deflateSync(zeilen, { level: 9 }));
+const bild = (pal) => Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), chunk("IHDR", ihdr), chunk("PLTE", pal), idat, chunk("IEND", Buffer.alloc(0))]);
+const png = bild(palette);
 writeFileSync(new URL("assets/karte-relief.png", docs), png);
+writeFileSync(new URL("assets/karte-relief-hell.png", docs), bild(paletteHell));
 
 // Pisten und Lifte als vereinfachte Linien.
 const vereinfache = (p, tol) => {

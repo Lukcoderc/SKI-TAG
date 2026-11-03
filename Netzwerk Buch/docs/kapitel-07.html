@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{document.documentElement.dataset.thema=localStorage.getItem("thema")||(matchMedia("(prefers-color-scheme: light)").matches?"hell":"dunkel")}catch(e){}</script>
 <title>Die Gateways · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Welche Hardware die Gateways im Test nutzen, wie ihre Software aufgebaut ist und wie sie aufgestellt werden.">
-<link rel="stylesheet" href="assets/book.css?v=48">
-<link rel="stylesheet" href="assets/druck.css?v=48" media="print">
-<script src="assets/book.js?v=48" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=49">
+<link rel="stylesheet" href="assets/druck.css?v=49" media="print">
+<script src="assets/book.js?v=49" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -17,8 +18,15 @@
   <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<header class="streifen">
-  <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+<header class="kopf">
+  <div class="kopf-innen">
+    <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+    <div class="kopf-titel">
+      <h1>Die Gateways</h1>
+      <p class="stand">Kapitel 7 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4, Funkprotokoll</a> · <a href="kapitel-05.html">Kapitel 5, Sendeintervall und Kapazität</a> · <a href="kapitel-06.html">Kapitel 6, Rückkanal zum Chip</a></p>
+    </div>
+  </div>
 </header>
 
 <div class="buch">
@@ -39,10 +47,6 @@
       <ol></ol>
     </details>
     <article>
-      <h1>Die Gateways</h1>
-      <p class="stand">Kapitel 7 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
-      <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4, Funkprotokoll</a> · <a href="kapitel-05.html">Kapitel 5, Sendeintervall und Kapazität</a> · <a href="kapitel-06.html">Kapitel 6, Rückkanal zum Chip</a></p>
-
       <div class="lesen">
         <p class="einstieg">Zwischen Chip und Server steht das Gateway: ein Gerät, das Notrufe hört und an den Server weiterreicht. Dieses Kapitel zeigt, welche Hardware für die Tests in Frage kommt, wie die Software aufgebaut ist und was bei der Aufstellung zählt.</p>
         <div class="kurz">

@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{document.documentElement.dataset.thema=localStorage.getItem("thema")||(matchMedia("(prefers-color-scheme: light)").matches?"hell":"dunkel")}catch(e){}</script>
 <title>Funkprotokoll · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie Chip, Gateway und Server über Funk miteinander sprechen: Pakete, Zeitfenster und Schutz.">
-<link rel="stylesheet" href="assets/book.css?v=48">
-<link rel="stylesheet" href="assets/druck.css?v=48" media="print">
-<script src="assets/book.js?v=48" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=49">
+<link rel="stylesheet" href="assets/druck.css?v=49" media="print">
+<script src="assets/book.js?v=49" defer></script>
 <script src="assets/paket.js?v=48" defer></script>
 </head>
 <body>
@@ -18,8 +19,15 @@
   <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<header class="streifen">
-  <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+<header class="kopf">
+  <div class="kopf-innen">
+    <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+    <div class="kopf-titel">
+      <h1>Funkprotokoll</h1>
+      <p class="stand">Kapitel 4 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-03.html">Kapitel 3, Warum LoRa</a></p>
+    </div>
+  </div>
 </header>
 
 <div class="buch">
@@ -40,10 +48,6 @@
       <ol></ol>
     </details>
     <article>
-      <h1>Funkprotokoll</h1>
-      <p class="stand">Kapitel 4 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
-      <p class="vorwissen">Baut auf: <a href="kapitel-03.html">Kapitel 3, Warum LoRa</a></p>
-
       <div class="lesen">
         <p class="einstieg">Damit Chip und Server sich verstehen, müssen beide dieselbe Sprache sprechen: wie ein Paket aufgebaut ist, wann gesendet werden darf und wie man erkennt, dass eine Nachricht echt ist. Diese Sprache heißt Funkprotokoll.</p>
         <div class="kurz">

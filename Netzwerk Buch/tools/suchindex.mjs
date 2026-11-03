@@ -15,7 +15,7 @@ export function suchDaten() {
     const a = c.indexOf("<article");
     const artikel = c.slice(a, c.lastIndexOf("</article>")).replace(/<div class="blaettern">[\s\S]*?<\/div>/, "");
     const stand = artikel.match(/<p class="stand">([^·<]*)/)?.[1].trim() ?? "";
-    const titel = text(artikel.match(/<h1>([\s\S]*?)<\/h1>/)?.[1] ?? "");
+    const titel = text(c.match(/<h1>([\s\S]*?)<\/h1>/)?.[1] ?? "");
     const wo = stand && stand !== titel ? `${stand}, ${titel}` : titel;
     const stuecke = artikel.split(/(?=<h2 )/);
     eintraege.push({ s: datei, a: "", k: wo, t: titel, x: text(stuecke[0]).slice(0, 400) });

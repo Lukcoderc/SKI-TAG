@@ -1,407 +1,862 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-01T17:50:01.654Z",
+  "generatedAt": "2026-11-03T20:44:32.961Z",
   "title": "Design System: SkiTag Netzwerk-Buch",
   "extensions": {
     "colorMeta": {
       "dunkel": {
         "role": "neutral",
-        "displayName": "Deep Twilight",
-        "canonical": "#13233a",
+        "displayName": "Night",
+        "theme": "dunkel",
+        "cssVar": "--dunkel",
+        "canonical": "#070b12",
+        "oklch": "oklch(14.9% 0.017 259.9)",
         "tonalRamp": [
-          "#060b13",
-          "#182539",
-          "#31435c",
-          "#50627d",
-          "#7084a0",
-          "#92a7c4",
-          "#bccadf",
-          "#e9eff7"
+          "#090b0f",
+          "#20242b",
+          "#3b4049",
+          "#585e67",
+          "#777e88",
+          "#999fa8",
+          "#c0c4cb",
+          "#edeef1"
         ]
       },
       "flaeche": {
         "role": "neutral",
-        "displayName": "Twilight Plane",
-        "canonical": "#1c3350",
+        "displayName": "Night Plane",
+        "theme": "dunkel",
+        "cssVar": "--flaeche",
+        "canonical": "#0e141e",
+        "oklch": "oklch(19.0% 0.022 260.4)",
         "tonalRamp": [
-          "#050c15",
-          "#13263d",
-          "#2c4361",
-          "#4a6383",
-          "#6a84a6",
-          "#8ca7cb",
-          "#b8cbe3",
-          "#e8eff9"
+          "#080b11",
+          "#1f242d",
+          "#39404c",
+          "#565e6b",
+          "#767e8b",
+          "#979fac",
+          "#bfc4ce",
+          "#edeef2"
         ]
       },
       "flaeche-hell": {
         "role": "neutral",
         "displayName": "Upper Plane",
-        "canonical": "#27425f",
+        "theme": "dunkel",
+        "cssVar": "--flaeche-hell",
+        "canonical": "#18212e",
+        "oklch": "oklch(24.5% 0.028 257.5)",
         "tonalRamp": [
-          "#040c15",
-          "#10263d",
-          "#294461",
-          "#476483",
-          "#6885a6",
-          "#8aa8ca",
-          "#b7cce3",
-          "#e7eff9"
+          "#070b12",
+          "#1d2430",
+          "#36404f",
+          "#545e6e",
+          "#737e8e",
+          "#959faf",
+          "#bdc5d0",
+          "#eceff2"
         ]
       },
       "flaeche-hover": {
         "role": "neutral",
-        "displayName": "Upper Plane Hover",
-        "canonical": "#33527a",
+        "displayName": "Plane Hover",
+        "theme": "dunkel",
+        "cssVar": "--flaeche-hover",
+        "canonical": "#243044",
+        "oklch": "oklch(30.8% 0.040 260.4)",
         "tonalRamp": [
-          "#040b18",
-          "#0c2544",
-          "#24436a",
-          "#43638c",
-          "#6384b0",
-          "#85a8d5",
-          "#b4cbea",
-          "#e6effc"
+          "#060b15",
+          "#1a2434",
+          "#344055",
+          "#515e75",
+          "#707e96",
+          "#919fb6",
+          "#bbc5d5",
+          "#ebeff4"
+        ]
+      },
+      "feld-klar": {
+        "role": "neutral",
+        "displayName": "Lit Field",
+        "theme": "dunkel",
+        "cssVar": "--feld-klar",
+        "canonical": "#4a5d7a",
+        "oklch": "oklch(47.5% 0.053 258.7)",
+        "tonalRamp": [
+          "#040b17",
+          "#162439",
+          "#2e405c",
+          "#4b5f7c",
+          "#6a7e9d",
+          "#8ca0bd",
+          "#b7c5db",
+          "#eaeff6"
+        ]
+      },
+      "linie": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "theme": "dunkel",
+        "cssVar": "--linie",
+        "canonical": "#1f2937",
+        "oklch": "oklch(27.8% 0.030 256.8)",
+        "tonalRamp": [
+          "#070b12",
+          "#1c2530",
+          "#364150",
+          "#535f6f",
+          "#727e8f",
+          "#949fb0",
+          "#bcc5d1",
+          "#eceff3"
         ]
       },
       "schnee": {
         "role": "neutral",
         "displayName": "Snow",
-        "canonical": "#eaf0f5",
+        "theme": "dunkel",
+        "cssVar": "--schnee",
+        "canonical": "#eef2f6",
+        "oklch": "oklch(95.9% 0.007 247.9)",
         "tonalRamp": [
           "#0a0b0d",
-          "#222629",
-          "#3e4347",
-          "#5d6266",
-          "#7e8388",
-          "#a0a6aa",
-          "#c6cacd",
-          "#edeff0"
+          "#222427",
+          "#3d4043",
+          "#5b5e61",
+          "#7a7e81",
+          "#9b9fa2",
+          "#c2c4c7",
+          "#eeeeef"
+        ]
+      },
+      "text-2": {
+        "role": "neutral",
+        "displayName": "Pale Snow",
+        "theme": "dunkel",
+        "cssVar": "--text-2",
+        "canonical": "#cdd5df",
+        "oklch": "oklch(87.0% 0.016 253.9)",
+        "tonalRamp": [
+          "#090b0f",
+          "#1f242b",
+          "#3a4048",
+          "#575e67",
+          "#777e87",
+          "#989fa8",
+          "#bfc5cb",
+          "#edeff1"
         ]
       },
       "dunst": {
         "role": "neutral",
         "displayName": "Haze",
-        "canonical": "#bccad8",
+        "theme": "dunkel",
+        "cssVar": "--dunst",
+        "canonical": "#97a3b5",
+        "oklch": "oklch(71.2% 0.030 258.4)",
         "tonalRamp": [
-          "#080c0f",
-          "#1d262f",
-          "#38434f",
-          "#56636f",
-          "#778491",
-          "#99a7b4",
-          "#c1cad4",
-          "#ebeff2"
+          "#070b12",
+          "#1d2430",
+          "#364050",
+          "#545e6f",
+          "#737e8f",
+          "#949fb0",
+          "#bdc5d1",
+          "#eceff3"
         ]
       },
       "licht": {
         "role": "primary",
-        "displayName": "Cabin Amber",
-        "canonical": "#f2b544",
+        "displayName": "Glacier Turquoise",
+        "theme": "dunkel",
+        "cssVar": "--licht",
+        "canonical": "#2dd4bf",
+        "oklch": "oklch(78.5% 0.133 181.9)",
         "tonalRamp": [
-          "#120900",
-          "#332100",
-          "#583c02",
-          "#805902",
-          "#aa7802",
-          "#d4991b",
-          "#eac281",
-          "#fcecd4"
+          "#00130d",
+          "#003328",
+          "#005445",
+          "#007463",
+          "#009683",
+          "#15b7a4",
+          "#81d7c8",
+          "#dbf5f0"
         ]
       },
       "licht-hover": {
         "role": "primary",
-        "displayName": "Bright Amber",
-        "canonical": "#ffc964",
+        "displayName": "Glacier Glow",
+        "theme": "dunkel",
+        "cssVar": "--licht-hover",
+        "canonical": "#5eead4",
+        "oklch": "oklch(85.5% 0.125 181.1)",
         "tonalRamp": [
-          "#120900",
-          "#322200",
-          "#573d02",
-          "#7e5a02",
-          "#a87902",
-          "#cf9b30",
-          "#e6c487",
-          "#faedd6"
+          "#00130d",
+          "#003227",
+          "#005344",
+          "#007362",
+          "#009482",
+          "#2eb6a3",
+          "#86d6c7",
+          "#ddf5ef"
         ]
       },
       "notruf": {
         "role": "secondary",
-        "displayName": "Signal Red",
-        "canonical": "#ff7d70",
+        "displayName": "Emergency Red",
+        "theme": "dunkel",
+        "cssVar": "--notruf",
+        "canonical": "#ff5468",
+        "oklch": "oklch(68.4% 0.206 17.9)",
         "tonalRamp": [
-          "#1f0000",
-          "#4d0002",
-          "#800208",
-          "#aa2e28",
-          "#d1544a",
-          "#f9786b",
-          "#feb3a9",
-          "#ffe9e6"
+          "#2c0000",
+          "#5e0000",
+          "#8e000e",
+          "#b5002e",
+          "#dc304d",
+          "#fe6271",
+          "#ff9fa3",
+          "#ffe4e4"
+        ]
+      },
+      "kopf-grund": {
+        "role": "neutral",
+        "displayName": "Head Grey",
+        "theme": "dunkel",
+        "cssVar": "--kopf-grund",
+        "canonical": "#14181e",
+        "oklch": "oklch(20.8% 0.013 258.4)",
+        "tonalRamp": [
+          "#090b0e",
+          "#21242a",
+          "#3b4047",
+          "#595e65",
+          "#787e85",
+          "#9a9fa6",
+          "#c1c4ca",
+          "#edeef0"
+        ]
+      },
+      "kopf-linie": {
+        "role": "neutral",
+        "displayName": "Head Line",
+        "theme": "dunkel",
+        "cssVar": "--kopf-linie",
+        "canonical": "#232a33",
+        "oklch": "oklch(28.2% 0.019 254.8)",
+        "tonalRamp": [
+          "#080b10",
+          "#1f252c",
+          "#39404a",
+          "#565e69",
+          "#767e89",
+          "#979faa",
+          "#bfc5cc",
+          "#edeff1"
+        ]
+      },
+      "hell-dunkel": {
+        "role": "neutral",
+        "displayName": "Night (day)",
+        "theme": "hell",
+        "cssVar": "--dunkel",
+        "canonical": "#f4f7fa",
+        "oklch": "oklch(97.5% 0.005 247.9)",
+        "tonalRamp": [
+          "#0a0b0c",
+          "#222426",
+          "#3e4042",
+          "#5b5e60",
+          "#7b7e80",
+          "#9c9fa1",
+          "#c2c4c6",
+          "#eeeeef"
+        ]
+      },
+      "hell-flaeche": {
+        "role": "neutral",
+        "displayName": "Night Plane (day)",
+        "theme": "hell",
+        "cssVar": "--flaeche",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#7d7d7d",
+          "#9e9e9e",
+          "#c4c4c4",
+          "#eeeeee"
+        ]
+      },
+      "hell-flaeche-hell": {
+        "role": "neutral",
+        "displayName": "Upper Plane (day)",
+        "theme": "hell",
+        "cssVar": "--flaeche-hell",
+        "canonical": "#e4eaf0",
+        "oklch": "oklch(93.4% 0.010 247.9)",
+        "tonalRamp": [
+          "#090b0e",
+          "#212428",
+          "#3c4045",
+          "#595e63",
+          "#797e83",
+          "#9a9fa4",
+          "#c1c4c8",
+          "#edeef0"
+        ]
+      },
+      "hell-flaeche-hover": {
+        "role": "neutral",
+        "displayName": "Plane Hover (day)",
+        "theme": "hell",
+        "cssVar": "--flaeche-hover",
+        "canonical": "#d3dde7",
+        "oklch": "oklch(89.3% 0.017 248.0)",
+        "tonalRamp": [
+          "#080c0f",
+          "#1e252b",
+          "#394149",
+          "#565f67",
+          "#757e87",
+          "#97a0a8",
+          "#bfc5cb",
+          "#edeff1"
+        ]
+      },
+      "hell-feld-klar": {
+        "role": "neutral",
+        "displayName": "Lit Field (day)",
+        "theme": "hell",
+        "cssVar": "--feld-klar",
+        "canonical": "#7d9bbd",
+        "oklch": "oklch(67.9% 0.061 251.9)",
+        "tonalRamp": [
+          "#020c19",
+          "#10253c",
+          "#27415f",
+          "#44607f",
+          "#6380a1",
+          "#85a1c1",
+          "#b2c6de",
+          "#e9eff7"
+        ]
+      },
+      "hell-linie": {
+        "role": "neutral",
+        "displayName": "Hairline (day)",
+        "theme": "hell",
+        "cssVar": "--linie",
+        "canonical": "#dbe3ea",
+        "oklch": "oklch(91.2% 0.013 244.3)",
+        "tonalRamp": [
+          "#090c0e",
+          "#202529",
+          "#3a4146",
+          "#585f65",
+          "#777e85",
+          "#989fa5",
+          "#c0c5c9",
+          "#edeff0"
+        ]
+      },
+      "hell-schnee": {
+        "role": "neutral",
+        "displayName": "Snow (day)",
+        "theme": "hell",
+        "cssVar": "--schnee",
+        "canonical": "#111a24",
+        "oklch": "oklch(21.4% 0.024 251.6)",
+        "tonalRamp": [
+          "#070c11",
+          "#1d252e",
+          "#37414c",
+          "#545f6b",
+          "#737f8b",
+          "#95a0ac",
+          "#bdc5ce",
+          "#eceff2"
+        ]
+      },
+      "hell-text-2": {
+        "role": "neutral",
+        "displayName": "Pale Snow (day)",
+        "theme": "hell",
+        "cssVar": "--text-2",
+        "canonical": "#2c3b4a",
+        "oklch": "oklch(34.6% 0.033 248.8)",
+        "tonalRamp": [
+          "#060c13",
+          "#192531",
+          "#324151",
+          "#4f6070",
+          "#6e7f90",
+          "#90a0b1",
+          "#bac6d2",
+          "#ebeff3"
+        ]
+      },
+      "hell-dunst": {
+        "role": "neutral",
+        "displayName": "Haze (day)",
+        "theme": "hell",
+        "cssVar": "--dunst",
+        "canonical": "#556477",
+        "oklch": "oklch(49.8% 0.036 254.5)",
+        "tonalRamp": [
+          "#060c13",
+          "#1a2532",
+          "#334153",
+          "#505f72",
+          "#6f7f93",
+          "#91a0b3",
+          "#bac5d3",
+          "#ebeff3"
+        ]
+      },
+      "hell-licht": {
+        "role": "primary",
+        "displayName": "Petrol",
+        "theme": "hell",
+        "cssVar": "--licht",
+        "canonical": "#0e6f8f",
+        "oklch": "oklch(50.6% 0.095 227.5)",
+        "tonalRamp": [
+          "#000e1c",
+          "#002a42",
+          "#004866",
+          "#006787",
+          "#3388a9",
+          "#5fa9c9",
+          "#9acde3",
+          "#e2f2f9"
+        ]
+      },
+      "hell-licht-hover": {
+        "role": "primary",
+        "displayName": "Petrol Deep",
+        "theme": "hell",
+        "cssVar": "--licht-hover",
+        "canonical": "#0a5873",
+        "oklch": "oklch(43.1% 0.081 228.4)",
+        "tonalRamp": [
+          "#000e1a",
+          "#00293e",
+          "#004761",
+          "#1f6682",
+          "#4487a3",
+          "#6ba8c3",
+          "#a1cbdf",
+          "#e3f1f8"
+        ]
+      },
+      "hell-notruf": {
+        "role": "secondary",
+        "displayName": "Emergency Red (day)",
+        "theme": "hell",
+        "cssVar": "--notruf",
+        "canonical": "#c4223a",
+        "oklch": "oklch(53.3% 0.194 20.1)",
+        "tonalRamp": [
+          "#2b0000",
+          "#5c0000",
+          "#8a000a",
+          "#b1002b",
+          "#d83a4a",
+          "#fa676e",
+          "#ffa2a2",
+          "#ffe4e3"
+        ]
+      },
+      "hell-kopf-grund": {
+        "role": "neutral",
+        "displayName": "Head Grey (day)",
+        "theme": "hell",
+        "cssVar": "--kopf-grund",
+        "canonical": "#e8ebee",
+        "oklch": "oklch(93.9% 0.005 247.9)",
+        "tonalRamp": [
+          "#0a0b0c",
+          "#222426",
+          "#3e4042",
+          "#5b5e60",
+          "#7b7e80",
+          "#9c9fa1",
+          "#c2c4c6",
+          "#eeeeef"
+        ]
+      },
+      "hell-kopf-linie": {
+        "role": "neutral",
+        "displayName": "Head Line (day)",
+        "theme": "hell",
+        "cssVar": "--kopf-linie",
+        "canonical": "#d5dade",
+        "oklch": "oklch(88.6% 0.008 241.7)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#212427",
+          "#3c4044",
+          "#5a5e62",
+          "#797e81",
+          "#9b9fa2",
+          "#c1c4c7",
+          "#edeeef"
         ]
       }
     },
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "Chapter title, one per page."
+        "purpose": "The chapter title in the head, wide and heavy. One per page."
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Chapter sections; 30px at phone width."
+        "purpose": "Chapter sections; each appears in the page contents."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Walkthrough steps and the book name in the rope band."
+        "purpose": "Step headings and sub-sections."
       },
-      "title-status": {
-        "displayName": "Title Status",
-        "purpose": "Status panel headings with their mark."
+      "title-box": {
+        "displayName": "Title Box",
+        "purpose": "The Kurz-gesagt title, led by a turquoise dot."
       },
       "subtitle": {
         "displayName": "Subtitle",
-        "purpose": "Failure headings in the walkthrough."
+        "purpose": "Failure headings and fourth-level headings."
+      },
+      "brand": {
+        "displayName": "Brand",
+        "purpose": "The book name in the head, widest cut."
+      },
+      "value": {
+        "displayName": "Value",
+        "purpose": "Calculator readouts."
       },
       "lead": {
         "displayName": "Lead",
-        "purpose": "The single opening paragraph; 19px at phone width."
+        "purpose": "The single opening paragraph."
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Reading text at 68ch; 17px at phone width."
+        "purpose": "Reading text, held to 68ch."
       },
       "body-table": {
         "displayName": "Body Table",
         "purpose": "Table cells."
       },
-      "label-station": {
-        "displayName": "Label Station",
-        "purpose": "Station names on the rope; 15px at phone width."
-      },
-      "label": {
-        "displayName": "Label",
-        "purpose": "Stamp line and walkthrough tabs."
-      },
-      "label-strong": {
-        "displayName": "Label Strong",
-        "purpose": "Table headers and buttons."
+      "label-stand": {
+        "displayName": "Label Stand",
+        "purpose": "Stand and Baut-auf lines below the title, condensed."
       },
       "label-nav": {
         "displayName": "Label Nav",
-        "purpose": "Chapter list and page contents."
+        "purpose": "Chapter list and page contents, condensed."
+      },
+      "label-table-head": {
+        "displayName": "Label Table Head",
+        "purpose": "Table headers in Haze, condensed."
+      },
+      "label-strong": {
+        "displayName": "Label Strong",
+        "purpose": "Buttons."
+      },
+      "label-toggle": {
+        "displayName": "Label Toggle",
+        "purpose": "The view toggle (Hell / Dunkel) in the head."
       }
     },
     "shadows": [
       {
-        "name": "cabin-window",
-        "value": "inset 0 0 0 3px var(--licht), inset 0 -7px 0 3px var(--licht), inset 0 0 0 20px var(--flaeche)",
-        "purpose": "Paints the cabin body and window. Drawing, not elevation; the system has no cast shadows."
+        "name": "rail",
+        "value": "inset 1px 0 var(--linie)",
+        "purpose": "Page-contents rail; inset 1px 0 var(--licht) for the section in view. A drawn line, not depth."
+      },
+      {
+        "name": "field-outline",
+        "value": "inset 0 0 0 1px var(--dunst)",
+        "purpose": "Outline of packet plan fields and legend swatches."
+      }
+    ],
+    "textures": [
+      {
+        "name": "encrypted-hatch",
+        "value": "repeating-linear-gradient(135deg, var(--dunkel) 0 5px, var(--flaeche-hell) 5px 10px)",
+        "purpose": "Encrypted packet fields and their legend swatch."
       }
     ],
     "motion": [
       {
-        "name": "cabin-travel",
-        "value": "900ms cubic ease-out (1 - (1 - t)^3)",
-        "purpose": "Cabin movement along the rope. Jumps with reduced motion."
-      },
-      {
-        "name": "anchor-scroll",
+        "name": "scroll",
         "value": "scroll-behavior: smooth",
-        "purpose": "Anchor jumps. Off with reduced motion."
+        "purpose": "Anchor scrolling; auto under reduced motion."
       },
       {
-        "name": "walkthrough-pace",
-        "value": "250ms per word",
-        "purpose": "Auto-advance of the emergency walkthrough."
+        "name": "scene-step",
+        "value": "1.3s to 4s per step",
+        "purpose": "Slope scene steps in the chapter 1 walkthrough; final frame under reduced motion. The head has no motion."
       }
     ],
-    "breakpoints": [
-      {
-        "name": "rope-numbers",
-        "value": "1280px"
+    "themes": {
+      "default": "dunkel",
+      "selector": "[data-thema=\"hell\"] on <html>",
+      "choice": "Inline head script before paint: localStorage 'thema', else prefers-color-scheme; no JS means dark. Toggle .thema in book.js stores the choice.",
+      "drawingsFollowView": true,
+      "sceneDay": {
+        "selector": "[data-thema=\"hell\"] .sz-*",
+        "fills": {
+          "sz-himmel": "#dbe8f3",
+          "sz-berg": "#b4c5d6",
+          "sz-gipfel": "#ffffff",
+          "sz-ruecken": "#9cb0c4",
+          "sz-hang": "#ffffff",
+          "sz-tannen": "#2f4b5c",
+          "sz-wand / house rect": "#cfd9e3",
+          "sz-dach / roof polygon": "#3b4c5e",
+          "sz-tor, sz-innen, sz-einschub, sz-telefon": "#2c3b4a",
+          "sz-bein (stroke)": "#2c3b4a"
+        },
+        "note": "Everything else in the scene follows tokens."
       },
+      "reliefRasters": [
+        {
+          "file": "assets/karte-relief.png",
+          "view": "dunkel",
+          "ramp": [
+            "#070b12",
+            "#8f9bad"
+          ],
+          "class": "relief-dunkel"
+        },
+        {
+          "file": "assets/karte-relief-hell.png",
+          "view": "hell",
+          "ramp": [
+            "#869ab0",
+            "#ffffff"
+          ],
+          "class": "relief-hell"
+        }
+      ],
+      "tokenPrefix": {
+        "dunkel": "",
+        "hell": "hell-"
+      }
+    },
+    "breakpoints": [
       {
         "name": "page-contents-fold",
         "value": "1180px"
       },
       {
+        "name": "tabs-compact",
+        "value": "1000px"
+      },
+      {
         "name": "single-column",
         "value": "820px"
+      },
+      {
+        "name": "scene-labels-large",
+        "value": "600px"
       }
-    ]
+    ],
+    "fonts": [
+      {
+        "family": "Archivo",
+        "files": [
+          "assets/fonts/archivo-var.woff2"
+        ],
+        "axes": "wdth 62-125, wght 400-800"
+      },
+      {
+        "family": "Source Sans 3",
+        "files": [
+          "assets/fonts/source-sans-3-400.woff2",
+          "assets/fonts/source-sans-3-600.woff2"
+        ]
+      }
+    ],
+    "print": {
+      "file": "assets/druck.css",
+      "note": "Own light palette in druck.css, independent of the day view.",
+      "palette": {
+        "dunkel": "#fff",
+        "flaeche": "#f3f5f8",
+        "flaeche-hell": "#dfe5ec",
+        "schnee": "#13233a",
+        "dunst": "#3c4a5a",
+        "licht": "#8a4300",
+        "notruf": "#b3261e",
+        "linie": "#cfd6df"
+      }
+    }
   },
   "components": [
     {
-      "name": "Main Button",
+      "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "The one main action of a control group.",
-      "html": "<button class=\"ds-knopf-haupt\" type=\"button\">Notruf abspielen</button>",
-      "css": ".ds-knopf-haupt{padding:9px 16px;border:none;border-radius:3px;font:700 17px/1.2 var(--kopf);cursor:pointer;background:var(--licht);color:var(--dunkel);} .ds-knopf-haupt:hover{background:#ffc964;} .ds-knopf-haupt:focus-visible{outline:2px solid var(--licht);outline-offset:2px;}"
+      "description": "The one main action of a control group, such as the walkthrough's next step.",
+      "html": "<button class=\"ds-knopf-haupt\">Weiter zu Schritt 2</button>",
+      "css": ".ds-knopf-haupt { all: unset; box-sizing: border-box; cursor: pointer; padding: 9px 16px; min-width: 188px; text-align: center; font: 700 17px/1.2 var(--kopf, 'Archivo', 'Arial Narrow', sans-serif); background: var(--licht, #2dd4bf); color: var(--dunkel, #070b12); border-radius: 6px; } .ds-knopf-haupt:hover { background: var(--licht-hover, #5eead4); } .ds-knopf-haupt:focus-visible { outline: 2px solid var(--licht, #2dd4bf); outline-offset: 2px; }"
     },
     {
-      "name": "Secondary Button",
+      "name": "Secondary Button and Toggle",
       "kind": "button",
       "refersTo": "button-secondary",
-      "description": "Stepping and other supporting actions on a plane.",
-      "html": "<button class=\"ds-knopf\" type=\"button\">Weiter</button>",
-      "css": ".ds-knopf{padding:9px 16px;border:none;border-radius:3px;font:700 17px/1.2 var(--kopf);cursor:pointer;background:var(--flaeche-hell);color:var(--schnee);} .ds-knopf:hover{background:#33527a;} .ds-knopf:focus-visible{outline:2px solid var(--licht);outline-offset:2px;} .ds-knopf:disabled{cursor:default;opacity:.5;}"
+      "description": "Every other control on a control row; Snow fill when toggled on.",
+      "html": "<div class=\"ds-reihe\"><button class=\"ds-knopf\">Ganzen Ablauf ansehen</button><button class=\"ds-knopf\" data-an=\"true\">Ausfall zeigen</button></div>",
+      "css": ".ds-reihe { display: flex; gap: 10px; padding: 14px 24px; background: var(--flaeche-hell, #18212e); } .ds-knopf { all: unset; box-sizing: border-box; cursor: pointer; padding: 9px 16px; font: 700 17px/1.2 var(--kopf, 'Archivo', 'Arial Narrow', sans-serif); color: var(--schnee, #eef2f6); background: var(--flaeche, #0e141e); border-radius: 6px; } .ds-knopf:hover { background: var(--flaeche-hover, #243044); } .ds-knopf:focus-visible { outline: 2px solid var(--licht, #2dd4bf); outline-offset: 2px; } .ds-knopf[data-an=\"true\"] { background: var(--schnee, #eef2f6); color: var(--dunkel, #070b12); }"
     },
     {
-      "name": "Toggle Button, On",
-      "kind": "button",
-      "refersTo": "button-toggle-on",
-      "description": "A switched-on mode, such as the failure view.",
-      "html": "<button class=\"ds-knopf-an\" type=\"button\">Zurück zum Normalfall</button>",
-      "css": ".ds-knopf-an{padding:9px 16px;border:none;border-radius:3px;font:700 17px/1.2 var(--kopf);cursor:pointer;background:var(--schnee);color:var(--dunkel);} .ds-knopf-an:focus-visible{outline:2px solid var(--licht);outline-offset:2px;}"
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "search-input",
+      "description": "Book search above the chapter list.",
+      "html": "<input class=\"ds-suche\" type=\"search\" placeholder=\"Im Buch suchen\">",
+      "css": ".ds-suche { width: 260px; padding: 8px 12px; font: 500 15.5px/1.3 var(--kopf, 'Archivo', 'Arial Narrow', sans-serif); color: var(--schnee, #eef2f6); background: var(--flaeche, #0e141e); border: 1px solid var(--linie, #1f2937); border-radius: 6px; } .ds-suche:hover { border-color: var(--flaeche-hover, #243044); } .ds-suche::placeholder { color: var(--dunst, #97a3b5); } .ds-suche:focus-visible { outline: 2px solid var(--licht, #2dd4bf); outline-offset: 3px; }"
     },
     {
-      "name": "Tab Strip",
+      "name": "Page Contents",
+      "kind": "nav",
+      "description": "Haze links on a 1px rail; the section in view gets a turquoise segment.",
+      "html": "<nav class=\"ds-seiten\"><h2>Auf dieser Seite</h2><ol><li><a href=\"#\">Der Weg</a></li><li><a href=\"#\" class=\"aktiv\">Schlüssel</a></li><li><a href=\"#\">Offene Punkte</a></li></ol></nav>",
+      "css": ".ds-seiten { font: 500 16px/1.3 var(--kopf, 'Archivo', 'Arial Narrow', sans-serif); font-stretch: 86%; } .ds-seiten h2 { font: 700 15.5px/1.3 var(--kopf, 'Archivo', 'Arial Narrow', sans-serif); font-stretch: 108%; margin: 0 0 10px; color: var(--schnee, #eef2f6); } .ds-seiten ol { list-style: none; padding: 0; margin: 0; } .ds-seiten a { display: block; padding: 5px 0 5px 14px; color: var(--dunst, #97a3b5); text-decoration: none; box-shadow: inset 1px 0 var(--linie, #1f2937); } .ds-seiten a:hover { color: var(--schnee, #eef2f6); } .ds-seiten a.aktiv { color: var(--schnee, #eef2f6); font-weight: 700; box-shadow: inset 1px 0 var(--licht, #2dd4bf); } .ds-seiten a:focus-visible { outline: 2px solid var(--licht, #2dd4bf); outline-offset: 3px; }"
+    },
+    {
+      "name": "Chapter Head",
       "kind": "custom",
-      "refersTo": "tab",
-      "description": "Upper Plane strip whose selected tab merges into the panel below.",
-      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button role=\"tab\" aria-selected=\"false\">Chip</button><button role=\"tab\" aria-selected=\"true\">Server</button><button role=\"tab\" aria-selected=\"false\">App</button></div>",
-      "css": ".ds-tabs{display:flex;background:var(--flaeche-hell);} .ds-tabs button{all:unset;cursor:pointer;padding:12px 16px;font:500 17px/1.2 var(--kopf);color:var(--schnee);} .ds-tabs button:hover{color:var(--licht);} .ds-tabs button[aria-selected=\"true\"]{background:var(--flaeche);color:var(--licht);font-weight:700;} .ds-tabs button:focus-visible{outline:2px solid var(--licht);outline-offset:-2px;}"
+      "description": "A plain flat band of Head Grey with a 1px Head Line: book name, view toggle, steady beacon line, title block. No texture, picture or gradient; nothing moves.",
+      "html": "<header class=\"ds-kopf\"><a class=\"ds-marke\" href=\"#\">SkiTag Netzwerk-Buch</a><button class=\"ds-thema\" type=\"button\"><svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4\"/></svg>Hell</button><p class=\"ds-bake\">Grundlagen</p><div class=\"ds-titel\"><h1>Funkprotokoll</h1><p class=\"ds-stand\">Kapitel 4 · Stand 3. November 2026</p><p class=\"ds-vorwissen\">Baut auf: <a href=\"#\">Kapitel 3, LoRa</a></p></div></header>",
+      "css": ".ds-kopf { display: grid; grid-template-columns: 220px 1fr auto; grid-template-rows: auto 1fr; gap: 0 32px; padding: 20px 24px 30px; color: var(--schnee, #eef2f6); background: var(--kopf-grund, #14181e); border-bottom: 1px solid var(--kopf-linie, #232a33); } .ds-marke { grid-column: 1; grid-row: 1; font: 800 19px/1.2 var(--kopf, 'Archivo', 'Arial Narrow', sans-serif); font-stretch: 114%; color: var(--schnee, #eef2f6); text-decoration: none; } .ds-thema { grid-column: 3; grid-row: 1; justify-self: end; align-self: start; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; font: 600 14.5px/1.2 var(--kopf, 'Archivo', 'Arial Narrow', sans-serif); font-stretch: 92%; color: var(--schnee, #eef2f6); background: transparent; border: 1px solid var(--kopf-linie, #232a33); border-radius: 6px; cursor: pointer; } .ds-thema:hover { background: var(--flaeche-hell, #18212e); } .ds-thema:focus-visible { outline: 2px solid var(--licht, #2dd4bf); outline-offset: 3px; } .ds-thema svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; } .ds-bake { grid-column: 1; grid-row: 2; align-self: end; display: flex; align-items: center; gap: 10px; margin: 0 0 6px; font: 600 15px/1.3 var(--kopf, 'Archivo', 'Arial Narrow', sans-serif); color: var(--dunst, #97a3b5); } .ds-bake::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--licht, #2dd4bf); } .ds-titel { grid-column: 2 / 4; grid-row: 2; padding-top: 14px; } .ds-kopf h1 { margin: 0; font: 800 3rem/1.02 var(--kopf, 'Archivo', 'Arial Narrow', sans-serif); font-stretch: 112%; letter-spacing: -.015em; } .ds-stand, .ds-vorwissen { margin: 2px 0 0; font: 600 16px/1.35 var(--kopf, 'Archivo', 'Arial Narrow', sans-serif); font-stretch: 86%; color: var(--dunst, #97a3b5); } .ds-stand { margin-top: 10px; } .ds-vorwissen a { color: var(--licht, #2dd4bf); text-underline-offset: 3px; }"
     },
     {
-      "name": "Rope Band",
-      "kind": "custom",
-      "refersTo": "rope-band",
-      "description": "The rope with stations and the cabin at the current station; the third station here shows the disturbed state.",
-      "html": "<div class=\"ds-seil\"><svg viewBox=\"0 0 1000 100\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M60 68 Q137.5 73 215 62\"/><path d=\"M215 62 Q292.5 67 370 56\"/><path class=\"ds-aus\" d=\"M370 56 Q450 61 530 50\"/><path class=\"ds-aus\" d=\"M530 50 Q615 55 700 44\"/><path class=\"ds-aus\" d=\"M700 44 Q820 49 940 38\"/></svg><a class=\"ds-station ds-jetzt\" style=\"left:6%;top:68%\" href=\"#\" aria-label=\"Schritt 1: Knopf drücken\">1</a><a class=\"ds-station\" style=\"left:21.5%;top:62%\" href=\"#\" aria-label=\"Schritt 2: Chip sendet\">2</a><a class=\"ds-station ds-gestoert\" style=\"left:37%;top:56%\" href=\"#\" aria-label=\"Schritt 3: Gateway leitet weiter\">3</a><a class=\"ds-station\" style=\"left:53%;top:50%\" href=\"#\" aria-label=\"Schritt 4: Server entscheidet\">4</a><a class=\"ds-station\" style=\"left:70%;top:44%\" href=\"#\" aria-label=\"Schritt 5: Mitarbeiter wird alarmiert\">5</a><a class=\"ds-station\" style=\"left:94%;top:38%\" href=\"#\" aria-label=\"Schritt 6: Übernahme kommt zurück\">6</a><span class=\"ds-gondel\" style=\"left:6%;top:68%\"></span></div>",
-      "css": ".ds-seil{position:relative;height:112px;background:var(--flaeche);} .ds-seil svg{position:absolute;inset:0;width:100%;height:100%;} .ds-seil path{fill:none;stroke:var(--dunst);stroke-width:2;vector-effect:non-scaling-stroke;} .ds-seil path.ds-aus{stroke-dasharray:3 7;opacity:.55;} .ds-station{position:absolute;transform:translate(-50%,calc(-100% + 9px));display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--schnee);text-decoration:none;font:500 18px/1.2 var(--kopf);} .ds-station::after{content:\"\";width:18px;height:18px;border-radius:50%;background:var(--flaeche);border:2px solid var(--schnee);} .ds-station:hover::after{border-color:var(--licht);} .ds-station:focus-visible{outline:2px solid var(--licht);outline-offset:3px;} .ds-jetzt{color:var(--licht);font-weight:700;} .ds-jetzt::after{border-color:var(--licht);} .ds-gestoert{color:var(--notruf);} .ds-gestoert::after{border-color:var(--notruf);border-width:3px;border-radius:0;transform:rotate(45deg) scale(.9);} .ds-gondel{position:absolute;width:36px;height:22px;margin:9px 0 0 -18px;border-radius:3px 3px 5px 5px;background:var(--licht);box-shadow:inset 0 0 0 3px var(--licht),inset 0 -7px 0 3px var(--licht),inset 0 0 0 20px var(--flaeche);} .ds-gondel::before{content:\"\";position:absolute;left:17px;top:-9px;width:2px;height:10px;background:var(--licht);}"
-    },
-    {
-      "name": "Status Panels",
+      "name": "Short Summary Box",
       "kind": "card",
-      "refersTo": "status-panel",
-      "description": "Certainty told by form, in the fixed order Fest, Entschieden, Geschätzt, Offen.",
-      "html": "<div class=\"ds-status\"><div><h3><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"7\" fill=\"currentColor\"/></svg>Fest</h3><p>Die Funkstrecke läuft über LoRa.</p></div><div><h3><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><circle cx=\"8\" cy=\"8\" r=\"3\" fill=\"currentColor\"/></svg>Entschieden</h3><p>Der Server steht vor Ort.</p></div><div><h3><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><circle cx=\"8\" cy=\"8\" r=\"6.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-dasharray=\"6 3.2\"/></svg>Geschätzt</h3><p>Die Reichweite.</p></div><div class=\"ds-offen\"><h3><svg class=\"ds-mark\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M8 1.5 14.5 8 8 14.5 1.5 8Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/></svg>Offen</h3><p>Wie viele Gateways braucht es?</p></div></div>",
-      "css": ".ds-status{display:grid;gap:6px;color:var(--schnee);font:400 18px/1.65 var(--text);} .ds-status>div{background:var(--flaeche);padding:18px 20px;} .ds-status h3{display:flex;align-items:center;gap:10px;margin:0 0 6px;font:700 22px/1.2 var(--kopf);} .ds-status p{margin:0;} .ds-mark{flex:none;width:20px;height:20px;} .ds-offen h3{color:var(--notruf);}"
+      "refersTo": "short-summary-box",
+      "description": "„Kurz gesagt“ below the lead: turquoise dot title, at most three points, one open question in red.",
+      "html": "<div class=\"ds-kurz\"><p class=\"ds-kurz-titel\">Kurz gesagt</p><ul><li>Der Chip sendet über LoRa.</li><li>Das Gateway reicht weiter.</li></ul><p><strong>Offen:</strong> Reicht ein Gateway pro Hang?</p></div>",
+      "css": ".ds-kurz { padding: 20px 24px; background: var(--flaeche, #0e141e); border-radius: 8px; color: var(--schnee, #eef2f6); font: 400 18px/1.65 var(--text, 'Source Sans 3', 'Segoe UI', sans-serif); } .ds-kurz-titel { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; font: 700 19px/1.2 var(--kopf, 'Archivo', 'Arial Narrow', sans-serif); font-stretch: 104%; } .ds-kurz-titel::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--licht, #2dd4bf); } .ds-kurz ul { margin: 0; padding-left: 20px; } .ds-kurz li::marker { color: var(--dunst, #97a3b5); } .ds-kurz ul + p { margin: 12px 0 0; } .ds-kurz strong { color: var(--notruf, #ff5468); } .ds-kurz strong::before { content: ''; display: inline-block; width: 9px; height: 9px; margin: 0 9px 2px 3px; border: 2px solid currentColor; transform: rotate(45deg); }"
     },
     {
-      "name": "Table",
+      "name": "Table with Stand Column",
       "kind": "custom",
       "refersTo": "table-cell",
-      "description": "Tonal table: Upper Plane header, Twilight Plane body, hairlines between rows.",
-      "html": "<table class=\"ds-tabelle\"><thead><tr><th scope=\"col\">Am Chip</th><th scope=\"col\">Was passiert</th></tr></thead><tbody><tr><td>Nichts tun</td><td>Der Chip sendet seine Position.</td></tr><tr><td>Einmal drücken</td><td>Die Gruppe vibriert.</td></tr></tbody></table>",
-      "css": ".ds-tabelle{width:100%;border-collapse:collapse;background:var(--flaeche);color:var(--schnee);font:400 17px/1.45 var(--text);} .ds-tabelle th{text-align:left;font:700 17px/1.25 var(--kopf);background:var(--flaeche-hell);} .ds-tabelle th,.ds-tabelle td{padding:11px 14px;vertical-align:top;} .ds-tabelle tbody tr+tr td{border-top:1px solid var(--flaeche-hell);}"
+      "description": "Lit rows on the night ground; named first column, status by shape and word.",
+      "html": "<div class=\"ds-tabelle\"><table><thead><tr><th>Punkt</th><th>Was gilt</th><th>Stand</th></tr></thead><tbody><tr><td>Funkband</td><td>868 MHz in Europa</td><td class=\"ds-stand-zelle\"><svg viewBox=\"0 0 16 16\" width=\"15\" height=\"15\"><circle cx=\"8\" cy=\"8\" r=\"7\" fill=\"currentColor\"/></svg>Fest</td></tr><tr><td>Reichweite</td><td>Schätzung je Hang</td><td class=\"ds-stand-zelle\"><svg viewBox=\"0 0 16 16\" width=\"15\" height=\"15\"><circle cx=\"8\" cy=\"8\" r=\"6.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-dasharray=\"6 3.2\"/></svg>Geschätzt</td></tr><tr class=\"ds-offen\"><td>Schlüsseltausch</td><td>Noch nicht festgelegt</td><td class=\"ds-stand-zelle\"><svg viewBox=\"0 0 16 16\" width=\"15\" height=\"15\"><path d=\"M8 1.5 14.5 8 8 14.5 1.5 8Z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/></svg>Offen</td></tr></tbody></table></div>",
+      "css": ".ds-tabelle { background: var(--flaeche, #0e141e); border-radius: 8px; overflow-x: auto; } .ds-tabelle table { width: 100%; border-collapse: collapse; font: 400 16.5px/1.5 var(--text, 'Source Sans 3', 'Segoe UI', sans-serif); font-variant-numeric: tabular-nums; } .ds-tabelle th { text-align: left; padding: 13px 16px; font: 600 15px/1.3 var(--kopf, 'Archivo', 'Arial Narrow', sans-serif); font-stretch: 86%; color: var(--dunst, #97a3b5); background: var(--flaeche-hell, #18212e); } .ds-tabelle td { padding: 13px 16px; vertical-align: top; color: var(--text-2, #cdd5df); } .ds-tabelle td:first-child { color: var(--schnee, #eef2f6); font-weight: 600; } .ds-tabelle tbody tr + tr td { border-top: 1px solid var(--linie, #1f2937); } .ds-tabelle tbody tr:hover td { background: rgb(238 242 246 / .025); } .ds-tabelle td.ds-stand-zelle { width: 1%; white-space: nowrap; font: 600 15.5px/1.4 var(--kopf, 'Archivo', 'Arial Narrow', sans-serif); font-stretch: 90%; color: var(--schnee, #eef2f6); } .ds-stand-zelle svg { margin-right: 7px; vertical-align: -2px; } .ds-tabelle .ds-offen td.ds-stand-zelle { color: var(--notruf, #ff5468); }"
     },
     {
-      "name": "Chapter List",
-      "kind": "nav",
-      "description": "Numbered chapters: current in amber, unwritten ones muted and unlinked.",
-      "html": "<ol class=\"ds-kapitel\"><li class=\"ds-aktiv\"><span>1</span><a href=\"#\" aria-current=\"page\">Vom Knopfdruck zur App</a></li><li class=\"ds-kommt\"><span>2</span><span>Anforderungen</span></li><li class=\"ds-kommt\"><span>3</span><span>Warum LoRa</span></li></ol>",
-      "css": ".ds-kapitel{list-style:none;margin:0;padding:0;font:500 16px/1.3 var(--kopf);font-variant-numeric:tabular-nums;} .ds-kapitel li{display:grid;grid-template-columns:26px 1fr;padding:5px 0;color:var(--dunst);} .ds-kapitel a{color:inherit;text-decoration:none;} .ds-kapitel a:focus-visible{outline:2px solid var(--licht);outline-offset:3px;} .ds-aktiv,.ds-aktiv a{color:var(--licht);font-weight:700;} .ds-kommt{opacity:.78;}"
-    },
-    {
-      "name": "Text Link",
+      "name": "Packet Plan Fields",
       "kind": "custom",
-      "description": "Amber inline link with a thin underline that thickens on hover.",
-      "html": "<a class=\"ds-link\" href=\"#\">Zum Kapitel</a>",
-      "css": ".ds-link{color:var(--licht);text-underline-offset:3px;text-decoration-thickness:1px;font:400 18px/1.65 var(--text);} .ds-link:hover{text-decoration-thickness:2px;} .ds-link:focus-visible{outline:2px solid var(--licht);outline-offset:3px;border-radius:2px;}"
-    },
-    {
-      "name": "Contents Row",
-      "kind": "nav",
-      "refersTo": "table-cell",
-      "description": "One chapter on the start page: number, title link, one sentence and the status mark that prevails. Rows, not cards.",
-      "html": "<ol class=\"ds-inhalt\"><li><span class=\"ds-nr\">10</span><div><a href=\"#\">Standortplanung KitzSki</a><p>Wie viele Gateways das Gebiet braucht, mit Karte der Abdeckung.</p></div><span class=\"ds-stand\">Geschätzt</span></li><li><span class=\"ds-nr\">11</span><div><a href=\"#\">Strom und Netzanbindung</a><p>Fenster, Strom, Weg zum Server und Blitzschutz.</p></div><span class=\"ds-stand ds-offen\">Offen</span></li></ol>",
-      "css": ".ds-inhalt{list-style:none;padding:0;background:var(--flaeche);color:var(--schnee);} .ds-inhalt li{display:grid;grid-template-columns:34px minmax(0,1fr) 124px;gap:14px;padding:11px 14px;} .ds-inhalt li+li{border-top:1px solid var(--flaeche-hell);} .ds-nr{font:700 20px/1.2 var(--kopf);color:var(--dunst);font-variant-numeric:tabular-nums;} .ds-inhalt a{font:700 20px/1.2 var(--kopf);color:var(--licht);text-underline-offset:3px;text-decoration-thickness:1px;} .ds-inhalt a:hover{text-decoration-thickness:2px;} .ds-inhalt a:focus-visible{outline:2px solid var(--licht);outline-offset:3px;border-radius:2px;} .ds-inhalt p{margin:2px 0 0;font:400 17px/1.45 var(--text);} .ds-stand{font:700 17px/1.3 var(--kopf);white-space:nowrap;} .ds-offen{color:var(--notruf);}"
-    },
-    {
-      "name": "Diagram",
-      "kind": "custom",
-      "description": "Static inline drawing on the Twilight Plane: zones in Deep Twilight, boxes on the Upper Plane, amber for the path of an emergency call.",
-      "html": "<figure class=\"ds-schema\"><svg viewBox=\"0 0 520 150\" role=\"img\" aria-label=\"Chip funkt zum Gateway\"><rect class=\"ds-zone\" x=\"10\" y=\"10\" width=\"500\" height=\"130\"/><rect class=\"ds-box\" x=\"30\" y=\"46\" width=\"170\" height=\"76\"/><text class=\"ds-titel\" x=\"46\" y=\"90\">Chip</text><path class=\"ds-licht\" d=\"M200 84H320\"/><rect class=\"ds-box\" x=\"320\" y=\"46\" width=\"170\" height=\"76\"/><text class=\"ds-titel\" x=\"336\" y=\"90\">Gateway</text></svg><figcaption>Der hervorgehobene Weg ist der eines Notrufs.</figcaption></figure>",
-      "css": ".ds-schema{margin:0;background:var(--flaeche);} .ds-schema svg{display:block;width:100%;height:auto;} .ds-zone{fill:var(--dunkel);} .ds-box{fill:var(--flaeche-hell);} .ds-titel{font:700 20px var(--kopf);fill:var(--schnee);} .ds-licht{fill:none;stroke:var(--licht);stroke-width:3;} .ds-schema figcaption{padding:6px 24px 12px;font:400 16px var(--text);color:var(--dunst);}"
+      "refersTo": "packet-field-readable",
+      "description": "Readable fields lit, encrypted fields hatched, the selected field turquoise.",
+      "html": "<div class=\"ds-felder\"><button class=\"ds-feld\">Typ<small>1 Byte</small></button><button class=\"ds-feld\" aria-pressed=\"true\">Zähler<small>2 Byte</small></button><button class=\"ds-feld ds-geheim\">Ort<small>8 Byte</small></button><button class=\"ds-feld ds-geheim\">Prüfwert<small>4 Byte</small></button></div>",
+      "css": ".ds-felder { display: flex; flex-wrap: wrap; gap: 3px; padding: 20px 24px; background: var(--flaeche, #0e141e); border-radius: 8px; } .ds-feld { all: unset; box-sizing: border-box; flex: 1 0 74px; cursor: pointer; padding: 8px 6px; text-align: center; font: 500 16px/1.2 var(--kopf, 'Archivo', 'Arial Narrow', sans-serif); color: var(--schnee, #eef2f6); background: var(--feld-klar, #4a5d7a); box-shadow: inset 0 0 0 1px var(--dunst, #97a3b5); } .ds-feld small { display: block; font-size: 16px; color: var(--schnee, #eef2f6); } .ds-geheim { background: repeating-linear-gradient(135deg, var(--dunkel, #070b12) 0 5px, var(--flaeche-hell, #18212e) 5px 10px); } .ds-geheim small { color: var(--dunst, #97a3b5); } .ds-feld:hover { box-shadow: inset 0 0 0 2px var(--licht, #2dd4bf); } .ds-feld:focus-visible { outline: 2px solid var(--licht, #2dd4bf); outline-offset: -2px; } .ds-feld[aria-pressed=\"true\"] { background: var(--licht, #2dd4bf); color: var(--dunkel, #070b12); font-weight: 700; } .ds-feld[aria-pressed=\"true\"] small { color: var(--dunkel, #070b12); }"
     }
   ],
   "narrative": {
-    "northStar": "Blue Hour on a Ropeway",
-    "overview": "One rope runs through the whole book: chip, receiver, server, app. It hangs across the top of every chapter page, a single line sagging between four stations, with one lit cabin parked at the place the chapter is about. The page below is the dusk around it: twilight blue that never reaches black, snow white text, and the warm light of the cabin as the only thing that glows. A reader always knows where a topic sits on the signal path, because the path never leaves the screen.\n\nThe system is built for reading first. Density is that of a well-set reference book: a 68-character column at a comfortable 18px, side lists in a tighter condensed face, and wide material (tables, status, the walkthrough) stepping out of the column only when it needs the width. Depth comes from three flat tonal planes, and status comes from shape, so the difference between fixed, decided, estimated and open survives without colour.\n\nChapters and page contents sit left and right of the text, and they stay quiet. The rope is the orientation; the side lists only serve it. The system refuses the dark docs template in which sidebar, text and a glowing blue accent are the whole idea.",
+    "northStar": "Pistenraupe bei Nacht",
+    "overview": "The book is read at night on a freshly groomed slope. Everything is dark and calm, and light falls only where there is something to see. The ground is near black with a blue cast, text is snow, secondary text is a grey-blue haze, and one glacier-turquoise beacon is the only thing that glows. The chapter head is a plain, slightly grey band, a little less blue than the page, closed by a fine line; the title stands in it without texture, picture or gradient. The only landscape in the book is the slope scene and the relief map, where they explain something.\n\nNight is the identity; the day variant (\"helle Ansicht\") is the same world in snow light. It swaps every token for a pale set and keeps structure, type, shapes and rules unchanged. Drawings follow the view too: the slope scene turns to a day slope and the coverage map to a pale relief.\n\nThe system is built for reading first. Density is that of a well-set reference book: a 68-character column at 18px, side lists in a condensed cut of the same display family, and wide material (tables, status, calculators, the walkthrough) stepping out of the column only when it needs the width. Depth comes from flat tonal planes a few steps above the night ground. Tables are lit rows on that ground, and status comes from shape, so fixed, decided, estimated and open stay apart without colour.\n\nThe system refuses the dark docs template of grey panels and a generic blue accent, and it refuses light-on-everything: a lit thing is lit because the reader is there or can act there.",
     "keyCharacteristics": [
-      "Twilight blue ground in three flat tonal steps, never black.",
-      "One accent, cabin amber, meaning \"here\" and \"act here\".",
-      "Signal red reserved for emergency, failure and open points.",
-      "A rope band on every page, with the cabin at the chapter's station.",
+      "Near-black night ground with a blue cast, raised by flat tonal planes; a pale day variant on the same tokens.",
+      "One accent, glacier turquoise by night and petrol by day, meaning \"here\" and \"act here\".",
+      "Emergency red reserved for emergency, failure and open points.",
+      "A plain neutral-grey head band: no texture, picture or gradient.",
+      "Archivo's width axis as a voice: condensed to navigate, wide to announce.",
       "Status told by form: filled, ringed, dashed, diamond.",
-      "Instant state changes; only the cabin and the walkthrough's slope scene move.",
       "German text, self-hosted fonts, no build step."
     ],
     "rules": [
       {
-        "name": "The Never Black Rule",
-        "body": "The darkest colour in the book is Deep Twilight. Nothing is darker, and there is no pure black anywhere, including text on amber.",
-        "section": "colors"
-      },
-      {
-        "name": "The One Cabin Rule",
-        "body": "Amber is the only accent. If something is amber, it is where the reader is or what the reader can act on. A second accent hue is not available.",
+        "name": "The One Beacon Rule",
+        "body": "The accent (turquoise by night, petrol by day; \"turquoise\" elsewhere in this file means this accent in either view) is the only accent. If something carries it, it is where the reader is or what the reader can act on. A second accent hue is not available.",
         "section": "colors"
       },
       {
         "name": "The Signal Rule",
-        "body": "Red marks an emergency, a failure or an open point, and nothing else. It never decorates, and it never marks plain importance.",
+        "body": "Red marks an emergency, a failure or an open point, and nothing else. It never decorates and never marks plain importance.",
         "section": "colors"
       },
       {
         "name": "The Red Stays Low Rule",
-        "body": "Red text sits on Deep Twilight (6.33:1) or the Twilight Plane (5.14:1). On the Upper Plane it falls to 4.15:1, so red text never goes there.",
+        "body": "Red text sits on Night, the Night Plane or the Upper Plane (at least 5.2:1 at night, 4.7:1 by day), never on Plane Hover or the Lit Field.",
         "section": "colors"
       },
       {
-        "name": "The Two Voices Rule",
-        "body": "Barlow navigates, Source Sans reads. Headings, labels, tabs, table headers, buttons and side lists are Barlow. Anything a reader reads as a sentence is Source Sans.",
+        "name": "The Both Views Rule",
+        "body": "Every drawing follows the active view: the slope scene, the diagrams and the coverage map all switch with the page. Text never names a colour that holds in only one view; it calls the accent \"blaugrün\", which fits both turquoise and petrol, and red \"rot\", and names nothing else by colour, only by shape or fill (\"ausgefüllte Rauten\", \"kleinere ohne Farbe\", \"feine Linien\").",
+        "section": "colors"
+      },
+      {
+        "name": "The Lit Row Rule",
+        "body": "In a table the first column is the row's name and carries Snow at weight 600; every other cell steps down to Pale Snow. The reader scans names first.",
+        "section": "colors"
+      },
+      {
+        "name": "The Width Is The Voice Rule",
+        "body": "Condensed Archivo (86 to 90%) navigates and labels: lists, table headers, stand lines. Wide Archivo (104 to 114%) announces: book name, title, sections, the summary title. Nothing in between invents a third width.",
+        "section": "typography"
+      },
+      {
+        "name": "The Two Families Rule",
+        "body": "Archivo navigates and announces, Source Sans reads. Anything read as a sentence is Source Sans.",
         "section": "typography"
       },
       {
         "name": "The Measure Rule",
-        "body": "Running text never exceeds 68ch, even where the column is wider. Only tables, status panels and the walkthrough take the full column.",
+        "body": "Running text never exceeds 68ch, even where the column is wider.",
         "section": "typography"
       },
       {
-        "name": "The Rope Stays Rule",
-        "body": "The rope strip is on screen at every scroll position, at every width. No chapter hides, replaces or re-routes it.",
-        "section": "layout"
-      },
-      {
-        "name": "The Flat Dusk Rule",
-        "body": "No cast shadows, no glows, no gradients, no blur. If two things need separating, put them on different planes.",
+        "name": "The Plain Head Rule",
+        "body": "The chapter head is one flat band of Head Grey with a 1px Head Line below it. No texture, picture, silhouette or gradient goes into it, and it carries only the book name, the view toggle, the beacon line and the title block.",
         "section": "elevation"
       },
       {
-        "name": "The Plane Before Line Rule",
-        "body": "Containers are separated by tone, not frames. The one structural line is the 1px Upper Plane hairline between table rows; the rope, station rings, status marks and focus rings are figures and states, not frames.",
+        "name": "The Plane Before Frame Rule",
+        "body": "Containers are separated by tone, not frames. The structural lines are 1px: Hairlines between table rows, above the page-turn line and as the page-contents rail, and the Head Line under the head.",
         "section": "elevation"
       },
       {
         "name": "The Status As Form Rule",
-        "body": "Certainty is told by shape and always with its word beside it. Only Offen also changes colour; the other three stay in the text colour.",
+        "body": "Certainty is told by shape, always with its word beside it. Only Offen also changes colour; the other three marks stay Snow.",
         "section": "shapes"
       }
     ],
     "dos": [
-      "Do assemble every chapter from the Chapter Page steps, and set its station so the cabin sits where the topic sits.",
-      "Do keep running text at 68ch, and let only tables, status panels and walkthroughs take the full column.",
+      "Do assemble every chapter from the Chapter Page steps, and let it rest only on chapters before it.",
+      "Do keep running text at 68ch, and let only wide material take the full main column.",
       "Do use the tokens in this file for every value; a new chapter should add no colour, size or radius.",
       "Do mark every statement of certainty with its status mark and its word, and keep estimates labelled as estimates until measured.",
-      "Do separate things with tone: Deep Twilight, Twilight Plane, Upper Plane, in that order of height.",
-      "Do keep 2px amber focus outlines on everything interactive.",
-      "Do honour reduced motion: the cabin jumps, and smooth scrolling is off.",
+      "Do separate things with tone: Night, Night Plane, Upper Plane, in that order of height.",
+      "Do give tables a named first column in Snow and let the other cells step down to Pale Snow.",
+      "Do use condensed Archivo for navigation and labels and wide Archivo for announcements.",
+      "Do keep 2px turquoise focus outlines on everything interactive.",
+      "Do honour reduced motion: smooth scrolling off and the scene at its end state.",
+      "Do check every new value in both views; a colour exists only as a token with a night and a day value.",
+      "Do draw every graphic for both views, and describe its colours in text only as \"blaugrün\", \"rot\", or by shape or fill.",
       "Do keep unwritten chapters visible but unlinked in the chapter list."
     ],
     "donts": [
-      "Don't add a second accent colour or any glowing blue. Amber is the only accent.",
+      "Don't add a second accent colour. Turquoise by night and petrol by day are the one accent.",
       "Don't use red for emphasis, decoration or anything that is not an emergency, a failure or an open point.",
-      "Don't use pure black, cast shadows, glows, gradients or blur.",
-      "Don't put a frame around a container. Use a plane. Table row hairlines stay; they are the single exception.",
-      "Don't let the side lists become the orientation. They serve the rope, and a page without the rope band is not a book page.",
+      "Don't put texture, pictures, silhouettes, gradients or glows into the chapter head, or anywhere outside the drawings that explain something.",
+      "Don't add cast shadows or blur; depth is tone.",
+      "Don't put a frame around a container. Use a plane; Hairlines are for rows and edges only.",
       "Don't tell status by colour alone, or show a mark without its word or label.",
-      "Don't add fades, slides or hover transitions. States change instantly; the cabin and the walkthrough's slope scene are what move, along with smooth anchor scrolling.",
-      "Don't put a small label above a heading. The stamp line goes below the chapter title, and sections have none.",
-      "Don't set uppercase or letter-spaced labels.",
-      "Don't round planes, or give a control any radius other than the button corner.",
-      "Don't stage photos or invent measurements. Until real ones exist, the rope and the marks are the book's picture language."
+      "Don't add fades, slides or hover transitions. States change instantly; only the slope scene moves. The head is still.",
+      "Don't put a small label directly above a heading. The stand line goes below the chapter title, and sections have none.",
+      "Don't set uppercase or positive letter-spacing.",
+      "Don't use glyph or font icons; marks, dots and chevrons are drawn.",
+      "Don't give a plane any radius other than `--rundung`, or a control any radius other than the 6px control corner.",
+      "Don't stage photos or invent measurements. Until real ones exist, the slope scene, the relief map and the marks are the book's picture language."
     ]
   }
 }

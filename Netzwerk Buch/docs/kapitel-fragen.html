@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{document.documentElement.dataset.thema=localStorage.getItem("thema")||(matchMedia("(prefers-color-scheme: light)").matches?"hell":"dunkel")}catch(e){}</script>
 <title>Häufige Fragen · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Die häufigsten Fragen zu SkiTag mit kurzer Antwort und Verweis auf das passende Kapitel.">
-<link rel="stylesheet" href="assets/book.css?v=48">
-<link rel="stylesheet" href="assets/druck.css?v=48" media="print">
-<script src="assets/book.js?v=48" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=49">
+<link rel="stylesheet" href="assets/druck.css?v=49" media="print">
+<script src="assets/book.js?v=49" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -17,8 +18,14 @@
   <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<header class="streifen">
-  <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+<header class="kopf">
+  <div class="kopf-innen">
+    <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+    <div class="kopf-titel">
+      <h1>Häufige Fragen</h1>
+      <p class="stand">Überblick · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+    </div>
+  </div>
 </header>
 
 <div class="buch">
@@ -39,9 +46,6 @@
       <ol></ol>
     </details>
     <article>
-      <h1>Häufige Fragen</h1>
-      <p class="stand">Überblick · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
-
       <div class="lesen">
         <p class="einstieg">Hier steht die kurze Antwort auf die häufigsten Fragen und wo sie im Buch genauer erklärt ist.</p>
       </div>

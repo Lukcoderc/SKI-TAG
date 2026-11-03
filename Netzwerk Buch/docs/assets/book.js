@@ -57,6 +57,28 @@ function baueKapitelEintrag(k, seite) {
   return li;
 }
 
+// Helle und dunkle Ansicht. Die Wahl setzt ein kleines Skript im Kopf jeder Seite schon vor dem Zeichnen.
+const SONNE = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>';
+const MOND = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>';
+function baueThemaKnopf(nach) {
+  const knopf = document.createElement("button");
+  knopf.type = "button";
+  knopf.className = "thema";
+  const zeige = () => {
+    const hell = document.documentElement.dataset.thema === "hell";
+    knopf.innerHTML = hell ? MOND + "<span>Dunkel</span>" : SONNE + "<span>Hell</span>";
+    knopf.setAttribute("aria-label", hell ? "Dunkle Ansicht einschalten" : "Helle Ansicht einschalten");
+  };
+  knopf.addEventListener("click", () => {
+    const neu = document.documentElement.dataset.thema === "hell" ? "dunkel" : "hell";
+    document.documentElement.dataset.thema = neu;
+    try { localStorage.setItem("thema", neu); } catch {}
+    zeige();
+  });
+  zeige();
+  nach.after(knopf);
+}
+
 function baueKapitelNav() {
   const ol = document.querySelector(".kapitel-nav ol");
   const details = document.querySelector(".kapitel-nav details");
@@ -65,6 +87,13 @@ function baueKapitelNav() {
   schmal.addEventListener("change", passeAn);
   const seite = location.pathname.split("/").pop() || "index.html";
   if (seite === "index.html") document.querySelector(".buch-marke").setAttribute("aria-current", "page");
+  // Rundumlicht im Kopf: zeigt, in welchem Teil des Buchs die Seite steht.
+  const bake = document.createElement("p");
+  bake.className = "bake";
+  const hier = KAPITEL.find((k) => k.datei === seite);
+  bake.textContent = hier ? hier.teil : "Übersicht";
+  document.querySelector(".buch-marke").after(bake);
+  baueThemaKnopf(bake);
   let liste;
   let teil;
   for (const k of KAPITEL) {
@@ -141,11 +170,11 @@ function baueSuche() {
 // Am Handy: Blättern auch oben und ein Knopf zurück zum Inhalt.
 function baueHandyHilfen() {
   const unten = document.querySelector(".blaettern");
-  const kopf = document.querySelector(".vorwissen") || document.querySelector(".stand");
-  if (unten && kopf) {
+  const artikel = document.querySelector("main article");
+  if (unten && artikel) {
     const oben = unten.cloneNode(true);
     oben.classList.add("blaettern-oben");
-    kopf.after(oben);
+    artikel.prepend(oben);
   }
   const knopf = document.createElement("a");
   knopf.className = "zum-inhalt";

@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{document.documentElement.dataset.thema=localStorage.getItem("thema")||(matchMedia("(prefers-color-scheme: light)").matches?"hell":"dunkel")}catch(e){}</script>
 <title>SOS: Vorrang und Fehlalarme · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie ein Notruf vor Fehlalarmen geschützt ist und warum ihn fast nichts aufhalten kann.">
-<link rel="stylesheet" href="assets/book.css?v=48">
-<link rel="stylesheet" href="assets/druck.css?v=48" media="print">
-<script src="assets/book.js?v=48" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=49">
+<link rel="stylesheet" href="assets/druck.css?v=49" media="print">
+<script src="assets/book.js?v=49" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -17,8 +18,15 @@
   <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<header class="streifen">
-  <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+<header class="kopf">
+  <div class="kopf-innen">
+    <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+    <div class="kopf-titel">
+      <h1>SOS: Vorrang und Fehlalarme</h1>
+      <p class="stand">Kapitel 13 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4, Funkprotokoll</a> · <a href="kapitel-05.html">Kapitel 5, Sendeintervall und Kapazität</a> · <a href="kapitel-06.html">Kapitel 6, Rückkanal zum Chip</a> · <a href="kapitel-11.html">Kapitel 11, Der Server</a> · <a href="kapitel-12.html">Kapitel 12, Schnittstelle zur App</a></p>
+    </div>
+  </div>
 </header>
 
 <div class="buch">
@@ -39,10 +47,6 @@
       <ol></ol>
     </details>
     <article>
-      <h1>SOS: Vorrang und Fehlalarme</h1>
-      <p class="stand">Kapitel 13 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
-      <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4, Funkprotokoll</a> · <a href="kapitel-05.html">Kapitel 5, Sendeintervall und Kapazität</a> · <a href="kapitel-06.html">Kapitel 6, Rückkanal zum Chip</a> · <a href="kapitel-11.html">Kapitel 11, Der Server</a> · <a href="kapitel-12.html">Kapitel 12, Schnittstelle zur App</a></p>
-
       <div class="lesen">
         <p class="einstieg">Ein Notruf darf nicht untergehen, und ein Fehlalarm darf nicht so viel Aufwand auslösen wie ein echter. Dieses Kapitel zeigt, wie der Chip einen Notruf von einem einfachen Ruf unterscheidet, warum ihn danach fast nichts mehr aufhält, und wo das noch nicht erprobt ist.</p>
         <div class="kurz">

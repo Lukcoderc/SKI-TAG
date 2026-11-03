@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{document.documentElement.dataset.thema=localStorage.getItem("thema")||(matchMedia("(prefers-color-scheme: light)").matches?"hell":"dunkel")}catch(e){}</script>
 <title>Anforderungen · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Was das SkiTag-Netzwerk können muss, im Test 2027 und im echten Betrieb.">
-<link rel="stylesheet" href="assets/book.css?v=48">
-<link rel="stylesheet" href="assets/druck.css?v=48" media="print">
-<script src="assets/book.js?v=48" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=49">
+<link rel="stylesheet" href="assets/druck.css?v=49" media="print">
+<script src="assets/book.js?v=49" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -17,8 +18,15 @@
   <symbol id="mark-offen" viewBox="0 0 16 16"><path d="M8 1.5 14.5 8 8 14.5 1.5 8Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
 </svg>
 
-<header class="streifen">
-  <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+<header class="kopf">
+  <div class="kopf-innen">
+    <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
+    <div class="kopf-titel">
+      <h1>Anforderungen</h1>
+      <p class="stand">Kapitel 2 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="vorwissen">Baut auf: <a href="kapitel-01.html">Kapitel 1, Vom Knopfdruck zur App</a></p>
+    </div>
+  </div>
 </header>
 
 <div class="buch">
@@ -39,10 +47,6 @@
       <ol></ol>
     </details>
     <article>
-      <h1>Anforderungen</h1>
-      <p class="stand">Kapitel 2 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
-      <p class="vorwissen">Baut auf: <a href="kapitel-01.html">Kapitel 1, Vom Knopfdruck zur App</a></p>
-
       <div class="lesen">
         <p class="einstieg">Ein Netzwerk für Notrufe darf nicht nur meistens funktionieren. Dieses Kapitel legt fest, was es können muss, warum das so ist und was davon schon beim Test im Frühjahr 2027 gelten muss. Dazu kommt, was wir dafür kaufen müssen und was es kostet.</p>
         <div class="kurz">

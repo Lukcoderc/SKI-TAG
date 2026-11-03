@@ -36,7 +36,9 @@
     return e;
   };
   karte.setAttribute("viewBox", `0 0 ${breite} ${hoehe}`);
-  svg("image", { href: "assets/karte-relief.png", x: 0, y: 0, width: breite, height: hoehe, preserveAspectRatio: "none" });
+  // Relief für die dunkle und die helle Ansicht, das CSS zeigt das passende.
+  svg("image", { class: "relief-dunkel", href: "assets/karte-relief.png?v=3", x: 0, y: 0, width: breite, height: hoehe, preserveAspectRatio: "none" });
+  svg("image", { class: "relief-hell", href: "assets/karte-relief-hell.png?v=3", x: 0, y: 0, width: breite, height: hoehe, preserveAspectRatio: "none" });
   svg("path", { class: "karte-piste", d: pisten });
   svg("path", { class: "karte-lift", d: lifte });
   const kreise = svg("g", { class: "abd-kreise" });
