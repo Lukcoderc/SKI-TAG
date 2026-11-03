@@ -40,7 +40,7 @@
     </details>
     <article>
       <h1>Sicherheit und Datenschutz</h1>
-      <p class="stand">Kapitel 15 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="stand">Kapitel 15 · Stand 3. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
       <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4, Funkprotokoll</a> · <a href="kapitel-11.html">Kapitel 11, Der Server</a> · <a href="kapitel-12.html">Kapitel 12, Schnittstelle zur App</a></p>
 
       <div class="lesen">
@@ -49,10 +49,10 @@
           <p class="kurz-titel">Kurz gesagt</p>
           <ul>
             <li>Für das heutige Verfahren gibt dieses Buch kein Sicherheitsversprechen. Es läuft nur mit Prüf-Chips.</li>
-            <li>Für die Serie empfehlen wir AES-CCM oder gleichwertig und einen eigenen Schlüssel je Chip.</li>
-            <li>Die DSGVO gilt auch für den Test.</li>
+            <li>Für die Serie ist entschieden: AES-CCM, ein eigener Schlüssel je Chip und automatisches Löschen.</li>
+            <li>Die DSGVO gilt auch für den Test. Im Test trägt nur einen Chip, wer mindestens 14 ist und selbst eingewilligt hat.</li>
           </ul>
-          <p><strong>Offen:</strong> Rechtsgrundlage, Verantwortung, Kinder und Fristen braucht eine Fachperson.</p>
+          <p><strong>Offen:</strong> Ob der Chip AES-CCM und einen Ausleseschutz hat, klärt Maximilian. Das Rechtliche braucht eine Fachperson.</p>
         </div>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Dieses Kapitel ist keine Rechtsberatung. Die rechtlichen Punkte sind Fragen an eine Fachperson, keine Antworten.</p>
 
@@ -79,6 +79,7 @@
         </table>
       </div>
       <div class="lesen">
+        <p class="nach-tabelle">Die Tabelle zeigt den Stand der Test-Version. Wie wir die Lücken schließen, steht in den Abschnitten unten.</p>
         <h2 id="funk" data-kurz="Sicherheit im Funk">Sicherheit im Funk</h2>
         <p>Der Prüfwert hat 32 Bit, also rund 4,3 Milliarden Möglichkeiten. <a href="kapitel-anhang.html#g-lorawan">LoRaWAN</a> nutzt ebenfalls 32 Bit. Bei 10 % Sendezeit und 226 ms sind rund 38 000 Versuche am Tag möglich, also rund 0,3 % Trefferchance im Jahr je Kanal. Das zeigt nur die Größenordnung und gilt nur, solange das Verfahren selbst hält. Größer sind zwei andere Probleme: das selbst gebaute Verfahren und der gemeinsame Schlüssel. Mietchips gehen durch viele Hände, und ein ausgelesener Chip gefährdet alle.</p>
         <h2 id="garantien" data-kurz="Was heute wirklich gilt">Was heute wirklich gilt</h2>
@@ -120,7 +121,7 @@
             <tr><td>Wiederholt sich eine Eingabe nie?</td><td data-spalte="Warum">Nein, solange der Zähler nicht zurückspringt. Jede Eingabe enthält Richtung, Chip-Nummer und Zähler, auch Uplink und <a href="kapitel-anhang.html#g-downlink">Downlink</a> sind getrennt.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
             <tr><td>Wird erst verschlüsselt, dann geprüft?</td><td data-spalte="Warum">Ja, der Prüfwert läuft über den verschlüsselten Inhalt.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
             <tr><td>Deckt der Prüfwert den Kopf mit ab?</td><td data-spalte="Warum">Ja, Kennung, Chip-Nummer und Zähler sind mit abgedeckt.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
-            <tr class="zeile-offen"><td>Sind die Schlüssel sauber getrennt?</td><td data-spalte="Warum">Der Schlüssel für den Prüfwert ist der Hauptschlüssel XOR 0x5A. Einen Angriff kennen wir nicht, üblich wäre aber eine echte Schlüsselableitung.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Sind die Schlüssel sauber getrennt?</td><td data-spalte="Warum">Der Schlüssel für den Prüfwert ist der Hauptschlüssel XOR 0x5A. Einen Angriff kennen wir nicht, üblich wäre aber eine echte Schlüsselableitung. In der Serie entfällt der zweite Schlüssel.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Hat jemand von außen geprüft?</td><td data-spalte="Warum">Niemand im Team ist dafür ausgebildet. Selbst gebaute Verfahren brauchen eine fachkundige Prüfung.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>
@@ -130,37 +131,48 @@
         <p>Daraus folgen feste Grenzen. Das heutige Verfahren darf nur so eingesetzt werden:</p>
         <ul>
           <li>Nur im Labor, im Schultest und am Testtag mit Prüf-Chips, nie im echten Betrieb.</li>
-          <li>Nur mit Menschen, die eingewilligt haben und wissen, dass der Funk nicht als sicher gilt. Keine Kinder und keine Gesundheitsdaten.</li>
+          <li>Nur mit Menschen ab 14, die selbst eingewilligt haben und wissen, dass der Funk nicht als sicher gilt. Keine Gesundheitsdaten.</li>
           <li>Nie für echte Notrufe oder als Ersatz für 140.</li>
           <li>Mit neuem Schlüssel, der den Test nicht überlebt und nie im Repo liegt.</li>
         </ul>
         <p>Vor einem realen Einsatz müssen erfüllt sein: ein geprüftes Standardverfahren, die Anforderungen unten, die Prüfung des Codes und eine fachkundige Prüfung von außen.</p>
 
         <h2 id="serie-krypto" data-kurz="Was die Serie braucht">Was die Serie braucht</h2>
-        <p>„AES“ allein reicht als Vorgabe nicht, denn AES ist nur ein Baustein. Wir empfehlen ein authentifiziertes Verfahren (AEAD), zum Beispiel <a href="kapitel-anhang.html#g-aes-ccm">AES-CCM</a> nach <a href="kapitel-anhang.html#g-nist">NIST</a> SP 800-38C. Es verschlüsselt und prüft in einem Schritt und ersetzt damit Stromchiffre und Prüfwert zusammen. Fällt die Wahl auf LoRaWAN, ist mit AES im Zählermodus und AES-CMAC schon ein Standard eingebaut.</p>
-        <p>Ein gutes Verfahren genügt aber nicht. Diese Punkte müssen geregelt sein:</p>
+        <p>„AES“ allein reicht als Vorgabe nicht, denn AES ist nur ein Baustein. Gebraucht wird ein authentifiziertes Verfahren (AEAD). <svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Entschieden ist <a href="kapitel-anhang.html#g-aes-ccm">AES-CCM</a> nach <a href="kapitel-anhang.html#g-nist">NIST</a> SP 800-38C. Es verschlüsselt und prüft in einem Schritt und ersetzt damit Stromchiffre und Prüfwert zusammen. Auf dem Server rechnet das fertige Modul <code>crypto</code> von Node, das AES-CCM schon kann. So bleibt kein selbst gebautes Verfahren übrig. Die Alternative wäre LoRaWAN, dort ist mit AES im Zählermodus und AES-CMAC schon ein Standard eingebaut. Das wäre aber ein großer Umbau.</p>
+        <p>Ein gutes Verfahren genügt aber nicht. So regeln wir die übrigen Punkte:</p>
       </div>
       <div class="tabelle">
         <table class="stapel">
           <thead><tr><th scope="col">Anforderung</th><th scope="col">Was das bei SkiTag heißt</th><th scope="col">Stand</th></tr></thead>
           <tbody>
-            <tr class="zeile-offen"><td>Eigener Schlüssel je Chip</td><td data-spalte="Bei SkiTag">Ein ausgelesener Chip gefährdet dann nur sich selbst. Der Server braucht eine geschützte Liste aller Schlüssel und findet den richtigen über die lesbare Chip-Nummer.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Eindeutige Nonces</td><td data-spalte="Bei SkiTag">Eine <a href="kapitel-anhang.html#g-nonce">Nonce</a> darf mit demselben Schlüssel nie zweimal vorkommen, sonst bricht der Schutz zusammen. Erlaubt sind 7 bis 13 Byte. Vorschlag: 13 Byte aus Chip-Nummer, Richtung, Schlüssel-Generation und Zähler. Der Zähler muss Neustart und leeren Akku überstehen, also weiter wie heute im Flash reserviert werden. Schon ein Sprung zurück ist ein Sicherheitsfehler.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Sichere Schlüsselverteilung</td><td data-spalte="Bei SkiTag">Jeder Schlüssel kommt aus einem echten Zufallsgenerator oder wird nach NIST SP 800-108 mit einem geprüften Verfahren wie AES-CMAC aus Hauptschlüssel und Chip-Nummer abgeleitet. Der Hauptschlüssel liegt nur beim Server. CCM braucht je Chip einen Schlüssel, ein getrennter Schlüssel für den Prüfwert wie heute entfällt. Er kommt nur in den Chip und in die Server-Liste, nie in ein Repo oder Backup im Klartext. Der Chip braucht einen Ausleseschutz. Wie das in der Fertigung abläuft, ist nicht geklärt.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Schlüsselwechsel</td><td data-spalte="Bei SkiTag">Geht ein Chip verloren, sperrt ihn der Server. Wird ein Chip neu programmiert, bekommt er einen neuen Schlüssel. Nur dann darf sein Zähler wieder bei 0 beginnen. Neue Schlüssel kommen über Kabel oder <a href="kapitel-anhang.html#g-ladebox">Ladebox</a> auf den Chip, nicht über LoRa. Wie oft zusätzlich gewechselt wird, ist festzulegen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Downlink genauso schützen</td><td data-spalte="Bei SkiTag">Befehle wie die Übernahme-Meldung brauchen denselben Schutz, mit eigener Richtung in der Nonce. Heute trägt ein Downlink bis zu 8 Befehle für verschiedene Chips. Mit Einzelschlüsseln geht das nicht mehr: Entweder bekommt jeder Chip einen eigenen Downlink, was knappe Gateway-Zeit kostet, oder es braucht einen zusätzlichen Gruppenschlüssel, dessen Verlust mehrere Chips trifft. Ein Einzel-Downlink mit 16 Byte dauert rund 165 ms, 8 davon also rund 1,3 s statt 247 ms.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Echtheit des Kopfes</td><td data-spalte="Bei SkiTag">Kennung, Chip-Nummer und Zähler bleiben lesbar, werden aber als zusätzliche Daten mit geprüft. Eine Änderung fällt dann auf.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Schutz vor Wiederholung</td><td data-spalte="Bei SkiTag">Der Server speichert den höchsten Zähler je Chip dauerhaft, der Chip den letzten Downlink-Zähler. Pakete aus einem Puffer dürfen dabei nicht als Angriff gelten, solange sie echt und neuer als der letzte Notruf sind. Die genaue Regel ist festzulegen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Schlüssel-Generation</td><td data-spalte="Bei SkiTag">Eine Nummer im Kopf sagt, welcher Schlüssel gilt. So kann der Server beim Wechsel beide kurz parallel annehmen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Länge des Prüfwerts</td><td data-spalte="Bei SkiTag">CCM erlaubt 4, 6, 8, 10, 12, 14 oder 16 Byte. NIST SP 800-38C verlangt: Unter 64 Bit nur nach sorgfältiger Risikoanalyse und nur, wenn die Zahl der Fehlversuche je Schlüssel begrenzt ist. Weil ein Fälscher einen Notruf vortäuschen oder die Übernahme-Meldung fälschen könnte, schlagen wir 8 Byte vor. Das kostet wenig: Bis 35 Byte Paketlänge dauert ein Paket bei <a href="kapitel-anhang.html#g-sf9">SF9</a> rund 247 statt 226 ms, das sind 1,2 statt 1,1 % im 20-s-Takt und 6,2 statt 5,7 % beim schnellsten Notruf.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr><td>Eigener Schlüssel je Chip</td><td data-spalte="Bei SkiTag">Ein ausgelesener Chip gefährdet dann nur sich selbst. Der Server leitet jeden Schlüssel mit AES-CMAC aus seinem Hauptschlüssel und der lesbaren Chip-Nummer ab, nach NIST SP 800-108. So braucht er keine Liste aller Schlüssel. Ein getrennter Schlüssel für den Prüfwert wie heute entfällt, CCM braucht je Chip nur einen. Der Hauptschlüssel liegt nur auf dem Server und im Backup nur verschlüsselt, nie in einem Repo.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>Eindeutige Nonces</td><td data-spalte="Bei SkiTag">Eine <a href="kapitel-anhang.html#g-nonce">Nonce</a> darf mit demselben Schlüssel nie zweimal vorkommen, sonst bricht der Schutz zusammen. Erlaubt sind 7 bis 13 Byte. Wir nehmen 13 Byte aus Chip-Nummer, Richtung, Schlüssel-Generation und Zähler. Der Zähler muss Neustart und leeren Akku überstehen, also weiter wie heute im Flash reserviert werden. Schon ein Sprung zurück ist ein Sicherheitsfehler.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr class="zeile-offen"><td>Schlüssel auf den Chip bringen</td><td data-spalte="Bei SkiTag">Neue Schlüssel kommen nur über Kabel oder <a href="kapitel-anhang.html#g-ladebox">Ladebox</a> auf den Chip, nie über LoRa. Beim Aufspielen wird der Ausleseschutz des Chips eingeschaltet, damit niemand den Schlüssel wieder herausliest. Ob der Chip einen solchen Schutz hat, prüft Maximilian.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr><td>Schlüsselwechsel</td><td data-spalte="Bei SkiTag">Jedes Aufspielen erhöht die Schlüssel-Generation. Das erzwingt das Werkzeug zum Aufspielen, so kann es niemand vergessen. Nur mit neuer Generation darf der Zähler wieder bei 0 beginnen. Geht ein Chip verloren, sperrt ihn der Server. Wie oft zusätzlich gewechselt wird, ist noch festzulegen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>Downlink genauso schützen</td><td data-spalte="Bei SkiTag">Befehle wie die Übernahme-Meldung bekommen denselben Schutz, mit eigener Richtung in der Nonce. Heute trägt ein Downlink bis zu 8 Befehle für verschiedene Chips. Das bleibt so, aber jeder Befehl bekommt einen eigenen Prüfwert von 8 Byte mit dem Schlüssel seines Chips. Ein Befehl wächst damit von 3 auf 11 Byte, ein Downlink mit 8 Befehlen auf 94 Byte. Er dauert bei SF9 rund 534 ms. Das ist mehr als die 247 ms heute, aber weniger als 8 einzelne Downlinks mit zusammen rund 1,3 s. Einen Gruppenschlüssel braucht es so nicht.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-geschaetzt"/></svg>Geschätzt</td></tr>
+            <tr><td>Echtheit des Kopfes</td><td data-spalte="Bei SkiTag">Kennung, Chip-Nummer und Zähler bleiben lesbar, werden aber als zusätzliche Daten mit geprüft. Eine Änderung fällt dann auf.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>Schutz vor Wiederholung</td><td data-spalte="Bei SkiTag">Der Chip vergibt den Zähler beim Senden, nicht beim Erzeugen eines Pakets. Wie alt die Position ist, steht als eigenes Feld im verschlüsselten Inhalt. Dann reicht eine Regel: Der Server nimmt nur Zähler an, die größer sind als der zuletzt angenommene. Den höchsten Zähler je Chip speichert er dauerhaft, bevor er bestätigt, siehe <a href="kapitel-11.html#speichern">Kapitel 11</a>. Der Chip merkt sich ebenso den letzten Downlink-Zähler.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>Schlüssel-Generation</td><td data-spalte="Bei SkiTag">Eine Nummer im Kopf sagt, welcher Schlüssel gilt. So kann der Server beim Wechsel beide kurz parallel annehmen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
+            <tr><td>Länge des Prüfwerts</td><td data-spalte="Bei SkiTag">CCM erlaubt 4, 6, 8, 10, 12, 14 oder 16 Byte. NIST SP 800-38C verlangt: Unter 64 Bit nur nach sorgfältiger Risikoanalyse und nur, wenn die Zahl der Fehlversuche je Schlüssel begrenzt ist. Weil ein Fälscher einen Notruf vortäuschen oder die Übernahme-Meldung fälschen könnte, nehmen wir 8 Byte. Das kostet wenig: Bis 35 Byte Paketlänge dauert ein Paket bei <a href="kapitel-anhang.html#g-sf9">SF9</a> rund 247 statt 226 ms, das sind 1,2 statt 1,1 % im 20-s-Takt und 6,2 statt 5,7 % beim schnellsten Notruf.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
           </tbody>
         </table>
       </div>
       <div class="lesen">
-        <p class="nach-tabelle">Das ändert das Protokoll, also <code>proto.h</code> und <code>proto.js</code>, und wird gemeinsam mit Maximilian entschieden. Laut Handbuch beherrscht der AES-Baustein der STM32WL5x-Reihe CCM. Ob das genauso für den Chip im RAK3172 gilt und welchen Ausleseschutz er bietet, muss Maximilian noch prüfen.</p>
+        <p class="nach-tabelle">Lukas hat diese Punkte am 3. November 2026 für das Netzwerk entschieden. Sie ändern das Protokoll, also <code>proto.h</code> und <code>proto.js</code>. Alles, was den Chip betrifft, muss Maximilian noch annehmen und in der Firmware bauen.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Offen ist die Seite des Chips. Laut Handbuch beherrscht der AES-Baustein der STM32WL5x-Reihe CCM. Welchen Funkbaustein der Chip hat, ob er AES-CCM kann und welchen Ausleseschutz er bietet, steht in Maximilians Werkstattbuch noch nicht. Online sind dort am 3. November 2026 erst die Kapitel 1 und 2, Firmware und Schnittstelle zum Netzwerk sind geplant. Kann der Chip AES nicht selbst, geht CCM auch in Software mit einer geprüften Bibliothek. Wenn kein eigenes Verfahren mehr im Spiel ist, muss eine Fachperson nur noch Nonces, Schlüssel und Zähler prüfen, nicht mehr die Verschlüsselung selbst.</p>
 
         <h2 id="zaehler" data-kurz="Wenn der Zähler zurückspringt">Wenn der Zähler zurückspringt</h2>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Bei dieser Stromchiffre hängt der Schlüsselstrom am Zähler. Beginnt ein neu bespielter Chip bei Zähler 0 mit demselben Schlüssel, wiederholt sich der Schlüsselstrom, und frühere Pakete werden angreifbar. Das Problem aus <a href="kapitel-04.html#grenzen">Kapitel 4</a> ist also nicht nur ein Betriebsfehler. Die einfache Regel: Neu spielen nur mit neuem Schlüssel oder ohne den Zähler zu löschen. Das klärt Lukas mit Maximilian.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Bei dieser Stromchiffre hängt der Schlüsselstrom am Zähler. Beginnt ein neu bespielter Chip bei Zähler 0 mit demselben Schlüssel, wiederholt sich der Schlüsselstrom, und frühere Pakete werden angreifbar. Das Problem aus <a href="kapitel-04.html#grenzen">Kapitel 4</a> ist also nicht nur ein Betriebsfehler. Die einfache Regel: Neu spielen nur mit neuem Schlüssel oder ohne den Zähler zu löschen. Im Test achtet Lukas darauf. <svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>In der Serie löst das die Schlüssel-Generation: Das Werkzeug zum Aufspielen gibt jedem Chip einen neuen Schlüssel und eine höhere Generation, erst dann darf der Zähler bei 0 beginnen. Der Server sieht die neue Generation und hält die Pakete nicht für alt.</p>
+
+        <h2 id="netz" data-kurz="Gateway und Störsender">Gateway und Störsender</h2>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Für die Gateways ist entschieden, gebaut ist es noch nicht:</p>
+        <ul>
+          <li>Jedes Gateway bekommt ein eigenes Token statt eines Passworts für alle. Der Server kann jedes Token einzeln sperren.</li>
+          <li>Das Gateway baut die Verbindung nur nach außen zum Server auf und hat keine offenen Anschlüsse. Es steht in einem abschließbaren Gehäuse.</li>
+          <li>Der Server überwacht das Lebenszeichen jedes Gateways, siehe <a href="kapitel-14.html#infrastruktur">Kapitel 14</a>.</li>
+        </ul>
+        <p>Wird ein Gateway trotzdem übernommen, bleibt der Schaden klein. Es sieht nur verschlüsselte Bytes, und alte Pakete erneut zu senden scheitert am Zähler. Es kann nur Pakete verwerfen, und das fällt am fehlenden Verkehr auf.</p>
+        <p>Einen Störsender kann kein Verfahren verhindern, nur erkennen. Ein Gateway meldet dem Server, wenn der Kanal laut ist, aber keine gültigen Pakete ankommen. Der Chip warnt schon heute nach 90 Sekunden ohne Empfangsbestätigung. Und alle erfahren: SkiTag ersetzt den Notruf 140 nicht.</p>
 
         <h2 id="app" data-kurz="Sicherheit der App">Sicherheit der App</h2>
         <p>Gäste und Mitarbeiter melden sich mit einem Code an. Die Test-Version vergibt für Gäste 6 Zeichen aus 32 Buchstaben und Zahlen. Zum Vergleich steht hier auch ein Code aus 6 Ziffern:</p>
@@ -176,7 +188,14 @@
       </div>
       <div class="lesen">
         <p class="nach-tabelle">Die Rechnung nimmt eine einzelne IP-Adresse und höchstens 120 Versuche pro Stunde an. Die Prüfung des Namens fehlt in der Test-Version noch. Mitarbeiter-Zugänge brauchen mehr als einen kurzen Code, denn sie sehen alle Chips.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Die Sperre gilt pro IP-Adresse. Im Mobilfunk teilen sich oft viele Handys eine Adresse. Rät dort jemand, trifft die Sperre alle anderen mit, auch einen Mitarbeiter bei einem Notruf. Sie gilt außerdem für alle Wege außer <code>/health</code>, also auch für <code>/gw/up</code>: Läuft ein Gateway über dieselbe Adresse, kommen 10 Minuten lang keine Pakete an. Das muss vor dem Test behoben werden.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Die Sperre gilt heute pro IP-Adresse. Im Mobilfunk teilen sich oft viele Handys eine Adresse. Rät dort jemand, trifft die Sperre alle anderen mit, auch einen Mitarbeiter bei einem Notruf. Sie gilt außerdem für alle Wege außer <code>/health</code>, also auch für <code>/gw/up</code>: Läuft ein Gateway über dieselbe Adresse, kommen 10 Minuten lang keine Pakete an.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Vor dem Test baut Lukas den Server so um:</p>
+        <ul>
+          <li><code>/gw/up</code> fällt nicht mehr unter die Sperre. Gateways melden sich mit ihrem eigenen Token an.</li>
+          <li>Fehlversuche zählen je Code, nicht je IP-Adresse. Handys hinter derselben Adresse sperren sich so nicht gegenseitig.</li>
+          <li>Mitarbeiter-Zugänge werden nie gesperrt, sondern nur gebremst.</li>
+          <li>Der Server prüft Code und Name zusammen.</li>
+        </ul>
 
         <h2 id="daten" data-kurz="Welche Daten anfallen">Welche Daten anfallen</h2>
       </div>
@@ -204,40 +223,43 @@
           <tbody>
             <tr class="zeile-offen"><td>Worauf stützt sich die Verarbeitung?</td><td data-spalte="Ansatz">Test: Einwilligung, die Vorlage steht im <a href="kapitel-anhang.html#g-bauplan">Bauplan</a>. Betrieb: vermutlich der Mietvertrag, im Notfall lebenswichtige Interessen (Art. 6 Abs. 1 lit. d).</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Wer ist verantwortlich?</td><td data-spalte="Ansatz">SkiTag, KitzSki oder beide? Dienstleister brauchen einen Vertrag nach Art. 28.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Was gilt für Kinder?</td><td data-spalte="Ansatz">In Österreich kann ein Kind ab 14 selbst in Online-Dienste einwilligen (§ 4 Abs. 4 DSG). Darunter entscheiden die Eltern.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Was gilt für Kinder?</td><td data-spalte="Ansatz">In Österreich kann ein Kind ab 14 selbst in Online-Dienste einwilligen (§ 4 Abs. 4 DSG). Darunter entscheiden die Eltern. Entschieden ist: Im Test trägt nur einen Chip, wer mindestens 14 ist und selbst eingewilligt hat. Im Betrieb dürfen auch Kinder einen Chip tragen. Wie dann die Eltern einwilligen, ist offen.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Braucht es eine Folgenabschätzung?</td><td data-spalte="Ansatz">Laufende Ortung vieler Menschen, auch von Kindern, spricht dafür (Art. 35).</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Dürfen Rettungskräfte Daten bekommen?</td><td data-spalte="Ansatz">Im Notfall sollen Position und Einsatzdaten weitergegeben werden. Das muss in der Datenschutzinformation stehen und eine Rechtsgrundlage haben.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Wie werden Rechte erfüllt?</td><td data-spalte="Ansatz">Auskunft, Löschung und Information am Stand oder im Mietbeleg. Bei einem Datenleck gilt die Meldepflicht (Art. 33, 34). Ein Ablauf dafür fehlt.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td>Dürfen Allergien gespeichert werden?</td><td data-spalte="Ansatz">Gesundheitsdaten fallen unter Art. 9. Besser wäre: keine Notizen auf dem Server oder eine ausdrückliche Einwilligung.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Dürfen Allergien gespeichert werden?</td><td data-spalte="Ansatz">Gesundheitsdaten fallen unter Art. 9. Darum nimmt der Server keine Notizen an, siehe unten. Die Skischule führt solche Angaben selbst.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
           </tbody>
         </table>
       </div>
       <div class="lesen">
-        <h2 id="fristen" data-kurz="Vorschlag für Fristen">Vorschlag für Fristen</h2>
-        <p>Heute löscht niemand automatisch. Als Ausgangspunkt für das Gespräch mit einer Fachperson schlagen wir vor:</p>
+        <h2 id="fristen" data-kurz="Fristen und Löschen">Fristen und Löschen</h2>
+        <p>Die Test-Version löscht nichts automatisch. <svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Für den Betrieb ist entschieden: Der Server löscht jede Nacht selbst, eine Fachperson soll die Fristen noch bestätigen.</p>
         <ul>
           <li>Positionen: am Ende des Miettags löschen, außer die Person teilt ihren Tag selbst.</li>
-          <li>Funk-Protokoll: Positionen nach dem Tag entfernen, <a href="kapitel-anhang.html#g-rssi">RSSI</a> ohne Chip-Bezug behalten.</li>
+          <li>Funk-Protokoll: Positionen nach dem Tag entfernen, <a href="kapitel-anhang.html#g-rssi">RSSI</a> ohne Chip-Nummer behalten.</li>
+          <li>Codes: laufen um Mitternacht ab, wie es der Mietbeleg verspricht. Wie lange Name und Mietbeleg bleiben, ist offen.</li>
           <li>Notrufe: so lange aufbewahren, wie es rechtlich nötig ist, und danach löschen. Die Dauer ist offen.</li>
-          <li>Skischule: Kursdaten mit dem Kurs löschen.</li>
-          <li>Backups: Sie müssen dieselben Fristen einhalten, sonst leben gelöschte Daten dort weiter.</li>
+          <li>Skischule: Kursdaten mit dem Kurs löschen. Notizen wie Allergien nimmt der Server gar nicht an, die Skischule führt sie selbst. Das stimmt Lukas mit Tobias für die App ab.</li>
+          <li>Backups: verschlüsselt, und jedes verfällt nach wenigen Tagen von selbst. So sind gelöschte Daten bald auch aus den Backups verschwunden. Wie viele Tage, ist offen.</li>
         </ul>
         <p>Auch die App spricht mit Fremden: Kartenkacheln, Wetter und Lawinenbericht kommen heute von anderen Servern, die dabei die IP-Adresse sehen. Laut App-Repo sollen die Karten auf eigene Server wandern.</p>
 
         <h2 id="test" data-kurz="Regeln für den Test">Regeln für den Test</h2>
         <ul>
-          <li>Neuen Schlüssel und neue Passwörter erzeugen, nie die Beispielwerte verwenden.</li>
+          <li>Lukas erzeugt neuen Schlüssel und neue Passwörter, nie gelten die Beispielwerte.</li>
           <li>Schlüssel, Passwörter und Tokens nie in ein Repo stellen.</li>
-          <li>Alle, die einen Chip tragen, geben vorher ihre Einwilligung. Bei Kindern die Eltern.</li>
-          <li>Nach dem Test <code>daten/state.json</code> und <code>daten/log-*.ndjson</code> löschen.</li>
+          <li>Einen Chip trägt nur, wer mindestens 14 ist und vorher selbst eingewilligt hat. Jüngere Kinder machen beim Test nicht mit.</li>
+          <li>Vor dem Test sind Sperre und Namensprüfung im Server umgebaut, siehe <a href="#app">oben</a>.</li>
+          <li>Nach dem Test löscht Lukas <code>daten/state.json</code> und <code>daten/log-*.ndjson</code>.</li>
         </ul>
 
         <h2 id="ergebnis" data-kurz="Das Ergebnis">Das Ergebnis</h2>
         <div class="urteil">
           <p><strong>Entschieden:</strong> Im Test schützt eine selbst gebaute Stromchiffre auf Basis von SipHash den Inhalt, ein Prüfwert die Echtheit und ein Zähler gegen Wiederholung.</p>
           <p><strong>Offen:</strong> Dafür gibt es kein Sicherheitsversprechen. Es darf nur in den genannten Grenzen laufen.</p>
-          <p><strong>Empfohlen für die Serie:</strong> AES-CCM oder ein gleichwertiges geprüftes Verfahren statt Eigenbau, eigener Schlüssel je Chip, geschützter Downlink, kein Speichern von Gesundheitsdaten, automatisches Löschen.</p>
-          <p><strong>Offen:</strong> Prüfung von <code>proto.h</code> und <code>proto.js</code>, Schlüsselverteilung und Schlüsselwechsel, dazu Rechtsgrundlage, Verantwortung, Kinder, Folgenabschätzung und Fristen. Das Rechtliche braucht eine Fachperson vor dem Betrieb.</p>
+          <p><strong>Entschieden für den Test:</strong> Nur Personen ab 14 mit eigener Einwilligung. Vorher baut Lukas Sperre und Namensprüfung im Server um, danach löscht er die Daten.</p>
+          <p><strong>Entschieden für die Serie:</strong> AES-CCM statt Eigenbau, eigener Schlüssel je Chip aus dem Hauptschlüssel abgeleitet, Schlüssel-Generation beim Aufspielen, Prüfwert mit 8 Byte, jeder Befehl im Downlink einzeln geschützt, ein Token je Gateway, keine Gesundheitsdaten, nächtliches Löschen.</p>
+          <p><strong>Offen:</strong> Ob der Chip AES-CCM und einen Ausleseschutz hat, und ob Maximilian die Änderungen am Chip annimmt. Dazu Rechtsgrundlage, Verantwortung, Einwilligung der Eltern im Betrieb, Folgenabschätzung und die Dauer für Notrufe. Das Rechtliche braucht eine Fachperson vor dem Betrieb.</p>
         </div>
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>
