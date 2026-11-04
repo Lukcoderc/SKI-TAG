@@ -83,7 +83,7 @@
     <div data-sc-stage>
       <div class="knopf-akt__links">
         <h2 id="knopf-titel" class="sc-display sc-display--md" style="text-align:center">Halte den Knopf.</h2>
-        <button class="haltknopf" type="button" data-zustand="ruhe" aria-describedby="knopf-status">
+        <button class="haltknopf" type="button" data-zustand="ruhe" aria-describedby="knopf-status knopf-hinweis">
           <svg viewBox="-14 -14 228 228" aria-hidden="true">
             <rect x="-6" y="-6" width="212" height="212" rx="68" class="ring-spur"/>
             <rect x="-6" y="-6" width="212" height="212" rx="68" class="ring" pathLength="1"/>
@@ -98,8 +98,8 @@
           <span class="sr-nur" style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)">Notruf-Knopf der Vorführung, drei Sekunden halten</span>
         </button>
         <p id="knopf-status" class="knopf-akt__status" aria-live="polite">Drei Sekunden halten. Mit der Maus, dem Finger oder der Leertaste.</p>
+        <p id="knopf-hinweis" class="knopf-akt__hinweis"><strong>Abbrechen wie am echten Chip:</strong> In den fünf Sekunden danach noch einmal kurz auf den Knopf drücken. Nur loslassen reicht nicht.</p>
         <div class="knopf-akt__aktionen">
-          <button class="knopf-hell" type="button" data-aktion="abbrechen" hidden>Abbrechen</button>
           <button class="knopf-hell" type="button" data-aktion="nochmal" hidden>Nochmal</button>
         </div>
       </div>
@@ -160,7 +160,7 @@
           <text class="beschrift-klein" x="744" y="238">Internet</text>
         </svg>
         <div class="knopf-akt__texte">
-          <p data-sc-cue="0.02 0.2 0.03 0.03">Drei Sekunden halten. <span>Dann bleiben fünf Sekunden, um abzubrechen. Kurz drücken ruft nur die eigene Gruppe.</span></p>
+          <p data-sc-cue="0.02 0.2 0.03 0.03">Drei Sekunden halten. <span>Dann bleiben fünf Sekunden: Ein weiterer kurzer Druck bricht ab, nur loslassen nicht. Kurz drücken ruft nur die eigene Gruppe.</span></p>
           <p data-sc-cue="0.22 0.4 0.03 0.03">Der Chip funkt an die nächste Liftstation. <span>Er sendet seinen Standort per LoRa, ganz ohne Handy und ohne Handynetz.</span></p>
           <p data-sc-cue="0.42 0.6 0.03 0.03">Von dort per Kabel zum Server. <span>Der Server sucht den nächsten freien Mitarbeiter.</span></p>
           <p data-sc-cue="0.62 0.8 0.03 0.03">Auf seinem Handy erscheint ein roter Punkt. <span>Zum Beispiel: Notruf, Piste 3, 170 m von dir. Er tippt auf Annehmen.</span></p>

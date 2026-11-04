@@ -145,6 +145,8 @@ body { font-feature-settings: "ss01" 0; }
 .haltknopf[data-zustand="halten"] .knopfkappe { transform: scale(0.94); }
 .knopf-akt__status { min-height: 3.2em; text-align: center; max-width: 24rem; margin: 0; font-size: var(--sc-t-base); color: var(--sc-ink); }
 .knopf-akt__status strong { font-weight: 600; }
+.knopf-akt__hinweis { margin: 0; max-width: 24rem; text-align: center; font-size: var(--sc-t-sm); line-height: 1.5; color: var(--sc-ink-soft); }
+.knopf-akt__hinweis strong { color: var(--sc-ink); font-weight: 600; }
 .knopf-akt__aktionen { display: flex; gap: var(--sc-3); min-height: 2.75rem; }
 .knopf-hell {
   display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.1rem; border-radius: var(--sc-r-pill);

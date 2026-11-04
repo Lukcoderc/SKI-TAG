@@ -61,7 +61,6 @@
     var ring = knopf.querySelector(".ring");
     var led = knopf.querySelector(".led");
     var status = document.getElementById("knopf-status");
-    var abbrechen = akt.querySelector('[data-aktion="abbrechen"]');
     var nochmal = akt.querySelector('[data-aktion="nochmal"]');
     var wege = [1, 2, 3].map(function (n) { return akt.querySelector(".weg--" + n); });
     var wellen = akt.querySelectorAll(".welle");
@@ -75,7 +74,9 @@
     var ringAuf = function (rest) { ring.style.strokeDashoffset = rest; ring.style.opacity = rest >= 0.999 ? 0 : 1; };
     var sage = function (t) { status.innerHTML = t; };
 
+    // Wie am echten Chip: In der Abbruch-Zeit bricht ein weiterer Druck ab, Loslassen allein nicht.
     var beginnen = function () {
+      if (zustand === "frist") { abbrechenJetzt(); return; }
       if (zustand !== "ruhe" && zustand !== "fertig" && zustand !== "kurz") return;
       if (zustand === "fertig") zuruecksetzen();
       setzeZustand("halten"); start = performance.now(); letzteSekunde = -1;
@@ -91,7 +92,7 @@
     var zuruecksetzen = function () {
       setzeZustand("ruhe"); demo = 0;
       ringAuf(1);
-      abbrechen.hidden = true; nochmal.hidden = true;
+      nochmal.hidden = true;
       sage("Drei Sekunden halten. Mit der Maus, dem Finger oder der Leertaste.");
     };
 
@@ -106,12 +107,10 @@
     });
     knopf.addEventListener("keyup", function (e) { if (e.key === " " || e.key === "Enter") { e.preventDefault(); loslassen(); } });
     knopf.addEventListener("click", function (e) { e.preventDefault(); });
-    abbrechen.addEventListener("click", function () {
-      if (zustand !== "frist") return;
+    function abbrechenJetzt() {
       zuruecksetzen();
-      sage("<strong>Abgebrochen.</strong> Es wurde nichts gesendet.");
-      knopf.focus();
-    });
+      sage("<strong>Abgebrochen.</strong> Der zweite Druck hat den Notruf gestoppt, gesendet wurde nichts.");
+    }
     nochmal.addEventListener("click", function () { zuruecksetzen(); knopf.focus(); });
 
     var zeichnen = function (anteil, rot) {
@@ -135,15 +134,14 @@
         ringAuf(1 - klemme(t));
         if (t >= 1) {
           setzeZustand("frist"); start = jetzt;
-          abbrechen.hidden = false;
         }
       } else if (zustand === "frist") {
         var rest = FRIST - (jetzt - start);
         ringAuf(1 - klemme(rest / FRIST));
         var sek = Math.ceil(rest / 1000);
-        if (sek !== letzteSekunde && sek > 0) { letzteSekunde = sek; sage("<strong>Notruf in " + sek + " s.</strong> Du kannst noch abbrechen."); }
+        if (sek !== letzteSekunde && sek > 0) { letzteSekunde = sek; sage("<strong>Notruf in " + sek + " s.</strong> Loslassen und noch einmal kurz drücken bricht ab."); }
         if (rest <= 0) {
-          setzeZustand("lauf"); laufStart = jetzt; abbrechen.hidden = true;
+          setzeZustand("lauf"); laufStart = jetzt;
           ringAuf(1);
           sage("<strong>Notruf gesendet.</strong> Dein Standort ist unterwegs.");
         }
