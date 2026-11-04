@@ -18,9 +18,13 @@ FORM: Neuschnee, position 1 of my ordered list (Impeccable's pick, chosen by the
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
+## Page order (user, 2026-11-04)
+
+Hero, the fall, Der Chip (try it: short press calls the group, hold calls help, the path to the staff member plays automatically without scrolling), Am ganzen Berg (receivers at lift stations, goal: whole ski area covered), Die App (map and route, tracking, radius), Für jeden am Berg (pros, families, ski schools, for everyone safety first), Das sind wir. No server, cable or charging station content.
+
 ## Signature interaction
 
-Hold the chip's button on the page for three seconds (pointer, touch or keyboard). A ring fills, then a five-second cancel window counts down; after it the signal draws itself across a line drawing of the slope to the lift station, the server and a staff phone that shows a red point. Scrolling through the act draws the same path for visitors who do not press. Clearly labelled as a demonstration.
+Hold the chip's button on the page for three seconds (pointer, touch or keyboard). A ring fills, then a five-second cancel window counts down (a second press cancels, like the real chip); after it the signal draws itself automatically across a line drawing of the slope via the lift station to a staff phone that shows a red point. A short press draws the call to the own group instead. Clearly labelled as a demonstration.
 
 ## Unresolved
 

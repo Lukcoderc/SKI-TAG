@@ -26,9 +26,9 @@
     var groesse = function () { leinwand.width = leinwand.clientWidth * dpr; leinwand.height = leinwand.clientHeight * dpr; };
     groesse();
     window.addEventListener("resize", groesse);
-    var anzahl = window.innerWidth < 700 ? 36 : 70;
+    var anzahl = window.innerWidth < 700 ? 12 : 22;
     for (var i = 0; i < anzahl; i++) {
-      var nah = Math.random() < 0.12;
+      var nah = Math.random() < 0.06;
       flocken.push({ x: Math.random(), y: Math.random(),
         r: nah ? 2.6 + Math.random() * 2.4 : 0.8 + Math.random() * 1.4,
         v: nah ? 0.0016 + Math.random() * 0.0012 : 0.0005 + Math.random() * 0.0007,
@@ -54,114 +54,151 @@
     requestAnimationFrame(schneien);
   });
 
-  /* ------------------------------------------ Der Knopf (Höhepunkt) -- */
-  var akt = document.getElementById("knopf");
+  /* ------------------------------------------- Der Chip (Vorführung) -- */
+  /* Kurz drücken ruft die Gruppe. Drei Sekunden halten startet den Notruf,
+     danach fünf Sekunden Abbruch-Zeit: wie am echten Chip bricht ein
+     weiterer Druck ab, Loslassen allein nicht. Danach spielt der Weg zum
+     Mitarbeiter von selbst ab, ohne Scrollen. */
+  var akt = document.getElementById("der-chip");
   var knopf = akt && akt.querySelector(".haltknopf");
   if (knopf) {
     var ring = knopf.querySelector(".ring");
     var led = knopf.querySelector(".led");
     var status = document.getElementById("knopf-status");
     var nochmal = akt.querySelector('[data-aktion="nochmal"]');
-    var wege = [1, 2, 3].map(function (n) { return akt.querySelector(".weg--" + n); });
+    var weg = function (n) { return akt.querySelector(".weg--" + n); };
+    var g1 = weg("g1"), g2 = weg("g2"), h1 = weg("h1"), h2 = weg("h2");
     var wellen = akt.querySelectorAll(".welle");
+    var zittern = akt.querySelectorAll(".zittern");
     var punkt = akt.querySelector(".punkt-rot");
     var handyText = akt.querySelector(".handy-text");
+    var annehmen = akt.querySelector(".annehmen");
+    var schritte = akt.querySelectorAll(".gesten li");
 
-    var HALTEN = 3000, FRIST = 5000, LAUF = 5600;
-    var zustand = "ruhe", start = 0, demo = 0, laufStart = 0, letzteSekunde = -1;
+    var HALTEN = 3000, FRIST = 5000, LAUF = 5200, GRUPPE = 2200;
+    var zustand = "ruhe", start = 0, hilfe = 0, gruppe = 0, letzteSekunde = -1, stufe = "";
 
     var setzeZustand = function (z) { zustand = z; knopf.setAttribute("data-zustand", z); };
     var ringAuf = function (rest) { ring.style.strokeDashoffset = rest; ring.style.opacity = rest >= 0.999 ? 0 : 1; };
     var sage = function (t) { status.innerHTML = t; };
+    var aktiv = function (name) { schritte.forEach(function (li) { li.classList.toggle("ist-aktiv", li.getAttribute("data-schritt") === name); }); };
 
-    // Wie am echten Chip: In der Abbruch-Zeit bricht ein weiterer Druck ab, Loslassen allein nicht.
-    var beginnen = function () {
-      if (zustand === "frist") { abbrechenJetzt(); return; }
-      if (zustand !== "ruhe" && zustand !== "fertig" && zustand !== "kurz") return;
-      if (zustand === "fertig") zuruecksetzen();
+    var zuruecksetzen = function () {
+      setzeZustand("ruhe"); hilfe = 0; gruppe = 0; stufe = "";
+      ringAuf(1); nochmal.hidden = true; aktiv("");
+      sage("Kurz drücken oder drei Sekunden halten. Mit der Maus, dem Finger oder der Leertaste.");
+    };
+    var abbrechen = function () {
+      zuruecksetzen();
+      sage("<strong>Abgebrochen.</strong> Der zweite Druck hat den Notruf gestoppt, gesendet wurde nichts.");
+    };
+    var druecken = function () {
+      if (zustand === "frist") { abbrechen(); return; }
+      if (zustand === "lauf") return;
+      hilfe = 0; gruppe = 0; stufe = ""; nochmal.hidden = true;
       setzeZustand("halten"); start = performance.now(); letzteSekunde = -1;
-      nochmal.hidden = true;
-      sage("Weiter halten.");
+      aktiv("halten");
+      sage("Weiter halten für einen Notruf, oder loslassen für die Gruppe.");
     };
     var loslassen = function () {
       if (zustand !== "halten") return;
-      setzeZustand("kurz");
       ringAuf(1);
-      sage("<strong>Kurz gedrückt.</strong> Das ruft deine Gruppe, nicht die Bergbahn. Für einen Notruf drei Sekunden halten.");
-    };
-    var zuruecksetzen = function () {
-      setzeZustand("ruhe"); demo = 0;
-      ringAuf(1);
-      nochmal.hidden = true;
-      sage("Drei Sekunden halten. Mit der Maus, dem Finger oder der Leertaste.");
+      setzeZustand("gruppe"); start = performance.now();
+      aktiv("gruppe");
+      sage("<strong>Kurz gedrückt:</strong> Deine Gruppe wird gerufen. Die Bergbahn wird nicht alarmiert.");
     };
 
-    knopf.addEventListener("pointerdown", function (e) { e.preventDefault(); knopf.setPointerCapture && knopf.setPointerCapture(e.pointerId); beginnen(); });
+    knopf.addEventListener("pointerdown", function (e) { e.preventDefault(); if (knopf.setPointerCapture) { try { knopf.setPointerCapture(e.pointerId); } catch (_) {} } druecken(); });
     knopf.addEventListener("pointerup", loslassen);
     knopf.addEventListener("pointercancel", loslassen);
     knopf.addEventListener("lostpointercapture", loslassen);
     knopf.addEventListener("contextmenu", function (e) { e.preventDefault(); });
     knopf.addEventListener("keydown", function (e) {
-      if ((e.key === " " || e.key === "Enter") && !e.repeat) { e.preventDefault(); beginnen(); }
-      else if (e.key === " " || e.key === "Enter") e.preventDefault();
+      if (e.key !== " " && e.key !== "Enter") return;
+      e.preventDefault();
+      if (!e.repeat) druecken();
     });
     knopf.addEventListener("keyup", function (e) { if (e.key === " " || e.key === "Enter") { e.preventDefault(); loslassen(); } });
     knopf.addEventListener("click", function (e) { e.preventDefault(); });
-    function abbrechenJetzt() {
-      zuruecksetzen();
-      sage("<strong>Abgebrochen.</strong> Der zweite Druck hat den Notruf gestoppt, gesendet wurde nichts.");
-    }
     nochmal.addEventListener("click", function () { zuruecksetzen(); knopf.focus(); });
 
-    var zeichnen = function (anteil, rot) {
-      wege[0].style.strokeDashoffset = 1 - abschnitt(anteil, 0.06, 0.28);
-      wege[1].style.strokeDashoffset = 1 - abschnitt(anteil, 0.28, 0.48);
-      wege[2].style.strokeDashoffset = 1 - abschnitt(anteil, 0.48, 0.64);
-      for (var k = 0; k < wellen.length; k++) {
-        var aus = abschnitt(anteil, 0.02 + k * 0.04, 0.1 + k * 0.04), zurueck = abschnitt(anteil, 0.84 + k * 0.04, 0.92 + k * 0.04);
-        wellen[k].style.opacity = anteil < 0.36 ? (anteil > 0.02 ? 0.25 + 0.75 * aus : 0) : (anteil < 0.84 ? 0.3 : 0.3 + 0.7 * zurueck);
+    var zeichnen = function () {
+      g1.style.strokeDashoffset = 1 - abschnitt(gruppe, 0, 0.4);
+      g2.style.strokeDashoffset = 1 - abschnitt(gruppe, 0.05, 0.45);
+      for (var z = 0; z < zittern.length; z++) {
+        var an = gruppe > 0.45 && gruppe < 1 ? 0.35 + 0.65 * Math.abs(Math.sin(gruppe * 28)) : (gruppe >= 1 ? 0.5 : 0);
+        zittern[z].style.opacity = an;
       }
-      var p = abschnitt(anteil, 0.64, 0.7);
+      h1.style.strokeDashoffset = 1 - abschnitt(hilfe, 0.02, 0.36);
+      h2.style.strokeDashoffset = 1 - abschnitt(hilfe, 0.36, 0.52);
+      for (var k = 0; k < wellen.length; k++) {
+        var raus = abschnitt(hilfe, 0.02 + k * 0.04, 0.1 + k * 0.04), zurueck = abschnitt(hilfe, 0.84 + k * 0.04, 0.92 + k * 0.04);
+        var g = abschnitt(gruppe, 0.0 + k * 0.04, 0.08 + k * 0.04);
+        var w = hilfe > 0 ? (hilfe < 0.4 ? 0.25 + 0.75 * raus : (hilfe < 0.84 ? 0.3 : 0.3 + 0.7 * zurueck)) : (gruppe > 0 ? 0.2 + 0.6 * g : 0);
+        wellen[k].style.opacity = w;
+      }
+      var p = abschnitt(hilfe, 0.52, 0.58);
       punkt.style.opacity = p;
       punkt.style.transform = "scale(" + (0.4 + 0.6 * p) + ")";
-      handyText.style.opacity = abschnitt(anteil, 0.66, 0.74);
-      led.setAttribute("fill", rot ? "#d83a2c" : "#8fa3b8");
+      handyText.style.opacity = abschnitt(hilfe, 0.55, 0.62);
+      annehmen.setAttribute("fill", hilfe > 0.72 && hilfe < 0.82 ? "#5d6f84" : "#1b2430");
+      led.setAttribute("fill", (zustand === "frist" || zustand === "lauf" || zustand === "fertig") ? "#d83a2c" : "#8fa3b8");
     };
 
     var takt = function (jetzt) {
       if (zustand === "halten") {
         var t = (jetzt - start) / HALTEN;
         ringAuf(1 - klemme(t));
-        if (t >= 1) {
-          setzeZustand("frist"); start = jetzt;
-        }
+        if (t >= 1) { setzeZustand("frist"); start = jetzt; }
       } else if (zustand === "frist") {
         var rest = FRIST - (jetzt - start);
         ringAuf(1 - klemme(rest / FRIST));
         var sek = Math.ceil(rest / 1000);
         if (sek !== letzteSekunde && sek > 0) { letzteSekunde = sek; sage("<strong>Notruf in " + sek + " s.</strong> Loslassen und noch einmal kurz drücken bricht ab."); }
         if (rest <= 0) {
-          setzeZustand("lauf"); laufStart = jetzt;
-          ringAuf(1);
-          sage("<strong>Notruf gesendet.</strong> Dein Standort ist unterwegs.");
+          setzeZustand("lauf"); start = jetzt; ringAuf(1); aktiv("hilfe");
+          sage("<strong>Notruf gesendet.</strong> Dein Standort ist unterwegs zur Bergbahn.");
         }
       } else if (zustand === "lauf") {
-        demo = ohneBewegung ? 1 : klemme((jetzt - laufStart) / LAUF);
-        if (demo > 0.7 && demo < 0.78 && status.dataset.stufe !== "punkt") { status.dataset.stufe = "punkt"; sage("Ein Mitarbeiter sieht deinen roten Punkt und tippt auf Annehmen."); }
-        if (demo >= 1) {
-          setzeZustand("fertig"); status.dataset.stufe = "";
+        hilfe = ohneBewegung ? 1 : klemme((jetzt - start) / LAUF);
+        if (hilfe > 0.56 && stufe === "") { stufe = "punkt"; sage("Der nächste Mitarbeiter sieht deinen Standort und tippt auf <strong>Annehmen</strong>."); }
+        if (hilfe >= 1) {
+          setzeZustand("fertig");
           sage("<strong>Dein Chip vibriert zweimal:</strong> Hilfe ist unterwegs. Das war eine Vorführung, gesendet wurde nichts.");
           nochmal.hidden = false;
         }
+      } else if (zustand === "gruppe") {
+        gruppe = ohneBewegung ? 1 : klemme((jetzt - start) / GRUPPE);
+        if (gruppe >= 1) { setzeZustand("ruhe"); gruppe = 1; }
       }
-      var p = parseFloat(getComputedStyle(akt).getPropertyValue("--sc-p")) || 0;
-      var vomScrollen = ohneBewegung ? 1 : abschnitt(p, 0.1, 0.86);
-      var anteil = Math.max(vomScrollen, demo);
-      var rot = zustand === "frist" || zustand === "lauf" || zustand === "fertig" || (!ohneBewegung && vomScrollen > 0.06);
-      zeichnen(anteil, rot);
+      zeichnen();
       requestAnimationFrame(takt);
     };
     requestAnimationFrame(takt);
   }
 
+  /* ------------------------------------------------- Die App (Skizze) -- */
+  var appAkt = document.getElementById("app");
+  if (appAkt) {
+    var spur = appAkt.querySelector(".spur");
+    var route = appAkt.querySelector(".route");
+    var radius = appAkt.querySelector(".radius");
+    var ziel = appAkt.querySelectorAll(".ziel");
+    var kind = appAkt.querySelector(".kind");
+    var appTakt = function () {
+      var p = ohneBewegung ? 1 : (parseFloat(getComputedStyle(appAkt).getPropertyValue("--sc-p")) || 0);
+      var r = abschnitt(p, 0.04, 0.28);
+      route.style.strokeDashoffset = 1 - r;
+      ziel.forEach(function (z) { z.style.opacity = abschnitt(p, 0.02, 0.1); });
+      spur.style.strokeDashoffset = 1 - abschnitt(p, 0.36, 0.6);
+      radius.style.strokeDashoffset = 1 - abschnitt(p, 0.68, 0.8);
+      radius.style.fillOpacity = abschnitt(p, 0.7, 0.82);
+      var raus = abschnitt(p, 0.82, 0.95);
+      kind.style.opacity = abschnitt(p, 0.7, 0.76);
+      kind.setAttribute("transform", "translate(" + (160 + 70 * raus) + " " + (430 + 45 * raus) + ")");
+      radius.style.stroke = raus >= 1 ? "#5d6f84" : "#1b2430";
+      requestAnimationFrame(appTakt);
+    };
+    requestAnimationFrame(appTakt);
+  }
 })();

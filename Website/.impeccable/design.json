@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-04T21:00:00+01:00",
+  "generatedAt": "2026-11-04T23:00:00+01:00",
   "title": "Design System: SkiTag Website",
   "extensions": {
     "colorMeta": {
@@ -109,6 +109,21 @@
           "#f4f8fb"
         ]
       },
+      "drawing-label": {
+        "role": "neutral",
+        "displayName": "Drawing Label",
+        "canonical": "#2d3a4b",
+        "tonalRamp": [
+          "#141c27",
+          "#1b2430",
+          "#2d3a4b",
+          "#46566b",
+          "#66778c",
+          "#8d9cae",
+          "#c7d4e2",
+          "#f4f8fb"
+        ]
+      },
       "drawing-label-ink": {
         "role": "neutral",
         "displayName": "Drawing Label Ink",
@@ -151,6 +166,21 @@
           "#a9bfd6",
           "#c7d4e2",
           "#dde7f1",
+          "#f4f8fb"
+        ]
+      },
+      "terrain-far": {
+        "role": "neutral",
+        "displayName": "Terrain Far",
+        "canonical": "#c3d0de",
+        "tonalRamp": [
+          "#46566b",
+          "#66778c",
+          "#8fa3b8",
+          "#a9bfd6",
+          "#c3d0de",
+          "#dde7f1",
+          "#eef3f8",
           "#f4f8fb"
         ]
       },
@@ -253,31 +283,31 @@
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Act titles as short declarative sentences (\"Das sind wir.\")."
+        "purpose": "Act titles as short declarative sentences (\"Der Chip.\", \"Die App.\", \"Das sind wir.\")."
       },
       "headline-sm": {
         "displayName": "Headline Small",
-        "purpose": "Staggered doubt lines, second hero line, mobile act titles."
+        "purpose": "Staggered doubt lines, second hero line, app step titles, rider panel names, team first names, mobile act titles."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Object names, plan dates, rule terms, team first names (at 2xl)."
+        "purpose": "Step names in the chip act, the rider panel use line, plan dates."
       },
       "lede": {
         "displayName": "Lede",
-        "purpose": "The sentence under the hero headline, max 34ch."
+        "purpose": "Sentence under the hero headline (max 34ch), line under an act title, app step text."
       },
       "body": {
         "displayName": "Body",
-        "purpose": "Running copy in slate soft, 62ch measure."
+        "purpose": "Running copy in slate soft, 62ch measure; panel text 30ch."
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Definition keys, stage and status lines, honesty paragraph, button text."
+        "purpose": "Step descriptions, demo status and cancel hint, honesty paragraph, button text."
       },
       "caption": {
         "displayName": "Caption",
-        "purpose": "Placeholder notes, footer, demonstration badge."
+        "purpose": "Placeholder and sketch notes, footer, demonstration badge."
       }
     },
     "shadows": [
@@ -294,7 +324,7 @@
       {
         "name": "sc-e3",
         "value": "0 8px 14px hsl(211 38% 52% / 0.12), 0 30px 60px -14px hsl(211 38% 52% / 0.42), 0 70px 120px -30px hsl(211 38% 52% / 0.30)",
-        "purpose": "Group photo."
+        "purpose": "Framed mountain photo."
       },
       {
         "name": "ground-cast-hero",
@@ -304,7 +334,7 @@
       {
         "name": "ground-cast",
         "value": "radial-gradient(closest-side, rgba(122, 152, 186, 0.45), transparent)",
-        "purpose": "Ellipse under each rail object; drawn as a background, not a box-shadow."
+        "purpose": "Ellipse under the app phone sketch; drawn as a background, not a box-shadow."
       }
     ],
     "motion": [
@@ -330,13 +360,28 @@
       },
       {
         "name": "hold",
-        "value": "3s hold, then 5s cancel window",
+        "value": "short press: group paths over 2.2s; hold 3s, then 5s cancel window (second press cancels), then the emergency path plays on its own over 5.2s; end state at once under reduced motion",
         "purpose": "Hold-button demonstration timing."
       },
       {
         "name": "snowfall",
-        "value": "canvas particles, off under prefers-reduced-motion",
+        "value": "canvas particles, 22 on desktop, 12 below 700px; off under prefers-reduced-motion",
         "purpose": "Atmosphere in the hero act."
+      },
+      {
+        "name": "sc-d-slow",
+        "value": "420ms",
+        "purpose": "Active-step underline growing across the step list."
+      },
+      {
+        "name": "app-sketch",
+        "value": "route, track and radius drawn from the pinned act progress (--sc-p); end state under reduced motion",
+        "purpose": "App act drawing."
+      },
+      {
+        "name": "rider-fade",
+        "value": "panels 55% to 100% opacity as the pan reaches them; only with motion allowed",
+        "purpose": "Rider rail."
       }
     ],
     "breakpoints": [
@@ -359,8 +404,8 @@
       "name": "Secondary Button",
       "kind": "button",
       "refersTo": "button-secondary",
-      "description": "White hairline pill for secondary demo actions (Abbrechen, Nochmal).",
-      "html": "<button class=\"ds-knopf-hell\">Abbrechen</button>",
+      "description": "White hairline pill for the secondary demo action (Nochmal).",
+      "html": "<button class=\"ds-knopf-hell\">Nochmal</button>",
       "css": ".ds-knopf-hell { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.1rem; border: 1px solid #c7d4e2; border-radius: 999px; background: #fff; color: #1b2430; font-family: 'Funnel Sans', system-ui, sans-serif; font-weight: 520; font-size: 0.95rem; cursor: pointer; transition: border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-knopf-hell:hover { border-color: #1b2430; } .ds-knopf-hell:active { transform: translateY(1px); } .ds-knopf-hell:focus-visible { outline: 2px solid #1b2430; outline-offset: 3px; }"
     },
     {
@@ -388,32 +433,40 @@
       "css": ".ds-fuss { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.6rem 2rem; padding: 2rem 1.5rem; border-top: 1px solid #c7d4e2; font-family: 'Funnel Sans', system-ui, sans-serif; font-size: 0.8rem; color: #4a586a; } .ds-fuss a { color: #4a586a; } .ds-fuss a:focus-visible { outline: 2px solid #1b2430; outline-offset: 3px; } .ds-fuss nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }"
     },
     {
-      "name": "Object on the Ground",
-      "kind": "custom",
-      "refersTo": "object-on-ground",
-      "description": "Line-drawn object standing on a cold-shadow ground line with a cast ellipse and its placeholder caption.",
-      "html": "<figure class=\"ds-ding\"><div class=\"ds-ding__objekt\"><svg viewBox=\"0 0 120 120\" fill=\"none\" stroke=\"#5d6f84\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"38\" y=\"16\" width=\"44\" height=\"84\" rx=\"9\"/><path d=\"M54 24 h12\"/><circle cx=\"56\" cy=\"62\" r=\"5\" fill=\"#d83a2c\" stroke=\"none\"/><path d=\"M44 80 C54 72 64 66 76 54\"/></svg></div><figcaption>Platzhalter: Bild der App folgt</figcaption></figure>",
-      "css": ".ds-ding { margin: 0; width: 16rem; font-family: 'Funnel Sans', system-ui, sans-serif; } .ds-ding__objekt { position: relative; height: 11rem; display: grid; place-items: end center; padding-bottom: 1.1rem; } .ds-ding__objekt::before { content: ''; position: absolute; left: 50%; bottom: 0.55rem; width: 64%; height: 1.4rem; translate: -50% 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(122,152,186,0.45), transparent); } .ds-ding__objekt::after { content: ''; position: absolute; left: -2rem; right: -2rem; bottom: 1.1rem; height: 1.5px; background: #a9bfd6; } .ds-ding__objekt svg { position: relative; z-index: 1; height: 74%; } .ds-ding figcaption { text-align: center; font-size: 0.8rem; letter-spacing: 0.02em; color: #4a586a; }"
-    },
-    {
       "name": "Demonstration Badge",
       "kind": "chip",
       "refersTo": "demo-badge",
-      "description": "Caption pill that marks the interactive signal drawing as a demonstration.",
+      "description": "Caption pill that marks the interactive slope drawing as a demonstration.",
       "html": "<span class=\"ds-vorfuehrung\">Vorführung</span>",
       "css": ".ds-vorfuehrung { display: inline-block; font-family: 'Funnel Sans', system-ui, sans-serif; font-size: 0.8rem; letter-spacing: 0.04em; color: #4a586a; border: 1px solid #c7d4e2; border-radius: 999px; padding: 0.2rem 0.65rem; background: #fff; }"
+    },
+    {
+      "name": "Step List",
+      "kind": "custom",
+      "refersTo": "step-list",
+      "description": "Three steps under a hairline; the active step gets a 2px ink underline.",
+      "html": "<ol class=\"ds-gesten\"><li><b>Kurz drücken</b><span>Deine Gruppe spürt eine Vibration und sieht in der App, wo du bist.</span></li><li class=\"ist-aktiv\"><b>Drei Sekunden halten</b><span>Der Notruf startet. Fünf Sekunden lang kannst du ihn abbrechen.</span></li><li><b>Hilfe kommt</b><span>Der nächste Mitarbeiter der Bergbahn macht sich auf den Weg.</span></li></ol>",
+      "css": ".ds-gesten { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; border-top: 1px solid #c7d4e2; font-family: 'Funnel Sans', system-ui, sans-serif; } .ds-gesten li { position: relative; padding-top: 1rem; } .ds-gesten li::before { content: ''; position: absolute; top: -1px; left: 0; width: 0; height: 2px; background: #1b2430; transition: width 420ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-gesten li.ist-aktiv::before, .ds-gesten li:hover::before { width: 100%; } .ds-gesten b { display: block; font-family: 'Funnel Display', 'Funnel Sans', system-ui, sans-serif; font-weight: 600; font-size: 1.3rem; letter-spacing: -0.02em; color: #1b2430; } .ds-gesten span { display: block; margin-top: 0.35rem; color: #4a586a; font-size: 0.9rem; line-height: 1.5; }"
+    },
+    {
+      "name": "Rider Panel",
+      "kind": "card",
+      "refersTo": "rider-panel",
+      "description": "Typographic panel on the horizontal rail: hairline top rule, name, use line, short sentence; the closing panel carries a 2px ink rule.",
+      "html": "<div class=\"ds-schiene\"><article class=\"ds-fahrer\"><h3>Familien</h3><p class=\"ds-fahrer__was\">Radius und Routen</p><p>Ein Radius für die Kinder, Routen über Pisten und Lifte für alle, die sich nicht auskennen.</p></article><article class=\"ds-fahrer ds-fahrer--alle\"><h3>Für alle</h3><p class=\"ds-fahrer__was\">Sicherheit an erster Stelle</p><p>Ein Knopf in der Jacke. Kurz drücken ruft deine Gruppe, halten ruft Hilfe.</p></article></div>",
+      "css": ".ds-schiene { display: flex; gap: 2.5rem; font-family: 'Funnel Sans', system-ui, sans-serif; } .ds-fahrer { width: 18rem; border-top: 1px solid #c7d4e2; padding-top: 1.5rem; color: #1b2430; } .ds-fahrer h3 { margin: 0; font-family: 'Funnel Display', 'Funnel Sans', system-ui, sans-serif; font-weight: 600; font-size: 2.6rem; letter-spacing: -0.035em; line-height: 1; } .ds-fahrer__was { margin: 1rem 0 0; font-weight: 600; font-size: 1.3rem; } .ds-fahrer p:last-child { margin: 0.5rem 0 0; color: #4a586a; max-width: 30ch; line-height: 1.62; } .ds-fahrer--alle { border-top: 2px solid #1b2430; }"
     }
   ],
   "narrative": {
     "northStar": "Neuschnee",
-    "overview": "The page is a bright winter morning. High-key snow white and pale glacier blue carry every surface; the only dark is slate ink, used for words, line drawings and the one action. Objects (the chip, the receiver, the charging drawer) stand on that snow as flat line drawings with a cold blue cast shadow underneath, the way a thing lies on fresh powder. Mountain footage (Mixkit stock) is scrubbed by scroll and dissolves downward into the white ground through a mask, never a drawn edge; falling snow on a canvas is the atmosphere of the first viewport.\n\nDensity is low and the air is generous. Each act of the scroll does one thing: a centred headline in the sky, staggered lines of doubt, a held button and a signal path, a photo with a rule list, a horizontal rail of objects, then the team with a plan. The page is an introduction only: it ends with the team act and a plain footer, and has no rental or purchase surface. Honesty is a visual element: placeholders are labelled in a small caption directly under the thing they stand for, and the interactive demo carries a pill that says it is a demonstration.\n\nThe world refuses the dark gadget page with a glowing device and three feature cards. Colour is not decoration here: there is no accent hue at all, only ink-dark for action and a single emergency red that belongs to the alarm.\n\nThe scroll mechanism is the ScrollCraft engine (`scrollcraft.css`/`.js`, unchanged). This system is the set of overrides of its `--sc-*` tokens plus the page's own tokens and classes in `seite.css`; the engine's spacing and type scales are inherited as they are.",
+    "overview": "The page is a bright winter morning. High-key snow white and pale glacier blue carry every surface; the only dark is slate ink, used for words, line drawings and the one action. The chip stands on that snow as a flat line drawing with a cold blue cast shadow underneath, the way a thing lies on fresh powder. Mountain footage (Mixkit stock) is scrubbed by scroll and dissolves downward into the white ground through a mask, never a drawn edge; a light snowfall on a canvas is the atmosphere of the first viewport.\n\nDensity is low and the air is generous. Each act of the scroll does one thing: a centred headline in the sky, staggered lines of doubt, the chip to try with a slope drawing that answers the press, a framed photo of a group on the mountain, the app sketched in a phone outline, a horizontal rail of typographic rider panels, then the team with a plan. The page is an introduction only: it ends with the team act and a plain footer, and has no rental or purchase surface. Honesty is a visual element: placeholders and sketches are labelled in a small caption directly under the thing they stand for, and the interactive demo carries a pill that says it is a demonstration.\n\nThe world refuses the dark gadget page with a glowing device and three feature cards. Colour is not decoration here: there is no accent hue at all, only ink-dark for action and a single emergency red that belongs to the alarm.\n\nThe scroll mechanism is the ScrollCraft engine (`scrollcraft.css`/`.js`, unchanged). This system is the set of overrides of its `--sc-*` tokens plus the page's own tokens and classes in `seite.css`; the engine's spacing and type scales are inherited as they are.",
     "keyCharacteristics": [
       "High-key snow grounds, slate ink, no accent hue.",
       "Emergency red appears only where the emergency itself is shown.",
-      "Objects as flat slate line drawings standing on a ground line with a blurred cold blue shadow.",
-      "Footage masked into the white ground; snowfall as atmosphere, removed under reduced motion.",
-      "Soft, blue-tinted, offset shadows; hairlines in shadow blue.",
-      "Every placeholder labelled where it stands."
+      "Flat slate line drawings (chip, slope, phone) with rounded caps; things that stand get a blurred cold blue cast ellipse.",
+      "Footage masked into the white ground; sparse snowfall as atmosphere, removed under reduced motion.",
+      "Soft, blue-tinted, offset shadows; hairlines in shadow blue, a 2px ink rule only for emphasis or the active step.",
+      "Every placeholder and sketch labelled where it stands."
     ],
     "rules": [
       {
@@ -423,7 +476,7 @@
       },
       {
         "name": "The Red Is The Alarm Rule",
-        "body": "Emergency red marks the emergency and nothing else: not links, not errors, not prices, not decoration. If a surface does not depict an emergency call, it has no red.",
+        "body": "Emergency red marks the emergency and nothing else: not links, not errors, not prices, not decoration, not the group call, not a child leaving the radius. If a surface does not depict an emergency call, it has no red.",
         "section": "colors"
       },
       {
@@ -433,7 +486,7 @@
       },
       {
         "name": "The Sentence Headline Rule",
-        "body": "Headlines are short declarative German sentences with a full stop. No kicker or eyebrow above them.",
+        "body": "Headlines are short declarative German sentences with a full stop. Nothing sits above them; supporting lines go below.",
         "section": "typography"
       },
       {
@@ -448,25 +501,26 @@
       },
       {
         "name": "The Standing Object Rule",
-        "body": "A thing on the page stands on a ground: a 1.5px cold-shadow line and a blurred ellipse beneath it.",
+        "body": "A drawn thing that stands on the page gets a blurred cold blue ellipse beneath it, never a box shadow.",
         "section": "elevation"
       }
     ],
     "dos": [
       "Do keep every ground in the snow family (`snow-canvas`, `snow-surface`, `glacier-drift`) and let acts drift between them.",
       "Do make the one action a slate ink pill; there is one per view. The back-to-top circle is fixed chrome, not a second action.",
-      "Do set objects on a ground line with a cold blue cast ellipse.",
-      "Do dissolve footage into the white ground with a mask, and label stock and placeholders honestly.",
+      "Do set a standing drawn object on a cold blue cast ellipse.",
+      "Do dissolve footage into the white ground with a mask, and label stock, sketches and placeholders honestly.",
       "Do tint every shadow with the cold shadow hue and keep it blurred and offset downward.",
-      "Do remove snowfall, give drawn paths their end state and make scrolling instant under reduced motion."
+      "Do keep snowfall sparse (22 flakes on desktop, 12 on phones); remove it, give drawn paths their end state and make scrolling instant under reduced motion.",
+      "Do draw people, group paths and objects in slate line work; ink is the emergency path and the active state."
     ],
     "donts": [
       "Don't introduce an accent hue; the engine accent stays slate ink.",
       "Don't use emergency red for anything that is not the emergency itself.",
-      "Don't build a dark gadget page with a glowing device or a row of three feature cards.",
+      "Don't build a dark gadget page with a glowing device or a row of three feature cards; panels are typographic, without boxes.",
       "Don't put kickers or eyebrows above headlines.",
       "Don't use black or grey shadows, hard offset shadows, or drawn snowbanks; black exists only as a mask stop.",
-      "Don't show a placeholder object or team image without its placeholder caption."
+      "Don't show a placeholder object, sketch or team image without its caption."
     ]
   }
 }

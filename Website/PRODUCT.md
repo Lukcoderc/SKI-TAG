@@ -42,6 +42,9 @@ Pitch presentation and handoff (Obsidian vault, `10_Projekte/Skitag`), the Netzw
 
 ## Product Principles
 
+- Speak to the guest, not to the engineer (user, 2026-11-04): what matters is short press calls the group, hold calls help, and a staff member gets the call. Server, cables and charging stations are not website topics; receivers appear only as "the whole ski area is covered" (stated as the goal, not as a measured fact).
+- The app is its own category: map with route, tracking and radius. Rider types: pros use tracking, families use radius and routes, ski schools see their groups and count them with their own app access, and for everyone safety comes first.
+
 - One button, one promise: every section returns to the button and what it sets in motion.
 - Honest about the stage: show the plan and the mechanism, never a finished or tested product.
 - The whole system, from the chip in the jacket to the charging drawer, is the offer.

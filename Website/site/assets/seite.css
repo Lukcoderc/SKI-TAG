@@ -128,11 +128,13 @@ body { font-feature-settings: "ss01" 0; }
   font-size: clamp(3.5rem, 2rem + 8vw, 9rem); line-height: 0.9;
 }
 
-/* -------------------------------------------------------- 3 · Der Knopf -- */
-.knopf-akt .sc-stage { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr); align-items: center; gap: clamp(1rem, 4vw, 4rem); padding: 5.5rem var(--sc-gutter) 2rem; }
-.knopf-akt__links { position: relative; display: grid; justify-items: center; align-content: center; gap: var(--sc-5); height: 100%; }
+/* --------------------------------------------------------- 3 · Der Chip -- */
+.chip-akt { padding-top: clamp(3rem, 6vw, 6rem); min-height: 100svh; display: grid; align-content: center; }
+.chip-akt__raster { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.3fr); gap: clamp(1.5rem, 5vw, 5rem); align-items: start; }
+.chip-akt__links { display: grid; justify-items: center; gap: var(--sc-4); text-align: center; position: sticky; top: 6rem; }
+.chip-akt__unter { text-wrap: balance; margin: 0; color: var(--sc-ink-soft); font-size: var(--sc-t-lg); }
 .haltknopf {
-  position: relative; width: clamp(12rem, 22vw, 19rem); aspect-ratio: 1; border: 0; padding: 0; background: none;
+  position: relative; width: clamp(11rem, 19vw, 16rem); aspect-ratio: 1; border: 0; padding: 0; background: none; margin-top: var(--sc-3);
   cursor: pointer; border-radius: 30%; touch-action: none; -webkit-user-select: none; user-select: none;
   -webkit-touch-callout: none;
 }
@@ -143,9 +145,9 @@ body { font-feature-settings: "ss01" 0; }
 .haltknopf[data-zustand="frist"] .ring { stroke: var(--notruf); }
 .haltknopf .knopfkappe { transition: transform 140ms var(--sc-ease-out); transform-origin: 100px 104px; transform-box: view-box; }
 .haltknopf[data-zustand="halten"] .knopfkappe { transform: scale(0.94); }
-.knopf-akt__status { min-height: 3.2em; text-align: center; max-width: 24rem; margin: 0; font-size: var(--sc-t-base); color: var(--sc-ink); }
+.knopf-akt__status { min-height: 3.2em; max-width: 24rem; margin: 0; font-size: var(--sc-t-base); color: var(--sc-ink); }
 .knopf-akt__status strong { font-weight: 600; }
-.knopf-akt__hinweis { margin: 0; max-width: 24rem; text-align: center; font-size: var(--sc-t-sm); line-height: 1.5; color: var(--sc-ink-soft); }
+.knopf-akt__hinweis { margin: 0; max-width: 24rem; font-size: var(--sc-t-sm); line-height: 1.5; color: var(--sc-ink-soft); }
 .knopf-akt__hinweis strong { color: var(--sc-ink); font-weight: 600; }
 .knopf-akt__aktionen { display: flex; gap: var(--sc-3); min-height: 2.75rem; }
 .knopf-hell {
@@ -157,67 +159,74 @@ body { font-feature-settings: "ss01" 0; }
 .knopf-hell:active { transform: translateY(1px); }
 .knopf-hell[hidden] { display: none; }
 
-.knopf-akt__rechts { position: relative; height: 100%; display: grid; align-content: center; }
-.zeichnung { width: 100%; height: auto; max-height: 64vh; overflow: visible; }
+.chip-akt__rechts { position: relative; display: grid; gap: var(--sc-5); }
+.chip-akt__bild { margin: 0; }
+.chip-akt__bild .platzhalter-notiz { text-align: right; }
+.vorfuehrung { justify-self: end; font-size: var(--sc-t-xs); color: var(--sc-ink-soft); letter-spacing: 0.04em; border: 1px solid var(--linie); border-radius: var(--sc-r-pill); padding: 0.2rem 0.65rem; background: #fff; }
+.zeichnung { width: 100%; height: auto; overflow: visible; }
 .zeichnung .gelaende { fill: none; stroke: #8fa3b8; stroke-width: 1.6; }
 .zeichnung .gelaende-fern { fill: none; stroke: #c3d0de; stroke-width: 1.3; }
 .zeichnung .schnee { stroke: none; }
 .zeichnung .lift { stroke: #8fa3b8; stroke-width: 1.4; fill: none; }
 .zeichnung .bau { fill: #ffffff; stroke: #5d6f84; stroke-width: 1.6; }
 .zeichnung .beschrift { font-family: var(--sc-font-text); font-size: 15px; font-weight: 500; fill: #2d3a4b; letter-spacing: 0.01em; }
-.zeichnung .beschrift-klein { font-family: var(--sc-font-text); font-size: 12.5px; fill: #3d4b5c; }
-.zeichnung .weg { fill: none; stroke: var(--sc-ink); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
-.zeichnung .weg--funk { stroke-dasharray: 0.012 0.018; stroke-dashoffset: 0; }
-.zeichnung .weg--zurueck { stroke: #5d6f84; stroke-width: 1.6; }
-.zeichnung .welle { fill: none; stroke: var(--sc-ink); stroke-width: 1.6; opacity: 0; }
-.zeichnung .punkt-rot { fill: var(--notruf); opacity: 0; transform-box: fill-box; transform-origin: center; }
-.zeichnung .handy-text { opacity: 0; }
 .zeichnung .handy-schrift { font-family: var(--sc-font-text); font-size: 12.5px; fill: #3d4b5c; }
 .zeichnung .person { fill: #1b2430; }
+.zeichnung .weg { fill: none; stroke: var(--sc-ink); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.zeichnung .weg--gruppe { stroke: #5d6f84; stroke-width: 2.4; }
+.zeichnung .welle { fill: none; stroke: var(--sc-ink); stroke-width: 1.6; opacity: 0; }
+.zeichnung .zittern { fill: none; stroke: #1b2430; stroke-width: 1.8; stroke-linecap: round; opacity: 0; }
+.zeichnung .punkt-rot { fill: var(--notruf); opacity: 0; transform-box: fill-box; transform-origin: center; }
+.zeichnung .handy-text { opacity: 0; }
 .zeichnung .nur-schmal { display: none; }
-.knopf-akt__texte { position: relative; min-height: 7.5rem; margin-top: var(--sc-4); }
-.knopf-akt__texte > p {
-  position: absolute; inset: 0 auto auto 0; margin: 0; max-width: 34rem;
-  font-family: var(--sc-font-display); font-weight: 500; font-size: var(--sc-t-xl); line-height: 1.3; letter-spacing: -0.02em;
-}
-.knopf-akt__texte > p span { display: block; margin-top: 0.5rem; font-family: var(--sc-font-text); font-size: var(--sc-t-sm); font-weight: 400; letter-spacing: 0; color: var(--sc-ink-soft); line-height: 1.5; }
-.vorfuehrung { position: absolute; right: 0; top: 0; font-size: var(--sc-t-xs); color: var(--sc-ink-soft); letter-spacing: 0.04em; border: 1px solid var(--linie); border-radius: var(--sc-r-pill); padding: 0.2rem 0.65rem; background: #fff; }
+.gesten { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sc-5); border-top: 1px solid var(--linie); }
+.gesten li { padding-top: var(--sc-4); position: relative; transition: opacity var(--sc-d-base) var(--sc-ease-out); }
+.gesten li::before { content: ""; position: absolute; top: -1px; left: 0; width: 0; height: 2px; background: var(--sc-ink); transition: width var(--sc-d-slow) var(--sc-ease-out); }
+.gesten li.ist-aktiv::before { width: 100%; }
+.gesten b { display: block; font-family: var(--sc-font-display); font-weight: 600; font-size: var(--sc-t-lg); letter-spacing: -0.02em; }
+.gesten span { display: block; margin-top: 0.35rem; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: 1.5; }
 
-/* --------------------------------------------------------- 4 · Gruppe -- */
-.gruppe { padding-top: clamp(3rem, 6vw, 6rem); }
-.gruppe__raster { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
-.gruppe__bild { margin: 0; border-radius: var(--r); overflow: hidden; box-shadow: var(--sc-e3); aspect-ratio: 4 / 5; }
-.gruppe__bild img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; }
-.gruppe__text h2 { max-width: 14ch; }
-.gruppe__text .sc-body + .sc-body { margin-top: var(--sc-4); }
-.gruppe__regel { display: grid; grid-template-columns: auto 1fr; gap: 0.35rem 1.1rem; margin: var(--sc-6) 0 0; padding: var(--sc-5) 0 0; border-top: 1px solid var(--linie); }
-.gruppe__regel dt { font-family: var(--sc-font-display); font-weight: 600; font-size: var(--sc-t-lg); letter-spacing: -0.02em; }
-.gruppe__regel dd { margin: 0; color: var(--sc-ink-soft); align-self: center; }
+/* ------------------------------------------------------ 4 · Am ganzen Berg -- */
+.berg__raster { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+.berg__bild { border-radius: var(--r); overflow: hidden; aspect-ratio: 4 / 5; box-shadow: var(--sc-e3); }
+.berg__bild img { width: 100%; height: 118%; max-width: none; object-fit: cover; object-position: 50% 62%; margin-top: -9%; }
+.berg__text h2 { max-width: 12ch; }
 
-/* --------------------------------------------------------- 5 · System -- */
-.system .sc-stage { display: grid; align-content: center; }
-.schiene { gap: clamp(1.25rem, 3vw, 2.5rem); padding-inline: var(--sc-gutter); align-items: stretch; }
-.schiene > * { flex: 0 0 auto; }
-.schiene__kopf { width: clamp(17rem, 30vw, 26rem); align-self: center; }
-.schiene__kopf h2 { max-width: 11ch; }
-.ding { width: clamp(15rem, 22vw, 20rem); display: grid; grid-template-rows: auto 1fr; gap: var(--sc-7); }
-.ding__objekt { position: relative; height: clamp(11rem, 26vh, 15rem); display: grid; place-items: end center; padding-bottom: 1.1rem; }
-.ding__objekt::before {
-  content: ""; position: absolute; left: 50%; bottom: 0.55rem; width: 64%; height: 1.4rem; translate: -50% 0; border-radius: 50%;
+/* ------------------------------------------------------------ 5 · Die App -- */
+.app-akt .sc-stage { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); align-items: center; gap: clamp(1.5rem, 5vw, 5rem); padding: 5.5rem var(--sc-gutter) 2rem; max-width: var(--sc-maxw); margin-inline: auto; }
+.app-akt__unter { margin: var(--sc-4) 0 0; color: var(--sc-ink-soft); font-size: var(--sc-t-lg); max-width: 30ch; }
+.app-akt__schritte { position: relative; min-height: 10rem; margin-top: var(--sc-7); }
+.app-akt__schritte > div { position: absolute; inset: 0 auto auto 0; max-width: 30rem; }
+.app-akt__schritte h3 { margin: 0; font-family: var(--sc-font-display); font-weight: 600; font-size: var(--sc-t-2xl); letter-spacing: -0.03em; line-height: 1.1; }
+.app-akt__schritte p { margin: var(--sc-3) 0 0; color: var(--sc-ink-soft); font-size: var(--sc-t-lg); line-height: 1.45; }
+.app-akt__handy { margin: 0; justify-self: center; display: grid; gap: var(--sc-3); position: relative; }
+.app-akt__handy::before {
+  content: ""; position: absolute; left: 12%; right: 12%; bottom: 1.6rem; height: 2.4rem; border-radius: 50%; z-index: -1;
   background: radial-gradient(closest-side, rgba(122, 152, 186, 0.45), transparent);
 }
-.ding__objekt::after { content: ""; position: absolute; left: -2rem; right: -2rem; bottom: 1.1rem; height: 1.5px; background: var(--schatten); }
-.ding__objekt svg { position: relative; z-index: 1; width: auto; height: 74%; max-width: 78%; }
-.ding__objekt .ding__chip { height: 56%; }
-.ding__objekt .platzhalter-notiz { position: absolute; top: calc(100% - 0.5rem); left: 0; right: 0; margin: 0; }
-.ding__etikett { display: grid; grid-template-columns: 4.6rem 1fr; gap: 0.25rem 0.8rem; margin: 0; font-size: var(--sc-t-sm); line-height: 1.45; }
-.ding__etikett dt { color: var(--sc-ink-soft); }
-.ding__etikett dd { margin: 0; }
-.ding__name { font-family: var(--sc-font-display); font-weight: 600; font-size: var(--sc-t-lg); letter-spacing: -0.02em; grid-column: 1 / -1; margin-bottom: 0.2rem; }
-.schiene__ende { width: clamp(15rem, 22vw, 19rem); align-self: center; }
-.schiene__ende p { font-family: var(--sc-font-display); font-size: var(--sc-t-xl); line-height: 1.3; letter-spacing: -0.02em; margin: 0; }
+.appskizze { width: clamp(14rem, 24vw, 19rem); height: auto; max-height: 70vh; }
+.appskizze .karte { fill: none; stroke: #c3d0de; stroke-width: 1.4; }
+.appskizze .karte-lift { fill: none; stroke: #8fa3b8; stroke-width: 1.4; stroke-dasharray: 5 5; }
+.appskizze .karte-piste { fill: none; stroke: #dde7f1; stroke-width: 10; stroke-linecap: round; }
+.appskizze .spur { fill: none; stroke: #5d6f84; stroke-width: 3.4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.appskizze .route { fill: none; stroke: #1b2430; stroke-width: 3.4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.appskizze .radius { fill: rgba(169, 191, 214, 0.18); stroke: #1b2430; stroke-width: 2; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.appskizze .appschrift { font-family: var(--sc-font-text); font-size: 15px; font-weight: 500; fill: #1b2430; }
+.appskizze .ziel, .appskizze .kind { opacity: 0; }
+
+/* ------------------------------------------------------ 6 · Für jeden -- */
+.jeden .sc-stage { display: grid; align-content: center; }
+.schiene { gap: clamp(2rem, 5vw, 4.5rem); padding-inline: var(--sc-gutter); align-items: start; }
+.schiene > * { flex: 0 0 auto; }
+.schiene__kopf { width: clamp(17rem, 30vw, 26rem); align-self: center; }
+.schiene__kopf h2 { max-width: 10ch; }
+.fahrer { width: clamp(17rem, 26vw, 23rem); border-top: 1px solid var(--linie); padding-top: var(--sc-5); }
+.fahrer h3 { margin: 0; font-family: var(--sc-font-display); font-weight: 600; font-size: var(--sc-t-2xl); letter-spacing: -0.035em; line-height: 1; }
+.fahrer__was { margin: var(--sc-4) 0 0; font-weight: 600; font-size: var(--sc-t-lg); }
+.fahrer p:last-child { margin: var(--sc-2) 0 0; color: var(--sc-ink-soft); max-width: 30ch; }
+.fahrer--alle { border-top: 2px solid var(--sc-ink); }
 @media (prefers-reduced-motion: no-preference) {
-  .schiene > .ding { opacity: calc(0.55 + 0.45 * min(1, max(0, (var(--sc-p, 0) * 6 - var(--i, 0) + 1)))); }
+  .schiene > .fahrer { opacity: calc(0.55 + 0.45 * min(1, max(0, (var(--sc-p, 0) * 5 - var(--i, 0) + 1)))); }
 }
 
 /* ----------------------------------------------------------- 6 · Wir -- */
@@ -258,25 +267,26 @@ body { font-feature-settings: "ss01" 0; }
   .hang__kopf, .hang__zwei { top: 5.5rem !important; left: var(--sc-gutter) !important; right: var(--sc-gutter) !important; width: auto; translate: 0 0 !important; }
   .hang__zwei h2 { font-size: var(--sc-t-2xl); }
 
-  .knopf-akt .sc-stage { grid-template-columns: 1fr; grid-template-rows: auto auto; align-content: start; gap: 0.5rem; padding-top: 4.6rem; }
-  .knopf-akt__rechts { order: -1; height: auto; }
-  .zeichnung { max-height: 34vh; }
+  .chip-akt__raster { grid-template-columns: 1fr; justify-items: center; }
+  .chip-akt__links, .chip-akt__rechts { display: contents; }
+  .chip-akt__links > h2 { order: 1; } .chip-akt__unter { order: 2; } .vorfuehrung { order: 3; justify-self: end; }
+  .chip-akt__bild { order: 4; width: 100%; } .haltknopf { order: 5; width: clamp(9rem, 40vw, 11rem); }
+  .knopf-akt__status { order: 6; text-align: center; } .knopf-akt__hinweis { order: 7; text-align: center; } .knopf-akt__aktionen { order: 8; }
+  .gesten { order: 9; grid-template-columns: 1fr; gap: var(--sc-3); width: 100%; }
   .zeichnung .beschrift { font-size: 26px; }
-  .zeichnung .beschrift-klein { font-size: 22px; }
   .zeichnung .nur-breit { display: none; }
   .zeichnung .nur-schmal { display: inline; }
-  .knopf-akt__links { height: auto; gap: var(--sc-3); }
-  .haltknopf { width: clamp(8.5rem, 34vw, 11rem); }
-  .knopf-akt__texte { min-height: 6.5rem; margin-top: 0.25rem; }
-  .knopf-akt__texte > p { font-size: var(--sc-t-lg); }
-  .vorfuehrung { position: static; justify-self: end; margin-bottom: 0.25rem; }
-
-  .gruppe__raster { grid-template-columns: 1fr; }
-  .gruppe__bild { aspect-ratio: 4 / 5; max-height: 70vh; }
+  .berg__raster { grid-template-columns: 1fr; }
+  .berg__bild { aspect-ratio: 4 / 3; }
+  .app-akt .sc-stage { grid-template-columns: 1fr; grid-template-rows: auto 1fr; align-content: start; gap: 0.75rem; padding-top: 4.8rem; }
+  .app-akt__unter { display: none; }
+  .app-akt__schritte { margin-top: var(--sc-3); min-height: 8.5rem; }
+  .app-akt__schritte h3 { font-size: var(--sc-t-xl); }
+  .app-akt__schritte p { font-size: var(--sc-t-base); }
+  .appskizze { width: auto; height: 46svh; max-height: none; }
   .wir__kopf { grid-template-columns: 1fr; }
   .wir__drei { grid-template-columns: 1fr; gap: var(--sc-5); }
   .wir__streifen { aspect-ratio: 16 / 9; }
-  .ding__objekt { height: 11rem; }
   .plan ol { grid-template-columns: 1fr 1fr; row-gap: var(--sc-5); }
 
 }
@@ -285,8 +295,6 @@ body { font-feature-settings: "ss01" 0; }
 @media (prefers-reduced-motion: reduce) {
   .hang__chip { transform: none; }
   .hang__flocken { display: none; }
-  .zeichnung .weg { stroke-dashoffset: 0; }
-  .zeichnung .welle { opacity: 0.8; }
 }
 
 #wir-titel { scroll-margin-top: 9rem; }

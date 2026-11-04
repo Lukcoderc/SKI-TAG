@@ -17,7 +17,11 @@ Interview teilweise geführt, Rest **Self-authored under explicit creative deleg
 
 Publikum „Alle gleich“. Am Schluss soll man „den Chip mieten wollen wo es online auch die möglichkeit geben soll das für eine ganze saison zu machen“. Kernsatz-Richtung „Ein Knopf statt Anruf“. **Geändert (Lukas, 2026-11-04):** Die Seite ist erstmal nur zum Vorstellen. Kein Mieten. Der Knopf oben heißt **Das sind wir** und führt zur Überschrift „Das sind wir.“, unten rechts ein Knopf zurück nach oben.
 
-## Gefühlskurve
+## Umbau (Lukas, 2026-11-04)
+
+Weniger Schneeflocken. Vorführung spielt nach dem Halten von selbst ab, ohne Scrollen. Für Kunden zählt nur: kurz drücken ruft die Gruppe, halten ruft Hilfe, ein Mitarbeiter bekommt den Notruf. Server und Ladestation raus, Empfänger nur als „das ganze Skigebiet wird abgedeckt“ (als Ziel). Neu: „Die App“ (Karte mit Route, Tracking, Radius) und „Für jeden am Berg“ (Profis Tracking, Familien Radius und Routen, Skischulen Gruppen und Zählung mit eigenem Zugang, für alle Sicherheit an erster Stelle). Reihenfolge: Chip, Berg, App, für jeden, Das sind wir.
+
+## Gefühlskurve (erste Fassung)
 
 1. Ruhe: heller Neuschnee, der Chip liegt still im Schnee, die Kamera gleitet langsam (scrub).
 2. Unruhe: knappe Sätze, was ohne Chip passiert (Handschuhe aus, Handy im Rucksack, wo bin ich überhaupt), auf leerem Weiß (flow).
