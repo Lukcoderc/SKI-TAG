@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "shape-assembled-illustration",
+        "value": "*",
+        "files": [
+          "site/index.html"
+        ],
+        "createdAt": "2026-11-03T22:20:01.595Z",
+        "reason": "Claude: the chip drawing is a labelled placeholder until a real product photo exists"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/decision/*.html"
+        ],
+        "createdAt": "2026-11-04T17:37:36.971Z",
+        "reason": "Claude: throwaway sketches from the direction round, drawn before the Neuschnee world existed; not shipped"
+      }
+    ]
+  }
+}

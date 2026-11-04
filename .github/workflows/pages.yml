@@ -1,9 +1,9 @@
-name: Netzwerk-Buch veröffentlichen
+name: Netzwerk-Buch und Website veröffentlichen
 
 on:
   push:
     branches: [main]
-    paths: ["Netzwerk Buch/docs/**"]
+    paths: ["Netzwerk Buch/docs/**", "Website/site/**", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -23,8 +23,15 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      # Buch an der bisherigen Adresse, Website darunter unter /website/
+      - name: Seiten zusammenstellen
+        run: |
+          mkdir -p _site
+          cp -r "Netzwerk Buch/docs/." _site/
+          mkdir -p _site/website
+          cp -r "Website/site/." _site/website/
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: "Netzwerk Buch/docs"
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4

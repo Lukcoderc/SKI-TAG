@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Faltkarte – Skizze</title>
+<style>
+  html,body{margin:0;width:1440px;height:900px;overflow:hidden;background:#fbfbfa;color:#16181a;font-family:"Helvetica Neue",Arial,sans-serif}
+  svg{position:absolute;inset:0}
+  .kopf{position:absolute;left:64px;right:64px;top:36px;display:flex;justify-content:space-between;font-size:24px;color:#6d6863}
+  .kopf b{color:#16181a;font-size:30px}
+  .text{position:absolute;left:64px;bottom:96px;width:620px}
+  h1{margin:0;font-size:84px;line-height:.98;letter-spacing:-.02em;font-weight:600}
+  .text p{font-size:26px;color:#6d6863;margin:20px 0 0}
+  .miete{position:absolute;right:64px;bottom:96px;display:flex;gap:0;font-size:26px;border:2px solid #16181a}
+  .miete span{padding:18px 28px;border-right:2px solid #16181a}
+  .miete .los{border:0;background:#16181a;color:#fbfbfa;font-weight:700}
+</style>
+</head>
+<body>
+<svg viewBox="0 0 1440 900">
+  <g stroke="#8a8580" stroke-width="1.2" fill="none">
+    <path d="M520 160 L700 130 L880 160 L1060 130 L1240 160"/><path d="M500 280 L680 250 L860 280 L1040 250 L1220 280"/>
+    <path d="M480 400 L660 370 L840 400 L1020 370 L1200 400"/><path d="M460 520 L640 490 L820 520 L1000 490 L1180 520"/>
+    <path d="M520 160 L460 520 M700 130 L640 490 M880 160 L820 520 M1060 130 L1000 490 M1240 160 L1180 520" stroke="#a9c6dc" stroke-width="1.6"/>
+  </g>
+  <g fill="#fbfbfa" stroke="#16181a" stroke-width="2"><circle cx="560" cy="210" r="10"/><circle cx="1150" cy="200" r="10"/><circle cx="1090" cy="450" r="10"/></g>
+  <rect x="770" y="300" width="120" height="120" rx="34" fill="#c9a24a"/>
+  <circle cx="830" cy="360" r="28" fill="#f3e3b7"/>
+</svg>
+<header class="kopf"><b>SkiTag</b><span>Der Knopf · Das Netz · Wir · Mieten</span></header>
+<div class="text"><h1>Ein Knopf statt eines Anrufs.</h1><p>Klein wie eine Streichholzschachtel, dahinter ein ganzes Netz.</p></div>
+<div class="miete"><span>Ein Tag</span><span>Ganze Saison</span><span class="los">Chip mieten</span></div>
+</body>
+</html>

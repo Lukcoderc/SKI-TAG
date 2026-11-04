@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Nachtfahrt – Skizze</title>
+<style>
+  html,body{margin:0;width:1440px;height:900px;overflow:hidden;background:#07090d;color:#e8ecf1;font-family:"Helvetica Neue",Arial,sans-serif}
+  svg{position:absolute;inset:0}
+  .kopf{position:absolute;left:64px;right:64px;top:40px;display:flex;justify-content:space-between;font-size:24px}
+  .kopf b{font-size:28px}
+  .text{position:absolute;left:64px;bottom:170px;max-width:760px}
+  h1{margin:0;font-size:96px;line-height:.95;letter-spacing:-.025em;font-weight:600}
+  p{margin:22px 0 0;font-size:26px;color:#9aa6b4;max-width:560px}
+  .leiste{position:absolute;left:0;right:0;bottom:0;height:96px;background:rgba(7,9,13,.85);border-top:1px solid #222b37;display:flex;align-items:center;gap:28px;padding:0 64px}
+  .leiste .wahl{font-size:26px;padding:12px 26px;border:1px solid #3a4656;border-radius:40px}
+  .leiste .wahl.an{background:#e8ecf1;color:#07090d;border-color:#e8ecf1}
+  .leiste .los{margin-left:auto;background:#f0a24a;color:#07090d;font-size:26px;font-weight:700;padding:14px 34px;border-radius:40px}
+</style>
+</head>
+<body>
+<svg viewBox="0 0 1440 900" preserveAspectRatio="none">
+  <defs><radialGradient id="g" cx="62%" cy="58%" r="45%"><stop offset="0" stop-color="#2a3442"/><stop offset="1" stop-color="#07090d"/></radialGradient>
+  <radialGradient id="l" r=".5"><stop offset="0" stop-color="#f0a24a" stop-opacity=".9"/><stop offset="1" stop-color="#f0a24a" stop-opacity="0"/></radialGradient></defs>
+  <rect width="1440" height="900" fill="url(#g)"/>
+  <path d="M0 520 L260 380 L520 440 L760 300 L1010 420 L1260 340 L1440 400 L1440 900 L0 900Z" fill="#111821"/>
+  <path d="M380 900 C620 640 860 560 1440 520 L1440 900Z" fill="#d7dee6" opacity=".2"/>
+  <circle cx="930" cy="610" r="70" fill="url(#l)"/><circle cx="930" cy="610" r="6" fill="#f0a24a"/>
+  <circle cx="1240" cy="350" r="4" fill="#e8ecf1"/>
+</svg>
+<header class="kopf"><b>SkiTag</b><span>Der Knopf · Das Netz · Wir · Mieten</span></header>
+<div class="text"><h1>Ein Knopf statt eines Anrufs.</h1><p>Der Mietchip für die Jacke. Halten, und die Bergbahn weiß, wo du bist.</p></div>
+<div class="leiste"><span class="wahl an">Ein Tag</span><span class="wahl">Ganze Saison</span><span class="los">Chip mieten</span></div>
+</body>
+</html>

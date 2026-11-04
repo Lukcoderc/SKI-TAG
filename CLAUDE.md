@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 The SkiTag "Netzwerk-Buch" (network book): a static HTML/CSS/JS reference book documenting the network layer (chip → LoRa gateway → server → app) of SkiTag, a rental chip that sends location-tagged emergency calls in ski areas without a phone or mobile network. Lukas (repo owner, GitHub `@Lukcoderc`) owns networking; a teammate owns hardware/chip firmware, another owns the app and business side. The book's purpose: a teammate should be able to answer a network question from the book without asking Lukas. See `PRODUCT.md` for full product context and `DESIGN.md` for the complete design system.
 
 - **Stack:** plain HTML, CSS and vanilla JS, no build step, no package manager, no framework.
-- **Hosting:** GitHub Pages, published from `Netzwerk Buch/docs/` on `main` by `.github/workflows/pages.yml`.
+- **Hosting:** GitHub Pages, published from `Netzwerk Buch/docs/` on `main` by `.github/workflows/pages.yml`. The same workflow also publishes the company website from `Website/site/` under `/website/` (https://lukcoderc.github.io/SKI-TAG/website/). The website has its own `Website/PRODUCT.md` and `Website/DESIGN.md`; the root files describe only the book.
 - **Content language:** German. All book text, headings and commit-visible content must stay German; this file and `PRODUCT.md`/`DESIGN.md` are English.
 - **Live URL:** https://lukcoderc.github.io/SKI-TAG/
 

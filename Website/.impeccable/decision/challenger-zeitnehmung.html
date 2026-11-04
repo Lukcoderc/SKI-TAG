@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Zeitnehmung – Skizze</title>
+<style>
+  html,body{margin:0;width:1440px;height:900px;overflow:hidden;background:#0b0b0a;color:#f2f2ee;font-family:"Helvetica Neue",Arial,sans-serif}
+  .kopf{position:absolute;left:64px;right:64px;top:40px;display:flex;justify-content:space-between;font-size:24px;color:#8a8576}
+  .kopf b{color:#f2f2ee;font-size:28px}
+  .text{position:absolute;left:64px;top:250px;width:560px}
+  h1{margin:0;font-size:80px;line-height:.98;letter-spacing:-.02em}
+  p{font-size:26px;color:#8a8576;margin:24px 0 0}
+  .tafel{position:absolute;right:64px;top:120px;width:680px;height:560px;background:#100f0d;border:2px solid #2a2418;border-radius:8px}
+  .seg{position:absolute;background:#2a2418;border-radius:12px}
+  .on{background:#ffb000;box-shadow:0 0 0 0 transparent}
+  .zeile{position:absolute;left:64px;right:64px;bottom:64px;display:flex;gap:0;border-top:2px solid #2a2418;font-size:28px}
+  .zeile span{flex:1;padding:22px 0}
+  .zeile .los{flex:0;white-space:nowrap;background:#ffb000;color:#0b0b0a;font-weight:700;padding:22px 40px}
+</style>
+</head>
+<body>
+<header class="kopf"><b>SkiTag</b><span>Der Knopf · Das Netz · Wir · Mieten</span></header>
+<div class="text"><h1>Ein Knopf statt eines Anrufs.</h1><p>Drei Sekunden halten. Fünf Sekunden zum Abbrechen. Dann weiß die Bergbahn, wo du bist.</p></div>
+<div class="tafel">
+  <!-- Siebensegment-„3“, Geistersegmente gedämpft -->
+  <div class="seg on"  style="left:220px;top:60px;width:240px;height:44px"></div>
+  <div class="seg"     style="left:170px;top:110px;width:44px;height:170px"></div>
+  <div class="seg on"  style="left:466px;top:110px;width:44px;height:170px"></div>
+  <div class="seg on"  style="left:220px;top:286px;width:240px;height:44px"></div>
+  <div class="seg"     style="left:170px;top:336px;width:44px;height:170px"></div>
+  <div class="seg on"  style="left:466px;top:336px;width:44px;height:170px"></div>
+  <div class="seg on"  style="left:220px;top:512px;width:240px;height:0px"></div>
+</div>
+<div class="zeile"><span>Tag · Preis offen</span><span>Saison · Preis offen</span><span class="los">Chip mieten</span></div>
+</body>
+</html>

@@ -1,0 +1,472 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-04T21:00:00+01:00",
+  "title": "Design System: SkiTag Website",
+  "extensions": {
+    "colorMeta": {
+      "slate-ink": {
+        "role": "primary",
+        "displayName": "Slate Ink",
+        "canonical": "#1b2430",
+        "tonalRamp": [
+          "#0d121a",
+          "#1b2430",
+          "#2c3a4c",
+          "#46566b",
+          "#66778c",
+          "#8d9cae",
+          "#b9c4d1",
+          "#e3e9f0"
+        ]
+      },
+      "slate-ink-hover": {
+        "role": "primary",
+        "displayName": "Slate Ink Hover",
+        "canonical": "#2c3a4c",
+        "tonalRamp": [
+          "#141c27",
+          "#22303f",
+          "#2c3a4c",
+          "#46566b",
+          "#66778c",
+          "#8d9cae",
+          "#b9c4d1",
+          "#e3e9f0"
+        ]
+      },
+      "emergency-red": {
+        "role": "tertiary",
+        "displayName": "Emergency Red",
+        "canonical": "#d83a2c",
+        "tonalRamp": [
+          "#3d0f0b",
+          "#6e1a13",
+          "#a1281d",
+          "#d83a2c",
+          "#e5665a",
+          "#ee958c",
+          "#f6c4bf",
+          "#fceceb"
+        ]
+      },
+      "snow-canvas": {
+        "role": "neutral",
+        "displayName": "Snow Canvas",
+        "canonical": "#f4f8fb",
+        "tonalRamp": [
+          "#1b2430",
+          "#4a586a",
+          "#8fa3b8",
+          "#c7d4e2",
+          "#dde7f1",
+          "#eef3f8",
+          "#f4f8fb",
+          "#ffffff"
+        ]
+      },
+      "snow-surface": {
+        "role": "neutral",
+        "displayName": "Snow Surface",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#1b2430",
+          "#4a586a",
+          "#8fa3b8",
+          "#c7d4e2",
+          "#dde7f1",
+          "#eef3f8",
+          "#f4f8fb",
+          "#ffffff"
+        ]
+      },
+      "glacier-drift": {
+        "role": "neutral",
+        "displayName": "Glacier Drift",
+        "canonical": "#eef3f8",
+        "tonalRamp": [
+          "#1b2430",
+          "#4a586a",
+          "#8fa3b8",
+          "#c7d4e2",
+          "#dde7f1",
+          "#eef3f8",
+          "#f4f8fb",
+          "#ffffff"
+        ]
+      },
+      "slate-soft": {
+        "role": "neutral",
+        "displayName": "Slate Soft",
+        "canonical": "#4a586a",
+        "tonalRamp": [
+          "#1b2430",
+          "#2c3a4c",
+          "#4a586a",
+          "#5d6f84",
+          "#8fa3b8",
+          "#b9c4d1",
+          "#dde7f1",
+          "#f4f8fb"
+        ]
+      },
+      "drawing-label-ink": {
+        "role": "neutral",
+        "displayName": "Drawing Label Ink",
+        "canonical": "#3d4b5c",
+        "tonalRamp": [
+          "#1b2430",
+          "#2c3a4c",
+          "#3d4b5c",
+          "#4a586a",
+          "#5d6f84",
+          "#8fa3b8",
+          "#c7d4e2",
+          "#f4f8fb"
+        ]
+      },
+      "line-slate": {
+        "role": "neutral",
+        "displayName": "Line Slate",
+        "canonical": "#5d6f84",
+        "tonalRamp": [
+          "#1b2430",
+          "#2c3a4c",
+          "#4a586a",
+          "#5d6f84",
+          "#8fa3b8",
+          "#b9c4d1",
+          "#dde7f1",
+          "#f4f8fb"
+        ]
+      },
+      "terrain-blue": {
+        "role": "neutral",
+        "displayName": "Terrain Blue",
+        "canonical": "#8fa3b8",
+        "tonalRamp": [
+          "#2c3a4c",
+          "#4a586a",
+          "#5d6f84",
+          "#8fa3b8",
+          "#a9bfd6",
+          "#c7d4e2",
+          "#dde7f1",
+          "#f4f8fb"
+        ]
+      },
+      "cold-shadow": {
+        "role": "neutral",
+        "displayName": "Cold Shadow",
+        "canonical": "#a9bfd6",
+        "tonalRamp": [
+          "#2c3f55",
+          "#46607e",
+          "#6a88a8",
+          "#8fa3b8",
+          "#a9bfd6",
+          "#c7d4e2",
+          "#dde7f1",
+          "#f4f8fb"
+        ]
+      },
+      "hairline-blue": {
+        "role": "neutral",
+        "displayName": "Hairline Blue",
+        "canonical": "#c7d4e2",
+        "tonalRamp": [
+          "#46566b",
+          "#66778c",
+          "#8fa3b8",
+          "#a9bfd6",
+          "#c7d4e2",
+          "#dde7f1",
+          "#eef3f8",
+          "#f4f8fb"
+        ]
+      },
+      "glacier-ice": {
+        "role": "neutral",
+        "displayName": "Glacier Ice",
+        "canonical": "#dde7f1",
+        "tonalRamp": [
+          "#46566b",
+          "#66778c",
+          "#8fa3b8",
+          "#a9bfd6",
+          "#c7d4e2",
+          "#dde7f1",
+          "#eef3f8",
+          "#f4f8fb"
+        ]
+      },
+      "cast-shadow-core": {
+        "role": "neutral",
+        "displayName": "Cast Shadow Core",
+        "canonical": "rgba(122, 152, 186, 0.55)",
+        "tonalRamp": [
+          "#2c3f55",
+          "#46607e",
+          "#6a88a8",
+          "#7a98ba",
+          "#a9bfd6",
+          "#c7d4e2",
+          "#dde7f1",
+          "#f4f8fb"
+        ]
+      },
+      "cast-shadow": {
+        "role": "neutral",
+        "displayName": "Cast Shadow",
+        "canonical": "rgba(122, 152, 186, 0.45)",
+        "tonalRamp": [
+          "#2c3f55",
+          "#46607e",
+          "#6a88a8",
+          "#7a98ba",
+          "#a9bfd6",
+          "#c7d4e2",
+          "#dde7f1",
+          "#f4f8fb"
+        ]
+      },
+      "mask-opaque": {
+        "role": "neutral",
+        "displayName": "Mask Opaque (mask stop, not paint)",
+        "canonical": "#000",
+        "tonalRamp": [
+          "#000"
+        ]
+      },
+      "mask-fade": {
+        "role": "neutral",
+        "displayName": "Mask Fade (mask stop, not paint)",
+        "canonical": "rgba(0,0,0,0.55)",
+        "tonalRamp": [
+          "rgba(0,0,0,0.55)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The single hero headline, centred in the sky."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Act titles as short declarative sentences (\"Das sind wir.\")."
+      },
+      "headline-sm": {
+        "displayName": "Headline Small",
+        "purpose": "Staggered doubt lines, second hero line, mobile act titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Object names, plan dates, rule terms, team first names (at 2xl)."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "The sentence under the hero headline, max 34ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running copy in slate soft, 62ch measure."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Definition keys, stage and status lines, honesty paragraph, button text."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Placeholder notes, footer, demonstration badge."
+      }
+    },
+    "shadows": [
+      {
+        "name": "sc-e1",
+        "value": "0 1px 2px hsl(211 38% 52% / 0.18), 0 3px 8px -2px hsl(211 38% 52% / 0.20)",
+        "purpose": "Dark pill button."
+      },
+      {
+        "name": "sc-e2",
+        "value": "0 3px 6px hsl(211 38% 52% / 0.14), 0 14px 28px -8px hsl(211 38% 52% / 0.34)",
+        "purpose": "Floating back-to-top circle."
+      },
+      {
+        "name": "sc-e3",
+        "value": "0 8px 14px hsl(211 38% 52% / 0.12), 0 30px 60px -14px hsl(211 38% 52% / 0.42), 0 70px 120px -30px hsl(211 38% 52% / 0.30)",
+        "purpose": "Group photo."
+      },
+      {
+        "name": "ground-cast-hero",
+        "value": "radial-gradient(closest-side, rgba(122, 152, 186, 0.55), rgba(169, 191, 214, 0.25) 60%, transparent)",
+        "purpose": "Ellipse under the hero chip; drawn as a background, not a box-shadow."
+      },
+      {
+        "name": "ground-cast",
+        "value": "radial-gradient(closest-side, rgba(122, 152, 186, 0.45), transparent)",
+        "purpose": "Ellipse under each rail object; drawn as a background, not a box-shadow."
+      }
+    ],
+    "motion": [
+      {
+        "name": "sc-ease-out",
+        "value": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "purpose": "All state transitions (engine token, unchanged)."
+      },
+      {
+        "name": "sc-d-fast",
+        "value": "160ms",
+        "purpose": "Button background, border and press transitions."
+      },
+      {
+        "name": "sc-d-base",
+        "value": "240ms",
+        "purpose": "Header bar turning white on scroll; back-to-top fade and 0.5rem slide-in."
+      },
+      {
+        "name": "back-to-top",
+        "value": "visible after 1.2 viewports; smooth scroll to top, instant under prefers-reduced-motion (160ms opacity fade only); focus moves to the wordmark",
+        "purpose": "Back-to-top behaviour."
+      },
+      {
+        "name": "hold",
+        "value": "3s hold, then 5s cancel window",
+        "purpose": "Hold-button demonstration timing."
+      },
+      {
+        "name": "snowfall",
+        "value": "canvas particles, off under prefers-reduced-motion",
+        "purpose": "Atmosphere in the hero act."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "860px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single dark pill action per view (Das sind wir).",
+      "html": "<a class=\"ds-knopf-dunkel\" href=\"#\">Das sind wir</a>",
+      "css": ".ds-knopf-dunkel { display: inline-flex; align-items: center; justify-content: center; min-height: 2.75rem; padding: 0 1.25rem; border: 0; border-radius: 999px; background: #1b2430; color: #fff; font-family: 'Funnel Sans', system-ui, sans-serif; font-weight: 560; font-size: 0.95rem; cursor: pointer; text-decoration: none; box-shadow: 0 1px 2px hsl(211 38% 52% / 0.18), 0 3px 8px -2px hsl(211 38% 52% / 0.20); transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-knopf-dunkel:hover { background: #2c3a4c; } .ds-knopf-dunkel:active { transform: translateY(1px) scale(0.98); } .ds-knopf-dunkel:focus-visible { outline: 2px solid #1b2430; outline-offset: 3px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "White hairline pill for secondary demo actions (Abbrechen, Nochmal).",
+      "html": "<button class=\"ds-knopf-hell\">Abbrechen</button>",
+      "css": ".ds-knopf-hell { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.1rem; border: 1px solid #c7d4e2; border-radius: 999px; background: #fff; color: #1b2430; font-family: 'Funnel Sans', system-ui, sans-serif; font-weight: 520; font-size: 0.95rem; cursor: pointer; transition: border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-knopf-hell:hover { border-color: #1b2430; } .ds-knopf-hell:active { transform: translateY(1px); } .ds-knopf-hell:focus-visible { outline: 2px solid #1b2430; outline-offset: 3px; }"
+    },
+    {
+      "name": "Navigation Bar",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Wordmark left, single dark pill (Das sind wir, to the team heading) right; white with hairline once scrolled.",
+      "html": "<header class=\"ds-leiste\"><a class=\"ds-marke\" href=\"#\"><svg viewBox=\"0 0 32 32\" width=\"22\" height=\"22\"><rect x=\"2\" y=\"2\" width=\"28\" height=\"28\" rx=\"9\" fill=\"#fff\" stroke=\"#1b2430\" stroke-width=\"2\"/><circle cx=\"16\" cy=\"16\" r=\"6.5\" fill=\"#1b2430\"/></svg>SkiTag</a><a class=\"ds-cta\" href=\"#\">Das sind wir</a></header>",
+      "css": ".ds-leiste { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; background: #fff; box-shadow: 0 1px 0 #c7d4e2; } .ds-marke { display: inline-flex; align-items: center; gap: 0.55rem; font-family: 'Funnel Display', 'Funnel Sans', system-ui, sans-serif; font-weight: 640; font-size: 1.45rem; letter-spacing: -0.03em; color: #1b2430; text-decoration: none; } .ds-cta { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.25rem; border-radius: 999px; background: #1b2430; color: #fff; text-decoration: none; font-family: 'Funnel Sans', system-ui, sans-serif; font-weight: 560; font-size: 0.95rem; transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-cta:hover { background: #2c3a4c; } .ds-cta:focus-visible, .ds-marke:focus-visible { outline: 2px solid #1b2430; outline-offset: 3px; }"
+    },
+    {
+      "name": "Back to Top",
+      "kind": "button",
+      "refersTo": "button-back-to-top",
+      "description": "Fixed slate-ink circle bottom right, shown after 1.2 viewports of scroll; returns to the top and focuses the wordmark.",
+      "html": "<a class=\"ds-nach-oben\" href=\"#\" aria-label=\"Nach oben\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 19V5M5.5 11.5 12 5l6.5 6.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a>",
+      "css": ".ds-nach-oben { width: 3rem; height: 3rem; border-radius: 50%; display: grid; place-items: center; background: #1b2430; color: #fff; box-shadow: 0 3px 6px hsl(211 38% 52% / 0.14), 0 14px 28px -8px hsl(211 38% 52% / 0.34); transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 240ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-nach-oben svg { width: 1.25rem; height: 1.25rem; } .ds-nach-oben:hover { background: #2c3a4c; } .ds-nach-oben:active { transform: translateY(1px) scale(0.96); } .ds-nach-oben:focus-visible { outline: 2px solid #1b2430; outline-offset: 3px; }"
+    },
+    {
+      "name": "Footer",
+      "kind": "custom",
+      "refersTo": "footer",
+      "description": "Plain footer outside the acts: hairline top edge, slate-soft captions.",
+      "html": "<footer class=\"ds-fuss\"><span>SkiTag GmbH · Firmenname, Sitz und Firmenbuch folgen (Platzhalter)</span><nav><span>Impressum folgt</span><span>Datenschutz folgt</span><a href=\"#\">Netzwerk-Buch</a><span>Bergvideos und Fotos: Mixkit</span></nav></footer>",
+      "css": ".ds-fuss { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.6rem 2rem; padding: 2rem 1.5rem; border-top: 1px solid #c7d4e2; font-family: 'Funnel Sans', system-ui, sans-serif; font-size: 0.8rem; color: #4a586a; } .ds-fuss a { color: #4a586a; } .ds-fuss a:focus-visible { outline: 2px solid #1b2430; outline-offset: 3px; } .ds-fuss nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }"
+    },
+    {
+      "name": "Object on the Ground",
+      "kind": "custom",
+      "refersTo": "object-on-ground",
+      "description": "Line-drawn object standing on a cold-shadow ground line with a cast ellipse and its placeholder caption.",
+      "html": "<figure class=\"ds-ding\"><div class=\"ds-ding__objekt\"><svg viewBox=\"0 0 120 120\" fill=\"none\" stroke=\"#5d6f84\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"38\" y=\"16\" width=\"44\" height=\"84\" rx=\"9\"/><path d=\"M54 24 h12\"/><circle cx=\"56\" cy=\"62\" r=\"5\" fill=\"#d83a2c\" stroke=\"none\"/><path d=\"M44 80 C54 72 64 66 76 54\"/></svg></div><figcaption>Platzhalter: Bild der App folgt</figcaption></figure>",
+      "css": ".ds-ding { margin: 0; width: 16rem; font-family: 'Funnel Sans', system-ui, sans-serif; } .ds-ding__objekt { position: relative; height: 11rem; display: grid; place-items: end center; padding-bottom: 1.1rem; } .ds-ding__objekt::before { content: ''; position: absolute; left: 50%; bottom: 0.55rem; width: 64%; height: 1.4rem; translate: -50% 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(122,152,186,0.45), transparent); } .ds-ding__objekt::after { content: ''; position: absolute; left: -2rem; right: -2rem; bottom: 1.1rem; height: 1.5px; background: #a9bfd6; } .ds-ding__objekt svg { position: relative; z-index: 1; height: 74%; } .ds-ding figcaption { text-align: center; font-size: 0.8rem; letter-spacing: 0.02em; color: #4a586a; }"
+    },
+    {
+      "name": "Demonstration Badge",
+      "kind": "chip",
+      "refersTo": "demo-badge",
+      "description": "Caption pill that marks the interactive signal drawing as a demonstration.",
+      "html": "<span class=\"ds-vorfuehrung\">Vorführung</span>",
+      "css": ".ds-vorfuehrung { display: inline-block; font-family: 'Funnel Sans', system-ui, sans-serif; font-size: 0.8rem; letter-spacing: 0.04em; color: #4a586a; border: 1px solid #c7d4e2; border-radius: 999px; padding: 0.2rem 0.65rem; background: #fff; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Neuschnee",
+    "overview": "The page is a bright winter morning. High-key snow white and pale glacier blue carry every surface; the only dark is slate ink, used for words, line drawings and the one action. Objects (the chip, the receiver, the charging drawer) stand on that snow as flat line drawings with a cold blue cast shadow underneath, the way a thing lies on fresh powder. Mountain footage (Mixkit stock) is scrubbed by scroll and dissolves downward into the white ground through a mask, never a drawn edge; falling snow on a canvas is the atmosphere of the first viewport.\n\nDensity is low and the air is generous. Each act of the scroll does one thing: a centred headline in the sky, staggered lines of doubt, a held button and a signal path, a photo with a rule list, a horizontal rail of objects, then the team with a plan. The page is an introduction only: it ends with the team act and a plain footer, and has no rental or purchase surface. Honesty is a visual element: placeholders are labelled in a small caption directly under the thing they stand for, and the interactive demo carries a pill that says it is a demonstration.\n\nThe world refuses the dark gadget page with a glowing device and three feature cards. Colour is not decoration here: there is no accent hue at all, only ink-dark for action and a single emergency red that belongs to the alarm.\n\nThe scroll mechanism is the ScrollCraft engine (`scrollcraft.css`/`.js`, unchanged). This system is the set of overrides of its `--sc-*` tokens plus the page's own tokens and classes in `seite.css`; the engine's spacing and type scales are inherited as they are.",
+    "keyCharacteristics": [
+      "High-key snow grounds, slate ink, no accent hue.",
+      "Emergency red appears only where the emergency itself is shown.",
+      "Objects as flat slate line drawings standing on a ground line with a blurred cold blue shadow.",
+      "Footage masked into the white ground; snowfall as atmosphere, removed under reduced motion.",
+      "Soft, blue-tinted, offset shadows; hairlines in shadow blue.",
+      "Every placeholder labelled where it stands."
+    ],
+    "rules": [
+      {
+        "name": "The No Accent Rule",
+        "body": "There is no brand hue. Action is slate ink on snow; nothing is turquoise, blue-filled or gradient-lit.",
+        "section": "colors"
+      },
+      {
+        "name": "The Red Is The Alarm Rule",
+        "body": "Emergency red marks the emergency and nothing else: not links, not errors, not prices, not decoration. If a surface does not depict an emergency call, it has no red.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mid-Weight Rule",
+        "body": "Display weights stay between 480 and 640; hierarchy comes from size and tracking, never from 800-weight shouting.",
+        "section": "typography"
+      },
+      {
+        "name": "The Sentence Headline Rule",
+        "body": "Headlines are short declarative German sentences with a full stop. No kicker or eyebrow above them.",
+        "section": "typography"
+      },
+      {
+        "name": "The Air Rule",
+        "body": "One idea per viewport. If an act needs a second idea, it gets its own scroll distance rather than a denser grid.",
+        "section": "layout"
+      },
+      {
+        "name": "The Cold Shadow Rule",
+        "body": "Shadows are blue, never black or grey, and they fall downward with blur. Hard offset shadows do not exist in this world.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Standing Object Rule",
+        "body": "A thing on the page stands on a ground: a 1.5px cold-shadow line and a blurred ellipse beneath it.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep every ground in the snow family (`snow-canvas`, `snow-surface`, `glacier-drift`) and let acts drift between them.",
+      "Do make the one action a slate ink pill; there is one per view. The back-to-top circle is fixed chrome, not a second action.",
+      "Do set objects on a ground line with a cold blue cast ellipse.",
+      "Do dissolve footage into the white ground with a mask, and label stock and placeholders honestly.",
+      "Do tint every shadow with the cold shadow hue and keep it blurred and offset downward.",
+      "Do remove snowfall, give drawn paths their end state and make scrolling instant under reduced motion."
+    ],
+    "donts": [
+      "Don't introduce an accent hue; the engine accent stays slate ink.",
+      "Don't use emergency red for anything that is not the emergency itself.",
+      "Don't build a dark gadget page with a glowing device or a row of three feature cards.",
+      "Don't put kickers or eyebrows above headlines.",
+      "Don't use black or grey shadows, hard offset shadows, or drawn snowbanks; black exists only as a mask stop.",
+      "Don't show a placeholder object or team image without its placeholder caption."
+    ]
+  }
+}
