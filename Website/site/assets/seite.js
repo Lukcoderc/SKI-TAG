@@ -1,5 +1,5 @@
 /* SkiTag · eigene Abläufe der Seite: Kopfleiste, Schneeflocken im Hang,
-   der Halte-Knopf mit der Zeichnung des Notrufwegs, der Knopf nach oben.
+   der Halte-Knopf mit der Zeichnung des Notrufwegs.
    Die Engine (scrollcraft.js) bleibt unverändert. */
 (function () {
   "use strict";
@@ -164,22 +164,4 @@
     requestAnimationFrame(takt);
   }
 
-  /* ------------------------------------------------------ Nach oben -- */
-  var nachOben = document.querySelector(".nach-oben");
-  if (nachOben) {
-    nachOben.hidden = false;
-    var obenSetzen = function () {
-      var an = window.scrollY > window.innerHeight * 1.2;
-      nachOben.classList.toggle("ist-sichtbar", an);
-      nachOben.tabIndex = an ? 0 : -1;
-    };
-    window.addEventListener("scroll", obenSetzen, { passive: true });
-    obenSetzen();
-    nachOben.addEventListener("click", function (ev) {
-      ev.preventDefault();
-      window.scrollTo({ top: 0, behavior: ohneBewegung ? "auto" : "smooth" });
-      var marke = document.querySelector(".marke");
-      if (marke) marke.focus({ preventScroll: true });
-    });
-  }
 })();

@@ -290,17 +290,16 @@ body { font-feature-settings: "ss01" 0; }
 }
 
 #wir-titel { scroll-margin-top: 9rem; }
-.nach-oben {
+.sprung-anfang {
   position: fixed; right: clamp(1rem, 3vw, 2rem); bottom: max(clamp(1rem, 3vw, 2rem), env(safe-area-inset-bottom)); z-index: var(--sc-z-chrome);
   width: 3rem; height: 3rem; border-radius: 50%; display: grid; place-items: center;
   background: var(--sc-ink); color: #fff; box-shadow: var(--sc-e2);
-  opacity: 0; transform: translateY(0.5rem); pointer-events: none;
   transition: opacity var(--sc-d-base) var(--sc-ease-out), transform var(--sc-d-base) var(--sc-ease-out), background-color var(--sc-d-fast) var(--sc-ease-out);
 }
-.nach-oben svg { width: 1.25rem; height: 1.25rem; }
-.nach-oben.ist-sichtbar { opacity: 1; transform: none; pointer-events: auto; }
-.nach-oben[hidden] { display: grid; }
-@media (hover: hover) and (pointer: fine) { .nach-oben:hover { background: #2c3a4c; } }
-.nach-oben:active { transform: translateY(1px) scale(0.96); }
-.nach-oben:focus-visible { outline: 2px solid var(--sc-ink); outline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) { .nach-oben { transition: opacity 160ms linear; transform: none; } }
+.sprung-anfang svg { width: 1.25rem; height: 1.25rem; }
+/* ohne JavaScript immer sichtbar; mit JavaScript erst nach dem Scrollen */
+.js-oben .sprung-anfang:not(.ist-sichtbar) { opacity: 0; transform: translateY(0.5rem); pointer-events: none; }
+@media (hover: hover) and (pointer: fine) { .sprung-anfang:hover { background: #2c3a4c; } }
+.sprung-anfang:active { transform: translateY(1px) scale(0.96); }
+.sprung-anfang:focus-visible { outline: 2px solid var(--sc-ink); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .sprung-anfang { transition: opacity 160ms linear; transform: none; } }
