@@ -9,8 +9,8 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='2' y='2' width='28' height='28' rx='9' fill='%23ffffff' stroke='%231b2430' stroke-width='2'/><circle cx='16' cy='16' r='6.5' fill='%231b2430'/></svg>">
 <link rel="preload" href="assets/fonts/funnel-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/funnelsans-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="scrollcraft.css?v=7">
-<link rel="stylesheet" href="assets/seite.css?v=7">
+<link rel="stylesheet" href="scrollcraft.css?v=16">
+<link rel="stylesheet" href="assets/seite.css?v=16">
 </head>
 <body>
 
@@ -40,13 +40,14 @@
 <dialog id="seitenleiste" class="seite" aria-label="Inhalt der Seite">
   <div class="seite__innen">
     <div class="seite__kopf">
-      <span class="seite__marke">SkiTag</span>
+      <a class="seite__marke" href="#oben">SkiTag</a>
       <button class="seite__zu" type="button" aria-label="Inhalt schließen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
     </div>
     <nav aria-label="Abschnitte">
       <ol>
         <li><a href="#oben">Start</a></li>
         <li><a href="#der-chip">Der Chip</a></li>
+        <li><a href="#aufbau">Was drinsteckt</a></li>
         <li><a href="#berg">Am ganzen Berg</a></li>
         <li><a href="#app">Die App</a></li>
         <li><a href="#jeden">Für jeden am Berg</a></li>
@@ -68,7 +69,6 @@
       <div class="sc-copy sc-copy--center hang__kopf" data-sc-cue="0 0.26 0 0.1" data-sc-rise="0">
         <h1 id="titel" class="sc-display">Ein Knopf statt eines Anrufs.</h1>
         <p>Der Mietchip für die Skijacke: gedrückt halten, und die Bergbahn erfährt, wo du bist.</p>
-        <p class="hang__stand">In Entwicklung. Start frühestens zur Saison 27/28.</p>
       </div>
       <div class="sc-copy sc-copy--center hang__zwei" data-sc-cue="0.28 1 0.14 0.04" data-sc-rise="0">
         <h2 data-sc-kinetic="lines">Ohne Handy. Ohne Handynetz. Nur der Chip in deiner Jacke.</h2>
@@ -80,21 +80,6 @@
         <p class="platzhalter-notiz hang__notiz">Platzhalter: Foto des Chips folgt</p>
       </div>
       <canvas class="flocken hang__flocken" aria-hidden="true"></canvas>
-    </div>
-  </section>
-
-  <!-- 2 · Unruhe -->
-  <section class="sc-section unruhe" data-sc-act="flow" data-sc-drift="#ffffff">
-    <div class="sc-wrap">
-      <div class="unruhe__zeilen">
-        <p>Ein Sturz auf der Piste.</p>
-        <p>Das Handy steckt im Rucksack.</p>
-        <p>Die Finger sind kalt, der Empfang ist weg.</p>
-        <p>Und wo genau bist du eigentlich?</p>
-      </div>
-      <div class="unruhe__stille">
-        <p class="unruhe__oder">Oder:</p>
-      </div>
     </div>
   </section>
 
@@ -118,8 +103,8 @@
           </svg>
           <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)">Knopf der Vorführung: kurz drücken oder drei Sekunden halten</span>
         </button>
-        <p id="knopf-status" class="knopf-akt__status" aria-live="polite">Kurz drücken oder drei Sekunden halten. Mit der Maus, dem Finger oder der Leertaste.</p>
-        <p id="knopf-hinweis" class="knopf-akt__hinweis"><strong>Abbrechen wie am echten Chip:</strong> In den fünf Sekunden nach dem Halten noch einmal kurz drücken. Nur loslassen reicht nicht.</p>
+        <p id="knopf-status" class="knopf-akt__status" aria-live="polite">Kurz drücken oder halten. Mit der Maus, dem Finger oder der Leertaste.</p>
+        <p id="knopf-hinweis" class="knopf-akt__hinweis"><strong>Hier verkürzt:</strong> 1 Sekunde halten, dann 2 Sekunden zum Abbrechen. Am echten Chip sind es 3 und 5 Sekunden. Abbrechen wie am echten Chip: in der Wartezeit noch einmal kurz drücken.</p>
         <div class="knopf-akt__aktionen">
           <button class="knopf-hell" type="button" data-aktion="nochmal" hidden>Nochmal</button>
         </div>
@@ -129,64 +114,132 @@
         <span class="vorfuehrung">Vorführung</span>
         <figure class="chip-akt__bild" data-sc-reveal="up" data-sc-reveal-at="0.05 0.4">
           <svg class="zeichnung" viewBox="0 0 800 470" role="img" aria-labelledby="zeichnung-titel">
-            <title id="zeichnung-titel">Kurz drücken ruft die eigene Gruppe am Hang. Halten schickt den Notruf über die Liftstation an das Handy eines Mitarbeiters der Bergbahn.</title>
-            <defs><linearGradient id="g-hang" x1="0" y1="0" x2="0" y2="1"><stop offset="0.3" stop-color="#ffffff"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></linearGradient></defs>
-            <path class="gelaende-fern" d="M0 250 L110 196 L190 222 L320 128 L410 176 L520 92 L600 150 L700 118 L800 168"/>
-            <path class="schnee" fill="url(#g-hang)" d="M0 440 C120 404 200 336 300 286 C390 240 430 162 478 150 C540 168 610 260 680 338 C730 392 770 440 800 452 L800 470 L0 470 Z"/>
-            <path class="gelaende" d="M0 440 C120 404 200 336 300 286 C390 240 430 162 478 150 C540 168 610 260 680 338 C730 392 770 440 800 452"/>
-            <path class="lift" d="M484 140 L708 430"/>
-            <path class="lift" d="M552 228 v14 M620 316 v14"/>
-            <rect class="bau" x="462" y="134" width="34" height="20" rx="2"/>
-            <path class="bau" d="M478 134 V110" fill="none"/>
-            <circle class="bau" cx="478" cy="106" r="4"/>
-            <text class="beschrift" x="478" y="88" text-anchor="middle">Liftstation</text>
-            <!-- Du, nach einem Sturz -->
-            <g class="person" transform="translate(196 318)">
-              <circle cx="10" cy="-6" r="4.2"/>
-              <path d="M0 10 C4 0 12 -2 18 2 L22 12 Z"/>
-              <path d="M-6 16 L28 14" stroke="#1b2430" stroke-width="2" stroke-linecap="round"/>
-            </g>
-            <text class="beschrift" x="210" y="358" text-anchor="middle">Du</text>
-            <!-- deine Gruppe -->
-            <g class="person" transform="translate(84 404)"><circle cx="0" cy="-22" r="4.2"/><path d="M-5 -14 L5 -14 L4 2 L-4 2 Z"/></g>
-            <g class="person" transform="translate(338 258)"><circle cx="0" cy="-22" r="4.2"/><path d="M-5 -14 L5 -14 L4 2 L-4 2 Z"/></g>
-            <g class="zittern zittern--1"><path d="M72 380 q-6 6 0 12 M96 380 q6 6 0 12"/></g>
-            <g class="zittern zittern--2"><path d="M326 234 q-6 6 0 12 M350 234 q6 6 0 12"/></g>
-            <text class="beschrift" x="358" y="236">Deine Gruppe</text>
-            <!-- Mitarbeiter -->
-            <g class="person" transform="translate(546 192)"><circle cx="0" cy="-22" r="4.2"/><path d="M-5 -14 L5 -14 L4 2 L-4 2 Z"/></g>
-            <g transform="translate(616 40)">
-              <rect x="0" y="0" width="112" height="168" rx="16" fill="#fff" stroke="#5d6f84" stroke-width="1.6"/>
-              <rect x="8" y="14" width="96" height="140" rx="8" fill="#ffffff" stroke="#e1e8f0"/>
-              <path d="M14 120 C34 104 54 92 74 72 C84 62 94 54 102 50" stroke="#c7d4e2" stroke-width="1.2" fill="none"/>
-              <circle class="punkt-rot" cx="40" cy="98" r="6"/>
-              <g class="handy-text">
-                <text class="handy-schrift" x="14" y="34" style="font-weight:700;fill:#d83a2c">NOTRUF</text>
-                <text class="handy-schrift" x="14" y="50">Piste 3</text>
-                <text class="handy-schrift" x="14" y="64">170 m von dir</text>
-                <rect class="annehmen" x="14" y="130" width="84" height="18" rx="9" fill="#1b2430"/>
-                <text class="handy-schrift" x="56" y="143" text-anchor="middle" style="fill:#fff">Annehmen</text>
+            <title id="zeichnung-titel">Ein Berg mit Liftstation. Kurz drücken ruft die eigene Gruppe am Hang. Halten schickt den Notruf an die Liftstation, und ein Mitarbeiter der Bergbahn fährt zur verletzten Person.</title>
+            <defs>
+              <linearGradient id="z-himmel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3eef8"/><stop offset="1" stop-color="#f6f9fc"/></linearGradient>
+              <linearGradient id="z-fern" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9daeb"/><stop offset="1" stop-color="#dfe9f4"/></linearGradient>
+              <linearGradient id="z-mitte" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#aec4db"/><stop offset="1" stop-color="#d3e1ee"/></linearGradient>
+              <linearGradient id="z-hang" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#edf3f9"/></linearGradient>
+              <linearGradient id="z-schatten" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e3ecf6"/><stop offset="1" stop-color="#d2e0ed"/></linearGradient>
+              <clipPath id="z-rahmen"><rect width="800" height="470" rx="14"/></clipPath>
+              <symbol id="z-baum" viewBox="0 0 20 34"><path d="M10 0 L19 22 H13 L17 30 H3 L7 22 H1 Z" fill="#7d96b0"/><rect x="9" y="29" width="2" height="5" fill="#5d6f84"/></symbol>
+            </defs>
+            <g clip-path="url(#z-rahmen)">
+              <rect width="800" height="470" fill="url(#z-himmel)"/>
+              <!-- ferne und mittlere Kämme -->
+              <path d="M0 248 L90 196 L150 214 L250 150 L320 182 L410 120 L470 150 L540 96 L620 150 L700 118 L800 164 V470 H0 Z" fill="url(#z-fern)"/>
+              <path d="M410 120 L432 134 L446 128 L470 150 L452 146 L436 152 L424 140 Z M540 96 L566 116 L580 110 L600 132 L580 128 L562 136 L552 120 Z" fill="#ffffff" opacity=".85"/>
+              <path d="M0 300 L120 236 L200 262 L290 214 L360 240 L420 228 V470 H0 Z" fill="url(#z-mitte)" opacity=".75"/>
+              <!-- Hauptberg -->
+              <path d="M0 440 C120 404 200 336 300 286 C390 240 430 162 478 150 C540 168 610 260 680 338 C730 392 770 440 800 452 V470 H0 Z" fill="url(#z-hang)"/>
+              <path d="M478 150 C540 168 610 260 680 338 C730 392 770 440 800 452 V470 H560 C590 400 560 300 478 150 Z" fill="url(#z-schatten)" opacity=".9"/>
+              <path d="M0 440 C120 404 200 336 300 286 C390 240 430 162 478 150 C540 168 610 260 680 338 C730 392 770 440 800 452" fill="none" stroke="#9fb6cf" stroke-width="1.6"/>
+              <!-- präparierte Piste -->
+              <path d="M470 168 C420 220 360 262 300 300 C240 336 170 378 90 430" fill="none" stroke="#ffffff" stroke-width="26" stroke-linecap="round" opacity=".9"/>
+              <path d="M470 168 C420 220 360 262 300 300 C240 336 170 378 90 430" fill="none" stroke="#dbe6f1" stroke-width="1.2" stroke-dasharray="2 9"/>
+              <!-- Bäume -->
+              <use href="#z-baum" x="40" y="392" width="14" height="24"/><use href="#z-baum" x="58" y="386" width="18" height="30"/><use href="#z-baum" x="22" y="402" width="12" height="20"/>
+              <use href="#z-baum" x="640" y="300" width="16" height="27"/><use href="#z-baum" x="664" y="318" width="20" height="34"/><use href="#z-baum" x="690" y="342" width="14" height="24"/><use href="#z-baum" x="716" y="366" width="18" height="30"/>
+              <use href="#z-baum" x="352" y="228" width="12" height="20"/><use href="#z-baum" x="368" y="222" width="14" height="23"/>
+              <!-- Lift -->
+              <path d="M484 142 L708 430" stroke="#7d96b0" stroke-width="1.4"/>
+              <path d="M552 230 v16 M620 318 v16" stroke="#7d96b0" stroke-width="2.2" stroke-linecap="round"/>
+              <g fill="#5d6f84"><rect x="532" y="214" width="9" height="7" rx="2"/><rect x="600" y="301" width="9" height="7" rx="2"/><rect x="668" y="388" width="9" height="7" rx="2"/></g>
+              <!-- Liftstation -->
+              <rect x="460" y="132" width="38" height="22" rx="2" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/>
+              <path d="M456 133 L479 120 L502 133 Z" fill="#5d6f84"/>
+              <path d="M490 120 V100" stroke="#5d6f84" stroke-width="1.6"/>
+              <circle cx="490" cy="97" r="3.5" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/>
+              <circle class="ping ping--1" cx="490" cy="97" r="10"/>
+              <circle class="ping ping--2" cx="490" cy="97" r="20"/>
+              <text class="beschrift" x="490" y="80" text-anchor="middle">Liftstation</text>
+              <!-- deine Gruppe -->
+              <g class="skifahrer" transform="translate(110 414)"><circle cx="0" cy="-24" r="4.4"/><path d="M-5 -16 L5 -16 L4 -2 L-4 -2 Z"/><path d="M-9 1 L9 -1" stroke="#1b2430" stroke-width="2" stroke-linecap="round"/></g>
+              <g class="skifahrer" transform="translate(344 274)"><circle cx="0" cy="-24" r="4.4"/><path d="M-5 -16 L5 -16 L4 -2 L-4 -2 Z"/><path d="M-9 1 L9 -1" stroke="#1b2430" stroke-width="2" stroke-linecap="round"/></g>
+              <g class="zittern zittern--1"><path d="M98 386 q-6 6 0 12 M122 386 q6 6 0 12"/></g>
+              <g class="zittern zittern--2"><path d="M332 246 q-6 6 0 12 M356 246 q6 6 0 12"/></g>
+              <text class="beschrift" x="362" y="250">Deine Gruppe</text>
+              <!-- Du, nach einem Sturz -->
+              <circle class="du-glanz" cx="214" cy="330" r="22"/>
+              <g class="skifahrer" transform="translate(196 322)">
+                <circle cx="10" cy="-6" r="4.4"/>
+                <path d="M0 10 C4 0 12 -2 18 2 L22 12 Z"/>
+                <path d="M-6 16 L28 13" stroke="#1b2430" stroke-width="2" stroke-linecap="round"/>
               </g>
+              <text class="beschrift" x="214" y="368" text-anchor="middle">Du</text>
+              <!-- Spur des Mitarbeiters -->
+              <path class="spur-mitarbeiter" d="M548 196 C500 214 452 236 404 258 C350 282 292 300 240 322"/>
+              <!-- Mitarbeiter der Bergbahn -->
+              <g class="mitarbeiter" transform="translate(548 196)">
+                <circle cx="0" cy="-24" r="4.4" fill="#1b2430"/>
+                <path d="M-5.5 -16 L5.5 -16 L4.5 -2 L-4.5 -2 Z" fill="#1b2430"/>
+                <rect x="-3.2" y="-13" width="6.4" height="3" rx="1" fill="#ffffff"/>
+                <path d="M-10 1 L10 -1" stroke="#1b2430" stroke-width="2" stroke-linecap="round"/>
+              </g>
+              <text class="beschrift nur-breit" x="566" y="186">Mitarbeiter der Bergbahn</text>
+              <text class="beschrift nur-schmal" x="566" y="186">Mitarbeiter</text>
+              <!-- Signale -->
+              <path class="welle" d="M220 314 a16 16 0 0 1 16 -10"/>
+              <path class="welle" d="M218 302 a28 28 0 0 1 28 -16"/>
+              <path class="welle" d="M216 290 a40 40 0 0 1 40 -22"/>
+              <path class="weg weg--gruppe weg--g1" d="M204 336 Q160 370 118 398" pathLength="1"/>
+              <path class="weg weg--gruppe weg--g2" d="M228 320 Q284 282 334 272" pathLength="1"/>
+              <path class="weg weg--h1" d="M224 316 C296 214 386 142 482 104" pathLength="1"/>
             </g>
-            <text class="beschrift nur-breit" x="672" y="28" text-anchor="middle">Mitarbeiter der Bergbahn</text>
-            <text class="beschrift nur-schmal" x="672" y="28" text-anchor="middle">Mitarbeiter</text>
-            <!-- Wege -->
-            <path class="welle" d="M214 312 a16 16 0 0 1 16 -10"/>
-            <path class="welle" d="M212 300 a28 28 0 0 1 28 -16"/>
-            <path class="welle" d="M210 288 a40 40 0 0 1 40 -22"/>
-            <path class="weg weg--gruppe weg--g1" d="M200 332 Q150 352 100 392" pathLength="1"/>
-            <path class="weg weg--gruppe weg--g2" d="M224 318 Q276 272 326 262" pathLength="1"/>
-            <path class="weg weg--h1" d="M218 314 C290 210 380 140 470 110" pathLength="1"/>
-            <path class="weg weg--h2" d="M486 104 C540 70 580 66 612 86" pathLength="1"/>
           </svg>
-          <figcaption class="platzhalter-notiz">Beispiel: Notruf auf Piste 3, 170 m vom Mitarbeiter entfernt</figcaption>
         </figure>
         <ol class="gesten">
           <li data-schritt="gruppe"><b>Kurz drücken</b><span>Deine Gruppe spürt eine Vibration und sieht in der App, wo du bist. Die Bergbahn wird nicht alarmiert.</span></li>
           <li data-schritt="halten"><b>Drei Sekunden halten</b><span>Der Notruf startet. Fünf Sekunden lang kannst du ihn mit einem zweiten Druck abbrechen.</span></li>
-          <li data-schritt="hilfe"><b>Hilfe kommt</b><span>Der nächste Mitarbeiter der Bergbahn sieht, wo du bist, und macht sich auf den Weg. Dein Chip vibriert zweimal, sobald er unterwegs ist.</span></li>
+          <li data-schritt="hilfe"><b>Hilfe kommt</b><span>Ein Mitarbeiter der Bergbahn erfährt, wo du bist, und fährt zu dir. Dein Chip vibriert zweimal, sobald er unterwegs ist.</span></li>
         </ol>
       </div>
+    </div>
+  </section>
+
+  <!-- 3b · Was drinsteckt -->
+  <section id="aufbau" class="aufbau" data-sc-act="pin" data-sc-span="2.2" data-sc-drift="#ffffff" aria-labelledby="aufbau-titel">
+    <div data-sc-stage class="aufbau__buehne">
+      <div class="aufbau__text">
+        <h2 id="aufbau-titel" class="sc-display sc-display--lg">Was drinsteckt.</h2>
+        <p class="sc-lede">Ein Knopf, ein Licht, Funk und GPS. Gemacht für die Skijacke.</p>
+        <p class="platzhalter-notiz aufbau__notiz">Skizze nach dem Aufbau des Prototyps. Foto folgt.</p>
+      </div>
+      <figure class="aufbau__bild">
+          <svg class="aufbau__svg" viewBox="0 0 640 600" role="img" aria-labelledby="aufbau-svg-titel">
+            <title id="aufbau-svg-titel">Der Chip in Schichten: Knopf, Deckel mit Licht, Platine mit Funk und GPS, Akku, Ladespule zum kabellosen Laden, Boden des Gehäuses.</title>
+            <g class="lage" style="--i:5; --k:2.5">
+              <g transform="translate(220 342) scale(1 0.5) rotate(45)"><rect x="-82" y="-82" width="164" height="164" rx="42" fill="#9fb2c6"/></g>
+              <g transform="translate(220 330) scale(1 0.5) rotate(45)"><rect x="-82" y="-82" width="164" height="164" rx="42" fill="#e7eef6" stroke="#5d6f84" stroke-width="1.6"/></g>
+              <g class="etikett"><path d="M336 330 H392" stroke="#8fa3b8" stroke-width="1.4"/><circle cx="336" cy="330" r="3" fill="#5d6f84"/><text x="402" y="335">Gehäuse</text></g>
+            </g>
+            <g class="lage" style="--i:4; --k:1.5">
+              <g transform="translate(220 320) scale(1 0.5) rotate(45)"><rect x="-82" y="-82" width="164" height="164" rx="42" fill="#9fb2c6"/></g>
+              <g transform="translate(220 314) scale(1 0.5) rotate(45)"><rect x="-82" y="-82" width="164" height="164" rx="42" fill="#f2f6fa" stroke="#5d6f84" stroke-width="1.6"/><circle r="52" fill="none" stroke="#7d96b0" stroke-width="3"/><circle r="40" fill="none" stroke="#7d96b0" stroke-width="3"/><circle r="28" fill="none" stroke="#7d96b0" stroke-width="3"/><circle r="16" fill="none" stroke="#7d96b0" stroke-width="3"/></g>
+              <g class="etikett"><path d="M336 314 H392" stroke="#8fa3b8" stroke-width="1.4"/><circle cx="336" cy="314" r="3" fill="#5d6f84"/><text x="402" y="319">Lädt kabellos</text></g>
+            </g>
+            <g class="lage" style="--i:3; --k:0.5">
+              <g transform="translate(220 304) scale(1 0.5) rotate(45)"><rect x="-82" y="-82" width="164" height="164" rx="42" fill="#9fb2c6"/></g>
+              <g transform="translate(220 298) scale(1 0.5) rotate(45)"><rect x="-82" y="-82" width="164" height="164" rx="42" fill="#f2f6fa" stroke="#5d6f84" stroke-width="1.6"/><rect x="-58" y="-40" width="116" height="80" rx="12" fill="#8fa3b8"/><rect x="-46" y="-28" width="40" height="56" rx="6" fill="#a9bfd6"/></g>
+              <g class="etikett"><path d="M336 298 H392" stroke="#8fa3b8" stroke-width="1.4"/><circle cx="336" cy="298" r="3" fill="#5d6f84"/><text x="402" y="303">Akku</text></g>
+            </g>
+            <g class="lage" style="--i:2; --k:-0.5">
+              <g transform="translate(220 287) scale(1 0.5) rotate(45)"><rect x="-82" y="-82" width="164" height="164" rx="42" fill="#9fb2c6"/></g>
+              <g transform="translate(220 282) scale(1 0.5) rotate(45)"><rect x="-82" y="-82" width="164" height="164" rx="42" fill="#dfe9f3" stroke="#5d6f84" stroke-width="1.6"/><rect x="-50" y="-50" width="38" height="38" rx="5" fill="#5d6f84"/><rect x="6" y="-48" width="44" height="24" rx="4" fill="#7d96b0"/><rect x="12" y="2" width="30" height="30" rx="4" fill="#7d96b0"/><path d="M-60 44 H40 M-60 56 H20" stroke="#8fa3b8" stroke-width="3" stroke-linecap="round"/></g>
+              <g class="etikett"><path d="M336 282 H392" stroke="#8fa3b8" stroke-width="1.4"/><circle cx="336" cy="282" r="3" fill="#5d6f84"/><text x="402" y="287">Funk und GPS</text></g>
+            </g>
+            <g class="lage" style="--i:1; --k:-1.5">
+              <g transform="translate(220 274) scale(1 0.5) rotate(45)"><rect x="-82" y="-82" width="164" height="164" rx="42" fill="#9fb2c6"/></g>
+              <g transform="translate(220 266) scale(1 0.5) rotate(45)"><rect x="-82" y="-82" width="164" height="164" rx="42" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/><circle r="54" fill="#eef3f8" stroke="#5d6f84" stroke-width="1.6"/><circle cx="-52" cy="-52" r="7" class="aufbau__led"/></g>
+              <g class="etikett"><path d="M336 266 H392" stroke="#8fa3b8" stroke-width="1.4"/><circle cx="336" cy="266" r="3" fill="#5d6f84"/><text x="402" y="271">Deckel mit Licht</text></g>
+            </g>
+            <g class="lage" style="--i:0; --k:-2.5">
+              <g transform="translate(220 256) scale(1 0.5) rotate(45)"><circle r="50" fill="#9fb2c6"/></g>
+              <g transform="translate(220 246) scale(1 0.5) rotate(45)"><circle r="50" fill="#ffffff" stroke="#1b2430" stroke-width="2.4"/><circle r="36" fill="none" stroke="#c3d0de" stroke-width="2"/></g>
+              <g class="etikett"><path d="M336 246 H392" stroke="#8fa3b8" stroke-width="1.4"/><circle cx="336" cy="246" r="3" fill="#5d6f84"/><text x="402" y="251">Der Knopf</text></g>
+            </g>
+          </svg>
+      </figure>
     </div>
   </section>
 
@@ -246,16 +299,15 @@
   </section>
 
   <!-- 6 · Für jeden am Berg -->
-  <section id="jeden" class="jeden" data-sc-act="pin" data-sc-span="2.4" data-sc-drift="#f4f8fb" aria-labelledby="jeden-titel">
-    <div data-sc-stage class="jeden__buehne">
+  <section id="jeden" class="sc-section jeden" data-sc-act="flow" data-sc-drift="#f4f8fb" aria-labelledby="jeden-titel">
     <div class="sc-wrap jeden__kopf">
       <div class="sc-stack">
         <h2 id="jeden-titel" class="sc-display sc-display--lg">Für jeden am Berg.</h2>
         <p class="sc-body">Ein Chip und eine App. Jeder nutzt, was er braucht.</p>
       </div>
       <div class="jeden__pfeile">
-        <button class="pfeil" type="button" data-schiene="zurueck" aria-label="Zurück" aria-controls="jeden-schiene"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5L5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <button class="pfeil" type="button" data-schiene="weiter" aria-label="Weiter" aria-controls="jeden-schiene"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5L10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="pfeil" type="button" data-schiene="zurueck" aria-label="Zurück, gedrückt halten zum Scrollen" aria-controls="jeden-schiene"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5L5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="pfeil" type="button" data-schiene="weiter" aria-label="Weiter, gedrückt halten zum Scrollen" aria-controls="jeden-schiene"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5L10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
     </div>
     <div id="jeden-schiene" class="jeden__schiene" tabindex="0" role="region" aria-label="Für jeden am Berg, seitwärts scrollen">
@@ -280,7 +332,6 @@
         <p>Ein Knopf in der Jacke. Kurz drücken ruft deine Gruppe, halten ruft Hilfe.</p>
       </article>
     </div>
-    </div>
   </section>
 
   <!-- 7 · Das sind wir -->
@@ -292,9 +343,9 @@
       </div>
       <div class="wir__streifen" data-sc-in><p class="platzhalter-notiz">Platzhalter: Foto von uns dreien folgt</p></div>
       <ul class="wir__drei" data-sc-in data-sc-stagger="80">
-          <li><span class="mensch__name">Tobias</span><span class="mensch__rolle">Projekt, Wirtschaft und App</span></li>
-          <li><span class="mensch__name">Lukas</span><span class="mensch__rolle">Netzwerk: Empfänger und Server</span></li>
-          <li><span class="mensch__name">Maximilian</span><span class="mensch__rolle">Hardware: Chip, Akku, Gehäuse und Ladebox</span></li>
+          <li style="--n:0"><span class="mensch__name">Tobias</span><span class="mensch__rolle">Projekt, Wirtschaft und App</span></li>
+          <li style="--n:1"><span class="mensch__name">Lukas</span><span class="mensch__rolle">Netzwerk: Empfänger und Server</span></li>
+          <li style="--n:2"><span class="mensch__name">Maximilian</span><span class="mensch__rolle">Hardware: Chip, Akku, Gehäuse und Ladebox</span></li>
       </ul>
     </div>
   </section>
@@ -307,7 +358,6 @@
   <nav aria-label="Rechtliches und mehr">
     <span>Impressum folgt</span>
     <span>Datenschutz folgt</span>
-    <a href="https://lukcoderc.github.io/SKI-TAG/">Netzwerk-Buch</a>
     <span>Bergvideos und Fotos: Mixkit</span>
   </nav>
 </footer>
@@ -316,11 +366,11 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </a>
 
-<script src="scrollcraft.js?v=7"></script>
+<script src="scrollcraft.js?v=16"></script>
 <script>ScrollCraft.mount(document.body);</script>
-<script src="assets/seite.js?v=7" defer></script>
-<script src="assets/sprung-anfang.js?v=7" defer></script>
-<script src="assets/seitenleiste.js?v=7" defer></script>
-<script src="assets/schiene.js?v=7" defer></script>
+<script src="assets/seite.js?v=16" defer></script>
+<script src="assets/sprung-anfang.js?v=16" defer></script>
+<script src="assets/seitenleiste.js?v=16" defer></script>
+<script src="assets/schiene.js?v=16" defer></script>
 </body>
 </html>

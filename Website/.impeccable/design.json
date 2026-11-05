@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-05T18:00:00+01:00",
+  "generatedAt": "2026-11-05T23:59:00+01:00",
   "title": "Design System: SkiTag Website",
   "extensions": {
     "colorMeta": {
@@ -32,21 +32,6 @@
           "#8d9cae",
           "#b9c4d1",
           "#e3e9f0"
-        ]
-      },
-      "emergency-red": {
-        "role": "tertiary",
-        "displayName": "Emergency Red",
-        "canonical": "#d83a2c",
-        "tonalRamp": [
-          "#3d0f0b",
-          "#6e1a13",
-          "#a1281d",
-          "#d83a2c",
-          "#e5665a",
-          "#ee958c",
-          "#f6c4bf",
-          "#fceceb"
         ]
       },
       "snow-canvas": {
@@ -120,21 +105,6 @@
           "#46566b",
           "#66778c",
           "#8d9cae",
-          "#c7d4e2",
-          "#f4f8fb"
-        ]
-      },
-      "drawing-label-ink": {
-        "role": "neutral",
-        "displayName": "Drawing Label Ink",
-        "canonical": "#3d4b5c",
-        "tonalRamp": [
-          "#1b2430",
-          "#2c3a4c",
-          "#3d4b5c",
-          "#4a586a",
-          "#5d6f84",
-          "#8fa3b8",
           "#c7d4e2",
           "#f4f8fb"
         ]
@@ -259,21 +229,6 @@
           "#f4f8fb"
         ]
       },
-      "ink-veil": {
-        "role": "neutral",
-        "displayName": "Ink Veil",
-        "canonical": "rgba(27, 36, 48, 0.22)",
-        "tonalRamp": [
-          "#0d121a",
-          "#1b2430",
-          "#2c3a4c",
-          "#46566b",
-          "#66778c",
-          "#8d9cae",
-          "#b9c4d1",
-          "#e3e9f0"
-        ]
-      },
       "mask-opaque": {
         "role": "neutral",
         "displayName": "Mask Opaque (mask stop, not paint)",
@@ -289,12 +244,297 @@
         "tonalRamp": [
           "rgba(0,0,0,0.55)"
         ]
+      },
+      "sky-high": {
+        "role": "neutral",
+        "displayName": "Sky High (slope illustration only)",
+        "canonical": "#e3eef8",
+        "tonalRamp": [
+          "#2c3f55",
+          "#46607e",
+          "#6a88a8",
+          "#8fa3b8",
+          "#aec4db",
+          "#c9daeb",
+          "#e3eef8",
+          "#f6f9fc"
+        ]
+      },
+      "sky-low": {
+        "role": "neutral",
+        "displayName": "Sky Low (slope illustration only)",
+        "canonical": "#f6f9fc",
+        "tonalRamp": [
+          "#2c3f55",
+          "#46607e",
+          "#6a88a8",
+          "#8fa3b8",
+          "#aec4db",
+          "#c9daeb",
+          "#e3eef8",
+          "#f6f9fc"
+        ]
+      },
+      "ridge-far": {
+        "role": "neutral",
+        "displayName": "Ridge Far (slope illustration only)",
+        "canonical": "#c9daeb",
+        "tonalRamp": [
+          "#2c3f55",
+          "#46607e",
+          "#6a88a8",
+          "#8fa3b8",
+          "#aec4db",
+          "#c9daeb",
+          "#e3eef8",
+          "#f6f9fc"
+        ]
+      },
+      "ridge-far-low": {
+        "role": "neutral",
+        "displayName": "Ridge Far Low (slope illustration only)",
+        "canonical": "#dfe9f4",
+        "tonalRamp": [
+          "#2c3f55",
+          "#46607e",
+          "#6a88a8",
+          "#8fa3b8",
+          "#aec4db",
+          "#c9daeb",
+          "#e3eef8",
+          "#f6f9fc"
+        ]
+      },
+      "ridge-mid": {
+        "role": "neutral",
+        "displayName": "Ridge Mid (slope illustration only)",
+        "canonical": "#aec4db",
+        "tonalRamp": [
+          "#2c3f55",
+          "#46607e",
+          "#6a88a8",
+          "#8fa3b8",
+          "#aec4db",
+          "#c9daeb",
+          "#e3eef8",
+          "#f6f9fc"
+        ]
+      },
+      "ridge-mid-low": {
+        "role": "neutral",
+        "displayName": "Ridge Mid Low (slope illustration only)",
+        "canonical": "#d3e1ee",
+        "tonalRamp": [
+          "#2c3f55",
+          "#46607e",
+          "#6a88a8",
+          "#8fa3b8",
+          "#aec4db",
+          "#c9daeb",
+          "#e3eef8",
+          "#f6f9fc"
+        ]
+      },
+      "slope-shade": {
+        "role": "neutral",
+        "displayName": "Slope Shade (slope illustration only)",
+        "canonical": "#e3ecf6",
+        "tonalRamp": [
+          "#2c3f55",
+          "#46607e",
+          "#6a88a8",
+          "#8fa3b8",
+          "#aec4db",
+          "#c9daeb",
+          "#e3eef8",
+          "#f6f9fc"
+        ]
+      },
+      "slope-shade-deep": {
+        "role": "neutral",
+        "displayName": "Slope Shade Deep (slope illustration only)",
+        "canonical": "#d2e0ed",
+        "tonalRamp": [
+          "#2c3f55",
+          "#46607e",
+          "#6a88a8",
+          "#8fa3b8",
+          "#aec4db",
+          "#c9daeb",
+          "#e3eef8",
+          "#f6f9fc"
+        ]
+      },
+      "tree-blue": {
+        "role": "neutral",
+        "displayName": "Tree Blue (slope illustration and layer stack)",
+        "canonical": "#7d96b0",
+        "tonalRamp": [
+          "#2c3f55",
+          "#46607e",
+          "#6a88a8",
+          "#8fa3b8",
+          "#aec4db",
+          "#c9daeb",
+          "#e3eef8",
+          "#f6f9fc"
+        ]
+      },
+      "frost-glass": {
+        "role": "neutral",
+        "displayName": "Frost Glass",
+        "canonical": "rgba(248, 251, 253, 0.66)",
+        "tonalRamp": [
+          "#1b2430",
+          "#4a586a",
+          "#8fa3b8",
+          "#c7d4e2",
+          "#dde7f1",
+          "#eef3f8",
+          "#f8fbfd",
+          "#ffffff"
+        ]
+      },
+      "frost-glass-solid": {
+        "role": "neutral",
+        "displayName": "Frost Glass Solid (no backdrop-filter fallback)",
+        "canonical": "rgba(248, 251, 253, 0.97)",
+        "tonalRamp": [
+          "#1b2430",
+          "#4a586a",
+          "#8fa3b8",
+          "#c7d4e2",
+          "#dde7f1",
+          "#eef3f8",
+          "#f8fbfd",
+          "#ffffff"
+        ]
+      },
+      "glass-edge": {
+        "role": "neutral",
+        "displayName": "Glass Edge",
+        "canonical": "rgba(255, 255, 255, 0.7)",
+        "tonalRamp": [
+          "#1b2430",
+          "#4a586a",
+          "#8fa3b8",
+          "#c7d4e2",
+          "#dde7f1",
+          "#eef3f8",
+          "#f8fbfd",
+          "#ffffff"
+        ]
+      },
+      "glass-control": {
+        "role": "neutral",
+        "displayName": "Glass Control",
+        "canonical": "rgba(255, 255, 255, 0.6)",
+        "tonalRamp": [
+          "#1b2430",
+          "#4a586a",
+          "#8fa3b8",
+          "#c7d4e2",
+          "#dde7f1",
+          "#eef3f8",
+          "#f8fbfd",
+          "#ffffff"
+        ]
+      },
+      "emergency-red": {
+        "role": "tertiary",
+        "displayName": "Emergency Red",
+        "canonical": "#d83a2c",
+        "tonalRamp": [
+          "#3d0f0b",
+          "#6e1a13",
+          "#a1281d",
+          "#d83a2c",
+          "#e5665a",
+          "#ee958c",
+          "#f6c4bf",
+          "#fceceb"
+        ]
+      },
+      "layer-face": {
+        "role": "neutral",
+        "displayName": "Layer Face (layer stack only)",
+        "canonical": "#f2f6fa",
+        "tonalRamp": [
+          "#26384c",
+          "#3e5670",
+          "#5d7894",
+          "#829cb6",
+          "#a6bcd2",
+          "#c7d6e5",
+          "#e3ecf5",
+          "#f6f9fc"
+        ]
+      },
+      "layer-face-cool": {
+        "role": "neutral",
+        "displayName": "Layer Face Cool (layer stack only)",
+        "canonical": "#e7eef6",
+        "tonalRamp": [
+          "#26384c",
+          "#3e5670",
+          "#5d7894",
+          "#829cb6",
+          "#a6bcd2",
+          "#c7d6e5",
+          "#e3ecf5",
+          "#f6f9fc"
+        ]
+      },
+      "layer-board": {
+        "role": "neutral",
+        "displayName": "Layer Board (layer stack only)",
+        "canonical": "#dfe9f3",
+        "tonalRamp": [
+          "#26384c",
+          "#3e5670",
+          "#5d7894",
+          "#829cb6",
+          "#a6bcd2",
+          "#c7d6e5",
+          "#e3ecf5",
+          "#f6f9fc"
+        ]
+      },
+      "layer-edge": {
+        "role": "neutral",
+        "displayName": "Layer Edge (thickness edge, layer stack only)",
+        "canonical": "#9fb2c6",
+        "tonalRamp": [
+          "#26384c",
+          "#3e5670",
+          "#5d7894",
+          "#829cb6",
+          "#a6bcd2",
+          "#c7d6e5",
+          "#e3ecf5",
+          "#f6f9fc"
+        ]
+      },
+      "glass-hover": {
+        "role": "neutral",
+        "displayName": "Glass Hover",
+        "canonical": "rgba(255, 255, 255, 0.5)",
+        "tonalRamp": [
+          "#1b2430",
+          "#4a586a",
+          "#8fa3b8",
+          "#c7d4e2",
+          "#dde7f1",
+          "#eef3f8",
+          "#f8fbfd",
+          "#ffffff"
+        ]
       }
     },
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "The single hero headline, centred in the sky."
+        "purpose": "The single hero headline, centred in the sky; the 2xl step on phones."
       },
       "headline": {
         "displayName": "Headline",
@@ -302,7 +542,7 @@
       },
       "headline-sm": {
         "displayName": "Headline Small",
-        "purpose": "Staggered doubt lines, rider panel names, team first names, mobile act titles. The second hero line is its own heading at 540, fluid 2.4 to 5rem."
+        "purpose": "Rider panel names (600, line-height 1), team first names, mobile act titles. The second hero line is its own heading at 540, the 3xl step (2xl on phones)."
       },
       "title": {
         "displayName": "Title",
@@ -310,7 +550,7 @@
       },
       "title-xl": {
         "displayName": "Title XL",
-        "purpose": "Section links in the side sheet (520); app step titles at the same step in 600."
+        "purpose": "App step titles (600, -0.025em; lg step on phones)."
       },
       "lede": {
         "displayName": "Lede",
@@ -322,11 +562,19 @@
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Step descriptions, demo status and cancel hint, the hero's stage line, button text."
+        "purpose": "Step descriptions, demo status and cancel hint, button text."
       },
       "caption": {
         "displayName": "Caption",
         "purpose": "Placeholder and sketch notes, footer, demonstration badge."
+      },
+      "nav-link": {
+        "displayName": "Nav Link",
+        "purpose": "Section links in the side sheet: Funnel Sans 500 at the base step, slate soft, plain and small."
+      },
+      "diagram-label": {
+        "displayName": "Diagram Label",
+        "purpose": "Part names of the layer stack: Funnel Display 560, 21px in the 640-wide drawing (26px on phones), ink."
       }
     },
     "shadows": [
@@ -338,7 +586,7 @@
       {
         "name": "sc-e2",
         "value": "0 3px 6px hsl(211 38% 52% / 0.14), 0 14px 28px -8px hsl(211 38% 52% / 0.34)",
-        "purpose": "Floating back-to-top circle."
+        "purpose": "Floating back-to-top circle and the framed slope illustration."
       },
       {
         "name": "sc-e3",
@@ -347,8 +595,8 @@
       },
       {
         "name": "sheet",
-        "value": "18px 0 50px -20px hsl(211 38% 52% / 0.45)",
-        "purpose": "Side sheet; thrown to the right, away from the edge it slides from."
+        "value": "18px 0 50px -24px hsl(211 38% 52% / 0.4)",
+        "purpose": "Frosted side sheet; thrown to the right, away from the edge it slides from."
       },
       {
         "name": "ground-cast-hero",
@@ -359,6 +607,11 @@
         "name": "ground-cast",
         "value": "radial-gradient(closest-side, rgba(122, 152, 186, 0.45), transparent)",
         "purpose": "Ellipse under the app phone sketch; drawn as a background, not a box-shadow."
+      },
+      {
+        "name": "frost-glass",
+        "value": "background: rgba(248, 251, 253, 0.66); backdrop-filter: blur(26px) saturate(170%); border-right: 1px solid rgba(255, 255, 255, 0.7)",
+        "purpose": "Side sheet material; solid rgba(248, 251, 253, 0.97) where backdrop-filter is unsupported."
       }
     ],
     "motion": [
@@ -384,7 +637,7 @@
       },
       {
         "name": "hold",
-        "value": "short press: group paths over 2.2s; hold 3s, then 5s cancel window (second press cancels), then the emergency path plays on its own over 5.2s; end state at once under reduced motion",
+        "value": "short press: group paths over 2.2s; hold 1s, then 2s cancel window in the demonstration (real chip 3s and 5s, stated in the hint; second press cancels), then the emergency path draws to the station, the station pings, a red ring pulses around the fallen person and the rescuer rides his trail to them, on its own; end state at once under reduced motion",
         "purpose": "Hold-button demonstration timing."
       },
       {
@@ -414,13 +667,13 @@
       },
       {
         "name": "side-sheet",
-        "value": "slide in from translateX(-100%) over 260ms, out over 180ms, sc-ease-out; no animation under reduced motion; wordmark chevron rotates 180deg over sc-d-base while open",
+        "value": "non-modal; hover on the wordmark opens after 90ms on fine pointers, leaving wordmark and sheet closes after 260ms; click, tap, Enter open; Esc, close button or a press outside close; slide from translateX(-100%) and 60% opacity over 240ms in, 200ms out, sc-ease-out; no animation under reduced motion; wordmark chevron rotates 180deg over sc-d-base while open; links change colour and ground over sc-d-fast",
         "purpose": "Side sheet."
       },
       {
-        "name": "doubt-lines",
-        "value": "driven by the act's --sc-p: each line slides in from -6vw and fades from 15% to full, staggered by 0.06 of progress; the closing word scales 0.82 to 1 and fades in from 50% progress; static under reduced motion",
-        "purpose": "Doubt act."
+        "name": "layer-stack",
+        "value": "driven by the pinned act's --sc-p: spread e = clamp((p - 0.06) / 0.5); each layer moves translateY(k * e * 64px), k from -2.5 to 2.5; labels fade in from p 0.18, staggered by 0.055 each over 0.1; lid LED blends terrain blue to emergency red over p 0.62 to 0.72 (color-mix in oklab); fully spread with all labels without .sc-ready or under reduced motion",
+        "purpose": "Was drinsteckt act."
       },
       {
         "name": "photo-reveal",
@@ -429,8 +682,13 @@
       },
       {
         "name": "rail",
-        "value": "pinned act, 2.4 viewports; --sc-p drives scrollLeft, manual scroll, mouse drag and the arrows add a kept offset; snap off while driven; arrows step one panel width, smooth unless reduced motion; arrows disabled at the ends; not driven under reduced motion",
+        "value": "plain flow section, not scroll-driven; snapping native scroller; arrow tap steps one panel (smooth unless reduced motion), arrow hold scrolls about 0.28px/ms with snap off until release; mouse drag; arrows disabled at the ends",
         "purpose": "Für jeden am Berg rail."
+      },
+      {
+        "name": "team-rules",
+        "value": "flow act; each name's 2px ink top rule draws from the left (scaleX 0 to 1, 900ms sc-ease-out, delay 200ms + 140ms per name); role fades in and rises 6px (600ms, delay 520ms + 140ms per name); name shifts 6px right on hover over sc-d-base on fine pointers; end state under reduced motion",
+        "purpose": "Das sind wir act."
       }
     ],
     "breakpoints": [
@@ -478,7 +736,7 @@
       "kind": "custom",
       "refersTo": "footer",
       "description": "Plain footer outside the acts: hairline top edge, slate-soft captions.",
-      "html": "<footer class=\"ds-fuss\"><span>SkiTag GmbH · Firmenname, Sitz und Firmenbuch folgen (Platzhalter)</span><nav><span>Impressum folgt</span><span>Datenschutz folgt</span><a href=\"#\">Netzwerk-Buch</a><span>Bergvideos und Fotos: Mixkit</span></nav></footer>",
+      "html": "<footer class=\"ds-fuss\"><span>SkiTag GmbH · Firmenname, Sitz und Firmenbuch folgen (Platzhalter)</span><nav><span>Impressum folgt</span><span>Datenschutz folgt</span><span>Bergvideos und Fotos: Mixkit</span></nav></footer>",
       "css": ".ds-fuss { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.6rem 2rem; padding: 2rem 1.5rem; border-top: 1px solid #c7d4e2; font-family: 'Funnel Sans', system-ui, sans-serif; font-size: 0.8rem; color: #4a586a; } .ds-fuss a { color: #4a586a; } .ds-fuss a:focus-visible { outline: 2px solid #1b2430; outline-offset: 3px; } .ds-fuss nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }"
     },
     {
@@ -506,37 +764,62 @@
       "css": ".ds-schiene { display: flex; gap: 2.5rem; overflow-x: auto; scroll-snap-type: x mandatory; font-family: 'Funnel Sans', system-ui, sans-serif; } .ds-fahrer { width: 18rem; flex: 0 0 auto; scroll-snap-align: start; border-top: 1px solid #c7d4e2; padding-top: 1.5rem; color: #1b2430; } .ds-fahrer h3 { margin: 0; font-family: 'Funnel Display', 'Funnel Sans', system-ui, sans-serif; font-weight: 600; font-size: 2.6rem; letter-spacing: -0.035em; line-height: 1; } .ds-fahrer__was { margin: 1rem 0 0; font-weight: 600; font-size: 1.3rem; } .ds-fahrer p:last-child { margin: 0.5rem 0 0; color: #4a586a; max-width: 30ch; line-height: 1.62; } .ds-fahrer--alle { border-top: 2px solid #1b2430; }"
     },
     {
+      "name": "Team List",
+      "kind": "custom",
+      "refersTo": "team-list",
+      "description": "Three first names with roles; a 2px ink top rule draws from the left per name, staggered, then the role fades up; names shift 6px right on hover. Hover stands in for entry here.",
+      "html": "<ul class=\"ds-wir\"><li style=\"--n:0\"><span class=\"ds-wir__name\">Tobias</span><span class=\"ds-wir__rolle\">Projekt, Wirtschaft und App</span></li><li style=\"--n:1\"><span class=\"ds-wir__name\">Lukas</span><span class=\"ds-wir__rolle\">Netzwerk: Empfänger und Server</span></li><li style=\"--n:2\"><span class=\"ds-wir__name\">Maximilian</span><span class=\"ds-wir__rolle\">Hardware: Chip, Akku, Gehäuse und Ladebox</span></li></ul>",
+      "css": ".ds-wir { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem; font-family: 'Funnel Sans', system-ui, sans-serif; color: #1b2430; } .ds-wir li { position: relative; padding-top: 1rem; } .ds-wir li::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: #1b2430; transform: scaleX(0); transform-origin: 0 50%; transition: transform 900ms cubic-bezier(0.23, 1, 0.32, 1) calc(var(--n) * 140ms + 200ms); } .ds-wir:hover li::before { transform: scaleX(1); } .ds-wir__name { display: block; font-family: 'Funnel Display', 'Funnel Sans', system-ui, sans-serif; font-weight: 600; font-size: 2.6rem; letter-spacing: -0.03em; line-height: 1.1; transition: transform 240ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-wir li:hover .ds-wir__name { transform: translateX(6px); } .ds-wir__rolle { display: block; margin-top: 0.4rem; max-width: 26ch; color: #4a586a; opacity: 0; transform: translateY(6px); transition: opacity 600ms cubic-bezier(0.23, 1, 0.32, 1) calc(var(--n) * 140ms + 520ms), transform 600ms cubic-bezier(0.23, 1, 0.32, 1) calc(var(--n) * 140ms + 520ms); } .ds-wir:hover .ds-wir__rolle { opacity: 1; transform: none; } @media (prefers-reduced-motion: reduce) { .ds-wir li::before, .ds-wir__rolle { transform: none; opacity: 1; transition: none; } }"
+    },
+    {
       "name": "Side Sheet",
       "kind": "nav",
       "refersTo": "side-sheet",
-      "description": "White modal sheet from the left in two rows: head (wordmark and close) and the section list; current section in ink with a 2px ink bar.",
-      "html": "<div class=\"ds-seite\"><div class=\"ds-seite__kopf\"><span class=\"ds-seite__marke\">SkiTag</span><button class=\"ds-seite__zu\" aria-label=\"Inhalt schließen\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\"><path d=\"M3.5 3.5l9 9M12.5 3.5l-9 9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/></svg></button></div><ol><li><a href=\"#\">Start</a></li><li><a href=\"#\" aria-current=\"true\">Der Chip</a></li><li><a href=\"#\">Am ganzen Berg</a></li><li><a href=\"#\">Die App</a></li><li><a href=\"#\">Für jeden am Berg</a></li><li><a href=\"#\">Das sind wir</a></li></ol></div>",
-      "css": ".ds-seite { width: min(22rem, 86vw); min-height: 28rem; display: grid; grid-template-rows: auto 1fr; padding: 1.2rem 2rem 2rem; background: #fff; color: #1b2430; box-shadow: 18px 0 50px -20px hsl(211 38% 52% / 0.45); font-family: 'Funnel Sans', system-ui, sans-serif; } .ds-seite__kopf { display: flex; justify-content: space-between; align-items: center; } .ds-seite__marke { font-family: 'Funnel Display', 'Funnel Sans', system-ui, sans-serif; font-weight: 640; font-size: 1.45rem; letter-spacing: -0.03em; } .ds-seite__zu { width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 1px solid #c7d4e2; background: #fff; color: #1b2430; display: grid; place-items: center; cursor: pointer; transition: border-color 160ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-seite__zu:hover { border-color: #1b2430; } .ds-seite ol { list-style: none; margin: 3rem 0 0; padding: 0; } .ds-seite a { display: block; position: relative; padding: 0.7rem 0 0.7rem 1rem; text-decoration: none; font-family: 'Funnel Display', 'Funnel Sans', system-ui, sans-serif; font-weight: 520; font-size: 1.9rem; letter-spacing: -0.02em; color: #4a586a; transition: color 160ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-seite a::before { content: ''; position: absolute; left: 0; top: 0.9rem; bottom: 0.9rem; width: 2px; background: transparent; } .ds-seite a[aria-current='true'], .ds-seite a:hover { color: #1b2430; } .ds-seite a[aria-current='true']::before { background: #1b2430; } .ds-seite a:focus-visible, .ds-seite__zu:focus-visible { outline: 2px solid #1b2430; outline-offset: 2px; }"
+      "description": "Non-modal frosted-glass sheet from the left, opened by hovering the wordmark (fine pointers) or click/Enter; head row (wordmark linking to the top, close button) and a plain section list in Funnel Sans 500, current section ink on a 70% white 14px plane, hover on 50% white. No veil, no bar.",
+      "html": "<div class=\"ds-seite\"><div class=\"ds-seite__kopf\"><a class=\"ds-seite__marke\" href=\"#\">SkiTag</a><button class=\"ds-seite__zu\" aria-label=\"Inhalt schließen\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\"><path d=\"M3.5 3.5l9 9M12.5 3.5l-9 9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/></svg></button></div><ol><li><a href=\"#\">Start</a></li><li><a href=\"#\">Was drinsteckt</a></li><li><a href=\"#\" aria-current=\"true\">Der Chip</a></li><li><a href=\"#\">Am ganzen Berg</a></li><li><a href=\"#\">Die App</a></li><li><a href=\"#\">Für jeden am Berg</a></li><li><a href=\"#\">Das sind wir</a></li></ol></div>",
+      "css": ".ds-seite { width: min(21rem, 86vw); min-height: 28rem; display: grid; grid-template-rows: auto 1fr; padding: 1.2rem 2rem 2rem; background: rgba(248, 251, 253, 0.66); -webkit-backdrop-filter: blur(26px) saturate(170%); backdrop-filter: blur(26px) saturate(170%); border-right: 1px solid rgba(255, 255, 255, 0.7); color: #1b2430; box-shadow: 18px 0 50px -24px hsl(211 38% 52% / 0.4); font-family: 'Funnel Sans', system-ui, sans-serif; } .ds-seite__kopf { display: flex; justify-content: space-between; align-items: center; } .ds-seite__marke { color: #1b2430; text-decoration: none; border-radius: 14px; font-family: 'Funnel Display', 'Funnel Sans', system-ui, sans-serif; font-weight: 640; font-size: 1.45rem; letter-spacing: -0.03em; } .ds-seite__zu { width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 1px solid rgba(27, 36, 48, 0.12); background: rgba(255, 255, 255, 0.6); color: #1b2430; display: grid; place-items: center; cursor: pointer; transition: border-color 160ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-seite__zu:hover { border-color: #1b2430; } .ds-seite ol { list-style: none; margin: 3rem 0 0; padding: 0; display: grid; gap: 2px; } .ds-seite ol a { display: block; padding: 0.55rem 0.8rem; border-radius: 14px; text-decoration: none; font-family: 'Funnel Sans', system-ui, sans-serif; font-weight: 500; font-size: 1.0625rem; letter-spacing: 0; color: #4a586a; transition: color 160ms cubic-bezier(0.23, 1, 0.32, 1), background-color 160ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-seite ol a[aria-current='true'] { color: #1b2430; background: rgba(255, 255, 255, 0.7); } .ds-seite ol a:hover { color: #1b2430; background: rgba(255, 255, 255, 0.5); } .ds-seite a:focus-visible, .ds-seite__marke:focus-visible, .ds-seite__zu:focus-visible { outline: 2px solid #1b2430; outline-offset: 2px; }"
     },
     {
       "name": "Rail Arrow",
       "kind": "button",
       "refersTo": "button-rail-arrow",
-      "description": "White 3rem circle that steps the rider rail one panel as an offset on the scroll-driven position; disabled at the ends.",
+      "description": "White 3rem circle beside the rider rail: tap steps one panel, hold scrolls slowly; disabled at the ends.",
       "html": "<div class=\"ds-pfeile\"><button class=\"ds-pfeil-knopf\" aria-label=\"Zurück\" disabled><svg viewBox=\"0 0 16 16\" width=\"18\" height=\"18\"><path d=\"M10 3.5L5.5 8l4.5 4.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button><button class=\"ds-pfeil-knopf\" aria-label=\"Weiter\"><svg viewBox=\"0 0 16 16\" width=\"18\" height=\"18\"><path d=\"M6 3.5L10.5 8 6 12.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button></div>",
       "css": ".ds-pfeile { display: flex; gap: 0.5rem; } .ds-pfeil-knopf { width: 3rem; height: 3rem; border-radius: 50%; display: grid; place-items: center; cursor: pointer; border: 1px solid #c7d4e2; background: #fff; color: #1b2430; box-shadow: 0 1px 2px hsl(211 38% 52% / 0.18), 0 3px 8px -2px hsl(211 38% 52% / 0.20); transition: border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), opacity 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-pfeil-knopf:hover:not(:disabled) { border-color: #1b2430; } .ds-pfeil-knopf:active:not(:disabled) { transform: scale(0.96); } .ds-pfeil-knopf:disabled { opacity: 0.35; cursor: default; box-shadow: none; } .ds-pfeil-knopf:focus-visible { outline: 2px solid #1b2430; outline-offset: 3px; }"
+    },
+    {
+      "name": "Slope Illustration",
+      "kind": "custom",
+      "refersTo": "demo-illustration",
+      "description": "Signature demo scene in soft blues inside a 14px frame with the Mid shadow; ink emergency path, red ring only around the fallen person during the call.",
+      "html": "<svg class=\"ds-hang\" viewBox=\"0 0 800 470\" role=\"img\" aria-label=\"Hang mit Liftstation\"><defs><linearGradient id=\"dsh\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#e3eef8\"/><stop offset=\"1\" stop-color=\"#f6f9fc\"/></linearGradient><linearGradient id=\"dsf\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"#c9daeb\"/><stop offset=\"1\" stop-color=\"#dfe9f4\"/></linearGradient><linearGradient id=\"dss\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#e3ecf6\"/><stop offset=\"1\" stop-color=\"#d2e0ed\"/></linearGradient></defs><rect width=\"800\" height=\"470\" fill=\"url(#dsh)\"/><path d=\"M0 248 L250 150 L410 120 L540 96 L700 118 L800 164 V470 H0 Z\" fill=\"url(#dsf)\"/><path d=\"M0 440 C200 336 430 162 478 150 C610 260 770 440 800 452 V470 H0 Z\" fill=\"#ffffff\"/><path d=\"M478 150 C610 260 770 440 800 452 V470 H560 C590 400 560 300 478 150 Z\" fill=\"url(#dss)\"/><path d=\"M470 168 C360 262 170 378 90 430\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"26\" stroke-linecap=\"round\"/><path d=\"M484 142 L708 430\" stroke=\"#7d96b0\" stroke-width=\"1.4\"/><rect x=\"460\" y=\"132\" width=\"38\" height=\"22\" rx=\"2\" fill=\"#fff\" stroke=\"#5d6f84\" stroke-width=\"1.6\"/><path d=\"M456 133 L479 120 L502 133 Z\" fill=\"#5d6f84\"/><path class=\"ds-hang__weg\" d=\"M224 316 C296 214 386 142 482 104\"/><circle class=\"ds-hang__ruf\" cx=\"214\" cy=\"330\" r=\"22\"/><circle cx=\"214\" cy=\"326\" r=\"5\" fill=\"#1b2430\"/></svg>",
+      "css": ".ds-hang { width: 100%; max-width: 40rem; height: auto; border-radius: 14px; box-shadow: 0 3px 6px hsl(211 38% 52% / 0.14), 0 14px 28px -8px hsl(211 38% 52% / 0.34); } .ds-hang__weg { fill: none; stroke: #1b2430; stroke-width: 3; stroke-linecap: round; } .ds-hang__ruf { fill: none; stroke: #d83a2c; stroke-width: 2; animation: ds-ruf 1.4s ease-out infinite; transform-origin: 214px 330px; } @keyframes ds-ruf { from { opacity: 1; transform: scale(0.7); } to { opacity: 0; transform: scale(1.3); } } @media (prefers-reduced-motion: reduce) { .ds-hang__ruf { animation: none; } }"
+    },
+    {
+      "name": "Layer Stack",
+      "kind": "custom",
+      "refersTo": "layer-stack",
+      "description": "Signature isometric stack of six chip layers in soft blues with darker thickness edges; scroll spreads them apart, ink labels arrive one by one, the lid LED turns emergency red near the end. Hover stands in for scroll here.",
+      "html": "<svg class=\"ds-aufbau\" viewBox=\"0 40 640 520\" role=\"img\" aria-label=\"Der Chip in Schichten\"><g class=\"ds-lage\" style=\"--k:2.5\"><g transform=\"translate(220 338) scale(1 0.5) rotate(45)\"><rect x=\"-82\" y=\"-82\" width=\"164\" height=\"164\" rx=\"42\" fill=\"#9fb2c6\"/></g><g transform=\"translate(220 330) scale(1 0.5) rotate(45)\"><rect x=\"-82\" y=\"-82\" width=\"164\" height=\"164\" rx=\"42\" fill=\"#e7eef6\" stroke=\"#5d6f84\" stroke-width=\"1.6\"/></g><g class=\"ds-etikett\"><path d=\"M336 330 H392\" stroke=\"#8fa3b8\" stroke-width=\"1.4\"/><circle cx=\"336\" cy=\"330\" r=\"3\" fill=\"#5d6f84\"/><text x=\"402\" y=\"335\">Gehäuse</text></g></g><g class=\"ds-lage\" style=\"--k:1.5\"><g transform=\"translate(220 322) scale(1 0.5) rotate(45)\"><rect x=\"-82\" y=\"-82\" width=\"164\" height=\"164\" rx=\"42\" fill=\"#9fb2c6\"/></g><g transform=\"translate(220 314) scale(1 0.5) rotate(45)\"><rect x=\"-82\" y=\"-82\" width=\"164\" height=\"164\" rx=\"42\" fill=\"#f2f6fa\" stroke=\"#5d6f84\" stroke-width=\"1.6\"/><circle r=\"52\" fill=\"none\" stroke=\"#7d96b0\" stroke-width=\"3\"/><circle r=\"34\" fill=\"none\" stroke=\"#7d96b0\" stroke-width=\"3\"/></g><g class=\"ds-etikett\"><path d=\"M336 314 H392\" stroke=\"#8fa3b8\" stroke-width=\"1.4\"/><circle cx=\"336\" cy=\"314\" r=\"3\" fill=\"#5d6f84\"/><text x=\"402\" y=\"319\">Lädt kabellos</text></g></g><g class=\"ds-lage\" style=\"--k:0.5\"><g transform=\"translate(220 306) scale(1 0.5) rotate(45)\"><rect x=\"-82\" y=\"-82\" width=\"164\" height=\"164\" rx=\"42\" fill=\"#9fb2c6\"/></g><g transform=\"translate(220 298) scale(1 0.5) rotate(45)\"><rect x=\"-82\" y=\"-82\" width=\"164\" height=\"164\" rx=\"42\" fill=\"#f2f6fa\" stroke=\"#5d6f84\" stroke-width=\"1.6\"/><rect x=\"-58\" y=\"-40\" width=\"116\" height=\"80\" rx=\"12\" fill=\"#8fa3b8\"/></g><g class=\"ds-etikett\"><path d=\"M336 298 H392\" stroke=\"#8fa3b8\" stroke-width=\"1.4\"/><circle cx=\"336\" cy=\"298\" r=\"3\" fill=\"#5d6f84\"/><text x=\"402\" y=\"303\">Akku</text></g></g><g class=\"ds-lage\" style=\"--k:-0.5\"><g transform=\"translate(220 290) scale(1 0.5) rotate(45)\"><rect x=\"-82\" y=\"-82\" width=\"164\" height=\"164\" rx=\"42\" fill=\"#9fb2c6\"/></g><g transform=\"translate(220 282) scale(1 0.5) rotate(45)\"><rect x=\"-82\" y=\"-82\" width=\"164\" height=\"164\" rx=\"42\" fill=\"#dfe9f3\" stroke=\"#5d6f84\" stroke-width=\"1.6\"/><rect x=\"-50\" y=\"-50\" width=\"38\" height=\"38\" rx=\"5\" fill=\"#5d6f84\"/><rect x=\"12\" y=\"2\" width=\"30\" height=\"30\" rx=\"4\" fill=\"#7d96b0\"/></g><g class=\"ds-etikett\"><path d=\"M336 282 H392\" stroke=\"#8fa3b8\" stroke-width=\"1.4\"/><circle cx=\"336\" cy=\"282\" r=\"3\" fill=\"#5d6f84\"/><text x=\"402\" y=\"287\">Funk und GPS</text></g></g><g class=\"ds-lage\" style=\"--k:-1.5\"><g transform=\"translate(220 274) scale(1 0.5) rotate(45)\"><rect x=\"-82\" y=\"-82\" width=\"164\" height=\"164\" rx=\"42\" fill=\"#9fb2c6\"/></g><g transform=\"translate(220 266) scale(1 0.5) rotate(45)\"><rect x=\"-82\" y=\"-82\" width=\"164\" height=\"164\" rx=\"42\" fill=\"#ffffff\" stroke=\"#5d6f84\" stroke-width=\"1.6\"/><circle r=\"54\" fill=\"#eef3f8\" stroke=\"#5d6f84\" stroke-width=\"1.6\"/><circle cx=\"-52\" cy=\"-52\" r=\"7\" class=\"ds-led\"/></g><g class=\"ds-etikett\"><path d=\"M336 266 H392\" stroke=\"#8fa3b8\" stroke-width=\"1.4\"/><circle cx=\"336\" cy=\"266\" r=\"3\" fill=\"#5d6f84\"/><text x=\"402\" y=\"271\">Deckel mit Licht</text></g></g><g class=\"ds-lage\" style=\"--k:-2.5\"><g transform=\"translate(220 256) scale(1 0.5) rotate(45)\"><circle r=\"50\" fill=\"#9fb2c6\"/></g><g transform=\"translate(220 246) scale(1 0.5) rotate(45)\"><circle r=\"50\" fill=\"#ffffff\" stroke=\"#1b2430\" stroke-width=\"2.4\"/><circle r=\"36\" fill=\"none\" stroke=\"#c3d0de\" stroke-width=\"2\"/></g><g class=\"ds-etikett\"><path d=\"M336 246 H392\" stroke=\"#8fa3b8\" stroke-width=\"1.4\"/><circle cx=\"336\" cy=\"246\" r=\"3\" fill=\"#5d6f84\"/><text x=\"402\" y=\"251\">Der Knopf</text></g></g></svg>",
+      "css": ".ds-aufbau { width: 100%; max-width: 36rem; height: auto; overflow: visible; background: #ffffff; } .ds-aufbau .ds-lage { transform: translateY(calc(var(--k) * 40px)); transition: transform 420ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-aufbau:hover .ds-lage { transform: translateY(calc(var(--k) * 64px)); } .ds-aufbau text { font-family: 'Funnel Display', 'Funnel Sans', system-ui, sans-serif; font-size: 21px; font-weight: 560; letter-spacing: -0.01em; fill: #1b2430; } .ds-led { fill: #8fa3b8; transition: fill 420ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-aufbau:hover .ds-led { fill: #d83a2c; } @media (prefers-reduced-motion: reduce) { .ds-aufbau .ds-lage { transition: none; transform: translateY(calc(var(--k) * 64px)); } }"
     }
   ],
   "narrative": {
     "northStar": "Neuschnee",
-    "overview": "The page is a bright winter morning. High-key snow white and pale glacier blue carry every surface; the only dark is slate ink, used for words, line drawings and the one action. The chip stands on that snow as a flat line drawing with a cold blue cast shadow underneath, the way a thing lies on fresh powder. Mountain footage (Mixkit stock) is scrubbed by scroll and dissolves downward into the white ground through a mask, never a drawn edge; a light snowfall on a canvas is the atmosphere of the first viewport.\n\nDensity is low and the air is generous. Each act of the scroll does one thing: a centred headline in the sky that gives way to a second line assembling itself, staggered lines of doubt sliding in from the left, the chip to try with a slope drawing that answers the press, a framed photo of a group on the mountain that wipes up into view, the app sketched in a phone outline, a sideways rail of typographic rider panels that vertical scroll carries along, then the team. The page is an introduction only: it ends with the team act and a plain footer, and has no rental or purchase surface. Honesty is a visual element: placeholders and sketches are labelled in a small caption directly under the thing they stand for, and the interactive demo carries a pill that says it is a demonstration.\n\nThe world refuses the dark gadget page with a glowing device and three feature cards. Colour is not decoration here: there is no accent hue at all, only ink-dark for action and a single emergency red that belongs to the alarm.\n\nThe scroll mechanism is the ScrollCraft engine (`scrollcraft.css`/`.js`, unchanged). This system is the set of overrides of its `--sc-*` tokens plus the page's own tokens and classes in `seite.css`; the engine's spacing and type scales are inherited as they are.",
+    "overview": "The page is a bright winter morning. High-key snow white and pale glacier blue carry every surface; the only dark is slate ink, used for words, line drawings and the one action. The chip stands on that snow as a flat line drawing with a cold blue cast shadow underneath, the way a thing lies on fresh powder. Mountain footage (Mixkit stock) is scrubbed by scroll and dissolves downward into the white ground through a mask, never a drawn edge; a light snowfall on a canvas is the atmosphere of the first viewport.\n\nDensity is low and the air is generous. Each act of the scroll does one thing: a centred headline in the sky that gives way to a second line assembling itself, the chip to try beside an illustrated slope in soft blues that answers the press, the chip taken apart into its layers, a framed photo of a group on the mountain that wipes up into view, the app sketched in a phone outline, a sideways rail of typographic rider panels the visitor scrolls by hand, then the team. The page is an introduction only: it ends with the team act and a plain footer, and has no rental or purchase surface. Honesty is a visual element: placeholders and sketches are labelled in a small caption directly under the thing they stand for, and the interactive demo carries a pill that says it is a demonstration.\n\nThe world refuses the dark gadget page with a glowing device and three feature cards. Colour is not decoration here: there is no accent hue at all, only ink-dark for action and a single emergency red that belongs to the alarm.\n\nThe scroll mechanism is the ScrollCraft engine (`scrollcraft.css`/`.js`, unchanged). This system is the set of overrides of its `--sc-*` tokens plus the page's own tokens and classes in `seite.css`; the engine's spacing and type scales are inherited as they are.",
     "keyCharacteristics": [
       "High-key snow grounds, slate ink, no accent hue.",
       "Emergency red appears only where the emergency itself is shown.",
-      "Flat slate line drawings (chip, slope, phone) with rounded caps; things that stand get a blurred cold blue cast ellipse.",
+      "Flat slate line drawings (chip, phone) with rounded caps; things that stand get a blurred cold blue cast ellipse. The demo slope and the layer stack are the filled illustrations, painted only in the snow and soft-blue family.",
       "Footage masked into the white ground and scrubbed: it zooms gently while the headline lifts and fades, the second line assembles line by line and the chip rises and grows to 1.5 with its cast; sparse snowfall as atmosphere, removed under reduced motion.",
       "Soft, blue-tinted, offset shadows; hairlines in shadow blue, a 2px ink rule only for emphasis or the active step.",
+      "One frosted-glass plane: the side sheet, translucent snow over the page, never a dark veil.",
       "Every placeholder and sketch labelled where it stands."
     ],
     "rules": [
       {
         "name": "The No Accent Rule",
-        "body": "There is no brand hue. Action is slate ink on snow; nothing is turquoise, blue-filled or gradient-lit.",
+        "body": "There is no brand hue. Action is slate ink on snow; no control, link, text or highlight is turquoise, blue-filled or gradient-lit. The soft blues and gradients of the slope illustration are terrain and sky, not accent.",
         "section": "colors"
       },
       {
@@ -577,7 +860,8 @@
       "Do dissolve footage into the white ground with a mask, and label stock, sketches and placeholders honestly.",
       "Do tint every shadow with the cold shadow hue and keep it blurred and offset downward.",
       "Do keep snowfall sparse (22 flakes on desktop, 12 on phones); remove it, give drawn paths their end state and make scrolling instant under reduced motion.",
-      "Do draw people, group paths and objects in slate line work; ink is the emergency path and the active state."
+      "Do draw objects and group paths in slate line work and people as small ink silhouettes; ink is the emergency path and the active state. Fill the slope illustration only from the Illustration Blues and the snow family, the layer stack only from the Layer Stack Blues and the snow family.",
+      "Do keep the side sheet non-modal frosted glass with its solid fallback; it blurs the page, it never dims it."
     ],
     "donts": [
       "Don't introduce an accent hue; the engine accent stays slate ink.",

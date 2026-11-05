@@ -1,7 +1,8 @@
 /* SkiTag · „Für jeden am Berg“: selbst seitwärts scrollen.
-   Wischen, Trackpad, Shift + Mausrad, Pfeiltasten im Bereich, Ziehen mit
-   der Maus und die beiden Pfeilknöpfe. Ohne JavaScript bleibt die Leiste
-   ein normaler, waagrecht scrollbarer Bereich. */
+   Wischen, Trackpad, Shift + Mausrad, Ziehen mit der Maus und die beiden
+   Pfeilknöpfe. Kurz tippen springt eine Karte weiter, gedrückt halten
+   scrollt langsam, solange man hält. Ohne JavaScript bleibt die Leiste ein
+   normaler, waagrecht scrollbarer Bereich. */
 (function () {
   "use strict";
   var schiene = document.querySelector(".jeden__schiene");
@@ -21,43 +22,48 @@
     if (zurueck) zurueck.disabled = schiene.scrollLeft <= 2;
     if (weiter) weiter.disabled = schiene.scrollLeft >= max;
   };
-  var fahren = function (richtung) {
-    schiene.scrollBy({ left: richtung * schritt(), behavior: ohneBewegung ? "auto" : "smooth" });
-  };
-  if (zurueck) zurueck.addEventListener("click", function () { fahren(-1); });
-  if (weiter) weiter.addEventListener("click", function () { fahren(1); });
   schiene.addEventListener("scroll", knoepfe, { passive: true });
   window.addEventListener("resize", knoepfe);
   knoepfe();
 
-  // Beim Runterscrollen läuft die Leiste mit. Was man selbst seitwärts
-  // scrollt, bleibt als Versatz erhalten, beides addiert sich.
-  var abschnitt = document.getElementById("jeden");
-  var versatz = 0, eigeneZeile = -1, letzteBasis = -1;
-  if (abschnitt && !ohneBewegung) {
-    schiene.classList.add("wird-gefuehrt");
-    var basis = function () {
-      var p = parseFloat(getComputedStyle(abschnitt).getPropertyValue("--sc-p")) || 0;
-      var t = Math.min(1, Math.max(0, (p - 0.06) / 0.82));
-      return t * (schiene.scrollWidth - schiene.clientWidth);
-    };
-    schiene.addEventListener("scroll", function () {
-      // eine Bewegung, die nicht von uns kommt, ist eigenes Scrollen
-      if (Math.abs(schiene.scrollLeft - eigeneZeile) > 1.5) versatz = schiene.scrollLeft - basis();
-    }, { passive: true });
-    var fuehren = function () {
-      var b = basis();
-      if (Math.abs(b - letzteBasis) > 0.5) {
-        letzteBasis = b;
-        var max = schiene.scrollWidth - schiene.clientWidth;
-        var ziel = Math.min(max, Math.max(0, b + versatz));
-        eigeneZeile = ziel;
-        schiene.scrollLeft = ziel;
+  // Pfeil: kurz tippen = eine Karte, halten = langsam scrollen
+  var GESCHW = 0.28; // Pixel pro Millisekunde, rund 280 px pro Sekunde
+  var verbinden = function (knopf, richtung) {
+    if (!knopf) return;
+    var start = 0, letzt = 0, haelt = false, gerollt = false, lauf = 0;
+    var rollen = function (jetzt) {
+      if (!haelt) return;
+      if (jetzt - start > 260) {
+        if (!gerollt) { gerollt = true; schiene.classList.add("rollt"); }
+        schiene.scrollLeft += richtung * GESCHW * (jetzt - letzt);
       }
-      requestAnimationFrame(fuehren);
+      letzt = jetzt;
+      lauf = requestAnimationFrame(rollen);
     };
-    requestAnimationFrame(fuehren);
-  }
+    var los = function (e) {
+      if (e.button !== undefined && e.button !== 0) return;
+      haelt = true; gerollt = false; start = letzt = performance.now();
+      if (knopf.setPointerCapture && e.pointerId !== undefined) { try { knopf.setPointerCapture(e.pointerId); } catch (_) {} }
+      lauf = requestAnimationFrame(rollen);
+    };
+    var stopp = function () {
+      if (!haelt) return;
+      haelt = false; cancelAnimationFrame(lauf);
+      if (gerollt) schiene.classList.remove("rollt");
+      else schiene.scrollBy({ left: richtung * schritt(), behavior: ohneBewegung ? "auto" : "smooth" });
+    };
+    knopf.addEventListener("pointerdown", los);
+    knopf.addEventListener("pointerup", stopp);
+    knopf.addEventListener("pointercancel", stopp);
+    knopf.addEventListener("lostpointercapture", stopp);
+    knopf.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+    // Tastatur: Enter oder Leertaste = eine Karte
+    knopf.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); if (!e.repeat) schiene.scrollBy({ left: richtung * schritt(), behavior: ohneBewegung ? "auto" : "smooth" }); }
+    });
+  };
+  verbinden(zurueck, -1);
+  verbinden(weiter, 1);
 
   // Ziehen mit der Maus (Finger und Trackpad scrollen ohnehin selbst)
   var zieht = false, startX = 0, startLinks = 0, bewegt = false;

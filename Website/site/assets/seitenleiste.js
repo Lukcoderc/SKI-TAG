@@ -1,20 +1,24 @@
-/* SkiTag · Seitenleiste: Klick auf das Logo klappt links eine Leiste mit
-   allen Abschnitten aus. Ohne JavaScript springt das Logo nach oben. */
+/* SkiTag · Seitenleiste: fährt links heraus, wenn man mit der Maus über das
+   Logo fährt, und verschwindet wieder, wenn man sie verlässt. Auf dem Handy
+   und mit der Tastatur öffnet ein Klick bzw. Enter auf das Logo die Leiste.
+   Ohne JavaScript springt das Logo nach oben. */
 (function () {
   "use strict";
   var marke = document.querySelector(".marke");
   var leiste = document.getElementById("seitenleiste");
-  if (!marke || !leiste || typeof leiste.showModal !== "function") return;
+  if (!marke || !leiste || typeof leiste.show !== "function") return;
   var ohneBewegung = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var mitMaus = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   var links = leiste.querySelectorAll("nav a");
+  var leistenMarke = leiste.querySelector(".seite__marke");
+  var zuTimer = 0, aufTimer = 0, perKlick = false, hoverSperre = false;
 
   marke.setAttribute("role", "button");
-  marke.setAttribute("aria-haspopup", "dialog");
+  marke.setAttribute("aria-haspopup", "true");
   marke.setAttribute("aria-controls", "seitenleiste");
   marke.setAttribute("aria-expanded", "false");
   marke.setAttribute("aria-label", "SkiTag, Inhalt öffnen");
 
-  // welcher Abschnitt gerade zu sehen ist
   var aktuell = function () {
     var mitte = window.innerHeight * 0.4, treffer = links[0];
     links.forEach(function (a) {
@@ -24,44 +28,74 @@
     links.forEach(function (a) { if (a === treffer) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current"); });
   };
 
-  var oeffnen = function () {
+  var oeffnen = function (fokus) {
+    clearTimeout(zuTimer);
+    if (leiste.open) { if (fokus) (leiste.querySelector('nav a[aria-current="true"]') || links[0]).focus(); return; }
     aktuell();
-    leiste.showModal();
+    leiste.classList.remove("geht-zu");
+    leiste.show();
     marke.setAttribute("aria-expanded", "true");
-    document.documentElement.classList.add("leiste-offen");
-    var jetzt = leiste.querySelector('nav a[aria-current="true"]') || links[0];
-    if (jetzt) jetzt.focus();
+    if (fokus) (leiste.querySelector('nav a[aria-current="true"]') || links[0]).focus();
   };
-  var schliessen = function () {
-    if (!leiste.open) return;
+  var schliessen = function (fokusZurueck) {
+    clearTimeout(aufTimer);
+    if (!leiste.open || leiste.classList.contains("geht-zu")) return;
     leiste.classList.add("geht-zu");
     var fertig = function () {
       leiste.classList.remove("geht-zu");
       leiste.close();
+      marke.setAttribute("aria-expanded", "false");
+      perKlick = false;
+      if (fokusZurueck) marke.focus();
     };
-    if (ohneBewegung) fertig(); else setTimeout(fertig, 180);
+    if (ohneBewegung) fertig(); else setTimeout(fertig, 200);
   };
-  leiste.addEventListener("close", function () {
-    marke.setAttribute("aria-expanded", "false");
-    document.documentElement.classList.remove("leiste-offen");
+  var spaeterZu = function () { clearTimeout(zuTimer); zuTimer = setTimeout(function () { if (!perKlick) schliessen(false); }, 260); };
+
+  // Maus: drüberfahren öffnet, verlassen schließt
+  if (mitMaus) {
+    marke.addEventListener("mouseenter", function () { if (hoverSperre) return; clearTimeout(zuTimer); aufTimer = setTimeout(function () { oeffnen(false); }, 90); });
+    marke.addEventListener("mouseleave", function () { hoverSperre = false; clearTimeout(aufTimer); spaeterZu(); });
+    leiste.addEventListener("mouseenter", function () { clearTimeout(zuTimer); });
+    leiste.addEventListener("mouseleave", spaeterZu);
+    // Sperre nach einem Sprung endet, sobald die Maus nicht mehr über dem Logo ist
+    document.addEventListener("mousemove", function (e) { if (hoverSperre && !marke.contains(e.target)) hoverSperre = false; }, { passive: true });
+  }
+
+  // Klick, Tippen und Tastatur
+  marke.addEventListener("click", function (e) {
+    e.preventDefault();
+    if (leiste.open && perKlick) { schliessen(false); return; }
+    perKlick = true;
+    oeffnen(e.detail === 0);
+  });
+  leiste.querySelector(".seite__zu").addEventListener("click", function () { schliessen(true); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && leiste.open) schliessen(true); });
+  document.addEventListener("pointerdown", function (e) {
+    if (!leiste.open) return;
+    if (leiste.contains(e.target) || marke.contains(e.target)) return;
+    schliessen(false);
   });
 
-  marke.addEventListener("click", function (e) { e.preventDefault(); if (leiste.open) schliessen(); else oeffnen(); });
-  leiste.querySelector(".seite__zu").addEventListener("click", schliessen);
-  // Klick neben die Leiste schließt sie
-  leiste.addEventListener("click", function (e) { if (e.target === leiste) schliessen(); });
-  leiste.addEventListener("cancel", function (e) { e.preventDefault(); schliessen(); });
+  if (leistenMarke) leistenMarke.addEventListener("click", function (e) {
+    e.preventDefault();
+    perKlick = false;
+    hoverSperre = true;
+    schliessen(false);
+    window.scrollTo({ top: 0, behavior: ohneBewegung ? "auto" : "smooth" });
+    if (history.replaceState) history.replaceState(null, "", "#oben");
+  });
 
   links.forEach(function (a) {
     a.addEventListener("click", function (e) {
       var ziel = document.querySelector(a.getAttribute("href"));
       if (!ziel) return;
       e.preventDefault();
-      schliessen();
-      setTimeout(function () {
-        ziel.scrollIntoView({ behavior: ohneBewegung ? "auto" : "smooth", block: "start" });
-        if (history.replaceState) history.replaceState(null, "", a.getAttribute("href"));
-      }, ohneBewegung ? 0 : 190);
+      perKlick = false;
+      hoverSperre = true;
+      schliessen(false);
+      ziel.scrollIntoView({ behavior: ohneBewegung ? "auto" : "smooth", block: "start" });
+      if (history.replaceState) history.replaceState(null, "", a.getAttribute("href"));
     });
   });
 })();

@@ -37,6 +37,22 @@ The wordmark opens a left side sheet (dialog) with jump links to every section. 
 
 Hero back to 2.6 viewports without dwell; the second line assembles line by line (kinetic) and holds for about half of the travel. The fall lines slide in from the left and "Oder:" grows, both driven by --sc-p. The "Am ganzen Berg" photo wipes up. "Für jeden am Berg" is pinned again: vertical scrolling moves the native horizontal scroller, and manual scrolling, dragging and the arrow buttons add an offset. Removed by the user: the honesty paragraph, the plan timeline and the stage line in the side sheet (the hero stage line stays).
 
+## Feedback 3 (user, 2026-11-05)
+
+Side sheet is translucent (frosted glass, backdrop blur) and opens on hover over the wordmark, click and keyboard still work; no backdrop. The hero stage line is gone. The fall act text is new and ends on "Ein Knopf genügt.". The demo drawing is a soft-blue illustration (sky, ridges, groomed piste, trees, lift, station) without the staff phone; after the call a staff member rides down to the fallen person. The rider rail is a plain flow section again: tap an arrow for one card, hold it to scroll slowly. The footer no longer links the network book.
+
+## Feedback 4 (user, 2026-11-05)
+
+The fall act is removed entirely. In its place a pinned act "Was drinsteckt." shows the chip as an isometric layer stack (button, lid with light, radio and GPS board, battery, wireless charging coil, case) that separates as the visitor scrolls, labels arriving one by one, the LED turning red at the end; based on the prototype exploded drawing in the hardware workshop book and labelled as a sketch. Side sheet links are smaller and plainer (text face at base size, soft white pill for the current one).
+
+## Feedback 5 (user, 2026-11-05)
+
+Order: hero, word-reveal sentence (pinned, words turn from hairline blue to ink with scroll), Der Chip, Was drinsteckt, Am ganzen Berg, Die App, Für jeden am Berg, Das sind wir. The demo is shortened to 1 s hold and 2 s cancel window, with a note that the real chip uses 3 s and 5 s.
+
+## Feedback 6 (user, 2026-11-05)
+
+The word-reveal sentence act is removed; the chip demo follows the hero directly. The wordmark inside the side sheet links to the top. In the team act each name gets a 2px ink rule that draws from the left on entry (staggered), the role fades in after; names shift slightly on hover.
+
 ## Signature interaction
 
 Hold the chip's button on the page for three seconds (pointer, touch or keyboard). A ring fills, then a five-second cancel window counts down (a second press cancels, like the real chip); after it the signal draws itself automatically across a line drawing of the slope via the lift station to a staff phone that shows a red point. A short press draws the call to the own group instead. Clearly labelled as a demonstration.

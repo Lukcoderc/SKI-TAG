@@ -57,8 +57,9 @@
   /* ------------------------------------------- Der Chip (Vorführung) -- */
   /* Kurz drücken ruft die Gruppe. Drei Sekunden halten startet den Notruf,
      danach fünf Sekunden Abbruch-Zeit: wie am echten Chip bricht ein
-     weiterer Druck ab, Loslassen allein nicht. Danach spielt der Weg zum
-     Mitarbeiter von selbst ab, ohne Scrollen. */
+     weiterer Druck ab, Loslassen allein nicht. Danach spielt der Rest von
+     selbst ab: das Signal erreicht die Liftstation, ein Mitarbeiter macht
+     sich auf den Weg und fährt zur verletzten Person. */
   var akt = document.getElementById("der-chip");
   var knopf = akt && akt.querySelector(".haltknopf");
   if (knopf) {
@@ -67,15 +68,18 @@
     var status = document.getElementById("knopf-status");
     var nochmal = akt.querySelector('[data-aktion="nochmal"]');
     var weg = function (n) { return akt.querySelector(".weg--" + n); };
-    var g1 = weg("g1"), g2 = weg("g2"), h1 = weg("h1"), h2 = weg("h2");
+    var g1 = weg("g1"), g2 = weg("g2"), h1 = weg("h1");
     var wellen = akt.querySelectorAll(".welle");
     var zittern = akt.querySelectorAll(".zittern");
-    var punkt = akt.querySelector(".punkt-rot");
-    var handyText = akt.querySelector(".handy-text");
-    var annehmen = akt.querySelector(".annehmen");
+    var pings = akt.querySelectorAll(".ping");
+    var glanz = akt.querySelector(".du-glanz");
+    var spurMa = akt.querySelector(".spur-mitarbeiter");
+    var mitarbeiter = akt.querySelector(".mitarbeiter");
+    var spurMaLaenge = spurMa ? spurMa.getTotalLength() : 0;
     var schritte = akt.querySelectorAll(".gesten li");
 
-    var HALTEN = 3000, FRIST = 5000, LAUF = 5200, GRUPPE = 2200;
+    // In der Vorführung verkürzt; am echten Chip 3 s halten und 5 s Abbruch-Zeit.
+    var HALTEN = 1000, FRIST = 2000, LAUF = 7000, GRUPPE = 2200;
     var zustand = "ruhe", start = 0, hilfe = 0, gruppe = 0, letzteSekunde = -1, stufe = "";
 
     var setzeZustand = function (z) { zustand = z; knopf.setAttribute("data-zustand", z); };
@@ -86,7 +90,7 @@
     var zuruecksetzen = function () {
       setzeZustand("ruhe"); hilfe = 0; gruppe = 0; stufe = "";
       ringAuf(1); nochmal.hidden = true; aktiv("");
-      sage("Kurz drücken oder drei Sekunden halten. Mit der Maus, dem Finger oder der Leertaste.");
+      sage("Kurz drücken oder halten. Mit der Maus, dem Finger oder der Leertaste.");
     };
     var abbrechen = function () {
       zuruecksetzen();
@@ -122,26 +126,33 @@
     knopf.addEventListener("click", function (e) { e.preventDefault(); });
     nochmal.addEventListener("click", function () { zuruecksetzen(); knopf.focus(); });
 
+    var puls = function (x, von, bis) { var t = abschnitt(x, von, bis); return t > 0 && t < 1 ? Math.sin(t * Math.PI) : 0; };
     var zeichnen = function () {
       g1.style.strokeDashoffset = 1 - abschnitt(gruppe, 0, 0.4);
       g2.style.strokeDashoffset = 1 - abschnitt(gruppe, 0.05, 0.45);
       for (var z = 0; z < zittern.length; z++) {
-        var an = gruppe > 0.45 && gruppe < 1 ? 0.35 + 0.65 * Math.abs(Math.sin(gruppe * 28)) : (gruppe >= 1 ? 0.5 : 0);
-        zittern[z].style.opacity = an;
+        zittern[z].style.opacity = gruppe > 0.45 && gruppe < 1 ? 0.35 + 0.65 * Math.abs(Math.sin(gruppe * 28)) : (gruppe >= 1 ? 0.5 : 0);
       }
-      h1.style.strokeDashoffset = 1 - abschnitt(hilfe, 0.02, 0.36);
-      h2.style.strokeDashoffset = 1 - abschnitt(hilfe, 0.36, 0.52);
+      h1.style.strokeDashoffset = 1 - abschnitt(hilfe, 0.02, 0.26);
+      h1.style.opacity = hilfe > 0.4 ? 0.35 : 1;
+      pings[0].style.opacity = puls(hilfe, 0.24, 0.36) + puls(hilfe, 0.3, 0.42) * 0.6;
+      pings[1].style.opacity = puls(hilfe, 0.28, 0.42);
+      // Mitarbeiter fährt los und kommt an
+      var fahrt = abschnitt(hilfe, 0.4, 0.92);
+      var weich = fahrt < 0.5 ? 2 * fahrt * fahrt : 1 - Math.pow(-2 * fahrt + 2, 2) / 2;
+      spurMa.style.strokeDasharray = spurMaLaenge + " " + spurMaLaenge;
+      spurMa.style.strokeDashoffset = spurMaLaenge * (1 - weich);
+      spurMa.style.opacity = fahrt > 0 ? 0.8 : 0;
+      var pkt = spurMa.getPointAtLength(weich * spurMaLaenge);
+      mitarbeiter.setAttribute("transform", "translate(" + pkt.x.toFixed(1) + " " + pkt.y.toFixed(1) + ")");
       for (var k = 0; k < wellen.length; k++) {
-        var raus = abschnitt(hilfe, 0.02 + k * 0.04, 0.1 + k * 0.04), zurueck = abschnitt(hilfe, 0.84 + k * 0.04, 0.92 + k * 0.04);
+        var raus = abschnitt(hilfe, 0.02 + k * 0.04, 0.1 + k * 0.04);
+        var zwei = puls(hilfe, 0.38 + k * 0.02, 0.46 + k * 0.02) + puls(hilfe, 0.48 + k * 0.02, 0.56 + k * 0.02);
         var g = abschnitt(gruppe, 0.0 + k * 0.04, 0.08 + k * 0.04);
-        var w = hilfe > 0 ? (hilfe < 0.4 ? 0.25 + 0.75 * raus : (hilfe < 0.84 ? 0.3 : 0.3 + 0.7 * zurueck)) : (gruppe > 0 ? 0.2 + 0.6 * g : 0);
+        var w = hilfe > 0 ? (hilfe < 0.3 ? 0.25 + 0.75 * raus : 0.15 + 0.85 * Math.min(1, zwei)) : (gruppe > 0 ? 0.2 + 0.6 * g : 0);
         wellen[k].style.opacity = w;
       }
-      var p = abschnitt(hilfe, 0.52, 0.58);
-      punkt.style.opacity = p;
-      punkt.style.transform = "scale(" + (0.4 + 0.6 * p) + ")";
-      handyText.style.opacity = abschnitt(hilfe, 0.55, 0.62);
-      annehmen.setAttribute("fill", hilfe > 0.72 && hilfe < 0.82 ? "#5d6f84" : "#1b2430");
+      glanz.style.opacity = (zustand === "frist" || zustand === "lauf") ? 0.55 + 0.45 * Math.abs(Math.sin(performance.now() / 380)) : (zustand === "fertig" ? 0.4 : 0);
       led.setAttribute("fill", (zustand === "frist" || zustand === "lauf" || zustand === "fertig") ? "#d83a2c" : "#8fa3b8");
     };
 
@@ -157,14 +168,14 @@
         if (sek !== letzteSekunde && sek > 0) { letzteSekunde = sek; sage("<strong>Notruf in " + sek + " s.</strong> Loslassen und noch einmal kurz drücken bricht ab."); }
         if (rest <= 0) {
           setzeZustand("lauf"); start = jetzt; ringAuf(1); aktiv("hilfe");
-          sage("<strong>Notruf gesendet.</strong> Dein Standort ist unterwegs zur Bergbahn.");
+          sage("<strong>Notruf gesendet.</strong> Dein Standort geht an die Liftstation.");
         }
       } else if (zustand === "lauf") {
         hilfe = ohneBewegung ? 1 : klemme((jetzt - start) / LAUF);
-        if (hilfe > 0.56 && stufe === "") { stufe = "punkt"; sage("Der nächste Mitarbeiter sieht deinen Standort und tippt auf <strong>Annehmen</strong>."); }
+        if (hilfe > 0.38 && stufe === "") { stufe = "unterwegs"; sage("<strong>Ein Mitarbeiter ist unterwegs zu dir.</strong> Dein Chip vibriert zweimal."); }
         if (hilfe >= 1) {
           setzeZustand("fertig");
-          sage("<strong>Dein Chip vibriert zweimal:</strong> Hilfe ist unterwegs. Das war eine Vorführung, gesendet wurde nichts.");
+          sage("<strong>Hilfe ist da.</strong> Das war eine Vorführung, gesendet wurde nichts.");
           nochmal.hidden = false;
         }
       } else if (zustand === "gruppe") {

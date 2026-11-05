@@ -31,6 +31,22 @@ Zweiter Satz im Einstieg zu kurz: Einstieg wieder 2,6 Bildschirme, der Satz baut
 
 App-Punkte gleiten beim Scrollen nacheinander von links herein wie die Sturz-Zeilen (Lukas, 2026-11-05).
 
+## Feedback 3 (Lukas, 2026-11-05)
+
+Seitenleiste durchscheinend (Apple-Stil) und öffnet beim Drüberfahren übers Logo. „In Entwicklung …“ im Einstieg entfernt. Neuer Text vor dem Chip: „Neuschnee, blauer Himmel, die erste Gondel. / Dann ein Sturz, und keiner hat ihn gesehen. / Das Handy steckt im Rucksack, die Finger sind kalt. / Wer weiß jetzt, wo du bist?“ und groß „Ein Knopf genügt.“ Berggrafik farbig in sanftem Blau (Himmel, Kämme, Piste, Bäume, Lift, Station), kein Handy mehr, der Mitarbeiter fährt zur verletzten Person. „Für jeden am Berg“ läuft nicht mehr von selbst mit; Pfeil kurz tippen = eine Karte, halten = langsam scrollen. Netzwerk-Buch-Link im Fuß entfernt.
+
+## Feedback 4 (Lukas, 2026-11-05)
+
+Der Sturz-Text kommt ganz raus (auch die neue Fassung), stattdessen etwas Neues: „Was drinsteckt.“ Der Chip zerlegt sich beim Scrollen in Schichten (Knopf, Deckel mit Licht, Funk und GPS, Akku, Lädt kabellos, Gehäuse), nach der Explosionszeichnung im Werkstattbuch, als Skizze gekennzeichnet. Sprungmarken der Seitenleiste kleiner und schlichter.
+
+## Feedback 5 (Lukas, 2026-11-05)
+
+„Was drinsteckt“ kommt nach „Der Chip“. Davor neu ein großer Satz, dessen Wörter beim Scrollen aufleuchten: „Kein Handy aus der Tasche kramen. Keine Nummer wählen. Nicht erklären müssen, wo du gerade bist. Ein Knopf in deiner Jacke ruft deine Gruppe, oder die Bergbahn, wenn du Hilfe brauchst.“ Vorführung verkürzt (1 s halten, 2 s Abbruch), mit Hinweis, dass der echte Chip 3 s und 5 s braucht.
+
+## Feedback 6 (Lukas, 2026-11-05)
+
+Der aufleuchtende Satz vor „Der Chip“ kommt wieder weg (nach dem Einstieg folgt direkt „Der Chip“). „SkiTag“ oben in der Seitenleiste führt an den Anfang. Bei den Namen zeichnet sich beim Hereinkommen ein Strich, die Rolle blendet nach.
+
 ## Gefühlskurve (erste Fassung)
 
 1. Ruhe: heller Neuschnee, der Chip liegt still im Schnee, die Kamera gleitet langsam (scrub).
