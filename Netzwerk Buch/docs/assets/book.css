@@ -366,6 +366,17 @@ main ol.inhalt { list-style: none; padding: 0; margin-top: 18px; background: var
 .sb-antenne { stroke: var(--schnee); stroke-width: 4; stroke-linecap: round; }
 .sb-antenne-punkt { fill: var(--schnee); }
 .sb-keule { fill: var(--licht); fill-opacity: .2; stroke: var(--licht); stroke-width: 2; }
+.st-gelaende { fill: var(--flaeche-hell); stroke: var(--dunst); stroke-width: 1.5; }
+.st-stuetze { fill: none; stroke: var(--dunst); stroke-width: 4; stroke-linecap: round; }
+.st-seil { fill: none; stroke: var(--dunst); stroke-width: 2; }
+.st-sessel { fill: none; stroke: var(--dunst); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.st-bahnsteig { fill: var(--flaeche-hover); }
+.st-rad { fill: none; stroke: var(--schnee); stroke-width: 3; }
+.st-kabine { fill: var(--dunkel); stroke: var(--dunst); stroke-width: 1.5; }
+.st-mast { stroke: var(--dunst); stroke-width: 3; }
+.st-nr { fill: var(--licht); }
+.st-nr-text { font: 700 15px var(--kopf); fill: var(--dunkel); text-anchor: middle; }
+.st-legende { font: 700 17px var(--kopf); fill: var(--schnee); }
 
 /* Testfälle */
 .testfall { margin-top: 6px; background: var(--flaeche); padding: 11px 14px; }
