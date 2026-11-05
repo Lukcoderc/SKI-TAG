@@ -361,6 +361,11 @@ main ol.inhalt { list-style: none; padding: 0; margin-top: 18px; background: var
 .sb-rot-dick { fill: none; stroke: var(--notruf); stroke-width: 4; }
 .sb-spitze { fill: var(--dunst); }
 .sb-spitze-licht { fill: var(--licht); }
+.sb-dach { fill: var(--flaeche-hover); }
+.sb-fenster { fill: var(--dunkel); stroke: var(--dunst); stroke-width: 1.5; }
+.sb-antenne { stroke: var(--schnee); stroke-width: 4; stroke-linecap: round; }
+.sb-antenne-punkt { fill: var(--schnee); }
+.sb-keule { fill: var(--licht); fill-opacity: .2; stroke: var(--licht); stroke-width: 2; }
 
 /* Testfälle */
 .testfall { margin-top: 6px; background: var(--flaeche); padding: 11px 14px; }

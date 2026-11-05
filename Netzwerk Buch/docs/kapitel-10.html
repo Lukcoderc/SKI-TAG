@@ -6,9 +6,9 @@
 <script>try{document.documentElement.dataset.thema=localStorage.getItem("thema")||(matchMedia("(prefers-color-scheme: light)").matches?"hell":"dunkel")}catch(e){}</script>
 <title>Strom und Netzanbindung · SkiTag Netzwerk-Buch</title>
 <meta name="description" content="Wie die Gateways an Strom und Internet kommen und warum das Fenster das größte Hindernis ist.">
-<link rel="stylesheet" href="assets/book.css?v=49">
-<link rel="stylesheet" href="assets/druck.css?v=49" media="print">
-<script src="assets/book.js?v=49" defer></script>
+<link rel="stylesheet" href="assets/book.css?v=50">
+<link rel="stylesheet" href="assets/druck.css?v=50" media="print">
+<script src="assets/book.js?v=50" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -23,7 +23,7 @@
     <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
     <div class="kopf-titel">
       <h1>Strom und Netzanbindung</h1>
-      <p class="stand">Kapitel 10 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="stand">Kapitel 10 · Stand 5. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
       <p class="vorwissen">Baut auf: <a href="kapitel-07.html">Kapitel 7, Die Gateways</a> · <a href="kapitel-09.html">Kapitel 9, Standortplanung KitzSki</a></p>
     </div>
   </div>
@@ -86,6 +86,26 @@
         <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Geschätzt. Der Glaswert ist von anderen Frequenzen übernommen, und nicht jedes Fenster ist beschichtet. Trotzdem ist das die größte einzelne Unsicherheit im Test: Hinter dem falschen Fenster schrumpft die Reichweite von Kilometern auf wenige hundert Meter.</p>
         <p>Darum messen wir beim Aufstellen beide Fälle: einmal mit geschlossenem Fenster, einmal mit Antenne im Freien oder offenem Fenster, jeweils mit dem Chip am selben Ort. Der Unterschied im <a href="kapitel-anhang.html#g-rssi">RSSI</a> zeigt die echte Dämpfung. Ist sie groß, muss die Antenne über ein kurzes Kabel nach außen.</p>
 
+        <h2 id="antenne" data-kurz="Wo die Antenne hin muss">Wo die Antenne hin muss, damit sie rundum strahlt</h2>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Fest"><use href="#mark-fest"/></svg>Die Antenne des Gateways ist ein <a href="kapitel-anhang.html#g-rundstrahler">Rundstrahler</a>: ein senkrechter Stab, der wie ein liegender Ring strahlt. Waagrecht geht das Signal in alle Richtungen gleich weit, direkt nach oben und unten kaum. Die 3 dBi der Antenne kommen daher, dass der Ring etwas flacher ist als bei einem einfachen Stab. Rundum wirkt das aber nur, wenn rundum nichts im Weg ist. Das Bild zeigt drei Plätze an einer Station:</p>
+      </div>
+      <figure class="schema">
+        <div class="schema-rahmen" tabindex="0" role="group" aria-label="Drei Plätze für die Antenne an einer Station, nur am Mast über dem Dach strahlt sie rundum.">
+          <svg viewBox="0 0 960 420" role="img" aria-label="Drei Plätze für die Antenne an einer Station. Innen am Fenster strahlt sie nur zur Fensterseite und das Glas dämpft. Außen an der Wand verdeckt das Haus die Rückseite. Am Mast über dem Dach strahlt sie rundum, auch schräg nach unten zu den Pisten." data-schema="antenne"><g transform="translate(0 0)"><rect class="sb-zone" x="0" y="0" width="300" height="420"/><text class="sb-titel" x="18" y="36">1 Innen am Fenster</text><rect class="sb-box" x="90" y="230" width="120" height="80"/><polygon class="sb-dach" points="78,232 150,186 222,232"/><rect class="sb-fenster" x="176" y="250" width="22" height="28"/><path class="sb-linie" d="M16 310H284"/><path class="sb-antenne" d="M166 248V272"/><circle class="sb-antenne-punkt" cx="166" cy="248" r="4"/><ellipse class="sb-keule sb-gestrichelt" cx="246" cy="262" rx="40" ry="20"/><text class="sb-offen-text" x="40" y="350">Nur zur Fensterseite,</text><text class="sb-text" x="18" y="374">das Glas dämpft zusätzlich</text><use class="sb-offen" href="#mark-offen" x="18" y="337" width="16" height="16"/></g><g transform="translate(330 0)"><rect class="sb-zone" x="0" y="0" width="300" height="420"/><text class="sb-titel" x="18" y="36">2 Außen an der Wand</text><rect class="sb-box" x="90" y="230" width="120" height="80"/><polygon class="sb-dach" points="78,232 150,186 222,232"/><rect class="sb-fenster" x="176" y="250" width="22" height="28"/><path class="sb-linie" d="M16 310H284"/><path class="sb-linie" d="M210 220H224"/><path class="sb-antenne" d="M226 196V226"/><circle class="sb-antenne-punkt" cx="226" cy="196" r="4"/><ellipse class="sb-keule" cx="266" cy="214" rx="34" ry="22"/><text class="sb-offen-text" x="40" y="350">Das Haus verdeckt</text><text class="sb-text" x="18" y="374">die Rückseite</text><use class="sb-offen" href="#mark-offen" x="18" y="337" width="16" height="16"/></g><g transform="translate(660 0)"><rect class="sb-zone" x="0" y="0" width="300" height="420"/><text class="sb-titel" x="18" y="36">3 Am Mast über dem Dach</text><rect class="sb-box" x="90" y="230" width="120" height="80"/><polygon class="sb-dach" points="78,232 150,186 222,232"/><rect class="sb-fenster" x="176" y="250" width="22" height="28"/><path class="sb-linie" d="M16 310H284"/><path class="sb-linie" d="M150 186V112"/><path class="sb-antenne" d="M150 76V112"/><circle class="sb-antenne-punkt" cx="150" cy="76" r="4"/><ellipse class="sb-keule" cx="92" cy="100" rx="56" ry="28"/><ellipse class="sb-keule" cx="208" cy="100" rx="56" ry="28"/><text class="sb-text" x="18" y="350">Rundum frei, auch schräg</text><text class="sb-text" x="18" y="374">nach unten zu den Pisten</text></g></svg>
+        </div>
+        <figcaption>Seitenansicht einer Station, schematisch. Die Flächen zeigen, wohin die Antenne strahlt, gestrichelt heißt gedämpft. Nur am Mast über dem Dach ist rundum frei.<span class="schema-hinweis"> Zum Ansehen seitlich wischen.</span></figcaption>
+      </figure>
+      <div class="lesen">
+        <p class="nach-tabelle"><svg class="mark mark-im-text" role="img" aria-label="Geschätzt"><use href="#mark-geschaetzt"/></svg>Diese Regeln stammen aus allgemeinem Antennenwissen, gemessen ist an den Stationen noch nichts:</p>
+        <ul>
+          <li><strong>Am Mast über dem Dach:</strong> höher als First, Liftaufbauten und Bäume in der Nähe, damit rundum freie Sicht ist.</li>
+          <li><strong>Senkrecht, Spitze nach oben:</strong> Steht der Stab schräg, kippt der Ring, und eine Seite wird schwächer. Die Testantenne hat ein Knickgelenk, darauf beim Aufstellen achten.</li>
+          <li><strong>Abstand zu Metall:</strong> Stahlbau, Seile, Blechdach und andere Antennen lenken das Signal ab. Mindestens eine Wellenlänge Abstand, bei 868 MHz rund 35 cm, besser 1 m.</li>
+          <li><strong>Gerät nah an die Antenne:</strong> Jeder Meter Antennenkabel kostet Signal. Ein langes Netzwerkkabel mit <a href="kapitel-anhang.html#g-poe">PoE</a> kostet keins, darum sitzt das Gateway am Mast oder direkt unter dem Dach.</li>
+          <li><strong>Blitzschutz und Erdung</strong> wie <a href="#blitz">unten</a> beschrieben, denn der Mast ist der höchste Punkt.</li>
+        </ul>
+        <p>Im Test hängt das Gateway nach Plan innen am Fenster, also wie Platz 1. Das reicht, um Funk und Server zu prüfen, aber nicht, um die Reichweite rundum zu messen. Rundum ist auch nicht an jeder Station nötig: Steht sie am Hang, verdeckt der Berg dahinter ohnehin eine Seite. Dort zählt die Seite mit den Pisten, siehe den Geländeschnitt in <a href="kapitel-09.html#karte">Kapitel 9</a>.</p>
+
         <h2 id="betrieb" data-kurz="Strom und Netz im Betrieb">Strom und Netz im Betrieb</h2>
         <p>Im Betrieb soll das Gateway außen an der Station hängen, am besten mit einem einzigen Kabel. Das erlaubt Power over Ethernet (<a href="kapitel-anhang.html#g-poe">PoE</a>): Strom und Daten laufen über dasselbe Netzwerkkabel. Entschieden ist: Im Betrieb hängen die Gateways am Kabel. Offen ist, ob es das Netz der Bergbahn ist und welcher Weg als Reserve dient:</p>
       </div>
@@ -131,6 +151,7 @@
             <tr class="zeile-offen"><td>Strom an den Stationen</td><td data-spalte="Warum">Läuft er rund um die Uhr, auch nach Betriebsschluss und außerhalb der Saison? Gibt es eine Notstromversorgung?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Netz der Bergbahn</td><td data-spalte="Warum">Sind die Stationen vernetzt, und dürfen wir dieses Netz mitnutzen?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Montage außen</td><td data-spalte="Warum">Wo darf eine Antenne hin, und wer montiert sie? An Liftanlagen selbst gelten vermutlich eigene Regeln.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr class="zeile-offen"><td>Antenne an Hangstationen</td><td data-spalte="Warum">Am Hang verdeckt der Berg eine Seite. Ob dort eine Richtantenne mehr Pisten erreicht als ein Rundstrahler, zeigt erst eine Messung.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Glas der Stationen</td><td data-spalte="Warum">Welche Fenster sind beschichtet? Erst die Messung zeigt es.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
             <tr class="zeile-offen"><td>Standorte ohne Strom</td><td data-spalte="Warum">Reichen Stationen aus, oder braucht es Solar an abgelegenen Punkten?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
