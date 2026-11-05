@@ -9,8 +9,8 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='2' y='2' width='28' height='28' rx='9' fill='%23ffffff' stroke='%231b2430' stroke-width='2'/><circle cx='16' cy='16' r='6.5' fill='%231b2430'/></svg>">
 <link rel="preload" href="assets/fonts/funnel-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/funnelsans-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="scrollcraft.css?v=4">
-<link rel="stylesheet" href="assets/seite.css?v=4">
+<link rel="stylesheet" href="scrollcraft.css?v=7">
+<link rel="stylesheet" href="assets/seite.css?v=7">
 </head>
 <body>
 
@@ -32,26 +32,46 @@
   <a class="marke" href="#oben" aria-label="SkiTag, zum Anfang">
     <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="9" fill="#fff" stroke="#1b2430" stroke-width="2"/><circle cx="16" cy="16" r="6.5" fill="#1b2430"/></svg>
     SkiTag
+    <svg class="marke__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </a>
   <a class="knopf-dunkel" href="#wir-titel">Das sind wir</a>
 </header>
 
+<dialog id="seitenleiste" class="seite" aria-label="Inhalt der Seite">
+  <div class="seite__innen">
+    <div class="seite__kopf">
+      <span class="seite__marke">SkiTag</span>
+      <button class="seite__zu" type="button" aria-label="Inhalt schließen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+    </div>
+    <nav aria-label="Abschnitte">
+      <ol>
+        <li><a href="#oben">Start</a></li>
+        <li><a href="#der-chip">Der Chip</a></li>
+        <li><a href="#berg">Am ganzen Berg</a></li>
+        <li><a href="#app">Die App</a></li>
+        <li><a href="#jeden">Für jeden am Berg</a></li>
+        <li><a href="#wir">Das sind wir</a></li>
+      </ol>
+    </nav>
+  </div>
+</dialog>
+
 <main id="oben">
 
   <!-- 1 · Ruhe: Neuschnee, der Chip liegt still im Schnee -->
-  <section class="hang" data-sc-act="scrub" data-sc-span="2.4" data-sc-dwell="0.3" data-sc-drift="#f4f8fb" aria-labelledby="titel">
+  <section class="hang" data-sc-act="scrub" data-sc-span="2.6" data-sc-dwell="0" data-sc-drift="#f4f8fb" aria-labelledby="titel">
     <div data-sc-stage>
       <img class="sc-stage__poster" src="assets/media/hang-poster.webp" width="1920" height="1080" alt="">
       <video data-sc-scrub data-sc-src="assets/media/hang.mp4" data-sc-src-mobile="assets/media/hang-m.mp4" muted playsinline preload="none" aria-hidden="true"></video>
       <div class="sc-scrim hang__scrim" aria-hidden="true"></div>
 
-      <div class="sc-copy sc-copy--center hang__kopf" data-sc-cue="0 0.46 0">
+      <div class="sc-copy sc-copy--center hang__kopf" data-sc-cue="0 0.26 0 0.1" data-sc-rise="0">
         <h1 id="titel" class="sc-display">Ein Knopf statt eines Anrufs.</h1>
         <p>Der Mietchip für die Skijacke: gedrückt halten, und die Bergbahn erfährt, wo du bist.</p>
         <p class="hang__stand">In Entwicklung. Start frühestens zur Saison 27/28.</p>
       </div>
-      <div class="sc-copy sc-copy--center hang__zwei" data-sc-cue="0.5 1 0.16 0.2">
-        <h2>Ohne Handy. Ohne Handynetz. Nur der Chip in deiner Jacke.</h2>
+      <div class="sc-copy sc-copy--center hang__zwei" data-sc-cue="0.28 1 0.14 0.04" data-sc-rise="0">
+        <h2 data-sc-kinetic="lines">Ohne Handy. Ohne Handynetz. Nur der Chip in deiner Jacke.</h2>
       </div>
 
       <div class="hang__grund" data-sc-parallax="-0.9" aria-hidden="true">
@@ -66,14 +86,14 @@
   <!-- 2 · Unruhe -->
   <section class="sc-section unruhe" data-sc-act="flow" data-sc-drift="#ffffff">
     <div class="sc-wrap">
-      <div class="unruhe__zeilen" data-sc-in data-sc-stagger="90">
+      <div class="unruhe__zeilen">
         <p>Ein Sturz auf der Piste.</p>
         <p>Das Handy steckt im Rucksack.</p>
         <p>Die Finger sind kalt, der Empfang ist weg.</p>
         <p>Und wo genau bist du eigentlich?</p>
       </div>
       <div class="unruhe__stille">
-        <p class="unruhe__oder" data-sc-in>Oder:</p>
+        <p class="unruhe__oder">Oder:</p>
       </div>
     </div>
   </section>
@@ -171,9 +191,9 @@
   </section>
 
   <!-- 4 · Am ganzen Berg -->
-  <section class="sc-section berg" data-sc-act="flow" data-sc-drift="#eef3f8" aria-labelledby="berg-titel">
+  <section id="berg" class="sc-section berg" data-sc-act="flow" data-sc-drift="#eef3f8" aria-labelledby="berg-titel">
     <div class="sc-wrap berg__raster">
-      <div class="berg__bild"><img src="assets/media/gruppe-hoch.webp" width="1080" height="1920" loading="lazy" data-sc-parallax="-1.2" alt="Skifahrer an einer Kuppe, einer fährt im Vordergrund ab."></div>
+      <div class="berg__bild" data-sc-reveal="up" data-sc-reveal-at="0.12 0.45"><img src="assets/media/gruppe-hoch.webp" width="1080" height="1920" loading="lazy" data-sc-parallax="-1.2" alt="Skifahrer an einer Kuppe, einer fährt im Vordergrund ab."></div>
       <div class="berg__text sc-stack" data-sc-in data-sc-stagger="70">
         <h2 id="berg-titel" class="sc-display sc-display--lg">Am ganzen Berg.</h2>
         <p class="sc-lede">Damit dein Knopfdruck überall ankommt, montieren wir Empfänger an den Liftstationen. Das Ziel: das ganze Skigebiet abgedeckt, ohne Handy und ohne Handynetz.</p>
@@ -183,16 +203,16 @@
   </section>
 
   <!-- 5 · Die App -->
-  <section id="app" class="app-akt" data-sc-act="pin" data-sc-span="2.6" data-sc-drift="#ffffff" aria-labelledby="app-titel">
+  <section id="app" class="app-akt" data-sc-act="pin" data-sc-span="2.2" data-sc-drift="#ffffff" aria-labelledby="app-titel">
     <div data-sc-stage>
       <div class="app-akt__links">
         <h2 id="app-titel" class="sc-display sc-display--lg">Die App.</h2>
         <p class="app-akt__unter">Für Gäste, Familien und Skischulen. Karte, Route, Tracking und Radius.</p>
-        <div class="app-akt__schritte">
-          <div data-sc-cue="0.02 0.3 0.03 0.03"><h3>Karte und Route</h3><p>Such dein Ziel oder tipp es auf der Karte an. Die App führt dich über Pisten und Lifte hin.</p></div>
-          <div data-sc-cue="0.34 0.64 0.03 0.03"><h3>Tracking</h3><p>Strecken, Tempo und Kilometer deines Skitags. Ganz ohne teure Sportuhr.</p></div>
-          <div data-sc-cue="0.68 1 0.03 0.03"><h3>Radius</h3><p>Leg für dein Kind einen Radius fest. Fährt es weiter weg, meldet sich nur dein Chip. Das Kind merkt davon nichts.</p></div>
-        </div>
+        <ol class="app-akt__schritte">
+          <li><h3>Karte und Route</h3><p>Such dein Ziel oder tipp es auf der Karte an. Die App führt dich über Pisten und Lifte hin.</p></li>
+          <li><h3>Tracking</h3><p>Strecken, Tempo und Kilometer deines Skitags. Ganz ohne teure Sportuhr.</p></li>
+          <li><h3>Radius</h3><p>Leg für dein Kind einen Radius fest. Fährt es weiter weg, meldet sich nur dein Chip. Das Kind merkt davon nichts.</p></li>
+        </ol>
       </div>
       <figure class="app-akt__handy">
         <svg class="appskizze" viewBox="0 0 300 560" role="img" aria-labelledby="app-skizze-titel">
@@ -226,34 +246,40 @@
   </section>
 
   <!-- 6 · Für jeden am Berg -->
-  <section class="jeden" data-sc-act="pan" data-sc-span="3" data-sc-drift="#f4f8fb" aria-labelledby="jeden-titel">
-    <div data-sc-stage>
-      <div class="schiene" data-sc-pan="0.06">
-        <div class="schiene__kopf sc-stack">
-          <h2 id="jeden-titel" class="sc-display sc-display--lg">Für jeden am Berg.</h2>
-          <p class="sc-body">Ein Chip und eine App. Jeder nutzt, was er braucht.</p>
-        </div>
-        <article class="fahrer" style="--i:0">
-          <h3>Profis</h3>
-          <p class="fahrer__was">Tracking</p>
-          <p>Strecken, Tempo und Kilometer deines Tages. Ganz ohne teure Sportuhr.</p>
-        </article>
-        <article class="fahrer" style="--i:1">
-          <h3>Familien</h3>
-          <p class="fahrer__was">Radius und Routen</p>
-          <p>Ein Radius für die Kinder, Routen über Pisten und Lifte für alle, die sich nicht auskennen.</p>
-        </article>
-        <article class="fahrer" style="--i:2">
-          <h3>Skischulen</h3>
-          <p class="fahrer__was">Gruppen im Blick</p>
-          <p>Die ganze Gruppe auf einer Karte, schnell durchgezählt, ein Radius je Gruppe. Mit eigenem Zugang zur App.</p>
-        </article>
-        <article class="fahrer fahrer--alle" style="--i:3">
-          <h3>Für alle</h3>
-          <p class="fahrer__was">Sicherheit an erster Stelle</p>
-          <p>Ein Knopf in der Jacke. Kurz drücken ruft deine Gruppe, halten ruft Hilfe.</p>
-        </article>
+  <section id="jeden" class="jeden" data-sc-act="pin" data-sc-span="2.4" data-sc-drift="#f4f8fb" aria-labelledby="jeden-titel">
+    <div data-sc-stage class="jeden__buehne">
+    <div class="sc-wrap jeden__kopf">
+      <div class="sc-stack">
+        <h2 id="jeden-titel" class="sc-display sc-display--lg">Für jeden am Berg.</h2>
+        <p class="sc-body">Ein Chip und eine App. Jeder nutzt, was er braucht.</p>
       </div>
+      <div class="jeden__pfeile">
+        <button class="pfeil" type="button" data-schiene="zurueck" aria-label="Zurück" aria-controls="jeden-schiene"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3.5L5.5 8l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="pfeil" type="button" data-schiene="weiter" aria-label="Weiter" aria-controls="jeden-schiene"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5L10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+    <div id="jeden-schiene" class="jeden__schiene" tabindex="0" role="region" aria-label="Für jeden am Berg, seitwärts scrollen">
+      <article class="fahrer">
+        <h3>Profis</h3>
+        <p class="fahrer__was">Tracking</p>
+        <p>Strecken, Tempo und Kilometer deines Tages. Ganz ohne teure Sportuhr.</p>
+      </article>
+      <article class="fahrer">
+        <h3>Familien</h3>
+        <p class="fahrer__was">Radius und Routen</p>
+        <p>Ein Radius für die Kinder, Routen über Pisten und Lifte für alle, die sich nicht auskennen.</p>
+      </article>
+      <article class="fahrer">
+        <h3>Skischulen</h3>
+        <p class="fahrer__was">Gruppen im Blick</p>
+        <p>Die ganze Gruppe auf einer Karte, schnell durchgezählt, ein Radius je Gruppe. Mit eigenem Zugang zur App.</p>
+      </article>
+      <article class="fahrer fahrer--alle">
+        <h3>Für alle</h3>
+        <p class="fahrer__was">Sicherheit an erster Stelle</p>
+        <p>Ein Knopf in der Jacke. Kurz drücken ruft deine Gruppe, halten ruft Hilfe.</p>
+      </article>
+    </div>
     </div>
   </section>
 
@@ -270,15 +296,6 @@
           <li><span class="mensch__name">Lukas</span><span class="mensch__rolle">Netzwerk: Empfänger und Server</span></li>
           <li><span class="mensch__name">Maximilian</span><span class="mensch__rolle">Hardware: Chip, Akku, Gehäuse und Ladebox</span></li>
       </ul>
-      <div class="plan" data-sc-in>
-        <ol>
-          <li><time>Jänner 2027</time><span>Erste Prototypen</span></li>
-          <li><time>Februar oder März 2027</time><span>Testtag mit fünf Chips auf einer Piste</span></li>
-          <li><time>Sommer 2027</time><span>Gespräche mit Bergrettung und Bergbahnen</span></li>
-          <li><time>Saison 27/28</time><span>Start im ersten Skigebiet</span></li>
-        </ol>
-      </div>
-      <p class="ehrlich" data-sc-in>Ehrlich gesagt: Noch läuft nichts davon am Berg. Diese Seite beschreibt, wie SkiTag funktionieren soll. Wie weit der Funk wirklich reicht, zeigt erst der Test. Wer es genau wissen will, liest im <a href="https://lukcoderc.github.io/SKI-TAG/">Netzwerk-Buch</a> nach.</p>
     </div>
   </section>
 
@@ -299,9 +316,11 @@
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </a>
 
-<script src="scrollcraft.js?v=4"></script>
+<script src="scrollcraft.js?v=7"></script>
 <script>ScrollCraft.mount(document.body);</script>
-<script src="assets/seite.js?v=4" defer></script>
-<script src="assets/sprung-anfang.js?v=4" defer></script>
+<script src="assets/seite.js?v=7" defer></script>
+<script src="assets/sprung-anfang.js?v=7" defer></script>
+<script src="assets/seitenleiste.js?v=7" defer></script>
+<script src="assets/schiene.js?v=7" defer></script>
 </body>
 </html>

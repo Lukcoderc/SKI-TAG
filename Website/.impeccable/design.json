@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-04T23:00:00+01:00",
+  "generatedAt": "2026-11-05T18:00:00+01:00",
   "title": "Design System: SkiTag Website",
   "extensions": {
     "colorMeta": {
@@ -259,6 +259,21 @@
           "#f4f8fb"
         ]
       },
+      "ink-veil": {
+        "role": "neutral",
+        "displayName": "Ink Veil",
+        "canonical": "rgba(27, 36, 48, 0.22)",
+        "tonalRamp": [
+          "#0d121a",
+          "#1b2430",
+          "#2c3a4c",
+          "#46566b",
+          "#66778c",
+          "#8d9cae",
+          "#b9c4d1",
+          "#e3e9f0"
+        ]
+      },
       "mask-opaque": {
         "role": "neutral",
         "displayName": "Mask Opaque (mask stop, not paint)",
@@ -287,11 +302,15 @@
       },
       "headline-sm": {
         "displayName": "Headline Small",
-        "purpose": "Staggered doubt lines, second hero line, app step titles, rider panel names, team first names, mobile act titles."
+        "purpose": "Staggered doubt lines, rider panel names, team first names, mobile act titles. The second hero line is its own heading at 540, fluid 2.4 to 5rem."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "Step names in the chip act, the rider panel use line, plan dates."
+        "purpose": "Step names in the chip act, the rider panel use line."
+      },
+      "title-xl": {
+        "displayName": "Title XL",
+        "purpose": "Section links in the side sheet (520); app step titles at the same step in 600."
       },
       "lede": {
         "displayName": "Lede",
@@ -303,7 +322,7 @@
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Step descriptions, demo status and cancel hint, honesty paragraph, button text."
+        "purpose": "Step descriptions, demo status and cancel hint, the hero's stage line, button text."
       },
       "caption": {
         "displayName": "Caption",
@@ -314,7 +333,7 @@
       {
         "name": "sc-e1",
         "value": "0 1px 2px hsl(211 38% 52% / 0.18), 0 3px 8px -2px hsl(211 38% 52% / 0.20)",
-        "purpose": "Dark pill button."
+        "purpose": "Dark pill button and rail arrows (dropped when disabled)."
       },
       {
         "name": "sc-e2",
@@ -325,6 +344,11 @@
         "name": "sc-e3",
         "value": "0 8px 14px hsl(211 38% 52% / 0.12), 0 30px 60px -14px hsl(211 38% 52% / 0.42), 0 70px 120px -30px hsl(211 38% 52% / 0.30)",
         "purpose": "Framed mountain photo."
+      },
+      {
+        "name": "sheet",
+        "value": "18px 0 50px -20px hsl(211 38% 52% / 0.45)",
+        "purpose": "Side sheet; thrown to the right, away from the edge it slides from."
       },
       {
         "name": "ground-cast-hero",
@@ -379,9 +403,34 @@
         "purpose": "App act drawing."
       },
       {
-        "name": "rider-fade",
-        "value": "panels 55% to 100% opacity as the pan reaches them; only with motion allowed",
-        "purpose": "Rider rail."
+        "name": "hero-scrub",
+        "value": "2.6 viewports, no dwell; footage scales 1 to 1.14 with --sc-p, headline block lifts 9vh (4vh on phones) and fades out by about 26%; the second line (h2) assembles line by line (kinetic lines) and holds from about 40% to 96%; chip and its cast rise 6vh and scale to 1.5; transforms off under reduced motion",
+        "purpose": "Hero act."
+      },
+      {
+        "name": "app-steps",
+        "value": "persistent list; active and passed headings turn ink over sc-d-slow, active bar ink; nothing fades out",
+        "purpose": "App act step list."
+      },
+      {
+        "name": "side-sheet",
+        "value": "slide in from translateX(-100%) over 260ms, out over 180ms, sc-ease-out; no animation under reduced motion; wordmark chevron rotates 180deg over sc-d-base while open",
+        "purpose": "Side sheet."
+      },
+      {
+        "name": "doubt-lines",
+        "value": "driven by the act's --sc-p: each line slides in from -6vw and fades from 15% to full, staggered by 0.06 of progress; the closing word scales 0.82 to 1 and fades in from 50% progress; static under reduced motion",
+        "purpose": "Doubt act."
+      },
+      {
+        "name": "photo-reveal",
+        "value": "the mountain photo frame wipes up (reveal up) as the act enters, with parallax inside the frame",
+        "purpose": "Am ganzen Berg act."
+      },
+      {
+        "name": "rail",
+        "value": "pinned act, 2.4 viewports; --sc-p drives scrollLeft, manual scroll, mouse drag and the arrows add a kept offset; snap off while driven; arrows step one panel width, smooth unless reduced motion; arrows disabled at the ends; not driven under reduced motion",
+        "purpose": "Für jeden am Berg rail."
       }
     ],
     "breakpoints": [
@@ -412,9 +461,9 @@
       "name": "Navigation Bar",
       "kind": "nav",
       "refersTo": "navigation",
-      "description": "Wordmark left, single dark pill (Das sind wir, to the team heading) right; white with hairline once scrolled.",
-      "html": "<header class=\"ds-leiste\"><a class=\"ds-marke\" href=\"#\"><svg viewBox=\"0 0 32 32\" width=\"22\" height=\"22\"><rect x=\"2\" y=\"2\" width=\"28\" height=\"28\" rx=\"9\" fill=\"#fff\" stroke=\"#1b2430\" stroke-width=\"2\"/><circle cx=\"16\" cy=\"16\" r=\"6.5\" fill=\"#1b2430\"/></svg>SkiTag</a><a class=\"ds-cta\" href=\"#\">Das sind wir</a></header>",
-      "css": ".ds-leiste { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; background: #fff; box-shadow: 0 1px 0 #c7d4e2; } .ds-marke { display: inline-flex; align-items: center; gap: 0.55rem; font-family: 'Funnel Display', 'Funnel Sans', system-ui, sans-serif; font-weight: 640; font-size: 1.45rem; letter-spacing: -0.03em; color: #1b2430; text-decoration: none; } .ds-cta { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.25rem; border-radius: 999px; background: #1b2430; color: #fff; text-decoration: none; font-family: 'Funnel Sans', system-ui, sans-serif; font-weight: 560; font-size: 0.95rem; transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-cta:hover { background: #2c3a4c; } .ds-cta:focus-visible, .ds-marke:focus-visible { outline: 2px solid #1b2430; outline-offset: 3px; }"
+      "description": "Wordmark with chevron (opens the side sheet) left, single dark pill (Das sind wir) right; white with hairline once scrolled.",
+      "html": "<header class=\"ds-leiste\"><a class=\"ds-marke\" href=\"#\"><svg viewBox=\"0 0 32 32\" width=\"22\" height=\"22\"><rect x=\"2\" y=\"2\" width=\"28\" height=\"28\" rx=\"9\" fill=\"#fff\" stroke=\"#1b2430\" stroke-width=\"2\"/><circle cx=\"16\" cy=\"16\" r=\"6.5\" fill=\"#1b2430\"/></svg>SkiTag<svg class=\"ds-pfeil\" viewBox=\"0 0 16 16\" width=\"14\" height=\"14\"><path d=\"M4 6l4 4 4-4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a><a class=\"ds-cta\" href=\"#\">Das sind wir</a></header>",
+      "css": ".ds-leiste { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; background: #fff; box-shadow: 0 1px 0 #c7d4e2; } .ds-marke { display: inline-flex; align-items: center; gap: 0.55rem; font-family: 'Funnel Display', 'Funnel Sans', system-ui, sans-serif; font-weight: 640; font-size: 1.45rem; letter-spacing: -0.03em; color: #1b2430; text-decoration: none; padding: 0.35rem 0.5rem 0.35rem 0; border-radius: 14px; } .ds-pfeil { color: #4a586a; transition: transform 240ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-marke:hover .ds-pfeil { color: #1b2430; transform: translateY(1px); } .ds-marke[aria-expanded=\"true\"] .ds-pfeil { transform: rotate(180deg); } .ds-cta { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.25rem; border-radius: 999px; background: #1b2430; color: #fff; text-decoration: none; font-family: 'Funnel Sans', system-ui, sans-serif; font-weight: 560; font-size: 0.95rem; transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-cta:hover { background: #2c3a4c; } .ds-cta:focus-visible, .ds-marke:focus-visible { outline: 2px solid #1b2430; outline-offset: 3px; }"
     },
     {
       "name": "Back to Top",
@@ -452,19 +501,35 @@
       "name": "Rider Panel",
       "kind": "card",
       "refersTo": "rider-panel",
-      "description": "Typographic panel on the horizontal rail: hairline top rule, name, use line, short sentence; the closing panel carries a 2px ink rule.",
+      "description": "Typographic panel on the native horizontal scroller: hairline top rule, name, use line, short sentence; the closing panel carries a 2px ink rule.",
       "html": "<div class=\"ds-schiene\"><article class=\"ds-fahrer\"><h3>Familien</h3><p class=\"ds-fahrer__was\">Radius und Routen</p><p>Ein Radius für die Kinder, Routen über Pisten und Lifte für alle, die sich nicht auskennen.</p></article><article class=\"ds-fahrer ds-fahrer--alle\"><h3>Für alle</h3><p class=\"ds-fahrer__was\">Sicherheit an erster Stelle</p><p>Ein Knopf in der Jacke. Kurz drücken ruft deine Gruppe, halten ruft Hilfe.</p></article></div>",
-      "css": ".ds-schiene { display: flex; gap: 2.5rem; font-family: 'Funnel Sans', system-ui, sans-serif; } .ds-fahrer { width: 18rem; border-top: 1px solid #c7d4e2; padding-top: 1.5rem; color: #1b2430; } .ds-fahrer h3 { margin: 0; font-family: 'Funnel Display', 'Funnel Sans', system-ui, sans-serif; font-weight: 600; font-size: 2.6rem; letter-spacing: -0.035em; line-height: 1; } .ds-fahrer__was { margin: 1rem 0 0; font-weight: 600; font-size: 1.3rem; } .ds-fahrer p:last-child { margin: 0.5rem 0 0; color: #4a586a; max-width: 30ch; line-height: 1.62; } .ds-fahrer--alle { border-top: 2px solid #1b2430; }"
+      "css": ".ds-schiene { display: flex; gap: 2.5rem; overflow-x: auto; scroll-snap-type: x mandatory; font-family: 'Funnel Sans', system-ui, sans-serif; } .ds-fahrer { width: 18rem; flex: 0 0 auto; scroll-snap-align: start; border-top: 1px solid #c7d4e2; padding-top: 1.5rem; color: #1b2430; } .ds-fahrer h3 { margin: 0; font-family: 'Funnel Display', 'Funnel Sans', system-ui, sans-serif; font-weight: 600; font-size: 2.6rem; letter-spacing: -0.035em; line-height: 1; } .ds-fahrer__was { margin: 1rem 0 0; font-weight: 600; font-size: 1.3rem; } .ds-fahrer p:last-child { margin: 0.5rem 0 0; color: #4a586a; max-width: 30ch; line-height: 1.62; } .ds-fahrer--alle { border-top: 2px solid #1b2430; }"
+    },
+    {
+      "name": "Side Sheet",
+      "kind": "nav",
+      "refersTo": "side-sheet",
+      "description": "White modal sheet from the left in two rows: head (wordmark and close) and the section list; current section in ink with a 2px ink bar.",
+      "html": "<div class=\"ds-seite\"><div class=\"ds-seite__kopf\"><span class=\"ds-seite__marke\">SkiTag</span><button class=\"ds-seite__zu\" aria-label=\"Inhalt schließen\"><svg viewBox=\"0 0 16 16\" width=\"16\" height=\"16\"><path d=\"M3.5 3.5l9 9M12.5 3.5l-9 9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/></svg></button></div><ol><li><a href=\"#\">Start</a></li><li><a href=\"#\" aria-current=\"true\">Der Chip</a></li><li><a href=\"#\">Am ganzen Berg</a></li><li><a href=\"#\">Die App</a></li><li><a href=\"#\">Für jeden am Berg</a></li><li><a href=\"#\">Das sind wir</a></li></ol></div>",
+      "css": ".ds-seite { width: min(22rem, 86vw); min-height: 28rem; display: grid; grid-template-rows: auto 1fr; padding: 1.2rem 2rem 2rem; background: #fff; color: #1b2430; box-shadow: 18px 0 50px -20px hsl(211 38% 52% / 0.45); font-family: 'Funnel Sans', system-ui, sans-serif; } .ds-seite__kopf { display: flex; justify-content: space-between; align-items: center; } .ds-seite__marke { font-family: 'Funnel Display', 'Funnel Sans', system-ui, sans-serif; font-weight: 640; font-size: 1.45rem; letter-spacing: -0.03em; } .ds-seite__zu { width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 1px solid #c7d4e2; background: #fff; color: #1b2430; display: grid; place-items: center; cursor: pointer; transition: border-color 160ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-seite__zu:hover { border-color: #1b2430; } .ds-seite ol { list-style: none; margin: 3rem 0 0; padding: 0; } .ds-seite a { display: block; position: relative; padding: 0.7rem 0 0.7rem 1rem; text-decoration: none; font-family: 'Funnel Display', 'Funnel Sans', system-ui, sans-serif; font-weight: 520; font-size: 1.9rem; letter-spacing: -0.02em; color: #4a586a; transition: color 160ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-seite a::before { content: ''; position: absolute; left: 0; top: 0.9rem; bottom: 0.9rem; width: 2px; background: transparent; } .ds-seite a[aria-current='true'], .ds-seite a:hover { color: #1b2430; } .ds-seite a[aria-current='true']::before { background: #1b2430; } .ds-seite a:focus-visible, .ds-seite__zu:focus-visible { outline: 2px solid #1b2430; outline-offset: 2px; }"
+    },
+    {
+      "name": "Rail Arrow",
+      "kind": "button",
+      "refersTo": "button-rail-arrow",
+      "description": "White 3rem circle that steps the rider rail one panel as an offset on the scroll-driven position; disabled at the ends.",
+      "html": "<div class=\"ds-pfeile\"><button class=\"ds-pfeil-knopf\" aria-label=\"Zurück\" disabled><svg viewBox=\"0 0 16 16\" width=\"18\" height=\"18\"><path d=\"M10 3.5L5.5 8l4.5 4.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button><button class=\"ds-pfeil-knopf\" aria-label=\"Weiter\"><svg viewBox=\"0 0 16 16\" width=\"18\" height=\"18\"><path d=\"M6 3.5L10.5 8 6 12.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button></div>",
+      "css": ".ds-pfeile { display: flex; gap: 0.5rem; } .ds-pfeil-knopf { width: 3rem; height: 3rem; border-radius: 50%; display: grid; place-items: center; cursor: pointer; border: 1px solid #c7d4e2; background: #fff; color: #1b2430; box-shadow: 0 1px 2px hsl(211 38% 52% / 0.18), 0 3px 8px -2px hsl(211 38% 52% / 0.20); transition: border-color 160ms cubic-bezier(0.23, 1, 0.32, 1), opacity 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 160ms cubic-bezier(0.23, 1, 0.32, 1); } .ds-pfeil-knopf:hover:not(:disabled) { border-color: #1b2430; } .ds-pfeil-knopf:active:not(:disabled) { transform: scale(0.96); } .ds-pfeil-knopf:disabled { opacity: 0.35; cursor: default; box-shadow: none; } .ds-pfeil-knopf:focus-visible { outline: 2px solid #1b2430; outline-offset: 3px; }"
     }
   ],
   "narrative": {
     "northStar": "Neuschnee",
-    "overview": "The page is a bright winter morning. High-key snow white and pale glacier blue carry every surface; the only dark is slate ink, used for words, line drawings and the one action. The chip stands on that snow as a flat line drawing with a cold blue cast shadow underneath, the way a thing lies on fresh powder. Mountain footage (Mixkit stock) is scrubbed by scroll and dissolves downward into the white ground through a mask, never a drawn edge; a light snowfall on a canvas is the atmosphere of the first viewport.\n\nDensity is low and the air is generous. Each act of the scroll does one thing: a centred headline in the sky, staggered lines of doubt, the chip to try with a slope drawing that answers the press, a framed photo of a group on the mountain, the app sketched in a phone outline, a horizontal rail of typographic rider panels, then the team with a plan. The page is an introduction only: it ends with the team act and a plain footer, and has no rental or purchase surface. Honesty is a visual element: placeholders and sketches are labelled in a small caption directly under the thing they stand for, and the interactive demo carries a pill that says it is a demonstration.\n\nThe world refuses the dark gadget page with a glowing device and three feature cards. Colour is not decoration here: there is no accent hue at all, only ink-dark for action and a single emergency red that belongs to the alarm.\n\nThe scroll mechanism is the ScrollCraft engine (`scrollcraft.css`/`.js`, unchanged). This system is the set of overrides of its `--sc-*` tokens plus the page's own tokens and classes in `seite.css`; the engine's spacing and type scales are inherited as they are.",
+    "overview": "The page is a bright winter morning. High-key snow white and pale glacier blue carry every surface; the only dark is slate ink, used for words, line drawings and the one action. The chip stands on that snow as a flat line drawing with a cold blue cast shadow underneath, the way a thing lies on fresh powder. Mountain footage (Mixkit stock) is scrubbed by scroll and dissolves downward into the white ground through a mask, never a drawn edge; a light snowfall on a canvas is the atmosphere of the first viewport.\n\nDensity is low and the air is generous. Each act of the scroll does one thing: a centred headline in the sky that gives way to a second line assembling itself, staggered lines of doubt sliding in from the left, the chip to try with a slope drawing that answers the press, a framed photo of a group on the mountain that wipes up into view, the app sketched in a phone outline, a sideways rail of typographic rider panels that vertical scroll carries along, then the team. The page is an introduction only: it ends with the team act and a plain footer, and has no rental or purchase surface. Honesty is a visual element: placeholders and sketches are labelled in a small caption directly under the thing they stand for, and the interactive demo carries a pill that says it is a demonstration.\n\nThe world refuses the dark gadget page with a glowing device and three feature cards. Colour is not decoration here: there is no accent hue at all, only ink-dark for action and a single emergency red that belongs to the alarm.\n\nThe scroll mechanism is the ScrollCraft engine (`scrollcraft.css`/`.js`, unchanged). This system is the set of overrides of its `--sc-*` tokens plus the page's own tokens and classes in `seite.css`; the engine's spacing and type scales are inherited as they are.",
     "keyCharacteristics": [
       "High-key snow grounds, slate ink, no accent hue.",
       "Emergency red appears only where the emergency itself is shown.",
       "Flat slate line drawings (chip, slope, phone) with rounded caps; things that stand get a blurred cold blue cast ellipse.",
-      "Footage masked into the white ground; sparse snowfall as atmosphere, removed under reduced motion.",
+      "Footage masked into the white ground and scrubbed: it zooms gently while the headline lifts and fades, the second line assembles line by line and the chip rises and grows to 1.5 with its cast; sparse snowfall as atmosphere, removed under reduced motion.",
       "Soft, blue-tinted, offset shadows; hairlines in shadow blue, a 2px ink rule only for emphasis or the active step.",
       "Every placeholder and sketch labelled where it stands."
     ],
@@ -496,7 +561,7 @@
       },
       {
         "name": "The Cold Shadow Rule",
-        "body": "Shadows are blue, never black or grey, and they fall downward with blur. Hard offset shadows do not exist in this world.",
+        "body": "Shadows are blue, never black or grey, and they fall downward with blur (the side sheet's falls away from its edge). Hard offset shadows do not exist in this world.",
         "section": "elevation"
       },
       {

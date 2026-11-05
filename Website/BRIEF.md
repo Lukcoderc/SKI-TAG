@@ -21,6 +21,16 @@ Publikum „Alle gleich“. Am Schluss soll man „den Chip mieten wollen wo es 
 
 Weniger Schneeflocken. Vorführung spielt nach dem Halten von selbst ab, ohne Scrollen. Für Kunden zählt nur: kurz drücken ruft die Gruppe, halten ruft Hilfe, ein Mitarbeiter bekommt den Notruf. Server und Ladestation raus, Empfänger nur als „das ganze Skigebiet wird abgedeckt“ (als Ziel). Neu: „Die App“ (Karte mit Route, Tracking, Radius) und „Für jeden am Berg“ (Profis Tracking, Familien Radius und Routen, Skischulen Gruppen und Zählung mit eigenem Zugang, für alle Sicherheit an erster Stelle). Reihenfolge: Chip, Berg, App, für jeden, Das sind wir.
 
+## Feedback (Lukas, 2026-11-05)
+
+Einstieg fühlte sich komisch an: jetzt kürzer (1,8 Bildschirme), ohne Abbremsen in der Mitte, Chip wächst und steigt, Überschrift gleitet weg, Video zoomt mit. Klick aufs Logo öffnet links eine Seitenleiste mit allen Abschnitten. App: die drei Punkte bleiben stehen, der aktuelle ist hervorgehoben, nichts verschwindet. „Für jeden am Berg“: selbst seitwärts scrollen (Wischen, Trackpad, Ziehen, Pfeilknöpfe).
+
+## Feedback 2 (Lukas, 2026-11-05)
+
+Zweiter Satz im Einstieg zu kurz: Einstieg wieder 2,6 Bildschirme, der Satz baut sich zeilenweise auf und steht rund die Hälfte der Strecke. Mehr Scroll-Animation: Sturz-Zeilen gleiten herein, „Oder:“ wächst, Bild „Am ganzen Berg“ wischt herein. „Für jeden am Berg“ läuft beim Runterscrollen mit und bleibt per Pfeil, Wischen und Ziehen steuerbar. Entfernt: Ehrlich-Absatz, Zeitplan, Satz unten in der Seitenleiste.
+
+App-Punkte gleiten beim Scrollen nacheinander von links herein wie die Sturz-Zeilen (Lukas, 2026-11-05).
+
 ## Gefühlskurve (erste Fassung)
 
 1. Ruhe: heller Neuschnee, der Chip liegt still im Schnee, die Kamera gleitet langsam (scrub).

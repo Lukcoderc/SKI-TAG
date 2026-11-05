@@ -185,6 +185,7 @@
     var radius = appAkt.querySelector(".radius");
     var ziel = appAkt.querySelectorAll(".ziel");
     var kind = appAkt.querySelector(".kind");
+    var appSchritte = appAkt.querySelectorAll(".app-akt__schritte li");
     var appTakt = function () {
       var p = ohneBewegung ? 1 : (parseFloat(getComputedStyle(appAkt).getPropertyValue("--sc-p")) || 0);
       var r = abschnitt(p, 0.04, 0.28);
@@ -197,6 +198,8 @@
       kind.style.opacity = abschnitt(p, 0.7, 0.76);
       kind.setAttribute("transform", "translate(" + (160 + 70 * raus) + " " + (430 + 45 * raus) + ")");
       radius.style.stroke = raus >= 1 ? "#5d6f84" : "#1b2430";
+      var nr = p < 0.33 ? 0 : (p < 0.66 ? 1 : 2);
+      appSchritte.forEach(function (li, i) { li.classList.toggle("ist-aktiv", i === nr); li.classList.toggle("ist-gezeigt", ohneBewegung || i < nr); });
       requestAnimationFrame(appTakt);
     };
     requestAnimationFrame(appTakt);

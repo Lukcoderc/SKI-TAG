@@ -29,6 +29,14 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 Hero, the fall, Der Chip (try it: short press calls the group, hold calls help, the path to the staff member plays automatically without scrolling), Am ganzen Berg (receivers at lift stations, goal: whole ski area covered), Die App (map and route, tracking, radius), Für jeden am Berg (pros, families, ski schools, for everyone safety first), Das sind wir. No server, cable or charging station content.
 
+## Navigation and motion (user feedback, 2026-11-05)
+
+The wordmark opens a left side sheet (dialog) with jump links to every section. The hero scrubs over 1.8 viewports without dwell, the chip grows and rises, the headline slides away and the footage zooms, so scrolling is clearly felt. The app steps stay on screen as a list with the current one highlighted. The rider panels are a native horizontal scroller with arrow buttons and mouse drag, not a scroll-driven pan.
+
+## Feedback 2 (user, 2026-11-05)
+
+Hero back to 2.6 viewports without dwell; the second line assembles line by line (kinetic) and holds for about half of the travel. The fall lines slide in from the left and "Oder:" grows, both driven by --sc-p. The "Am ganzen Berg" photo wipes up. "Für jeden am Berg" is pinned again: vertical scrolling moves the native horizontal scroller, and manual scrolling, dragging and the arrow buttons add an offset. Removed by the user: the honesty paragraph, the plan timeline and the stage line in the side sheet (the hero stage line stays).
+
 ## Signature interaction
 
 Hold the chip's button on the page for three seconds (pointer, touch or keyboard). A ring fills, then a five-second cancel window counts down (a second press cancels, like the real chip); after it the signal draws itself automatically across a line drawing of the slope via the lift station to a staff phone that shows a red point. A short press draws the call to the own group instead. Clearly labelled as a demonstration.
