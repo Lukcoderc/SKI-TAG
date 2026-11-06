@@ -47,6 +47,16 @@ Der Sturz-Text kommt ganz raus (auch die neue Fassung), stattdessen etwas Neues:
 
 Der aufleuchtende Satz vor „Der Chip“ kommt wieder weg (nach dem Einstieg folgt direkt „Der Chip“). „SkiTag“ oben in der Seitenleiste führt an den Anfang. Bei den Namen zeichnet sich beim Hereinkommen ein Strich, die Rolle blendet nach.
 
+## Feedback 7 (Lukas, 2026-11-06)
+
+„Was drinsteckt“ war nur ein Platzhalter. Jetzt ein echtes 3D-Modell (three.js, Skill `exploded-view` aus open-3d-skills) nach der Explosionszeichnung im Werkstattbuch von Maximilian: sieben Teile in seiner Reihenfolge, rechteckig 120 × 60 × 32 mm mit Hülle, zerlegt sich beim Scrollen, seitlich ziehen dreht ihn. Etiketten rechts wie bei Maximilian. Ohne WebGL eine flache Zeichnung nach dem Werkstattbuch. Farbe bleibt im Schnee-Look der Seite (im Werkstattbuch ist Signal-Orange entschieden).
+
+## Feedback 8 (Lukas, 2026-11-06): Redesign
+
+„Grunddesign ist gut, nur ich brauche eine moderne krasse Website, nicht so langweilig.“ Wünsche: Chip langweilig; Dinge besser herausheben, professionell; App als iPhone im echten Design von Tobias' App (https://tobiass3.github.io/SKI-TAG/); etwas Neues, das Leute interessiert, mit Animationen und Grafiken; überall drüberschauen, krass aber clean, Apple-Stil.
+
+Umgesetzt (Details in `DESIGN.md`): Wechsel von Schnee und Nachtblau; der Chip in Signal-Orange als 3D-Modell im Einstieg und zerlegt in „Was drinsteckt“, sonst als Zeichnung von oben; Halte-Knopf als orangener Chip; neue Kacheln „Gebaut für den Berg“ (3 s / 5 s, −20 °C Ziel, 8 h Ziel, Signalorange, 0 Handys, weiche Hülle); neue Berggrafik „So kommt Hilfe“ bei Nacht (Funkweg zur Liftstation, Mitarbeiter fährt hin, Empfänger an allen Stationen als Ziel); iPhone mit nachgebauten App-Bildschirmen (Route, Gruppe, Mein Tag); Karten in „Für jeden am Berg“; neue Fragen; Team als Karten (Platzhalter-Foto entfernt); Schluss bei Nacht; Fuß mit Spalten; Kopfleiste als Glas mit Abschnitts-Links. Tracking-Text ohne „Tempo“, wie in der App.
+
 ## Gefühlskurve (erste Fassung)
 
 1. Ruhe: heller Neuschnee, der Chip liegt still im Schnee, die Kamera gleitet langsam (scrub).

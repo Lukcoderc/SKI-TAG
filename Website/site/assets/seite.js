@@ -153,10 +153,13 @@
         wellen[k].style.opacity = w;
       }
       glanz.style.opacity = (zustand === "frist" || zustand === "lauf") ? 0.55 + 0.45 * Math.abs(Math.sin(performance.now() / 380)) : (zustand === "fertig" ? 0.4 : 0);
-      led.setAttribute("fill", (zustand === "frist" || zustand === "lauf" || zustand === "fertig") ? "#d83a2c" : "#8fa3b8");
+      led.setAttribute("fill", (zustand === "frist" || zustand === "lauf" || zustand === "fertig") ? "#ff2d2d" : "#fff4ee");
     };
 
+    var demoSichtbar = false;
+    new IntersectionObserver(function (e) { var war = demoSichtbar; demoSichtbar = e[0].isIntersecting; if (demoSichtbar && !war) requestAnimationFrame(takt); }).observe(akt);
     var takt = function (jetzt) {
+      if (!demoSichtbar) return;
       if (zustand === "halten") {
         var t = (jetzt - start) / HALTEN;
         ringAuf(1 - klemme(t));
@@ -182,37 +185,131 @@
         gruppe = ohneBewegung ? 1 : klemme((jetzt - start) / GRUPPE);
         if (gruppe >= 1) { setzeZustand("ruhe"); gruppe = 1; }
       }
-      zeichnen();
+      if (zustand !== "ruhe" || gruppe > 0) zeichnen();
       requestAnimationFrame(takt);
     };
-    requestAnimationFrame(takt);
+    zeichnen();
   }
 
-  /* ------------------------------------------------- Die App (Skizze) -- */
+  var fortschritt = function (el) { return parseFloat(el.style.getPropertyValue("--sc-p")) || 0; };
+
+  /* ------------------------------------- Kopfleiste über der Nacht -- */
+  /* Liegt die Leiste über einer nachtblauen Bühne, wird sie hell. */
+  var nachtFlaechen = document.querySelectorAll(".nacht");
+  function leisteNacht() {
+    var unter = leiste.getBoundingClientRect().bottom / 2;
+    var nacht = false;
+    nachtFlaechen.forEach(function (n) { var r = n.getBoundingClientRect(); if (r.top <= unter && r.bottom >= unter) nacht = true; });
+    leiste.classList.toggle("ist-nacht", nacht);
+  }
+  window.addEventListener("scroll", leisteNacht, { passive: true });
+  leisteNacht();
+
+  /* ------------------------------------------- So kommt Hilfe (Netz) -- */
+  /* Vier Schritte über die gepinnte Strecke: Knopf halten, die Station hört
+     mit, ein Mitarbeiter kommt, Empfänger an allen Stationen. */
+  var netz = document.getElementById("berg");
+  if (netz) {
+    var sterne = netz.querySelector(".netz__sterne");
+    if (sterne) {
+      var NS = "http://www.w3.org/2000/svg", zufall = 7;
+      var naechste = function () { zufall = (zufall * 9301 + 49297) % 233280; return zufall / 233280; };
+      for (var s = 0; s < 120; s++) {
+        var c = document.createElementNS(NS, "circle");
+        c.setAttribute("cx", (naechste() * 1600).toFixed(1));
+        c.setAttribute("cy", (naechste() * 420).toFixed(1));
+        c.setAttribute("r", (0.6 + naechste() * 1.4).toFixed(2));
+        c.setAttribute("opacity", (0.25 + naechste() * 0.6).toFixed(2));
+        sterne.appendChild(c);
+      }
+    }
+    var nSchritte = netz.querySelectorAll(".netz__schritte li");
+    var wellenN = netz.querySelectorAll(".netz__wellen circle");
+    var funk = netz.querySelector(".netz__funk");
+    var stationen = netz.querySelectorAll(".netz__station");
+    var felder = netz.querySelectorAll(".netz__feld");
+    var karte = netz.querySelector(".netz__karte");
+    var nSpur = netz.querySelector(".netz__spur");
+    var nMa = netz.querySelector(".netz__mitarbeiter");
+    var glut = netz.querySelector(".netz__glut");
+    var nSpurLaenge = nSpur.getTotalLength();
+    var netzLetztP = -1, netzSichtbar = false;
+    new IntersectionObserver(function (e) { var war = netzSichtbar; netzSichtbar = e[0].isIntersecting; if (netzSichtbar && !war) requestAnimationFrame(netzTakt); }).observe(netz);
+    var netzTakt = function (jetzt) {
+      if (!netzSichtbar) return;
+      var p = ohneBewegung ? 0.95 : fortschritt(netz);
+      var wellenLaufen = !ohneBewegung && p > 0.01 && p < 0.47;
+      if (p === netzLetztP && !wellenLaufen) { requestAnimationFrame(netzTakt); return; }
+      netzLetztP = p;
+      var nr = p < 0.22 ? 0 : p < 0.45 ? 1 : p < 0.7 ? 2 : 3;
+      nSchritte.forEach(function (li, i) { li.classList.toggle("ist-aktiv", i === nr); li.classList.toggle("ist-gezeigt", i < nr); });
+      // 1: Wellen vom Chip
+      var w = abschnitt(p, 0.02, 0.2);
+      for (var k = 0; k < wellenN.length; k++) {
+        var phase = ohneBewegung ? 0.5 : ((jetzt / 1600 + k / 3) % 1);
+        wellenN[k].setAttribute("r", (20 + phase * 90).toFixed(1));
+        wellenN[k].setAttribute("opacity", (w * (1 - phase) * (nr < 3 ? 1 : 0.4)).toFixed(2));
+      }
+      glut.setAttribute("opacity", (0.4 + 0.6 * w).toFixed(2));
+      // 2: Funkweg zur Station, Antenne leuchtet, Feld der Station
+      var f = abschnitt(p, 0.2, 0.36);
+      funk.style.strokeDashoffset = 1 - f;
+      stationen[0].classList.toggle("ist-an", f >= 1);
+      var feld0 = abschnitt(p, 0.3, 0.44);
+      felder[0].style.opacity = feld0; felder[0].style.transform = "scale(" + feld0 + ")";
+      // 3: Mitarbeiter bekommt den Notruf und fährt hin
+      karte.classList.toggle("ist-an", p > 0.47 && p < 0.74);
+      var fahrt = abschnitt(p, 0.5, 0.68);
+      var pkt = nSpur.getPointAtLength(fahrt * nSpurLaenge);
+      nMa.setAttribute("transform", "translate(" + pkt.x.toFixed(1) + " " + pkt.y.toFixed(1) + ")");
+      nSpur.style.opacity = fahrt > 0 ? 0.7 : 0;
+      // 4: alle Stationen mit Feld, das ganze Gebiet
+      for (var j = 1; j < felder.length; j++) {
+        var e = abschnitt(p, 0.72 + j * 0.03, 0.86 + j * 0.03);
+        felder[j].style.opacity = e; felder[j].style.transform = "scale(" + e + ")";
+        stationen[j].classList.toggle("ist-an", e > 0.5);
+      }
+      requestAnimationFrame(netzTakt);
+    };
+  }
+
+  /* --------------------------------------------- Die App im iPhone -- */
+  /* Drei Bildschirme über die gepinnte Strecke: Route, Gruppe, Mein Tag. */
   var appAkt = document.getElementById("app");
   if (appAkt) {
-    var spur = appAkt.querySelector(".spur");
-    var route = appAkt.querySelector(".route");
-    var radius = appAkt.querySelector(".radius");
-    var ziel = appAkt.querySelectorAll(".ziel");
-    var kind = appAkt.querySelector(".kind");
+    var app = appAkt.querySelector(".app");
     var appSchritte = appAkt.querySelectorAll(".app-akt__schritte li");
+    var letztesBild = -1;
     var appTakt = function () {
-      var p = ohneBewegung ? 1 : (parseFloat(getComputedStyle(appAkt).getPropertyValue("--sc-p")) || 0);
-      var r = abschnitt(p, 0.04, 0.28);
-      route.style.strokeDashoffset = 1 - r;
-      ziel.forEach(function (z) { z.style.opacity = abschnitt(p, 0.02, 0.1); });
-      spur.style.strokeDashoffset = 1 - abschnitt(p, 0.36, 0.6);
-      radius.style.strokeDashoffset = 1 - abschnitt(p, 0.68, 0.8);
-      radius.style.fillOpacity = abschnitt(p, 0.7, 0.82);
-      var raus = abschnitt(p, 0.82, 0.95);
-      kind.style.opacity = abschnitt(p, 0.7, 0.76);
-      kind.setAttribute("transform", "translate(" + (160 + 70 * raus) + " " + (430 + 45 * raus) + ")");
-      radius.style.stroke = raus >= 1 ? "#5d6f84" : "#1b2430";
-      var nr = p < 0.33 ? 0 : (p < 0.66 ? 1 : 2);
-      appSchritte.forEach(function (li, i) { li.classList.toggle("ist-aktiv", i === nr); li.classList.toggle("ist-gezeigt", ohneBewegung || i < nr); });
+      var p = fortschritt(appAkt);
+      var nr = p < 0.36 ? 0 : p < 0.68 ? 1 : 2;
+      if (nr !== letztesBild) {
+        letztesBild = nr;
+        app.setAttribute("data-bild", String(nr));
+        appSchritte.forEach(function (li, i) { li.classList.toggle("ist-aktiv", i === nr); });
+      }
       requestAnimationFrame(appTakt);
     };
     requestAnimationFrame(appTakt);
+    appSchritte.forEach(function (li, i) {
+      li.addEventListener("click", function () {
+        var oben = appAkt.getBoundingClientRect().top + window.scrollY;
+        var strecke = appAkt.offsetHeight - window.innerHeight;
+        window.scrollTo({ top: oben + strecke * [0.18, 0.52, 0.84][i], behavior: ohneBewegung ? "auto" : "smooth" });
+      });
+    });
+  }
+
+  /* ------------------------------------- aktiver Link in der Leiste -- */
+  var leistenLinks = document.querySelectorAll(".leiste__links a");
+  if (leistenLinks.length) {
+    var ziele = Array.prototype.map.call(leistenLinks, function (a) { return document.querySelector(a.getAttribute("href")); });
+    var markieren = function () {
+      var mitte = window.innerHeight * 0.4, aktiv = -1;
+      ziele.forEach(function (z, i) { if (z) { var r = z.getBoundingClientRect(); if (r.top <= mitte && r.bottom >= mitte) aktiv = i; } });
+      leistenLinks.forEach(function (a, i) { if (i === aktiv) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current"); });
+    };
+    window.addEventListener("scroll", markieren, { passive: true });
+    markieren();
   }
 })();

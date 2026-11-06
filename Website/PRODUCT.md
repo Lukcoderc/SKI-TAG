@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Static HTML, CSS and vanilla JS without a build step (user's choice, 2026-11-03). Scroll mechanics from the ScrollCraft engine (`scrollcraft.js`, `scrollcraft.css`, copied unchanged into the build). Fonts self-hosted, no requests to Google or other font CDNs. Hosting is undecided: GitHub Pages of the `SKI-TAG` repo already serves the Netzwerk-Buch, so the website needs its own repo or host.
+Static HTML, CSS and vanilla JS without a build step (user's choice, 2026-11-03). Scroll mechanics from the ScrollCraft engine (`scrollcraft.js`, `scrollcraft.css`, copied unchanged into the build). The 3D chip uses three.js r169, self-hosted under `site/assets/vendor/` with an import map. Fonts and scripts self-hosted, no requests to Google or any CDN. Hosting (decided 2026-11-04): GitHub Pages of the `SKI-TAG` repo under `/website/`, published together with the Netzwerk-Buch by the same workflow.
 
 ## Users
 
@@ -34,7 +34,7 @@ Must not be claimed: that SkiTag works, is tested or available today (nothing ha
 
 ## Brand Commitments
 
-Name: SkiTag (the pitch writes "SKI-Tag"; the book and code use SkiTag). The exact company name, seat, register number and contact address are not known yet and must stay visible placeholders. No logo exists. Full names of the team are undecided for the public site; the `SKI-TAG` repo is public and allows first names only.
+Name: SkiTag (the pitch writes "SKI-Tag"; the book and code use SkiTag; the app writes "Ski Tag"). The chip is shown in signal orange with a graphite sleeve, the colour decided in the hardware workshop book; the app's night blue (`#0b1226`) is the website's dark colour. App screens on the website are rebuilt after Tobias' app design and keep the app's "Sie"; the website itself speaks "du". The exact company name, seat, register number and contact address are not known yet and must stay visible placeholders. No logo exists. Full names of the team are undecided for the public site; the `SKI-TAG` repo is public and allows first names only.
 
 ## Evidence on Hand
 
@@ -48,7 +48,8 @@ Pitch presentation and handoff (Obsidian vault, `10_Projekte/Skitag`), the Netzw
 - One button, one promise: every section returns to the button and what it sets in motion.
 - Honest about the stage: show the plan and the mechanism, never a finished or tested product.
 - The whole system, from the chip in the jacket to the charging drawer, is the offer.
-- Introduce, do not sell yet: the page ends with the team and the plan, not with a booking.
+- Introduce, do not sell yet: the page ends with the team and a closing line, not with a booking.
+- Answer what people ask (added 2026-11-06): a short FAQ with only decided or planned facts, and a pointer to 140 for severe accidents.
 
 ## Accessibility & Inclusion
 
