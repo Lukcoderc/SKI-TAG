@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/funnelsans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.min.js" } }</script>
 <link rel="stylesheet" href="scrollcraft.css?v=16">
-<link rel="stylesheet" href="assets/seite.css?v=23">
+<link rel="stylesheet" href="assets/seite.css?v=27">
 </head>
 <body>
 
@@ -32,10 +32,25 @@
       <circle cx="120" cy="60" r="18" fill="url(#g-knopf)"/>
       <circle cx="198" cy="88" r="4.2" fill="#fff4ee" style="fill: var(--led, #fff4ee)"/>
     </symbol>
+    <!-- Der Tag im Einstieg: wie #chip-oben, mit sichtbarer Kante, leicht von vorn gesehen -->
+    <linearGradient id="g-kante" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a3039"/><stop offset="1" stop-color="#14171c"/></linearGradient>
+    <symbol id="chip-tag" viewBox="0 0 240 132">
+      <rect x="1" y="13" width="238" height="118" rx="31" fill="url(#g-kante)"/>
+      <rect x="1" y="1" width="238" height="118" rx="31" fill="url(#g-graphit)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-orange)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-glanz)"/>
+      <path d="M33 8.5 H207" stroke="#fff" stroke-opacity=".45" stroke-width="1.2" stroke-linecap="round"/>
+      <text x="26" y="98" font-family="Funnel Display, sans-serif" font-weight="650" font-size="13" fill="#b33a0c" opacity=".55">SkiTag</text>
+      <circle cx="120" cy="60" r="31" fill="url(#g-graphit)"/>
+      <circle cx="120" cy="62" r="19.5" fill="#0e1116" opacity=".4"/>
+      <circle cx="120" cy="60" r="18" fill="url(#g-knopf)"/>
+      <circle cx="198" cy="88" r="4.2" fill="#fff4ee" style="fill: var(--led, #fff4ee)"/>
+    </symbol>
   </defs>
 </svg>
 
 <span data-sc-progress></span>
+<div class="rahmen" aria-hidden="true"></div>
 
 <header class="leiste">
   <a class="marke" href="#oben" aria-label="SkiTag, zum Anfang">
@@ -43,14 +58,25 @@
     SkiTag
     <svg class="marke__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </a>
-  <nav class="leiste__links" aria-label="Abschnitte">
-    <a href="#der-chip">Der Chip</a>
-    <a href="#aufbau">Innen</a>
-    <a href="#app">Die App</a>
-    <a href="#fragen">Fragen</a>
-  </nav>
   <a class="knopf-dunkel" href="#wir-titel">Das sind wir</a>
 </header>
+
+<!-- Sprungmarken an der Seite, nur am breiten Bildschirm; am Handy öffnet das Logo die Seitenleiste -->
+<aside class="sprungleiste" aria-label="Seitenleiste">
+  <a class="sprungleiste__marke" href="#oben" aria-label="SkiTag, zum Anfang">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="6" width="30" height="20" rx="7" fill="#262b33"/><rect x="3" y="8" width="26" height="16" rx="5.5" fill="#ff5a1c"/><circle cx="16" cy="16" r="5" fill="#262b33"/><circle cx="16" cy="16" r="3" fill="#fff"/></svg>
+    SkiTag
+  </a>
+  <nav class="sprungleiste__nav" aria-label="Abschnitte">
+    <a href="#der-chip"><span>Der Chip</span></a>
+    <a href="#aufbau"><span>Was drinsteckt</span></a>
+    <a href="#gebaut"><span>Gebaut für den Berg</span></a>
+    <a href="#app"><span>Die App</span></a>
+    <a href="#jeden"><span>Für jeden am Berg</span></a>
+    <a href="#fragen"><span>Fragen</span></a>
+    <a href="#wir"><span>Das sind wir</span></a>
+  </nav>
+</aside>
 
 <dialog id="seitenleiste" class="seite" aria-label="Inhalt der Seite">
   <div class="seite__innen">
@@ -83,7 +109,6 @@
       <div class="sc-scrim hang__scrim" aria-hidden="true"></div>
 
       <div class="sc-copy sc-copy--center hang__kopf" data-sc-cue="0 0.26 0 0.1" data-sc-rise="0">
-        <p class="augenbraue">SkiTag</p>
         <h1 id="titel" class="sc-display">Ein Knopf statt eines&nbsp;Anrufs.</h1>
         <p>Der Mietchip für die Skijacke: gedrückt halten, und die Bergbahn erfährt, wo du bist.</p>
       </div>
@@ -93,9 +118,8 @@
 
       <div class="hang__grund" aria-hidden="true">
         <div class="hang__schatten"></div>
-        <div class="hang__chip"><svg viewBox="0 0 240 120"><use href="#chip-oben"/></svg></div>
+        <div class="hang__chip"><svg viewBox="0 0 240 132"><use href="#chip-tag"/></svg></div>
       </div>
-      <canvas class="hang__gl" aria-hidden="true"></canvas>
       <canvas class="flocken hang__flocken" aria-hidden="true"></canvas>
     </div>
   </section>
@@ -103,83 +127,85 @@
   <!-- 2 · Der Chip: ausprobieren, direkt am Berg -->
   <section id="der-chip" class="knopf" data-sc-act="flow" data-sc-drift="#f4f8fb" aria-labelledby="chip-titel">
     <div class="knopf__buehne">
-      <svg class="netz__bild" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="knopf-bild-titel">
-        <title id="knopf-bild-titel">Ein Skigebiet im Schnee. Kurz drücken ruft die eigene Gruppe am Hang. Halten schickt den Notruf an den Empfänger der nächsten Liftstation, und ein Mitarbeiter der Bergbahn fährt zur verletzten Person.</title>
-        <defs>
-          <linearGradient id="n-himmel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe2f5"/><stop offset=".7" stop-color="#eaf2fa"/><stop offset="1" stop-color="#f6f9fc"/></linearGradient>
-          <linearGradient id="n-fern" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b6cce4"/><stop offset="1" stop-color="#d9e5f2"/></linearGradient>
-          <linearGradient id="n-nah" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e6eef7"/></linearGradient>
-          <linearGradient id="n-schnee" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c5d6ea"/><stop offset="1" stop-color="#d7e3f1"/></linearGradient>
-          <radialGradient id="n-feld" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#4f8dff" stop-opacity=".26"/><stop offset=".6" stop-color="#4f8dff" stop-opacity=".1"/><stop offset=".97" stop-color="#4f8dff" stop-opacity=".1"/><stop offset="1" stop-color="#4f8dff" stop-opacity="0"/></radialGradient>
-          <radialGradient id="n-glut" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ff5a1c" stop-opacity=".9"/><stop offset="1" stop-color="#ff5a1c" stop-opacity="0"/></radialGradient>
-          <radialGradient id="n-sonne" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#ffffff" stop-opacity=".45"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
-          <!-- Skifahrer, Fußpunkt bei 0,0 -->
-          <symbol id="n-fahrer" viewBox="-20 -50 40 54" overflow="visible"><circle cx="0" cy="-40" r="6.5" fill="currentColor"/><path d="M-8 -31 Q0 -34 8 -31 L6 -12 L-6 -12 Z" fill="currentColor"/><path d="M-6 -13 L-8 -1 L-3 -1 L0 -9 L3 -1 L8 -1 L6 -13 Z" fill="currentColor"/><path d="M-18 2 L18 -2" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></symbol>
-        </defs>
-        <rect width="1600" height="900" fill="url(#n-himmel)"/>
-        <circle cx="1300" cy="150" r="160" fill="url(#n-sonne)"/>
-<g class="netz__welt">
-        <!-- ferne Kette -->
-        <path d="M-600 560 L-400 470 L-260 520 L-120 440 L0 520 L120 430 L210 470 L330 360 L420 410 L540 300 L640 380 L760 290 L880 360 L1000 270 L1120 350 L1240 300 L1380 380 L1500 330 L1600 380 V900 H0 Z" fill="url(#n-fern)"/>
-        <path d="M330 360 L360 384 L378 376 L404 402 L380 398 L356 404 Z M540 300 L572 330 L590 322 L620 362 L594 356 L566 364 Z M760 290 L790 318 L806 310 L840 344 L812 340 L786 348 Z M1000 270 L1032 300 L1050 290 L1090 330 L1060 326 L1030 334 Z M1240 300 L1270 324 L1288 318 L1320 352 L1292 346 L1264 352 Z" fill="#ffffff" opacity=".9"/>
-        <!-- naher Berg mit Pisten -->
-        <path class="netz__berg" d="M-600 900 L-600 880 C-300 870 -100 860 0 820 C160 760 300 640 450 560 C580 490 660 400 780 380 C900 400 980 470 1080 520 C1200 580 1320 640 1600 700 V900 H0 Z" fill="url(#n-nah)"/>
-        <path d="M0 820 C160 760 300 640 450 560 C580 490 660 400 780 380 C900 400 980 470 1080 520 C1200 580 1320 640 1600 700" fill="none" stroke="#9fb6cf" stroke-width="2"/>
-        <path d="M780 386 C720 460 640 520 560 600 C480 680 400 740 300 820" fill="none" stroke="url(#n-schnee)" stroke-width="34" stroke-linecap="round" opacity=".45"/>
-        <path d="M790 390 C860 470 920 560 960 660 C990 740 1020 800 1060 880" fill="none" stroke="url(#n-schnee)" stroke-width="30" stroke-linecap="round" opacity=".38"/>
-        <path d="M1080 524 C1150 600 1220 680 1260 780" fill="none" stroke="url(#n-schnee)" stroke-width="24" stroke-linecap="round" opacity=".32"/>
-        <!-- Lifte -->
-        <g stroke="#7d96b0" stroke-width="1.8" fill="none">
-          <path d="M790 372 L430 800"/><path d="M800 372 L1120 790"/><path d="M1090 510 L1420 760"/>
-        </g>
-        <!-- Liftstationen mit Empfänger: Feld, Station, Antenne -->
-        <!-- Du: Chip am Hang, Wellen, Funkweg zur Station -->
-        <!-- deine Gruppe am Hang -->
-        <g class="netz__mensch" transform="translate(552 648)"><use href="#n-fahrer" x="-20" y="-50" width="40" height="54" color="#26324a"/><circle cx="0" cy="-22" r="2.8" fill="#ff5a1c"/></g>
-        <g class="netz__mensch" transform="translate(704 498) scale(.92)"><use href="#n-fahrer" x="-20" y="-50" width="40" height="54" color="#26324a"/><circle cx="0" cy="-22" r="2.8" fill="#ff5a1c"/></g>
-        <text class="netz__beschrift netz__beschrift--klein" x="724" y="474">Deine Gruppe</text>
-        <text class="netz__beschrift netz__beschrift--klein" x="752" y="378" text-anchor="end">Liftstation</text>
-        <text class="netz__beschrift" x="592" y="604" text-anchor="end">Du</text>
-        <!-- Mitarbeiter fährt zur Person -->
-        </g>
-      </svg>
-      <svg class="netz__bild netz__bewegt" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <g class="netz__welt">
-        <g class="netz__felder">
-          <circle class="netz__feld" cx="790" cy="350" r="330" fill="url(#n-feld)"/>
-          <circle class="netz__feld" cx="430" cy="790" r="300" fill="url(#n-feld)"/>
-          <circle class="netz__feld" cx="1120" cy="790" r="300" fill="url(#n-feld)"/>
-          <circle class="netz__feld" cx="1420" cy="750" r="280" fill="url(#n-feld)"/>
-          <circle class="netz__feld" cx="1090" cy="500" r="280" fill="url(#n-feld)"/>
-        </g>
-        <g class="netz__stationen">
-          <g class="netz__station" transform="translate(790 362)"><rect x="-26" y="-4" width="52" height="26" rx="3" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/><path d="M-30 -2 L0 -18 L30 -2 Z" fill="#5d6f84"/><path d="M14 -16 V-46" stroke="#5d6f84" stroke-width="2"/><circle class="netz__antenne" cx="14" cy="-48" r="5"/></g>
-          <g class="netz__station" transform="translate(430 800)"><rect x="-22" y="-4" width="44" height="22" rx="3" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/><path d="M-26 -2 L0 -16 L26 -2 Z" fill="#5d6f84"/><path d="M12 -14 V-40" stroke="#5d6f84" stroke-width="2"/><circle class="netz__antenne" cx="12" cy="-42" r="5"/></g>
-          <g class="netz__station" transform="translate(1120 800)"><rect x="-22" y="-4" width="44" height="22" rx="3" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/><path d="M-26 -2 L0 -16 L26 -2 Z" fill="#5d6f84"/><path d="M12 -14 V-40" stroke="#5d6f84" stroke-width="2"/><circle class="netz__antenne" cx="12" cy="-42" r="5"/></g>
-          <g class="netz__station" transform="translate(1420 762)"><rect x="-20" y="-4" width="40" height="20" rx="3" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/><path d="M-24 -2 L0 -14 L24 -2 Z" fill="#5d6f84"/><path d="M10 -12 V-36" stroke="#5d6f84" stroke-width="2"/><circle class="netz__antenne" cx="10" cy="-38" r="5"/></g>
-          <g class="netz__station" transform="translate(1090 512)"><rect x="-20" y="-4" width="40" height="20" rx="3" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/><path d="M-24 -2 L0 -14 L24 -2 Z" fill="#5d6f84"/><path d="M10 -12 V-36" stroke="#5d6f84" stroke-width="2"/><circle class="netz__antenne" cx="10" cy="-38" r="5"/></g>
-        </g>
-        <circle class="netz__glut" cx="610" cy="560" r="70" fill="url(#n-glut)"/>
-        <g class="netz__wellen" fill="none" stroke="#ff5a1c" stroke-width="2.4">
-          <circle cx="610" cy="560" r="20"/><circle cx="610" cy="560" r="20"/><circle cx="610" cy="560" r="20"/>
-        </g>
-        <path class="netz__funk" d="M610 560 C650 470 720 380 802 316" fill="none" stroke="#ff2d2d" stroke-width="3" stroke-linecap="round" stroke-dasharray="1" pathLength="1"/>
-        <path class="netz__gweg" d="M610 560 Q574 596 556 618" fill="none" stroke="#ff5a1c" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="1" pathLength="1"/>
-        <path class="netz__gweg" d="M610 560 Q662 528 694 476" fill="none" stroke="#ff5a1c" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="1" pathLength="1"/>
-        <g class="netz__zittern" fill="none" stroke="#ff5a1c" stroke-width="2.2" stroke-linecap="round"><path d="M536 614 q-6 8 0 16 M568 614 q6 8 0 16"/><path d="M688 466 q-6 8 0 16 M720 466 q6 8 0 16"/></g>
-        <circle class="netz__ping" cx="804" cy="314" r="12" fill="none" stroke="#4f8dff" stroke-width="2"/>
-        <path class="netz__spur" d="M760 420 C730 460 690 500 652 534" fill="none" stroke="#5d6f84" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 8" opacity="0"/>
-        <g class="netz__mitarbeiter" transform="translate(760 420)"><use href="#n-fahrer" x="-20" y="-50" width="40" height="54" color="#0b1226"/><rect x="-7" y="-27" width="14" height="4" rx="1.5" fill="#ffffff"/><text class="netz__beschrift netz__beschrift--klein netz__beschrift--ma nur-breit" x="16" y="22">Mitarbeiter der Bergbahn</text><text class="netz__beschrift netz__beschrift--klein netz__beschrift--ma nur-schmal" x="16" y="22">Bergbahn</text></g>
-        <g transform="translate(600 562)"><circle cx="16" cy="-10" r="6.5" fill="#0b1226"/><path d="M-6 6 C0 -6 14 -8 24 -2 L28 8 Z" fill="#0b1226"/><path d="M-16 12 L40 8" stroke="#0b1226" stroke-width="3.2" stroke-linecap="round"/><rect x="6" y="-2" width="9" height="5" rx="1.5" fill="#ff5a1c"/></g>
-        </g>
-      </svg>
+      <div class="knopf__bild">
+        <svg class="netz__bild" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="knopf-bild-titel">
+          <title id="knopf-bild-titel">Ein Skigebiet im Schnee. Kurz drücken ruft die eigene Gruppe am Hang. Halten schickt den Notruf an den Empfänger der nächsten Liftstation, und ein Mitarbeiter der Bergbahn fährt zur verletzten Person.</title>
+          <defs>
+            <linearGradient id="n-himmel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe2f5"/><stop offset=".7" stop-color="#eaf2fa"/><stop offset="1" stop-color="#f6f9fc"/></linearGradient>
+            <linearGradient id="n-fern" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b6cce4"/><stop offset="1" stop-color="#d9e5f2"/></linearGradient>
+            <linearGradient id="n-nah" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e6eef7"/></linearGradient>
+            <linearGradient id="n-schnee" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c5d6ea"/><stop offset="1" stop-color="#d7e3f1"/></linearGradient>
+            <radialGradient id="n-feld" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#4f8dff" stop-opacity=".26"/><stop offset=".6" stop-color="#4f8dff" stop-opacity=".1"/><stop offset=".97" stop-color="#4f8dff" stop-opacity=".1"/><stop offset="1" stop-color="#4f8dff" stop-opacity="0"/></radialGradient>
+            <radialGradient id="n-glut" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ff5a1c" stop-opacity=".9"/><stop offset="1" stop-color="#ff5a1c" stop-opacity="0"/></radialGradient>
+            <radialGradient id="n-sonne" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#ffffff" stop-opacity=".45"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+            <!-- Skifahrer, Fußpunkt bei 0,0 -->
+            <symbol id="n-fahrer" viewBox="-20 -50 40 54" overflow="visible"><circle cx="0" cy="-40" r="6.5" fill="currentColor"/><path d="M-8 -31 Q0 -34 8 -31 L6 -12 L-6 -12 Z" fill="currentColor"/><path d="M-6 -13 L-8 -1 L-3 -1 L0 -9 L3 -1 L8 -1 L6 -13 Z" fill="currentColor"/><path d="M-18 2 L18 -2" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></symbol>
+          </defs>
+          <rect width="1600" height="900" fill="url(#n-himmel)"/>
+          <circle cx="1300" cy="150" r="160" fill="url(#n-sonne)"/>
+  <g class="netz__welt">
+          <!-- ferne Kette -->
+          <path d="M-600 560 L-400 470 L-260 520 L-120 440 L0 520 L120 430 L210 470 L330 360 L420 410 L540 300 L640 380 L760 290 L880 360 L1000 270 L1120 350 L1240 300 L1380 380 L1500 330 L1600 380 V900 H0 Z" fill="url(#n-fern)"/>
+          <path d="M330 360 L360 384 L378 376 L404 402 L380 398 L356 404 Z M540 300 L572 330 L590 322 L620 362 L594 356 L566 364 Z M760 290 L790 318 L806 310 L840 344 L812 340 L786 348 Z M1000 270 L1032 300 L1050 290 L1090 330 L1060 326 L1030 334 Z M1240 300 L1270 324 L1288 318 L1320 352 L1292 346 L1264 352 Z" fill="#ffffff" opacity=".9"/>
+          <!-- naher Berg mit Pisten -->
+          <path class="netz__berg" d="M-600 900 L-600 880 C-300 870 -100 860 0 820 C160 760 300 640 450 560 C580 490 660 400 780 380 C900 400 980 470 1080 520 C1200 580 1320 640 1600 700 V900 H0 Z" fill="url(#n-nah)"/>
+          <path d="M0 820 C160 760 300 640 450 560 C580 490 660 400 780 380 C900 400 980 470 1080 520 C1200 580 1320 640 1600 700" fill="none" stroke="#9fb6cf" stroke-width="2"/>
+          <path d="M780 386 C720 460 640 520 560 600 C480 680 400 740 300 820" fill="none" stroke="url(#n-schnee)" stroke-width="34" stroke-linecap="round" opacity=".45"/>
+          <path d="M790 390 C860 470 920 560 960 660 C990 740 1020 800 1060 880" fill="none" stroke="url(#n-schnee)" stroke-width="30" stroke-linecap="round" opacity=".38"/>
+          <path d="M1080 524 C1150 600 1220 680 1260 780" fill="none" stroke="url(#n-schnee)" stroke-width="24" stroke-linecap="round" opacity=".32"/>
+          <!-- Lifte -->
+          <g stroke="#7d96b0" stroke-width="1.8" fill="none">
+            <path d="M790 372 L430 800"/><path d="M800 372 L1120 790"/><path d="M1090 510 L1420 760"/>
+          </g>
+          <!-- Liftstationen mit Empfänger: Feld, Station, Antenne -->
+          <!-- Du: Chip am Hang, Wellen, Funkweg zur Station -->
+          <!-- deine Gruppe am Hang -->
+          <g class="netz__mensch" transform="translate(552 648)"><use href="#n-fahrer" x="-20" y="-50" width="40" height="54" color="#26324a"/><circle cx="0" cy="-22" r="2.8" fill="#ff5a1c"/></g>
+          <g class="netz__mensch" transform="translate(704 498) scale(.92)"><use href="#n-fahrer" x="-20" y="-50" width="40" height="54" color="#26324a"/><circle cx="0" cy="-22" r="2.8" fill="#ff5a1c"/></g>
+          <text class="netz__beschrift netz__beschrift--klein" x="724" y="474">Deine Gruppe</text>
+          <text class="netz__beschrift netz__beschrift--klein" x="752" y="378" text-anchor="end">Liftstation</text>
+          <text class="netz__beschrift" x="592" y="604" text-anchor="end">Du</text>
+          <!-- Mitarbeiter fährt zur Person -->
+          </g>
+        </svg>
+        <svg class="netz__bild netz__bewegt" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <g class="netz__welt">
+          <g class="netz__felder">
+            <circle class="netz__feld" cx="790" cy="350" r="330" fill="url(#n-feld)"/>
+            <circle class="netz__feld" cx="430" cy="790" r="300" fill="url(#n-feld)"/>
+            <circle class="netz__feld" cx="1120" cy="790" r="300" fill="url(#n-feld)"/>
+            <circle class="netz__feld" cx="1420" cy="750" r="280" fill="url(#n-feld)"/>
+            <circle class="netz__feld" cx="1090" cy="500" r="280" fill="url(#n-feld)"/>
+          </g>
+          <g class="netz__stationen">
+            <g class="netz__station" transform="translate(790 362)"><rect x="-26" y="-4" width="52" height="26" rx="3" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/><path d="M-30 -2 L0 -18 L30 -2 Z" fill="#5d6f84"/><path d="M14 -16 V-46" stroke="#5d6f84" stroke-width="2"/><circle class="netz__antenne" cx="14" cy="-48" r="5"/></g>
+            <g class="netz__station" transform="translate(430 800)"><rect x="-22" y="-4" width="44" height="22" rx="3" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/><path d="M-26 -2 L0 -16 L26 -2 Z" fill="#5d6f84"/><path d="M12 -14 V-40" stroke="#5d6f84" stroke-width="2"/><circle class="netz__antenne" cx="12" cy="-42" r="5"/></g>
+            <g class="netz__station" transform="translate(1120 800)"><rect x="-22" y="-4" width="44" height="22" rx="3" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/><path d="M-26 -2 L0 -16 L26 -2 Z" fill="#5d6f84"/><path d="M12 -14 V-40" stroke="#5d6f84" stroke-width="2"/><circle class="netz__antenne" cx="12" cy="-42" r="5"/></g>
+            <g class="netz__station" transform="translate(1420 762)"><rect x="-20" y="-4" width="40" height="20" rx="3" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/><path d="M-24 -2 L0 -14 L24 -2 Z" fill="#5d6f84"/><path d="M10 -12 V-36" stroke="#5d6f84" stroke-width="2"/><circle class="netz__antenne" cx="10" cy="-38" r="5"/></g>
+            <g class="netz__station" transform="translate(1090 512)"><rect x="-20" y="-4" width="40" height="20" rx="3" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/><path d="M-24 -2 L0 -14 L24 -2 Z" fill="#5d6f84"/><path d="M10 -12 V-36" stroke="#5d6f84" stroke-width="2"/><circle class="netz__antenne" cx="10" cy="-38" r="5"/></g>
+          </g>
+          <circle class="netz__glut" cx="610" cy="560" r="70" fill="url(#n-glut)"/>
+          <g class="netz__wellen" fill="none" stroke="#ff5a1c" stroke-width="2.4">
+            <circle cx="610" cy="560" r="20"/><circle cx="610" cy="560" r="20"/><circle cx="610" cy="560" r="20"/>
+          </g>
+          <path class="netz__funk" d="M610 560 C650 470 720 380 802 316" fill="none" stroke="#ff2d2d" stroke-width="3" stroke-linecap="round" stroke-dasharray="1" pathLength="1"/>
+          <path class="netz__gweg" d="M610 560 Q574 596 556 618" fill="none" stroke="#ff5a1c" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="1" pathLength="1"/>
+          <path class="netz__gweg" d="M610 560 Q662 528 694 476" fill="none" stroke="#ff5a1c" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="1" pathLength="1"/>
+          <g class="netz__zittern" fill="none" stroke="#ff5a1c" stroke-width="2.2" stroke-linecap="round"><path d="M536 614 q-6 8 0 16 M568 614 q6 8 0 16"/><path d="M688 466 q-6 8 0 16 M720 466 q6 8 0 16"/></g>
+          <circle class="netz__ping" cx="804" cy="314" r="12" fill="none" stroke="#4f8dff" stroke-width="2"/>
+          <path class="netz__spur" d="M760 420 C730 460 690 500 652 534" fill="none" stroke="#5d6f84" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 8" opacity="0"/>
+          <g class="netz__mitarbeiter" transform="translate(760 420)"><use href="#n-fahrer" x="-20" y="-50" width="40" height="54" color="#0b1226"/><rect x="-7" y="-27" width="14" height="4" rx="1.5" fill="#ffffff"/><text class="netz__beschrift netz__beschrift--klein netz__beschrift--ma nur-breit" x="16" y="22">Mitarbeiter der Bergbahn</text><text class="netz__beschrift netz__beschrift--klein netz__beschrift--ma nur-schmal" x="16" y="22">Bergbahn</text></g>
+          <g transform="translate(600 562)"><circle cx="16" cy="-10" r="6.5" fill="#0b1226"/><path d="M-6 6 C0 -6 14 -8 24 -2 L28 8 Z" fill="#0b1226"/><path d="M-16 12 L40 8" stroke="#0b1226" stroke-width="3.2" stroke-linecap="round"/><rect x="6" y="-2" width="9" height="5" rx="1.5" fill="#ff5a1c"/></g>
+          </g>
+        </svg>
 
-      <div class="netz__karte" aria-hidden="true">
-        <div class="netz__handy">
-          <div class="netz__meldung">
-            <span class="netz__meldung-punkt"></span>
-            <div><b>Notruf</b><span>Ein Gast braucht Hilfe</span></div>
-            <span class="netz__meldung-knopf">Annehmen</span>
+        <div class="netz__karte" aria-hidden="true">
+          <div class="netz__handy">
+            <div class="netz__meldung">
+              <span class="netz__meldung-punkt"></span>
+              <div><b>Notruf</b><span>Ein Gast braucht Hilfe</span></div>
+              <span class="netz__meldung-knopf">Annehmen</span>
+            </div>
           </div>
         </div>
       </div>
@@ -587,11 +613,11 @@
 
 <script src="scrollcraft.js?v=16"></script>
 <script>ScrollCraft.mount(document.body);</script>
-<script src="assets/seite.js?v=23" defer></script>
+<script src="assets/seite.js?v=25" defer></script>
 <script src="assets/sprung-anfang.js?v=16" defer></script>
-<script src="assets/seitenleiste.js?v=16" defer></script>
+<script src="assets/seitenleiste.js?v=17" defer></script>
+<script src="assets/sprungleiste.js?v=2" defer></script>
 <script src="assets/schiene.js?v=16" defer></script>
-<script type="module" src="assets/held.js?v=20"></script>
 <script type="module" src="assets/drinsteckt.js?v=20"></script>
 </body>
 </html>

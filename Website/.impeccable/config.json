@@ -20,6 +20,12 @@
         ],
         "createdAt": "2026-11-04T17:37:36.971Z",
         "reason": "Claude: throwaway sketches from the direction round, drawn before the Neuschnee world existed; not shipped"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "sf pro text",
+        "createdAt": "2026-11-07T23:23:57.648Z",
+        "reason": "Claude: nur im nachgebauten iPhone (.app) als iOS-Systemschrift im Font-Stack, wird nicht geladen; App-Nachbau auf Wunsch von Lukas (Feedback 8)"
       }
     ]
   }

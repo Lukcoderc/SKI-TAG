@@ -51,6 +51,7 @@
   --notruf:     #ff2d2d;
   --r:          14px;
   --r-gross:    28px;
+  --rahmen-grund: #e2e7ed;   /* grauer Grund hinter dem Blatt, nur am breiten Bildschirm */
 }
 
 ::selection { background: var(--orange); color: #fff; }
@@ -107,9 +108,39 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .marke .marke__pfeil { width: 0.85rem; height: 0.85rem; opacity: 0.6; transition: transform var(--sc-d-base) var(--sc-ease-out); }
 .marke[aria-expanded="true"] .marke__pfeil { transform: rotate(180deg); }
 @media (hover: hover) and (pointer: fine) { .marke:hover .marke__pfeil { opacity: 1; transform: translateY(1px); } }
-.leiste__links { display: flex; gap: clamp(1rem, 2.4vw, 2.2rem); font-size: var(--sc-t-sm); }
-.leiste__links a { color: inherit; text-decoration: none; opacity: 0.72; transition: opacity var(--sc-d-fast) var(--sc-ease-out); }
-.leiste__links a:hover, .leiste__links a[aria-current="true"] { opacity: 1; }
+
+/* ------------------------------------------------------ Sprungleiste -- */
+/* Am breiten Bildschirm liegt die Seite als Blatt auf grauem Grund, die
+   Seitenleiste als zweites Blatt davor und überlappt es links (siehe
+   „breit“ unten). Drüberfahren zieht einen orangen Strich vor dem Namen
+   auf, der aktuelle Abschnitt behält einen kurzen Strich. Am Handy und
+   Tablet übernimmt das Logo mit der ausklappbaren Seitenleiste. */
+.sprungleiste, .rahmen { display: none; }
+.sprungleiste__marke {
+  display: inline-flex; align-items: center; gap: 0.5rem; align-self: flex-start; border-radius: 8px;
+  font-family: var(--sc-font-display); font-weight: 680; font-size: 1.2rem; letter-spacing: -0.03em;
+  color: var(--sc-ink); text-decoration: none;
+}
+.sprungleiste__marke svg { width: 1.5rem; height: 1.5rem; }
+.sprungleiste__nav { display: grid; gap: 0.1rem; margin: clamp(1rem, 6vh, 3rem) 0 auto; }
+.sprungleiste__nav a {
+  display: flex; align-items: center; gap: 0.6rem; padding: 0.45rem 0;
+  color: var(--sc-ink); text-decoration: none; border-radius: 8px;
+  font-family: var(--sc-font-text); font-weight: 500; font-size: 0.86rem; line-height: 1.2; letter-spacing: 0.005em; white-space: nowrap;
+}
+.sprungleiste__nav a span { opacity: 0.6; transition: opacity 220ms var(--sc-ease-out), transform 320ms var(--sc-ease-out); }
+.sprungleiste__nav a::before {
+  content: ""; flex: none; width: 1rem; height: 2px; border-radius: 2px; background: var(--orange);
+  transform: scaleX(0); transform-origin: left center; transition: transform 360ms var(--sc-ease-out);
+}
+.sprungleiste__nav a[aria-current="true"] span { opacity: 1; }
+.sprungleiste__nav a[aria-current="true"]::before { transform: scaleX(0.45); }
+@media (hover: hover) and (pointer: fine) {
+  .sprungleiste__nav a:hover span { opacity: 1; transform: translateX(3px); }
+  .sprungleiste__nav a:hover::before { transform: scaleX(1); }
+}
+.sprungleiste a:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+.sprungleiste__nav a:focus-visible::before { transform: scaleX(1); }
 .knopf-dunkel {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
   min-height: 2.4rem; padding: 0 1.1rem; border-radius: var(--sc-r-pill);
@@ -149,10 +180,10 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .hang__zwei { top: clamp(5.5rem, 12vh, 8.5rem) !important; translate: -50% 0 !important; width: min(56rem, 90vw); max-width: none !important; }
 .hang__zwei h2 { font-family: var(--sc-font-display); font-weight: 620; font-size: var(--sc-t-3xl); line-height: 1.02; letter-spacing: -0.04em; margin: 0; }
 
-/* Ersatz ohne WebGL: der Chip als Zeichnung von oben */
+/* Der Tag: eine saubere Zeichnung mit sichtbarer Kante, schwebt leicht über dem Schnee */
 .hang__grund { position: absolute; inset: auto 0 0 0; height: 40%; z-index: 4; pointer-events: none; }
 .hang__chip {
-  position: absolute; left: 50%; bottom: 32%; z-index: 5; width: clamp(14rem, 22vw, 20rem);
+  position: absolute; left: 50%; bottom: 32%; z-index: 5; width: clamp(14rem, 21vw, 19.5rem);
   translate: -50% 0; transform-origin: 50% 100%;
   transform: translateY(calc(var(--sc-p, 0) * -6vh)) scale(calc(1 + var(--sc-p, 0) * 0.4));
   filter: drop-shadow(0 18px 24px rgba(30, 55, 95, 0.25));
@@ -163,9 +194,10 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
   translate: -50% 0; border-radius: 50%;
   background: radial-gradient(closest-side, rgba(70, 105, 150, 0.4), rgba(169, 191, 214, 0.2) 60%, transparent);
 }
-.hang__gl { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; opacity: 0; transition: opacity 600ms var(--sc-ease-out); }
-.hang--3d .hang__gl { opacity: 1; }
-.hang--3d .hang__grund { display: none; }
+.hang__chip svg { animation: tag-schweben 6s ease-in-out infinite; }
+.hang__schatten { animation: tag-schatten 6s ease-in-out infinite; }
+@keyframes tag-schweben { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-10px) rotate(1deg); } }
+@keyframes tag-schatten { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.86); opacity: 0.7; } }
 .flocken { position: absolute; inset: 0; z-index: 7; width: 100%; height: 100%; pointer-events: none; }
 
 /* ----------------------------------- 2 · Der Chip: Knopf und Berg -- */
@@ -187,6 +219,30 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .knopf__schritte b { display: block; font-family: var(--sc-font-display); font-weight: 640; font-size: var(--sc-t-lg); letter-spacing: -0.02em; }
 .knopf__schritte span { display: block; margin-top: 0.25rem; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: 1.5; max-width: 34ch; }
 .knopf__bedienung { position: absolute; z-index: 4; left: var(--sc-gutter); bottom: clamp(1.5rem, 6vh, 3.5rem); display: flex; align-items: center; gap: var(--sc-5); }
+/* Ab Tablet: links Text und Knopf untereinander, rechts die Grafik als
+   eigene Fläche mit runden Ecken und schmalem Rand. Ist das Fenster
+   niedrig, wird die Bühne höher, statt dass etwas übereinander liegt.
+   Am Handy liegt die Grafik weiter hinter allem (.knopf__bild ohne Regeln). */
+@media (min-width: 861px) {
+  .knopf__buehne {
+    display: grid; grid-template-columns: minmax(17rem, 27rem) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto;
+    column-gap: clamp(1.5rem, 3vw, 3rem); row-gap: var(--sc-6);
+    height: auto; min-height: clamp(44rem, 100svh, 60rem); max-height: none;
+    padding: clamp(4.5rem, 9vh, 6.5rem) var(--knopf-rechts, clamp(1rem, 2vw, 1.5rem)) clamp(1.25rem, 3vh, 2rem) var(--knopf-rand, var(--sc-gutter));
+  }
+  .knopf__buehne::after { display: none; }
+  .knopf__text, .knopf__bedienung { position: relative; left: auto; top: auto; bottom: auto; width: auto; }
+  .knopf__text { grid-column: 1; grid-row: 1; }
+  .knopf__bedienung { grid-column: 1; grid-row: 2; flex-wrap: wrap; gap: var(--sc-4); padding-bottom: clamp(0.25rem, 2vh, 1.5rem); }
+  .knopf .haltknopf { width: clamp(12rem, 15vw, 15rem); }
+  .knopf__bild {
+    grid-column: 2; grid-row: 1 / span 2; position: relative; isolation: isolate; overflow: hidden;
+    border-radius: var(--r-gross); background: #eaf2fa; min-height: 26rem;
+    box-shadow: 0 0 0 1px rgba(11, 18, 38, 0.05), 0 30px 60px -36px hsl(var(--sc-shadow-color) / 0.45);
+  }
+  .knopf__bild .netz__karte { left: clamp(1rem, 3vw, 2rem); right: auto; bottom: clamp(1rem, 5%, 2.5rem); }
+}
+
 .knopf__rechts { display: grid; gap: var(--sc-3); justify-items: start; }
 .netz__beschrift--klein { font-size: 17px; fill: #4a5672; }
 .netz__beschrift--ma { font-weight: 650; fill: #0b1226; }
@@ -574,9 +630,52 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 section[id] { scroll-margin-top: 0; }
 #gebaut, #jeden, #fragen, #wir { scroll-margin-top: 3rem; }
 
+/* ------------------------------------------- breit: zwei Blätter -- */
+/* Gleiche Bedingung wie in seitenleiste.js und sprungleiste.js. Die Seite
+   ist ein Blatt mit Rand auf grauem Grund: body bekommt den Rand als
+   Innenabstand, .rahmen deckt alles außerhalb des Blatts ab (Schatten mit
+   großer Ausbreitung) und gibt ihm runde Ecken. Davor liegt die
+   Seitenleiste als zweites Blatt, etwas höher, und überlappt die Seite links. */
+@media (min-width: 1200px) and (min-height: 520px) {
+  :root {
+    --blatt-o: 1.5rem; --blatt-r: 1.25rem; --blatt-u: 1.25rem; --blatt-l: 10rem;
+    --band: calc(100vw - var(--blatt-l) - var(--blatt-r));
+    /* Text beginnt im Blatt frühestens 6rem nach dessen linkem Rand, also rechts der Leiste */
+    --sc-gutter: max(clamp(1.25rem, 4vw, 5rem), calc(6rem - max(0px, (var(--band) - var(--sc-maxw)) / 2)));
+    --knopf-rand: max(var(--sc-gutter), 6rem);
+    --knopf-rechts: 1.25rem;
+  }
+  body { padding: var(--blatt-o) var(--blatt-r) var(--blatt-u) var(--blatt-l); }
+  .rahmen {
+    display: block; position: fixed; z-index: calc(var(--sc-z-chrome) - 2); pointer-events: none;
+    inset: var(--blatt-o) var(--blatt-r) var(--blatt-u) var(--blatt-l); border-radius: 18px;
+    box-shadow: 0 0 0 1px rgba(11, 18, 38, 0.06), 0 26px 50px -30px rgba(20, 35, 60, 0.35), 0 0 0 200vmax var(--rahmen-grund);
+  }
+  [data-sc-progress] { display: none; }
+  /* Kopfleiste: nur noch „Das sind wir“, oben rechts im Blatt, ohne eigene Fläche
+     (das Logo steht in der Seitenleiste). Über Nacht-Abschnitten wird der Knopf weiß. */
+  .leiste { inset: var(--blatt-o) var(--blatt-r) auto var(--blatt-l); padding-inline: 1.25rem; justify-content: flex-end; pointer-events: none; }
+  .leiste, .leiste.ist-unten, .leiste.ist-nacht.ist-unten { background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .leiste .marke { display: none; }
+  .leiste .knopf-dunkel { pointer-events: auto; box-shadow: 0 8px 24px -12px rgba(11, 18, 38, 0.45); }
+  .sprung-anfang { right: calc(var(--blatt-r) + 1.25rem); bottom: calc(var(--blatt-u) + 1.25rem); }
+  .sprungleiste {
+    display: flex; flex-direction: column; gap: var(--sc-5); position: fixed; z-index: var(--sc-z-chrome);
+    left: 1.25rem; top: 0.75rem; bottom: 2.75rem; width: 12.75rem;
+    padding: 1.4rem 1.25rem 1.3rem; border-radius: 18px;
+    background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(255, 255, 255, 0.75);
+    -webkit-backdrop-filter: blur(28px) saturate(180%); backdrop-filter: blur(28px) saturate(180%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 2px rgba(11, 18, 38, 0.06), 0 28px 60px -20px rgba(20, 35, 60, 0.3), 22px 0 44px -30px rgba(20, 35, 60, 0.35);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .sprungleiste { background: #fbfcfd; } }
+  .jeden__schiene {
+    padding-inline: max(var(--sc-gutter), calc((var(--band) - var(--sc-maxw)) / 2 + var(--sc-gutter)));
+    scroll-padding-inline: max(var(--sc-gutter), calc((var(--band) - var(--sc-maxw)) / 2 + var(--sc-gutter)));
+  }
+}
+
 /* ----------------------------------------------------------- Tablet -- */
 @media (max-width: 1100px) {
-  .leiste__links { display: none; }
   .kacheln { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .kachel--gross, .kachel--breit { grid-column: 1 / -1; }
 }
@@ -643,6 +742,9 @@ section[id] { scroll-margin-top: 0; }
   .hang__chip { transform: none; }
   .hang__flocken { display: none; }
   .seite[open], .seite.geht-zu { animation: none; }
+  .sprungleiste__nav a span, .sprungleiste__nav a::before { transition: opacity 160ms linear; }
+  .sprungleiste__nav a:hover span { transform: none; }
+  .hang__chip svg, .hang__schatten { animation: none; }
   .hang .sc-stage__poster, .hang video[data-sc-scrub], .hang__kopf > *, .hang__zwei > * { transform: none; }
   .schluss__chip { animation: none; }
   }

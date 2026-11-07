@@ -1,4 +1,4 @@
-// Das 3D-Modell des Prototyp-Chips, gemeinsam für den Einstieg (held.js) und „Was drinsteckt“ (drinsteckt.js).
+// Das 3D-Modell des Prototyp-Chips für „Was drinsteckt“ (drinsteckt.js).
 // Aufbau und Reihenfolge nach der Explosionszeichnung im Werkstattbuch (Maximilian, Blatt 00):
 // Knopf und Kragen, Deckel mit LED, Platine mit Modulen, Lade-Modul und Motor, Akku, Qi-Empfänger,
 // Unterteil und Hülle. Außenmaß mit Hülle 120 × 60 × 32 mm, Farbe Signal-Orange (Werkstattbuch Kap. 2,

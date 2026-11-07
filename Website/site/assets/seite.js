@@ -96,6 +96,30 @@
     var glut = akt.querySelector(".netz__glut");
     var spurLaenge = spur.getTotalLength();
 
+    // Ab Tablet steht die Grafik in einer eigenen, schmaleren Fläche. Der
+    // Ausschnitt wird dann so gelegt, dass „Du“, die Gruppe, die Liftstation
+    // und der Mitarbeiter im Bild bleiben (Mitte bei x = 1175 der Zeichnung).
+    // Am Handy bleibt sie mittig (dort verschiebt seite.css die Welt selbst).
+    var bilder = akt.querySelectorAll(".netz__bild");
+    var bildFlaeche = akt.querySelector(".knopf__bild");
+    var flaeche = window.matchMedia("(min-width: 861px)");
+    var ausrichten = function () {
+      var box = "0 0 1600 900", art = "xMidYMid slice";
+      if (flaeche.matches && bildFlaeche) {
+        var r = bildFlaeche.getBoundingClientRect();
+        if (r.width > 0 && r.height > 0) {
+          var sichtbar = r.width / Math.max(r.width / 1600, r.height / 900);
+          var x0 = Math.min(Math.max(1175 - sichtbar / 2, 0), Math.max(1600 - sichtbar, 0));
+          box = Math.round(x0) + " 0 1600 900"; art = "xMinYMid slice";
+        }
+      }
+      bilder.forEach(function (b) { b.setAttribute("viewBox", box); b.setAttribute("preserveAspectRatio", art); });
+    };
+    ausrichten();
+    if (flaeche.addEventListener) flaeche.addEventListener("change", ausrichten);
+    if (window.ResizeObserver && bildFlaeche) new ResizeObserver(ausrichten).observe(bildFlaeche);
+    else window.addEventListener("resize", ausrichten);
+
     // In der Vorführung verkürzt; am echten Chip 3 s halten und 5 s Frist.
     var HALTEN = 1000, FRIST = 2000, LAUF = 8000, GRUPPE = 2400;
     var zustand = "ruhe", start = 0, hilfe = 0, gruppe = 0, letzteSekunde = -1, stufe = "";
@@ -263,16 +287,4 @@
     });
   }
 
-  /* ------------------------------------- aktiver Link in der Leiste -- */
-  var leistenLinks = document.querySelectorAll(".leiste__links a");
-  if (leistenLinks.length) {
-    var ziele = Array.prototype.map.call(leistenLinks, function (a) { return document.querySelector(a.getAttribute("href")); });
-    var markieren = function () {
-      var mitte = window.innerHeight * 0.4, aktiv = -1;
-      ziele.forEach(function (z, i) { if (z) { var r = z.getBoundingClientRect(); if (r.top <= mitte && r.bottom >= mitte) aktiv = i; } });
-      leistenLinks.forEach(function (a, i) { if (i === aktiv) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current"); });
-    };
-    window.addEventListener("scroll", markieren, { passive: true });
-    markieren();
-  }
 })();

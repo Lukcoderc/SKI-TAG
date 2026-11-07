@@ -1,4 +1,4 @@
-/* SkiTag · Seitenleiste: fährt links heraus, wenn man mit der Maus über das
+/* SkiTag · Seitenleiste (nur unter 1200 px Breite): fährt links heraus, wenn man mit der Maus über das
    Logo fährt, und verschwindet wieder, wenn man sie verlässt. Auf dem Handy
    und mit der Tastatur öffnet ein Klick bzw. Enter auf das Logo die Leiste.
    Ohne JavaScript springt das Logo nach oben. */
@@ -12,12 +12,26 @@
   var links = leiste.querySelectorAll("nav a");
   var leistenMarke = leiste.querySelector(".seite__marke");
   var zuTimer = 0, aufTimer = 0, perKlick = false, hoverSperre = false;
+  // Am breiten Bildschirm stehen die Abschnitte als Sprungleiste an der Seite
+  // (sprungleiste.js); dort führt das Logo nur an den Anfang. Gleiche
+  // Bedingung wie in seite.css.
+  var breit = window.matchMedia("(min-width: 1200px) and (min-height: 520px)");
 
-  marke.setAttribute("role", "button");
-  marke.setAttribute("aria-haspopup", "true");
-  marke.setAttribute("aria-controls", "seitenleiste");
-  marke.setAttribute("aria-expanded", "false");
-  marke.setAttribute("aria-label", "SkiTag, Inhalt öffnen");
+  var modusSetzen = function () {
+    if (breit.matches) {
+      ["role", "aria-haspopup", "aria-controls", "aria-expanded"].forEach(function (n) { marke.removeAttribute(n); });
+      marke.setAttribute("aria-label", "SkiTag, zum Anfang");
+      if (leiste.open) { leiste.classList.remove("geht-zu"); leiste.close(); perKlick = false; }
+    } else {
+      marke.setAttribute("role", "button");
+      marke.setAttribute("aria-haspopup", "true");
+      marke.setAttribute("aria-controls", "seitenleiste");
+      marke.setAttribute("aria-expanded", leiste.open ? "true" : "false");
+      marke.setAttribute("aria-label", "SkiTag, Inhalt öffnen");
+    }
+  };
+  modusSetzen();
+  if (breit.addEventListener) breit.addEventListener("change", modusSetzen);
 
   var aktuell = function () {
     var mitte = window.innerHeight * 0.4, treffer = links[0];
@@ -54,7 +68,7 @@
 
   // Maus: drüberfahren öffnet, verlassen schließt
   if (mitMaus) {
-    marke.addEventListener("mouseenter", function () { if (hoverSperre) return; clearTimeout(zuTimer); aufTimer = setTimeout(function () { oeffnen(false); }, 90); });
+    marke.addEventListener("mouseenter", function () { if (hoverSperre || breit.matches) return; clearTimeout(zuTimer); aufTimer = setTimeout(function () { oeffnen(false); }, 90); });
     marke.addEventListener("mouseleave", function () { hoverSperre = false; clearTimeout(aufTimer); spaeterZu(); });
     leiste.addEventListener("mouseenter", function () { clearTimeout(zuTimer); });
     leiste.addEventListener("mouseleave", spaeterZu);
@@ -64,6 +78,7 @@
 
   // Klick, Tippen und Tastatur
   marke.addEventListener("click", function (e) {
+    if (breit.matches) return;   // normaler Link an den Anfang
     e.preventDefault();
     if (leiste.open && perKlick) { schliessen(false); return; }
     perKlick = true;

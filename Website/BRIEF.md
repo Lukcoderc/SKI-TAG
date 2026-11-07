@@ -88,3 +88,15 @@ Akt 2 endet mit einem fast leeren Bildschirm und einem einzigen Wort, bevor Akt 
 ## Ehrlichkeit
 
 Alles als Vorführung kennzeichnen, nichts als erprobt darstellen. Keine Zahlen außer echten Werten des Knopfs (3 s halten, 5 s abbrechen), des Plans (Jänner 2027, Saison 27/28) und den Beispielen aus der Präsentation, ausdrücklich als Beispiel markiert („170 m von dir“, Radius „zum Beispiel 200 Meter“). Keine Preise, keine Partner, kein Skigebiet beim Namen.
+
+## Feedback 11 (Lukas, 2026-11-07)
+
+Sprungmarken oben weg und an die Seite, durchsichtig, clean und kleiner; beim Drüberfahren ein oranger, leicht animierter Strich daneben. Das Menü über das Logo fällt am PC weg, am Handy bleibt es. Bei „Ein Knopf. Zwei Wege.“ mehr Abstand zur Seite, damit die Leiste links Platz hat.
+
+Umgesetzt: Glasleiste links mittig (ab 1200 px Breite), Kurznamen Der Chip, Innen, Bauweise, Die App, Für jeden, Fragen, Team; Strich zieht sich beim Drüberfahren auf, der aktuelle Abschnitt behält einen kurzen Strich; über Nacht-Abschnitten dunkel. Der Seitenrand wächst, damit nie Text unter der Leiste liegt. Darunter öffnet das Logo weiter die Seitenleiste. Nebenbei behoben: Bei niedrigen Fenstern (z. B. 1280 × 800) lag der Knopf in „Ein Knopf. Zwei Wege.“ über dem letzten Schritt.
+
+## Feedback 12 (Lukas, 2026-11-07)
+
+Vorlage: zwei überlappende Blätter (Bild „Goldene Speiche“). Die Seitenleiste soll das vordere Blatt sein, der Rest der Seite das hintere, und die Leiste überlappt die Seite. Im Einstieg das kleine „SkiTag“ über dem Titel weg und das 3D-Modell durch einen sauberen Tag ersetzen. Bei „Ein Knopf. Zwei Wege.“ den rechten Rand kleiner und die Grafik nicht mehr über den ganzen Bildschirm. Dazu Vorschläge, wie andere Firmen ihr Produkt zeigen.
+
+Umgesetzt (ab 1200 px Breite): Seite als Blatt mit runden Ecken auf grauem Grund, Seitenleiste als weißes Blatt davor, etwas höher, überlappt links, mit Logo, allen Abschnitten und einer Zeile unten. Kopfleiste dort ausgeblendet. Einstieg: Augenbraue weg, Tag als Zeichnung mit sichtbarer Kante, schwebt leicht (3D-Modell im Einstieg entfernt, „Was drinsteckt“ bleibt 3D). „Ein Knopf. Zwei Wege.“: ab Tablet Text links, Grafik rechts als eigene Fläche mit schmalem Rand, Ausschnitt passt sich an. Handy unverändert.
