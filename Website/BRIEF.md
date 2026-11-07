@@ -61,6 +61,10 @@ Umgesetzt (Details in `DESIGN.md`): Wechsel von Schnee und Nachtblau; der Chip i
 
 „Ein Knopf. Zwei Wege.“ war schlecht angeordnet (am PC Karte und Stichpunkte versetzt, am Handy musste man scrollen) und wirkte wie „Am ganzen Berg“. Beides ist jetzt ein Abschnitt: die Nachtgrafik vom Berg als Bühne, Knopf und Schritte darauf, Drücken und Halten spielen direkt in der Grafik ab, am Handy alles auf einem Bildschirm. Kleine Hinweistexte entfernt („unnötig“): unter dem App-iPhone, unter dem Einstieg, in „Was drinsteckt“, die Fußnote der Kacheln, „Hier verkürzt …“ unter dem Knopf, „Vorführung“, „Beispiel“. Die „Ziel“-Marken in den Kacheln bleiben.
 
+## Feedback 10 (Lukas, 2026-11-07)
+
+Bei „Ein Knopf. Zwei Wege.“ war der Mitarbeiter nicht beschriftet, und alle Menschen waren Punkte. Jetzt Skifahrer-Figuren (du liegst nach dem Sturz, die Gruppe steht, der Mitarbeiter mit hellem Band und der Beschriftung „Mitarbeiter der Bergbahn“, die mitfährt). Der ganze Abschnitt samt Grafik ist hell statt Nacht.
+
 ## Gefühlskurve (erste Fassung)
 
 1. Ruhe: heller Neuschnee, der Chip liegt still im Schnee, die Kamera gleitet langsam (scrub).

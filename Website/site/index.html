@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/funnelsans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.min.js" } }</script>
 <link rel="stylesheet" href="scrollcraft.css?v=16">
-<link rel="stylesheet" href="assets/seite.css?v=22">
+<link rel="stylesheet" href="assets/seite.css?v=23">
 </head>
 <body>
 
@@ -101,46 +101,45 @@
   </section>
 
   <!-- 2 · Der Chip: ausprobieren, direkt am Berg -->
-  <section id="der-chip" class="knopf nacht" data-sc-act="flow" data-sc-drift="#0b1226" aria-labelledby="chip-titel">
+  <section id="der-chip" class="knopf" data-sc-act="flow" data-sc-drift="#f4f8fb" aria-labelledby="chip-titel">
     <div class="knopf__buehne">
       <svg class="netz__bild" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="knopf-bild-titel">
-        <title id="knopf-bild-titel">Ein Skigebiet bei Nacht. Kurz drücken ruft die eigene Gruppe am Hang. Halten schickt den Notruf an den Empfänger der nächsten Liftstation, und ein Mitarbeiter der Bergbahn fährt zur verletzten Person.</title>
+        <title id="knopf-bild-titel">Ein Skigebiet im Schnee. Kurz drücken ruft die eigene Gruppe am Hang. Halten schickt den Notruf an den Empfänger der nächsten Liftstation, und ein Mitarbeiter der Bergbahn fährt zur verletzten Person.</title>
         <defs>
-          <linearGradient id="n-himmel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#060a18"/><stop offset=".6" stop-color="#0f1a3a"/><stop offset="1" stop-color="#1a2b55"/></linearGradient>
-          <linearGradient id="n-fern" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22355f"/><stop offset="1" stop-color="#15224a"/></linearGradient>
-          <linearGradient id="n-nah" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c4475"/><stop offset="1" stop-color="#101a3a"/></linearGradient>
-          <linearGradient id="n-schnee" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8f0ff" stop-opacity=".95"/><stop offset="1" stop-color="#9fb6e0" stop-opacity=".55"/></linearGradient>
-          <radialGradient id="n-feld" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#5b97ff" stop-opacity=".5"/><stop offset=".6" stop-color="#4f8dff" stop-opacity=".2"/><stop offset=".97" stop-color="#7fb2ff" stop-opacity=".12"/><stop offset="1" stop-color="#7fb2ff" stop-opacity="0"/></radialGradient>
+          <linearGradient id="n-himmel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe2f5"/><stop offset=".7" stop-color="#eaf2fa"/><stop offset="1" stop-color="#f6f9fc"/></linearGradient>
+          <linearGradient id="n-fern" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b6cce4"/><stop offset="1" stop-color="#d9e5f2"/></linearGradient>
+          <linearGradient id="n-nah" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e6eef7"/></linearGradient>
+          <linearGradient id="n-schnee" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c5d6ea"/><stop offset="1" stop-color="#d7e3f1"/></linearGradient>
+          <radialGradient id="n-feld" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#4f8dff" stop-opacity=".26"/><stop offset=".6" stop-color="#4f8dff" stop-opacity=".1"/><stop offset=".97" stop-color="#4f8dff" stop-opacity=".1"/><stop offset="1" stop-color="#4f8dff" stop-opacity="0"/></radialGradient>
           <radialGradient id="n-glut" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ff5a1c" stop-opacity=".9"/><stop offset="1" stop-color="#ff5a1c" stop-opacity="0"/></radialGradient>
-          <radialGradient id="n-mond" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#f6f1e4"/><stop offset=".55" stop-color="#f6f1e4" stop-opacity=".25"/><stop offset="1" stop-color="#f6f1e4" stop-opacity="0"/></radialGradient>
-          <filter id="n-blur"><feGaussianBlur stdDeviation="2"/></filter>
+          <radialGradient id="n-sonne" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#ffffff" stop-opacity=".45"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+          <!-- Skifahrer, Fußpunkt bei 0,0 -->
+          <symbol id="n-fahrer" viewBox="-20 -50 40 54" overflow="visible"><circle cx="0" cy="-40" r="6.5" fill="currentColor"/><path d="M-8 -31 Q0 -34 8 -31 L6 -12 L-6 -12 Z" fill="currentColor"/><path d="M-6 -13 L-8 -1 L-3 -1 L0 -9 L3 -1 L8 -1 L6 -13 Z" fill="currentColor"/><path d="M-18 2 L18 -2" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></symbol>
         </defs>
         <rect width="1600" height="900" fill="url(#n-himmel)"/>
-        <g class="netz__sterne" fill="#dfe8ff"></g>
-        <circle cx="1310" cy="150" r="90" fill="url(#n-mond)"/>
-        <circle cx="1310" cy="150" r="26" fill="#f6f1e4"/>
+        <circle cx="1300" cy="150" r="160" fill="url(#n-sonne)"/>
 <g class="netz__welt">
         <!-- ferne Kette -->
         <path d="M-600 560 L-400 470 L-260 520 L-120 440 L0 520 L120 430 L210 470 L330 360 L420 410 L540 300 L640 380 L760 290 L880 360 L1000 270 L1120 350 L1240 300 L1380 380 L1500 330 L1600 380 V900 H0 Z" fill="url(#n-fern)"/>
-        <path d="M330 360 L360 384 L378 376 L404 402 L380 398 L356 404 Z M540 300 L572 330 L590 322 L620 362 L594 356 L566 364 Z M760 290 L790 318 L806 310 L840 344 L812 340 L786 348 Z M1000 270 L1032 300 L1050 290 L1090 330 L1060 326 L1030 334 Z M1240 300 L1270 324 L1288 318 L1320 352 L1292 346 L1264 352 Z" fill="#c9d8f5" opacity=".55"/>
+        <path d="M330 360 L360 384 L378 376 L404 402 L380 398 L356 404 Z M540 300 L572 330 L590 322 L620 362 L594 356 L566 364 Z M760 290 L790 318 L806 310 L840 344 L812 340 L786 348 Z M1000 270 L1032 300 L1050 290 L1090 330 L1060 326 L1030 334 Z M1240 300 L1270 324 L1288 318 L1320 352 L1292 346 L1264 352 Z" fill="#ffffff" opacity=".9"/>
         <!-- naher Berg mit Pisten -->
         <path class="netz__berg" d="M-600 900 L-600 880 C-300 870 -100 860 0 820 C160 760 300 640 450 560 C580 490 660 400 780 380 C900 400 980 470 1080 520 C1200 580 1320 640 1600 700 V900 H0 Z" fill="url(#n-nah)"/>
-        <path d="M0 820 C160 760 300 640 450 560 C580 490 660 400 780 380 C900 400 980 470 1080 520 C1200 580 1320 640 1600 700" fill="none" stroke="#9fb6e0" stroke-opacity=".5" stroke-width="2"/>
-        <path d="M780 386 C720 460 640 520 560 600 C480 680 400 740 300 820" fill="none" stroke="url(#n-schnee)" stroke-width="34" stroke-linecap="round" opacity=".28"/>
-        <path d="M790 390 C860 470 920 560 960 660 C990 740 1020 800 1060 880" fill="none" stroke="url(#n-schnee)" stroke-width="30" stroke-linecap="round" opacity=".22"/>
-        <path d="M1080 524 C1150 600 1220 680 1260 780" fill="none" stroke="url(#n-schnee)" stroke-width="24" stroke-linecap="round" opacity=".18"/>
+        <path d="M0 820 C160 760 300 640 450 560 C580 490 660 400 780 380 C900 400 980 470 1080 520 C1200 580 1320 640 1600 700" fill="none" stroke="#9fb6cf" stroke-width="2"/>
+        <path d="M780 386 C720 460 640 520 560 600 C480 680 400 740 300 820" fill="none" stroke="url(#n-schnee)" stroke-width="34" stroke-linecap="round" opacity=".45"/>
+        <path d="M790 390 C860 470 920 560 960 660 C990 740 1020 800 1060 880" fill="none" stroke="url(#n-schnee)" stroke-width="30" stroke-linecap="round" opacity=".38"/>
+        <path d="M1080 524 C1150 600 1220 680 1260 780" fill="none" stroke="url(#n-schnee)" stroke-width="24" stroke-linecap="round" opacity=".32"/>
         <!-- Lifte -->
-        <g stroke="#7f98c8" stroke-opacity=".7" stroke-width="2" fill="none">
+        <g stroke="#7d96b0" stroke-width="1.8" fill="none">
           <path d="M790 372 L430 800"/><path d="M800 372 L1120 790"/><path d="M1090 510 L1420 760"/>
         </g>
         <!-- Liftstationen mit Empfänger: Feld, Station, Antenne -->
         <!-- Du: Chip am Hang, Wellen, Funkweg zur Station -->
         <!-- deine Gruppe am Hang -->
-        <g class="netz__mensch" transform="translate(552 648)"><circle r="7" fill="#ffffff"/><circle r="3" fill="#ff5a1c"/></g>
-        <g class="netz__mensch" transform="translate(704 498)"><circle r="7" fill="#ffffff"/><circle r="3" fill="#ff5a1c"/></g>
-        <text class="netz__beschrift netz__beschrift--klein" x="724" y="490">Deine Gruppe</text>
+        <g class="netz__mensch" transform="translate(552 648)"><use href="#n-fahrer" x="-20" y="-50" width="40" height="54" color="#26324a"/><circle cx="0" cy="-22" r="2.8" fill="#ff5a1c"/></g>
+        <g class="netz__mensch" transform="translate(704 498) scale(.92)"><use href="#n-fahrer" x="-20" y="-50" width="40" height="54" color="#26324a"/><circle cx="0" cy="-22" r="2.8" fill="#ff5a1c"/></g>
+        <text class="netz__beschrift netz__beschrift--klein" x="724" y="474">Deine Gruppe</text>
         <text class="netz__beschrift netz__beschrift--klein" x="752" y="378" text-anchor="end">Liftstation</text>
-        <text class="netz__beschrift" x="580" y="604" text-anchor="end">Du</text>
+        <text class="netz__beschrift" x="592" y="604" text-anchor="end">Du</text>
         <!-- Mitarbeiter fährt zur Person -->
         </g>
       </svg>
@@ -154,24 +153,24 @@
           <circle class="netz__feld" cx="1090" cy="500" r="280" fill="url(#n-feld)"/>
         </g>
         <g class="netz__stationen">
-          <g class="netz__station" transform="translate(790 362)"><rect x="-26" y="-4" width="52" height="26" rx="3" fill="#1b2a52" stroke="#9fb6e0" stroke-width="1.6"/><path d="M-30 -2 L0 -18 L30 -2 Z" fill="#9fb6e0"/><path d="M14 -16 V-46" stroke="#9fb6e0" stroke-width="2"/><circle class="netz__antenne" cx="14" cy="-48" r="5"/></g>
-          <g class="netz__station" transform="translate(430 800)"><rect x="-22" y="-4" width="44" height="22" rx="3" fill="#1b2a52" stroke="#9fb6e0" stroke-width="1.6"/><path d="M-26 -2 L0 -16 L26 -2 Z" fill="#9fb6e0"/><path d="M12 -14 V-40" stroke="#9fb6e0" stroke-width="2"/><circle class="netz__antenne" cx="12" cy="-42" r="5"/></g>
-          <g class="netz__station" transform="translate(1120 800)"><rect x="-22" y="-4" width="44" height="22" rx="3" fill="#1b2a52" stroke="#9fb6e0" stroke-width="1.6"/><path d="M-26 -2 L0 -16 L26 -2 Z" fill="#9fb6e0"/><path d="M12 -14 V-40" stroke="#9fb6e0" stroke-width="2"/><circle class="netz__antenne" cx="12" cy="-42" r="5"/></g>
-          <g class="netz__station" transform="translate(1420 762)"><rect x="-20" y="-4" width="40" height="20" rx="3" fill="#1b2a52" stroke="#9fb6e0" stroke-width="1.6"/><path d="M-24 -2 L0 -14 L24 -2 Z" fill="#9fb6e0"/><path d="M10 -12 V-36" stroke="#9fb6e0" stroke-width="2"/><circle class="netz__antenne" cx="10" cy="-38" r="5"/></g>
-          <g class="netz__station" transform="translate(1090 512)"><rect x="-20" y="-4" width="40" height="20" rx="3" fill="#1b2a52" stroke="#9fb6e0" stroke-width="1.6"/><path d="M-24 -2 L0 -14 L24 -2 Z" fill="#9fb6e0"/><path d="M10 -12 V-36" stroke="#9fb6e0" stroke-width="2"/><circle class="netz__antenne" cx="10" cy="-38" r="5"/></g>
+          <g class="netz__station" transform="translate(790 362)"><rect x="-26" y="-4" width="52" height="26" rx="3" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/><path d="M-30 -2 L0 -18 L30 -2 Z" fill="#5d6f84"/><path d="M14 -16 V-46" stroke="#5d6f84" stroke-width="2"/><circle class="netz__antenne" cx="14" cy="-48" r="5"/></g>
+          <g class="netz__station" transform="translate(430 800)"><rect x="-22" y="-4" width="44" height="22" rx="3" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/><path d="M-26 -2 L0 -16 L26 -2 Z" fill="#5d6f84"/><path d="M12 -14 V-40" stroke="#5d6f84" stroke-width="2"/><circle class="netz__antenne" cx="12" cy="-42" r="5"/></g>
+          <g class="netz__station" transform="translate(1120 800)"><rect x="-22" y="-4" width="44" height="22" rx="3" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/><path d="M-26 -2 L0 -16 L26 -2 Z" fill="#5d6f84"/><path d="M12 -14 V-40" stroke="#5d6f84" stroke-width="2"/><circle class="netz__antenne" cx="12" cy="-42" r="5"/></g>
+          <g class="netz__station" transform="translate(1420 762)"><rect x="-20" y="-4" width="40" height="20" rx="3" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/><path d="M-24 -2 L0 -14 L24 -2 Z" fill="#5d6f84"/><path d="M10 -12 V-36" stroke="#5d6f84" stroke-width="2"/><circle class="netz__antenne" cx="10" cy="-38" r="5"/></g>
+          <g class="netz__station" transform="translate(1090 512)"><rect x="-20" y="-4" width="40" height="20" rx="3" fill="#ffffff" stroke="#5d6f84" stroke-width="1.6"/><path d="M-24 -2 L0 -14 L24 -2 Z" fill="#5d6f84"/><path d="M10 -12 V-36" stroke="#5d6f84" stroke-width="2"/><circle class="netz__antenne" cx="10" cy="-38" r="5"/></g>
         </g>
         <circle class="netz__glut" cx="610" cy="560" r="70" fill="url(#n-glut)"/>
-        <g class="netz__wellen" fill="none" stroke="#ff8a5c" stroke-width="2.4">
+        <g class="netz__wellen" fill="none" stroke="#ff5a1c" stroke-width="2.4">
           <circle cx="610" cy="560" r="20"/><circle cx="610" cy="560" r="20"/><circle cx="610" cy="560" r="20"/>
         </g>
-        <path class="netz__funk" d="M610 560 C650 470 720 380 802 316" fill="none" stroke="#ff4d4d" stroke-width="3" stroke-linecap="round" stroke-dasharray="1" pathLength="1"/>
-        <path class="netz__gweg" d="M610 560 Q574 604 552 642" fill="none" stroke="#ff8a5c" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="1" pathLength="1"/>
-        <path class="netz__gweg" d="M610 560 Q662 538 700 504" fill="none" stroke="#ff8a5c" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="1" pathLength="1"/>
-        <g class="netz__zittern" fill="none" stroke="#ff8a5c" stroke-width="2.2" stroke-linecap="round"><path d="M538 640 q-6 8 0 16 M566 640 q6 8 0 16"/><path d="M690 490 q-6 8 0 16 M718 490 q6 8 0 16"/></g>
-        <circle class="netz__ping" cx="804" cy="314" r="12" fill="none" stroke="#7fb2ff" stroke-width="2"/>
-        <path class="netz__spur" d="M760 420 C730 460 690 500 652 534" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 8" opacity="0"/>
-        <g class="netz__mitarbeiter" transform="translate(760 420)"><circle r="8" fill="#ffffff"/><circle r="3.4" fill="#0b1226"/></g>
-        <g transform="translate(610 560)"><circle r="9" fill="#ff5a1c"/><circle r="4" fill="#fff"/></g>
+        <path class="netz__funk" d="M610 560 C650 470 720 380 802 316" fill="none" stroke="#ff2d2d" stroke-width="3" stroke-linecap="round" stroke-dasharray="1" pathLength="1"/>
+        <path class="netz__gweg" d="M610 560 Q574 596 556 618" fill="none" stroke="#ff5a1c" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="1" pathLength="1"/>
+        <path class="netz__gweg" d="M610 560 Q662 528 694 476" fill="none" stroke="#ff5a1c" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="1" pathLength="1"/>
+        <g class="netz__zittern" fill="none" stroke="#ff5a1c" stroke-width="2.2" stroke-linecap="round"><path d="M536 614 q-6 8 0 16 M568 614 q6 8 0 16"/><path d="M688 466 q-6 8 0 16 M720 466 q6 8 0 16"/></g>
+        <circle class="netz__ping" cx="804" cy="314" r="12" fill="none" stroke="#4f8dff" stroke-width="2"/>
+        <path class="netz__spur" d="M760 420 C730 460 690 500 652 534" fill="none" stroke="#5d6f84" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 8" opacity="0"/>
+        <g class="netz__mitarbeiter" transform="translate(760 420)"><use href="#n-fahrer" x="-20" y="-50" width="40" height="54" color="#0b1226"/><rect x="-7" y="-27" width="14" height="4" rx="1.5" fill="#ffffff"/><text class="netz__beschrift netz__beschrift--klein netz__beschrift--ma nur-breit" x="16" y="22">Mitarbeiter der Bergbahn</text><text class="netz__beschrift netz__beschrift--klein netz__beschrift--ma nur-schmal" x="16" y="22">Bergbahn</text></g>
+        <g transform="translate(600 562)"><circle cx="16" cy="-10" r="6.5" fill="#0b1226"/><path d="M-6 6 C0 -6 14 -8 24 -2 L28 8 Z" fill="#0b1226"/><path d="M-16 12 L40 8" stroke="#0b1226" stroke-width="3.2" stroke-linecap="round"/><rect x="6" y="-2" width="9" height="5" rx="1.5" fill="#ff5a1c"/></g>
         </g>
       </svg>
 
@@ -186,8 +185,8 @@
       </div>
 
       <div class="knopf__text">
-        <p class="augenbraue augenbraue--hell">Der Chip</p>
-        <h2 id="chip-titel" class="sc-display knopf__titel">Ein Knopf.<br><span class="verlauf">Zwei Wege.</span></h2>
+        <p class="augenbraue">Der Chip</p>
+        <h2 id="chip-titel" class="sc-display knopf__titel">Ein Knopf.<br><span class="akzent">Zwei Wege.</span></h2>
         <ol class="knopf__schritte">
           <li data-schritt="gruppe"><b>Kurz drücken</b><span>Deine Gruppe spürt eine Vibration und sieht in der App, wo du bist. Die Bergbahn wird nicht alarmiert.</span></li>
           <li data-schritt="halten"><b>Drei Sekunden halten</b><span>Der Notruf startet. Fünf Sekunden lang kannst du ihn mit einem zweiten Druck abbrechen.</span></li>
@@ -588,7 +587,7 @@
 
 <script src="scrollcraft.js?v=16"></script>
 <script>ScrollCraft.mount(document.body);</script>
-<script src="assets/seite.js?v=21" defer></script>
+<script src="assets/seite.js?v=23" defer></script>
 <script src="assets/sprung-anfang.js?v=16" defer></script>
 <script src="assets/seitenleiste.js?v=16" defer></script>
 <script src="assets/schiene.js?v=16" defer></script>

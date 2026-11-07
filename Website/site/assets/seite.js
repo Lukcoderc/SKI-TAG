@@ -152,7 +152,7 @@
       var notruf = zustand === "frist" || zustand === "lauf" || zustand === "fertig";
       // Wellen vom Chip: orange für die Gruppe, rot für den Notruf
       var staerke = hilfe > 0 ? (1 - abschnitt(hilfe, 0.3, 0.42)) : (gruppe > 0 && gruppe < 1 ? 1 - abschnitt(gruppe, 0.6, 1) : (zustand === "frist" ? 0.8 : 0));
-      wellenGruppe.setAttribute("stroke", notruf ? "#ff4d4d" : "#ff8a5c");
+      wellenGruppe.setAttribute("stroke", notruf ? "#ff2d2d" : "#ff5a1c");
       for (var k = 0; k < wellen.length; k++) {
         var phase = ohneBewegung ? 0.5 : ((jetzt / 1400 + k / 3) % 1);
         wellen[k].setAttribute("r", (20 + phase * 90).toFixed(1));
