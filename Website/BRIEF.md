@@ -57,6 +57,10 @@ Der aufleuchtende Satz vor „Der Chip“ kommt wieder weg (nach dem Einstieg fo
 
 Umgesetzt (Details in `DESIGN.md`): Wechsel von Schnee und Nachtblau; der Chip in Signal-Orange als 3D-Modell im Einstieg und zerlegt in „Was drinsteckt“, sonst als Zeichnung von oben; Halte-Knopf als orangener Chip; neue Kacheln „Gebaut für den Berg“ (3 s / 5 s, −20 °C Ziel, 8 h Ziel, Signalorange, 0 Handys, weiche Hülle); neue Berggrafik „So kommt Hilfe“ bei Nacht (Funkweg zur Liftstation, Mitarbeiter fährt hin, Empfänger an allen Stationen als Ziel); iPhone mit nachgebauten App-Bildschirmen (Route, Gruppe, Mein Tag); Karten in „Für jeden am Berg“; neue Fragen; Team als Karten (Platzhalter-Foto entfernt); Schluss bei Nacht; Fuß mit Spalten; Kopfleiste als Glas mit Abschnitts-Links. Tracking-Text ohne „Tempo“, wie in der App.
 
+## Feedback 9 (Lukas, 2026-11-07)
+
+„Ein Knopf. Zwei Wege.“ war schlecht angeordnet (am PC Karte und Stichpunkte versetzt, am Handy musste man scrollen) und wirkte wie „Am ganzen Berg“. Beides ist jetzt ein Abschnitt: die Nachtgrafik vom Berg als Bühne, Knopf und Schritte darauf, Drücken und Halten spielen direkt in der Grafik ab, am Handy alles auf einem Bildschirm. Kleine Hinweistexte entfernt („unnötig“): unter dem App-iPhone, unter dem Einstieg, in „Was drinsteckt“, die Fußnote der Kacheln, „Hier verkürzt …“ unter dem Knopf, „Vorführung“, „Beispiel“. Die „Ziel“-Marken in den Kacheln bleiben.
+
 ## Gefühlskurve (erste Fassung)
 
 1. Ruhe: heller Neuschnee, der Chip liegt still im Schnee, die Kamera gleitet langsam (scrub).

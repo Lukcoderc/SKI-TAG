@@ -55,46 +55,65 @@
   });
 
   /* ------------------------------------------- Der Chip (Vorführung) -- */
-  /* Kurz drücken ruft die Gruppe. Drei Sekunden halten startet den Notruf,
-     danach fünf Sekunden Abbruch-Zeit: wie am echten Chip bricht ein
-     weiterer Druck ab, Loslassen allein nicht. Danach spielt der Rest von
-     selbst ab: das Signal erreicht die Liftstation, ein Mitarbeiter macht
-     sich auf den Weg und fährt zur verletzten Person. */
+  /* Kurz drücken ruft die Gruppe. Halten startet den Notruf, danach läuft
+     die Frist: wie am echten Chip bricht ein weiterer Druck ab, Loslassen
+     allein nicht. Danach spielt der Weg in der Nachtgrafik von selbst ab:
+     Funk zur Liftstation, Meldung an den Mitarbeiter, er fährt zur Person,
+     zuletzt leuchten die Empfänger an allen Stationen. */
   var akt = document.getElementById("der-chip");
   var knopf = akt && akt.querySelector(".haltknopf");
   if (knopf) {
+    var NS = "http://www.w3.org/2000/svg";
+    var sterne = akt.querySelector(".netz__sterne");
+    if (sterne) {
+      var zufall = 7;
+      var naechste = function () { zufall = (zufall * 9301 + 49297) % 233280; return zufall / 233280; };
+      for (var s = 0; s < 120; s++) {
+        var c = document.createElementNS(NS, "circle");
+        c.setAttribute("cx", (naechste() * 1600).toFixed(1));
+        c.setAttribute("cy", (naechste() * 420).toFixed(1));
+        c.setAttribute("r", (0.6 + naechste() * 1.4).toFixed(2));
+        c.setAttribute("opacity", (0.25 + naechste() * 0.6).toFixed(2));
+        sterne.appendChild(c);
+      }
+    }
     var ring = knopf.querySelector(".ring");
     var led = knopf.querySelector(".led");
     var status = document.getElementById("knopf-status");
     var nochmal = akt.querySelector('[data-aktion="nochmal"]');
-    var weg = function (n) { return akt.querySelector(".weg--" + n); };
-    var g1 = weg("g1"), g2 = weg("g2"), h1 = weg("h1");
-    var wellen = akt.querySelectorAll(".welle");
-    var zittern = akt.querySelectorAll(".zittern");
-    var pings = akt.querySelectorAll(".ping");
-    var glanz = akt.querySelector(".du-glanz");
-    var spurMa = akt.querySelector(".spur-mitarbeiter");
-    var mitarbeiter = akt.querySelector(".mitarbeiter");
-    var spurMaLaenge = spurMa ? spurMa.getTotalLength() : 0;
-    var schritte = akt.querySelectorAll(".gesten li");
+    var schritte = akt.querySelectorAll(".knopf__schritte li");
+    var wellen = akt.querySelectorAll(".netz__wellen circle");
+    var wellenGruppe = akt.querySelector(".netz__wellen");
+    var gwege = akt.querySelectorAll(".netz__gweg");
+    var zittern = akt.querySelector(".netz__zittern");
+    var funk = akt.querySelector(".netz__funk");
+    var ping = akt.querySelector(".netz__ping");
+    var stationen = akt.querySelectorAll(".netz__station");
+    var felder = akt.querySelectorAll(".netz__feld");
+    var karte = akt.querySelector(".netz__karte");
+    var spur = akt.querySelector(".netz__spur");
+    var ma = akt.querySelector(".netz__mitarbeiter");
+    var glut = akt.querySelector(".netz__glut");
+    var spurLaenge = spur.getTotalLength();
 
-    // In der Vorführung verkürzt; am echten Chip 3 s halten und 5 s Abbruch-Zeit.
-    var HALTEN = 1000, FRIST = 2000, LAUF = 7000, GRUPPE = 2200;
+    // In der Vorführung verkürzt; am echten Chip 3 s halten und 5 s Frist.
+    var HALTEN = 1000, FRIST = 2000, LAUF = 8000, GRUPPE = 2400;
     var zustand = "ruhe", start = 0, hilfe = 0, gruppe = 0, letzteSekunde = -1, stufe = "";
+    var START_TEXT = "Probier es aus: kurz drücken oder halten.";
 
-    var setzeZustand = function (z) { zustand = z; knopf.setAttribute("data-zustand", z); };
+    var setzeZustand = function (z) { zustand = z; knopf.setAttribute("data-zustand", z); ruheGezeichnet = false; };
     var ringAuf = function (rest) { ring.style.strokeDashoffset = rest; ring.style.opacity = rest >= 0.999 ? 0 : 1; };
     var sage = function (t) { status.innerHTML = t; };
     var aktiv = function (name) { schritte.forEach(function (li) { li.classList.toggle("ist-aktiv", li.getAttribute("data-schritt") === name); }); };
 
     var zuruecksetzen = function () {
       setzeZustand("ruhe"); hilfe = 0; gruppe = 0; stufe = "";
-      ringAuf(1); nochmal.hidden = true; aktiv("");
-      sage("Kurz drücken oder halten. Mit der Maus, dem Finger oder der Leertaste.");
+      ringAuf(1); nochmal.hidden = true; aktiv("gruppe");
+      sage(START_TEXT);
     };
     var abbrechen = function () {
       zuruecksetzen();
-      sage("<strong>Abgebrochen.</strong> Der zweite Druck hat den Notruf gestoppt, gesendet wurde nichts.");
+      sage("<strong>Abgebrochen.</strong> Der zweite Druck hat den Notruf gestoppt.");
     };
     var druecken = function () {
       if (zustand === "frist") { abbrechen(); return; }
@@ -106,10 +125,12 @@
     };
     var loslassen = function () {
       if (zustand !== "halten") return;
+      // lange genug gehalten, auch wenn seit dem Drücken kaum ein Bild gezeichnet wurde
+      if (performance.now() - start >= HALTEN) { setzeZustand("frist"); start += HALTEN; aktiv("halten"); return; }
       ringAuf(1);
       setzeZustand("gruppe"); start = performance.now();
       aktiv("gruppe");
-      sage("<strong>Kurz gedrückt:</strong> Deine Gruppe wird gerufen. Die Bergbahn wird nicht alarmiert.");
+      sage("<strong>Kurz gedrückt:</strong> Deine Gruppe wird gerufen.");
     };
 
     knopf.addEventListener("pointerdown", function (e) { e.preventDefault(); if (knopf.setPointerCapture) { try { knopf.setPointerCapture(e.pointerId); } catch (_) {} } druecken(); });
@@ -127,36 +148,44 @@
     nochmal.addEventListener("click", function () { zuruecksetzen(); knopf.focus(); });
 
     var puls = function (x, von, bis) { var t = abschnitt(x, von, bis); return t > 0 && t < 1 ? Math.sin(t * Math.PI) : 0; };
-    var zeichnen = function () {
-      g1.style.strokeDashoffset = 1 - abschnitt(gruppe, 0, 0.4);
-      g2.style.strokeDashoffset = 1 - abschnitt(gruppe, 0.05, 0.45);
-      for (var z = 0; z < zittern.length; z++) {
-        zittern[z].style.opacity = gruppe > 0.45 && gruppe < 1 ? 0.35 + 0.65 * Math.abs(Math.sin(gruppe * 28)) : (gruppe >= 1 ? 0.5 : 0);
-      }
-      h1.style.strokeDashoffset = 1 - abschnitt(hilfe, 0.02, 0.26);
-      h1.style.opacity = hilfe > 0.4 ? 0.35 : 1;
-      pings[0].style.opacity = puls(hilfe, 0.24, 0.36) + puls(hilfe, 0.3, 0.42) * 0.6;
-      pings[1].style.opacity = puls(hilfe, 0.28, 0.42);
-      // Mitarbeiter fährt los und kommt an
-      var fahrt = abschnitt(hilfe, 0.4, 0.92);
-      var weich = fahrt < 0.5 ? 2 * fahrt * fahrt : 1 - Math.pow(-2 * fahrt + 2, 2) / 2;
-      spurMa.style.strokeDasharray = spurMaLaenge + " " + spurMaLaenge;
-      spurMa.style.strokeDashoffset = spurMaLaenge * (1 - weich);
-      spurMa.style.opacity = fahrt > 0 ? 0.8 : 0;
-      var pkt = spurMa.getPointAtLength(weich * spurMaLaenge);
-      mitarbeiter.setAttribute("transform", "translate(" + pkt.x.toFixed(1) + " " + pkt.y.toFixed(1) + ")");
+    var zeichnen = function (jetzt) {
+      var notruf = zustand === "frist" || zustand === "lauf" || zustand === "fertig";
+      // Wellen vom Chip: orange für die Gruppe, rot für den Notruf
+      var staerke = hilfe > 0 ? (1 - abschnitt(hilfe, 0.3, 0.42)) : (gruppe > 0 && gruppe < 1 ? 1 - abschnitt(gruppe, 0.6, 1) : (zustand === "frist" ? 0.8 : 0));
+      wellenGruppe.setAttribute("stroke", notruf ? "#ff4d4d" : "#ff8a5c");
       for (var k = 0; k < wellen.length; k++) {
-        var raus = abschnitt(hilfe, 0.02 + k * 0.04, 0.1 + k * 0.04);
-        var zwei = puls(hilfe, 0.38 + k * 0.02, 0.46 + k * 0.02) + puls(hilfe, 0.48 + k * 0.02, 0.56 + k * 0.02);
-        var g = abschnitt(gruppe, 0.0 + k * 0.04, 0.08 + k * 0.04);
-        var w = hilfe > 0 ? (hilfe < 0.3 ? 0.25 + 0.75 * raus : 0.15 + 0.85 * Math.min(1, zwei)) : (gruppe > 0 ? 0.2 + 0.6 * g : 0);
-        wellen[k].style.opacity = w;
+        var phase = ohneBewegung ? 0.5 : ((jetzt / 1400 + k / 3) % 1);
+        wellen[k].setAttribute("r", (20 + phase * 90).toFixed(1));
+        wellen[k].setAttribute("opacity", (staerke * (1 - phase)).toFixed(2));
       }
-      glanz.style.opacity = (zustand === "frist" || zustand === "lauf") ? 0.55 + 0.45 * Math.abs(Math.sin(performance.now() / 380)) : (zustand === "fertig" ? 0.4 : 0);
-      led.setAttribute("fill", (zustand === "frist" || zustand === "lauf" || zustand === "fertig") ? "#ff2d2d" : "#fff4ee");
+      glut.setAttribute("opacity", (notruf ? 0.75 + 0.25 * Math.sin(jetzt / 260) : 0.55).toFixed(2));
+      // Gruppe
+      gwege[0].style.strokeDashoffset = 1 - abschnitt(gruppe, 0, 0.4);
+      gwege[1].style.strokeDashoffset = 1 - abschnitt(gruppe, 0.05, 0.45);
+      zittern.style.opacity = gruppe > 0.45 && gruppe < 1 ? 0.35 + 0.65 * Math.abs(Math.sin(jetzt / 45)) : 0;
+      // Notruf: Funk zur Station, Antenne, Meldung, Fahrt, alle Stationen
+      funk.style.strokeDashoffset = 1 - abschnitt(hilfe, 0.02, 0.24);
+      funk.style.opacity = hilfe > 0.5 ? 0.35 : 1;
+      stationen[0].classList.toggle("ist-an", hilfe >= 0.24);
+      ping.style.opacity = puls(hilfe, 0.22, 0.34) + puls(hilfe, 0.3, 0.42) * 0.7;
+      ping.setAttribute("r", (12 + 30 * ((hilfe * 8) % 1)).toFixed(1));
+      var f0 = abschnitt(hilfe, 0.26, 0.4);
+      felder[0].style.opacity = f0; felder[0].style.transform = "scale(" + f0 + ")";
+      karte.classList.toggle("ist-an", hilfe > 0.3);
+      var fahrt = abschnitt(hilfe, 0.4, 0.82);
+      var weich = fahrt < 0.5 ? 2 * fahrt * fahrt : 1 - Math.pow(-2 * fahrt + 2, 2) / 2;
+      var pkt = spur.getPointAtLength(weich * spurLaenge);
+      ma.setAttribute("transform", "translate(" + pkt.x.toFixed(1) + " " + pkt.y.toFixed(1) + ")");
+      spur.style.opacity = fahrt > 0 ? 0.7 : 0;
+      for (var j = 1; j < felder.length; j++) {
+        var e = abschnitt(hilfe, 0.84 + j * 0.025, 0.96 + j * 0.01);
+        felder[j].style.opacity = e; felder[j].style.transform = "scale(" + e + ")";
+        stationen[j].classList.toggle("ist-an", e > 0.5);
+      }
+      led.setAttribute("fill", notruf ? "#ff2d2d" : "#fff4ee");
     };
 
-    var demoSichtbar = false;
+    var demoSichtbar = false, ruheGezeichnet = false;
     new IntersectionObserver(function (e) { var war = demoSichtbar; demoSichtbar = e[0].isIntersecting; if (demoSichtbar && !war) requestAnimationFrame(takt); }).observe(akt);
     var takt = function (jetzt) {
       if (!demoSichtbar) return;
@@ -168,14 +197,14 @@
         var rest = FRIST - (jetzt - start);
         ringAuf(1 - klemme(rest / FRIST));
         var sek = Math.ceil(rest / 1000);
-        if (sek !== letzteSekunde && sek > 0) { letzteSekunde = sek; sage("<strong>Notruf in " + sek + " s.</strong> Loslassen und noch einmal kurz drücken bricht ab."); }
+        if (sek !== letzteSekunde && sek > 0) { letzteSekunde = sek; sage("<strong>Notruf in " + sek + " s.</strong> Noch einmal kurz drücken bricht ab."); }
         if (rest <= 0) {
           setzeZustand("lauf"); start = jetzt; ringAuf(1); aktiv("hilfe");
-          sage("<strong>Notruf gesendet.</strong> Dein Standort geht an die Liftstation.");
+          sage("<strong>Notruf gesendet.</strong> Die Liftstation empfängt deinen Standort.");
         }
       } else if (zustand === "lauf") {
         hilfe = ohneBewegung ? 1 : klemme((jetzt - start) / LAUF);
-        if (hilfe > 0.38 && stufe === "") { stufe = "unterwegs"; sage("<strong>Ein Mitarbeiter ist unterwegs zu dir.</strong> Dein Chip vibriert zweimal."); }
+        if (hilfe > 0.3 && stufe === "") { stufe = "meldung"; sage("<strong>Ein Mitarbeiter nimmt an</strong> und ist unterwegs. Dein Chip vibriert zweimal."); }
         if (hilfe >= 1) {
           setzeZustand("fertig");
           sage("<strong>Hilfe ist da.</strong> Das war eine Vorführung, gesendet wurde nichts.");
@@ -185,10 +214,12 @@
         gruppe = ohneBewegung ? 1 : klemme((jetzt - start) / GRUPPE);
         if (gruppe >= 1) { setzeZustand("ruhe"); gruppe = 1; }
       }
-      if (zustand !== "ruhe" || gruppe > 0) zeichnen();
+      // in Ruhe steht alles still, dann wird nichts neu gezeichnet
+      if (zustand !== "ruhe" || ruheGezeichnet === false) { zeichnen(jetzt); ruheGezeichnet = zustand === "ruhe"; }
       requestAnimationFrame(takt);
     };
-    zeichnen();
+    aktiv("gruppe");
+    zeichnen(0);
   }
 
   var fortschritt = function (el) { return parseFloat(el.style.getPropertyValue("--sc-p")) || 0; };
@@ -204,74 +235,6 @@
   }
   window.addEventListener("scroll", leisteNacht, { passive: true });
   leisteNacht();
-
-  /* ------------------------------------------- So kommt Hilfe (Netz) -- */
-  /* Vier Schritte über die gepinnte Strecke: Knopf halten, die Station hört
-     mit, ein Mitarbeiter kommt, Empfänger an allen Stationen. */
-  var netz = document.getElementById("berg");
-  if (netz) {
-    var sterne = netz.querySelector(".netz__sterne");
-    if (sterne) {
-      var NS = "http://www.w3.org/2000/svg", zufall = 7;
-      var naechste = function () { zufall = (zufall * 9301 + 49297) % 233280; return zufall / 233280; };
-      for (var s = 0; s < 120; s++) {
-        var c = document.createElementNS(NS, "circle");
-        c.setAttribute("cx", (naechste() * 1600).toFixed(1));
-        c.setAttribute("cy", (naechste() * 420).toFixed(1));
-        c.setAttribute("r", (0.6 + naechste() * 1.4).toFixed(2));
-        c.setAttribute("opacity", (0.25 + naechste() * 0.6).toFixed(2));
-        sterne.appendChild(c);
-      }
-    }
-    var nSchritte = netz.querySelectorAll(".netz__schritte li");
-    var wellenN = netz.querySelectorAll(".netz__wellen circle");
-    var funk = netz.querySelector(".netz__funk");
-    var stationen = netz.querySelectorAll(".netz__station");
-    var felder = netz.querySelectorAll(".netz__feld");
-    var karte = netz.querySelector(".netz__karte");
-    var nSpur = netz.querySelector(".netz__spur");
-    var nMa = netz.querySelector(".netz__mitarbeiter");
-    var glut = netz.querySelector(".netz__glut");
-    var nSpurLaenge = nSpur.getTotalLength();
-    var netzLetztP = -1, netzSichtbar = false;
-    new IntersectionObserver(function (e) { var war = netzSichtbar; netzSichtbar = e[0].isIntersecting; if (netzSichtbar && !war) requestAnimationFrame(netzTakt); }).observe(netz);
-    var netzTakt = function (jetzt) {
-      if (!netzSichtbar) return;
-      var p = ohneBewegung ? 0.95 : fortschritt(netz);
-      var wellenLaufen = !ohneBewegung && p > 0.01 && p < 0.47;
-      if (p === netzLetztP && !wellenLaufen) { requestAnimationFrame(netzTakt); return; }
-      netzLetztP = p;
-      var nr = p < 0.22 ? 0 : p < 0.45 ? 1 : p < 0.7 ? 2 : 3;
-      nSchritte.forEach(function (li, i) { li.classList.toggle("ist-aktiv", i === nr); li.classList.toggle("ist-gezeigt", i < nr); });
-      // 1: Wellen vom Chip
-      var w = abschnitt(p, 0.02, 0.2);
-      for (var k = 0; k < wellenN.length; k++) {
-        var phase = ohneBewegung ? 0.5 : ((jetzt / 1600 + k / 3) % 1);
-        wellenN[k].setAttribute("r", (20 + phase * 90).toFixed(1));
-        wellenN[k].setAttribute("opacity", (w * (1 - phase) * (nr < 3 ? 1 : 0.4)).toFixed(2));
-      }
-      glut.setAttribute("opacity", (0.4 + 0.6 * w).toFixed(2));
-      // 2: Funkweg zur Station, Antenne leuchtet, Feld der Station
-      var f = abschnitt(p, 0.2, 0.36);
-      funk.style.strokeDashoffset = 1 - f;
-      stationen[0].classList.toggle("ist-an", f >= 1);
-      var feld0 = abschnitt(p, 0.3, 0.44);
-      felder[0].style.opacity = feld0; felder[0].style.transform = "scale(" + feld0 + ")";
-      // 3: Mitarbeiter bekommt den Notruf und fährt hin
-      karte.classList.toggle("ist-an", p > 0.47 && p < 0.74);
-      var fahrt = abschnitt(p, 0.5, 0.68);
-      var pkt = nSpur.getPointAtLength(fahrt * nSpurLaenge);
-      nMa.setAttribute("transform", "translate(" + pkt.x.toFixed(1) + " " + pkt.y.toFixed(1) + ")");
-      nSpur.style.opacity = fahrt > 0 ? 0.7 : 0;
-      // 4: alle Stationen mit Feld, das ganze Gebiet
-      for (var j = 1; j < felder.length; j++) {
-        var e = abschnitt(p, 0.72 + j * 0.03, 0.86 + j * 0.03);
-        felder[j].style.opacity = e; felder[j].style.transform = "scale(" + e + ")";
-        stationen[j].classList.toggle("ist-an", e > 0.5);
-      }
-      requestAnimationFrame(netzTakt);
-    };
-  }
 
   /* --------------------------------------------- Die App im iPhone -- */
   /* Drei Bildschirme über die gepinnte Strecke: Route, Gruppe, Mein Tag. */

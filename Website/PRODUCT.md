@@ -46,7 +46,7 @@ Pitch presentation and handoff (Obsidian vault, `10_Projekte/Skitag`), the Netzw
 - The app is its own category: map with route, tracking and radius. Rider types: pros use tracking, families use radius and routes, ski schools see their groups and count them with their own app access, and for everyone safety comes first.
 
 - One button, one promise: every section returns to the button and what it sets in motion.
-- Honest about the stage: show the plan and the mechanism, never a finished or tested product.
+- Honest about the stage: show the plan and the mechanism, never a finished or tested product. Since 2026-11-07 without separate small hint captions (Lukas: unnecessary); honesty lives in the wording itself and in the "Ziel" badges.
 - The whole system, from the chip in the jacket to the charging drawer, is the offer.
 - Introduce, do not sell yet: the page ends with the team and a closing line, not with a booking.
 - Answer what people ask (added 2026-11-06): a short FAQ with only decided or planned facts, and a pointer to 140 for severe accidents.
