@@ -82,7 +82,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .fragen { background: #ffffff; }
 .nacht { background: var(--nacht); color: var(--nacht-ink); --sc-ink-soft: var(--nacht-soft); }
 .nacht .sc-lede { color: var(--nacht-soft); }
-.nacht 
+
 /* ----------------------------------------------------------- Kopfleiste -- */
 .leiste {
   position: fixed; inset: 0 0 auto 0; z-index: var(--sc-z-chrome);
