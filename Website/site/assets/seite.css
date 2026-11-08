@@ -117,12 +117,13 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
    Tablet übernimmt das Logo mit der ausklappbaren Seitenleiste. */
 .sprungleiste, .rahmen { display: none; }
 .sprungleiste__marke {
-  display: inline-flex; align-items: center; gap: 0.5rem; align-self: flex-start; border-radius: 8px;
+  grid-row: 1; justify-self: center;
+  display: inline-flex; align-items: center; gap: 0.5rem; align-self: start; border-radius: 8px;
   font-family: var(--sc-font-display); font-weight: 680; font-size: 1.2rem; letter-spacing: -0.03em;
   color: var(--sc-ink); text-decoration: none;
 }
 .sprungleiste__marke svg { width: 1.5rem; height: 1.5rem; }
-.sprungleiste__nav { display: grid; gap: 0.1rem; margin: clamp(1rem, 6vh, 3rem) 0 auto; }
+.sprungleiste__nav { display: grid; gap: 0.7rem; grid-row: 2; }
 .sprungleiste__nav a {
   display: flex; align-items: center; gap: 0.6rem; padding: 0.45rem 0;
   color: var(--sc-ink); text-decoration: none; border-radius: 8px;
@@ -225,10 +226,12 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
    Am Handy liegt die Grafik weiter hinter allem (.knopf__bild ohne Regeln). */
 @media (min-width: 861px) {
   .knopf__buehne {
-    display: grid; grid-template-columns: minmax(17rem, 27rem) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto;
+    display: grid; grid-template-columns: minmax(17rem, clamp(20rem, 28vw, 27rem)) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto;
     column-gap: clamp(1.5rem, 3vw, 3rem); row-gap: var(--sc-6);
     height: auto; min-height: clamp(44rem, 100svh, 60rem); max-height: none;
-    padding: clamp(4.5rem, 9vh, 6.5rem) var(--knopf-rechts, clamp(1rem, 2vw, 1.5rem)) clamp(1.25rem, 3vh, 2rem) var(--knopf-rand, var(--sc-gutter));
+    /* gleiche Ränder wie alle anderen Abschnitte (.sc-wrap): Inhalt höchstens --sc-maxw breit, mittig, mit --sc-gutter */
+    --rand-inhalt: max(var(--sc-gutter), calc((100% - var(--sc-maxw)) / 2 + var(--sc-gutter)));
+    padding: clamp(4.5rem, 9vh, 6.5rem) var(--rand-inhalt) clamp(1.25rem, 3vh, 2rem);
   }
   .knopf__buehne::after { display: none; }
   .knopf__text, .knopf__bedienung { position: relative; left: auto; top: auto; bottom: auto; width: auto; }
@@ -240,7 +243,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
     border-radius: var(--r-gross); background: #eaf2fa; min-height: 26rem;
     box-shadow: 0 0 0 1px rgba(11, 18, 38, 0.05), 0 30px 60px -36px hsl(var(--sc-shadow-color) / 0.45);
   }
-  .knopf__bild .netz__karte { left: clamp(1rem, 3vw, 2rem); right: auto; bottom: clamp(1rem, 5%, 2.5rem); }
+  .knopf__bild .netz__karte { right: clamp(1rem, 3vw, 2rem); left: auto; top: clamp(1rem, 5%, 2.5rem); bottom: auto; }
 }
 
 .knopf__rechts { display: grid; gap: var(--sc-3); justify-items: start; }
@@ -347,9 +350,12 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .kachel__ring-zahl small { font-size: var(--sc-t-sm); color: var(--nacht-soft); }
 .kachel--kalt { background: linear-gradient(180deg, #ffffff 0%, #e4effc 100%); }
 .kachel__thermo { position: absolute; right: 1.6rem; top: 1.6rem; width: 2.2rem; color: #9fb6d6; }
-.kachel__thermo-saeule { fill: #4f8dff; transform-origin: 50% 100%; transform-box: fill-box; transform: scaleY(0.2); transition: transform 1.6s var(--sc-ease-out) 0.3s; }
-.kachel__thermo-kugel { fill: #4f8dff; }
-.kachel.sc-in .kachel__thermo-saeule { transform: scaleY(0.12); }
+.kachel__thermo-saeule { fill: #ff8a5c; transform-origin: 50% 100%; transform-box: fill-box; transform: scaleY(0.85); transition: transform 1.6s var(--sc-ease-out), fill 1.6s linear; }
+.kachel__thermo-kugel { fill: #ff8a5c; transition: fill 1.6s linear; }
+.kachel.sc-in .kachel__thermo-saeule { transform: scaleY(0.14); fill: #4f8dff; animation: thermo-zittern 3.2s ease-in-out 1.8s infinite; }
+.kachel.sc-in .kachel__thermo-kugel { fill: #4f8dff; }
+@keyframes thermo-zittern { 0%, 100% { transform: scaleY(0.14); } 50% { transform: scaleY(0.19); } }
+@media (prefers-reduced-motion: reduce) { .kachel__thermo-saeule, .kachel__thermo-kugel { transition: none; } .kachel.sc-in .kachel__thermo-saeule { animation: none; } }
 .kachel__akku { position: absolute; right: 1.6rem; top: 1.7rem; width: 4.6rem; height: 2.2rem; border: 2px solid #9fb0c8; border-radius: 0.6rem; padding: 3px; }
 .kachel__akku i { position: absolute; right: -0.45rem; top: 50%; width: 0.3rem; height: 0.8rem; margin-top: -0.4rem; border-radius: 0 3px 3px 0; background: #9fb0c8; }
 .kachel__akku span { display: block; height: 100%; border-radius: 0.35rem; background: #1ea85a; width: 100%; transform-origin: 0 50%; transform: scaleX(1); transition: transform 2.4s var(--sc-ease-in-out) 0.4s, background-color 2.4s 0.4s; }
@@ -378,7 +384,6 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .netz__meldung span { font-size: 0.8rem; color: #4a5672; }
 .netz__meldung-punkt { flex: none; width: 0.8rem; height: 0.8rem; border-radius: 50%; background: var(--notruf); box-shadow: 0 0 0 0 rgba(255, 45, 45, 0.6); animation: puls 1.4s infinite; }
 @keyframes puls { 0% { box-shadow: 0 0 0 0 rgba(255, 45, 45, 0.6); } 100% { box-shadow: 0 0 0 12px rgba(255, 45, 45, 0); } }
-.netz__meldung-knopf { margin-left: auto; flex: none; padding: 0.45rem 0.8rem; border-radius: 0.8rem; background: var(--nacht); color: #fff !important; font-weight: 600; font-size: 0.78rem !important; }
 
 /* --------------------------------------------------------- 6 · Die App -- */
 .app-akt__buehne { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: clamp(1.5rem, 6vw, 7rem); padding: 4.5rem var(--sc-gutter) 1.5rem; max-width: var(--sc-maxw); margin-inline: auto; }
@@ -558,11 +563,15 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 @keyframes auf { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 
 /* ------------------------------------------------------------ 9 · Wir -- */
-.wir__drei { list-style: none; padding: 0; margin: clamp(3rem, 6vw, 5rem) 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sc-4); }
-.wir__drei li { position: relative; padding: clamp(1.5rem, 2.6vw, 2.4rem); border-radius: var(--r-gross); background: #fff; box-shadow: var(--sc-e1); }
-.wir__bild { width: 5.5rem; height: auto; display: block; margin-bottom: var(--sc-6); }
-.mensch__name { font-family: var(--sc-font-display); font-weight: 650; font-size: var(--sc-t-2xl); letter-spacing: -0.04em; display: block; line-height: 1.05; }
-.mensch__rolle { color: var(--sc-ink-soft); display: block; margin-top: 0.5rem; max-width: 26ch; }
+.wir__foto { margin: clamp(3rem, 6vw, 5rem) 0 0; }
+.wir__platz {
+  aspect-ratio: 2 / 1; border-radius: var(--r-gross); display: grid; place-content: center; justify-items: center; gap: var(--sc-4);
+  background: linear-gradient(160deg, #eef3f9, #dde7f1); color: #9fb0c8;
+  outline: 2px dashed #b9c7d8; outline-offset: -14px;
+}
+.wir__platz svg { width: clamp(7rem, 14vw, 11rem); height: auto; }
+.wir__platz span { font-weight: 600; font-size: var(--sc-t-sm); color: #6c7a93; }
+.wir__foto figcaption { margin-top: var(--sc-4); font-family: var(--sc-font-display); font-weight: 650; font-size: var(--sc-t-xl); letter-spacing: -0.03em; }
 
 /* -------------------------------------------------------- 10 · Schluss -- */
 .schluss { padding-block: clamp(6rem, 14vw, 12rem); overflow: hidden; }
@@ -577,7 +586,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .fuss { background: var(--nacht); color: var(--nacht-soft); border-top: 1px solid rgba(255, 255, 255, 0.08); }
 .fuss__innen { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: var(--sc-6); max-width: var(--sc-maxw); margin: 0 auto; padding: var(--sc-8) var(--sc-gutter) max(var(--sc-8), env(safe-area-inset-bottom)); font-size: var(--sc-t-sm); }
 .fuss b { display: block; margin-bottom: var(--sc-3); color: var(--nacht-ink); font-weight: 650; }
-.fuss__marke b { font-family: var(--sc-font-display); font-size: var(--sc-t-xl); letter-spacing: -0.03em; }
+.fuss__marke b { display: flex; align-items: center; gap: 0.55rem; font-family: var(--sc-font-display); font-size: var(--sc-t-xl); letter-spacing: -0.03em; }
 .fuss nav, .fuss__nachweis { display: grid; gap: 0.4rem; align-content: start; }
 .fuss a { color: var(--nacht-soft); text-decoration: none; }
 .fuss a:hover { color: #fff; }
@@ -615,7 +624,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 @keyframes seite-raus { from { transform: none; opacity: 1; } to { transform: translateX(-100%); opacity: 0.6; } }
 .seite__innen { height: 100%; display: grid; grid-template-rows: auto 1fr; padding: 0.8rem var(--sc-6) var(--sc-6); }
 .seite__kopf { display: flex; justify-content: space-between; align-items: center; min-height: 2.75rem; }
-.seite__marke { color: var(--sc-ink); text-decoration: none; border-radius: var(--r); font-family: var(--sc-font-display); font-weight: 680; font-size: 1.2rem; letter-spacing: -0.03em; }
+.seite__marke { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--sc-ink); text-decoration: none; border-radius: var(--r); font-family: var(--sc-font-display); font-weight: 680; font-size: 1.2rem; letter-spacing: -0.03em; }
 .seite__zu { width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 0; background: rgba(11, 18, 38, 0.06); color: var(--sc-ink); display: grid; place-items: center; cursor: pointer; }
 .seite__zu svg { width: 1rem; height: 1rem; }
 .seite nav ol { list-style: none; margin: var(--sc-6) 0 0; padding: 0; display: grid; gap: 2px; }
@@ -642,8 +651,6 @@ section[id] { scroll-margin-top: 0; }
     --band: calc(100vw - var(--blatt-l) - var(--blatt-r));
     /* Text beginnt im Blatt frühestens 6rem nach dessen linkem Rand, also rechts der Leiste */
     --sc-gutter: max(clamp(1.25rem, 4vw, 5rem), calc(6rem - max(0px, (var(--band) - var(--sc-maxw)) / 2)));
-    --knopf-rand: max(var(--sc-gutter), 6rem);
-    --knopf-rechts: 1.25rem;
   }
   body { padding: var(--blatt-o) var(--blatt-r) var(--blatt-u) var(--blatt-l); }
   .rahmen {
@@ -654,17 +661,26 @@ section[id] { scroll-margin-top: 0; }
   [data-sc-progress] { display: none; }
   /* Kopfleiste: nur noch „Das sind wir“, oben rechts im Blatt, ohne eigene Fläche
      (das Logo steht in der Seitenleiste). Über Nacht-Abschnitten wird der Knopf weiß. */
-  .leiste { inset: var(--blatt-o) var(--blatt-r) auto var(--blatt-l); padding-inline: 1.25rem; justify-content: flex-end; pointer-events: none; }
+  /* Knopf mit gleichem Abstand zum oberen und rechten Rand des Blatts (wie „nach oben“ unten rechts) */
+  .leiste { inset: calc(var(--blatt-o) + 1.25rem) calc(var(--blatt-r) + 1.25rem) auto auto; height: auto; padding: 0; pointer-events: none; }
   .leiste, .leiste.ist-unten, .leiste.ist-nacht.ist-unten { background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
   .leiste .marke { display: none; }
-  .leiste .knopf-dunkel { pointer-events: auto; box-shadow: 0 8px 24px -12px rgba(11, 18, 38, 0.45); }
+  .leiste .knopf-dunkel {
+    pointer-events: auto; box-shadow: 0 8px 24px -12px rgba(11, 18, 38, 0.45);
+    transition: opacity 320ms var(--sc-ease-out), transform 320ms var(--sc-ease-out), visibility 0s linear 0s, background-color var(--sc-d-fast) var(--sc-ease-out);
+  }
+  /* nur am Anfang sichtbar: nach dem Einstieg blendet der Knopf aus, die Seitenleiste führt dann auch zu „Das sind wir“ */
+  .leiste.ist-unten .knopf-dunkel {
+    opacity: 0; transform: translateY(-8px); visibility: hidden; pointer-events: none;
+    transition: opacity 320ms var(--sc-ease-out), transform 320ms var(--sc-ease-out), visibility 0s linear 320ms;
+  }
   .sprung-anfang { right: calc(var(--blatt-r) + 1.25rem); bottom: calc(var(--blatt-u) + 1.25rem); }
   .sprungleiste {
-    display: flex; flex-direction: column; gap: var(--sc-5); position: fixed; z-index: var(--sc-z-chrome);
+    display: grid; grid-template-rows: 1fr auto 1fr; position: fixed; z-index: var(--sc-z-chrome);
     left: 1.25rem; top: 0.75rem; bottom: 2.75rem; width: 12.75rem;
     padding: 1.4rem 1.25rem 1.3rem; border-radius: 18px;
-    background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(255, 255, 255, 0.75);
-    -webkit-backdrop-filter: blur(28px) saturate(180%); backdrop-filter: blur(28px) saturate(180%);
+    background: rgba(255, 255, 255, 0.24); border: 1px solid rgba(255, 255, 255, 0.6);
+    -webkit-backdrop-filter: blur(18px) saturate(170%); backdrop-filter: blur(18px) saturate(170%);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 2px rgba(11, 18, 38, 0.06), 0 28px 60px -20px rgba(20, 35, 60, 0.3), 22px 0 44px -30px rgba(20, 35, 60, 0.35);
   }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .sprungleiste { background: #fbfcfd; } }
@@ -708,7 +724,6 @@ section[id] { scroll-margin-top: 0; }
   .netz__meldung > div { min-width: 0; }
   .netz__meldung b { display: inline; font-size: 0.85rem; margin-right: 0.35rem; }
   .netz__meldung span { font-size: 0.75rem; }
-  .netz__meldung-knopf { padding: 0.35rem 0.65rem; }
   .netz__welt { transform: translate(120px, -40px); }
   .aufbau__buehne { grid-template-columns: 1fr; align-content: start; gap: 0.5rem; padding-top: 4.2rem; }
   .aufbau__text .riesig { font-size: clamp(2.4rem, 10vw, 3.2rem); }
@@ -732,7 +747,7 @@ section[id] { scroll-margin-top: 0; }
   .jeden__kopf { flex-direction: column; align-items: start; }
   .fragen__raster { grid-template-columns: 1fr; }
   .fragen__raster .kopfzeile { position: static; }
-  .wir__drei { grid-template-columns: 1fr; }
+  .wir__platz { aspect-ratio: 4 / 3; }
   .fuss__innen { grid-template-columns: 1fr 1fr; padding-bottom: max(5.5rem, env(safe-area-inset-bottom)); }
   .fuss__marke { grid-column: span 2; }
 }
@@ -748,3 +763,8 @@ section[id] { scroll-margin-top: 0; }
   .hang .sc-stage__poster, .hang video[data-sc-scrub], .hang__kopf > *, .hang__zwei > * { transform: none; }
   .schluss__chip { animation: none; }
   }
+
+/* ------------------------------------------------- Logo (Platzhalter) -- */
+.logo-zeichen { flex: none; width: 1.6rem; height: 1.6rem; display: block; }
+.seite__marke .logo-zeichen { width: 1.5rem; height: 1.5rem; }
+.fuss__marke .logo-zeichen { width: 1.9rem; height: 1.9rem; color: var(--nacht-ink); }

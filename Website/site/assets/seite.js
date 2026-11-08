@@ -98,7 +98,7 @@
 
     // Ab Tablet steht die Grafik in einer eigenen, schmaleren Fläche. Der
     // Ausschnitt wird dann so gelegt, dass „Du“, die Gruppe, die Liftstation
-    // und der Mitarbeiter im Bild bleiben (Mitte bei x = 1175 der Zeichnung).
+    // und der Mitarbeiter im Bild bleiben (Mitte bei x = 1160 der Zeichnung).
     // Am Handy bleibt sie mittig (dort verschiebt seite.css die Welt selbst).
     var bilder = akt.querySelectorAll(".netz__bild");
     var bildFlaeche = akt.querySelector(".knopf__bild");
@@ -109,7 +109,7 @@
         var r = bildFlaeche.getBoundingClientRect();
         if (r.width > 0 && r.height > 0) {
           var sichtbar = r.width / Math.max(r.width / 1600, r.height / 900);
-          var x0 = Math.min(Math.max(1175 - sichtbar / 2, 0), Math.max(1600 - sichtbar, 0));
+          var x0 = Math.min(Math.max(1160 - sichtbar / 2, 0), Math.max(1600 - sichtbar, 0));
           box = Math.round(x0) + " 0 1600 900"; art = "xMinYMid slice";
         }
       }
@@ -175,7 +175,7 @@
     var zeichnen = function (jetzt) {
       var notruf = zustand === "frist" || zustand === "lauf" || zustand === "fertig";
       // Wellen vom Chip: orange für die Gruppe, rot für den Notruf
-      var staerke = hilfe > 0 ? (1 - abschnitt(hilfe, 0.3, 0.42)) : (gruppe > 0 && gruppe < 1 ? 1 - abschnitt(gruppe, 0.6, 1) : (zustand === "frist" ? 0.8 : 0));
+      var staerke = hilfe > 0 ? (1 - abschnitt(hilfe, 0.14, 0.26)) : (gruppe > 0 && gruppe < 1 ? 1 - abschnitt(gruppe, 0.6, 1) : (zustand === "frist" ? 0.8 : 0));
       wellenGruppe.setAttribute("stroke", notruf ? "#ff2d2d" : "#ff5a1c");
       for (var k = 0; k < wellen.length; k++) {
         var phase = ohneBewegung ? 0.5 : ((jetzt / 1400 + k / 3) % 1);
@@ -188,15 +188,15 @@
       gwege[1].style.strokeDashoffset = 1 - abschnitt(gruppe, 0.05, 0.45);
       zittern.style.opacity = gruppe > 0.45 && gruppe < 1 ? 0.35 + 0.65 * Math.abs(Math.sin(jetzt / 45)) : 0;
       // Notruf: Funk zur Station, Antenne, Meldung, Fahrt, alle Stationen
-      funk.style.strokeDashoffset = 1 - abschnitt(hilfe, 0.02, 0.24);
+      funk.style.strokeDashoffset = 1 - abschnitt(hilfe, 0.005, 0.07);
       funk.style.opacity = hilfe > 0.5 ? 0.35 : 1;
-      stationen[0].classList.toggle("ist-an", hilfe >= 0.24);
-      ping.style.opacity = puls(hilfe, 0.22, 0.34) + puls(hilfe, 0.3, 0.42) * 0.7;
+      stationen[0].classList.toggle("ist-an", hilfe >= 0.07);
+      ping.style.opacity = puls(hilfe, 0.06, 0.18) + puls(hilfe, 0.14, 0.26) * 0.7;
       ping.setAttribute("r", (12 + 30 * ((hilfe * 8) % 1)).toFixed(1));
-      var f0 = abschnitt(hilfe, 0.26, 0.4);
+      var f0 = abschnitt(hilfe, 0.09, 0.22);
       felder[0].style.opacity = f0; felder[0].style.transform = "scale(" + f0 + ")";
-      karte.classList.toggle("ist-an", hilfe > 0.3);
-      var fahrt = abschnitt(hilfe, 0.4, 0.82);
+      karte.classList.toggle("ist-an", hilfe > 0.15);
+      var fahrt = abschnitt(hilfe, 0.3, 0.8);
       var weich = fahrt < 0.5 ? 2 * fahrt * fahrt : 1 - Math.pow(-2 * fahrt + 2, 2) / 2;
       var pkt = spur.getPointAtLength(weich * spurLaenge);
       ma.setAttribute("transform", "translate(" + pkt.x.toFixed(1) + " " + pkt.y.toFixed(1) + ")");
@@ -228,7 +228,7 @@
         }
       } else if (zustand === "lauf") {
         hilfe = ohneBewegung ? 1 : klemme((jetzt - start) / LAUF);
-        if (hilfe > 0.3 && stufe === "") { stufe = "meldung"; sage("<strong>Ein Mitarbeiter nimmt an</strong> und ist unterwegs. Dein Chip vibriert zweimal."); }
+        if (hilfe > 0.15 && stufe === "") { stufe = "meldung"; sage("<strong>Ein Mitarbeiter kommt zu Hilfe.</strong> Dein Chip vibriert zweimal."); }
         if (hilfe >= 1) {
           setzeZustand("fertig");
           sage("<strong>Hilfe ist da.</strong> Das war eine Vorführung, gesendet wurde nichts.");

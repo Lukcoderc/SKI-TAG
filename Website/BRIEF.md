@@ -100,3 +100,15 @@ Umgesetzt: Glasleiste links mittig (ab 1200 px Breite), Kurznamen Der Chip, Inne
 Vorlage: zwei überlappende Blätter (Bild „Goldene Speiche“). Die Seitenleiste soll das vordere Blatt sein, der Rest der Seite das hintere, und die Leiste überlappt die Seite. Im Einstieg das kleine „SkiTag“ über dem Titel weg und das 3D-Modell durch einen sauberen Tag ersetzen. Bei „Ein Knopf. Zwei Wege.“ den rechten Rand kleiner und die Grafik nicht mehr über den ganzen Bildschirm. Dazu Vorschläge, wie andere Firmen ihr Produkt zeigen.
 
 Umgesetzt (ab 1200 px Breite): Seite als Blatt mit runden Ecken auf grauem Grund, Seitenleiste als weißes Blatt davor, etwas höher, überlappt links, mit Logo, allen Abschnitten und einer Zeile unten. Kopfleiste dort ausgeblendet. Einstieg: Augenbraue weg, Tag als Zeichnung mit sichtbarer Kante, schwebt leicht (3D-Modell im Einstieg entfernt, „Was drinsteckt“ bleibt 3D). „Ein Knopf. Zwei Wege.“: ab Tablet Text links, Grafik rechts als eigene Fläche mit schmalem Rand, Ausschnitt passt sich an. Handy unverändert.
+
+## Feedback 13 (Lukas, 2026-11-08)
+
+Beim Mitarbeiter kein „Annehmen“ mehr, nur „Mitarbeiter kommt zu Hilfe“. Thermometer bei „Funkt auch bei Kälte“ animieren, Testtext weg, stattdessen: funktioniert auch an sehr kalten Tagen. „Für alle, die fahren“ klingt nicht gut. Bei „Das sind wir“ keine Aufgaben pro Person, stattdessen Platzhalter für ein Foto von uns dreien.
+
+Umgesetzt: Karte „Notruf · Mitarbeiter kommt zu Hilfe“ ohne Knopf, Status „Ein Mitarbeiter kommt zu Hilfe. Dein Chip vibriert zweimal.“; Thermometer fällt von Orange auf Eisblau, solange die Zahl auf −20 zählt, danach leichtes Zittern; Text „Auch an eisigen Tagen am Berg soll der Notruf zuverlässig rausgehen.“ (bleibt als Ziel markiert); Überschrift „Ein Chip. Vom Kind bis zum Profi.“; Foto-Platzhalter mit den drei Namen darunter.
+
+## Feedback 14 (Lukas, 2026-11-08)
+
+„Ein Knopf. Zwei Wege.“: Die Karte „Notruf · Mitarbeiter kommt zu Hilfe“ rechts oben in die Grafik. Beim Notruf soll das Signal schneller beim Gateway ankommen.
+
+Umgesetzt: Karte ab Tablet oben rechts in der Grafikfläche (am Handy unten mittig wie bisher, oben liegt dort der Text). Der rote Funkweg erreicht die Liftstation jetzt nach etwa 0,5 s statt 1,8 s; Antenne, Karte, Statuszeile und Fahrt des Mitarbeiters folgen entsprechend früher.
