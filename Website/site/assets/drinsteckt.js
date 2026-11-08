@@ -41,13 +41,13 @@ function start() {
   const ex = new Exploder(chip);
   const labels = new Labels(akt.querySelector(".aufbau__etiketten"), camera, canvas, { margin: 4, gap: 10, side: "right" });
   const ETIKETTEN = [
-    [teile.knopf, "Knopf und Kragen", "kurz drücken: Gruppe · halten: Hilfe", [12, 30.5, 0]],
-    [teile.deckel, "Deckel mit LED", "zeigt, was der Chip gerade tut", [55, 27, -10]],
-    [teile.platine, "Platine mit Modulen", "Funk, GPS, Bewegung, Akku-Messer", [48, 21, -10]],
-    [teile.lade, "Lade-Modul und Motor", "lädt sicher, vibriert als Antwort", [44, 16, -8]],
-    [teile.akku, "Akku", "LiPo 1000 mAh", [18, 14, -10]],
-    [teile.qi, "Qi-Empfänger", "lädt kabellos", [31, 3.8, -6]],
-    [teile.unterteil, "Unterteil und Hülle", "weich, Prototyp 120 × 60 × 32 mm", [60, 22, -6]],
+    [teile.knopf, "Knopf", "kurz drücken: Gruppe · halten: Hilfe", [12, 30.5, 0]],
+    [teile.deckel, "Licht", "zeigt, was der Chip gerade tut", [55, 27, -10]],
+    [teile.platine, "Funk und GPS", "sendet, wo du bist, ohne Handynetz", [48, 21, -10]],
+    [teile.lade, "Vibration", "spürbare Antwort in der Jacke", [44, 16, -8]],
+    [teile.akku, "Akku", "hält einen ganzen Skitag", [18, 14, -10]],
+    [teile.qi, "Kabellos laden", "ganz ohne Stecker", [31, 3.8, -6]],
+    [teile.unterteil, "Weiche Hülle", "schützt bei Stürzen", [60, 22, -6]],
   ];
   const etiketten = ETIKETTEN.map(([o, t, n, a]) => ({ teil: o, item: labels.add(o, t, { note: n, anchor: a }) }));
   if (FEIN) new Picker(canvas, camera, chip.children, {

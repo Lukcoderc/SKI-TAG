@@ -152,3 +152,21 @@ Umgesetzt: Szene neu gezeichnet im Stil eines gemalten Pistenplans (Vorbild Jame
 Das Gebirge soll nicht unter „Ein Knopf. Für alle im Skigebiet.“ sein, sondern darüber und ins Weiße hineinragen, wie im Vorlagebild.
 
 Umgesetzt: Gebirge sitzt jetzt am unteren Rand von „Das sind wir“ und wächst aus der dunklen Schluss-Fläche ins Weiße. Farben für den hellen Himmel angepasst (keine Sterne mehr), der Fuß hat wieder seine feine Linie oben.
+
+## Feedback 22 (Lukas, 2026-11-08)
+
+„Klein gedacht. Groß gebaut.“: alle Infos weg, die für Kunden nicht relevant sind, etwa Maße.
+
+Umgesetzt: Beschriftungen im 3D-Modell und in der Ersatzgrafik sagen nur noch, was ein Teil für dich tut (Knopf, Licht, Funk und GPS, Vibration, Akku, Kabellos laden, Weiche Hülle). Entfernt: 120 × 60 × 32 mm, LiPo 1000 mAh, Platine, Module, Akku-Messer, Qi, Prototyp und „Sieben Schichten“.
+
+## Feedback 23 (Lukas, 2026-11-08)
+
+In der Animation ergibt es keinen Sinn, dass die Gruppe irgendwo im Gelände steht und der Mitarbeiter ins Gelände fährt. Bei „Gebaut für den Berg“ statt „Signalorange“ einfach die Farbe Orange, das ist verständlicher.
+
+Umgesetzt: Piste breiter, beide aus der Gruppe stehen auf der Piste (einer oberhalb, einer unterhalb von dir, zu dir gedreht), der Mitarbeiter fährt auf der Piste hinunter und hält oberhalb von dir auf der Piste. Kachel: kleines Schild „Farbe“, groß „Orange.“; in „Auf einen Blick“ ebenfalls „orange“ statt „signalorange“.
+
+## Feedback 24 (Lukas, 2026-11-08)
+
+Überall auf der Seite, wo noch etwas mit „geplant“ steht, weg damit und so schreiben, dass es funktioniert.
+
+Umgesetzt: alle „soll“, „Ziel“, „geplant“ und Test-Hinweise in Gegenwart umgeschrieben (Akku hält einen ganzen Skitag, Notruf geht auch bei Kälte raus, Empfänger an den Liftstationen im ganzen Skigebiet, Standort wird am Ende des Tages gelöscht, Hülle schützt bei Stürzen). „Ziel“-Schilder an den Kacheln −20 °C und 8 h entfernt.
