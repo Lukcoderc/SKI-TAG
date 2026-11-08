@@ -250,7 +250,7 @@
 
   /* ------------------------------------- Kopfleiste über der Nacht -- */
   /* Liegt die Leiste über einer nachtblauen Bühne, wird sie hell. */
-  var nachtFlaechen = document.querySelectorAll(".nacht");
+  var nachtFlaechen = document.querySelectorAll(".nacht, .fuss");
   function leisteNacht() {
     var unter = leiste.getBoundingClientRect().bottom / 2;
     var nacht = false;
@@ -285,6 +285,19 @@
         window.scrollTo({ top: oben + strecke * [0.18, 0.52, 0.84][i], behavior: ohneBewegung ? "auto" : "smooth" });
       });
     });
+  }
+
+  /* ------------------------------------ Großer Schriftzug im Fuß -- */
+  /* Die Buchstaben fahren einmal hoch, sobald ein Drittel davon sichtbar ist. */
+  var wort = document.querySelector(".fuss__wort");
+  if (wort) {
+    if (!("IntersectionObserver" in window)) wort.classList.add("ist-da");
+    else {
+      var wortBeob = new IntersectionObserver(function (e) {
+        if (e[0].isIntersecting) { wort.classList.add("ist-da"); wortBeob.disconnect(); }
+      }, { threshold: 0.35 });
+      wortBeob.observe(wort);
+    }
   }
 
 })();

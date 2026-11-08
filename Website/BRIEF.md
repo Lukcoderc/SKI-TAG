@@ -112,3 +112,15 @@ Umgesetzt: Karte „Notruf · Mitarbeiter kommt zu Hilfe“ ohne Knopf, Status �
 „Ein Knopf. Zwei Wege.“: Die Karte „Notruf · Mitarbeiter kommt zu Hilfe“ rechts oben in die Grafik. Beim Notruf soll das Signal schneller beim Gateway ankommen.
 
 Umgesetzt: Karte ab Tablet oben rechts in der Grafikfläche (am Handy unten mittig wie bisher, oben liegt dort der Text). Der rote Funkweg erreicht die Liftstation jetzt nach etwa 0,5 s statt 1,8 s; Antenne, Karte, Statuszeile und Fahrt des Mitarbeiters folgen entsprechend früher.
+
+## Feedback 15 (Lukas, 2026-11-08)
+
+Schluss: „Ein Knopf. Für alle am Berg.“ wird zu „Ein Knopf. Für alle im Skigebiet.“
+
+Umgesetzt.
+
+## Feedback 16 (Lukas, 2026-11-08)
+
+Footer wie in einer Pinterest-Vorlage (riesiger Schriftzug über die ganze Breite, animiert).
+
+Umgesetzt: „SKITAG“ in voller Inhaltsbreite unter den Spalten, Buchstaben fahren beim Erreichen einzeln von unten hoch, beim Drüberfahren mit der Maus wird ein Buchstabe orange. Darunter eine schmale Leiste mit „© 2026 SkiTag“, in der der Knopf „nach oben“ sitzt.

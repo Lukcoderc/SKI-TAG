@@ -91,8 +91,8 @@ Redesign of 2026-11-06 (Lukas: "modern, krass, but clean, Apple style"). The bas
 7. **Für jeden am Berg** (flow): the hand-scrolled rail of 4:5 cards: Familien (photo with a dark fade), Sportliche (night card with an orange track), Skischulen (ice card with a group inside a dashed radius), Für alle (peach card with the chip). Arrows and dragging as before (`schiene.js`).
 8. **Fragen** (white, flow): sticky title left, an accordion right (`<details>`), plus-sign discs that turn into a cross. Answers state only what is decided or planned, and point to 140 for severe accidents.
 9. **Das sind wir** (flow): since 2026-11-08 a wide photo placeholder (2:1, phones 4:3, dashed inner line, three simple silhouettes, "Foto von uns dreien folgt") with the names "Maximilian, Lukas und Tobias" as caption. No roles per person.
-10. **Schluss** (night): the floating chip drawing with an orange glow, "Ein Knopf. / Für alle am Berg.", and an orange pill back to the demo.
-11. **Footer** (night): four columns: company placeholder, page links, legal placeholders, credits (Mixkit, three.js, Bricolage Grotesque).
+10. **Schluss** (night): the floating chip drawing with an orange glow, "Ein Knopf. / Für alle im Skigebiet." (since 2026-11-08, before "Für alle am Berg."), and an orange pill back to the demo.
+11. **Footer** (night): four columns: company placeholder, page links, legal placeholders, credits (Mixkit, three.js, Bricolage Grotesque). Below them (since 2026-11-08, after a Pinterest reference from Lukas) a giant "SKITAG" wordmark in Funnel Display 700 that fills exactly the content width (`font-size: calc(100cqi / 3.74)` in an inline-size container, letters spread with `space-between`); decorative, `aria-hidden`. When a third of it is in view, the letters slide up one by one from behind a clip line (75 ms stagger, once); on fine pointers a letter turns signal orange on hover; reduced motion shows it still. Under it a thin bar with "© 2026 SkiTag", exactly as high as the back-to-top button plus its margin, so the button sits inside the bar and never covers the wordmark. The phone header counts the footer as a night area.
 
 ## The 3D chip
 
