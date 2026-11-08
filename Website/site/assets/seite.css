@@ -111,31 +111,33 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 
 /* ------------------------------------------------------ Sprungleiste -- */
 /* Am breiten Bildschirm liegt die Seite als Blatt auf grauem Grund, die
-   Seitenleiste als zweites Blatt davor und überlappt es links (siehe
-   „breit“ unten). Drüberfahren zieht einen orangen Strich vor dem Namen
-   auf, der aktuelle Abschnitt behält einen kurzen Strich. Am Handy und
-   Tablet übernimmt das Logo mit der ausklappbaren Seitenleiste. */
+   Seitenleiste als Glas von ganz oben bis ganz unten davor und überlappt es
+   links (siehe „breit“ unten). sprungleiste.js setzt je Link --w (0 bis 1:
+   wie sehr man in diesem Abschnitt ist) und --dehn (0 bis 1: mitten im
+   Übergang vom Abschnitt davor). Der aktuelle Abschnitt steht groß und fett
+   mit orangem Strich, beim Übergang zieht sich der Abstand zum nächsten in
+   die Länge. Am Handy und Tablet übernimmt das Logo mit der Seitenleiste. */
 .sprungleiste, .rahmen { display: none; }
 .sprungleiste__marke {
-  grid-row: 1; justify-self: center;
+  grid-row: 1; justify-self: center; transition: color 400ms var(--sc-ease-out);
   display: inline-flex; align-items: center; gap: 0.5rem; align-self: start; border-radius: 8px;
   font-family: var(--sc-font-display); font-weight: 680; font-size: 1.2rem; letter-spacing: -0.03em;
   color: var(--sc-ink); text-decoration: none;
 }
 .sprungleiste__marke svg { width: 1.5rem; height: 1.5rem; }
-.sprungleiste__nav { display: grid; gap: 0.7rem; grid-row: 2; }
+.sprungleiste__nav { display: grid; gap: 1rem; grid-row: 2; }
 .sprungleiste__nav a {
-  display: flex; align-items: center; gap: 0.6rem; padding: 0.45rem 0;
-  color: var(--sc-ink); text-decoration: none; border-radius: 8px;
-  font-family: var(--sc-font-text); font-weight: 500; font-size: 0.86rem; line-height: 1.2; letter-spacing: 0.005em; white-space: nowrap;
+  --w: 0; --dehn: 0;
+  display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; margin-top: calc(var(--dehn) * 3.5rem);
+  color: var(--sc-ink); text-decoration: none; border-radius: 8px; transition: color 400ms var(--sc-ease-out);
+  font-family: var(--sc-font-text); font-weight: calc(500 + var(--w) * 220); font-size: calc(0.86rem + var(--w) * 0.5rem);
+  line-height: 1.12; letter-spacing: calc(0.005em - var(--w) * 0.025em); text-wrap: balance;
 }
-.sprungleiste__nav a span { opacity: 0.6; transition: opacity 220ms var(--sc-ease-out), transform 320ms var(--sc-ease-out); }
+.sprungleiste__nav a span { opacity: calc(0.55 + var(--w) * 0.45); transition: transform 320ms var(--sc-ease-out); }
 .sprungleiste__nav a::before {
   content: ""; flex: none; width: 1rem; height: 2px; border-radius: 2px; background: var(--orange);
-  transform: scaleX(0); transform-origin: left center; transition: transform 360ms var(--sc-ease-out);
+  transform: scaleX(var(--w)); transform-origin: left center; transition: transform 200ms var(--sc-ease-out);
 }
-.sprungleiste__nav a[aria-current="true"] span { opacity: 1; }
-.sprungleiste__nav a[aria-current="true"]::before { transform: scaleX(0.45); }
 @media (hover: hover) and (pointer: fine) {
   .sprungleiste__nav a:hover span { opacity: 1; transform: translateX(3px); }
   .sprungleiste__nav a:hover::before { transform: scaleX(1); }
@@ -696,15 +698,20 @@ section[id] { scroll-margin-top: 0; }
   }
   .sprung-anfang { right: calc(var(--blatt-r) + 1.25rem); bottom: calc(var(--blatt-u) + 1.25rem); }
   .fuss__leiste { --unten: 1.25rem; }
+  /* Glas von ganz oben bis ganz unten; rechte Kante gleich wie vorher (14rem) */
   .sprungleiste {
     display: grid; grid-template-rows: 1fr auto 1fr; position: fixed; z-index: var(--sc-z-chrome);
-    left: 1.25rem; top: 0.75rem; bottom: 2.75rem; width: 12.75rem;
-    padding: 1.4rem 1.25rem 1.3rem; border-radius: 18px;
-    background: rgba(255, 255, 255, 0.24); border: 1px solid rgba(255, 255, 255, 0.6);
+    left: 0; top: 0; bottom: 0; width: 14rem; box-sizing: border-box;
+    padding: 2.95rem 1rem 1.5rem 1.6rem;
+    background: rgba(255, 255, 255, 0.24); border-right: 1px solid rgba(255, 255, 255, 0.6);
     -webkit-backdrop-filter: blur(18px) saturate(170%); backdrop-filter: blur(18px) saturate(170%);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 2px rgba(11, 18, 38, 0.06), 0 28px 60px -20px rgba(20, 35, 60, 0.3), 22px 0 44px -30px rgba(20, 35, 60, 0.35);
+    box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.35), 22px 0 44px -30px rgba(20, 35, 60, 0.35);
+    transition: background-color 400ms var(--sc-ease-out), border-color 400ms var(--sc-ease-out);
   }
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .sprungleiste { background: #fbfcfd; } }
+  /* Über dunklen Abschnitten wird das Glas dunkel, wie die Kopfleiste am Tablet */
+  .sprungleiste.ist-nacht { background: rgba(11, 18, 38, 0.86); border-right-color: rgba(255, 255, 255, 0.1); box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.04), 22px 0 44px -30px rgba(0, 0, 0, 0.6); }
+  .sprungleiste.ist-nacht .sprungleiste__marke, .sprungleiste.ist-nacht .sprungleiste__nav a { color: var(--nacht-ink); }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .sprungleiste { background: #fbfcfd; } .sprungleiste.ist-nacht { background: #141c33; } }
   .jeden__schiene {
     padding-inline: max(var(--sc-gutter), calc((var(--band) - var(--sc-maxw)) / 2 + var(--sc-gutter)));
     scroll-padding-inline: max(var(--sc-gutter), calc((var(--band) - var(--sc-maxw)) / 2 + var(--sc-gutter)));
@@ -778,7 +785,7 @@ section[id] { scroll-margin-top: 0; }
   .hang__chip { transform: none; }
   .hang__flocken { display: none; }
   .seite[open], .seite.geht-zu { animation: none; }
-  .sprungleiste__nav a span, .sprungleiste__nav a::before { transition: opacity 160ms linear; }
+  .sprungleiste__nav a span, .sprungleiste__nav a::before { transition: none; }
   .sprungleiste__nav a:hover span { transform: none; }
   .hang__chip svg, .hang__schatten { animation: none; }
   .hang .sc-stage__poster, .hang video[data-sc-scrub], .hang__kopf > *, .hang__zwei > * { transform: none; }

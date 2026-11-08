@@ -124,3 +124,9 @@ Umgesetzt.
 Footer wie in einer Pinterest-Vorlage (riesiger Schriftzug über die ganze Breite, animiert).
 
 Umgesetzt: „SKITAG“ in voller Inhaltsbreite unter den Spalten, Buchstaben fahren beim Erreichen einzeln von unten hoch, beim Drüberfahren mit der Maus wird ein Buchstabe orange. Darunter eine schmale Leiste mit „© 2026 SkiTag“, in der der Knopf „nach oben“ sitzt.
+
+## Feedback 17 (Lukas, 2026-11-08)
+
+Oben links lagen Kopfbereich, Seitenleiste und Seite dreifach übereinander, zu viel. Leiste durchgehend von ganz oben bis ganz unten. Über dunklen Abschnitten soll die Leiste dunkel werden wie die Kopfleiste ohne Vollbild. Der aktuelle Abschnitt groß und fett nach vorne, die anderen klein; mehr Abstand, und beim Übergang von einem Abschnitt zum nächsten zieht sich der Abstand zwischen den beiden in die Länge, bis man angekommen ist. Lob: Boxen, Glas, Schatten und Übergänge.
+
+Umgesetzt: Leiste ab 1200 px von oben bis unten am linken Fensterrand, dunkles Glas über Nacht-Abschnitten und dem Fuß, aktueller Abschnitt groß und fett mit ganzem orangem Strich, beim Übergang beide halb groß und bis zu 3,5 rem mehr Abstand dazwischen. Logo auf Höhe des Knopfs „Das sind wir“.
