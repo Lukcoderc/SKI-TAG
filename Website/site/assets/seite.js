@@ -94,7 +94,14 @@
     var spur = akt.querySelector(".netz__spur");
     var ma = akt.querySelector(".netz__mitarbeiter");
     var glut = akt.querySelector(".netz__glut");
+    var spuren = akt.querySelectorAll(".netz__spuren");
+    var paket = akt.querySelector(".netz__paket");
+    var maSchild = ma.querySelectorAll(".netz__etikett");
     var spurLaenge = spur.getTotalLength();
+    var funkLaenge = funk.getTotalLength();
+    // Sessellift und Fahrer im Hintergrund laufen als SMIL; bei wenig Bewegung stehen sie
+    var bewegtBild = akt.querySelector(".netz__bewegt");
+    if (ohneBewegung && bewegtBild && bewegtBild.pauseAnimations) bewegtBild.pauseAnimations();
 
     // Ab Tablet steht die Grafik in einer eigenen, schmaleren Fläche. Der
     // Ausschnitt wird dann so gelegt, dass „Du“, die Gruppe, die Liftstation
@@ -188,8 +195,13 @@
       gwege[1].style.strokeDashoffset = 1 - abschnitt(gruppe, 0.05, 0.45);
       zittern.style.opacity = gruppe > 0.45 && gruppe < 1 ? 0.35 + 0.65 * Math.abs(Math.sin(jetzt / 45)) : 0;
       // Notruf: Funk zur Station, Antenne, Meldung, Fahrt, alle Stationen
-      funk.style.strokeDashoffset = 1 - abschnitt(hilfe, 0.005, 0.07);
+      var funkWeg = abschnitt(hilfe, 0.005, 0.07);
+      funk.style.strokeDashoffset = 1 - funkWeg;
       funk.style.opacity = hilfe > 0.5 ? 0.35 : 1;
+      // ein leuchtender Punkt läuft dem roten Weg voraus
+      var pp = funk.getPointAtLength(funkWeg * funkLaenge);
+      paket.setAttribute("cx", pp.x.toFixed(1)); paket.setAttribute("cy", pp.y.toFixed(1));
+      paket.setAttribute("opacity", (hilfe > 0 && hilfe < 0.1 ? 1 - abschnitt(hilfe, 0.07, 0.1) : 0).toFixed(2));
       stationen[0].classList.toggle("ist-an", hilfe >= 0.07);
       ping.style.opacity = puls(hilfe, 0.06, 0.18) + puls(hilfe, 0.14, 0.26) * 0.7;
       ping.setAttribute("r", (12 + 30 * ((hilfe * 8) % 1)).toFixed(1));
@@ -200,7 +212,11 @@
       var weich = fahrt < 0.5 ? 2 * fahrt * fahrt : 1 - Math.pow(-2 * fahrt + 2, 2) / 2;
       var pkt = spur.getPointAtLength(weich * spurLaenge);
       ma.setAttribute("transform", "translate(" + pkt.x.toFixed(1) + " " + pkt.y.toFixed(1) + ")");
-      spur.style.opacity = fahrt > 0 ? 0.7 : 0;
+      // unterwegs fährt er in der Hocke, davor und danach steht er; hinter ihm bleibt die Skispur
+      ma.classList.toggle("faehrt", fahrt > 0 && fahrt < 1);
+      spuren.forEach(function (p) { p.style.strokeDashoffset = 1 - weich; });
+      var schild = (1 - abschnitt(fahrt, 0.7, 0.95)).toFixed(2);
+      maSchild.forEach(function (el) { el.style.opacity = schild; });
       for (var j = 1; j < felder.length; j++) {
         var e = abschnitt(hilfe, 0.84 + j * 0.025, 0.96 + j * 0.01);
         felder[j].style.opacity = e; felder[j].style.transform = "scale(" + e + ")";
@@ -287,17 +303,18 @@
     });
   }
 
-  /* ------------------------------------ Großer Schriftzug im Fuß -- */
-  /* Die Buchstaben fahren einmal hoch, sobald ein Drittel davon sichtbar ist. */
-  var wort = document.querySelector(".fuss__wort");
-  if (wort) {
-    if (!("IntersectionObserver" in window)) wort.classList.add("ist-da");
-    else {
-      var wortBeob = new IntersectionObserver(function (e) {
-        if (e[0].isIntersecting) { wort.classList.add("ist-da"); wortBeob.disconnect(); }
-      }, { threshold: 0.35 });
-      wortBeob.observe(wort);
-    }
-  }
+  /* ------------------- Gebirge über dem Schluss, Schriftzug im Fuß -- */
+  /* Beide kommen einmal hoch, sobald ein Teil davon sichtbar ist:
+     die Berge ab einem Viertel, die Buchstaben ab einem Drittel. */
+  var einmal = function (el, schwelle) {
+    if (!el) return;
+    if (!("IntersectionObserver" in window)) { el.classList.add("ist-da"); return; }
+    var beob = new IntersectionObserver(function (e) {
+      if (e[0].isIntersecting) { el.classList.add("ist-da"); beob.disconnect(); }
+    }, { threshold: schwelle });
+    beob.observe(el);
+  };
+  einmal(document.querySelector(".gebirge"), 0.25);
+  einmal(document.querySelector(".fuss__wort"), 0.35);
 
 })();

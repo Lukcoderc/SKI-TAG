@@ -134,3 +134,21 @@ Umgesetzt: Leiste ab 1200 px von oben bis unten am linken Fensterrand, dunkles G
 ## Feedback 18 (Lukas, 2026-11-08)
 
 Linke Leiste an den rechten Ecken abrunden. Umgesetzt: 18 px wie das Blatt.
+
+## Feedback 19 (Lukas, 2026-11-08)
+
+Gleich am Anfang ein Punkt, der kurz sagt, was SkiTag ist und macht, damit man nicht alles durchschauen muss. Im Fuß wie bei einer Vorlage mit Stadt-Silhouette ein Gebirge, das aus dem Fuß wächst.
+
+Umgesetzt: neuer Abschnitt „Auf einen Blick“ direkt nach dem Einstieg („SkiTag in 30 Sekunden.“, zwei Sätze und vier Karten: Was es ist, Kurz drücken, Drei Sekunden halten, Wie es funkt), auch als erster Punkt in der Seitenleiste. Oben am Fuß drei Bergketten in Nachtblau, hinten verschneit, vorn Wald; ein Lift fährt auf den mittleren Gipfel, an der Bergstation blinkt der Empfänger. Die Ketten steigen beim Erreichen nacheinander aus dem Fuß hoch.
+
+## Feedback 20 (Lukas, 2026-11-08)
+
+Die Animation bei „Ein Knopf. Zwei Wege.“ sieht nicht gut aus, man erkennt nicht einmal, dass es Skifahrer sein sollen. Zeit lassen, im Internet nach Inspiration schauen, das muss wirklich gut aussehen.
+
+Umgesetzt: Szene neu gezeichnet im Stil eines gemalten Pistenplans (Vorbild James Niehues): verschneite Bergkette mit Licht- und Schattenseiten, drei Pisten mit Cord, rund 600 Tannen in drei Tiefen, Sessellift mit fahrenden Sesseln und Fahrgästen, Liftstationen mit Antenne, drei Skifahrer im Hintergrund. Figuren als flache Skifahrer mit Helm, Brille, farbiger Jacke, Ski und Stöcken: Du gestürzt mit gekreuzten Ski und orangem Chip, Gruppe gelb und grün, Mitarbeiter mit Reflexstreifen. Beschriftungen als weiße Pillen ohne Überlappung. Notruf: leuchtender Punkt läuft dem roten Funkweg voraus, der Mitarbeiter fährt in der Hocke die Piste hinunter und zieht eine Skispur. Am Handy tritt die Notruf-Karte am Ende zurück, damit „Nochmal“ sie nicht verdeckt.
+
+## Feedback 21 (Lukas, 2026-11-08)
+
+Das Gebirge soll nicht unter „Ein Knopf. Für alle im Skigebiet.“ sein, sondern darüber und ins Weiße hineinragen, wie im Vorlagebild.
+
+Umgesetzt: Gebirge sitzt jetzt am unteren Rand von „Das sind wir“ und wächst aus der dunklen Schluss-Fläche ins Weiße. Farben für den hellen Himmel angepasst (keine Sterne mehr), der Fuß hat wieder seine feine Linie oben.

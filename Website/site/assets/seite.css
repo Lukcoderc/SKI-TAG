@@ -249,8 +249,13 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 }
 
 .knopf__rechts { display: grid; gap: var(--sc-3); justify-items: start; }
-.netz__beschrift--klein { font-size: 17px; fill: #4a5672; }
-.netz__beschrift--ma { font-weight: 650; fill: #0b1226; }
+.netz__etikett text { font-family: var(--sc-font-text); font-size: 16px; font-weight: 650; fill: #0b1226; }
+.netz__mitarbeiter .netz__etikett { transition: opacity 300ms; }
+.netz__ma-faehrt { display: none; }
+.netz__mitarbeiter.faehrt .netz__ma-faehrt { display: inline; }
+.netz__mitarbeiter.faehrt .netz__ma-steht { display: none; }
+/* unterwegs steht das Schild rechts von ihm, damit es nicht über die Gruppe fährt */
+.netz__mitarbeiter.faehrt .netz__etikett { transform: translate(18px, -86px); }
 .knopf .nur-schmal { display: none; }
 @media (max-width: 860px) { .knopf .nur-schmal { display: inline; } .knopf .nur-breit { display: none; } }
 .netz__gweg { stroke-dashoffset: 1; }
@@ -320,6 +325,45 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .sc-ready .aufbau .aufbau__led { fill: color-mix(in oklab, #fff4ee, #ff2d2d calc(clamp(0, (var(--sc-p, 0) - 0.62) / 0.1, 1) * 100%)); }
 @media (prefers-reduced-motion: reduce) { .sc-ready .aufbau .etikett { opacity: 1; } }
 
+/* -------------------------------------------------- 1b · Auf einen Blick -- */
+/* Gleich nach dem Einstieg: in einer halben Minute, was SkiTag ist und tut. */
+.blick__kopf { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(1.5rem, 5vw, 5rem); align-items: end; }
+.blick__titel { font-size: clamp(2.5rem, 1.3rem + 3.4vw, 4.8rem); line-height: 0.98; letter-spacing: -0.045em; font-weight: 640; }
+.blick__text .sc-lede { color: var(--sc-ink-soft); }
+.blick__weiter {
+  display: inline-flex; align-items: center; gap: 0.45rem; margin-top: var(--sc-5); padding-bottom: 3px;
+  font-weight: 600; color: var(--sc-ink); text-decoration: none; border-bottom: 2px solid var(--orange);
+}
+.blick__weiter svg { width: 1rem; height: 1rem; transition: transform 200ms var(--sc-ease-out); }
+@media (hover: hover) and (pointer: fine) { .blick__weiter:hover svg { transform: translateY(3px); } }
+.blick__liste { list-style: none; margin: clamp(2rem, 4vw, 3rem) 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sc-4); }
+.blick__punkt {
+  display: flex; flex-direction: column; min-height: 15.5rem; padding: clamp(1.4rem, 2.2vw, 2rem);
+  border-radius: var(--r-gross); background: #fff; box-shadow: var(--sc-e1);
+}
+.blick__zeichen { width: 2.75rem; height: 3.25rem; margin-bottom: var(--sc-5); color: var(--sc-ink); }
+.blick__zeichen svg { display: block; width: 100%; height: 100%; font-family: var(--sc-font-display); }
+.blick__bild { height: 3.25rem; margin: 0 0 var(--sc-5) -0.3rem; filter: drop-shadow(0 12px 16px rgba(255, 90, 28, 0.25)); }
+.blick__bild svg { display: block; width: auto; height: 100%; }
+.blick__nr { margin: 0; font-weight: 650; font-size: var(--sc-t-sm); color: var(--orange-2); }
+.blick__punkt h3 { margin: var(--sc-2) 0 0; font-family: var(--sc-font-display); font-weight: 650; font-size: var(--sc-t-lg); letter-spacing: -0.025em; line-height: 1.12; text-wrap: balance; }
+.blick__punkt p:last-child { margin: var(--sc-2) 0 0; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: 1.5; }
+.blick__punkt--nacht { background: radial-gradient(120% 140% at 0% 0%, #1d2a52 0%, var(--nacht) 60%); color: var(--nacht-ink); }
+.blick__punkt--nacht .blick__zeichen { color: var(--nacht-ink); }
+.blick__punkt--nacht .blick__nr { color: #ff8a5c; }
+.blick__punkt--nacht p:last-child { color: var(--nacht-soft); }
+@media (max-width: 1100px) { .blick__liste { grid-template-columns: repeat(2, minmax(0, 1fr)); } .blick__punkt { min-height: 13rem; } }
+@media (max-width: 860px) { .blick__kopf { grid-template-columns: 1fr; } }
+/* Handy: kompakte Zeilen, Zeichen links */
+@media (max-width: 560px) {
+  .blick__liste { grid-template-columns: 1fr; gap: var(--sc-3); }
+  .blick__punkt { display: grid; grid-template-columns: 3.4rem minmax(0, 1fr); column-gap: 1rem; align-content: start; min-height: 0; padding: 1.25rem; border-radius: var(--r); }
+  .blick__zeichen, .blick__bild { grid-row: 1 / span 3; align-self: start; width: 2.6rem; height: auto; margin: 0.15rem 0 0; }
+  .blick__bild { width: 3.4rem; margin-top: 0.4rem; }
+  .blick__bild svg { width: 100%; height: auto; }
+  .blick__nr { margin-top: 0; }
+}
+
 /* -------------------------------------------- 4 · Gebaut für den Berg -- */
 .kacheln { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sc-4); margin-top: clamp(3rem, 6vw, 5rem); }
 .kachel {
@@ -372,11 +416,10 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 }
 
 /* ------------------------------------- Szene am Berg (im Abschnitt Der Chip) -- */
-.netz__beschrift { font-family: var(--sc-font-text); font-size: 22px; font-weight: 650; fill: #0b1226; paint-order: stroke; stroke: rgba(255, 255, 255, 0.85); stroke-width: 5px; stroke-linejoin: round; }
-.netz__antenne { fill: #8fa3b8; transition: fill 300ms; }
+.netz__antenne { fill: #9fb2c6; transition: fill 300ms; }
 .netz__station.ist-an .netz__antenne { fill: #4f8dff; stroke: #bcd5ff; stroke-width: 4; }
 .netz__feld { transform-box: fill-box; transform-origin: center; transform: scale(0); opacity: 0; }
-.netz__welt { transform: translate(380px, 20px); }
+.netz__welt { transform: translate(340px, 30px); }
 .netz__karte { position: absolute; right: clamp(1rem, 5vw, 6rem); bottom: 14%; z-index: 3; opacity: 0; transform: translateY(20px) scale(0.96); transition: opacity 400ms var(--sc-ease-out), transform 500ms var(--sc-ease-out); }
 .netz__karte.ist-an { opacity: 1; transform: none; }
 .netz__handy { width: 18rem; padding: 0.5rem; border-radius: 1.6rem; background: #0b1226; box-shadow: 0 24px 50px -18px rgba(11, 18, 38, 0.45); }
@@ -576,6 +619,34 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .wir__foto figcaption { margin-top: var(--sc-4); font-family: var(--sc-font-display); font-weight: 650; font-size: var(--sc-t-xl); letter-spacing: -0.03em; }
 
 /* -------------------------------------------------------- 10 · Schluss -- */
+/* Gebirge am unteren Rand von „Das sind wir“: wächst aus der dunklen Schluss-
+   Fläche nach oben ins Weiße. Drei Ketten in Nachtblau, die vordere in der Farbe
+   des Schlusses, so gibt es keine Kante. Kommt es ins Bild, steigen die Ketten
+   nacheinander hoch (seite.js setzt .ist-da). Ein Lift fährt auf den mittleren
+   Gipfel, an der Bergstation blinkt der Empfänger. */
+.wir { position: relative; container-type: inline-size; padding-bottom: calc(var(--sc-section) * 0.6 + max(7rem, 15vw)); }
+.gebirge { position: absolute; left: 0; right: 0; bottom: -1px; height: max(7rem, 15cqi); overflow: hidden; pointer-events: none; }
+.gebirge__bild { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.gebirge__lage { transition: transform 1.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.gebirge__lage--fern { transform: translateY(150px); transition-delay: 0.3s; }
+.gebirge__lage--mitte { transform: translateY(110px); transition-delay: 0.12s; }
+.gebirge__lage--vorn { transform: translateY(60px); }
+.gebirge.ist-da .gebirge__lage { transform: none; }
+.gebirge__antenne { animation: funkeln 2.4s ease-in-out infinite; }
+.gebirge__kabine { animation: gondel 24s linear infinite; }
+.gebirge__kabine--2 { animation-delay: -12s; }
+@keyframes funkeln { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+@keyframes gondel {
+  0% { transform: translate(0, 0); opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gebirge__lage { transform: none !important; transition: none; }
+  .gebirge__antenne { animation: none; }
+  .gebirge__kabine { animation: none; transform: translate(calc(var(--dx) * 0.6), calc(var(--dy) * 0.6)); }
+  .gebirge__kabine--2 { transform: translate(calc(var(--dx) * 0.2), calc(var(--dy) * 0.2)); }
+}
+
 .schluss { padding-block: clamp(6rem, 14vw, 12rem); overflow: hidden; }
 .schluss__innen { display: grid; justify-items: center; text-align: center; gap: var(--sc-6); position: relative; }
 .schluss__innen::before { content: ""; position: absolute; left: 50%; top: 0; width: 60rem; height: 30rem; translate: -50% -30%; background: radial-gradient(closest-side, rgba(255, 90, 28, 0.28), transparent); pointer-events: none; }
@@ -735,7 +806,7 @@ section[id] { scroll-margin-top: 0; }
   .hang__schatten { bottom: calc(34% - 1rem); width: 14rem; }
   
   .knopf__buehne { min-height: 36rem; }
-  .knopf__buehne::after { background: linear-gradient(180deg, rgba(244, 248, 251, 0.94) 0%, rgba(244, 248, 251, 0.5) 30%, transparent 46%, transparent 60%, rgba(244, 248, 251, 0.94) 80%); }
+  .knopf__buehne::after { background: linear-gradient(180deg, rgba(244, 248, 251, 0.94) 0%, rgba(244, 248, 251, 0.5) 30%, transparent 44%, transparent 68%, rgba(244, 248, 251, 0.94) 84%); }
   .knopf__text { top: 4.6rem; left: var(--sc-gutter); right: var(--sc-gutter); width: auto; }
   .knopf__titel { font-size: clamp(2.2rem, 9.5vw, 3rem); }
   .knopf__text .augenbraue { margin-bottom: var(--sc-2); }
@@ -747,12 +818,14 @@ section[id] { scroll-margin-top: 0; }
   .haltknopf { width: min(12.5rem, 52vw); }
   .knopf-akt__status { min-height: 2.9em; font-size: var(--sc-t-sm); max-width: 15rem; }
   .netz__karte { right: 50%; translate: 50% 0; top: auto; bottom: 12.4rem; }
+  /* am Ende kommt „Nochmal“ dazu und der Knopf rutscht hoch: dann tritt die Karte zurück, die Statuszeile sagt es */
+  .knopf:has([data-aktion="nochmal"]:not([hidden])) .netz__karte { opacity: 0; transform: translateY(20px) scale(0.96); }
   .netz__handy { width: min(21rem, 90vw); padding: 0.35rem; border-radius: 1.3rem; }
   .netz__meldung { flex-wrap: nowrap; gap: 0.6rem; padding: 0.55rem 0.7rem; border-radius: 1rem; }
   .netz__meldung > div { min-width: 0; }
   .netz__meldung b { display: inline; font-size: 0.85rem; margin-right: 0.35rem; }
   .netz__meldung span { font-size: 0.75rem; }
-  .netz__welt { transform: translate(120px, -40px); }
+  .netz__welt { transform: translate(164px, 112px) scale(0.8); }
   .aufbau__buehne { grid-template-columns: 1fr; align-content: start; gap: 0.5rem; padding-top: 4.2rem; }
   .aufbau__text .riesig { font-size: clamp(2.4rem, 10vw, 3.2rem); }
   .aufbau__text .sc-lede { font-size: var(--sc-t-base); margin-top: var(--sc-3); }
@@ -781,6 +854,9 @@ section[id] { scroll-margin-top: 0; }
 }
 
 /* -------------------------------------------------- weniger Bewegung -- */
+/* niedrige Handys: Szene etwas kleiner und tiefer, damit die Bergstation nicht unter dem Text liegt */
+@media (max-width: 860px) and (max-height: 760px) { .netz__welt { transform: translate(176px, 150px) scale(0.76); } }
+
 @media (prefers-reduced-motion: reduce) {
   .hang__chip { transform: none; }
   .hang__flocken { display: none; }
