@@ -130,3 +130,7 @@ Umgesetzt: „SKITAG“ in voller Inhaltsbreite unter den Spalten, Buchstaben fa
 Oben links lagen Kopfbereich, Seitenleiste und Seite dreifach übereinander, zu viel. Leiste durchgehend von ganz oben bis ganz unten. Über dunklen Abschnitten soll die Leiste dunkel werden wie die Kopfleiste ohne Vollbild. Der aktuelle Abschnitt groß und fett nach vorne, die anderen klein; mehr Abstand, und beim Übergang von einem Abschnitt zum nächsten zieht sich der Abstand zwischen den beiden in die Länge, bis man angekommen ist. Lob: Boxen, Glas, Schatten und Übergänge.
 
 Umgesetzt: Leiste ab 1200 px von oben bis unten am linken Fensterrand, dunkles Glas über Nacht-Abschnitten und dem Fuß, aktueller Abschnitt groß und fett mit ganzem orangem Strich, beim Übergang beide halb groß und bis zu 3,5 rem mehr Abstand dazwischen. Logo auf Höhe des Knopfs „Das sind wir“.
+
+## Feedback 18 (Lukas, 2026-11-08)
+
+Linke Leiste an den rechten Ecken abrunden. Umgesetzt: 18 px wie das Blatt.
