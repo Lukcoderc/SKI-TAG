@@ -240,3 +240,69 @@ Umgesetzt: in der Seitenleiste 1,3 rem statt 1,6 rem, aber nie kleiner als das W
 Das Fette noch etwas kleiner, es soll clean aussehen, man soll es aber trotzdem erkennen.
 
 Umgesetzt: Der Anfangsbuchstabe ist nur noch knapp größer als das Wort (1,08 rem bei den kleinen Kapiteln, beim aktiven etwa so groß wie das Wort; im Handy-Menü 1,1-fach), dafür etwas fetter (760). Erkennbar bleibt SKITAG über den Kontrast: fetter, kräftig schwarzer Buchstabe neben dem dünneren, blassen Wort.
+
+## Feedback 36 (Lukas, 2026-11-09): neue Farbwelt und Wow-Einstieg
+
+„Mir gefällt das Grundkonzept deiner Farbwahl und alles einfach nicht. Ich will sie grau, weiß und navyblau, etwas Orange als Kontrast.“ Richtig cool soll sie sein, beim Draufgehen ein Wow-Effekt. Das 3D-Modell und der orange Chip am Anfang werden Platzhalter (das echte Modell kommt später). Inspiration: notion.com (Satz, in dem sich ein Wort ändert, „bau das auch bei uns ein“), granola.ai, cal.com; nicht kopieren, sondern gute Gestaltung heraussuchen.
+
+Umgesetzt (Details in `DESIGN.md`, Abschnitt „Redesign 2026-11-09“): Weiß, helles Grau und Navy, Orange nur als Akzent; alle eisblauen Töne neutral grau. Einstieg: „Ein Knopf für [deine Gruppe | den Notfall | die Bergbahn | jeden Skitag]“ mit wechselndem Wort in einer farbigen Pille, Abzeichen, zwei Knöpfe, darunter das Bergvideo als runde Karte, die sich beim Scrollen auf den ganzen Bildschirm aufzieht. Platzhalter „Chip folgt“ und „3D-Modell folgt“. Abzeichen als Pillen mit orangem Punkt, Karten mit feiner Linie.
+
+## Feedback 37 (Lukas, 2026-11-09): komplettes Redesign
+
+„Es sieht immer noch genau gleich aus, mach ein komplettes Redesign.“ Die Startseite gefällt nicht; bei jedem Wortwechsel verändert sich die Zeile, das darf auf keinen Fall so sein. Jeden Punkt noch einmal anschauen und mehr von den Vorbildseiten einbauen, davon war fast nichts drin.
+
+Umgesetzt (Details in `DESIGN.md`, „Redesign 2“): Die Pille ist immer so breit wie das längste Wort, die Zeile steht still (gemessen). Ganz weiße Seite ohne grauen Rahmen und ohne Glas, Seitenleiste als weiße Spalte mit feiner Linie. Am Handy eine schwebende, runde Kopfleiste. Unter dem Einstieg ein Laufband mit den wichtigsten Punkten. Start-Karten wie bei Notion mit Kennzeile, rundem Pfeil und kleiner Vorschau (Gruppe vibriert, Notruf mit 3-s-Ring, Funkweg zur Liftstation). Farb-Kachel weiß mit orangem Punkt. Schluss mit Platzhalter statt orangem Chip.
+
+## Feedback 38 (Lukas, 2026-11-09)
+
+Im Einstieg mehr Wörter, die in die Lücke passen, und andere Farben. Bei „Klein gedacht. Groß gebaut.“ alle Details weg (der kleine Text unter den Teilen); der dunkelblaue Teil ist viel zu klein, man sieht die Seitenleiste nicht. Bei Technik alle Kacheln anschauen und neue überlegen. Die Knöpfe sollen nicht typisch nach KI aussehen, dafür die anderen Seiten anschauen.
+
+Umgesetzt: acht Wörter in fünf Farben (Navy voll, Orange, Himmel, Sand, Minze), Zeile bleibt still. Innenleben wieder bildschirmfüllend als Scroll-Strecke, nur die Namen der Teile, die nacheinander aufleuchten; Seitenleiste dort wieder navy. Technik: Ring, Kälte und Akku bleiben, neu sind Handschuhe, Vibration, GPS, kabellos laden und weiche Hülle mit kleinen bewegten Bildern; „Orange.“, „0 Handys“ und die breite Hüllen-Kachel entfallen. Knöpfe als gerundete Rechtecke mit feiner Kante wie bei Cal.com und Notion, ohne Leuchten.
+
+Warum Innenleben zu klein war: Beim Ersetzen des 3D-Modells (Feedback 36) wurde die Scroll-Strecke zu einem normalen Abschnitt, der auf großen Bildschirmen kürzer als das Fenster war; die Seitenleiste blieb dort seit Feedback 37 weiß.
+
+## Feedback 39 (Lukas, 2026-11-09)
+
+Die Knöpfe sehen nicht gut aus, die dunkelblauen heller; das Video auch. Weniger Text bei „Ein Knopf. Zwei Wege.“. Das Video am Start sieht beim Scrollen nicht gut aus, eine bessere Lösung finden. Die zwei Kapitel bei App endlich zusammenführen, weil dort so viel gleich dasteht.
+
+Umgesetzt: Einstieg ohne Scroll-Video: das Bergvideo läuft heller als ruhige Schleife in einer festen, runden Karte unter der Überschrift, darauf der Platzhalter und „Ohne Handy. Ohne Handynetz. Nur der Chip in deiner Jacke.“; normales Scrollen. Knöpfe flach in einem helleren Blau (`#2a4a8f`), Nebenknopf hellblau. Je ein kurzer Satz pro Schritt bei „Ein Knopf. Zwei Wege.“. „Für jeden am Berg“ ist in „App“ aufgegangen: Marken Familien, Skischulen, Sportliche und die Inhalte in den drei Schritten.
+
+## Feedback 40 (Lukas, 2026-11-09)
+
+Über den Überschriften stehen die Kapitel; so wie es vorher aussah, war es besser. Bei den Knöpfen React Bits anschauen und von dort einen Knopf einbauen.
+
+Umgesetzt: Kapitelnamen wieder als schlichter oranger Text. Aus React Bits der „HoldButton“ (Halten füllt den Knopf mit einer Welle), passend zu „drei Sekunden halten“: er ersetzt in „Ein Knopf. Zwei Wege.“ den gezeichneten orangen Chip; kurz drücken füllt ihn kurz orange (Gruppe), halten rot (Notruf), in der Abbruch-Frist läuft die Füllung zurück. Lizenz MIT + Commons Clause, Text liegt bei, Nachweis im Fuß.
+
+## Feedback 41 (Lukas, 2026-11-09)
+
+Bei „App“ besser einbinden, für welche Zielgruppen der Tag ist. Dazu: in Tobias' App nachsehen, ob sich etwas geändert hat, und die Website nachziehen.
+
+Umgesetzt: „App“ ist nach Zielgruppen gegliedert (Titel „Vom Kind bis zum Profi.“): Familien, Skischulen, Sportliche, Neu im Skigebiet, jede mit Symbol und eigenem Bildschirm im iPhone. Tobias' App hat sich am 8. November geändert (Gast-Ansicht fertig): Route mit „Zurück zum Start“ und „Schnellster Weg ins Tal“, „Ihre Gruppe“ mit „Vibrieren“, Tagesfilm, Tiefenmeter, Liftfahrten; die Skischul-Ansicht mit Durchzählen und „hängt hinten“ ist neu als vierter Bildschirm nachgebaut. Nicht übernommen: Skigebiets-Namen (Streif) und Tempo.
+
+## Feedback 42 (Lukas, 2026-11-09)
+
+Die Animation des wechselnden Worts im Einstieg so, dass sie nicht genau wie bei Notion aussieht, aber trotzdem gut.
+
+Umgesetzt: keine Pille mehr; das Wort steht frei in wechselnder Farbe, die Buchstaben gehen einzeln weich verschwommen nach oben weg und kommen nacheinander von unten herein, darunter zeichnet sich jedes Mal eine geschwungene Skispur. Die Zeile bewegt sich weiterhin nicht.
+
+## Feedback 43 (Lukas, 2026-11-09)
+
+Auf der ersten Seite statt „Ein Knopf für …“ „Ein Chip für …“. Umgesetzt in der Überschrift des Einstiegs (auch im Satz für Vorleseprogramme).
+
+## Feedback 44 (Lukas, 2026-11-09)
+
+Die Grafik bei „Ein Knopf. Zwei Wege.“ soll wieder animiert sein wie vorher.
+
+Ursache: Seit Feedback 27 hielt der Sparmodus Sessellift und Skifahrer an; auf Lukas' Rechner (4 Kerne) ist der Sparmodus an. Jetzt laufen sie, sobald die Szene zu sehen ist, auch im Sparmodus.
+
+## Feedback 45 (Lukas, 2026-11-09)
+
+„Warum ist die App nicht mehr animiert?“ Ursache: Beim Umbau des Wortwechsels (Feedback 42) wurde der Block für die Kopfleiste im Skript versehentlich mit entfernt; danach brach das Skript ab, und alles dahinter lief nicht mehr (App-Bildschirme, Kopfleiste beim Scrollen, Fortschrittsbalken). Block wieder eingesetzt, Skript läuft ohne Fehler, die App wechselt wieder.
+
+## Feedback 46 (Lukas, 2026-11-09)
+
+Oben im Einstieg den Text „Der Mietchip für die Skijacke“ weg. Umgesetzt.
+
+## Feedback 47 (Lukas, 2026-11-09)
+
+Der Spruch „Klein gedacht. Groß gebaut.“ passt nicht, etwas Besseres nehmen. Umgesetzt: „Alles drin. Nichts zu viel.“

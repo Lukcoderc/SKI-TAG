@@ -18,24 +18,83 @@
       lade.classList.add("ist-fertig");
       setTimeout(function () { lade.remove(); }, 600);
     };
-    var poster = document.querySelector(".hang .sc-stage__poster");
-    var bild = !poster || poster.complete ? Promise.resolve() : new Promise(function (fertig) {
-      poster.addEventListener("load", fertig, { once: true });
-      poster.addEventListener("error", fertig, { once: true });
+    // das Video im Einstieg: warten, bis das erste Bild da ist, höchstens 2,5 s
+    var film = document.querySelector(".held__video");
+    var bild = !film || film.readyState >= 2 ? Promise.resolve() : new Promise(function (fertig) {
+      film.addEventListener("loadeddata", fertig, { once: true });
+      film.addEventListener("error", fertig, { once: true });
+      setTimeout(fertig, 2500);
     });
     var schrift = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
     Promise.all([bild, schrift]).then(function () { requestAnimationFrame(function () { requestAnimationFrame(weg); }); });
     setTimeout(weg, 5000);
   }
 
+  /* ----------------------------------------- Wechselndes Wort im Titel -- */
+  /* „Ein Chip für [deine Gruppe]“ (seit Feedback 42 eigene Form statt Notions Pille): alle 2,6 s
+     steigen die Buchstaben einzeln weich verschwommen nach oben weg, die neuen kommen nacheinander
+     von unten und werden scharf, darunter zeichnet sich eine geschwungene Skispur in der Farbe des
+     Worts. Der Platz ist immer so breit wie das längste Wort, damit sich die Zeile nie bewegt. */
+  document.querySelectorAll(".wechsel").forEach(function (platz) {
+    var woerter = (platz.getAttribute("data-woerter") || "").split("|");
+    var wort = platz.querySelector(".wechsel__wort");
+    if (!wort || woerter.length < 2) return;
+    var setzeWort = function (text) {
+      wort.textContent = "";
+      Array.prototype.forEach.call(text, function (z, i) {
+        var b = document.createElement("span");
+        b.className = "wechsel__b"; b.style.setProperty("--n", i);
+        b.textContent = z === " " ? "\u00a0" : z;
+        wort.appendChild(b);
+      });
+    };
+    var breiteSetzen = function () {
+      var jetzt = wort.textContent.replace(/\u00a0/g, " "), max = 0;
+      platz.style.width = "auto";
+      woerter.forEach(function (w) { setzeWort(w); max = Math.max(max, platz.getBoundingClientRect().width); });
+      setzeWort(jetzt);
+      platz.style.width = Math.ceil(max) + "px";
+    };
+    setzeWort(wort.textContent);
+    breiteSetzen();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(breiteSetzen);
+    window.addEventListener("resize", breiteSetzen);
+    if (ohneBewegung) return;
+    var nr = 0, sichtbar = true;
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { sichtbar = e[0].isIntersecting; }).observe(platz);
+    setInterval(function () {
+      if (!sichtbar || document.hidden) return;
+      platz.classList.add("ist-raus");
+      setTimeout(function () {
+        nr = (nr + 1) % woerter.length;
+        platz.classList.add("ist-rein");
+        setzeWort(woerter[nr]);
+        platz.setAttribute("data-farbe", String(nr % 5));
+        platz.classList.remove("ist-raus");
+        requestAnimationFrame(function () { requestAnimationFrame(function () { platz.classList.remove("ist-rein"); }); });
+      }, 420);
+    }, 2600);
+  });
+
   /* ------------------------------------------------------- Kopfleiste -- */
+  /* (in Feedback 42 versehentlich entfernt, in Feedback 45 wieder eingesetzt) */
   var leiste = document.querySelector(".leiste");
-  var hang = document.querySelector(".hang");
   function leisteSetzen() {
-    var grenze = hang ? hang.offsetHeight - window.innerHeight * 1.1 : 200;
-    leiste.classList.toggle("ist-unten", window.scrollY > grenze);
+    // die Leiste bekommt ihren Grund (und „Das sind wir“ blendet am PC aus), sobald man scrollt
+    leiste.classList.toggle("ist-unten", window.scrollY > 40);
   }
   leisteSetzen();
+
+  /* ------------------------------------------ Video im Einstieg -- */
+  /* Läuft als Schleife; bei weniger Bewegung steht es auf dem ersten Bild, außer Sicht ruht es */
+  var heldFilm = document.querySelector(".held__video");
+  if (heldFilm) {
+    if (ohneBewegung) { heldFilm.removeAttribute("autoplay"); heldFilm.pause(); }
+    else if ("IntersectionObserver" in window) new IntersectionObserver(function (e) {
+      if (wurzel.classList.contains("sparsam-video")) return;
+      if (e[0].isIntersecting) { var p = heldFilm.play(); if (p && p.catch) p.catch(function () {}); } else heldFilm.pause();
+    }).observe(heldFilm);
+  }
 
   /* ------------------------------------------------- Schneeflocken -- */
   if (!ohneBewegung) document.querySelectorAll("canvas.flocken").forEach(function (leinwand) {
@@ -156,8 +215,24 @@
     var zustand = "ruhe", start = 0, hilfe = 0, gruppe = 0, letzteSekunde = -1, stufe = "";
     var START_TEXT = "Probier es aus: kurz drücken oder halten.";
 
-    var setzeZustand = function (z) { zustand = z; knopf.setAttribute("data-zustand", z); ruheGezeichnet = false; };
-    var ringAuf = function (rest) { ring.style.strokeDashoffset = rest; ring.style.opacity = rest >= 0.999 ? 0 : 1; };
+    // Halte-Knopf nach „HoldButton“ (React Bits): --hb-p ist der Füllstand 0 bis 1, die Welle
+    // braucht Breite und Höhe des Knopfs, die Aufschrift wechselt mit dem Zustand
+    var knopfTexte = knopf.querySelectorAll(".haltknopf__text");
+    var AUFSCHRIFT = { ruhe: "Kurz drücken oder halten", halten: "Weiter halten …", frist: "Nochmal drücken bricht ab",
+      lauf: "Notruf gesendet", fertig: "Hilfe ist da", gruppe: "Gruppe gerufen" };
+    var fuellen = function (p) { knopf.style.setProperty("--hb-p", klemme(p).toFixed(4)); };
+    var knopfMessen = function () { knopf.style.setProperty("--hb-w", knopf.offsetWidth + "px"); knopf.style.setProperty("--hb-h", knopf.offsetHeight + "px"); };
+    knopfMessen();
+    if (window.ResizeObserver) new ResizeObserver(knopfMessen).observe(knopf);
+    var setzeZustand = function (z) {
+      zustand = z; knopf.setAttribute("data-zustand", z); ruheGezeichnet = false;
+      var t = AUFSCHRIFT[z] || AUFSCHRIFT.ruhe;
+      knopfTexte.forEach(function (el) { el.textContent = t; });
+    };
+    var ringAuf = function (rest) {
+      if (ring) { ring.style.strokeDashoffset = rest; ring.style.opacity = rest >= 0.999 ? 0 : 1; }
+      fuellen(1 - rest);
+    };
     var sage = function (t) { status.innerHTML = t; };
     var aktiv = function (name) { schritte.forEach(function (li) { li.classList.toggle("ist-aktiv", li.getAttribute("data-schritt") === name); }); };
 
@@ -246,13 +321,15 @@
         felder[j].style.opacity = e; felder[j].style.transform = "scale(" + e + ")";
         stationen[j].classList.toggle("ist-an", e > 0.5);
       }
-      led.setAttribute("fill", notruf ? "#ff2d2d" : "#fff4ee");
+      if (led) led.setAttribute("fill", notruf ? "#ff2d2d" : "#fff4ee");
     };
 
     var demoSichtbar = false, ruheGezeichnet = false;
     var hintergrund = function () {
       if (!bewegtBild || !bewegtBild.pauseAnimations || ohneBewegung) return;
-      if (demoSichtbar && !sparsam()) bewegtBild.unpauseAnimations(); else bewegtBild.pauseAnimations();
+      // Sessellift und Skifahrer laufen, sobald die Szene zu sehen ist, auch im Sparmodus
+      // (Feedback 44: dort standen sie vorher still); außer Sicht ruhen sie
+      if (demoSichtbar) bewegtBild.unpauseAnimations(); else bewegtBild.pauseAnimations();
     };
     window.addEventListener("skitag-sparsam", hintergrund);
     new IntersectionObserver(function (e) { var war = demoSichtbar; demoSichtbar = e[0].isIntersecting; hintergrund(); if (demoSichtbar && !war) requestAnimationFrame(takt); }).observe(akt);
@@ -281,6 +358,8 @@
         }
       } else if (zustand === "gruppe") {
         gruppe = ohneBewegung ? 1 : klemme((jetzt - start) / GRUPPE);
+        // kurzer Druck: der Knopf füllt sich schnell orange und leert sich wieder
+        fuellen(gruppe < 0.2 ? gruppe / 0.2 : gruppe > 0.75 ? (1 - gruppe) / 0.25 : 1);
         if (gruppe >= 1) { setzeZustand("ruhe"); gruppe = 1; }
       }
       // in Ruhe steht alles still, dann wird nichts neu gezeichnet
@@ -312,7 +391,8 @@
   }, { passive: true });
 
   /* --------------------------------------------- Die App im iPhone -- */
-  /* Drei Bildschirme über die gepinnte Strecke: Route, Gruppe, Mein Tag. */
+  /* Vier Zielgruppen über die gepinnte Strecke: Familien, Skischulen, Sportliche, Neu im Skigebiet;
+     jede zeigt ihren Bildschirm im iPhone (Gruppe, Skigruppe, Mein Tag, Route). */
   var appAkt = document.getElementById("app");
   if (appAkt) {
     var app = appAkt.querySelector(".app");
@@ -321,10 +401,11 @@
     var appTakt = function () {
       appWartet = false;
       var p = fortschritt(appAkt);
-      var nr = p < 0.36 ? 0 : p < 0.68 ? 1 : 2;
+      // je Zielgruppe ein gleich langes Stück der Strecke; der Schritt nennt seinen Bildschirm
+      var nr = Math.min(appSchritte.length - 1, Math.floor(p * appSchritte.length));
       if (nr !== letztesBild) {
         letztesBild = nr;
-        app.setAttribute("data-bild", String(nr));
+        app.setAttribute("data-bild", appSchritte[nr].getAttribute("data-bild") || String(nr));
         appSchritte.forEach(function (li, i) { li.classList.toggle("ist-aktiv", i === nr); });
       }
     };
@@ -335,7 +416,7 @@
       li.addEventListener("click", function () {
         var oben = appAkt.getBoundingClientRect().top + window.scrollY;
         var strecke = appAkt.offsetHeight - window.innerHeight;
-        window.scrollTo({ top: oben + strecke * [0.18, 0.52, 0.84][i], behavior: ohneBewegung ? "auto" : "smooth" });
+        window.scrollTo({ top: oben + strecke * (i + 0.5) / appSchritte.length, behavior: ohneBewegung ? "auto" : "smooth" });
       });
     });
   }
@@ -360,7 +441,7 @@
     var ruhen = new IntersectionObserver(function (eintraege) {
       eintraege.forEach(function (e) { e.target.classList.toggle("ist-weg", !e.isIntersecting); });
     });
-    document.querySelectorAll(".hang, .gebaut, .gebirge, .schluss").forEach(function (el) { ruhen.observe(el); });
+    document.querySelectorAll(".held, .gebaut, .gebirge, .schluss, .fakten, .blick").forEach(function (el) { ruhen.observe(el); });
   }
 
   /* --------------------------------------------- Ruckeln erkennen -- */

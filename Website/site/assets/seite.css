@@ -21,37 +21,38 @@
   src: url("fonts/bricolage-grotesque-latin-wght-normal.woff2") format("woff2"); }
 
 :root {
-  --sc-canvas:     #f4f8fb;
+  --sc-canvas:     #ffffff;
   --sc-surface:    #ffffff;
-  --sc-ink:        #0b1226;
-  --sc-ink-soft:   #4a5672;
-  --sc-accent:     #0b1226;
+  --sc-ink:        #0e1d40;
+  --sc-ink-soft:   #5b6274;
+  --sc-accent:     #0e1d40;
   --sc-accent-ink: #ffffff;
   --sc-font-display: "Funnel Display", "Funnel Sans", system-ui, sans-serif;
   --sc-font-text:    "Funnel Sans", system-ui, sans-serif;
 
-  /* heller Grund: Schatten blau getönt, Kantenlicht weiß */
-  --sc-shadow-color: 222 45% 30%;
+  /* Farbwelt seit 2026-11-09 (Feedback 36): Weiß, Grau, Navy, Orange nur als Akzent.
+     Schatten leicht navy getönt, Kantenlicht weiß */
+  --sc-shadow-color: 224 40% 18%;
   --sc-e1: 0 1px 2px hsl(var(--sc-shadow-color) / 0.10), 0 3px 8px -2px hsl(var(--sc-shadow-color) / 0.12);
   --sc-e2: 0 3px 6px hsl(var(--sc-shadow-color) / 0.08), 0 14px 28px -8px hsl(var(--sc-shadow-color) / 0.20);
   --sc-e3: 0 8px 14px hsl(var(--sc-shadow-color) / 0.06), 0 30px 60px -14px hsl(var(--sc-shadow-color) / 0.24),
            0 70px 120px -30px hsl(var(--sc-shadow-color) / 0.18);
   --sc-edge: inset 0 1px 0 rgba(255, 255, 255, 0.9);
 
-  --nacht:      #0b1226;
-  --nacht-2:    #131d3b;
-  --nacht-3:    #1d2a52;
-  --nacht-ink:  #f3f6fc;
-  --nacht-soft: #a6b3d0;
+  --nacht:      #0e1d40;
+  --nacht-2:    #172a55;
+  --nacht-3:    #22376a;
+  --nacht-ink:  #f6f7f9;
+  --nacht-soft: #aab2c4;
   --orange:     #ff5a1c;
   --orange-2:   #e5450d;
-  --eis:        #eaf1f9;
-  --eisblau:    #dde7f1;
-  --linie:      #d4dfeb;
+  --eis:        #f4f5f7;   /* helles Grau für Flächen */
+  --eisblau:    #eaecef;
+  --linie:      #e3e5ea;   /* feine Linie um Karten */
   --notruf:     #ff2d2d;
   --r:          14px;
   --r-gross:    28px;
-  --rahmen-grund: #e2e7ed;   /* grauer Grund hinter dem Blatt, nur am breiten Bildschirm */
+  --rahmen-grund: #e9ebee;   /* grauer Grund hinter dem Blatt, nur am breiten Bildschirm */
 }
 
 ::selection { background: var(--orange); color: #fff; }
@@ -62,46 +63,47 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .nur-vorlesen { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* ---------------------------------------------------- Typo-Bausteine -- */
+/* Kleine Abzeichen über den Überschriften: Pille mit feiner Linie und orangem Punkt */
 .augenbraue {
-  margin: 0 0 var(--sc-4); font-family: var(--sc-font-text); font-weight: 600; font-size: var(--sc-t-sm);
-  letter-spacing: 0.01em; color: var(--orange-2);
+  display: inline-flex; align-items: center; gap: 0.5em; margin: 0 0 var(--sc-4); padding: 0.32rem 0.8rem 0.32rem 0.65rem;
+  border: 1px solid var(--linie); border-radius: 999px; background: #fff;
+  font-family: var(--sc-font-text); font-weight: 600; font-size: var(--sc-t-xs); letter-spacing: 0.01em; color: var(--sc-ink);
 }
-.augenbraue--hell { color: #ff8a5c; }
+.augenbraue::before { content: ""; flex: none; width: 0.42rem; height: 0.42rem; border-radius: 50%; background: var(--orange); }
+.augenbraue--hell, .nacht .augenbraue { color: var(--nacht-ink); background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.16); }
 .riesig { font-size: clamp(2.9rem, 1.6rem + 5.4vw, 6.4rem); line-height: 0.96; letter-spacing: -0.045em; font-weight: 640; }
 .leise { color: color-mix(in oklab, currentColor 42%, transparent); }
-.verlauf {
-  background: linear-gradient(100deg, #ffb08a 0%, #ff5a1c 40%, #ff8a5c 70%, #ffd2bd 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
+.verlauf { color: var(--orange); }   /* früher ein Verlauf; jetzt Orange nur als ruhiger Akzent */
 .kopfzeile { max-width: 60rem; }
 .kopfzeile__text { margin-top: var(--sc-5) !important; color: var(--sc-ink-soft); max-width: 38ch; }
 
 /* Nachtbühnen: eigene Farbe, damit Text nie auf hellem Grund steht, solange die Hintergrundfarbe noch wechselt */
 /* helle Abschnitte mit eigener Fläche, damit beim Farbwechsel kein Grau entsteht */
-.knopf, .app-akt, .jeden, .wir { background: #f4f8fb; }
+.knopf, .app-akt, .wir { background: #ffffff; }
+.blick, .jeden { background: var(--eis); }
 .akzent { color: var(--orange-2); }
-.gebaut { background: #eef3f9; }
+.gebaut { background: var(--eis); }
 .fragen { background: #ffffff; }
 .nacht { background: var(--nacht); color: var(--nacht-ink); --sc-ink-soft: var(--nacht-soft); }
 .nacht .sc-lede { color: var(--nacht-soft); }
 
 /* ----------------------------------------------------- Leistung und Sparmodus -- */
 /* Zier-Animationen ruhen, solange ihr Abschnitt nicht zu sehen ist (seite.js setzt .ist-weg). */
-.ist-weg .hang__chip svg, .ist-weg .hang__schatten, .ist-weg .gebirge__antenne, .ist-weg .gebirge__kabine,
+.ist-weg .hang__chip, .ist-weg .hang__schatten, .ist-weg .gebirge__antenne, .ist-weg .gebirge__kabine,
 .ist-weg .schluss__chip, .ist-weg .kachel__ring-halten, .ist-weg .kachel__ring-frist, .ist-weg .kachel__ring-ziffern, .ist-weg .kachel__thermo-saeule { animation-play-state: paused; }
 /* Die Seitenleiste ändert beim Scrollen Schriftgrößen: das bleibt in ihr */
 .sprungleiste { contain: layout style; }
 /* Sparmodus (html.sparsam, im Kopf der Seite gesetzt oder nach gemessenem Ruckeln):
    Glas wird zu einer fast deckenden Fläche, kein Schnee, die schwebenden Dinge stehen still. */
 .sparsam .leiste.ist-unten, .sparsam .sprung-anfang, .sparsam .seite, .sparsam .sprungleiste { -webkit-backdrop-filter: none; backdrop-filter: none; }
-.sparsam .leiste.ist-unten { background: rgba(250, 252, 254, 0.97); }
-.sparsam .leiste.ist-nacht.ist-unten { background: rgba(11, 18, 38, 0.96); }
-.sparsam .sprung-anfang { background: rgba(11, 18, 38, 0.92); }
-.sparsam .seite { background: rgba(248, 251, 253, 0.98); }
-.sparsam .sprungleiste { background: #fbfcfd; }
-.sparsam .sprungleiste.ist-nacht { background: #141c33; }
+.sparsam .leiste.ist-unten { background: rgba(252, 252, 252, 0.97); }
+.sparsam .leiste.ist-nacht.ist-unten { background: rgba(14, 29, 64, 0.96); }
+.sparsam .sprung-anfang { background: rgba(14, 29, 64, 0.92); }
+.sparsam .seite { background: rgba(250, 251, 251, 0.98); }
+.sparsam .sprungleiste { background: #fcfcfc; }
+.sparsam .sprungleiste.ist-nacht { background: #13234a; }
 .sparsam .flocken { display: none; }
-.sparsam .hang__chip svg, .sparsam .hang__schatten, .sparsam .schluss__chip, .sparsam .gebirge__antenne { animation: none; }
+.sparsam .hang__chip, .sparsam .hang__schatten, .sparsam .schluss__chip, .sparsam .gebirge__antenne { animation: none; }
 .sparsam .gebirge__kabine { animation: none; transform: translate(calc(var(--dx) * 0.6), calc(var(--dy) * 0.6)); }
 .sparsam .gebirge__kabine--2 { transform: translate(calc(var(--dx) * 0.2), calc(var(--dy) * 0.2)); }
 .sparsam .aufbau__glut { filter: none; }
@@ -120,7 +122,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .lade.ist-fertig { opacity: 0; visibility: hidden; }
 @keyframes lade-notaus { to { opacity: 0; visibility: hidden; } }
 .lade__k {
-  display: block; border-radius: 999px; background-color: #e3e9f0;
+  display: block; border-radius: 999px; background-color: #e8e9eb;
   background-image: linear-gradient(100deg, transparent 40%, rgba(255, 255, 255, 0.8) 50%, transparent 60%);
   background-size: 200vw 100%; background-repeat: no-repeat; background-attachment: fixed;
   animation: lade-glanz 1.5s linear infinite;
@@ -141,9 +143,8 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .lade__text { height: 1.15rem; width: min(24rem, 76%); border-radius: 8px; }
 .lade__zeile + .lade__text { margin-top: var(--sc-5); }
 .lade__text:last-child { width: min(17rem, 56%); }
-.lade__chip {
-  position: absolute; left: 50%; bottom: 12.8%; translate: -50% 0;
-  width: clamp(14rem, 21vw, 19.5rem); aspect-ratio: 240 / 132; border-radius: 13% / 24%;
+.lade__chip {   /* die Videokarte des Einstiegs */
+  position: absolute; left: 5vw; right: 5vw; top: 60vh; bottom: 2.5vh; border-radius: 28px;
 }
 @media (min-width: 861px) { .lade__zeile:nth-child(3) { display: none; } .lade__zeile:nth-child(1) { width: 78%; } .lade__zeile:nth-child(2) { width: 60%; } }
 @media (prefers-reduced-motion: reduce) {
@@ -157,7 +158,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
    sichtbar, damit man sieht, wie viel noch kommt. */
 .akt-balken {
   position: fixed; inset: 0 0 auto 0; height: 3px; z-index: calc(var(--sc-z-chrome) + 1);
-  background: rgba(11, 18, 38, 0.1); pointer-events: none; overflow: hidden;
+  background: rgba(14, 29, 64, 0.1); pointer-events: none; overflow: hidden;
   opacity: 0; transition: opacity 320ms var(--sc-ease-out), background-color 320ms var(--sc-ease-out);
 }
 .akt-balken.ist-an { opacity: 1; }
@@ -175,11 +176,11 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
   transition: background-color var(--sc-d-base) var(--sc-ease-out), box-shadow var(--sc-d-base) var(--sc-ease-out), color var(--sc-d-base) var(--sc-ease-out);
 }
 .leiste.ist-unten {
-  background: rgba(250, 252, 254, 0.72); box-shadow: 0 1px 0 rgba(11, 18, 38, 0.08);
+  background: rgba(252, 252, 252, 0.72); box-shadow: 0 1px 0 rgba(14, 29, 64, 0.08);
   -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
 }
 .leiste.ist-nacht { color: var(--nacht-ink); }
-.leiste.ist-nacht.ist-unten { background: rgba(11, 18, 38, 0.66); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08); }
+.leiste.ist-nacht.ist-unten { background: rgba(14, 29, 64, 0.66); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08); }
 .marke {
   font-family: var(--sc-font-display); font-weight: 680; font-size: 1.2rem;
   letter-spacing: -0.03em; text-decoration: none; color: inherit;
@@ -240,7 +241,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
   transition: background-color var(--sc-d-fast) var(--sc-ease-out), transform var(--sc-d-fast) var(--sc-ease-out), color var(--sc-d-fast);
 }
 .leiste.ist-nacht .knopf-dunkel { background: #fff; color: var(--nacht); }
-@media (hover: hover) and (pointer: fine) { .knopf-dunkel:hover { background: #26324f; } .leiste.ist-nacht .knopf-dunkel:hover { background: #dfe6f3; } }
+@media (hover: hover) and (pointer: fine) { .knopf-dunkel:hover { background: #26324f; } .leiste.ist-nacht .knopf-dunkel:hover { background: #e7e8eb; } }
 .knopf-dunkel:active { transform: translateY(1px) scale(0.98); }
 .knopf-orange {
   display: inline-flex; align-items: center; min-height: 3.2rem; padding: 0 1.6rem; border-radius: var(--sc-r-pill);
@@ -250,47 +251,82 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 }
 @media (hover: hover) and (pointer: fine) { .knopf-orange:hover { background: #ff6d33; transform: translateY(-1px); } }
 
-/* ------------------------------------------------------------- 1 · Hang -- */
-.hang [data-sc-stage] { background: linear-gradient(180deg, #f4f8fb 0%, #ffffff 70%, #eef3f8 100%); }
-.hang .sc-stage__poster, .hang video[data-sc-scrub] {
-  object-position: 50% 58%;
-  transform-origin: 50% 40%;
-  transform: scale(calc(1 + var(--sc-p, 0) * 0.14));
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 50%, rgba(0,0,0,0.55) 64%, transparent 84%);
-          mask-image: linear-gradient(180deg, #000 0%, #000 50%, rgba(0,0,0,0.55) 64%, transparent 84%);
+/* ------------------------------------------------------------ 1 · Einstieg -- */
+/* Seit 2026-11-09 (Feedback 39): weiße Bühne mit großer Überschrift und wechselndem Wort, darunter
+   das Bergvideo als ruhige Schleife in einer festen, runden Karte (wie die Produktbilder bei Notion
+   und Granola). Kein Scroll-Video und kein Aufziehen mehr: Scrollen ist wieder ganz normales Scrollen. */
+.held { position: relative; background: #fff; padding: clamp(6rem, 13vh, 9rem) var(--sc-gutter) clamp(2rem, 5vw, 4rem); }
+.held::before {   /* leises Punktraster hinter der Überschrift */
+  content: ""; position: absolute; inset: 0 0 40% 0; pointer-events: none;
+  background-image: radial-gradient(rgba(14, 29, 64, 0.09) 1px, transparent 1.4px); background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(70% 80% at 50% 30%, #000 0%, transparent 75%); mask-image: radial-gradient(70% 80% at 50% 30%, #000 0%, transparent 75%);
 }
-.hang__scrim {
-  background: linear-gradient(180deg,
-    rgba(244, 248, 251, 0.95) 0%, rgba(244, 248, 251, 0.9) 30%, rgba(244, 248, 251, 0.8) 44%, rgba(244, 248, 251, 0.3) 54%, transparent 64%);
-}
-.hang__kopf { top: clamp(5.5rem, 12vh, 8.5rem) !important; translate: -50% 0 !important; width: min(64rem, 92vw); max-width: none !important; }
-.hang__kopf .augenbraue { margin-bottom: var(--sc-3); }
-.hang__kopf h1 { font-size: clamp(3rem, 1.2rem + 6.4vw, 7.2rem); font-weight: 660; letter-spacing: -0.05em; line-height: 0.94; }
-.hang__kopf > * { transform: translateY(calc(var(--sc-p, 0) * -9vh)); }
-.hang__kopf p:not(.augenbraue) { text-wrap: balance; margin: var(--sc-5) auto 0; max-width: 34ch; font-size: var(--sc-t-lg); color: var(--sc-ink-soft); line-height: 1.4; }
-.hang__zwei { top: clamp(5.5rem, 12vh, 8.5rem) !important; translate: -50% 0 !important; width: min(56rem, 90vw); max-width: none !important; }
-.hang__zwei h2 { font-family: var(--sc-font-display); font-weight: 620; font-size: var(--sc-t-3xl); line-height: 1.02; letter-spacing: -0.04em; margin: 0; }
+.held__kopf { position: relative; max-width: 66rem; margin: 0 auto; text-align: center; }
+.held__kopf .augenbraue { margin-bottom: var(--sc-5); }
+.held__kopf h1 { margin: 0; font-size: clamp(2.5rem, 0.8rem + 4.6vw, 5.4rem); font-weight: 660; letter-spacing: -0.05em; line-height: 1.04; color: var(--sc-ink); }
+.held__satz { text-wrap: balance; margin: var(--sc-5) auto 0; max-width: 40ch; font-size: var(--sc-t-lg); color: var(--sc-ink-soft); line-height: 1.4; }
+.held__knoepfe { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.6rem; margin-top: var(--sc-6); }
+.knopf-gross { min-height: 3rem; padding: 0 1.3rem; font-size: var(--sc-t-base); }
+/* Beim Laden steigen Abzeichen, Überschrift, Text, Knöpfe und zuletzt die Videokarte nacheinander hoch */
+.held__kopf > *, .held__karte { animation: held-rein 900ms var(--sc-ease-out) both; }
+.held__kopf > :nth-child(2) { animation-delay: 80ms; } .held__kopf > :nth-child(3) { animation-delay: 160ms; }
+.held__kopf > :nth-child(4) { animation-delay: 240ms; } .held__kopf > :nth-child(5) { animation-delay: 320ms; }
+.held__karte { animation-duration: 1200ms; animation-delay: 380ms; }
+@keyframes held-rein { from { opacity: 0; translate: 0 22px; } to { opacity: 1; translate: 0 0; } }
 
-/* Der Tag: eine saubere Zeichnung mit sichtbarer Kante, schwebt leicht über dem Schnee */
-.hang__grund { position: absolute; inset: auto 0 0 0; height: 40%; z-index: 4; pointer-events: none; }
-.hang__chip {
-  position: absolute; left: 50%; bottom: 32%; z-index: 5; width: clamp(14rem, 21vw, 19.5rem);
-  translate: -50% 0; transform-origin: 50% 100%;
-  transform: translateY(calc(var(--sc-p, 0) * -6vh)) scale(calc(1 + var(--sc-p, 0) * 0.4));
-  will-change: transform;
+.held__karte {
+  position: relative; overflow: hidden; isolation: isolate; max-width: 82rem; margin: clamp(2.5rem, 6vh, 4rem) auto 0;
+  height: clamp(22rem, 64vh, 46rem); border-radius: 28px; background: #e9ebee;
+  box-shadow: 0 1px 0 rgba(14, 29, 64, 0.04), 0 40px 80px -40px rgba(14, 29, 64, 0.45);
 }
-/* Der Schatten sitzt auf dem schwebenden Bild selbst, so wird er nicht in jedem Bild neu gerechnet */
-.hang__chip svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 18px 24px rgba(30, 55, 95, 0.25)); will-change: transform; }
-.hang__schatten {
-  position: absolute; left: 50%; bottom: calc(32% - 1.4rem); width: clamp(16rem, 24vw, 22rem); height: 2.6rem;
-  translate: -50% 0; border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(70, 105, 150, 0.4), rgba(169, 191, 214, 0.2) 60%, transparent);
+/* Video etwas heller und ganz langsam atmend gezoomt */
+.held__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; filter: brightness(1.12) saturate(0.95); animation: held-zoom 24s ease-in-out infinite alternate; }
+@keyframes held-zoom { from { transform: scale(1.04); } to { transform: scale(1.12); } }
+.held__karte::after {   /* Verlauf unten, damit die Zeile darauf lesbar ist */
+  content: ""; position: absolute; inset: 45% 0 0 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(14, 29, 64, 0.55));
 }
-.hang__chip svg { animation: tag-schweben 6s ease-in-out infinite; }
-.hang__schatten { animation: tag-schatten 6s ease-in-out infinite; }
-@keyframes tag-schweben { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-10px) rotate(1deg); } }
-@keyframes tag-schatten { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.86); opacity: 0.7; } }
-.flocken { position: absolute; inset: 0; z-index: 7; width: 100%; height: 100%; pointer-events: none; }
+.held__flocken { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; pointer-events: none; }
+.held__chip { position: absolute; left: 50%; top: 42%; z-index: 2; width: clamp(12rem, 18vw, 16rem); aspect-ratio: 240 / 132; translate: -50% -50%; animation: chip-schweben 6s ease-in-out infinite; }
+@keyframes chip-schweben { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.held__zeile {
+  position: absolute; left: clamp(1.25rem, 3vw, 2.5rem); bottom: clamp(1.25rem, 3vw, 2.25rem); z-index: 2; margin: 0;
+  font-family: var(--sc-font-display); font-weight: 640; font-size: clamp(1.25rem, 0.9rem + 1.3vw, 2.1rem); line-height: 1.08; letter-spacing: -0.03em; color: #fff;
+}
+.ist-weg .held__video, .ist-weg .held__chip { animation-play-state: paused; }
+.sparsam .held__video, .sparsam .held__chip { animation: none; }
+@media (prefers-reduced-motion: reduce) { .held__kopf > *, .held__karte, .held__video, .held__chip { animation: none; } }
+@media (max-width: 700px) {
+  .held { padding-top: 6rem; }
+  .held__karte { height: auto; aspect-ratio: 4 / 5; border-radius: 22px; }
+  .held__chip { top: 40%; width: clamp(10rem, 48vw, 13rem); }
+}
+
+/* Das wechselnde Wort: eine Pille mit Punkt, Farbe je Wort (Navy, Orange, Grau) */
+.wechsel {
+  display: inline-flex; align-items: center; gap: 0.16em; vertical-align: baseline; white-space: nowrap; overflow: hidden;
+  padding: 0.02em 0.28em 0.06em 0.2em; margin: 0 0.02em; border-radius: 0.26em; line-height: 1;
+  background: var(--wf, #e8ecf5); transition: width 460ms var(--sc-ease-out), background-color 460ms var(--sc-ease-out);
+}
+.wechsel__punkt { flex: none; width: 0.2em; height: 0.2em; border-radius: 50%; background: var(--wp, var(--sc-ink)); transition: background-color 460ms var(--sc-ease-out); }
+.wechsel__wort { display: inline-block; transition: transform 300ms var(--sc-ease-out), opacity 300ms var(--sc-ease-out); }
+.wechsel.ist-raus .wechsel__wort { transform: translateY(-0.55em); opacity: 0; }
+.wechsel.ist-rein .wechsel__wort { transform: translateY(0.55em); opacity: 0; transition: none; }
+.wechsel[data-farbe="0"] { --wf: #e6ebf5; --wp: #22376a; }
+.wechsel[data-farbe="1"] { --wf: #ffe7dc; --wp: var(--orange); }
+.wechsel[data-farbe="2"] { --wf: #eceef2; --wp: #8a91a1; }
+
+/* Platzhalter für Dinge, die später kommen (Chip, 3D-Modell): Glas mit gestrichelter Innenlinie */
+.platzhalter {
+  position: relative; display: grid; place-items: center; border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.55); border: 1px solid rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 24px 50px -24px rgba(14, 29, 64, 0.45);
+}
+.platzhalter::before { content: ""; position: absolute; inset: 10px; border-radius: calc(2rem - 10px); border: 1.5px dashed rgba(14, 29, 64, 0.22); }
+.platzhalter span { position: relative; font-weight: 600; font-size: var(--sc-t-xs); letter-spacing: 0.04em; color: rgba(14, 29, 64, 0.6); }
+.sparsam .platzhalter { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(255, 255, 255, 0.86); }
+
 
 /* ----------------------------------- 2 · Der Chip: Knopf und Berg -- */
 /* Eine Bühne: die Nachtgrafik vom Berg, darauf Titel, Schritte und der Knopf.
@@ -300,12 +336,12 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .knopf .netz__bild { will-change: transform; }   /* eigene Ebenen: der Hintergrund wird nur einmal gezeichnet */
 .knopf .netz__bewegt { pointer-events: none; }
 .knopf__buehne::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: linear-gradient(90deg, rgba(244, 248, 251, 0.95) 0%, rgba(244, 248, 251, 0.75) 30%, transparent 55%); }
+  background: linear-gradient(90deg, rgba(247, 248, 248, 0.95) 0%, rgba(247, 248, 248, 0.75) 30%, transparent 55%); }
 .knopf__text { position: absolute; z-index: 3; left: var(--sc-gutter); top: clamp(5rem, 10vh, 7rem); width: min(30rem, 38vw); }
 .knopf__titel { font-size: clamp(2.6rem, 1.4rem + 3.2vw, 4.4rem); font-weight: 650; line-height: 0.96; letter-spacing: -0.045em; }
 .knopf__schritte { list-style: none; padding: 0; margin: var(--sc-5) 0 0; display: grid; gap: var(--sc-3); }
 .knopf__schritte li { position: relative; padding-left: 1.2rem; opacity: 0.55; transition: opacity 300ms var(--sc-ease-out); }
-.knopf__schritte li::before { content: ""; position: absolute; left: 0; top: 0.3rem; bottom: 0.2rem; width: 2px; border-radius: 2px; background: rgba(11, 18, 38, 0.14); transition: background-color 300ms; }
+.knopf__schritte li::before { content: ""; position: absolute; left: 0; top: 0.3rem; bottom: 0.2rem; width: 2px; border-radius: 2px; background: rgba(14, 29, 64, 0.14); transition: background-color 300ms; }
 .knopf__schritte li.ist-aktiv { opacity: 1; }
 .knopf__schritte li.ist-aktiv::before { background: var(--orange); }
 .knopf__schritte b { display: block; font-family: var(--sc-font-display); font-weight: 640; font-size: var(--sc-t-lg); letter-spacing: -0.02em; }
@@ -331,14 +367,14 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
   .knopf .haltknopf { width: clamp(12rem, 15vw, 15rem); }
   .knopf__bild {
     grid-column: 2; grid-row: 1 / span 2; position: relative; isolation: isolate; overflow: hidden;
-    border-radius: var(--r-gross); background: #eaf2fa; min-height: 26rem;
-    box-shadow: 0 0 0 1px rgba(11, 18, 38, 0.05), 0 30px 60px -36px hsl(var(--sc-shadow-color) / 0.45);
+    border-radius: var(--r-gross); background: #f0f2f4; min-height: 26rem;
+    box-shadow: 0 0 0 1px rgba(14, 29, 64, 0.05), 0 30px 60px -36px hsl(var(--sc-shadow-color) / 0.45);
   }
   .knopf__bild .netz__karte { right: clamp(1rem, 3vw, 2rem); left: auto; top: clamp(1rem, 5%, 2.5rem); bottom: auto; }
 }
 
 .knopf__rechts { display: grid; gap: var(--sc-3); justify-items: start; }
-.netz__etikett text { font-family: var(--sc-font-text); font-size: 16px; font-weight: 650; fill: #0b1226; }
+.netz__etikett text { font-family: var(--sc-font-text); font-size: 16px; font-weight: 650; fill: #0e1d40; }
 .netz__mitarbeiter .netz__etikett { transition: opacity 300ms; }
 .netz__ma-faehrt { display: none; }
 .netz__mitarbeiter.faehrt .netz__ma-faehrt { display: inline; }
@@ -358,7 +394,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 @media (hover: hover) and (pointer: fine) { .haltknopf:hover { transform: translateY(-3px); } }
 .haltknopf svg { width: 100%; height: 100%; overflow: visible; }
 .haltknopf:focus-visible { outline: 2px solid var(--orange); outline-offset: 8px; }
-.haltknopf .ring-spur { fill: none; stroke: #dde6f0; stroke-width: 3; }
+.haltknopf .ring-spur { fill: none; stroke: #e5e6e8; stroke-width: 3; }
 .haltknopf .ring { opacity: 0; fill: none; stroke: var(--sc-ink); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
 .haltknopf[data-zustand="frist"] .ring { stroke: var(--notruf); }
 .haltknopf .knopfkappe { transition: transform 140ms var(--sc-ease-out); transform-origin: 120px 60px; transform-box: view-box; }
@@ -368,51 +404,32 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .knopf-akt__status strong { font-weight: 650; }
 .knopf-hell {
   display: inline-flex; align-items: center; min-height: 2.6rem; padding: 0 1.2rem; border-radius: var(--sc-r-pill);
-  border: 1px solid var(--linie); background: #fff; color: var(--sc-ink); font-weight: 600; font-size: var(--sc-t-sm); cursor: pointer;
+  border: 1px solid var(--linie); background: #fff; color: var(--sc-ink); font-weight: 600; font-size: var(--sc-t-sm); cursor: pointer; text-decoration: none;
   transition: background-color var(--sc-d-fast) var(--sc-ease-out);
 }
 @media (hover: hover) and (pointer: fine) { .knopf-hell:hover { border-color: var(--sc-ink); } }
 .knopf-hell[hidden] { display: none; }
 
 /* --------------------------------------------------- 3 · Was drinsteckt -- */
-.aufbau__buehne { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); align-items: center; gap: clamp(1rem, 4vw, 4rem); padding: 4.5rem var(--sc-gutter) 2rem; max-width: var(--sc-maxw); margin-inline: auto; }
+/* Innenleben (seit 2026-11-09): Platzhalter für das 3D-Modell, daneben die Teile als Liste.
+   Das echte Modell kommt später; drinsteckt.js und chip-modell.js bleiben dafür im Ordner. */
+.aufbau__buehne { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); align-items: center; gap: clamp(2rem, 5vw, 5rem); padding: clamp(5rem, 10vw, 9rem) var(--sc-gutter); max-width: var(--sc-maxw); margin-inline: auto; }
 .aufbau__text .riesig { font-size: clamp(2.6rem, 1.4rem + 3.6vw, 5rem); }
-.aufbau__text .sc-lede { margin-top: var(--sc-5); max-width: 28ch; }
-.aufbau__bild { margin: 0; position: relative; }
-.aufbau__glut { position: absolute; left: 6%; top: 10%; width: 60%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, rgba(79, 141, 255, 0.22), rgba(79, 141, 255, 0.06) 60%, transparent); pointer-events: none; filter: blur(10px); }
-.aufbau__gl, .aufbau__etiketten { display: none; }
-.aufbau--3d .aufbau__bild { height: min(80vh, 48rem); }
-.aufbau--3d .aufbau__gl { display: block; position: absolute; inset: 0; width: 100%; height: 100%; touch-action: pan-y; cursor: grab; }
-.aufbau--3d .aufbau__gl:active { cursor: grabbing; }
-.aufbau--3d .aufbau__etiketten { display: block; position: absolute; inset: 0; }
-.aufbau--3d .aufbau__svg { display: none; }
-.aufbau__etiketten .label { padding: 1px 0; transition: opacity 120ms linear; }
-.aufbau__etiketten .label b { display: block; font-family: var(--sc-font-display); font-weight: 600; font-size: 1.08rem; letter-spacing: -0.01em; color: var(--nacht-ink); }
-.aufbau__etiketten .label span { display: block; margin-top: 1px; font-size: var(--sc-t-xs); color: var(--nacht-soft); }
-.aufbau__etiketten .label.focus b { color: #ff8a5c; }
-.aufbau__etiketten .leader { fill: none; stroke: rgba(166, 179, 208, 0.55); stroke-width: 1.2; }
-.aufbau__etiketten .leader.focus { stroke: #ff8a5c; stroke-width: 1.6; }
-.aufbau--schmal .aufbau__etiketten .label b { font-size: 0.85rem; }
-.aufbau--schmal .aufbau__etiketten .label span { display: none; }
-/* Ersatz ohne WebGL */
-.aufbau__svg { width: 100%; height: auto; max-height: 78vh; overflow: visible; }
-.aufbau__svg text { font-family: var(--sc-font-display); font-size: 15px; font-weight: 600; fill: var(--nacht-ink); letter-spacing: -0.01em; }
-.aufbau__svg .z-unter { font-family: var(--sc-font-text); font-size: 11.5px; font-weight: 400; fill: var(--nacht-soft); }
-.aufbau__svg .z-klein { font-family: var(--sc-font-text); font-size: 10.5px; font-weight: 500; fill: #0b1226; }
-.aufbau__svg text.z-klein:last-child { fill: var(--nacht-soft); }
-.aufbau__svg .z-hilfe { fill: none; stroke: #33406a; stroke-width: 1; stroke-dasharray: 3 4; }
-.aufbau__svg .z-linie { fill: none; stroke: #5a6890; stroke-width: 1.2; }
-.aufbau__svg .z-flaeche { fill: var(--orange); }
-.aufbau__svg .z-weich { fill: #3a414c; }
-.aufbau__svg .z-knopf { fill: #f4f6f8; }
-.aufbau__svg .z-brett { fill: #2b3a57; }
-.aufbau__svg .z-modul { fill: #8fa3c8; }
-.aufbau__svg .z-metall { fill: #cfd6de; }
-.aufbau__svg .z-spule { fill: none; stroke: #c0703a; stroke-width: 1.4; }
-.aufbau__led { fill: #fff4ee; }
-.sc-ready .aufbau .etikett { opacity: clamp(0, (var(--sc-p, 0) - 0.06 - var(--i) * 0.05) / 0.1, 1); }
-.sc-ready .aufbau .aufbau__led { fill: color-mix(in oklab, #fff4ee, #ff2d2d calc(clamp(0, (var(--sc-p, 0) - 0.62) / 0.1, 1) * 100%)); }
-@media (prefers-reduced-motion: reduce) { .sc-ready .aufbau .etikett { opacity: 1; } }
+.aufbau__text .sc-lede { margin-top: var(--sc-5); max-width: 30ch; }
+.aufbau__bild { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); gap: clamp(1.5rem, 3vw, 2.5rem); align-items: center; }
+.aufbau__modell { aspect-ratio: 4 / 5; background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.12); box-shadow: none;
+  background-image: radial-gradient(60% 50% at 50% 40%, rgba(255, 255, 255, 0.08), transparent); }
+.aufbau__modell::before { border-color: rgba(255, 255, 255, 0.2); }
+.aufbau__modell span { color: var(--nacht-soft); }
+.aufbau__teile { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: teil; }
+.aufbau__teile li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); padding: 0.75rem 0; border-top: 1px solid rgba(255, 255, 255, 0.1); counter-increment: teil; }
+.aufbau__teile li::before { content: counter(teil, decimal-leading-zero); grid-row: span 2; font-size: var(--sc-t-xs); font-weight: 600; color: #ff8a5c; padding-top: 0.2rem; }
+.aufbau__teile b { font-family: var(--sc-font-display); font-weight: 620; font-size: 1.05rem; letter-spacing: -0.01em; color: var(--nacht-ink); }
+.aufbau__teile span { font-size: var(--sc-t-xs); color: var(--nacht-soft); margin-top: 2px; }
+@media (max-width: 860px) {
+  .aufbau__buehne, .aufbau__bild { grid-template-columns: 1fr; }
+  .aufbau__modell { aspect-ratio: 16 / 10; }
+}
 
 /* -------------------------------------------------- 1b · Auf einen Blick -- */
 /* Gleich nach dem Einstieg: in einer halben Minute, was SkiTag ist und tut. */
@@ -428,7 +445,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .blick__liste { list-style: none; margin: clamp(2rem, 4vw, 3rem) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sc-4); }
 .blick__punkt {
   display: flex; flex-direction: column; min-height: 15.5rem; padding: clamp(1.4rem, 2.2vw, 2rem);
-  border-radius: var(--r-gross); background: #fff; box-shadow: var(--sc-e1);
+  border-radius: var(--r-gross); background: #fff; border: 1px solid var(--linie);
 }
 .blick__zeichen { width: 2.75rem; height: 3.25rem; margin-bottom: var(--sc-5); color: var(--sc-ink); }
 .blick__zeichen svg { display: block; width: 100%; height: 100%; font-family: var(--sc-font-display); }
@@ -437,7 +454,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .blick__nr { margin: 0; font-weight: 650; font-size: var(--sc-t-sm); color: var(--orange-2); }
 .blick__punkt h3 { margin: var(--sc-2) 0 0; font-family: var(--sc-font-display); font-weight: 650; font-size: var(--sc-t-lg); letter-spacing: -0.025em; line-height: 1.12; text-wrap: balance; }
 .blick__punkt p:last-child { margin: var(--sc-2) 0 0; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: 1.5; }
-.blick__punkt--nacht { background: radial-gradient(120% 140% at 0% 0%, #1d2a52 0%, var(--nacht) 60%); color: var(--nacht-ink); }
+.blick__punkt--nacht { background: radial-gradient(120% 140% at 0% 0%, #22376a 0%, var(--nacht) 60%); color: var(--nacht-ink); }
 .blick__punkt--nacht .blick__zeichen { color: var(--nacht-ink); }
 .blick__punkt--nacht .blick__nr { color: #ff8a5c; }
 .blick__punkt--nacht p:last-child { color: var(--nacht-soft); }
@@ -457,7 +474,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .kacheln { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sc-4); margin-top: clamp(3rem, 6vw, 5rem); }
 .kachel {
   position: relative; overflow: hidden; border-radius: var(--r-gross); background: #fff; padding: clamp(1.5rem, 2.6vw, 2.4rem);
-  box-shadow: var(--sc-e1); display: flex; flex-direction: column; justify-content: flex-end; min-height: 22rem;
+  border: 1px solid var(--linie); display: flex; flex-direction: column; justify-content: flex-end; min-height: 22rem;
 }
 .kachel h3 { margin: var(--sc-3) 0 0; font-family: var(--sc-font-display); font-weight: 650; font-size: var(--sc-t-xl); letter-spacing: -0.03em; line-height: 1.08; }
 .kachel p { margin: var(--sc-2) 0 0; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: 1.5; max-width: 34ch; }
@@ -467,7 +484,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .kachel__riesig--wort { font-size: clamp(2.6rem, 1.6rem + 3vw, 4.4rem) !important; letter-spacing: -0.05em; }
 .kachel--gross { grid-column: span 2; flex-direction: row; align-items: center; gap: clamp(1.5rem, 4vw, 4rem); justify-content: flex-start; }
 .kachel--breit { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: clamp(1.5rem, 4vw, 3rem); justify-content: flex-start; }
-.kachel--nacht { background: radial-gradient(120% 140% at 0% 0%, #1d2a52 0%, var(--nacht) 60%); color: var(--nacht-ink); }
+.kachel--nacht { background: radial-gradient(120% 140% at 0% 0%, #22376a 0%, var(--nacht) 60%); color: var(--nacht-ink); }
 .kachel--nacht p { color: var(--nacht-soft); }
 .kachel__zahl { margin: 0 !important; font-family: var(--sc-font-display); font-weight: 650; font-size: var(--sc-t-lg) !important; color: #ff8a5c !important; }
 .kachel__zahl span { color: var(--nacht-soft); }
@@ -490,16 +507,16 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .kachel--nacht.sc-in .kachel__ring-ziffern { animation: ring-ziffern 8s steps(8) infinite; }
 @keyframes ring-ziffern { from { transform: translateY(0); } to { transform: translateY(-8em); } }
 .kachel__ring-zahl small { font-size: var(--sc-t-sm); color: var(--nacht-soft); }
-.kachel--kalt { background: linear-gradient(180deg, #ffffff 0%, #e4effc 100%); }
-.kachel__thermo { position: absolute; right: 1.6rem; top: 1.6rem; width: 2.2rem; color: #9fb6d6; }
+.kachel--kalt { background: linear-gradient(180deg, #ffffff 0%, #eef0f2 100%); }
+.kachel__thermo { position: absolute; right: 1.6rem; top: 1.6rem; width: 2.2rem; color: #b5bac0; }
 .kachel__thermo-saeule { fill: #ff8a5c; transform-origin: 50% 100%; transform-box: fill-box; transform: scaleY(0.85); transition: transform 1.6s var(--sc-ease-out), fill 1.6s linear; }
 .kachel__thermo-kugel { fill: #ff8a5c; transition: fill 1.6s linear; }
-.kachel.sc-in .kachel__thermo-saeule { transform: scaleY(0.14); fill: #4f8dff; animation: thermo-zittern 3.2s ease-in-out 1.8s infinite; }
-.kachel.sc-in .kachel__thermo-kugel { fill: #4f8dff; }
+.kachel.sc-in .kachel__thermo-saeule { transform: scaleY(0.14); fill: #95a2b9; animation: thermo-zittern 3.2s ease-in-out 1.8s infinite; }
+.kachel.sc-in .kachel__thermo-kugel { fill: #95a2b9; }
 @keyframes thermo-zittern { 0%, 100% { transform: scaleY(0.14); } 50% { transform: scaleY(0.19); } }
 @media (prefers-reduced-motion: reduce) { .kachel__thermo-saeule, .kachel__thermo-kugel { transition: none; } .kachel.sc-in .kachel__thermo-saeule { animation: none; } }
-.kachel__akku { position: absolute; right: 1.6rem; top: 1.7rem; width: 4.6rem; height: 2.2rem; border: 2px solid #9fb0c8; border-radius: 0.6rem; padding: 3px; }
-.kachel__akku i { position: absolute; right: -0.45rem; top: 50%; width: 0.3rem; height: 0.8rem; margin-top: -0.4rem; border-radius: 0 3px 3px 0; background: #9fb0c8; }
+.kachel__akku { position: absolute; right: 1.6rem; top: 1.7rem; width: 4.6rem; height: 2.2rem; border: 2px solid #afb3b8; border-radius: 0.6rem; padding: 3px; }
+.kachel__akku i { position: absolute; right: -0.45rem; top: 50%; width: 0.3rem; height: 0.8rem; margin-top: -0.4rem; border-radius: 0 3px 3px 0; background: #afb3b8; }
 .kachel__akku span { display: block; height: 100%; border-radius: 0.35rem; background: #1ea85a; width: 100%; transform-origin: 0 50%; transform: scaleX(1); transition: transform 2.4s var(--sc-ease-in-out) 0.4s, background-color 2.4s 0.4s; }
 .kachel.sc-in .kachel__akku span { transform: scaleX(0.3); background: #f2a33a; }
 .kachel--orange { background: linear-gradient(150deg, #ff7a3d 0%, var(--orange) 50%, #e2470f 100%); color: #fff; }
@@ -513,17 +530,17 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 }
 
 /* ------------------------------------- Szene am Berg (im Abschnitt Der Chip) -- */
-.netz__antenne { fill: #9fb2c6; transition: fill 300ms; }
-.netz__station.ist-an .netz__antenne { fill: #4f8dff; stroke: #bcd5ff; stroke-width: 4; }
+.netz__antenne { fill: #afb2b6; transition: fill 300ms; }
+.netz__station.ist-an .netz__antenne { fill: #95a2b9; stroke: #d7dce4; stroke-width: 4; }
 .netz__feld { transform-box: fill-box; transform-origin: center; transform: scale(0); opacity: 0; }
 .netz__welt { transform: translate(340px, 30px); }
 .netz__karte { position: absolute; right: clamp(1rem, 5vw, 6rem); bottom: 14%; z-index: 3; opacity: 0; transform: translateY(20px) scale(0.96); transition: opacity 400ms var(--sc-ease-out), transform 500ms var(--sc-ease-out); }
 .netz__karte.ist-an { opacity: 1; transform: none; }
-.netz__handy { width: 18rem; padding: 0.5rem; border-radius: 1.6rem; background: #0b1226; box-shadow: 0 24px 50px -18px rgba(11, 18, 38, 0.45); }
+.netz__handy { width: 18rem; padding: 0.5rem; border-radius: 1.6rem; background: #0e1d40; box-shadow: 0 24px 50px -18px rgba(14, 29, 64, 0.45); }
 .netz__meldung { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; padding: 0.9rem 1rem; border-radius: 1.2rem; background: #fff; color: var(--nacht); }
 .netz__meldung > div { flex: 1; min-width: 9rem; }
 .netz__meldung b { display: block; font-weight: 700; color: #d31d1d; }
-.netz__meldung span { font-size: 0.8rem; color: #4a5672; }
+.netz__meldung span { font-size: 0.8rem; color: #5a5c62; }
 .netz__meldung-punkt { flex: none; width: 0.8rem; height: 0.8rem; border-radius: 50%; background: var(--notruf); box-shadow: 0 0 0 0 rgba(255, 45, 45, 0.6); animation: puls 1.4s infinite; }
 @keyframes puls { 0% { box-shadow: 0 0 0 0 rgba(255, 45, 45, 0.6); } 100% { box-shadow: 0 0 0 12px rgba(255, 45, 45, 0); } }
 
@@ -642,11 +659,11 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .jeden__pfeile { display: flex; gap: var(--sc-2); flex: none; }
 .pfeil {
   width: 3rem; height: 3rem; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
-  border: 0; background: #e3eaf4; color: var(--sc-ink);
+  border: 0; background: #eaebed; color: var(--sc-ink);
   transition: background-color var(--sc-d-fast) var(--sc-ease-out), opacity var(--sc-d-fast) var(--sc-ease-out), transform var(--sc-d-fast) var(--sc-ease-out);
 }
 .pfeil svg { width: 1.1rem; height: 1.1rem; }
-@media (hover: hover) and (pointer: fine) { .pfeil:hover:not(:disabled) { background: #d3deec; } }
+@media (hover: hover) and (pointer: fine) { .pfeil:hover:not(:disabled) { background: #dddfe2; } }
 .pfeil:active:not(:disabled) { transform: scale(0.94); }
 .pfeil:disabled { opacity: 0.35; cursor: default; }
 .pfeil:focus-visible { outline: 2px solid var(--sc-ink); outline-offset: 3px; }
@@ -678,8 +695,8 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .fahrer--foto, .fahrer--nacht { color: #fff; }
 .fahrer--foto .fahrer__inhalt > p:last-child, .fahrer--nacht .fahrer__inhalt > p:last-child { color: rgba(255, 255, 255, 0.78); }
 .fahrer--foto .fahrer__was, .fahrer--nacht .fahrer__was { color: #ff8a5c; }
-.fahrer--nacht { background: radial-gradient(120% 90% at 80% 10%, #24366b, var(--nacht) 60%); }
-.fahrer--eis { background: linear-gradient(180deg, #ffffff, #e2ecf8); }
+.fahrer--nacht { background: radial-gradient(120% 90% at 80% 10%, #2a4278, var(--nacht) 60%); }
+.fahrer--eis { background: linear-gradient(180deg, #ffffff, #ebedef); }
 .fahrer--orange { background: linear-gradient(160deg, #ffe6da 0%, #ffd2bd 100%); }
 .fahrer--orange .fahrer__bild { top: 16%; filter: drop-shadow(0 20px 24px rgba(180, 60, 10, 0.3)); }
 
@@ -694,7 +711,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 }
 .fragen__liste summary::-webkit-details-marker { display: none; }
 .fragen__liste summary::after {
-  content: ""; flex: none; width: 2rem; height: 2rem; border-radius: 50%; background: #eef2f8 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 3.5v9M3.5 8h9' stroke='%230b1226' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center / 0.9rem no-repeat;
+  content: ""; flex: none; width: 2rem; height: 2rem; border-radius: 50%; background: #f2f3f4 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 3.5v9M3.5 8h9' stroke='%230b1226' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center / 0.9rem no-repeat;
   transition: transform var(--sc-d-base) var(--sc-ease-out), background-color var(--sc-d-base);
 }
 .fragen__liste details[open] summary::after { transform: rotate(45deg); background-color: #ffe3d6; }
@@ -708,11 +725,11 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .wir__foto { margin: clamp(3rem, 6vw, 5rem) 0 0; }
 .wir__platz {
   aspect-ratio: 2 / 1; border-radius: var(--r-gross); display: grid; place-content: center; justify-items: center; gap: var(--sc-4);
-  background: linear-gradient(160deg, #eef3f9, #dde7f1); color: #9fb0c8;
-  outline: 2px dashed #b9c7d8; outline-offset: -14px;
+  background: linear-gradient(160deg, #f2f3f5, #e5e7e9); color: #afb3b8;
+  outline: 2px dashed #c5c8cc; outline-offset: -14px;
 }
 .wir__platz svg { width: clamp(7rem, 14vw, 11rem); height: auto; }
-.wir__platz span { font-weight: 600; font-size: var(--sc-t-sm); color: #6c7a93; }
+.wir__platz span { font-weight: 600; font-size: var(--sc-t-sm); color: #7c7e83; }
 .wir__foto figcaption { margin-top: var(--sc-4); font-family: var(--sc-font-display); font-weight: 650; font-size: var(--sc-t-xl); letter-spacing: -0.03em; }
 
 /* -------------------------------------------------------- 10 · Schluss -- */
@@ -789,7 +806,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .sprung-anfang {
   position: fixed; right: clamp(1rem, 3vw, 2rem); bottom: max(clamp(1rem, 3vw, 2rem), env(safe-area-inset-bottom)); z-index: var(--sc-z-chrome);
   width: 3rem; height: 3rem; border-radius: 50%; display: grid; place-items: center;
-  background: rgba(11, 18, 38, 0.82); color: #fff; box-shadow: var(--sc-e2);
+  background: rgba(14, 29, 64, 0.82); color: #fff; box-shadow: var(--sc-e2);
   -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
   transition: opacity var(--sc-d-base) var(--sc-ease-out), transform var(--sc-d-base) var(--sc-ease-out), background-color var(--sc-d-fast) var(--sc-ease-out);
 }
@@ -808,12 +825,12 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
   position: fixed; inset: 0 auto 0 0; z-index: calc(var(--sc-z-chrome) + 10); margin: 0; padding: 0;
   width: min(21rem, 86vw); height: 100dvh; max-height: none; max-width: none;
   color: var(--sc-ink);
-  background: rgba(248, 251, 253, 0.66);
+  background: rgba(250, 251, 251, 0.66);
   -webkit-backdrop-filter: blur(26px) saturate(170%); backdrop-filter: blur(26px) saturate(170%);
   border: 0; border-right: 1px solid rgba(255, 255, 255, 0.7);
   box-shadow: 18px 0 50px -24px hsl(var(--sc-shadow-color) / 0.4);
 }
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .seite { background: rgba(248, 251, 253, 0.97); } }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .seite { background: rgba(250, 251, 251, 0.97); } }
 .seite[open] { animation: seite-rein 240ms var(--sc-ease-out); }
 .seite.geht-zu { animation: seite-raus 200ms var(--sc-ease-out) forwards; }
 @keyframes seite-rein { from { transform: translateX(-100%); opacity: 0.6; } to { transform: none; opacity: 1; } }
@@ -821,7 +838,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .seite__innen { height: 100%; display: grid; grid-template-rows: auto 1fr; padding: 0.8rem var(--sc-6) var(--sc-6); }
 .seite__kopf { display: flex; justify-content: space-between; align-items: center; min-height: 2.75rem; }
 .seite__marke { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--sc-ink); text-decoration: none; border-radius: var(--r); font-family: var(--sc-font-display); font-weight: 680; font-size: 1.2rem; letter-spacing: -0.03em; }
-.seite__zu { width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 0; background: rgba(11, 18, 38, 0.06); color: var(--sc-ink); display: grid; place-items: center; cursor: pointer; }
+.seite__zu { width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 0; background: rgba(14, 29, 64, 0.06); color: var(--sc-ink); display: grid; place-items: center; cursor: pointer; }
 .seite__zu svg { width: 1rem; height: 1rem; }
 .seite nav ol { list-style: none; margin: var(--sc-6) 0 0; padding: 0; display: grid; gap: 2px; }
 .seite nav a {
@@ -852,13 +869,13 @@ section[id] { scroll-margin-top: 0; }
   .rahmen {
     display: block; position: fixed; z-index: calc(var(--sc-z-chrome) - 2); pointer-events: none;
     inset: var(--blatt-o) var(--blatt-r) var(--blatt-u) var(--blatt-l); border-radius: 18px;
-    box-shadow: 0 0 0 1px rgba(11, 18, 38, 0.06), 0 26px 50px -30px rgba(20, 35, 60, 0.35), 0 0 0 200vmax var(--rahmen-grund);
+    box-shadow: 0 0 0 1px rgba(14, 29, 64, 0.06), 0 26px 50px -30px rgba(20, 35, 60, 0.35), 0 0 0 200vmax var(--rahmen-grund);
   }
   /* Ladebildschirm als zwei Blätter wie die Seite */
   .lade { background: var(--rahmen-grund); }
   .lade__blatt {
     inset: var(--blatt-o) var(--blatt-r) var(--blatt-u) var(--blatt-l); border-radius: 18px; background: var(--sc-canvas);
-    box-shadow: 0 0 0 1px rgba(11, 18, 38, 0.06), 0 26px 50px -30px rgba(20, 35, 60, 0.35);
+    box-shadow: 0 0 0 1px rgba(14, 29, 64, 0.06), 0 26px 50px -30px rgba(20, 35, 60, 0.35);
   }
   .lade__kopf { position: absolute; top: 1.25rem; right: 1.25rem; height: auto; padding: 0; }
   .lade__marke { display: none; }
@@ -883,7 +900,7 @@ section[id] { scroll-margin-top: 0; }
   .sparsam .leiste.ist-unten, .sparsam .leiste.ist-nacht.ist-unten { background: none; }
   .leiste .marke { display: none; }
   .leiste .knopf-dunkel {
-    pointer-events: auto; box-shadow: 0 8px 24px -12px rgba(11, 18, 38, 0.45);
+    pointer-events: auto; box-shadow: 0 8px 24px -12px rgba(14, 29, 64, 0.45);
     transition: opacity 320ms var(--sc-ease-out), transform 320ms var(--sc-ease-out), visibility 0s linear 0s, background-color var(--sc-d-fast) var(--sc-ease-out);
   }
   /* nur am Anfang sichtbar: nach dem Einstieg blendet der Knopf aus, zu „Das sind wir“ führt dann der Fuß */
@@ -896,8 +913,8 @@ section[id] { scroll-margin-top: 0; }
      zur Startseite, rechts „Zur Startseite“; beide bleiben stehen, beim Scrollen bekommt sie Grund. */
   :root.eigene-seite { --blatt-l: var(--blatt-r); --sc-gutter: clamp(1.25rem, 4vw, 5rem); }
   .eigene-seite .leiste { inset: var(--blatt-o) var(--blatt-r) auto var(--blatt-l); padding: 1.25rem; border-radius: 18px 18px 0 0; }
-  .eigene-seite .leiste.ist-unten { background: rgba(244, 248, 251, 0.92); box-shadow: 0 1px 0 rgba(11, 18, 38, 0.08); }
-  .eigene-seite .leiste.ist-nacht.ist-unten { background: rgba(11, 18, 38, 0.92); box-shadow: none; }
+  .eigene-seite .leiste.ist-unten { background: rgba(247, 248, 248, 0.92); box-shadow: 0 1px 0 rgba(14, 29, 64, 0.08); }
+  .eigene-seite .leiste.ist-nacht.ist-unten { background: rgba(14, 29, 64, 0.92); box-shadow: none; }
   .eigene-seite .leiste .marke { display: inline-flex; pointer-events: auto; }
   .eigene-seite .leiste.ist-unten .knopf-dunkel { opacity: 1; transform: none; visibility: visible; pointer-events: auto; }
   .sprung-anfang { right: calc(var(--blatt-r) + 1.25rem); bottom: calc(var(--blatt-u) + 1.25rem); }
@@ -913,10 +930,10 @@ section[id] { scroll-margin-top: 0; }
     transition: background-color 400ms var(--sc-ease-out), border-color 400ms var(--sc-ease-out);
   }
   /* Über dunklen Abschnitten wird das Glas dunkel, wie die Kopfleiste am Tablet */
-  .sprungleiste.ist-nacht { background: rgba(11, 18, 38, 0.86); border-right-color: rgba(255, 255, 255, 0.1); box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.04), 22px 0 44px -30px rgba(0, 0, 0, 0.6); }
+  .sprungleiste.ist-nacht { background: rgba(14, 29, 64, 0.86); border-right-color: rgba(255, 255, 255, 0.1); box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.04), 22px 0 44px -30px rgba(0, 0, 0, 0.6); }
   .sprungleiste.ist-nacht .sprungleiste__marke, .sprungleiste.ist-nacht .sprungleiste__nav a { color: var(--nacht-ink); }
   .sprungleiste.ist-nacht .anfang { color: var(--nacht-ink); }
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .sprungleiste { background: #fbfcfd; } .sprungleiste.ist-nacht { background: #141c33; } }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .sprungleiste { background: #fcfcfc; } .sprungleiste.ist-nacht { background: #13234a; } }
   .jeden__schiene {
     padding-inline: max(var(--sc-gutter), calc((var(--band) - var(--sc-maxw)) / 2 + var(--sc-gutter)));
     scroll-padding-inline: max(var(--sc-gutter), calc((var(--band) - var(--sc-maxw)) / 2 + var(--sc-gutter)));
@@ -932,15 +949,16 @@ section[id] { scroll-margin-top: 0; }
 /* ----------------------------------------------------------- Handy -- */
 @media (max-width: 860px) {
   .hang__kopf > * { transform: translateY(calc(var(--sc-p, 0) * -4vh)); }
-  .hang .sc-stage__poster, .hang video[data-sc-scrub] { -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 52%, transparent 80%); mask-image: linear-gradient(180deg, #000 0%, #000 52%, transparent 80%); }
-  .hang__kopf h1 { font-size: clamp(2.6rem, 11vw, 3.6rem); }
+  .hang { --karte-oben: 64vh; --karte-seite: 4vw; --karte-unten: 2vh; }
+  .hang__kopf h1 { font-size: clamp(2.5rem, 10.5vw, 3.6rem); }
+  .hang__knoepfe { margin-top: var(--sc-5); }
   .hang__kopf, .hang__zwei { top: 5rem !important; left: var(--sc-gutter) !important; right: var(--sc-gutter) !important; width: auto; translate: 0 0 !important; }
   .hang__zwei h2 { font-size: var(--sc-t-2xl); }
-  .hang__chip { width: clamp(12rem, 56vw, 15rem); bottom: 34%; }
-  .hang__schatten { bottom: calc(34% - 1rem); width: 14rem; }
+  .hang__chip { width: clamp(11rem, 50vw, 14rem); bottom: 26%; }
+  .hang__schatten { bottom: calc(26% - 1rem); width: 13rem; }
   
   .knopf__buehne { min-height: 36rem; }
-  .knopf__buehne::after { background: linear-gradient(180deg, rgba(244, 248, 251, 0.94) 0%, rgba(244, 248, 251, 0.5) 30%, transparent 44%, transparent 68%, rgba(244, 248, 251, 0.94) 84%); }
+  .knopf__buehne::after { background: linear-gradient(180deg, rgba(247, 248, 248, 0.94) 0%, rgba(247, 248, 248, 0.5) 30%, transparent 44%, transparent 68%, rgba(247, 248, 248, 0.94) 84%); }
   .knopf__text { top: 4.6rem; left: var(--sc-gutter); right: var(--sc-gutter); width: auto; }
   .knopf__titel { font-size: clamp(2.2rem, 9.5vw, 3rem); }
   .knopf__text .augenbraue { margin-bottom: var(--sc-2); }
@@ -997,7 +1015,7 @@ section[id] { scroll-margin-top: 0; }
   .seite[open], .seite.geht-zu { animation: none; }
   .sprungleiste__nav a span, .sprungleiste__nav a::before { transition: none; }
   .sprungleiste__nav a:hover span { transform: none; }
-  .hang__chip svg, .hang__schatten { animation: none; }
+  .hang__chip, .hang__schatten, .hang__kopf > * { animation: none; }
   .hang .sc-stage__poster, .hang video[data-sc-scrub], .hang__kopf > *, .hang__zwei > * { transform: none; }
   .schluss__chip { animation: none; }
   }
@@ -1006,3 +1024,365 @@ section[id] { scroll-margin-top: 0; }
 .logo-zeichen { flex: none; width: 1.6rem; height: 1.6rem; display: block; }
 .seite__marke .logo-zeichen { width: 1.5rem; height: 1.5rem; }
 .fuss__marke .logo-zeichen { width: 1.9rem; height: 1.9rem; color: var(--nacht-ink); }
+
+/* ===================================================== Redesign 2 (Feedback 37) == */
+/* Lukas, 2026-11-09: „komplettes Redesign“, von den Vorbildern war fast nichts drin, und die Zeile
+   im Titel darf sich beim Wortwechsel auf keinen Fall bewegen. Diese Schicht steht bewusst am Ende
+   und überschreibt die älteren Regeln. */
+
+/* Das wechselnde Wort: feste Breite (seite.js misst das längste Wort), Wort in der Mitte */
+.wechsel { box-sizing: border-box; justify-content: center; transition: background-color 460ms var(--sc-ease-out); }
+
+/* Ganz weiße Seite wie bei Notion und Cal.com: kein grauer Rahmen, kein Glas. Die Seitenleiste
+   ist eine ruhige weiße Spalte mit feiner Linie, sie bleibt auch über dunklen Abschnitten weiß. */
+@media (min-width: 1200px) and (min-height: 520px) {
+  :root { --blatt-o: 0px; --blatt-r: 0px; --blatt-u: 0px; --blatt-l: 15rem; --sc-gutter: clamp(1.5rem, 4.5vw, 5.5rem); }
+  .rahmen { display: none; }
+  .sprungleiste, .sprungleiste.ist-nacht {
+    width: 15rem; background: #fff; border-radius: 0; border-right: 1px solid var(--linie); box-shadow: none;
+    -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+  .sprungleiste.ist-nacht .sprungleiste__marke, .sprungleiste.ist-nacht .sprungleiste__nav a, .sprungleiste.ist-nacht .anfang { color: var(--sc-ink); }
+  .akt-balken { top: 0; left: 15rem; right: 0; height: 3px; border-radius: 0; }
+  .lade { background: #fff; }
+  .lade__blatt { inset: 0 0 0 15rem; border-radius: 0; box-shadow: none; }
+  .lade__leiste { width: 15rem; border-radius: 0; background: #fff; border-right: 1px solid var(--linie); box-shadow: none; }
+  .hang { --karte-seite: 3.5vw; }
+}
+
+/* Handy und Tablet: schwebende, runde Kopfleiste wie bei Cal.com */
+@media (max-width: 1199px) {
+  .leiste { inset: 0.6rem 0.6rem auto 0.6rem; height: 3.3rem; padding: 0 0.4rem 0 1rem; border-radius: 1.1rem; border: 1px solid transparent; }
+  .leiste.ist-unten { background: rgba(246, 247, 249, 0.92); border-color: var(--linie); box-shadow: 0 10px 30px -18px rgba(14, 29, 64, 0.45); }
+  .leiste.ist-nacht.ist-unten { background: rgba(23, 42, 85, 0.94); border-color: rgba(255, 255, 255, 0.08); }
+}
+
+/* Laufband mit Stichworten direkt unter dem Einstieg (wie die Logo- und Zahlenbänder bei Notion und Granola) */
+.blick { background: #fff; padding-top: 0; }
+.fakten {
+  overflow: hidden; border-block: 1px solid var(--linie); padding: 1.15rem 0; margin-bottom: var(--sc-section);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+.fakten__band { display: flex; width: max-content; animation: fakten 46s linear infinite; }
+.fakten__satz { display: flex; }
+.fakten__satz span {
+  display: inline-flex; align-items: center; gap: 1.8rem; padding-right: 1.8rem; white-space: nowrap;
+  font-family: var(--sc-font-display); font-weight: 600; font-size: clamp(1.05rem, 0.9rem + 0.7vw, 1.45rem); letter-spacing: -0.02em; color: var(--sc-ink);
+}
+.fakten__satz span::after { content: ""; width: 0.42rem; height: 0.42rem; border-radius: 50%; background: var(--orange); }
+@keyframes fakten { to { transform: translateX(-50%); } }
+.ist-weg .fakten__band { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .fakten__band { animation: none; } }
+
+/* Start: Karten wie bei Notion (graue Fläche, Kennzeile, runder Pfeil, darunter eine kleine Vorschau) */
+.blick__liste { gap: 1rem; }
+.blick__punkt {
+  min-height: 0; padding: 1.5rem 1.5rem 0; border: 0; border-radius: 22px; background: var(--eis); overflow: hidden;
+  transition: transform 260ms var(--sc-ease-out), box-shadow 260ms var(--sc-ease-out);
+}
+@media (hover: hover) and (pointer: fine) { .blick__punkt:hover { transform: translateY(-4px); box-shadow: 0 24px 40px -28px rgba(14, 29, 64, 0.45); } }
+.blick__oben { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.blick__nr { color: var(--sc-ink-soft) !important; font-weight: 600; }
+.blick__punkt h3 { margin-top: 0.9rem; font-size: clamp(1.35rem, 1.1rem + 0.7vw, 1.75rem); }
+.blick__punkt .blick__satz { margin: 0.5rem 0 0; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: 1.5; }
+.pfeil-rund {
+  flex: none; display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 50%;
+  background: var(--sc-ink); color: #fff; transition: transform 220ms var(--sc-ease-out), background-color 220ms;
+}
+.pfeil-rund svg { width: 1rem; height: 1rem; }
+@media (hover: hover) and (pointer: fine) { .blick__punkt:hover .pfeil-rund { transform: translateX(3px); background: var(--orange); } }
+.blick__punkt--nacht { background: radial-gradient(120% 120% at 0% 0%, #22376a 0%, var(--nacht) 65%); }
+.blick__punkt--nacht .blick__nr { color: var(--nacht-soft) !important; }
+.blick__punkt--nacht .blick__satz { color: var(--nacht-soft); }
+.blick__punkt--nacht .pfeil-rund { background: #fff; color: var(--nacht); }
+.blick__vorschau {
+  margin: 1.6rem 0 0; padding: 1rem 1rem 1.2rem; border-radius: 16px 16px 0 0; background: #fff;
+  box-shadow: 0 -1px 0 var(--linie), 0 18px 40px -24px rgba(14, 29, 64, 0.35); display: grid; gap: 0.55rem; flex: 1;
+}
+.mini-zeile { display: grid; grid-template-columns: 1.9rem 1fr auto; align-items: center; gap: 0.7rem; font-size: var(--sc-t-sm); }
+.mini-zeile i { display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 50%; background: var(--f); color: #fff; font-style: normal; font-weight: 700; font-size: 0.8rem; }
+.mini-zeile b { font-weight: 600; color: var(--sc-ink); }
+.mini-zeile span { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.2rem 0.6rem; border-radius: 999px; background: var(--eis); font-size: var(--sc-t-xs); color: var(--sc-ink-soft); }
+.mini-zeile span::before { content: ""; width: 0.4rem; height: 0.4rem; border-radius: 50%; background: var(--orange); animation: mini-puls 1.6s ease-in-out infinite; }
+.mini-zeile:nth-child(2) span::before { animation-delay: 0.2s; } .mini-zeile:nth-child(3) span::before { animation-delay: 0.4s; }
+@keyframes mini-puls { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.7); } }
+.blick__vorschau--alarm { background: rgba(255, 255, 255, 0.06); box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1); grid-template-columns: 3.4rem 1fr; align-items: center; color: var(--nacht-ink); }
+.blick__vorschau--alarm b { display: block; font-weight: 650; }
+.blick__vorschau--alarm span { display: block; font-size: var(--sc-t-xs); color: var(--nacht-soft); margin-top: 2px; }
+.mini-ring { width: 3.4rem; height: 3.4rem; transform: rotate(-90deg); }
+.mini-ring text { transform: rotate(90deg); transform-origin: 24px 24px; font-family: var(--sc-font-display); }
+.mini-ring__lauf { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.blick.sc-in .mini-ring__lauf, .blick__liste.sc-in .mini-ring__lauf { animation: mini-ring 3.2s var(--sc-ease-out) infinite; }
+@keyframes mini-ring { 0% { stroke-dashoffset: 1; } 70%, 100% { stroke-dashoffset: 0; } }
+.blick__vorschau--weg svg { width: 100%; height: auto; display: block; font-family: var(--sc-font-text); }
+.mini-funk { animation: mini-funk 1.4s linear infinite; }
+@keyframes mini-funk { to { stroke-dashoffset: -20; } }
+.ist-weg .mini-zeile span::before, .ist-weg .mini-ring__lauf, .ist-weg .mini-funk { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .mini-zeile span::before, .mini-ring__lauf, .mini-funk { animation: none; } .mini-ring__lauf { stroke-dashoffset: 0; } }
+@media (max-width: 560px) {
+  .blick__punkt { display: flex; padding: 1.25rem 1.25rem 0; }
+  .blick__vorschau { margin-top: 1.2rem; }
+}
+
+/* Technik: die Farb-Kachel ist weiß mit einem orangen Farbfleck statt ganz orange */
+.kachel--farbe::after {
+  content: ""; position: absolute; right: 1.5rem; top: 1.5rem; width: 2.4rem; height: 2.4rem; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ff8a5c, var(--orange) 55%, var(--orange-2)); box-shadow: 0 14px 30px -12px rgba(255, 90, 28, 0.6);
+}
+.kachel--farbe .kachel__riesig { color: var(--sc-ink); }
+
+/* Schluss: Platzhalter statt des orangen Chips (der echte kommt später), das Leuchten neutral */
+.schluss__innen::before { background: radial-gradient(closest-side, rgba(255, 255, 255, 0.09), transparent); }
+.schluss__chip { aspect-ratio: 240 / 132; width: clamp(13rem, 22vw, 18rem); filter: none; }
+.platzhalter--nacht { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.16); box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.6); }
+.platzhalter--nacht::before { border-color: rgba(255, 255, 255, 0.22); }
+.platzhalter--nacht span { color: var(--nacht-soft); }
+
+/* ======================================================== Feedback 38 (2026-11-09) == */
+
+/* Das wechselnde Wort: acht Wörter, fünf Farben (Navy voll, Orange, Himmel, Sand, Minze) */
+.wechsel { color: var(--wt, inherit); transition: background-color 460ms var(--sc-ease-out), color 460ms var(--sc-ease-out); }
+.wechsel[data-farbe="0"] { --wf: #0e1d40; --wt: #ffffff; --wp: #ff8a5c; }
+.wechsel[data-farbe="1"] { --wf: #ffe4d6; --wt: #0e1d40; --wp: #ff5a1c; }
+.wechsel[data-farbe="2"] { --wf: #dbe7fb; --wt: #0e1d40; --wp: #2f63c9; }
+.wechsel[data-farbe="3"] { --wf: #f3e8d2; --wt: #0e1d40; --wp: #c4881f; }
+.wechsel[data-farbe="4"] { --wf: #dcf1e7; --wt: #0e1d40; --wp: #1c9a68; }
+
+/* Innenleben: wieder eine bildschirmfüllende Strecke; die Teile leuchten beim Scrollen
+   nacheinander auf (nur noch die Namen, ohne Kleintext) */
+.aufbau__buehne { height: 100vh; height: 100svh; box-sizing: border-box; align-content: center; padding-block: 5rem 3rem; }
+.aufbau__bild { grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr); }
+.aufbau__modell { max-height: 64vh; }
+.aufbau__teile li {
+  --an: clamp(0, calc(var(--sc-p, 0) * 9 - var(--i) - 0.6), 1);
+  display: flex; align-items: baseline; gap: 1rem; padding: 0.8rem 0;
+  font-family: var(--sc-font-display); font-weight: 620; font-size: clamp(1.15rem, 0.85rem + 0.8vw, 1.6rem); letter-spacing: -0.02em; color: var(--nacht-ink);
+  opacity: calc(0.22 + var(--an) * 0.78); transform: translateX(calc((1 - var(--an)) * 12px));
+}
+.aufbau__teile li::before { grid-row: auto; padding-top: 0; flex: none; width: 1.6rem; }
+@media (prefers-reduced-motion: reduce) { .aufbau__teile li { opacity: 1; transform: none; } }
+@media (max-width: 860px) {
+  .aufbau__buehne { padding-block: 5rem 2rem; gap: 1.5rem; }
+  .aufbau__bild { grid-template-columns: 1fr; }
+  .aufbau__modell { display: none; }
+  .aufbau__teile { grid-template-columns: 1fr 1fr; column-gap: 1.25rem; }
+  .aufbau__teile li { padding: 0.55rem 0; font-size: 1.05rem; }
+}
+/* Die Seitenleiste wird über Nacht-Abschnitten wieder navy, so gehört sie zur dunklen Fläche */
+@media (min-width: 1200px) and (min-height: 520px) {
+  .sprungleiste.ist-nacht { background: var(--nacht); border-right-color: rgba(255, 255, 255, 0.08); }
+  .sprungleiste.ist-nacht .sprungleiste__marke, .sprungleiste.ist-nacht .sprungleiste__nav a, .sprungleiste.ist-nacht .anfang { color: var(--nacht-ink); }
+}
+
+/* Technik: neue Kacheln mit kleinem Bild oben links, Text unten */
+.kacheln { gap: 1rem; }
+.kachel { min-height: 20rem; border-radius: 22px; }
+.kachel__bild { position: absolute; left: clamp(1.5rem, 2.6vw, 2.4rem); top: clamp(1.5rem, 2.6vw, 2.4rem); width: 8rem; height: auto; overflow: visible; }
+.kachel__bild * { transform-box: fill-box; transform-origin: center; }
+.kachel.sc-in .bild-knopf__kappe { animation: knopf-druck 2.8s ease-in-out infinite; }
+.kachel.sc-in .bild-knopf__welle { animation: knopf-welle 2.8s ease-out infinite; }
+@keyframes knopf-druck { 0%, 62%, 100% { transform: scale(1); } 70% { transform: scale(0.88); } 80% { transform: scale(1); } }
+@keyframes knopf-welle { 0%, 66% { opacity: 0; transform: scale(1); } 72% { opacity: 0.9; } 100% { opacity: 0; transform: scale(1.65); } }
+.bild-knopf__welle { opacity: 0; }
+.kachel.sc-in .bild-vibration__chip { animation: chip-zittern 2.4s linear infinite; }
+.kachel.sc-in .bild-vibration__wellen { animation: wellen-an 2.4s linear infinite; }
+@keyframes chip-zittern { 0%, 58%, 80%, 100% { transform: none; } 61% { transform: translateX(-2px) rotate(-2deg); } 64% { transform: translateX(2px) rotate(2deg); } 67% { transform: translateX(-2px) rotate(-1.5deg); } 70% { transform: translateX(2px) rotate(1.5deg); } 73% { transform: translateX(-1px); } 76% { transform: translateX(1px); } }
+@keyframes wellen-an { 0%, 56%, 84%, 100% { opacity: 0.15; } 60%, 78% { opacity: 1; } }
+.kachel.sc-in .bild-gps__ring { animation: gps-ring 2.2s ease-out infinite; }
+@keyframes gps-ring { from { opacity: 0.9; transform: scale(0.6); } to { opacity: 0; transform: scale(2.6); } }
+.bild-laden__balken { transform-origin: left center; }
+.kachel.sc-in .bild-laden__balken { animation: laden 3.4s ease-in-out infinite; }
+@keyframes laden { 0% { transform: scaleX(0.08); } 75%, 100% { transform: scaleX(1); } }
+.bild-huelle__form { transform-origin: center bottom; }
+.kachel.sc-in .bild-huelle__form { animation: huelle 2.6s ease-in-out infinite; }
+@keyframes huelle { 0%, 100% { transform: scale(1); } 45% { transform: scale(1.05, 0.92); } 60% { transform: scale(0.98, 1.03); } }
+.ist-weg .kachel__bild * { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .kachel__bild * { animation: none !important; } .bild-knopf__welle { opacity: 0; } }
+@media (max-width: 1100px) { .kacheln > :last-child { grid-column: 1 / -1; } }
+@media (max-width: 860px) { .kachel { min-height: 15rem; } }
+
+/* Knöpfe wie bei Cal.com und Notion: leicht gerundete Rechtecke statt Pillen, ein Hauch Licht
+   an der Oberkante, feine Kante und kleiner Schatten; drücken senkt den Knopf ab */
+.knopf-dunkel, .knopf-hell, .knopf-orange {
+  border-radius: 10px; font-weight: 600; letter-spacing: -0.005em; gap: 0.5rem;
+  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 120ms ease;
+}
+.knopf-dunkel, .leiste .knopf-dunkel {
+  background: linear-gradient(180deg, #1d2e5a 0%, #0e1d40 100%); color: #fff; border: 1px solid #0a1531;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 1px 2px rgba(14, 29, 64, 0.24), 0 6px 14px -8px rgba(14, 29, 64, 0.5);
+}
+.leiste.ist-nacht .knopf-dunkel { background: #fff; color: var(--nacht); border-color: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); }
+.knopf-hell {
+  background: #fff; color: var(--sc-ink); border: 1px solid var(--linie);
+  box-shadow: 0 1px 2px rgba(14, 29, 64, 0.06), inset 0 -1px 0 rgba(14, 29, 64, 0.04);
+}
+.knopf-orange {
+  background: linear-gradient(180deg, #ff6a2e 0%, #f2520f 100%); border: 1px solid #d9470c;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+@media (hover: hover) and (pointer: fine) {
+  .knopf-dunkel:hover, .leiste .knopf-dunkel:hover { background: linear-gradient(180deg, #26396b 0%, #14264f 100%); }
+  .leiste.ist-nacht .knopf-dunkel:hover { background: #eef0f3; }
+  .knopf-hell:hover { background: #f6f7f9; border-color: #d5d9e1; }
+  .knopf-orange:hover { background: linear-gradient(180deg, #ff7740 0%, #f75a17 100%); transform: none; }
+  .knopf-dunkel:hover .knopf__pfeil { transform: translateY(2px); }
+}
+.knopf-dunkel:active, .knopf-hell:active, .knopf-orange:active { transform: translateY(1px); box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.18); }
+.knopf-gross { min-height: 3rem; padding: 0 1.25rem; }
+.knopf__pfeil { width: 1rem; height: 1rem; flex: none; transition: transform 200ms var(--sc-ease-out); }
+
+/* ======================================================== Feedback 39 (2026-11-09) == */
+
+/* Knöpfe: flach und heller, wie Notions blauer Knopf mit hellblauem Nebenknopf.
+   Kein Verlauf, keine Lichtkante, kein Leuchten; drücken senkt ihn 1px ab. */
+:root { --knopf: #2a4a8f; --knopf-hover: #223f7c; --knopf-hell: #e9eef8; --knopf-hell-hover: #dde5f4; }
+.knopf-dunkel, .leiste .knopf-dunkel { background: var(--knopf); color: #fff; border: 1px solid transparent; box-shadow: none; }
+.knopf-hell { background: var(--knopf-hell); color: var(--knopf); border: 1px solid transparent; box-shadow: none; }
+.knopf-orange { background: var(--orange); border: 1px solid transparent; box-shadow: none; }
+.leiste.ist-nacht .knopf-dunkel { background: #fff; color: var(--knopf); border-color: transparent; box-shadow: none; }
+@media (hover: hover) and (pointer: fine) {
+  .knopf-dunkel:hover, .leiste .knopf-dunkel:hover { background: var(--knopf-hover); }
+  .knopf-hell:hover { background: var(--knopf-hell-hover); border-color: transparent; }
+  .knopf-orange:hover { background: #ff6a2e; }
+  .leiste.ist-nacht .knopf-dunkel:hover { background: #eef1f7; }
+}
+.knopf-dunkel:active, .knopf-hell:active, .knopf-orange:active { transform: translateY(1px); box-shadow: none; }
+.pfeil-rund { background: var(--knopf); }
+.blick__punkt--nacht .pfeil-rund { background: #fff; color: var(--knopf); }
+.sprung-anfang, .sparsam .sprung-anfang { background: rgba(42, 74, 143, 0.94); }
+
+/* App: „Die App“ und „Für jeden am Berg“ sind ein Abschnitt. Für wen, steht als kleine Marken
+   über den Schritten; die Schritte sagen, was es Familien, Skischulen und Sportlichen bringt. */
+.app-akt__fuer { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: var(--sc-5) 0 0; padding: 0; }
+.app-akt__fuer span {
+  display: inline-flex; align-items: center; padding: 0.3rem 0.75rem; border-radius: 999px;
+  background: var(--eis); color: var(--sc-ink); font-size: var(--sc-t-xs); font-weight: 600;
+}
+
+/* ======================================================== Feedback 40 (2026-11-09) == */
+
+/* Kapitelnamen über den Überschriften wieder wie vor Feedback 36: schlichter oranger Text */
+.augenbraue, .augenbraue--hell, .nacht .augenbraue {
+  display: block; padding: 0; border: 0; border-radius: 0; background: none;
+  margin: 0 0 var(--sc-4); font-family: var(--sc-font-text); font-weight: 600; font-size: var(--sc-t-sm); letter-spacing: 0.01em; color: var(--orange-2);
+}
+.augenbraue::before { content: none; }
+.augenbraue--hell, .nacht .augenbraue { color: #ff8a5c; }
+
+/* Halte-Knopf in „Ein Knopf. Zwei Wege.“, nach „HoldButton“ aus React Bits
+   (Copyright (c) 2026 David Haz, MIT + Commons Clause, siehe assets/vendor/react-bits-LICENSE.txt;
+   https://github.com/DavidHDev/react-bits). Übernommen: die Füllung mit Wellenkante über --hb-p,
+   der Puls am Ende, die doppelte Aufschrift, die beim Füllen die Farbe wechselt. Angepasst an
+   unsere Farben und an den Ablauf der Vorführung (seite.js setzt --hb-p, --hb-w, --hb-h). */
+.hold-button {
+  --hb-radius: 12px; --hb-bg: var(--knopf); --hb-fill: var(--notruf); --hb-text: #fff; --hb-fill-text: #fff;
+  --hb-wave: 7px; --hb-w: 0px; --hb-h: 0px; --hb-cycles: 1.4; --hb-p: 0; --hb-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative; display: inline-grid; place-items: center; isolation: isolate; margin: 0; border: 0;
+  border-radius: var(--hb-radius); background: var(--hb-bg); color: var(--hb-text);
+  font-family: var(--sc-font-text); font-weight: 600; letter-spacing: 0.005em; line-height: 1;
+  cursor: pointer; outline: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent;
+  touch-action: none; transition: transform 160ms var(--hb-ease-out), background-color 160ms ease, box-shadow 300ms var(--hb-ease-out);
+}
+.haltknopf.hold-button {
+  width: auto; min-width: 17rem; height: 3.4rem; aspect-ratio: auto; padding: 0 1.6rem; font-size: var(--sc-t-base);
+  filter: none; box-shadow: 0 10px 24px -14px rgba(14, 29, 64, 0.6);
+}
+.haltknopf.hold-button[data-zustand="gruppe"] { --hb-fill: var(--orange); }
+.haltknopf.hold-button[data-zustand="halten"] { transform: scale(0.97); }
+.haltknopf.hold-button[data-zustand="halten"], .haltknopf.hold-button[data-zustand="frist"] { box-shadow: 0 10px 32px -6px color-mix(in srgb, var(--hb-fill) 70%, transparent); }
+@media (hover: hover) and (pointer: fine) { .haltknopf.hold-button:hover { transform: none; background: var(--knopf-hover); } }
+.haltknopf.hold-button:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+.hold-button__pulse { position: absolute; inset: 0; z-index: 0; border-radius: var(--hb-radius); pointer-events: none; opacity: 0; }
+.haltknopf[data-zustand="frist"] .hold-button__pulse { animation: hb-pulse 600ms var(--hb-ease-out) forwards; }
+@keyframes hb-pulse {
+  from { opacity: 1; box-shadow: 0 0 0 0 color-mix(in srgb, var(--hb-fill) 55%, transparent); }
+  to { opacity: 0; box-shadow: 0 0 0 14px color-mix(in srgb, var(--hb-fill) 0%, transparent); }
+}
+.hold-button__label { position: relative; z-index: 2; display: grid; place-items: center; }
+.hold-button__label > span { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.hold-button__clip { position: absolute; inset: 0; z-index: 3; clip-path: inset(0 round var(--hb-radius)); pointer-events: none; }
+.hold-button__fill {
+  position: absolute; inset: 0; display: grid; place-items: center; background: var(--hb-fill); color: var(--hb-fill-text);
+  clip-path: inset(0 calc((1 - var(--hb-p)) * (100% + 0.75 * var(--hb-wave)) - var(--hb-p) * 0.25 * var(--hb-wave)) 0 0);
+}
+.hold-button__crest {
+  position: absolute; inset: 0; display: grid; place-items: center; background: var(--hb-fill); color: var(--hb-fill-text);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='200' viewBox='0 0 20 200' preserveAspectRatio='none'%3E%3Cpath d='M0 0H10C18 8 18 25.3 10 33.3S2 58.7 10 66.7S18 92 10 100S2 125.3 10 133.3S18 158.7 10 166.7S2 192 10 200H0Z'/%3E%3C/svg%3E");
+          mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='200' viewBox='0 0 20 200' preserveAspectRatio='none'%3E%3Cpath d='M0 0H10C18 8 18 25.3 10 33.3S2 58.7 10 66.7S18 92 10 100S2 125.3 10 133.3S18 158.7 10 166.7S2 192 10 200H0Z'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: repeat-y; mask-repeat: repeat-y;
+  -webkit-mask-size: var(--hb-wave) calc(var(--hb-h) * 2); mask-size: var(--hb-wave) calc(var(--hb-h) * 2);
+  -webkit-mask-position-x: calc(-1 * var(--hb-wave) + var(--hb-p) * (var(--hb-w) + var(--hb-wave))); mask-position-x: calc(-1 * var(--hb-wave) + var(--hb-p) * (var(--hb-w) + var(--hb-wave)));
+  -webkit-mask-position-y: calc(-1 * var(--hb-p) * var(--hb-cycles) * var(--hb-h)); mask-position-y: calc(-1 * var(--hb-p) * var(--hb-cycles) * var(--hb-h));
+}
+@media (prefers-reduced-motion: reduce) {
+  .haltknopf.hold-button { transform: none !important; }
+  .hold-button__crest { display: none; }
+  .hold-button__pulse { animation: none !important; }
+}
+@media (max-width: 860px) { .haltknopf.hold-button { min-width: 0; width: 100%; max-width: 22rem; } }
+
+/* ======================================================== Feedback 41 (2026-11-09) == */
+/* App: die Zielgruppen sind die Schritte (Familien, Skischulen, Sportliche, Neu im Skigebiet),
+   jede mit Symbol; der aktive Schritt zeigt, was die App für diese Gruppe tut, und das iPhone
+   wechselt auf den passenden Bildschirm. */
+.app-akt__lede { margin-top: var(--sc-5) !important; max-width: 34ch; color: var(--sc-ink-soft); }
+.app-akt__schritte { margin-top: var(--sc-6); gap: 0.35rem; }
+.app-akt__schritte li { cursor: pointer; padding: 0.85rem 1.1rem; }
+.app-akt__schritte li h3 { display: flex; align-items: center; gap: 0.7rem; }
+.app-akt__symbol {
+  flex: none; width: 2.1rem; height: 2.1rem; padding: 0.42rem; border-radius: 10px; box-sizing: border-box;
+  background: var(--eis); fill: none; stroke: var(--sc-ink-soft); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+  transition: background-color 300ms var(--sc-ease-out), stroke 300ms var(--sc-ease-out);
+}
+.app-akt__schritte li.ist-aktiv .app-akt__symbol { background: var(--orange); stroke: #fff; }
+.app-akt__schritte li p { padding-left: 2.8rem; }
+@media (hover: hover) and (pointer: fine) { .app-akt__schritte li:not(.ist-aktiv):hover h3 { color: var(--sc-ink); } }
+@media (max-width: 860px) { .app-akt__lede { display: none; } .app-akt__schritte li p { padding-left: 0; } }
+
+/* vierter Bildschirm im iPhone: die Skigruppe (Karte wie bei „Gruppe“, eigenes Blatt) */
+.app[data-bild="3"] .app__person--mama, .app[data-bild="3"] .app__person--felix, .app[data-bild="3"] .app__person--lena { opacity: 1; }
+.app[data-bild="3"] .app__radius { opacity: 1; }
+.app[data-bild="3"] .app__karte { transform: scale(1.12) translateY(-6%); }
+.app[data-bild="3"] .app__sos { bottom: 64%; }
+.app[data-bild="3"] .app__blatt { height: 62%; }
+.app[data-bild="3"] .app__tabs [data-tab="2"] { background: linear-gradient(180deg, #ff6a2c, #e5450d); color: #fff; box-shadow: 0 2cqw 5cqw rgba(229, 69, 13, 0.45); }
+.app[data-bild="3"] .app__seite--schule { opacity: 1; transform: none; }
+.app__mini--da { background: #e3f5ec !important; color: #13804f !important; }
+/* Skischul-Bildschirm: wer hinten hängt, steht orange (wie in Tobias' Skischul-Ansicht) */
+.app__zeile--hinten small { color: #c2410c; font-weight: 700; }
+.app__zeile--hinten .app__mini { background: #ffe4d6; color: #c2410c; }
+/* Skischul-Bildschirm: wer hinten hängt, steht orange (wie in Tobias' Skischul-Ansicht) */
+.app__zeile--hinten small { color: #c2410c; font-weight: 700; }
+.app__zeile--hinten .app__mini { background: #ffe4d6; color: #c2410c; }
+
+/* ======================================================== Feedback 42 (2026-11-09) == */
+/* Das wechselnde Wort in eigener Form statt Notions Pille: kein Hintergrund, Buchstaben einzeln
+   (weich verschwommen hinaus nach oben, nacheinander herein von unten), darunter eine Skispur,
+   die sich bei jedem Wort neu zeichnet. Farbe je Wort: Blau, Orange, Himmel, Sand, Minze. */
+.wechsel {
+  display: inline-flex; justify-content: center; align-items: baseline; vertical-align: baseline;
+  padding: 0; margin: 0; background: none !important; border-radius: 0; overflow: visible; white-space: nowrap;
+  color: var(--wt); transition: color 500ms var(--sc-ease-out);
+}
+.wechsel[data-farbe="0"] { --wt: #2a4a8f; }
+.wechsel[data-farbe="1"] { --wt: #e5450d; }
+.wechsel[data-farbe="2"] { --wt: #2f63c9; }
+.wechsel[data-farbe="3"] { --wt: #b7791f; }
+.wechsel[data-farbe="4"] { --wt: #1c8f63; }
+.wechsel__innen { position: relative; display: inline-block; padding-bottom: 0.08em; }
+.wechsel__wort { display: inline-block; }
+.wechsel__b {
+  display: inline-block; transform-origin: 50% 80%;
+  transition: transform 520ms var(--sc-ease-out), opacity 420ms var(--sc-ease-out), filter 420ms var(--sc-ease-out);
+  transition-delay: calc(var(--n) * 28ms);
+}
+.wechsel.ist-raus .wechsel__b { transform: translateY(-0.32em); opacity: 0; filter: blur(6px); transition-duration: 280ms; transition-delay: calc(var(--n) * 14ms); }
+.wechsel.ist-rein .wechsel__b { transform: translateY(0.55em) rotate(4deg); opacity: 0; filter: blur(8px); transition: none; }
+.wechsel__spur { position: absolute; left: -0.04em; right: -0.04em; bottom: -0.16em; width: calc(100% + 0.08em); height: 0.24em; overflow: visible; pointer-events: none; }
+.wechsel__spur path {
+  fill: none; stroke: currentColor; stroke-width: 4.6; stroke-linecap: round; opacity: 0.85;
+  stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset 760ms cubic-bezier(0.65, 0, 0.35, 1) 220ms;
+}
+.wechsel.ist-raus .wechsel__spur path { stroke-dashoffset: -1; transition: stroke-dashoffset 360ms cubic-bezier(0.65, 0, 0.35, 1); }
+.wechsel.ist-rein .wechsel__spur path { stroke-dashoffset: 1; transition: none; }
+@media (prefers-reduced-motion: reduce) { .wechsel__b, .wechsel__spur path { transition: none; } }
