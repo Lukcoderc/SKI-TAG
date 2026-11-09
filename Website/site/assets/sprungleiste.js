@@ -11,6 +11,8 @@
   if (!leiste) return;
   var links = Array.prototype.slice.call(leiste.querySelectorAll(".sprungleiste__nav a"));
   var ziele = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+  // Ein Kapitel kann über mehrere Abschnitte reichen: data-bis nennt den letzten (App bis „Für jeden am Berg“)
+  var bis = links.map(function (a) { var b = a.getAttribute("data-bis"); return b ? document.querySelector(b) : null; });
   var dunkel = document.querySelectorAll(".nacht, .fuss");
   var breit = window.matchMedia("(min-width: 1200px) and (min-height: 520px)");
   var ruhig = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -28,7 +30,12 @@
     // wie weit eine Kante (oben/unten eines Abschnitts) schon über die Leselinie gerutscht ist
     var drueber = function (kante) { return klemme((linie + zone / 2 - kante) / zone); };
 
-    var rects = ziele.map(function (z) { return z ? z.getBoundingClientRect() : null; });
+    var rects = ziele.map(function (z, i) {
+      if (!z) return null;
+      var r = z.getBoundingClientRect();
+      if (!bis[i]) return r;
+      return { top: r.top, bottom: bis[i].getBoundingClientRect().bottom };
+    });
     links.forEach(function (a, i) {
       var r = rects[i];
       var w = 0, dehn = 0;

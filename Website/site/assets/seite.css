@@ -216,6 +216,17 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
   line-height: 1.12; letter-spacing: calc(0.005em - var(--w) * 0.025em); text-wrap: balance;
 }
 .sprungleiste__nav a span { opacity: calc(0.55 + var(--w) * 0.45); transition: transform 320ms var(--sc-ease-out); }
+/* „Das sind wir“ unten in der Seitenleiste, getrennt von den Kapiteln (eigene Seite) */
+.sprungleiste__wir {
+  grid-row: 3; align-self: end; justify-self: start; margin-left: 1.6rem; padding: 0.3rem 0 0.2rem;
+  font-family: var(--sc-font-text); font-weight: 600; font-size: 0.86rem; color: var(--sc-ink-soft); text-decoration: none;
+  border-bottom: 1.5px solid var(--orange); transition: color 200ms var(--sc-ease-out);
+}
+.sprungleiste__wir[aria-current="page"] { color: var(--sc-ink); }
+@media (hover: hover) and (pointer: fine) { .sprungleiste__wir:hover { color: var(--sc-ink); } }
+.sprungleiste.ist-nacht .sprungleiste__wir { color: var(--nacht-soft); }
+/* Kapitel: die Anfangsbuchstaben ergeben senkrecht SKITAG, nur dezent in Orange */
+.anfang { font-weight: inherit; color: var(--orange-2); }
 .sprungleiste__nav a::before {
   content: ""; flex: none; width: 1rem; height: 2px; border-radius: 2px; background: var(--orange);
   transform: scaleX(var(--w)); transform-origin: left center; transition: transform 200ms var(--sc-ease-out);
@@ -702,12 +713,15 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .wir__foto figcaption { margin-top: var(--sc-4); font-family: var(--sc-font-display); font-weight: 650; font-size: var(--sc-t-xl); letter-spacing: -0.03em; }
 
 /* -------------------------------------------------------- 10 · Schluss -- */
-/* Gebirge am unteren Rand von „Das sind wir“: wächst aus der dunklen Schluss-
+/* Gebirge am unteren Rand von „Gut zu wissen“ (bis 2026-11-09 „Das sind wir“): wächst aus der dunklen Schluss-
    Fläche nach oben ins Weiße. Drei Ketten in Nachtblau, die vordere in der Farbe
    des Schlusses, so gibt es keine Kante. Kommt es ins Bild, steigen die Ketten
    nacheinander hoch (seite.js setzt .ist-da). Ein Lift fährt auf den mittleren
    Gipfel, an der Bergstation blinkt der Empfänger. */
-.wir { position: relative; container-type: inline-size; padding-bottom: calc(var(--sc-section) * 0.6 + max(7rem, 15vw)); }
+/* Das Gebirge wächst unten aus „Gut zu wissen“ in die Nacht des Schlusses */
+.fragen { position: relative; container-type: inline-size; padding-bottom: calc(var(--sc-section) * 0.6 + max(7rem, 15vw)); }
+/* „Das sind wir“ als eigene Seite: genug Luft unter der Kopfleiste und bis zum Fuß */
+.wir--seite { min-height: 70vh; padding-top: calc(var(--sc-section) * 0.8 + 3.6rem); }
 .gebirge { position: absolute; left: 0; right: 0; bottom: -1px; height: max(7rem, 15cqi); overflow: hidden; pointer-events: none; }
 .gebirge__bild { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
 .gebirge__lage { transition: transform 1.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
@@ -866,7 +880,7 @@ section[id] { scroll-margin-top: 0; }
     pointer-events: auto; box-shadow: 0 8px 24px -12px rgba(11, 18, 38, 0.45);
     transition: opacity 320ms var(--sc-ease-out), transform 320ms var(--sc-ease-out), visibility 0s linear 0s, background-color var(--sc-d-fast) var(--sc-ease-out);
   }
-  /* nur am Anfang sichtbar: nach dem Einstieg blendet der Knopf aus, die Seitenleiste führt dann auch zu „Das sind wir“ */
+  /* nur am Anfang sichtbar: nach dem Einstieg blendet der Knopf aus, unten in der Seitenleiste führt ein eigener Link zu „Das sind wir“ */
   .leiste.ist-unten .knopf-dunkel {
     opacity: 0; transform: translateY(-8px); visibility: hidden; pointer-events: none;
     transition: opacity 320ms var(--sc-ease-out), transform 320ms var(--sc-ease-out), visibility 0s linear 320ms;
@@ -886,6 +900,7 @@ section[id] { scroll-margin-top: 0; }
   /* Über dunklen Abschnitten wird das Glas dunkel, wie die Kopfleiste am Tablet */
   .sprungleiste.ist-nacht { background: rgba(11, 18, 38, 0.86); border-right-color: rgba(255, 255, 255, 0.1); box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.04), 22px 0 44px -30px rgba(0, 0, 0, 0.6); }
   .sprungleiste.ist-nacht .sprungleiste__marke, .sprungleiste.ist-nacht .sprungleiste__nav a { color: var(--nacht-ink); }
+  .sprungleiste.ist-nacht .anfang { color: #ff8a5c; }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .sprungleiste { background: #fbfcfd; } .sprungleiste.ist-nacht { background: #141c33; } }
   .jeden__schiene {
     padding-inline: max(var(--sc-gutter), calc((var(--band) - var(--sc-maxw)) / 2 + var(--sc-gutter)));

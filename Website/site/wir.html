@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Das sind wir · SkiTag</title>
+<meta name="description" content="Maximilian, Lukas und Tobias: das Team hinter SkiTag, dem Mietchip für die Skijacke.">
+<meta name="theme-color" content="#f4f8fb">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><mask id='m' maskUnits='userSpaceOnUse' x='0' y='0' width='32' height='32'><rect width='32' height='32' fill='%23fff'/><path d='M5 23 L11.5 14 L15 18.5 L19.5 12 L27 23 Z' fill='%23000'/><circle cx='24.2' cy='12.2' r='3.6' fill='%23000'/></mask><rect x='1.5' y='6.5' width='29' height='19' rx='6.5' fill='%230b1226' mask='url(%23m)'/><circle cx='24.2' cy='12.2' r='2.2' fill='%23ff5a1c'/></svg>">
+<link rel="preload" href="assets/fonts/funnel-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/funnelsans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="scrollcraft.css?v=16">
+<script>
+/* Sparmodus für schwächere Geräte: kein Glas, kein Schnee, keine reinen Zier-Animationen.
+   Ohne Video im Einstieg nur, wenn die Seite hier schon einmal ruckelte oder Datensparen an ist. */
+(function () { try {
+  var n = navigator, w = document.documentElement, gemessen = localStorage.getItem("skitag-sparsam") === "1";
+  var spart = n.connection && n.connection.saveData;
+  if (gemessen || spart || (n.hardwareConcurrency && n.hardwareConcurrency <= 4) || (n.deviceMemory && n.deviceMemory <= 4)) w.classList.add("sparsam");
+  if (gemessen || spart || (n.deviceMemory && n.deviceMemory <= 2)) w.classList.add("sparsam-video");
+} catch (e) {} })();
+</script>
+<link rel="stylesheet" href="assets/seite.css?v=46">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g-orange" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a3d"/><stop offset=".55" stop-color="#ff5a1c"/><stop offset="1" stop-color="#e2470f"/></linearGradient>
+    <linearGradient id="g-graphit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a414c"/><stop offset="1" stop-color="#1c2027"/></linearGradient>
+    <radialGradient id="g-knopf" cx=".42" cy=".36" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".7" stop-color="#eef1f4"/><stop offset="1" stop-color="#cfd5dc"/></radialGradient>
+    <linearGradient id="g-glanz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <!-- Der Chip von oben: Hülle, Deckel in Signal-Orange, Knopf mit Kragen, LED. Verhältnis 120 × 60 mm. -->
+    <symbol id="chip-oben" viewBox="0 0 240 120">
+      <rect x="1" y="1" width="238" height="118" rx="31" fill="url(#g-graphit)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-orange)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-glanz)"/>
+      <text x="26" y="98" font-family="Funnel Display, sans-serif" font-weight="650" font-size="13" fill="#b33a0c" opacity=".55">SkiTag</text>
+      <circle cx="120" cy="60" r="31" fill="url(#g-graphit)"/>
+      <circle cx="120" cy="61.5" r="19" fill="#0e1116" opacity=".35"/>
+      <circle cx="120" cy="60" r="18" fill="url(#g-knopf)"/>
+      <circle cx="198" cy="88" r="4.2" fill="#fff4ee" style="fill: var(--led, #fff4ee)"/>
+    </symbol>
+    <!-- Der Tag im Einstieg: wie #chip-oben, mit sichtbarer Kante, leicht von vorn gesehen -->
+    <linearGradient id="g-kante" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a3039"/><stop offset="1" stop-color="#14171c"/></linearGradient>
+    <symbol id="chip-tag" viewBox="0 0 240 132">
+      <rect x="1" y="13" width="238" height="118" rx="31" fill="url(#g-kante)"/>
+      <rect x="1" y="1" width="238" height="118" rx="31" fill="url(#g-graphit)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-orange)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-glanz)"/>
+      <path d="M33 8.5 H207" stroke="#fff" stroke-opacity=".45" stroke-width="1.2" stroke-linecap="round"/>
+      <text x="26" y="98" font-family="Funnel Display, sans-serif" font-weight="650" font-size="13" fill="#b33a0c" opacity=".55">SkiTag</text>
+      <circle cx="120" cy="60" r="31" fill="url(#g-graphit)"/>
+      <circle cx="120" cy="62" r="19.5" fill="#0e1116" opacity=".4"/>
+      <circle cx="120" cy="60" r="18" fill="url(#g-knopf)"/>
+      <circle cx="198" cy="88" r="4.2" fill="#fff4ee" style="fill: var(--led, #fff4ee)"/>
+    </symbol>
+    <!-- Logo (Platzhalter bis zum echten Logo): der Chip von oben als runde Fläche,
+         der Berg ausgespart, oben rechts der orange Knopf. Fläche in currentColor,
+         damit es auf hellem und dunklem Grund passt; Berg und Lücke sind durchsichtig. -->
+    <mask id="logo-luecke" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32"><rect width="32" height="32" fill="#fff"/><path d="M5 23 L11.5 14 L15 18.5 L19.5 12 L27 23 Z" fill="#000"/><circle cx="24.2" cy="12.2" r="3.6" fill="#000"/></mask>
+    <symbol id="logo" viewBox="0 0 32 32">
+      <rect x="1.5" y="6.5" width="29" height="19" rx="6.5" fill="currentColor" mask="url(#logo-luecke)"/>
+      <circle cx="24.2" cy="12.2" r="2.2" fill="#ff5a1c"/>
+    </symbol>
+  </defs>
+</svg>
+<div class="rahmen" aria-hidden="true"></div>
+
+<header class="leiste">
+  <a class="marke" href="#oben" aria-label="SkiTag, zum Anfang">
+    <svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>
+    SkiTag
+    <svg class="marke__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+  <a class="knopf-dunkel" href="index.html">Zur Startseite</a>
+</header>
+
+<!-- Sprungmarken an der Seite, nur am breiten Bildschirm; am Handy öffnet das Logo die Seitenleiste -->
+<aside class="sprungleiste" aria-label="Seitenleiste">
+  <a class="sprungleiste__marke" href="index.html" aria-label="SkiTag, zum Anfang">
+    <svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>
+    SkiTag
+  </a>
+  <nav class="sprungleiste__nav" aria-label="Abschnitte">
+    <a href="index.html#blick"><span><b class="anfang">S</b>tart</span></a>
+    <a href="index.html#der-chip"><span><b class="anfang">K</b>nopf</span></a>
+    <a href="index.html#aufbau"><span><b class="anfang">I</b>nnenleben</span></a>
+    <a href="index.html#gebaut"><span><b class="anfang">T</b>echnik</span></a>
+    <a href="index.html#app" data-bis="#jeden"><span><b class="anfang">A</b>pp</span></a>
+    <a href="index.html#fragen"><span><b class="anfang">G</b>ut zu wissen</span></a>
+  </nav>
+  <a class="sprungleiste__wir" href="wir.html" aria-current="page">Das sind wir</a>
+</aside>
+
+<dialog id="seitenleiste" class="seite" aria-label="Inhalt der Seite">
+  <div class="seite__innen">
+    <div class="seite__kopf">
+      <a class="seite__marke" href="#oben"><svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag</a>
+      <button class="seite__zu" type="button" aria-label="Inhalt schließen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+    </div>
+    <nav aria-label="Abschnitte">
+      <ol>
+        <li><a href="index.html#blick"><b class="anfang">S</b>tart</a></li>
+        <li><a href="index.html#der-chip"><b class="anfang">K</b>nopf</a></li>
+        <li><a href="index.html#aufbau"><b class="anfang">I</b>nnenleben</a></li>
+        <li><a href="index.html#gebaut"><b class="anfang">T</b>echnik</a></li>
+        <li><a href="index.html#app"><b class="anfang">A</b>pp</a></li>
+        <li><a href="index.html#fragen"><b class="anfang">G</b>ut zu wissen</a></li>
+      </ol>
+    </nav>
+  </div>
+</dialog>
+
+<main id="oben">
+
+  <!-- Das sind wir: eigene Seite seit 2026-11-09 -->
+  <section id="wir" class="sc-section wir wir--seite" data-sc-act="flow" data-sc-drift="#f4f8fb" aria-labelledby="wir-titel">
+    <div class="sc-wrap">
+      <header class="kopfzeile wir__kopf" data-sc-in data-sc-stagger="80">
+        <p class="augenbraue">Das sind wir</p>
+        <h1 id="wir-titel" class="sc-display riesig">Das sind wir.</h1>
+        <p class="sc-lede kopfzeile__text">Wir haben SkiTag zu dritt angefangen und bauen jedes Teil selbst: die Hardware, das Netz und die App.</p>
+      </header>
+      <figure class="wir__foto" data-sc-in>
+        <div class="wir__platz" role="img" aria-label="Platzhalter für ein Foto von Maximilian, Lukas und Tobias">
+          <svg viewBox="0 0 120 60" aria-hidden="true"><g fill="currentColor"><circle cx="34" cy="20" r="8"/><path d="M20 50 C20 36 48 36 48 50 Z"/><circle cx="60" cy="16" r="9"/><path d="M44 50 C44 32 76 32 76 50 Z"/><circle cx="86" cy="20" r="8"/><path d="M72 50 C72 36 100 36 100 50 Z"/></g></svg>
+          <span>Foto von uns dreien folgt</span>
+        </div>
+        <figcaption>Maximilian, Lukas und Tobias</figcaption>
+      </figure>
+    </div>
+  </section>
+
+</main>
+
+<footer class="fuss">
+  <div class="fuss__innen">
+    <div class="fuss__marke">
+      <b><svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag</b>
+      <span>SkiTag GmbH · Firmenname, Sitz und Firmenbuch folgen (Platzhalter)</span>
+    </div>
+    <nav aria-label="Seite">
+      <b>Seite</b>
+      <a href="index.html#blick">Start</a><a href="index.html#der-chip">Knopf</a><a href="index.html#aufbau">Innenleben</a><a href="index.html#gebaut">Technik</a><a href="index.html#app">App</a><a href="index.html#fragen">Gut zu wissen</a><a href="wir.html" aria-current="page">Das sind wir</a>
+    </nav>
+    <nav aria-label="Rechtliches">
+      <b>Rechtliches</b>
+      <span>Impressum folgt</span><span>Datenschutz folgt</span>
+    </nav>
+    <div class="fuss__nachweis">
+      <b>Nachweise</b>
+      <span>Bergvideos und Fotos: Mixkit</span>
+      <span>3D: three.js (MIT)</span>
+      <span>Schrift der App: Bricolage Grotesque (OFL)</span>
+    </div>
+  </div>
+  <div class="fuss__wort" aria-hidden="true">
+    <p class="fuss__wort-zeile"><span style="--i:0">S</span><span style="--i:1">K</span><span style="--i:2">I</span><span style="--i:3">T</span><span style="--i:4">A</span><span style="--i:5">G</span></p>
+  </div>
+  <div class="fuss__leiste">
+    <span>© 2026 SkiTag</span>
+  </div>
+</footer>
+
+<a class="sprung-anfang" href="#oben" aria-label="Nach oben">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</a>
+
+<script src="scrollcraft.js?v=16"></script>
+<script>ScrollCraft.mount(document.body);</script>
+<script src="assets/seite.js?v=36" defer></script>
+<script src="assets/sprung-anfang.js?v=16" defer></script>
+<script src="assets/seitenleiste.js?v=17" defer></script>
+<script src="assets/sprungleiste.js?v=4" defer></script>
+</body>
+</html>
