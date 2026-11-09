@@ -322,3 +322,79 @@ Die Seilbahn braucht nicht so krass zu sein, einfach wie vorher, die Gondeln mü
 Bei „Was ist SKITAG?“ den Erklärungstext unter die Überschrift; die Kacheln überarbeiten, das Design gefällt nicht, auf den Vorbildseiten nach Ideen schauen.
 
 Umgesetzt: Satz unter der Überschrift. Drei Karten nach dem Vorbild von Cal.com: weiß mit feiner Linie, oben eine große Bildfläche mit bewegter Grafik (Gruppe wird gerufen, Notruf-Ring füllt sich bis „Notruf gesendet“, Funksignal läuft zur Liftstation), darunter Nummer, Titel und ein Satz.
+
+## Feedback 51 (Lukas, 2026-11-09)
+
+Links die Seitenleiste weg, weil Unterseiten dazukommen. Oben eine Leiste wie bei granola.ai (beim Scrollen erscheint sie erst im eigenen Design): links das Logo, in der Mitte Der Chip, Die App, Am Skitag, Feedback, rechts der Knopf „Das sind wir“. Ist man auf einer Seite wie „Der Chip“, erscheinen rechts neben ihrem Namen in einer Animation ihre Unterkapitel, nur auf dieser Seite. Die Seiten selbst noch nicht schreiben, das kommt im nächsten Schritt.
+
+Umgesetzt: Seitenleiste (`sprungleiste.js`) und Handy-Seitenleiste (`seitenleiste.js`) entfernt, dafür `kopfleiste.js` auf allen Seiten. Ganz oben liegt die Leiste ohne Grund über der Seite, sobald man scrollt, wird sie eine weiße Pille mit feinem Rand und weichem Schatten (wie bei Granola ragt die Pille etwas über den Inhalt hinaus, Logo und Links bewegen sich dabei nicht). Auf einer Kapitel-Seite wächst die hellblaue Pille der Seite nach rechts und gibt die Unterkapitel nacheinander frei; beim Scrollen ist das aktuelle weiß hervorgehoben, ein Klick springt hin. Unterkapitel sind die Abschnitte mit `data-unter` auf der Seite. Passt die Leiste nicht in die Breite (Handy, Tablet, „Die App“ unter etwa 1115 px), öffnet ein Menü-Knopf die Seiten als Liste mit den Unterkapiteln der aktuellen Seite. Neue Gerüste `chip.html`, `app.html`, `skitag.html`, `feedback.html` mit Platzhaltern („Inhalt folgt“); Unterkapitel als Vorschlag: Der Chip (Knopf, Innenleben, Technik), Die App (Familien, Skischulen, Alle auf der Piste, Neu im Skigebiet), Am Skitag und Feedback ohne. Nachtrag Lukas: „Am Skitag“ hat keine Unterkapitel, die Seite zeigt den Ablauf vom Mieten bis zum Zurückgeben als Timeline. Fuß auf allen Seiten mit den neuen Seiten. Die Startseite bleibt inhaltlich gleich.
+
+## Feedback 52 (Lukas, 2026-11-09)
+
+Die Animation der Unterkapitel oben sieht komisch aus: nach dem Klick zieht sie sich erst auseinander, dann zusammen, dann wieder auseinander.
+
+Ursache (gemessen): Beim Laden prüfte `kopfleiste.js`, ob die Leiste in die Breite passt, und klappte dafür die Unterkapitel an der echten Leiste kurz ganz auf; danach fuhren sie sichtbar wieder zu, bevor das eigentliche Ausfahren begann. Umgesetzt: gemessen wird jetzt an einer unsichtbaren Kopie der Leiste. Gemessen beim Laden von „Der Chip“ und „Die App“: die Breite wächst nur noch von 0 auf ganz (244 bzw. 448 px), sie wird nie kleiner. `kopfleiste.js?v=2`.
+
+## Feedback 53 (Lukas, 2026-11-09)
+
+Auf der Startseite „Ein Mietchip für …“ statt „Ein Chip für …“, dazu „dich“ als weiteres Wort.
+
+Umgesetzt: Überschrift „Ein Mietchip für [deine Gruppe · den Notfall · die Bergbahn · jeden Skitag · deine Kinder · die Skischule · jede Abfahrt · kalte Tage · dich]“, „dich“ als neuntes Wort am Ende. Geprüft in Chrome am PC und bei Handy-Breite: die Zeile bleibt beim Wechsel still (Höhe gemessen gleich).
+
+## Feedback 54 (Lukas, 2026-11-09)
+
+Über dem Fuß „Ein Knopf. Für alle im Skigebiet.“ weg, samt Chip-Bild und Knopf.
+
+Umgesetzt: Schluss-Abschnitt entfernt (Überschrift, Platzhalter-Chip, Knopf „Noch einmal ausprobieren“). Das Gebirge unter „Gut zu wissen“ wächst jetzt direkt in den Fuß, gleiches Nachtblau, ohne Trennlinie. Geprüft in Chrome, keine Fehler. `seite.css?v=71`.
+
+## Feedback 55 (Lukas, 2026-11-09)
+
+„Das sind wir“ soll besser in die Ecke der Leiste passen, die Abstände sehen unsauber aus, der Knopf ist zu weit am Rand.
+
+Gemessen: Der Knopf saß oben und rechts je 8 px vom Rand, aber als gerundetes Rechteck (10 px) im runden Ende der Pille, die Kurven liefen nicht parallel. Umgesetzt: In der Leiste ist der Knopf jetzt selbst eine Pille, ringsum genau 8 px Luft (gemessen oben, unten, rechts), wie der Download-Knopf bei Granola. Am Handy ebenso mit dem Menü-Knopf daneben. Die anderen Knöpfe der Seite bleiben gerundete Rechtecke. `seite.css?v=72`.
+
+## Feedback 56 (Lukas, 2026-11-09)
+
+Die Startseite kürzen, weil es jetzt die eigenen Seiten gibt. „Alles drin. Nichts zu viel.“ kommt ganz weg, das gehört zu „Der Chip“. Die App viel kürzer beschreiben; die längere Fassung, in der jeder Zugang der App einzeln beschrieben ist, kommt auf „Die App“, aber nicht in der jetzigen Form, die wäre dort zu kurz.
+
+Umgesetzt: Abschnitt „Innenleben“ (`#aufbau`) von der Startseite entfernt (Inhalt für „Der Chip“ später; `drinsteckt.js` liegt weiter bereit). „App“ ist keine gepinnte Scroll-Strecke mehr (vorher 3,6 Bildschirme), sondern ein normaler Abschnitt von etwa einem Bildschirm: Überschrift „Vom Kind bis zum Profi.“, ein Satz, die vier Zielgruppen nur noch als Marken mit Symbol (Familien, Skischulen, Alle auf der Piste, Neu im Skigebiet), Knopf „Mehr zur App“ zu `app.html`, rechts das iPhone. Die Marken schalten den Bildschirm im iPhone um; solange der Abschnitt zu sehen ist, wechselt er alle 4 s von selbst (hält an, wenn man mit den Marken arbeitet; bei „weniger Bewegung“ nur auf Klick). Die ausführlichen Texte je Zielgruppe sind von der Startseite weg und werden für „Die App“ neu und länger geschrieben. Geprüft in Chrome am PC und bei Handy-Breite, keine Fehler. `seite.css?v=73`, `seite.js?v=49`.
+
+## Feedback 57 (Lukas, 2026-11-09)
+
+Die Seite „Die App“ schreiben. Erstes Kapitel eine grundlegende Zusammenfassung, was die App ist. Dann alle Zugänge: was die App kann, wenn man allein fährt, die Familienansicht und die Skischul-Ansicht. Am Schluss die Ansicht für das Skigebiet, die Bergbahn, die sieht, wenn jemand den Knopf drückt; dazu die Kontaktseite verlinken, die zu „Das sind wir“ kommt. Mit Bildern und Animationen aus der App arbeiten, gern Scroll-Animationen. Quelle: Tobias' App (tobiass3.github.io/SKI-TAG).
+
+Umgesetzt: `app.html` mit fünf Unterkapiteln in der Kopfleiste: Überblick, Allein, Familie, Skischule, Skigebiet. Quelle war Tobias' App (öffentlicher Quellcode, lokal mit den Test-Codes aus dem Code angesehen, Stand 8. November): Funktionen und Wortlaut der drei Ansichten Gast, Skischule und Bergbahn (Leitstand). Nicht übernommen: Skigebiets- und Pistennamen, Tempo und Top-Speed.
+- **Überblick:** „Ein Code. Kein Konto.“: Vorname und Code vom Mietbeleg, gilt bis Mitternacht, der Code bestimmt die Ansicht; für Gäste ist die App ein Extra, der Notruf geht über den Chip. Vier Kacheln zu den Kapiteln. Daneben ein iPhone mit dem Login als Animation (Name tippt sich, Code füllt sich, „Willkommen am Berg“).
+- **Allein, Familie, Skischule, Skigebiet** als Scroll-Erzählungen: links die Schritte, rechts ein iPhone, das stehen bleibt und zu jedem Schritt einen eigenen, bewegten Bildschirm zeigt. Allein: Tag starten, Zahlen und Höhenprofil, Abzeichen, Weg ins Tal mit Liftschluss-Hinweis, Tagesfilm. Familie: Gruppe live, Reichweiten-Alarm (Radar, Kind geht über den Ring, nur der eigene Chip vibriert), ganze Gruppe rufen. Skischule: durchzählen 8/8, „hängt hinten“ mit Anpiepsen (Kind kommt zurück), Kurs und Nachricht an die Eltern, Notruf eines Kindes. Skigebiet (dunkel): roter Punkt auf der Karte, „Notruf für Sie“ mit Countdown und „Annehmen“, Einsatz mit Schritten, Team und Lifte. Am Ende „Du arbeitest bei einer Bergbahn?“ mit „Kontakt aufnehmen“ zu `wir.html#kontakt`.
+- `wir.html` hat dafür einen Abschnitt „Kontakt“ mit Platzhalter („Kontaktdaten folgen“).
+- Am Handy steht das iPhone oben und die Schritte laufen darunter durch; bei „weniger Bewegung“ zeigt jeder Bildschirm seinen Endzustand. Neue Dateien `assets/app-seite.css` und `assets/app-seite.js` (nur auf app.html). Geprüft in Chrome am PC (alle Bildschirme) und bei Handy-Breite, keine Fehler. Die volle Kopfleiste mit fünf Unterkapiteln passt ab etwa 1115 px Breite, darunter das Menü. `seite.css?v=76`.
+
+## Feedback 58 (Lukas, 2026-11-09)
+
+Das Wort „Leitstand“ gefällt nicht, ein anderes finden. Im Überblick bei der Skischule eher: alle Schüler auf einen Blick, und wenn jemand hinten bleibt, kommt ein Alarm, besser formuliert.
+
+Umgesetzt: „Leitstand“ heißt jetzt überall „Einsatzkarte“ (Überschrift „Die Einsatzkarte. Für die Bergbahn.“, Kachel, Kopf im iPhone „Einsatzkarte · live“, Kontakt-Kasten). Kachel Skischule: „Alle Schüler auf einen Blick. Bleibt einer zurück, meldet sich die App sofort.“ (bewusst nicht „Alarm“, damit es nicht nach Notruf klingt).
+
+## Feedback 59 (Lukas, 2026-11-09)
+
+Nicht für alles einen eigenen Bildschirm mit Animation. Animationen, die mehrere Funktionen zeigen, und der Text ändert sich mit dem Scrollen; dafür gern ScrollCraft. Gut erklärt, übersichtlich und clean.
+
+Umgesetzt: Allein, Familie, Skischule und Skigebiet sind je eine gepinnte ScrollCraft-Szene (3,2 Bildschirme). Links Titel, drei Marken mit Füllbalken und ein Text, der in drei Teilen wechselt; rechts EIN App-Bild, das vom Scrollen getrieben wird statt in Schleife zu laufen. Allein: die Spur zeichnet sich, man fährt sie entlang, Zahlen zählen mit, dann Abzeichen, dann die Route ins Tal mit Liftschluss-Hinweis. Familie: alle erscheinen auf der Karte, der Ring legt sich um dich, Felix fährt hinaus (Meldung), nach „Ganze Gruppe rufen“ kommt er zurück. Skischule: acht Kinder erscheinen im Kreis, „Alle 8 da“, eins bleibt zurück (orange 7, Banner), nach dem Anpiepsen kommt es zurück. Einsatzkarte (dunkel): roter Punkt, „Notruf für Sie“ mit ablaufender Frist und „Annehmen“, dann fährt Markus die Route zum Punkt und der Einsatz springt auf „Vor Ort“. Weggefallen: eigene Bildschirme für Tag starten, Tagesfilm, Kurs und Team (stehen nur noch im Text), die Nummern „01“ und die kleinen Überschriften über den Kapiteln. Geprüft in Chrome am PC (alle Teile) und bei Handy-Breite, keine Fehler. `app-seite.css?v=3`, `app-seite.js?v=2`.
+
+## Feedback 60 (Lukas, 2026-11-09)
+
+Bei „Am Skitag“ einen Zeitablauf: wo und wie man den Chip mietet und dass man ihn danach zurückgeben muss, als Zeitstrahl. Im Internet nachschauen, wie man das cool und ein bisschen animiert macht.
+
+Recherche: Zeitstrahlen, deren Linie sich beim Scrollen zeichnet und deren Stationen erscheinen, sobald die Linie sie erreicht (z. B. die Framer-Komponente „Threadline“), und Codrops (Mai 2026) mit einem Marker, der auf einem gezeichneten Pfad mitfährt. Umgesetzt ohne fremde Bibliothek in `skitag.html` mit `assets/skitag.css` und `assets/skitag.js`: Überschrift „Am Skitag. Vom Mieten bis zur Rückgabe.“, dann sieben Stationen an einer senkrechten Linie, die sich mit dem Scrollen füllt; an ihrer Spitze fährt ein kleiner oranger Chip mit, jede Station ploppt auf, wenn er sie erreicht. Links eine Uhr, die mitläuft (08:10 bis 00:00), dahinter ein Himmel über den Bergen: die Sonne wandert, abends wird es orange, nachts dunkel mit Mond und Sternen. Stationen: Chip holen (Kassa oder Automat, Automaten rund um die Uhr, Mietbeleg mit Code, Gruppe an der Kassa), In die Jacke (App freiwillig, ohne Konto), Erster Lift („Tag starten“), Am Berg (kurz drücken, drei Sekunden halten), Ins Tal (Liftschluss-Hinweis, Tagesfilm), Chip zurückgeben (hervorgehoben, „Nicht vergessen“; Notruf funktioniert bis zur Rückgabe), Mitternacht (Code läuft ab, Spur gelöscht). Fakten aus Tobias' App und der Präsentation; keine Orte, Preise oder Ladestationen. Am Handy wird die Uhr eine schmale Leiste oben. Geprüft in Chrome am PC (Morgen, Mittag, Abend, Nacht) und bei Handy-Breite, keine Fehler.
+
+## Feedback 61 (Lukas, 2026-11-09)
+
+Der Satz unter „Vom Kind bis zum Profi.“ auf der Startseite („Ein Chip für alle in der Jacke, dazu eine App, die jedem gibt, was er am Berg braucht.“) ist schlecht formuliert.
+
+Umgesetzt: „Eltern sehen, wo ihre Kinder sind, Skilehrer ihre ganze Gruppe. Und du deinen Tag und den Weg ins Tal.“
+
+## Feedback 62 (Lukas, 2026-11-09)
+
+Im Internet und auf Pinterest nach den besten Feedback-Seiten schauen und bei „Feedback“ in einem eigenen Design einbauen. Muss noch nicht funktionieren, soll aber gut aussehen.
+
+Recherche: Formulare mit einer Frage nach der anderen (Typeform-Art), spielerische Bewertungen statt Sternen (Emoji-Regler, Kacheln, die auf die Wahl reagieren; Dribbble-Sammlungen, 21st.dev, Superdesign), Bilder statt Textlisten (Formspree). Umgesetzt in `feedback.html` mit `assets/feedback.css` und `assets/feedback.js`: eine große Karte, links eine Bergszene, rechts vier Fragen nacheinander. 1. „Wie gefällt dir SkiTag?“ als Wetter-Regler von Schneesturm über Nebel, Bewölkt und Sonnig bis Pulvertag; die Szene ändert dabei ihr Wetter (Schnee, Nebel, Wolken, Sonne, Funkeln) und zeigt den „Wetterbericht“ groß. 2. „Wer bist du am Berg?“ als Kacheln. 3. „Was ist dir am wichtigsten?“ als Mehrfachwahl. 4. „Was sollen wir besser machen?“ mit Nachricht und freiwilligem Vornamen. Fortschritt als Slalom: je Frage ein Tor, ein kleiner Chip fährt hindurch bis ins Ziel. Abschicken wie am Chip: Knopf halten, bis der Ring voll ist, dann „Danke, Name!“. Das Formular sendet nichts; das steht als „Vorschau: Das Formular schickt noch nichts ab.“ beim Knopf und im Danke-Text. Geprüft in Chrome am PC (alle Wetterlagen, alle Schritte, Halten) und bei Handy-Breite, keine Fehler.

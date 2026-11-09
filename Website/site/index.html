@@ -20,17 +20,16 @@
   if (gemessen || spart || (n.deviceMemory && n.deviceMemory <= 2)) w.classList.add("sparsam-video");
 } catch (e) {} })();
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=69">
+<link rel="stylesheet" href="assets/seite.css?v=76">
 <noscript><style>.lade { display: none; }</style></noscript>
 </head>
 <body>
 
-<!-- Ladebildschirm: das Gerüst des Einstiegs als graue Flächen, bis Schrift und Bild da sind.
+<!-- Ladebildschirm: das Gerüst des Einstiegs (Kopfleiste, Titel, Text, Video) als graue Flächen, bis Schrift und Bild da sind.
      seite.js blendet es aus; ohne JavaScript erscheint es nicht (noscript im Kopf). -->
 <div class="lade" aria-hidden="true">
-  <div class="lade__leiste"><span class="lade__k lade__logo"></span><span class="lade__nav"><span class="lade__k"></span><span class="lade__k"></span><span class="lade__k"></span><span class="lade__k"></span><span class="lade__k"></span><span class="lade__k"></span></span></div>
   <div class="lade__blatt">
-    <div class="lade__kopf"><span class="lade__k lade__marke"></span><span class="lade__k lade__pille"></span></div>
+    <div class="lade__kopf"><span class="lade__k lade__marke"></span><span class="lade__nav"><span class="lade__k"></span><span class="lade__k"></span><span class="lade__k"></span><span class="lade__k"></span></span><span class="lade__k lade__pille"></span></div>
     <div class="lade__mitte">
       <span class="lade__k lade__zeile"></span><span class="lade__k lade__zeile"></span><span class="lade__k lade__zeile"></span>
       <span class="lade__k lade__text"></span><span class="lade__k lade__text"></span>
@@ -82,51 +81,28 @@
 </svg>
 
 <div class="akt-balken" aria-hidden="true"><span class="akt-balken__fuell"></span></div>
-<div class="rahmen" aria-hidden="true"></div>
 
-<header class="leiste">
-  <a class="marke" href="#oben" aria-label="SkiTag, zum Anfang">
-    <svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>
-    SkiTag
-    <svg class="marke__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </a>
-  <a class="knopf-dunkel" href="wir.html">Das sind wir</a>
-</header>
-
-<!-- Sprungmarken an der Seite, nur am breiten Bildschirm; am Handy öffnet das Logo die Seitenleiste -->
-<aside class="sprungleiste" aria-label="Seitenleiste">
-  <a class="sprungleiste__marke" href="#oben" aria-label="SkiTag, zum Anfang">
-    <svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>
-    SkiTag
-  </a>
-  <nav class="sprungleiste__nav" aria-label="Abschnitte">
-    <a href="#blick"><span><b class="anfang">S</b>tart</span></a>
-    <a href="#der-chip"><span><b class="anfang">K</b>nopf</span></a>
-    <a href="#aufbau"><span><b class="anfang">I</b>nnenleben</span></a>
-    <a href="#gebaut"><span><b class="anfang">T</b>echnik</span></a>
-    <a href="#app"><span><b class="anfang">A</b>pp</span></a>
-    <a href="#fragen"><span><b class="anfang">G</b>ut zu wissen</span></a>
-  </nav>
-</aside>
-
-<dialog id="seitenleiste" class="seite" aria-label="Inhalt der Seite">
-  <div class="seite__innen">
-    <div class="seite__kopf">
-      <a class="seite__marke" href="#oben"><svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag</a>
-      <button class="seite__zu" type="button" aria-label="Inhalt schließen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+<!-- Kopfleiste wie bei Granola: oben unsichtbar, beim Scrollen eine weiße Pille (kopfleiste.js).
+     Auf der Seite eines Kapitels fahren rechts neben seinem Namen die Unterkapitel aus. -->
+<header class="oben">
+  <nav class="oben__pille" aria-label="Hauptmenü">
+    <a class="oben__marke" href="index.html" aria-label="SkiTag, zur Startseite">
+      <svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>
+      SkiTag
+    </a>
+    <ul class="oben__seiten">
+      <li><a href="chip.html">Der Chip</a></li>
+      <li><a href="app.html">Die App</a></li>
+      <li><a href="skitag.html">Am Skitag</a></li>
+      <li><a href="feedback.html">Feedback</a></li>
+    </ul>
+    <div class="oben__rechts">
+      <a class="knopf-dunkel oben__wir" href="wir.html">Das sind wir</a>
+      <button class="oben__menue-knopf" type="button" aria-expanded="false" aria-controls="oben-menue" aria-label="Menü öffnen"><span></span><span></span></button>
     </div>
-    <nav aria-label="Abschnitte">
-      <ol>
-        <li><a href="#blick"><b class="anfang">S</b>tart</a></li>
-        <li><a href="#der-chip"><b class="anfang">K</b>nopf</a></li>
-        <li><a href="#aufbau"><b class="anfang">I</b>nnenleben</a></li>
-        <li><a href="#gebaut"><b class="anfang">T</b>echnik</a></li>
-        <li><a href="#app"><b class="anfang">A</b>pp</a></li>
-        <li><a href="#fragen"><b class="anfang">G</b>ut zu wissen</a></li>
-      </ol>
-    </nav>
-  </div>
-</dialog>
+  </nav>
+  <div class="oben__menue" id="oben-menue" hidden></div>
+</header>
 
 <main id="oben">
 
@@ -134,7 +110,7 @@
   <section class="held" data-sc-act="flow" data-sc-drift="#ffffff" aria-labelledby="titel">
     <div class="held__kopf">
         <!-- Das Wort in der Pille wechselt (seite.js), Vorleser bekommen den ganzen Satz -->
-        <h1 id="titel" class="sc-display"><span class="nur-vorlesen">Ein Chip für deine Gruppe, den Notfall, die Bergbahn, jeden Skitag, deine Kinder, die Skischule, jede Abfahrt und kalte Tage.</span><span aria-hidden="true">Ein Chip für <span class="wechsel" data-woerter="deine Gruppe|den Notfall|die Bergbahn|jeden Skitag|deine Kinder|die Skischule|jede Abfahrt|kalte Tage" data-farbe="0"><span class="wechsel__innen"><span class="wechsel__wort">deine Gruppe</span><svg class="wechsel__spur" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M3 15 C 38 3, 62 22, 100 12 S 160 3, 198 13 S 262 21, 297 8" pathLength="1"/></svg></span></span></span></h1>
+        <h1 id="titel" class="sc-display"><span class="nur-vorlesen">Ein Mietchip für deine Gruppe, den Notfall, die Bergbahn, jeden Skitag, deine Kinder, die Skischule, jede Abfahrt, kalte Tage und dich.</span><span aria-hidden="true">Ein Mietchip für <span class="wechsel" data-woerter="deine Gruppe|den Notfall|die Bergbahn|jeden Skitag|deine Kinder|die Skischule|jede Abfahrt|kalte Tage|dich" data-farbe="0"><span class="wechsel__innen"><span class="wechsel__wort">deine Gruppe</span><svg class="wechsel__spur" viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M3 15 C 38 3, 62 22, 100 12 S 160 3, 198 13 S 262 21, 297 8" pathLength="1"/></svg></span></span></span></h1>
         <p class="held__satz">Kurz drücken ruft deine Gruppe, drei Sekunden halten holt Hilfe. Ohne Handy, ohne Handynetz.</p>
         <div class="held__knoepfe"><a class="knopf-dunkel knopf-gross" href="#der-chip">Gleich ausprobieren <svg class="knopf__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="knopf-hell knopf-gross" href="#blick">Was ist SKITAG?</a></div>
     </div>
@@ -404,31 +380,6 @@
     </div>
   </section>
 
-  <!-- 3 · Was drinsteckt (Nacht) -->
-  <section id="aufbau" class="aufbau nacht" data-sc-act="pin" data-sc-span="2.2" data-sc-drift="#0e1d40" aria-labelledby="aufbau-titel">
-    <div data-sc-stage class="aufbau__buehne">
-      <div class="aufbau__text">
-        <p class="augenbraue augenbraue--hell">Innenleben</p>
-        <h2 id="aufbau-titel" class="sc-display riesig">Alles drin.<br><span class="leise">Nichts zu viel.</span></h2>
-        <p class="sc-lede">Ein Knopf, ein Licht, Funk und GPS und ein Akku, der einen ganzen Skitag hält. Klein und weich genug für die Skijacke.</p>
-      </div>
-      <figure class="aufbau__bild">
-        <!-- Platzhalter: das echte 3D-Modell des Chips kommt später (drinsteckt.js bleibt dafür liegen) -->
-        <div class="aufbau__modell platzhalter" role="img" aria-label="Platzhalter für das 3D-Modell des Chips"><span>3D-Modell folgt</span></div>
-        <!-- Beim Scrollen leuchten die Teile nacheinander auf (über --sc-p, ohne Skript) -->
-        <ol class="aufbau__teile">
-          <li style="--i:0">Knopf</li>
-          <li style="--i:1">Licht</li>
-          <li style="--i:2">Funk und GPS</li>
-          <li style="--i:3">Vibration</li>
-          <li style="--i:4">Akku</li>
-          <li style="--i:5">Kabellos laden</li>
-          <li style="--i:6">Weiche Hülle</li>
-        </ol>
-      </figure>
-    </div>
-  </section>
-
   <!-- 4 · Gebaut für den Berg: Kacheln mit Zahlen -->
   <section id="gebaut" class="sc-section gebaut" data-sc-act="flow" data-sc-drift="#f4f5f7" aria-labelledby="gebaut-titel">
     <div class="sc-wrap">
@@ -497,20 +448,22 @@
     </div>
   </section>
 
-  <!-- 6 · Die App: ein iPhone mit den Bildschirmen der App -->
-  <section id="app" class="app-akt" data-sc-act="pin" data-sc-span="3.6" data-sc-drift="#ffffff" aria-labelledby="app-titel">
-    <div data-sc-stage class="app-akt__buehne">
+  <!-- 6 · Die App, kurz (seit Feedback 56): Überschrift, ein Satz, die Zielgruppen als Marken, dazu das iPhone.
+       Die Zielgruppen im Einzelnen kommen auf app.html. -->
+  <section id="app" class="app-akt app-akt--kurz" data-sc-act="flow" data-sc-drift="#ffffff" aria-labelledby="app-titel">
+    <div class="app-akt__buehne">
       <div class="app-akt__links">
         <p class="augenbraue">App</p>
         <h2 id="app-titel" class="sc-display riesig">Vom Kind<br><span class="leise">bis zum Profi.</span></h2>
-          <p class="sc-lede app-akt__lede">Ein Chip für alle in der Jacke, dazu eine App, die jedem gibt, was er am Berg braucht.</p>
-          <!-- Die Zielgruppen sind die Schritte; data-bild nennt den passenden Bildschirm im iPhone -->
-          <ol class="app-akt__schritte">
-            <li data-bild="1"><h3><svg class="app-akt__symbol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="6.5" r="2.6"/><path d="M3.5 20v-4.5a4.5 4.5 0 0 1 9 0V20"/><circle cx="17" cy="10" r="2"/><path d="M14 20v-3a3 3 0 0 1 6 0v3"/></svg>Familien</h3><p>Die Kinder im Blick: ein Radius für jedes Kind, alle auf einer Karte. Ein Tipp, und alle Chips vibrieren zum Treffen.</p></li>
-            <li data-bild="3"><h3><svg class="app-akt__symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4M5 4h10l-2 3 2 3H5"/><circle cx="16" cy="15" r="1.8"/><circle cx="11" cy="17" r="1.8"/><circle cx="20" cy="18" r="1.4"/></svg>Skischulen</h3><p>Jede Gruppe auf einer Karte und schnell durchgezählt. Hängt ein Kind hinten, sieht es der Skilehrer sofort.</p></li>
-            <li data-bild="2"><h3><svg class="app-akt__symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20l6-9 4 5 3-4 7 8"/><path d="M14 6l2-3 2 3"/><path d="M9 11c2 1 3 3 3 5" stroke-dasharray="2 2"/></svg>Alle auf der Piste</h3><p>Deine Abfahrten, Tiefenmeter und Liftfahrten, ganz ohne Sportuhr. Am Abend dein Tagesfilm mit Karte.</p></li>
-            <li data-bild="0"><h3><svg class="app-akt__symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-6.2-6-11a6 6 0 0 1 12 0c0 4.8-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg>Neu im Skigebiet</h3><p>Zurück zum Start oder der schnellste Weg ins Tal, mit Fahrzeit. Die App führt dich über Pisten und Lifte.</p></li>
-          </ol>
+          <p class="sc-lede app-akt__lede">Eltern sehen, wo ihre Kinder sind, Skilehrer ihre ganze Gruppe. Und du deinen Tag und den Weg ins Tal.</p>
+          <!-- Die Marken schalten den Bildschirm im iPhone um; sonst wechselt er von selbst (seite.js) -->
+          <div class="app-akt__fuer" role="group" aria-label="Für wen die App ist">
+            <button type="button" data-bild="1" aria-pressed="true"><svg class="app-akt__symbol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="6.5" r="2.6"/><path d="M3.5 20v-4.5a4.5 4.5 0 0 1 9 0V20"/><circle cx="17" cy="10" r="2"/><path d="M14 20v-3a3 3 0 0 1 6 0v3"/></svg>Familien</button>
+            <button type="button" data-bild="3" aria-pressed="false"><svg class="app-akt__symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4M5 4h10l-2 3 2 3H5"/><circle cx="16" cy="15" r="1.8"/><circle cx="11" cy="17" r="1.8"/><circle cx="20" cy="18" r="1.4"/></svg>Skischulen</button>
+            <button type="button" data-bild="2" aria-pressed="false"><svg class="app-akt__symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20l6-9 4 5 3-4 7 8"/><path d="M14 6l2-3 2 3"/><path d="M9 11c2 1 3 3 3 5" stroke-dasharray="2 2"/></svg>Alle auf der Piste</button>
+            <button type="button" data-bild="0" aria-pressed="false"><svg class="app-akt__symbol" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-6.2-6-11a6 6 0 0 1 12 0c0 4.8-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg>Neu im Skigebiet</button>
+          </div>
+          <a class="knopf-dunkel knopf-gross app-akt__mehr" href="app.html">Mehr zur App <svg class="knopf__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
 
       <figure class="iphone" role="img" aria-label="Ein iPhone mit der SkiTag-App: Karte mit Route, die eigene Gruppe und der Rückblick auf den Tag.">
@@ -520,7 +473,7 @@
             <div class="iphone__insel"></div>
             <div class="iphone__statuszeile"><span>9:41</span><span class="iphone__symbole"><i class="sym-netz"></i><i class="sym-wlan"></i><i class="sym-akku"></i></span></div>
 
-            <div class="app" data-bild="0">
+            <div class="app" data-bild="1">
               <!-- Karte -->
               <svg class="app__karte" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
                 <defs>
@@ -703,18 +656,9 @@
     </div>
   </section>
 
-  <!-- 10 · Schluss (Nacht) -->
-  <section class="schluss nacht" data-sc-act="flow" data-sc-drift="#0e1d40" aria-labelledby="schluss-titel">
-    <div class="sc-wrap schluss__innen" data-sc-in data-sc-stagger="100">
-      <div class="schluss__chip platzhalter platzhalter--nacht" aria-hidden="true"><span>Chip folgt</span></div>
-      <h2 id="schluss-titel" class="sc-display schluss__titel">Ein Knopf.<br><span class="leise">Für alle im Skigebiet.</span></h2>
-      <a class="knopf-orange" href="#der-chip">Noch einmal ausprobieren</a>
-    </div>
-  </section>
-
 </main>
 
-<footer class="fuss">
+<footer class="fuss fuss--berg">
   <div class="fuss__innen">
     <div class="fuss__marke">
       <b><svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag</b>
@@ -722,7 +666,7 @@
     </div>
     <nav aria-label="Seite">
       <b>Seite</b>
-      <a href="#blick">Start</a><a href="#der-chip">Knopf</a><a href="#aufbau">Innenleben</a><a href="#gebaut">Technik</a><a href="#app">App</a><a href="#fragen">Gut zu wissen</a><a href="wir.html">Das sind wir</a>
+      <a href="index.html" aria-current="page">Start</a><a href="chip.html">Der Chip</a><a href="app.html">Die App</a><a href="skitag.html">Am Skitag</a><a href="feedback.html">Feedback</a><a href="wir.html">Das sind wir</a>
     </nav>
     <nav aria-label="Rechtliches">
       <b>Rechtliches</b>
@@ -752,9 +696,8 @@
 if (document.documentElement.classList.contains("sparsam-video")) { var v = document.querySelector(".held__video"); if (v) { v.removeAttribute("autoplay"); v.preload = "none"; v.pause(); } }
 ScrollCraft.mount(document.body);
 </script>
-<script src="assets/seite.js?v=47" defer></script>
-<script src="assets/sprung-anfang.js?v=17" defer></script>
-<script src="assets/seitenleiste.js?v=17" defer></script>
-<script src="assets/sprungleiste.js?v=4" defer></script>
+<script src="assets/seite.js?v=49" defer></script>
+<script src="assets/sprung-anfang.js?v=18" defer></script>
+<script src="assets/kopfleiste.js?v=2" defer></script>
 </body>
 </html>

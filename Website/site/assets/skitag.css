@@ -1,0 +1,105 @@
+/* SkiTag · Seite „Am Skitag“ (seit Feedback 60), nur auf skitag.html geladen.
+   Zeitstrahl vom Mieten bis zur Rückgabe. Rechts die Stationen an einer senkrechten Linie, die sich
+   beim Scrollen füllt; ein kleiner oranger Chip fährt an ihrer Spitze mit, jede Station erscheint,
+   sobald er sie erreicht (.ist-da). Links steht eine Uhr, die mitläuft, dahinter ein Himmel über den
+   Bergen: die Sonne wandert von links nach rechts, abends wird es orange, nachts dunkel mit Mond.
+   skitag.js setzt --linie (0 bis 1), --sonne-x/-y, --himmel-o/-u und .ist-nacht. */
+
+.tag-kopf { padding-bottom: calc(var(--sc-section) * 0.35); }
+
+.tag { padding-block: calc(var(--sc-section) * 0.2) var(--sc-section); }
+.tag__raster { display: grid; grid-template-columns: minmax(15rem, 0.8fr) minmax(0, 1.4fr); gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+
+/* ------------------------------------------------------------ Uhr -- */
+.tag__uhr { position: sticky; top: calc(50svh - 11rem); display: grid; gap: 1.1rem; }
+.tag__himmel {
+  --himmel-o: #f6d9c8; --himmel-u: #e4eefb;
+  position: relative; aspect-ratio: 4 / 3; border-radius: 24px; overflow: hidden;
+  background: linear-gradient(180deg, var(--himmel-o), var(--himmel-u));
+  box-shadow: inset 0 0 0 1px rgba(14, 29, 64, 0.06);
+}
+.tag__sonne, .tag__mond {
+  position: absolute; left: var(--sonne-x, 10%); top: var(--sonne-y, 70%); width: 15%; aspect-ratio: 1; border-radius: 50%; translate: -50% -50%;
+  transition: opacity 400ms ease;
+}
+.tag__sonne { background: radial-gradient(circle at 40% 40%, #fff6c8, #ffc23d 60%, #ff9a1f); box-shadow: 0 0 0 10px rgba(255, 200, 80, 0.18), 0 0 0 22px rgba(255, 200, 80, 0.08); }
+.tag__mond { left: 74%; top: 24%; width: 12%; background: #f3f0e4; box-shadow: inset -6px -3px 0 0 #cfc9b4; opacity: 0; }
+.tag__stern { position: absolute; left: var(--x); top: var(--y); width: 3px; height: 3px; border-radius: 50%; background: #fff; opacity: 0; transition: opacity 600ms ease; }
+.tag__berge { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 48%; }
+.tag__berg-hinten { fill: #c4d3e8; transition: fill 400ms ease; }
+.tag__berg-vorn { fill: #8fa5c6; transition: fill 400ms ease; }
+.tag.ist-nacht .tag__sonne { opacity: 0; }
+.tag.ist-nacht .tag__mond, .tag.ist-nacht .tag__stern { opacity: 1; }
+.tag.ist-nacht .tag__berg-hinten { fill: #23345f; }
+.tag.ist-nacht .tag__berg-vorn { fill: #14244a; }
+.tag__anzeige { display: flex; align-items: baseline; gap: 0.9rem; padding-left: 0.2rem; }
+.tag__zeit { font-family: var(--sc-font-display); font-weight: 680; font-size: clamp(2.6rem, 1.6rem + 2.4vw, 3.8rem); letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+.tag__was { font-weight: 600; color: var(--sc-ink-soft); font-size: var(--sc-t-lg); }
+
+/* ------------------------------------------------------- Zeitstrahl -- */
+.tag__ablauf { position: relative; --spalte: 2.6rem; }
+.tag__linie { position: absolute; left: calc(var(--spalte) / 2 - 1.5px); top: 1.6rem; bottom: 1.6rem; width: 3px; border-radius: 3px; background: rgba(14, 29, 64, 0.1); }
+.tag__fuellung { position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(180deg, #ffb48f, var(--orange)); transform-origin: top; transform: scaleY(var(--linie, 0)); }
+/* der kleine Chip an der Spitze der Linie (wie das Logo: Hülle mit Knopf) */
+.tag__chip {
+  position: absolute; left: 50%; top: calc(var(--linie, 0) * 100%); width: 2.1rem; height: 1.4rem; translate: -50% -50%;
+  border-radius: 0.5rem; background: linear-gradient(135deg, #ff7a3d, var(--orange) 55%, #e2470f); box-shadow: 0 0 0 3px #fff, 0 6px 16px -6px rgba(229, 69, 13, 0.6);
+  display: grid; place-items: center;
+}
+.tag__chip i { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: #fff; box-shadow: 0 0 0 2px #2a3039; }
+
+.tag__liste { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(1.25rem, 3vw, 2rem); }
+.tag__halt { position: relative; display: grid; grid-template-columns: var(--spalte) 1fr; align-items: start; gap: clamp(0.75rem, 2vw, 1.5rem); min-height: 30svh; }
+.tag__punkt {
+  position: relative; z-index: 1; justify-self: center; margin-top: 1.25rem; width: 1rem; height: 1rem; border-radius: 50%;
+  background: #fff; box-shadow: inset 0 0 0 3px rgba(14, 29, 64, 0.18); transition: box-shadow 300ms ease, transform 400ms cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.tag__halt.ist-da .tag__punkt { box-shadow: inset 0 0 0 5px var(--orange); transform: scale(1.15); }
+
+.tag__karte {
+  display: grid; grid-template-columns: auto 1fr; gap: 1.25rem; align-items: start;
+  padding: clamp(1.25rem, 2.5vw, 1.75rem); border-radius: 22px; background: #fff; border: 1px solid var(--linie);
+  box-shadow: 0 1px 2px rgba(14, 29, 64, 0.04), 0 18px 40px -30px rgba(14, 29, 64, 0.4);
+}
+.tag__bild { width: 3.4rem; height: 3.4rem; padding: 0.55rem; box-sizing: border-box; border-radius: 16px; background: var(--eis); fill: none; stroke: var(--sc-ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.tag__bild .o { fill: var(--orange); stroke: none; }
+.tag__bild .o-strich { stroke: var(--orange); }
+.tag__karte time { display: block; font-family: var(--sc-font-display); font-weight: 650; font-size: var(--sc-t-sm); color: var(--orange); font-variant-numeric: tabular-nums; }
+.tag__karte h3 { margin: 0.25rem 0 0; font-family: var(--sc-font-display); font-weight: 650; font-size: clamp(1.35rem, 1.05rem + 0.9vw, 1.8rem); line-height: 1.1; letter-spacing: -0.03em; }
+.tag__karte p { margin: 0.6rem 0 0; color: var(--sc-ink-soft); line-height: 1.55; max-width: 44ch; }
+.tag__orte { list-style: none; display: flex; gap: 0.4rem; margin: 0.9rem 0 0; padding: 0; }
+.tag__orte li { padding: 0.3rem 0.75rem; border-radius: 999px; background: var(--knopf-hell); color: var(--knopf); font-size: var(--sc-t-xs); font-weight: 650; }
+
+/* Rückgabe: hervorgehoben */
+.tag__halt--wichtig .tag__karte { border-color: transparent; box-shadow: 0 0 0 2px var(--orange), 0 22px 44px -28px rgba(229, 69, 13, 0.45); }
+.tag__halt--wichtig .tag__bild { background: #ffe7dc; }
+.tag__hinweis { display: inline-block; margin-bottom: 0.5rem; padding: 0.25rem 0.7rem; border-radius: 999px; background: var(--orange); color: #fff; font-size: var(--sc-t-xs); font-weight: 700; }
+
+/* Erscheinen: nur mit JavaScript, sonst steht alles da */
+.js-tag .tag__karte { opacity: 0; transform: translateY(18px) scale(0.98); transition: opacity 500ms var(--sc-ease-out), transform 600ms var(--sc-ease-out); }
+.js-tag .tag__halt.ist-da .tag__karte { opacity: 1; transform: none; }
+.js-tag .tag__bild * { transition: transform 500ms cubic-bezier(0.3, 1.6, 0.5, 1) 150ms; }
+.js-tag .tag__halt:not(.ist-da) .tag__bild .o { transform: scale(0); transform-box: fill-box; transform-origin: center; }
+
+/* ------------------------------------------------------------- Handy -- */
+@media (max-width: 899px) {
+  .tag__raster { grid-template-columns: 1fr; gap: 1.25rem; }
+  /* Uhr als schmale Leiste oben, die stehen bleibt */
+  .tag__uhr {
+    top: 4.4rem; z-index: 3; grid-template-columns: 5.5rem 1fr; align-items: center; gap: 0.9rem;
+    padding: 0.5rem; border-radius: 18px; background: rgba(255, 255, 255, 0.96); border: 1px solid var(--linie);
+    box-shadow: 0 10px 30px -20px rgba(14, 29, 64, 0.45);
+  }
+  .tag__himmel { border-radius: 12px; }
+  .tag__zeit { font-size: 2rem; }
+  .tag__was { font-size: var(--sc-t-sm); }
+  .tag__anzeige { flex-direction: column; gap: 0.15rem; }
+  .tag__ablauf { --spalte: 2.3rem; }
+  .tag__halt { min-height: 0; }
+  .tag__karte { grid-template-columns: 1fr; gap: 0.9rem; }
+  .tag__bild { width: 2.8rem; height: 2.8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-tag .tag__karte, .js-tag .tag__bild *, .tag__punkt, .tag__sonne, .tag__mond, .tag__stern { transition: none; }
+}

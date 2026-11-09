@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Feedback · SkiTag</title>
+<meta name="description" content="Sag uns, was du von SkiTag hältst: vier kurze Fragen, eine Minute.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><mask id='m' maskUnits='userSpaceOnUse' x='0' y='0' width='32' height='32'><rect width='32' height='32' fill='%23fff'/><path d='M5 23 L11.5 14 L15 18.5 L19.5 12 L27 23 Z' fill='%23000'/><circle cx='24.2' cy='12.2' r='3.6' fill='%23000'/></mask><rect x='1.5' y='6.5' width='29' height='19' rx='6.5' fill='%230b1226' mask='url(%23m)'/><circle cx='24.2' cy='12.2' r='2.2' fill='%23ff5a1c'/></svg>">
+<link rel="preload" href="assets/fonts/funnel-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/funnelsans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="scrollcraft.css?v=16">
+<script>
+/* Sparmodus für schwächere Geräte: kein Glas, kein Schnee, keine reinen Zier-Animationen.
+   Ohne Video im Einstieg nur, wenn die Seite hier schon einmal ruckelte oder Datensparen an ist. */
+(function () { try {
+  var n = navigator, w = document.documentElement, gemessen = localStorage.getItem("skitag-sparsam") === "1";
+  var spart = n.connection && n.connection.saveData;
+  if (gemessen || spart || (n.hardwareConcurrency && n.hardwareConcurrency <= 4) || (n.deviceMemory && n.deviceMemory <= 4)) w.classList.add("sparsam");
+  if (gemessen || spart || (n.deviceMemory && n.deviceMemory <= 2)) w.classList.add("sparsam-video");
+} catch (e) {} })();
+</script>
+<link rel="stylesheet" href="assets/seite.css?v=76">
+<link rel="stylesheet" href="assets/feedback.css?v=3">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g-orange" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a3d"/><stop offset=".55" stop-color="#ff5a1c"/><stop offset="1" stop-color="#e2470f"/></linearGradient>
+    <linearGradient id="g-graphit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a414c"/><stop offset="1" stop-color="#1c2027"/></linearGradient>
+    <radialGradient id="g-knopf" cx=".42" cy=".36" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".7" stop-color="#f0f1f2"/><stop offset="1" stop-color="#d4d5d7"/></radialGradient>
+    <linearGradient id="g-glanz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <!-- Der Chip von oben: Hülle, Deckel in Signal-Orange, Knopf mit Kragen, LED. Verhältnis 120 × 60 mm. -->
+    <symbol id="chip-oben" viewBox="0 0 240 120">
+      <rect x="1" y="1" width="238" height="118" rx="31" fill="url(#g-graphit)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-orange)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-glanz)"/>
+      <text x="26" y="98" font-family="Funnel Display, sans-serif" font-weight="650" font-size="13" fill="#b33a0c" opacity=".55">SkiTag</text>
+      <circle cx="120" cy="60" r="31" fill="url(#g-graphit)"/>
+      <circle cx="120" cy="61.5" r="19" fill="#0e1116" opacity=".35"/>
+      <circle cx="120" cy="60" r="18" fill="url(#g-knopf)"/>
+      <circle cx="198" cy="88" r="4.2" fill="#fff4ee" style="fill: var(--led, #fff4ee)"/>
+    </symbol>
+    <!-- Der Tag im Einstieg: wie #chip-oben, mit sichtbarer Kante, leicht von vorn gesehen -->
+    <linearGradient id="g-kante" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a3039"/><stop offset="1" stop-color="#14171c"/></linearGradient>
+    <symbol id="chip-tag" viewBox="0 0 240 132">
+      <rect x="1" y="13" width="238" height="118" rx="31" fill="url(#g-kante)"/>
+      <rect x="1" y="1" width="238" height="118" rx="31" fill="url(#g-graphit)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-orange)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-glanz)"/>
+      <path d="M33 8.5 H207" stroke="#fff" stroke-opacity=".45" stroke-width="1.2" stroke-linecap="round"/>
+      <text x="26" y="98" font-family="Funnel Display, sans-serif" font-weight="650" font-size="13" fill="#b33a0c" opacity=".55">SkiTag</text>
+      <circle cx="120" cy="60" r="31" fill="url(#g-graphit)"/>
+      <circle cx="120" cy="62" r="19.5" fill="#0e1116" opacity=".4"/>
+      <circle cx="120" cy="60" r="18" fill="url(#g-knopf)"/>
+      <circle cx="198" cy="88" r="4.2" fill="#fff4ee" style="fill: var(--led, #fff4ee)"/>
+    </symbol>
+    <!-- Logo (Platzhalter bis zum echten Logo): der Chip von oben als runde Fläche,
+         der Berg ausgespart, oben rechts der orange Knopf. Fläche in currentColor,
+         damit es auf hellem und dunklem Grund passt; Berg und Lücke sind durchsichtig. -->
+    <mask id="logo-luecke" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32"><rect width="32" height="32" fill="#fff"/><path d="M5 23 L11.5 14 L15 18.5 L19.5 12 L27 23 Z" fill="#000"/><circle cx="24.2" cy="12.2" r="3.6" fill="#000"/></mask>
+    <symbol id="logo" viewBox="0 0 32 32">
+      <rect x="1.5" y="6.5" width="29" height="19" rx="6.5" fill="currentColor" mask="url(#logo-luecke)"/>
+      <circle cx="24.2" cy="12.2" r="2.2" fill="#ff5a1c"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- Kopfleiste wie bei Granola: oben unsichtbar, beim Scrollen eine weiße Pille (kopfleiste.js).
+     Auf der Seite eines Kapitels fahren rechts neben seinem Namen die Unterkapitel aus. -->
+<header class="oben">
+  <nav class="oben__pille" aria-label="Hauptmenü">
+    <a class="oben__marke" href="index.html" aria-label="SkiTag, zur Startseite">
+      <svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>
+      SkiTag
+    </a>
+    <ul class="oben__seiten">
+      <li><a href="chip.html">Der Chip</a></li>
+      <li><a href="app.html">Die App</a></li>
+      <li><a href="skitag.html">Am Skitag</a></li>
+      <li><a href="feedback.html">Feedback</a></li>
+    </ul>
+    <div class="oben__rechts">
+      <a class="knopf-dunkel oben__wir" href="wir.html">Das sind wir</a>
+      <button class="oben__menue-knopf" type="button" aria-expanded="false" aria-controls="oben-menue" aria-label="Menü öffnen"><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="oben__menue" id="oben-menue" hidden></div>
+</header>
+
+<main id="oben">
+
+  <!-- Feedback (seit Feedback 62): vier Fragen nacheinander in einer Karte. Links eine Bergszene, deren Wetter
+       der Bewertung folgt (Schneesturm bis Pulvertag), unten ein Slalom mit einem Tor je Frage, durch das ein
+       kleiner Chip fährt. Abgeschickt wird wie am Chip: Knopf halten. Das Formular sendet noch nichts
+       (Hinweis auf der Seite); Abläufe in assets/feedback.js. Ohne JavaScript stehen alle Fragen untereinander. -->
+  <section class="sc-section seite-anfang fb-kopf" aria-labelledby="seite-titel">
+    <div class="sc-wrap">
+      <header class="kopfzeile" data-sc-in data-sc-stagger="80">
+        <h1 id="seite-titel" class="sc-display riesig">Feedback.<br><span class="leise">Wie ist das Wetter?</span></h1>
+        <p class="sc-lede kopfzeile__text">Sag uns, was du von SkiTag hältst. Vier kurze Fragen, eine Minute.</p>
+      </header>
+    </div>
+  </section>
+
+  <section id="feedback" class="fb" aria-label="Feedback-Formular">
+    <div class="sc-wrap">
+      <form class="fb__karte" action="#" novalidate data-schritt="0">
+
+        <!-- Bergszene: Wetter nach Bewertung, Slalom als Fortschritt -->
+        <div class="fb__szene" aria-hidden="true">
+          <div class="fb__nebel"></div>
+          <i class="fb__sonne"></i>
+          <div class="fb__wolken"><i class="fb__wolke fb__wolke--1"></i><i class="fb__wolke fb__wolke--2"></i><i class="fb__wolke fb__wolke--3"></i></div>
+          <svg class="fb__berge" viewBox="0 0 600 320" preserveAspectRatio="xMidYMax slice">
+            <path class="fb__berg fb__berg--fern" d="M0 320 V170 L70 120 L130 150 L220 70 L300 130 L360 100 L450 150 L520 110 L600 140 V320 Z"/>
+            <path class="fb__gipfelschnee" d="M220 70 L196 92 L212 90 L224 100 L236 88 L248 94 Z M520 110 L502 126 L516 124 L526 132 L536 122 Z"/>
+            <path class="fb__berg fb__berg--nah" d="M0 320 V230 L90 180 L170 214 L260 160 L340 208 L430 176 L520 214 L600 190 V320 Z"/>
+            <path class="fb__gipfelschnee" d="M260 160 L238 178 L254 176 L264 186 L276 174 L286 178 Z M90 180 L72 194 L86 192 L94 200 L104 190 Z"/>
+            <g class="fb__funkeln"><path d="M150 250 l3 -9 l3 9 l9 3 l-9 3 l-3 9 l-3 -9 l-9 -3 Z"/><path d="M420 236 l2 -6 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 Z"/><path d="M330 262 l2 -7 l2 7 l7 2 l-7 2 l-2 7 l-2 -7 l-7 -2 Z"/></g>
+          </svg>
+          <div class="fb__schnee fb__schnee--1"></div>
+          <div class="fb__schnee fb__schnee--2"></div>
+
+          <div class="fb__bericht">
+            <span class="fb__bericht-titel">Wetterbericht</span>
+            <b class="fb__wort">Sonnig.</b>
+            <span class="fb__sub">Gefällt mir</span>
+          </div>
+
+          <svg class="fb__slalom" viewBox="0 0 600 120">
+            <path id="fb-piste" class="fb__piste" d="M30 92 C90 92 100 32 160 32 S240 92 300 92 S380 32 440 32 S520 92 570 70"/>
+            <g class="fb__tor" data-tor="0" transform="translate(160 32)"><path d="M-14 -22 v24 M14 -22 v24"/><path class="fb__fahne" d="M-14 -22 h28 v10 h-28 z"/></g>
+            <g class="fb__tor fb__tor--blau" data-tor="1" transform="translate(300 92)"><path d="M-14 -22 v24 M14 -22 v24"/><path class="fb__fahne" d="M-14 -22 h28 v10 h-28 z"/></g>
+            <g class="fb__tor" data-tor="2" transform="translate(440 32)"><path d="M-14 -22 v24 M14 -22 v24"/><path class="fb__fahne" d="M-14 -22 h28 v10 h-28 z"/></g>
+            <g class="fb__tor fb__tor--ziel" data-tor="3" transform="translate(570 70)"><path d="M-18 -30 v34 M18 -30 v34"/><path class="fb__fahne" d="M-18 -30 h36 v12 h-36 z"/></g>
+            <g class="fb__fahrer" transform="translate(30 92)"><rect x="-13" y="-9" width="26" height="18" rx="6"/><circle r="3.6"/></g>
+          </svg>
+        </div>
+
+        <!-- Fragen -->
+        <div class="fb__fragen">
+          <p class="fb__stand" aria-live="polite">Frage <b class="fb__nr">1</b> von 4</p>
+
+          <fieldset class="fb__frage" data-schritt="0">
+            <legend>Wie gefällt dir SkiTag?</legend>
+            <p class="fb__hilfe">Schieb das Wetter: von Schneesturm bis Pulvertag.</p>
+            <div class="fb__regler-feld">
+              <input class="fb__regler" type="range" name="wetter" min="0" max="4" step="0.01" value="3" aria-valuetext="Sonnig, gefällt mir">
+              <div class="fb__skala" aria-hidden="true"><span>Schneesturm</span><span>Nebel</span><span>Bewölkt</span><span>Sonnig</span><span>Pulvertag</span></div>
+            </div>
+          </fieldset>
+
+          <fieldset class="fb__frage" data-schritt="1">
+            <legend>Wer bist du am Berg?</legend>
+            <p class="fb__hilfe">Eins auswählen.</p>
+            <div class="fb__wahl">
+              <label><input type="radio" name="wer" value="skifahrer" checked><span><svg viewBox="0 0 24 24"><path d="M3 20l6-9 4 5 3-4 5 8"/><path d="M14 6l2-3 2 3"/></svg>Auf der Piste</span></label>
+              <label><input type="radio" name="wer" value="familie"><span><svg viewBox="0 0 24 24"><circle cx="8" cy="6.5" r="2.6"/><path d="M3.5 20v-4.5a4.5 4.5 0 0 1 9 0V20"/><circle cx="17" cy="10" r="2"/><path d="M14 20v-3a3 3 0 0 1 6 0v3"/></svg>Mit Familie</span></label>
+              <label><input type="radio" name="wer" value="skischule"><span><svg viewBox="0 0 24 24"><path d="M5 21V4M5 4h10l-2 3 2 3H5"/><circle cx="16" cy="15" r="1.8"/><circle cx="11" cy="17" r="1.8"/><circle cx="20" cy="18" r="1.4"/></svg>Skischule</span></label>
+              <label><input type="radio" name="wer" value="bergbahn"><span><svg viewBox="0 0 24 24"><path d="M3 6l18 5"/><path d="M12 8.5v4"/><rect x="7" y="12.5" width="10" height="7" rx="2"/></svg>Bergbahn</span></label>
+              <label><input type="radio" name="wer" value="neugierig"><span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14"/><path d="M12 17h.01"/></svg>Einfach neugierig</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="fb__frage" data-schritt="2">
+            <legend>Was ist dir am wichtigsten?</legend>
+            <p class="fb__hilfe">So viele, wie du willst.</p>
+            <div class="fb__wahl fb__wahl--klein">
+              <label><input type="checkbox" name="wichtig" value="notruf"><span>Notruf ohne Handy</span></label>
+              <label><input type="checkbox" name="wichtig" value="gruppe"><span>Gruppe rufen</span></label>
+              <label><input type="checkbox" name="wichtig" value="reichweite"><span>Reichweiten-Alarm</span></label>
+              <label><input type="checkbox" name="wichtig" value="skischule"><span>Kurs im Blick</span></label>
+              <label><input type="checkbox" name="wichtig" value="tag"><span>Mein Tag in Zahlen</span></label>
+              <label><input type="checkbox" name="wichtig" value="weg"><span>Weg ins Tal</span></label>
+              <label><input type="checkbox" name="wichtig" value="mieten"><span>Einfach mieten</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="fb__frage" data-schritt="3">
+            <legend>Was sollen wir besser machen?</legend>
+            <p class="fb__hilfe">Ideen, Kritik, Wünsche. Alles hilft.</p>
+            <label class="fb__feld fb__feld--text"><span>Deine Nachricht</span><textarea name="nachricht" rows="5" maxlength="600" placeholder="Zum Beispiel: Ich hätte gern …"></textarea><i class="fb__zaehler"><b>0</b> / 600</i></label>
+            <label class="fb__feld"><span>Vorname <em>freiwillig</em></span><input type="text" name="vorname" autocomplete="given-name" maxlength="40"></label>
+          </fieldset>
+
+          <div class="fb__frage fb__senden" data-schritt="4">
+            <p class="fb__senden-titel">Fertig? Dann halten.</p>
+            <p class="fb__hilfe">Wie am Chip: gedrückt halten, bis der Ring voll ist.</p>
+            <button type="button" class="fb__halten" aria-describedby="fb-vorschau">
+              <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="fb__ring-grund" cx="60" cy="60" r="54"/><circle class="fb__ring" cx="60" cy="60" r="54" pathLength="1"/></svg>
+              <span class="fb__halten-text">Halten zum Senden</span>
+            </button>
+            <p id="fb-vorschau" class="fb__vorschau">Vorschau: Das Formular schickt noch nichts ab.</p>
+          </div>
+
+          <div class="fb__frage fb__danke" data-schritt="5" tabindex="-1">
+            <svg class="fb__danke-zeichen" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30"/><path d="M19 33l9 9 17-19"/></svg>
+            <p class="fb__danke-titel">Danke<span class="fb__danke-name"></span>!</p>
+            <p class="fb__hilfe">So sieht es aus, wenn deine Antwort angekommen ist. Sobald das Formular fertig ist, landet sie direkt bei uns.</p>
+            <button type="button" class="knopf-hell fb__nochmal">Nochmal ansehen</button>
+          </div>
+
+          <div class="fb__nav">
+            <button type="button" class="knopf-hell fb__zurueck">Zurück</button>
+            <button type="button" class="knopf-dunkel fb__weiter">Weiter <svg class="knopf__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="fuss">
+  <div class="fuss__innen">
+    <div class="fuss__marke">
+      <b><svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag</b>
+      <span>SkiTag GmbH · Firmenname, Sitz und Firmenbuch folgen (Platzhalter)</span>
+    </div>
+    <nav aria-label="Seite">
+      <b>Seite</b>
+      <a href="index.html">Start</a><a href="chip.html">Der Chip</a><a href="app.html">Die App</a><a href="skitag.html">Am Skitag</a><a href="feedback.html" aria-current="page">Feedback</a><a href="wir.html">Das sind wir</a>
+    </nav>
+    <nav aria-label="Rechtliches">
+      <b>Rechtliches</b>
+      <span>Impressum folgt</span><span>Datenschutz folgt</span>
+    </nav>
+    <div class="fuss__nachweis">
+      <b>Nachweise</b>
+      <span>Bergvideos und Fotos: Mixkit</span>
+      <span>Schrift der App: Bricolage Grotesque (OFL)</span>
+      <span>Halte-Knopf nach React Bits (MIT + Commons Clause)</span>
+    </div>
+  </div>
+  <div class="fuss__wort" aria-hidden="true">
+    <p class="fuss__wort-zeile"><span style="--i:0">S</span><span style="--i:1">K</span><span style="--i:2">I</span><span style="--i:3">T</span><span style="--i:4">A</span><span style="--i:5">G</span></p>
+  </div>
+  <div class="fuss__leiste">
+    <span>© 2026 SkiTag</span>
+  </div>
+</footer>
+
+<a class="sprung-anfang" href="#oben" aria-label="Nach oben">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</a>
+
+<script src="scrollcraft.js?v=16"></script>
+<script>ScrollCraft.mount(document.body);</script>
+<script src="assets/seite.js?v=49" defer></script>
+<script src="assets/sprung-anfang.js?v=18" defer></script>
+<script src="assets/kopfleiste.js?v=2" defer></script>
+<script src="assets/feedback.js?v=1" defer></script>
+</body>
+</html>

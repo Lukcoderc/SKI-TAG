@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de" class="eigene-seite">
+<html lang="de">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -20,7 +20,7 @@
   if (gemessen || spart || (n.deviceMemory && n.deviceMemory <= 2)) w.classList.add("sparsam-video");
 } catch (e) {} })();
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=69">
+<link rel="stylesheet" href="assets/seite.css?v=76">
 </head>
 <body>
 
@@ -65,14 +65,27 @@
     </symbol>
   </defs>
 </svg>
-<div class="rahmen" aria-hidden="true"></div>
 
-<header class="leiste">
-  <a class="marke" href="index.html" aria-label="SkiTag, zur Startseite">
-    <svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>
-    SkiTag
-  </a>
-  <a class="knopf-dunkel" href="index.html">Zur Startseite</a>
+<!-- Kopfleiste wie bei Granola: oben unsichtbar, beim Scrollen eine weiße Pille (kopfleiste.js).
+     Auf der Seite eines Kapitels fahren rechts neben seinem Namen die Unterkapitel aus. -->
+<header class="oben">
+  <nav class="oben__pille" aria-label="Hauptmenü">
+    <a class="oben__marke" href="index.html" aria-label="SkiTag, zur Startseite">
+      <svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>
+      SkiTag
+    </a>
+    <ul class="oben__seiten">
+      <li><a href="chip.html">Der Chip</a></li>
+      <li><a href="app.html">Die App</a></li>
+      <li><a href="skitag.html">Am Skitag</a></li>
+      <li><a href="feedback.html">Feedback</a></li>
+    </ul>
+    <div class="oben__rechts">
+      <a class="knopf-dunkel oben__wir" href="wir.html">Das sind wir</a>
+      <button class="oben__menue-knopf" type="button" aria-expanded="false" aria-controls="oben-menue" aria-label="Menü öffnen"><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="oben__menue" id="oben-menue" hidden></div>
 </header>
 
 <main id="oben">
@@ -95,6 +108,19 @@
     </div>
   </section>
 
+  <!-- Kontakt (Platzhalter seit Feedback 57): die Kontaktseite kommt hierher; Ziel des Links „Kontakt aufnehmen“ auf app.html.
+       Keine Telefonnummern oder Adressen ins öffentliche Repo, bis sie freigegeben sind. -->
+  <section id="kontakt" class="sc-section kontakt-platz" aria-labelledby="kontakt-titel">
+    <div class="sc-wrap">
+      <header class="kopfzeile">
+        <p class="augenbraue">Kontakt</p>
+        <h2 id="kontakt-titel" class="sc-display app-titel">Schreib uns.</h2>
+        <p class="sc-lede kopfzeile__text">Für Bergbahnen, Skischulen und alle, die SkiTag ausprobieren möchten.</p>
+      </header>
+      <div class="platz-flaeche kontakt-platz__flaeche"><span>Kontaktdaten folgen</span></div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="fuss">
@@ -105,7 +131,7 @@
     </div>
     <nav aria-label="Seite">
       <b>Seite</b>
-      <a href="index.html#blick">Start</a><a href="index.html#der-chip">Knopf</a><a href="index.html#aufbau">Innenleben</a><a href="index.html#gebaut">Technik</a><a href="index.html#app">App</a><a href="index.html#fragen">Gut zu wissen</a><a href="wir.html" aria-current="page">Das sind wir</a>
+      <a href="index.html">Start</a><a href="chip.html">Der Chip</a><a href="app.html">Die App</a><a href="skitag.html">Am Skitag</a><a href="feedback.html">Feedback</a><a href="wir.html" aria-current="page">Das sind wir</a>
     </nav>
     <nav aria-label="Rechtliches">
       <b>Rechtliches</b>
@@ -132,7 +158,8 @@
 
 <script src="scrollcraft.js?v=16"></script>
 <script>ScrollCraft.mount(document.body);</script>
-<script src="assets/seite.js?v=47" defer></script>
-<script src="assets/sprung-anfang.js?v=17" defer></script>
+<script src="assets/seite.js?v=49" defer></script>
+<script src="assets/sprung-anfang.js?v=18" defer></script>
+<script src="assets/kopfleiste.js?v=2" defer></script>
 </body>
 </html>

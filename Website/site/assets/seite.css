@@ -1454,3 +1454,208 @@ section[id] { scroll-margin-top: 0; }
   .k-notruf__ring { stroke-dashoffset: 0; } .k-notruf__pille { opacity: 1; }
 }
 @media (max-width: 1000px) { .karten { grid-template-columns: 1fr; max-width: 34rem; } }
+
+/* ======================================================== Feedback 51 (2026-11-09) == */
+/* Lukas: Seitenleiste links weg, weil Unterseiten dazukommen. Oben eine Leiste wie bei granola.ai:
+   links das Logo, in der Mitte Der Chip, Die App, Am Skitag, Feedback, rechts „Das sind wir“.
+   Ganz oben liegt sie ohne Grund über der Seite; sobald man scrollt, wird sie eine weiße Pille.
+   Auf einer Kapitel-Seite fahren rechts neben ihrem Namen die Unterkapitel aus (kopfleiste.js). */
+
+/* Keine Seitenleiste mehr: am breiten Bildschirm gibt es keinen linken Rand für sie */
+@media (min-width: 1200px) and (min-height: 520px) {
+  :root { --blatt-l: 0px; }
+  .akt-balken { left: 0; }
+  .lade__blatt { inset: 0; }
+}
+.sprungleiste, .lade__leiste, .rahmen { display: none !important; }
+
+.oben {
+  --ueber: 0.6rem;   /* so weit ragt die Pille über den Inhalt hinaus */
+  --pille-breite: calc(min(100%, var(--sc-maxw)) - 2 * var(--sc-gutter) + 2 * var(--ueber));
+  position: fixed; inset: 0.5rem 0 auto 0; z-index: var(--sc-z-chrome); pointer-events: none;
+}
+.oben__pille {
+  pointer-events: auto; box-sizing: border-box; width: var(--pille-breite); height: 3.5rem; margin: 0 auto;
+  padding: 0 0.45rem 0 var(--ueber);
+  display: grid; grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr); align-items: center; column-gap: 1rem;
+  border: 1px solid transparent; border-radius: 999px; background-color: rgba(255, 255, 255, 0);
+  transition: background-color 300ms ease-out, border-color 300ms ease-out, box-shadow 300ms ease-out;
+}
+.oben.ist-unten .oben__pille, .oben.ist-menue .oben__pille {
+  background-color: #fff; border-color: rgba(14, 29, 64, 0.1);
+  box-shadow: 0 1px 2px rgba(14, 29, 64, 0.04), 0 6px 20px rgba(14, 29, 64, 0.08);
+}
+.oben__marke {
+  justify-self: start; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.5rem 0.35rem 0;
+  font-family: var(--sc-font-display); font-weight: 680; font-size: 1.2rem; letter-spacing: -0.03em;
+  color: var(--sc-ink); text-decoration: none; border-radius: var(--r);
+}
+.oben__marke .logo-zeichen { width: 1.5rem; height: 1.5rem; }
+
+/* Seiten in der Mitte: ruhige Links, beim Drüberfahren eine helle Pille */
+.oben__seiten { display: flex; align-items: center; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.oben__seiten > li { display: flex; align-items: center; border-radius: 999px; transition: background-color 300ms ease-out; }
+.oben__seiten a, .oben__unter a {
+  display: inline-flex; align-items: center; white-space: nowrap; text-decoration: none; border-radius: 999px;
+  font-family: var(--sc-font-text); letter-spacing: -0.005em;
+}
+.oben__seiten > li > a {
+  padding: 0.45rem 0.85rem; font-size: 0.95rem; font-weight: 560; color: var(--sc-ink);
+  transition: background-color 200ms ease, color 200ms ease;
+}
+.oben__seiten > li > a[aria-current="page"] { background: var(--knopf-hell); color: var(--knopf); font-weight: 650; }
+@media (hover: hover) and (pointer: fine) {
+  .oben__seiten > li > a:hover { background: var(--eis); }
+  .oben__seiten > li > a[aria-current="page"]:hover { background: var(--knopf-hell-hover); }
+}
+
+/* Die aktuelle Seite mit Unterkapiteln: die hellblaue Pille wächst nach rechts und gibt sie frei */
+.oben__seiten > li.ist-aktiv { background: var(--knopf-hell); }
+.oben__seiten > li.ist-aktiv > a[aria-current="page"], .oben__seiten > li.ist-aktiv > a[aria-current="page"]:hover { background: transparent; }
+.oben__unter {
+  display: grid; grid-template-columns: 0fr;
+  transition: grid-template-columns 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.ist-offen > .oben__unter, .oben.ist-messen .oben__unter { grid-template-columns: 1fr; }
+.oben.ist-messen .oben__unter { transition: none; }
+.oben__unter-innen { min-width: 0; overflow: hidden; display: flex; align-items: center; gap: 2px; padding-right: 0.2rem; }
+/* feiner Strich zwischen Seite und Unterkapiteln */
+.oben__unter-innen::before {
+  content: ""; flex: none; width: 1px; height: 1.1rem; margin: 0 0.3rem 0 0; background: rgba(42, 74, 143, 0.28);
+  transform: scaleY(0); transition: transform 400ms var(--sc-ease-out) 120ms;
+}
+.ist-offen .oben__unter-innen::before { transform: none; }
+.oben__unter a {
+  --d: calc(160ms + var(--i, 0) * 70ms);
+  padding: 0.34rem 0.75rem; font-size: 0.875rem; font-weight: 560; color: rgba(42, 74, 143, 0.78);
+  opacity: 0; transform: translateX(-12px); filter: blur(4px);
+  transition: opacity 420ms ease var(--d), transform 560ms var(--sc-ease-out) var(--d), filter 420ms ease var(--d),
+    background-color 200ms ease, color 200ms ease, box-shadow 200ms ease;
+}
+.ist-offen .oben__unter a { opacity: 1; transform: none; filter: none; }
+.oben__unter a.ist-jetzt { background: #fff; color: var(--knopf); box-shadow: 0 1px 2px rgba(14, 29, 64, 0.12), 0 2px 6px -2px rgba(14, 29, 64, 0.12); }
+@media (hover: hover) and (pointer: fine) { .oben__unter a:hover { color: var(--knopf); background: rgba(255, 255, 255, 0.6); } .oben__unter a.ist-jetzt:hover { background: #fff; } }
+
+.oben__rechts { justify-self: end; display: flex; align-items: center; gap: 0.35rem; }
+.oben__wir { min-height: 2.5rem; padding: 0 1.05rem; }
+.oben__wir[aria-current="page"] { box-shadow: 0 0 0 3px var(--knopf-hell); }
+.oben a:focus-visible, .oben button:focus-visible { outline: 2px solid var(--knopf); outline-offset: 2px; }
+
+/* Menü-Knopf: zwei Striche, offen ein Kreuz. Nur sichtbar, wenn die Leiste nicht in die Breite passt. */
+.oben__menue-knopf {
+  display: none; width: 2.5rem; height: 2.5rem; border-radius: 999px; border: 0; padding: 0; cursor: pointer;
+  background: var(--eis); color: var(--sc-ink); place-content: center; gap: 5px;
+}
+.oben__menue-knopf span { display: block; width: 1.05rem; height: 2px; border-radius: 2px; background: currentColor; transition: transform 260ms var(--sc-ease-out); }
+.oben__menue-knopf[aria-expanded="true"] span:first-child { transform: translateY(3.5px) rotate(45deg); }
+.oben__menue-knopf[aria-expanded="true"] span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+.oben.ist-eng .oben__pille { grid-template-columns: 1fr auto; }
+.oben.ist-eng .oben__seiten { display: none; }
+.oben.ist-eng .oben__menue-knopf { display: grid; }
+/* Messen (kopfleiste.js): alles in voller Breite nebeneinander, läuft es über, ist die Leiste zu eng */
+.oben.ist-messen .oben__pille { grid-template-columns: max-content max-content max-content; }
+.oben.ist-messen .oben__unter-innen { overflow: visible; }
+.oben.ist-messen .oben__seiten { display: flex; }
+/* ohne JavaScript am Handy: keine Links in der Leiste (der Fuß führt weiter) */
+@media (max-width: 899px) {
+  html:not(.js-kopf) .oben__seiten { display: none; }
+  html:not(.js-kopf) .oben__pille { grid-template-columns: 1fr auto; }
+}
+
+.oben__menue {
+  pointer-events: auto; box-sizing: border-box; width: var(--pille-breite); margin: 0.5rem auto 0; padding: 0.5rem;
+  max-height: calc(100svh - 5rem); overflow: auto; overscroll-behavior: contain;
+  background: #fff; border: 1px solid rgba(14, 29, 64, 0.1); border-radius: 1.5rem;
+  box-shadow: 0 1px 2px rgba(14, 29, 64, 0.04), 0 24px 48px -24px rgba(14, 29, 64, 0.35);
+  animation: menue-rein 260ms var(--sc-ease-out);
+}
+.oben__menue[hidden] { display: none; }
+@keyframes menue-rein { from { opacity: 0; transform: translateY(-8px) scale(0.98); } }
+.oben__menue ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.oben__menue > ul > li > a {
+  display: block; padding: 0.8rem 1rem; border-radius: 1rem; text-decoration: none; color: var(--sc-ink);
+  font-family: var(--sc-font-display); font-weight: 620; font-size: 1.25rem; letter-spacing: -0.02em;
+}
+.oben__menue > ul > li > a[aria-current="page"] { background: var(--knopf-hell); color: var(--knopf); }
+.oben__menue li ul { margin: 0.25rem 0 0.5rem 1rem; padding-left: 0.75rem; border-left: 1px solid rgba(42, 74, 143, 0.2); }
+.oben__menue li ul a {
+  display: block; padding: 0.55rem 0.8rem; border-radius: 0.8rem; text-decoration: none;
+  color: rgba(42, 74, 143, 0.85); font-weight: 560; font-size: 1rem;
+}
+.oben__menue li ul a.ist-jetzt { background: var(--eis); color: var(--knopf); }
+
+/* Abschnitte, zu denen die Leiste springt, landen unter ihr */
+main [data-unter] { scroll-margin-top: 4.5rem; }
+
+/* Ladebildschirm: Gerüst der Kopfleiste (Logo, vier Seiten, Knopf) statt der Seitenleiste */
+.lade__kopf {
+  position: absolute; top: 0.5rem; left: 0; right: 0; margin: 0 auto; height: 3.5rem; box-sizing: border-box;
+  width: calc(min(100%, var(--sc-maxw)) - 2 * var(--sc-gutter) + 1.2rem); padding: 0 0.45rem 0 0.6rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.lade__marke { display: block; }
+.lade__nav { display: flex; flex-direction: row; gap: 1.75rem; padding: 0; justify-self: auto; }
+.lade__nav .lade__k, .lade__nav .lade__k:nth-child(n) { width: 4.6rem; height: 0.7rem; border-radius: 6px; }
+@media (max-width: 899px) { .lade__nav { display: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .oben__pille, .oben__unter, .oben__unter a, .oben__unter-innen::before, .oben__menue-knopf span { transition: none; }
+  .oben__menue { animation: none; }
+}
+
+/* Gerüste der Unterseiten (Inhalt folgt): Kopf wie bei „Das sind wir“, je Unterkapitel eine gestrichelte Fläche */
+.seite-anfang { padding-top: calc(var(--sc-section) * 0.8 + 3.6rem); padding-bottom: calc(var(--sc-section) * 0.4); }
+.platz-abschnitt { padding-block: calc(var(--sc-section) * 0.4); }
+.platz-abschnitt h2 { margin: 0 0 var(--sc-5); font-size: clamp(2.2rem, 1.4rem + 3vw, 4rem); font-weight: 640; letter-spacing: -0.04em; line-height: 1; }
+.platz-flaeche {
+  min-height: 55vh; border-radius: var(--r-gross); display: grid; place-content: center; margin-top: var(--sc-6);
+  background: linear-gradient(160deg, #f2f3f5, #e5e7e9); outline: 2px dashed #c5c8cc; outline-offset: -14px;
+  color: #7c7e83; font-weight: 600; font-size: var(--sc-t-sm);
+}
+.platz-abschnitt .platz-flaeche { margin-top: 0; }
+
+/* ======================================================== Feedback 54 (2026-11-09) == */
+/* Schluss „Ein Knopf. Für alle im Skigebiet.“ mit Chip und Knopf entfernt: das Gebirge unter „Gut zu wissen“
+   wächst jetzt direkt in den Fuß (gleiches Nachtblau), dort ohne Trennlinie an der Oberkante. */
+.fuss--berg { border-top-color: transparent; }
+
+/* ======================================================== Feedback 55 (2026-11-09) == */
+/* „Das sind wir“ sitzt sauber in der runden Ecke der Leiste: als Pille, deren Rundung parallel zur
+   Leiste läuft (Leiste 3.5rem hoch, Knopf 2.5rem, ringsum 0.5rem Luft), wie der Download-Knopf bei Granola.
+   Die anderen Knöpfe der Seite bleiben gerundete Rechtecke. */
+.oben__pille { padding-right: calc(0.5rem - 1px); }
+.oben__wir { border-radius: 999px; padding: 0 1.15rem; }
+.oben__menue-knopf { width: 2.5rem; height: 2.5rem; }
+
+/* ======================================================== Feedback 56 (2026-11-09) == */
+/* Startseite gekürzt, weil es jetzt eigene Seiten gibt: „Alles drin. Nichts zu viel.“ ist weg
+   (kommt auf „Der Chip“), „App“ ist ein kurzer Abschnitt ohne gepinnte Strecke: Überschrift, ein Satz,
+   die vier Zielgruppen als Marken (schalten den Bildschirm im iPhone um) und „Mehr zur App“. */
+.app-akt--kurz { padding-block: var(--sc-section); }
+.app-akt--kurz .app-akt__buehne { height: auto; min-height: 0; padding: 0 var(--sc-gutter); }
+.app-akt--kurz .app-akt__fuer { margin-top: var(--sc-6); gap: 0.5rem; max-width: 34rem; }
+.app-akt__fuer button {
+  display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.3rem 0.95rem 0.3rem 0.3rem;
+  border-radius: 999px; border: 1px solid var(--linie); background: #fff; cursor: pointer;
+  font-family: var(--sc-font-text); font-size: var(--sc-t-sm); font-weight: 600; line-height: 1.2; color: var(--sc-ink-soft);
+  transition: color 200ms ease, border-color 200ms ease, background-color 200ms ease;
+}
+.app-akt__fuer .app-akt__symbol { width: 1.9rem; height: 1.9rem; padding: 0.38rem; border-radius: 999px; }
+.app-akt__fuer button[aria-pressed="true"] { color: var(--sc-ink); border-color: rgba(14, 29, 64, 0.22); }
+.app-akt__fuer button[aria-pressed="true"] .app-akt__symbol { background: var(--orange); stroke: #fff; }
+@media (hover: hover) and (pointer: fine) { .app-akt__fuer button:hover { color: var(--sc-ink); border-color: rgba(14, 29, 64, 0.22); } }
+.app-akt__fuer button:focus-visible { outline: 2px solid var(--knopf); outline-offset: 2px; }
+.app-akt__mehr { margin-top: var(--sc-6); }
+@media (max-width: 860px) {
+  .app-akt--kurz .app-akt__buehne { padding-top: 0; justify-items: stretch; gap: var(--sc-7); }
+  .app-akt--kurz .app-akt__links .augenbraue, .app-akt--kurz .app-akt__links h2 { display: block; }
+  .app-akt--kurz .app-akt__lede { display: block; }
+  .app-akt--kurz .iphone { justify-self: center; --b: min(16rem, 62vw); }
+}
+
+/* ======================================================== Feedback 57 (2026-11-09) == */
+/* „Das sind wir“: Platz für die Kontaktseite (#kontakt), Ziel von „Kontakt aufnehmen“ auf app.html */
+.kontakt-platz { padding-block: 0 var(--sc-section); min-height: 72svh; box-sizing: border-box; }
+section#kontakt { scroll-margin-top: 4.5rem; }
+.kontakt-platz .app-titel, .kontakt-platz h2 { font-size: clamp(2.4rem, 1.4rem + 3.6vw, 4.6rem); font-weight: 640; line-height: 0.98; letter-spacing: -0.045em; margin: 0; }
+.kontakt-platz__flaeche { min-height: 14rem; }

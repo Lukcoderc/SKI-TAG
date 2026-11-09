@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Am Skitag · SkiTag</title>
+    <meta
+      name="description"
+      content="So läuft ein Skitag mit SkiTag: Chip an der Kassa oder am Automaten holen, in die Jacke stecken, abends zurückgeben." />
+    <meta name="theme-color" content="#ffffff" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><mask id='m' maskUnits='userSpaceOnUse' x='0' y='0' width='32' height='32'><rect width='32' height='32' fill='%23fff'/><path d='M5 23 L11.5 14 L15 18.5 L19.5 12 L27 23 Z' fill='%23000'/><circle cx='24.2' cy='12.2' r='3.6' fill='%23000'/></mask><rect x='1.5' y='6.5' width='29' height='19' rx='6.5' fill='%230b1226' mask='url(%23m)'/><circle cx='24.2' cy='12.2' r='2.2' fill='%23ff5a1c'/></svg>" />
+    <link
+      rel="preload"
+      href="assets/fonts/funnel-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin />
+    <link
+      rel="preload"
+      href="assets/fonts/funnelsans-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin />
+    <link rel="stylesheet" href="scrollcraft.css?v=16" />
+    <script>
+      /* Sparmodus für schwächere Geräte: kein Glas, kein Schnee, keine reinen Zier-Animationen.
+   Ohne Video im Einstieg nur, wenn die Seite hier schon einmal ruckelte oder Datensparen an ist. */
+      (function () {
+        try {
+          var n = navigator,
+            w = document.documentElement,
+            gemessen = localStorage.getItem("skitag-sparsam") === "1";
+          var spart = n.connection && n.connection.saveData;
+          if (
+            gemessen ||
+            spart ||
+            (n.hardwareConcurrency && n.hardwareConcurrency <= 4) ||
+            (n.deviceMemory && n.deviceMemory <= 4)
+          )
+            w.classList.add("sparsam");
+          if (gemessen || spart || (n.deviceMemory && n.deviceMemory <= 2))
+            w.classList.add("sparsam-video");
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="stylesheet" href="assets/seite.css?v=76" />
+    <link rel="stylesheet" href="assets/skitag.css?v=2" />
+  </head>
+  <body>
+    <svg
+      width="0"
+      height="0"
+      style="position: absolute"
+      aria-hidden="true"
+      focusable="false">
+      <defs>
+        <linearGradient id="g-orange" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ff7a3d" />
+          <stop offset=".55" stop-color="#ff5a1c" />
+          <stop offset="1" stop-color="#e2470f" />
+        </linearGradient>
+        <linearGradient id="g-graphit" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3a414c" />
+          <stop offset="1" stop-color="#1c2027" />
+        </linearGradient>
+        <radialGradient id="g-knopf" cx=".42" cy=".36" r=".7">
+          <stop offset="0" stop-color="#ffffff" />
+          <stop offset=".7" stop-color="#f0f1f2" />
+          <stop offset="1" stop-color="#d4d5d7" />
+        </radialGradient>
+        <linearGradient id="g-glanz" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff" stop-opacity=".38" />
+          <stop offset=".45" stop-color="#fff" stop-opacity="0" />
+        </linearGradient>
+        <!-- Der Chip von oben: Hülle, Deckel in Signal-Orange, Knopf mit Kragen, LED. Verhältnis 120 × 60 mm. -->
+        <symbol id="chip-oben" viewBox="0 0 240 120">
+          <rect
+            x="1"
+            y="1"
+            width="238"
+            height="118"
+            rx="31"
+            fill="url(#g-graphit)" />
+          <rect
+            x="7"
+            y="7"
+            width="226"
+            height="106"
+            rx="26"
+            fill="url(#g-orange)" />
+          <rect
+            x="7"
+            y="7"
+            width="226"
+            height="106"
+            rx="26"
+            fill="url(#g-glanz)" />
+          <text
+            x="26"
+            y="98"
+            font-family="Funnel Display, sans-serif"
+            font-weight="650"
+            font-size="13"
+            fill="#b33a0c"
+            opacity=".55">
+            SkiTag
+          </text>
+          <circle cx="120" cy="60" r="31" fill="url(#g-graphit)" />
+          <circle cx="120" cy="61.5" r="19" fill="#0e1116" opacity=".35" />
+          <circle cx="120" cy="60" r="18" fill="url(#g-knopf)" />
+          <circle
+            cx="198"
+            cy="88"
+            r="4.2"
+            fill="#fff4ee"
+            style="fill: var(--led, #fff4ee)" />
+        </symbol>
+        <!-- Der Tag im Einstieg: wie #chip-oben, mit sichtbarer Kante, leicht von vorn gesehen -->
+        <linearGradient id="g-kante" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2a3039" />
+          <stop offset="1" stop-color="#14171c" />
+        </linearGradient>
+        <symbol id="chip-tag" viewBox="0 0 240 132">
+          <rect
+            x="1"
+            y="13"
+            width="238"
+            height="118"
+            rx="31"
+            fill="url(#g-kante)" />
+          <rect
+            x="1"
+            y="1"
+            width="238"
+            height="118"
+            rx="31"
+            fill="url(#g-graphit)" />
+          <rect
+            x="7"
+            y="7"
+            width="226"
+            height="106"
+            rx="26"
+            fill="url(#g-orange)" />
+          <rect
+            x="7"
+            y="7"
+            width="226"
+            height="106"
+            rx="26"
+            fill="url(#g-glanz)" />
+          <path
+            d="M33 8.5 H207"
+            stroke="#fff"
+            stroke-opacity=".45"
+            stroke-width="1.2"
+            stroke-linecap="round" />
+          <text
+            x="26"
+            y="98"
+            font-family="Funnel Display, sans-serif"
+            font-weight="650"
+            font-size="13"
+            fill="#b33a0c"
+            opacity=".55">
+            SkiTag
+          </text>
+          <circle cx="120" cy="60" r="31" fill="url(#g-graphit)" />
+          <circle cx="120" cy="62" r="19.5" fill="#0e1116" opacity=".4" />
+          <circle cx="120" cy="60" r="18" fill="url(#g-knopf)" />
+          <circle
+            cx="198"
+            cy="88"
+            r="4.2"
+            fill="#fff4ee"
+            style="fill: var(--led, #fff4ee)" />
+        </symbol>
+        <!-- Logo (Platzhalter bis zum echten Logo): der Chip von oben als runde Fläche,
+         der Berg ausgespart, oben rechts der orange Knopf. Fläche in currentColor,
+         damit es auf hellem und dunklem Grund passt; Berg und Lücke sind durchsichtig. -->
+        <mask
+          id="logo-luecke"
+          maskUnits="userSpaceOnUse"
+          x="0"
+          y="0"
+          width="32"
+          height="32">
+          <rect width="32" height="32" fill="#fff" />
+          <path d="M5 23 L11.5 14 L15 18.5 L19.5 12 L27 23 Z" fill="#000" />
+          <circle cx="24.2" cy="12.2" r="3.6" fill="#000" />
+        </mask>
+        <symbol id="logo" viewBox="0 0 32 32">
+          <rect
+            x="1.5"
+            y="6.5"
+            width="29"
+            height="19"
+            rx="6.5"
+            fill="currentColor"
+            mask="url(#logo-luecke)" />
+          <circle cx="24.2" cy="12.2" r="2.2" fill="#ff5a1c" />
+        </symbol>
+      </defs>
+    </svg>
+
+    <!-- Kopfleiste wie bei Granola: oben unsichtbar, beim Scrollen eine weiße Pille (kopfleiste.js).
+     Auf der Seite eines Kapitels fahren rechts neben seinem Namen die Unterkapitel aus. -->
+    <header class="oben">
+      <nav class="oben__pille" aria-label="Hauptmenü">
+        <a
+          class="oben__marke"
+          href="index.html"
+          aria-label="SkiTag, zur Startseite">
+          <svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true">
+            <use href="#logo" />
+          </svg>
+          SkiTag
+        </a>
+        <ul class="oben__seiten">
+          <li><a href="chip.html">Der Chip</a></li>
+          <li><a href="app.html">Die App</a></li>
+          <li><a href="skitag.html">Am Skitag</a></li>
+          <li><a href="feedback.html">Feedback</a></li>
+        </ul>
+        <div class="oben__rechts">
+          <a class="knopf-dunkel oben__wir" href="wir.html">Das sind wir</a>
+          <button
+            class="oben__menue-knopf"
+            type="button"
+            aria-expanded="false"
+            aria-controls="oben-menue"
+            aria-label="Menü öffnen">
+            <span></span><span></span>
+          </button>
+        </div>
+      </nav>
+      <div class="oben__menue" id="oben-menue" hidden></div>
+    </header>
+
+    <main id="oben">
+      <!-- Am Skitag (seit Feedback 60): der Ablauf vom Mieten bis zur Rückgabe als Zeitstrahl, ohne Unterkapitel.
+       Beim Scrollen zeichnet sich die Linie, ein kleiner Chip fährt mit, jede Station erscheint, wenn er sie
+       erreicht; links läuft die Uhr mit und der Himmel geht von Morgen bis Mitternacht (assets/skitag.js).
+       Fakten aus Tobias' App und der Präsentation: Mieten und Rückgabe an der Kassa oder am Automaten
+       (Automaten rund um die Uhr), Code vom Mietbeleg gilt bis Mitternacht, Lifte 08:30 bis 16:30,
+       Notruf funktioniert bis zur Rückgabe, die Spur wird um Mitternacht gelöscht. -->
+      <section
+        class="sc-section seite-anfang tag-kopf"
+        aria-labelledby="seite-titel">
+        <div class="sc-wrap">
+          <header class="kopfzeile" data-sc-in data-sc-stagger="80">
+            <h1 id="seite-titel" class="sc-display riesig">
+              Am Skitag.<br /><span class="leise"
+                >Vom Mieten bis zur Rückgabe.</span
+              >
+            </h1>
+            <p class="sc-lede kopfzeile__text">
+              Morgens holen, tagsüber in der Jacke, abends zurückgeben. So läuft
+              ein Tag mit SkiTag.
+            </p>
+          </header>
+        </div>
+      </section>
+
+      <section id="ablauf" class="tag" aria-labelledby="ablauf-titel">
+        <h2 id="ablauf-titel" class="nur-vorlesen">Der Ablauf eines Skitags</h2>
+        <div class="sc-wrap tag__raster">
+          <!-- Uhr mit Himmel: läuft beim Scrollen mit -->
+          <div class="tag__uhr" aria-hidden="true">
+            <div class="tag__himmel">
+              <i class="tag__stern" style="--x: 18%; --y: 22%"></i
+              ><i class="tag__stern" style="--x: 72%; --y: 14%"></i
+              ><i class="tag__stern" style="--x: 86%; --y: 40%"></i
+              ><i class="tag__stern" style="--x: 40%; --y: 10%"></i>
+              <i class="tag__sonne"></i>
+              <i class="tag__mond"></i>
+              <svg
+                class="tag__berge"
+                viewBox="0 0 240 80"
+                preserveAspectRatio="none">
+                <path
+                  class="tag__berg-hinten"
+                  d="M0 80 V46 L34 26 L58 40 L96 12 L132 38 L160 22 L196 40 L240 24 V80 Z" />
+                <path
+                  class="tag__berg-vorn"
+                  d="M0 80 V60 L40 44 L74 58 L112 36 L150 56 L188 42 L240 58 V80 Z" />
+              </svg>
+            </div>
+            <div class="tag__anzeige">
+              <b class="tag__zeit">08:10</b>
+              <span class="tag__was">Chip holen</span>
+            </div>
+          </div>
+
+          <div class="tag__ablauf">
+            <div class="tag__linie" aria-hidden="true">
+              <i class="tag__fuellung"></i
+              ><span class="tag__chip"><i></i></span>
+            </div>
+            <ol class="tag__liste">
+              <li class="tag__halt" data-zeit="08:10" data-was="Chip holen">
+                <span class="tag__punkt" aria-hidden="true"></span>
+                <article class="tag__karte">
+                  <svg class="tag__bild" viewBox="0 0 48 48" aria-hidden="true">
+                    <rect x="12" y="5" width="24" height="38" rx="4" />
+                    <rect x="16" y="10" width="16" height="11" rx="2" />
+                    <path d="M18 27h12M18 32h7" />
+                    <rect
+                      class="o"
+                      x="27"
+                      y="30"
+                      width="7"
+                      height="5"
+                      rx="1.6" />
+                    <path d="M8 43h32" />
+                  </svg>
+                  <div>
+                    <time>08:10</time>
+                    <h3>Chip holen.</h3>
+                    <p>
+                      An der Kassa oder am Automaten, die Automaten auch rund um
+                      die Uhr. Du bekommst den Chip und einen Mietbeleg mit
+                      deinem Code. Wer zusammen fährt, lässt sich an der Kassa
+                      gleich als Gruppe anlegen.
+                    </p>
+                    <ul class="tag__orte">
+                      <li>Kassa</li>
+                      <li>Automat</li>
+                    </ul>
+                  </div>
+                </article>
+              </li>
+
+              <li class="tag__halt" data-zeit="08:15" data-was="In die Jacke">
+                <span class="tag__punkt" aria-hidden="true"></span>
+                <article class="tag__karte">
+                  <svg class="tag__bild" viewBox="0 0 48 48" aria-hidden="true">
+                    <path d="M17 6l-9 5-3 14 6 2v15h26V27l6-2-3-14-9-5" />
+                    <path d="M17 6c1 4 4 6 7 6s6-2 7-6" />
+                    <path d="M24 12v30" />
+                    <rect class="o" x="27" y="25" width="9" height="6" rx="2" />
+                  </svg>
+                  <div>
+                    <time>08:15</time>
+                    <h3>In die Jacke.</h3>
+                    <p>
+                      Chip in die Jackentasche, fertig. Mehr braucht es für den
+                      Notruf nicht. Wer mag, gibt in der App Vorname und Code
+                      vom Beleg ein, ohne Konto.
+                    </p>
+                  </div>
+                </article>
+              </li>
+
+              <li class="tag__halt" data-zeit="08:30" data-was="Erster Lift">
+                <span class="tag__punkt" aria-hidden="true"></span>
+                <article class="tag__karte">
+                  <svg class="tag__bild" viewBox="0 0 48 48" aria-hidden="true">
+                    <path d="M3 9l42 10" />
+                    <path d="M24 14v8" />
+                    <path d="M15 22h18v4a4 4 0 0 1-4 4H19a4 4 0 0 1-4-4z" />
+                    <path d="M15 34h18" />
+                    <path class="o-strich" d="M8 44c6-3 10-3 16 0s10 3 16 0" />
+                  </svg>
+                  <div>
+                    <time>08:30</time>
+                    <h3>Erster Lift.</h3>
+                    <p>
+                      Mit der App einmal „Tag starten“. Ab dann zählt der Chip
+                      deine Abfahrten, Tiefenmeter und Liftfahrten.
+                    </p>
+                  </div>
+                </article>
+              </li>
+
+              <li class="tag__halt" data-zeit="11:00" data-was="Am Berg">
+                <span class="tag__punkt" aria-hidden="true"></span>
+                <article class="tag__karte">
+                  <svg class="tag__bild" viewBox="0 0 48 48" aria-hidden="true">
+                    <rect x="10" y="16" width="28" height="18" rx="6" />
+                    <circle class="o" cx="24" cy="25" r="4.5" />
+                    <path
+                      class="o-strich"
+                      d="M5 12a14 14 0 0 1 6-6M43 12a14 14 0 0 0-6-6M8 16a9 9 0 0 1 3-4M40 16a9 9 0 0 0-3-4" />
+                  </svg>
+                  <div>
+                    <time>den ganzen Tag</time>
+                    <h3>Am Berg.</h3>
+                    <p>
+                      Einmal kurz drücken ruft deine Gruppe zusammen. Drei
+                      Sekunden halten holt Hilfe, ganz ohne Handy und ohne
+                      Handynetz. Der Akku hält den ganzen Skitag.
+                    </p>
+                  </div>
+                </article>
+              </li>
+
+              <li class="tag__halt" data-zeit="16:00" data-was="Ins Tal">
+                <span class="tag__punkt" aria-hidden="true"></span>
+                <article class="tag__karte">
+                  <svg class="tag__bild" viewBox="0 0 48 48" aria-hidden="true">
+                    <path d="M4 40l12-18 7 9 6-8 15 17z" />
+                    <path class="o-strich" d="M30 8c-3 6 2 10-1 16s-9 8-8 16" />
+                    <circle class="o" cx="21" cy="40" r="2.5" />
+                  </svg>
+                  <div>
+                    <time>16:00</time>
+                    <h3>Ins Tal.</h3>
+                    <p>
+                      Vor Liftschluss sagt dir die App, wann du losfahren musst,
+                      und zeigt den schnellsten Weg ins Tal. Mit „Tag beenden“
+                      wird aus deiner Spur ein kurzer Tagesfilm.
+                    </p>
+                  </div>
+                </article>
+              </li>
+
+              <li
+                class="tag__halt tag__halt--wichtig"
+                data-zeit="16:40"
+                data-was="Chip zurückgeben">
+                <span class="tag__punkt" aria-hidden="true"></span>
+                <article class="tag__karte">
+                  <svg class="tag__bild" viewBox="0 0 48 48" aria-hidden="true">
+                    <rect x="12" y="5" width="24" height="38" rx="4" />
+                    <rect x="16" y="10" width="16" height="11" rx="2" />
+                    <path d="M17 32h14" />
+                    <path class="o-strich" d="M44 30h-11m4-4-4 4 4 4" />
+                    <path d="M8 43h32" />
+                  </svg>
+                  <div>
+                    <span class="tag__hinweis">Nicht vergessen</span>
+                    <time>16:40</time>
+                    <h3>Chip zurückgeben.</h3>
+                    <p>
+                      Den Chip gibst du an der Kassa oder am Automaten zurück,
+                      auch noch am Abend. Bis zur Rückgabe funktioniert der
+                      Notruf weiter.
+                    </p>
+                    <ul class="tag__orte">
+                      <li>Kassa</li>
+                      <li>Automat</li>
+                    </ul>
+                  </div>
+                </article>
+              </li>
+
+              <li class="tag__halt" data-zeit="00:00" data-was="Mitternacht">
+                <span class="tag__punkt" aria-hidden="true"></span>
+                <article class="tag__karte">
+                  <svg class="tag__bild" viewBox="0 0 48 48" aria-hidden="true">
+                    <path d="M30 8a16 16 0 1 0 10 26A13 13 0 0 1 30 8z" />
+                    <path
+                      class="o-strich"
+                      d="M38 10v4M36 12h4M12 10v3M10.5 11.5h3" />
+                  </svg>
+                  <div>
+                    <time>00:00</time>
+                    <h3>Mitternacht.</h3>
+                    <p>
+                      Dein Code läuft ab, und die Spur deines Tages wird
+                      gelöscht. Am nächsten Skitag holst du dir einfach wieder
+                      einen Chip.
+                    </p>
+                  </div>
+                </article>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="fuss">
+      <div class="fuss__innen">
+        <div class="fuss__marke">
+          <b
+            ><svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true">
+              <use href="#logo" /></svg
+            >SkiTag</b
+          >
+          <span
+            >SkiTag GmbH · Firmenname, Sitz und Firmenbuch folgen
+            (Platzhalter)</span
+          >
+        </div>
+        <nav aria-label="Seite">
+          <b>Seite</b>
+          <a href="index.html">Start</a><a href="chip.html">Der Chip</a
+          ><a href="app.html">Die App</a
+          ><a href="skitag.html" aria-current="page">Am Skitag</a
+          ><a href="feedback.html">Feedback</a
+          ><a href="wir.html">Das sind wir</a>
+        </nav>
+        <nav aria-label="Rechtliches">
+          <b>Rechtliches</b>
+          <span>Impressum folgt</span><span>Datenschutz folgt</span>
+        </nav>
+        <div class="fuss__nachweis">
+          <b>Nachweise</b>
+          <span>Bergvideos und Fotos: Mixkit</span>
+          <span>Schrift der App: Bricolage Grotesque (OFL)</span>
+          <span>Halte-Knopf nach React Bits (MIT + Commons Clause)</span>
+        </div>
+      </div>
+      <div class="fuss__wort" aria-hidden="true">
+        <p class="fuss__wort-zeile">
+          <span style="--i: 0">S</span><span style="--i: 1">K</span
+          ><span style="--i: 2">I</span><span style="--i: 3">T</span
+          ><span style="--i: 4">A</span><span style="--i: 5">G</span>
+        </p>
+      </div>
+      <div class="fuss__leiste">
+        <span>© 2026 SkiTag</span>
+      </div>
+    </footer>
+
+    <a class="sprung-anfang" href="#oben" aria-label="Nach oben">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          d="M12 19V5M5.5 11.5 12 5l6.5 6.5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </a>
+
+    <script src="scrollcraft.js?v=16"></script>
+    <script>
+      ScrollCraft.mount(document.body);
+    </script>
+    <script src="assets/seite.js?v=49" defer></script>
+    <script src="assets/sprung-anfang.js?v=18" defer></script>
+    <script src="assets/kopfleiste.js?v=2" defer></script>
+    <script src="assets/skitag.js?v=1" defer></script>
+  </body>
+</html>

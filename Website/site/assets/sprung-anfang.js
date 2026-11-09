@@ -39,7 +39,7 @@
     e.preventDefault();
     try { window.scrollTo({ top: 0, behavior: ohneBewegung ? "auto" : "smooth" }); }
     catch (_) { window.scrollTo(0, 0); }
-    var marke = document.querySelector(".marke");
+    var marke = document.querySelector(".oben__marke");
     if (marke) { try { marke.focus({ preventScroll: true }); } catch (_) { marke.focus(); } }
   });
 })();

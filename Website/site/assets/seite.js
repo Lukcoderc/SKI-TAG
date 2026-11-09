@@ -1,4 +1,4 @@
-/* SkiTag · eigene Abläufe der Seite: Kopfleiste, Schneeflocken im Hang,
+/* SkiTag · eigene Abläufe der Seite: Schneeflocken im Hang,
    der Halte-Knopf mit der Zeichnung des Notrufwegs.
    Die Engine (scrollcraft.js) bleibt unverändert. */
 (function () {
@@ -31,7 +31,7 @@
   }
 
   /* ----------------------------------------- Wechselndes Wort im Titel -- */
-  /* „Ein Chip für [deine Gruppe]“ (seit Feedback 42 eigene Form statt Notions Pille): alle 2,6 s
+  /* „Ein Mietchip für [deine Gruppe]“ (seit Feedback 42 eigene Form statt Notions Pille): alle 2,6 s
      steigen die Buchstaben einzeln weich verschwommen nach oben weg, die neuen kommen nacheinander
      von unten und werden scharf, darunter zeichnet sich eine geschwungene Skispur in der Farbe des
      Worts. Der Platz ist immer so breit wie das längste Wort, damit sich die Zeile nie bewegt. */
@@ -76,14 +76,7 @@
     }, 2600);
   });
 
-  /* ------------------------------------------------------- Kopfleiste -- */
-  /* (in Feedback 42 versehentlich entfernt, in Feedback 45 wieder eingesetzt) */
-  var leiste = document.querySelector(".leiste");
-  function leisteSetzen() {
-    // die Leiste bekommt ihren Grund (und „Das sind wir“ blendet am PC aus), sobald man scrollt
-    leiste.classList.toggle("ist-unten", window.scrollY > 40);
-  }
-  leisteSetzen();
+  /* Die Kopfleiste steht seit Feedback 51 in kopfleiste.js. */
 
   /* ------------------------------------------ Video im Einstieg -- */
   /* Läuft als Schleife; bei weniger Bewegung steht es auf dem ersten Bild, außer Sicht ruht es */
@@ -372,53 +365,41 @@
 
   var fortschritt = function (el) { return parseFloat(el.style.getPropertyValue("--sc-p")) || 0; };
 
-  /* ------------------------------------- Kopfleiste über der Nacht -- */
-  /* Liegt die Leiste über einer nachtblauen Bühne, wird sie hell. */
-  var nachtFlaechen = document.querySelectorAll(".nacht, .fuss");
-  function leisteNacht() {
-    var unter = leiste.getBoundingClientRect().bottom / 2;
-    var nacht = false;
-    nachtFlaechen.forEach(function (n) { var r = n.getBoundingClientRect(); if (r.top <= unter && r.bottom >= unter) nacht = true; });
-    leiste.classList.toggle("ist-nacht", nacht);
-  }
-  leisteNacht();
-  // beide Kopfleisten-Prüfungen höchstens einmal je Bild, nicht bei jedem Scroll-Ereignis
-  var leisteWartet = false;
-  window.addEventListener("scroll", function () {
-    if (leisteWartet) return;
-    leisteWartet = true;
-    requestAnimationFrame(function () { leisteWartet = false; leisteSetzen(); leisteNacht(); });
-  }, { passive: true });
-
   /* --------------------------------------------- Die App im iPhone -- */
-  /* Vier Zielgruppen über die gepinnte Strecke: Familien, Skischulen, Sportliche, Neu im Skigebiet;
-     jede zeigt ihren Bildschirm im iPhone (Gruppe, Skigruppe, Mein Tag, Route). */
+  /* Kurzfassung seit Feedback 56 (vorher eine gepinnte Strecke mit vier ausführlichen Schritten):
+     Die Marken Familien, Skischulen, Alle auf der Piste, Neu im Skigebiet schalten den Bildschirm
+     im iPhone um. Solange der Abschnitt zu sehen ist und niemand mit den Marken arbeitet, wechselt
+     er alle 4 s von selbst zur nächsten Marke; bei „weniger Bewegung“ nur auf Klick. */
   var appAkt = document.getElementById("app");
-  if (appAkt) {
+  var appMarken = appAkt ? appAkt.querySelectorAll(".app-akt__fuer button") : [];
+  if (appAkt && appMarken.length) {
     var app = appAkt.querySelector(".app");
-    var appSchritte = appAkt.querySelectorAll(".app-akt__schritte li");
-    var letztesBild = -1, appWartet = false;
-    var appTakt = function () {
-      appWartet = false;
-      var p = fortschritt(appAkt);
-      // je Zielgruppe ein gleich langes Stück der Strecke; der Schritt nennt seinen Bildschirm
-      var nr = Math.min(appSchritte.length - 1, Math.floor(p * appSchritte.length));
-      if (nr !== letztesBild) {
-        letztesBild = nr;
-        app.setAttribute("data-bild", appSchritte[nr].getAttribute("data-bild") || String(nr));
-        appSchritte.forEach(function (li, i) { li.classList.toggle("ist-aktiv", i === nr); });
-      }
+    var appNr = 0, appSichtbar = false, appRuht = false, appUhr = 0;
+    var appZeigen = function (nr) {
+      appNr = nr;
+      app.setAttribute("data-bild", appMarken[nr].getAttribute("data-bild"));
+      appMarken.forEach(function (m, i) { m.setAttribute("aria-pressed", i === nr ? "true" : "false"); });
     };
-    // die Engine setzt --sc-p in ihrem eigenen Bild davor, darum hier ein Bild später lesen
-    window.addEventListener("scroll", function () { if (!appWartet) { appWartet = true; requestAnimationFrame(appTakt); } }, { passive: true });
-    requestAnimationFrame(appTakt);
-    appSchritte.forEach(function (li, i) {
-      li.addEventListener("click", function () {
-        var oben = appAkt.getBoundingClientRect().top + window.scrollY;
-        var strecke = appAkt.offsetHeight - window.innerHeight;
-        window.scrollTo({ top: oben + strecke * (i + 0.5) / appSchritte.length, behavior: ohneBewegung ? "auto" : "smooth" });
-      });
+    var appWeiter = function () {
+      clearTimeout(appUhr);
+      if (ohneBewegung || !appSichtbar || appRuht) return;
+      appUhr = setTimeout(function () {
+        if (!document.hidden) appZeigen((appNr + 1) % appMarken.length);
+        appWeiter();
+      }, 4000);
+    };
+    appMarken.forEach(function (m, i) {
+      m.addEventListener("click", function () { appZeigen(i); appWeiter(); });
     });
+    var appLinks = appAkt.querySelector(".app-akt__fuer");
+    appLinks.addEventListener("pointerenter", function () { appRuht = true; clearTimeout(appUhr); });
+    appLinks.addEventListener("pointerleave", function () { appRuht = false; appWeiter(); });
+    appLinks.addEventListener("focusin", function () { appRuht = true; clearTimeout(appUhr); });
+    appLinks.addEventListener("focusout", function () { appRuht = false; appWeiter(); });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (e) { appSichtbar = e[0].isIntersecting; appWeiter(); }, { threshold: 0.35 }).observe(appAkt);
+    }
+    appZeigen(0);
   }
 
   /* ------------------- Gebirge über dem Schluss, Schriftzug im Fuß -- */

@@ -1,0 +1,190 @@
+/* SkiTag · Seite „Feedback“ (seit Feedback 62), nur auf feedback.html geladen.
+   Eine große Karte: links eine Bergszene, rechts die Fragen, eine nach der anderen.
+   Die Bewertung ist ein Wetter-Regler (0 Schneesturm … 4 Pulvertag); feedback.js setzt daraus
+   --w (0 bis 4) und die Himmelsfarben, CSS leitet Sonne, Wolken, Nebel und Schnee davon ab.
+   Unten in der Szene ein Slalom: je Frage ein Tor, ein kleiner Chip fährt hindurch.
+   Abschicken wie am Chip: halten, bis der Ring voll ist. Das Formular sendet noch nichts. */
+
+.fb-kopf { padding-bottom: calc(var(--sc-section) * 0.3); }
+.fb { padding-block: calc(var(--sc-section) * 0.15) var(--sc-section); }
+
+.fb__karte {
+  --w: 3; --himmel-o: #69a8ec; --himmel-u: #cfe5fb;
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); min-height: min(40rem, calc(100svh - 7rem));
+  border-radius: 32px; overflow: hidden; background: #fff;
+  box-shadow: 0 0 0 1px var(--linie), 0 40px 80px -50px rgba(14, 29, 64, 0.45);
+}
+
+/* --------------------------------------------------------- Szene -- */
+.fb__szene { position: relative; overflow: hidden; min-height: 26rem; background: linear-gradient(180deg, var(--himmel-o) 0%, var(--himmel-u) 78%); }
+/* Sonne: ab „Bewölkt“ sichtbar, steigt mit besserem Wetter */
+.fb__sonne {
+  position: absolute; left: 70%; top: calc(46% - (var(--w) - 2) * 10%); width: 18%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #fff8d2, #ffcf4a 58%, #ff9f1c);
+  box-shadow: 0 0 0 1.4rem rgba(255, 214, 102, 0.2), 0 0 0 2.8rem rgba(255, 214, 102, 0.1);
+  opacity: clamp(0, calc(var(--w) - 1.6), 1);
+}
+/* Wolken: dicht bei schlechtem Wetter, weg bei Sonne */
+.fb__wolken { position: absolute; inset: 0; opacity: clamp(0, calc(1 - (var(--w) - 1.2) / 2), 1); }
+.fb__wolke { position: absolute; height: 18%; border-radius: 999px; background: color-mix(in srgb, #ffffff calc(100% - (4 - var(--w)) * 12%), #5b6880); filter: blur(1px); box-shadow: 0 1.2rem 2rem -1.2rem rgba(14, 29, 64, 0.35); }
+.fb__wolke::before, .fb__wolke::after { content: ""; position: absolute; border-radius: 50%; background: inherit; }
+.fb__wolke::before { width: 45%; aspect-ratio: 1; left: 14%; bottom: 40%; }
+.fb__wolke::after { width: 34%; aspect-ratio: 1; left: 48%; bottom: 30%; }
+.fb__wolke--1 { left: 6%; top: 18%; width: 44%; animation: fb-zieh 26s ease-in-out infinite alternate; }
+.fb__wolke--2 { left: 48%; top: 10%; width: 38%; animation: fb-zieh 32s ease-in-out -8s infinite alternate-reverse; }
+.fb__wolke--3 { left: 30%; top: 32%; width: 30%; opacity: 0.8; animation: fb-zieh 22s ease-in-out -4s infinite alternate; }
+@keyframes fb-zieh { from { transform: translateX(-6%); } to { transform: translateX(8%); } }
+/* Nebel: am dichtesten bei „Nebel“ */
+.fb__nebel { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(180deg, rgba(236, 240, 245, 0.2), rgba(236, 240, 245, 0.95) 70%); opacity: clamp(0, calc(1 - (var(--w) - 1) * (var(--w) - 1) / 1.4), 1); }
+
+.fb__berge { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 72%; z-index: 2; }
+.fb__berg--fern { fill: color-mix(in srgb, #b7c8e2, #5a6a86 calc((4 - var(--w)) * 12%)); }
+.fb__berg--nah { fill: color-mix(in srgb, #f4f8fd, #c8d2e0 calc((4 - var(--w)) * 18%)); }
+.fb__gipfelschnee { fill: #fff; opacity: 0.85; }
+.fb__funkeln path { fill: #fff; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.fb__karte.ist-pulver .fb__funkeln path { animation: fb-funkeln 1.8s ease-in-out infinite; }
+.fb__karte.ist-pulver .fb__funkeln path:nth-child(2) { animation-delay: 0.6s; }
+.fb__karte.ist-pulver .fb__funkeln path:nth-child(3) { animation-delay: 1.2s; }
+@keyframes fb-funkeln { 0%, 100% { opacity: 0; transform: scale(0.4) rotate(0); } 50% { opacity: 1; transform: scale(1) rotate(45deg); } }
+
+/* Schnee: zwei Lagen Flocken, dicht und schräg im Sturm, leicht bei Pulvertag */
+.fb__schnee {
+  position: absolute; inset: -20% -20%; z-index: 4; pointer-events: none;
+  background-image: radial-gradient(circle, #fff 0 1.6px, transparent 2.4px), radial-gradient(circle, rgba(255, 255, 255, 0.85) 0 1.1px, transparent 1.8px);
+  background-size: 90px 90px, 60px 60px; background-position: 0 0, 30px 45px;
+  rotate: calc((1 - clamp(0, var(--w), 1)) * 24deg);
+  opacity: clamp(0, calc(1 - var(--w) / 1.6), 1);
+  animation: fb-schnee 3.5s linear infinite;
+}
+.fb__schnee--2 { background-size: 140px 140px, 110px 110px; background-position: 40px 10px, 80px 70px; animation-duration: 6s; opacity: clamp(0, calc(1 - var(--w) / 2.4), 1); }
+.fb__karte.ist-pulver .fb__schnee--2 { opacity: 0.6; animation-duration: 12s; }
+@keyframes fb-schnee { to { background-position: 0 90px, 30px 105px; } }
+.fb__schnee--2 { animation-name: fb-schnee-2; }
+@keyframes fb-schnee-2 { to { background-position: 40px 150px, 80px 180px; } }
+
+/* Wetterbericht oben links */
+.fb__bericht { position: absolute; z-index: 6; left: clamp(1.25rem, 3vw, 2.25rem); top: clamp(1.25rem, 3vw, 2rem); display: grid; gap: 0.15rem; color: #0b1226; }
+.fb__bericht-titel { font-size: var(--sc-t-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.65; }
+.fb__wort { font-family: var(--sc-font-display); font-weight: 700; font-size: clamp(2.4rem, 1.4rem + 3vw, 4rem); letter-spacing: -0.045em; line-height: 1; }
+.fb__sub { font-weight: 600; opacity: 0.75; }
+.fb__karte.ist-dunkel .fb__bericht { color: #fff; }
+
+/* Slalom unten */
+.fb__slalom { position: absolute; z-index: 5; left: 4%; right: 4%; bottom: 0.75rem; width: 92%; height: auto; overflow: visible; }
+.fb__piste { fill: none; stroke: rgba(14, 29, 64, 0.22); stroke-width: 3; stroke-dasharray: 2 9; stroke-linecap: round; }
+.fb__tor path:first-child { stroke: #0b1226; stroke-width: 2.4; stroke-linecap: round; }
+.fb__fahne { fill: #e0242f; transition: transform 400ms cubic-bezier(0.3, 1.6, 0.5, 1); transform-box: fill-box; transform-origin: left center; }
+.fb__tor--blau .fb__fahne { fill: #1f66d1; }
+.fb__tor--ziel .fb__fahne { fill: #0b1226; }
+.fb__tor.ist-durch .fb__fahne { animation: fb-flattern 700ms ease-out; }
+@keyframes fb-flattern { 30% { transform: skewY(-12deg) scaleX(1.15); } 60% { transform: skewY(6deg); } }
+.fb__fahrer rect { fill: var(--orange); stroke: #fff; stroke-width: 3; }
+.fb__fahrer circle { fill: #fff; stroke: #2a3039; stroke-width: 1.6; }
+
+/* --------------------------------------------------------- Fragen -- */
+.fb__fragen { position: relative; display: grid; grid-template-rows: auto 1fr auto; padding: clamp(1.75rem, 4vw, 3.25rem); gap: 1.5rem; }
+.fb__stand { margin: 0; font-size: var(--sc-t-sm); font-weight: 600; color: var(--sc-ink-soft); }
+.fb__stand b { color: var(--orange); }
+.fb__frage { margin: 0; padding: 0; border: 0; min-width: 0; }
+.fb__frage legend, .fb__senden-titel, .fb__danke-titel { padding: 0; margin: 0; font-family: var(--sc-font-display); font-weight: 650; font-size: clamp(1.8rem, 1.2rem + 1.8vw, 2.6rem); line-height: 1.05; letter-spacing: -0.04em; color: var(--sc-ink); }
+.fb__hilfe { margin: 0.6rem 0 0; color: var(--sc-ink-soft); line-height: 1.5; }
+
+/* nur die aktuelle Frage, mit kleinem Wechsel */
+.js-fb .fb__frage { grid-row: 2; grid-column: 1; align-self: center; opacity: 0; visibility: hidden; transform: translateX(24px); transition: opacity 350ms var(--sc-ease-out), transform 450ms var(--sc-ease-out), visibility 0s linear 450ms; }
+.js-fb .fb__frage.ist-dran { opacity: 1; visibility: visible; transform: none; transition: opacity 350ms var(--sc-ease-out) 120ms, transform 450ms var(--sc-ease-out) 120ms, visibility 0s; }
+.js-fb .fb__frage.ist-vorbei { transform: translateX(-24px); }
+html:not(.js-fb) .fb__frage + .fb__frage { margin-top: 2.5rem; }
+html:not(.js-fb) .fb__danke, html:not(.js-fb) .fb__nav, html:not(.js-fb) .fb__stand { display: none; }
+
+/* Wetter-Regler */
+.fb__regler-feld { margin-top: 2.2rem; }
+.fb__regler { -webkit-appearance: none; appearance: none; width: 100%; height: 3.2rem; margin: 0; background: transparent; cursor: pointer; }
+.fb__regler::-webkit-slider-runnable-track { height: 0.75rem; border-radius: 999px; background: linear-gradient(90deg, #5d6b82, #c3cad4 28%, #a8c3e2 52%, #69a8ec 76%, #3d8ef0); }
+.fb__regler::-moz-range-track { height: 0.75rem; border-radius: 999px; background: linear-gradient(90deg, #5d6b82, #c3cad4 28%, #a8c3e2 52%, #69a8ec 76%, #3d8ef0); }
+.fb__regler::-webkit-slider-thumb { -webkit-appearance: none; width: 2.6rem; height: 2.6rem; margin-top: -0.925rem; border-radius: 50%; background: #fff; border: 0; box-shadow: 0 0 0 4px var(--orange), 0 8px 18px -6px rgba(14, 29, 64, 0.5); transition: transform 150ms ease; }
+.fb__regler::-moz-range-thumb { width: 2.6rem; height: 2.6rem; border-radius: 50%; background: #fff; border: 0; box-shadow: 0 0 0 4px var(--orange), 0 8px 18px -6px rgba(14, 29, 64, 0.5); }
+.fb__regler:active::-webkit-slider-thumb { transform: scale(1.1); }
+.fb__regler:focus-visible { outline: none; }
+.fb__regler:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px var(--orange), 0 0 0 8px var(--knopf-hell); }
+.fb__skala { display: flex; justify-content: space-between; margin-top: 0.4rem; font-size: var(--sc-t-xs); font-weight: 600; color: var(--sc-ink-soft); }
+.fb__skala span { width: 0; display: flex; justify-content: center; white-space: nowrap; }
+.fb__skala span:first-child { justify-content: flex-start; } .fb__skala span:last-child { justify-content: flex-end; }
+
+/* Auswahl als große Kacheln */
+.fb__wahl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; margin-top: 1.6rem; }
+.fb__wahl label { position: relative; cursor: pointer; }
+.fb__wahl input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.fb__wahl span {
+  display: flex; align-items: center; gap: 0.7rem; height: 100%; box-sizing: border-box; padding: 0.95rem 1.1rem; border-radius: 16px;
+  border: 1px solid var(--linie); background: #fff; font-weight: 600; color: var(--sc-ink);
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, transform 200ms cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.fb__wahl svg { flex: none; width: 1.6rem; height: 1.6rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.fb__wahl input:checked + span { background: var(--sc-ink); border-color: var(--sc-ink); color: #fff; transform: scale(1.02); }
+.fb__wahl input:focus-visible + span { outline: 2px solid var(--knopf); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .fb__wahl label:hover input:not(:checked) + span { border-color: rgba(14, 29, 64, 0.3); } }
+.fb__wahl label:last-child:nth-child(odd) { grid-column: span 2; }
+.fb__wahl--klein { display: flex; flex-wrap: wrap; }
+.fb__wahl--klein span { padding: 0.7rem 1.05rem; border-radius: 999px; }
+.fb__wahl--klein input:checked + span::before { content: ""; width: 0.45rem; height: 0.8rem; margin: -0.15rem 0.1rem 0 0; border: solid var(--orange); border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
+
+/* Textfelder */
+.fb__feld { display: grid; gap: 0.45rem; margin-top: 1.4rem; font-weight: 600; font-size: var(--sc-t-sm); color: var(--sc-ink); position: relative; }
+.fb__feld em { font-style: normal; font-weight: 500; color: var(--sc-ink-soft); }
+.fb__feld textarea, .fb__feld input {
+  width: 100%; box-sizing: border-box; padding: 0.9rem 1rem; border-radius: 14px; border: 1px solid var(--linie); background: var(--eis);
+  font: 500 var(--sc-t-base)/1.5 var(--sc-font-text); color: var(--sc-ink); resize: vertical; transition: border-color 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
+}
+.fb__feld textarea:focus, .fb__feld input:focus { outline: none; background: #fff; border-color: var(--knopf); box-shadow: 0 0 0 4px var(--knopf-hell); }
+.fb__zaehler { position: absolute; right: 0.9rem; bottom: 0.7rem; font-style: normal; font-size: var(--sc-t-xs); font-weight: 600; color: var(--sc-ink-soft); }
+
+/* Halten zum Senden */
+.fb__senden { display: grid; justify-items: start; }
+.fb__halten {
+  position: relative; margin-top: 1.8rem; width: 11rem; height: 11rem; border: 0; padding: 0; border-radius: 50%; cursor: pointer;
+  background: radial-gradient(circle at 42% 36%, #ff8a4c, var(--orange) 55%, #e2470f); color: #fff; touch-action: none; -webkit-user-select: none; user-select: none;
+  box-shadow: 0 18px 36px -18px rgba(229, 69, 13, 0.7), inset 0 2px 0 rgba(255, 255, 255, 0.25);
+  transition: transform 200ms ease;
+}
+.fb__halten svg { position: absolute; inset: -0.6rem; width: calc(100% + 1.2rem); height: calc(100% + 1.2rem); transform: rotate(-90deg); pointer-events: none; }
+.fb__ring-grund { fill: none; stroke: rgba(229, 69, 13, 0.15); stroke-width: 5; }
+.fb__ring { fill: none; stroke: #0b1226; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--halt, 0)); }
+.fb__halten-text { position: relative; display: block; padding: 0 1.4rem; font-weight: 700; font-size: var(--sc-t-base); line-height: 1.2; }
+.fb__halten.ist-gedrueckt { transform: scale(0.96); }
+.fb__halten:focus-visible { outline: 3px solid var(--knopf); outline-offset: 6px; }
+.fb__vorschau { margin: 1.4rem 0 0; font-size: var(--sc-t-xs); font-weight: 600; color: var(--sc-ink-soft); padding: 0.35rem 0.75rem; border-radius: 999px; background: var(--eis); }
+
+/* Danke */
+.fb__danke { display: grid; justify-items: start; }
+.fb__danke-zeichen { width: 4.5rem; height: 4.5rem; margin-bottom: 1.2rem; }
+.fb__danke-zeichen circle { fill: #16b46b; }
+.fb__danke-zeichen path { fill: none; stroke: #fff; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 40; stroke-dashoffset: 40; }
+.fb__danke.ist-dran .fb__danke-zeichen path { animation: fb-haken 600ms ease-out 350ms forwards; }
+@keyframes fb-haken { to { stroke-dashoffset: 0; } }
+.fb__nochmal { margin-top: 1.4rem; }
+
+/* Navigation */
+.fb__nav { display: flex; justify-content: space-between; gap: 0.75rem; }
+.fb__nav button { min-height: 3rem; padding: 0 1.25rem; }
+.fb__karte[data-schritt="0"] .fb__zurueck { visibility: hidden; }
+.fb__karte[data-schritt="4"] .fb__weiter, .fb__karte[data-schritt="5"] .fb__nav { visibility: hidden; }
+
+/* ------------------------------------------------------------ Handy -- */
+@media (max-width: 899px) {
+  .fb__karte { grid-template-columns: 1fr; border-radius: 24px; min-height: 0; }
+  .fb__szene { min-height: 0; aspect-ratio: 5 / 4; }
+  .fb__wahl { grid-template-columns: 1fr; }
+  .fb__wahl label:last-child:nth-child(odd) { grid-column: auto; }
+  .fb__halten { width: 9.5rem; height: 9.5rem; justify-self: center; }
+  .fb__senden { justify-items: center; text-align: center; }
+  /* oben bündig statt mittig, sonst steht über kurzen Fragen viel Luft */
+  .js-fb .fb__frage { align-self: start; }
+  .js-fb .fb__frage:not(.ist-dran) { display: none; }
+  /* unter dem Regler nur die beiden Enden, das Wort steht groß in der Szene */
+  .fb__skala span:nth-child(2), .fb__skala span:nth-child(3), .fb__skala span:nth-child(4) { visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fb__wolke, .fb__schnee, .fb__funkeln path { animation: none !important; }
+  .js-fb .fb__frage, .js-fb .fb__frage.ist-dran { transition: none; }
+}
