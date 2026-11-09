@@ -23,7 +23,7 @@
     <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
     <div class="kopf-titel">
       <h1>Sicherheit und Datenschutz</h1>
-      <p class="stand">Kapitel 15 · Stand 3. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="stand">Kapitel 15 · Stand 9. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
       <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4, Funkprotokoll</a> · <a href="kapitel-11.html">Kapitel 11, Der Server</a> · <a href="kapitel-12.html">Kapitel 12, Schnittstelle zur App</a></p>
     </div>
   </div>
@@ -163,7 +163,7 @@
       </div>
       <div class="lesen">
         <p class="nach-tabelle">Lukas hat diese Punkte am 3. November 2026 für das Netzwerk entschieden. Sie ändern das Protokoll, also <code>proto.h</code> und <code>proto.js</code>. Alles, was den Chip betrifft, muss Maximilian noch annehmen und in der Firmware bauen.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Offen ist die Seite des Chips. Laut Handbuch beherrscht der AES-Baustein der STM32WL5x-Reihe CCM. Welchen Funkbaustein der Chip hat, ob er AES-CCM kann und welchen Ausleseschutz er bietet, steht in Maximilians Werkstattbuch noch nicht. Online sind dort am 3. November 2026 erst die Kapitel 1 und 2, Firmware und Schnittstelle zum Netzwerk sind geplant. Kann der Chip AES nicht selbst, geht CCM auch in Software mit einer geprüften Bibliothek. Wenn kein eigenes Verfahren mehr im Spiel ist, muss eine Fachperson nur noch Nonces, Schlüssel und Zähler prüfen, nicht mehr die Verschlüsselung selbst.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Offen ist die Seite des Chips. Laut <a href="https://ma-xi.github.io/SKI-TAG-Hardware/kapitel-06.html#e-rak">Werkstattbuch</a> (Stand 8. November 2026) hat der Chip das Funkmodul RAK3172, darin steckt der STM32WLE5CC mit Funk und Mikrocontroller in einem. Laut Handbuch beherrscht der AES-Baustein der STM32WL5x-Reihe CCM. Ob das beim STM32WLE5CC genauso geht und welchen Ausleseschutz er bietet, prüft Maximilian noch. AES-CCM mit einem eigenen Schlüssel je Chip für den Verleih hat er schon ins Werkstattbuch übernommen. Die übrigen Punkte, etwa der Prüfwert mit 8 Byte und die Schlüssel-Generation, stehen dort noch nicht. Kann der Chip AES nicht selbst, geht CCM auch in Software mit einer geprüften Bibliothek. Wenn kein eigenes Verfahren mehr im Spiel ist, muss eine Fachperson nur noch Nonces, Schlüssel und Zähler prüfen, nicht mehr die Verschlüsselung selbst.</p>
 
         <h2 id="zaehler" data-kurz="Wenn der Zähler zurückspringt">Wenn der Zähler zurückspringt</h2>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Bei dieser Stromchiffre hängt der Schlüsselstrom am Zähler. Beginnt ein neu bespielter Chip bei Zähler 0 mit demselben Schlüssel, wiederholt sich der Schlüsselstrom, und frühere Pakete werden angreifbar. Das Problem aus <a href="kapitel-04.html#grenzen">Kapitel 4</a> ist also nicht nur ein Betriebsfehler. Die einfache Regel: Neu spielen nur mit neuem Schlüssel oder ohne den Zähler zu löschen. Im Test achtet Lukas darauf. <svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>In der Serie löst das die Schlüssel-Generation: Das Werkzeug zum Aufspielen gibt jedem Chip einen neuen Schlüssel und eine höhere Generation, erst dann darf der Zähler bei 0 beginnen. Der Server sieht die neue Generation und hält die Pakete nicht für alt.</p>
@@ -263,7 +263,7 @@
           <p><strong>Offen:</strong> Dafür gibt es kein Sicherheitsversprechen. Es darf nur in den genannten Grenzen laufen.</p>
           <p><strong>Entschieden für den Test:</strong> Nur Personen ab 14 mit eigener Einwilligung. Vorher baut Lukas Sperre und Namensprüfung im Server um, danach löscht er die Daten.</p>
           <p><strong>Entschieden für die Serie:</strong> AES-CCM statt Eigenbau, eigener Schlüssel je Chip aus dem Hauptschlüssel abgeleitet, Schlüssel-Generation beim Aufspielen, Prüfwert mit 8 Byte, jeder Befehl im Downlink einzeln geschützt, ein Token je Gateway, keine Gesundheitsdaten, nächtliches Löschen.</p>
-          <p><strong>Offen:</strong> Ob der Chip AES-CCM und einen Ausleseschutz hat, und ob Maximilian die Änderungen am Chip annimmt. Dazu Rechtsgrundlage, Verantwortung, Einwilligung der Eltern im Betrieb, Folgenabschätzung und die Dauer für Notrufe. Das Rechtliche braucht eine Fachperson vor dem Betrieb.</p>
+          <p><strong>Offen:</strong> Ob der Chip AES-CCM und einen Ausleseschutz hat, und ob Maximilian die übrigen Änderungen am Chip annimmt. AES-CCM mit eigenem Schlüssel je Chip steht schon im Werkstattbuch. Dazu Rechtsgrundlage, Verantwortung, Einwilligung der Eltern im Betrieb, Folgenabschätzung und die Dauer für Notrufe. Das Rechtliche braucht eine Fachperson vor dem Betrieb.</p>
         </div>
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>

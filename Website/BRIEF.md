@@ -87,7 +87,11 @@ Akt 2 endet mit einem fast leeren Bildschirm und einem einzigen Wort, bevor Akt 
 
 ## Ehrlichkeit
 
-Alles als Vorführung kennzeichnen, nichts als erprobt darstellen. Keine Zahlen außer echten Werten des Knopfs (3 s halten, 5 s abbrechen), des Plans (Jänner 2027, Saison 27/28) und den Beispielen aus der Präsentation, ausdrücklich als Beispiel markiert („170 m von dir“, Radius „zum Beispiel 200 Meter“). Keine Preise, keine Partner, kein Skigebiet beim Namen.
+**Geändert mit Feedback 24 (Lukas, 2026-11-08):** Die Seite beschreibt den Chip in der Gegenwart, so als ob er schon funktioniert. Kein „Ziel“, „soll“, „geplant“, keine Test-Hinweise und keine Vorführungs-Schilder. Das ist eine bewusste Entscheidung für die Kundenseite, keine Messung: Am echten Chip ist noch nichts gemessen. Im Werkstattbuch von Maximilian (Stand 2026-11-08) ist die Akku-Laufzeit geschätzt (rund 55 mA, 440 mAh pro Skitag), das Funkmodul nur bis −20 °C gebaut (Kältetest im Jänner) und die Höhe des Falltests offen; im Netzwerk-Buch bleiben diese Punkte Geschätzt oder Offen.
+
+Weiter gilt: Zahlen nur aus Knopf (3 s halten, 5 s abbrechen), Werkstattbuch (8 h, am Abend mindestens 30 % im Akku, −20 °C) und den Beispielen aus der Präsentation („170 m von dir“, Radius „zum Beispiel 200 Meter“). Keine Preise, keine Partner, kein Skigebiet beim Namen.
+
+Vorher (bis 2026-11-08): Alles als Vorführung kennzeichnen, nichts als erprobt darstellen.
 
 ## Feedback 11 (Lukas, 2026-11-07)
 
