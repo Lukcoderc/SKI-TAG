@@ -220,8 +220,8 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 /* Kapitel: die Anfangsbuchstaben ergeben senkrecht SKITAG. Sie stehen in der Titelschrift,
    immer gleich groß und kräftig in Schwarz (über Nacht in Weiß), so liest man die Spalte von oben nach unten. */
 .anfang { font-family: var(--sc-font-display); font-weight: 720; line-height: 1; letter-spacing: 0; color: var(--sc-ink); }
-.sprungleiste__nav .anfang { font-size: max(1.3rem, 1em); margin-right: 0.03em; }   /* nie kleiner als das Wort daneben */
-.seite nav .anfang { font-size: 1.2em; margin-right: 0.02em; }
+.sprungleiste__nav .anfang { font-size: max(1.08rem, 1.04em); font-weight: 760; margin-right: 0.04em; }   /* knapp größer als das Wort, erkennbar über Stärke und Kontrast */
+.seite nav .anfang { font-size: 1.1em; font-weight: 760; margin-right: 0.03em; }
 .sprungleiste__nav a::before {
   content: ""; flex: none; width: 1rem; height: 2px; border-radius: 2px; background: var(--orange);
   transform: scaleX(var(--w)); transform-origin: left center; transition: transform 200ms var(--sc-ease-out);

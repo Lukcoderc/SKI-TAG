@@ -234,3 +234,9 @@ Umgesetzt: Anfangsbuchstaben in Schwarz, über dunklen Abschnitten in Weiß; Gr�
 Die Anfangsbuchstaben doch etwas kleiner.
 
 Umgesetzt: in der Seitenleiste 1,3 rem statt 1,6 rem, aber nie kleiner als das Wort daneben (beim aktiven Kapitel ist das Wort 1,36 rem groß), im Handy-Menü 1,2-fach statt 1,35-fach.
+
+## Feedback 35 (Lukas, 2026-11-09)
+
+Das Fette noch etwas kleiner, es soll clean aussehen, man soll es aber trotzdem erkennen.
+
+Umgesetzt: Der Anfangsbuchstabe ist nur noch knapp größer als das Wort (1,08 rem bei den kleinen Kapiteln, beim aktiven etwa so groß wie das Wort; im Handy-Menü 1,1-fach), dafür etwas fetter (760). Erkennbar bleibt SKITAG über den Kontrast: fetter, kräftig schwarzer Buchstabe neben dem dünneren, blassen Wort.
