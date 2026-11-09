@@ -228,3 +228,9 @@ Umgesetzt: Liegt der Knopf über einem Nacht-Abschnitt, dem Fuß, einer Nacht-Ka
 Die großen Anfangsbuchstaben in der Seitenleiste schwarz statt orange.
 
 Umgesetzt: Anfangsbuchstaben in Schwarz, über dunklen Abschnitten in Weiß; Größe und Schrift bleiben. Gilt auch im Handy-Menü.
+
+## Feedback 34 (Lukas, 2026-11-09)
+
+Die Anfangsbuchstaben doch etwas kleiner.
+
+Umgesetzt: in der Seitenleiste 1,3 rem statt 1,6 rem, aber nie kleiner als das Wort daneben (beim aktiven Kapitel ist das Wort 1,36 rem groß), im Handy-Menü 1,2-fach statt 1,35-fach.
