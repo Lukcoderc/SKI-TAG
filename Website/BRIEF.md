@@ -306,3 +306,19 @@ Oben im Einstieg den Text „Der Mietchip für die Skijacke“ weg. Umgesetzt.
 ## Feedback 47 (Lukas, 2026-11-09)
 
 Der Spruch „Klein gedacht. Groß gebaut.“ passt nicht, etwas Besseres nehmen. Umgesetzt: „Alles drin. Nichts zu viel.“
+
+## Feedback 48 (Lukas, 2026-11-09)
+
+Ganz unten die Seilbahn beim Fuß animieren, und bei der App einen besseren Ausdruck für „Sportliche“ finden, weil es auch ganz normale Leute benutzen.
+
+Umgesetzt: Seilbahn mit zwei Seilen, je drei Gondeln hinauf und herunter, größer und leicht pendelnd; sie fährt jetzt auch im Sparmodus (dort war sie vorher geparkt). „Sportliche“ heißt jetzt „Alle auf der Piste“.
+
+## Feedback 49 (Lukas, 2026-11-09)
+
+Die Seilbahn braucht nicht so krass zu sein, einfach wie vorher, die Gondeln müssen nicht wippen. Umgesetzt: wieder ein Seil mit zwei kleinen Gondeln ohne Pendeln; sie fahren jetzt auch im Sparmodus.
+
+## Feedback 50 (Lukas, 2026-11-09)
+
+Bei „Was ist SKITAG?“ den Erklärungstext unter die Überschrift; die Kacheln überarbeiten, das Design gefällt nicht, auf den Vorbildseiten nach Ideen schauen.
+
+Umgesetzt: Satz unter der Überschrift. Drei Karten nach dem Vorbild von Cal.com: weiß mit feiner Linie, oben eine große Bildfläche mit bewegter Grafik (Gruppe wird gerufen, Notruf-Ring füllt sich bis „Notruf gesendet“, Funksignal läuft zur Liftstation), darunter Nummer, Titel und ein Satz.

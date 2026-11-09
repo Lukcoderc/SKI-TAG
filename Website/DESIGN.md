@@ -81,6 +81,20 @@ Redesign of 2026-11-06 (Lukas: "modern, krass, but clean, Apple style"). The bas
 - **Orange is the product, red is the alarm.** Orange marks the chip, eyebrows, the group call and app actions. Red (`#ff2d2d`) stays reserved for the emergency: the LED once a call runs, the cancel ring, the SOS square in the app, the staff alert.
 - **Big type, few words.** Each section opens with a small orange eyebrow and a two-line title: the first line in ink, the second either softened (`.leise`, 42% of the current colour) on snow or in the orange gradient (`.verlauf`) on night.
 
+## Feedback 50 (2026-11-09): "Was ist SKITAG?" with the sentence below the title and new cards
+
+- The lede now stands under the title (no longer in a column to the right).
+- The three cards follow Cal.com's feature cards instead of Notion's grey cards with screenshot crops: a white card with a hairline (`.karte`, 22px corners, 0.55rem inner frame), on top a large calm picture area (`.karte__bild`, 16:9, light grey with a faint dot grid; navy for the emergency), below it a small number line ("01 · Kurz drücken"), the title and one sentence. The pictures are animated SVGs: **01** the button is pressed, two orange waves go out and the three group members (L, M, F) shake one after another; **02** a ring fills orange, turns red, and a red pill "Notruf gesendet" appears; **03** arcs light up at the chip, an orange dot runs along the dashed radio path to the lift station, whose antenna light flashes orange. They loop only while the section is on screen (`.ist-weg` pauses them) and stand still with reduced motion (the ring full, the pill shown). The cards lift slightly on hover; below 1000px they stack (max 34rem). The round arrow buttons are gone.
+
+## Feedback 49 (2026-11-09): cable car as before, just moving
+
+The bigger six-cabin cable car with swinging cabins from Feedback 48 was too much ("Es braucht nicht so krass sein"). It is back to the original drawing: one cable, two small cabins (one orange, one white), 24 s per trip, no swinging. What stays from Feedback 48: the cabins and the receiver light keep moving in power-saving mode (the rules that parked them there are gone); they still pause off screen and are parked with reduced motion. Verified in Firefox with `sparsam` on: both cabins move up the cable.
+
+## Feedback 48 (2026-11-09): a cable car that moves, "Alle auf der Piste"
+
+- **Cable car above the footer** (in the mountain range at the bottom of "Gut zu wissen"): it used to have two tiny cabins (8 × 7 units in a 1600-wide drawing) that the power-saving mode parked, so on Lukas's machine nothing moved. Now there are two cables, three cabins ride up on one and three ride down on the other (`gondel`, 21 s per trip, spread by delays; the down cabins run the same keyframes in reverse), each cabin about twice as big (14 × 11 with a window band, one orange per cable) and swinging gently on its hanger (`.gebirge__pendel`, ±4°, rotating around the hanger top with `transform-box: view-box`). The receiver on the top station blinks. All of this runs in power-saving mode too; it pauses off screen (`.ist-weg`) and parks the cabins along the cable with reduced motion. Verified in Firefox with `sparsam` on: the cabins are spread along both cables and move in opposite directions.
+- **App audience "Sportliche"** is now **"Alle auf der Piste"** (anyone can use runs, vertical metres and the day film, not only sporty people): "Deine Abfahrten, Tiefenmeter und Liftfahrten, ganz ohne Sportuhr. Am Abend dein Tagesfilm mit Karte."
+
 ## Feedback 47 (2026-11-09): Innenleben title
 
 "Klein gedacht. / Groß gebaut." did not fit (Lukas). The Innenleben title is now "Alles drin. / Nichts zu viel." (second line in the quiet `.leise` tone), which reads with the list of parts beside it.
