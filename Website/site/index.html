@@ -21,7 +21,7 @@
   if (gemessen || spart || (n.deviceMemory && n.deviceMemory <= 2)) w.classList.add("sparsam-video");
 } catch (e) {} })();
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=46">
+<link rel="stylesheet" href="assets/seite.css?v=50">
 <noscript><style>.lade { display: none; }</style></noscript>
 </head>
 <body>
@@ -108,7 +108,6 @@
     <a href="#app" data-bis="#jeden"><span><b class="anfang">A</b>pp</span></a>
     <a href="#fragen"><span><b class="anfang">G</b>ut zu wissen</span></a>
   </nav>
-  <a class="sprungleiste__wir" href="wir.html">Das sind wir</a>
 </aside>
 
 <dialog id="seitenleiste" class="seite" aria-label="Inhalt der Seite">
@@ -424,7 +423,7 @@
         <article class="kachel kachel--gross kachel--nacht">
           <div class="kachel__ring" aria-hidden="true">
             <svg viewBox="0 0 200 200"><circle class="kachel__ring-spur" cx="100" cy="100" r="86"/><circle class="kachel__ring-halten" cx="100" cy="100" r="86" pathLength="1"/><circle class="kachel__ring-frist" cx="100" cy="100" r="72" pathLength="1"/></svg>
-            <span class="kachel__ring-zahl"><b>3</b><small>s</small></span>
+            <span class="kachel__ring-zahl"><b><span class="kachel__ring-ziffern"><span>3</span><span>2</span><span>1</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></span></b><small>s</small></span>
           </div>
           <div>
             <p class="kachel__zahl">3 s halten. <span>5 s zum Abbrechen.</span></p>
@@ -761,7 +760,7 @@ if (document.documentElement.classList.contains("sparsam-video")) { var v = docu
 ScrollCraft.mount(document.body);
 </script>
 <script src="assets/seite.js?v=36" defer></script>
-<script src="assets/sprung-anfang.js?v=16" defer></script>
+<script src="assets/sprung-anfang.js?v=17" defer></script>
 <script src="assets/seitenleiste.js?v=17" defer></script>
 <script src="assets/sprungleiste.js?v=4" defer></script>
 <script src="assets/schiene.js?v=16" defer></script>

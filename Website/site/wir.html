@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="de" class="eigene-seite">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -20,7 +20,7 @@
   if (gemessen || spart || (n.deviceMemory && n.deviceMemory <= 2)) w.classList.add("sparsam-video");
 } catch (e) {} })();
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=46">
+<link rel="stylesheet" href="assets/seite.css?v=50">
 </head>
 <body>
 
@@ -68,49 +68,12 @@
 <div class="rahmen" aria-hidden="true"></div>
 
 <header class="leiste">
-  <a class="marke" href="#oben" aria-label="SkiTag, zum Anfang">
+  <a class="marke" href="index.html" aria-label="SkiTag, zur Startseite">
     <svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>
     SkiTag
-    <svg class="marke__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </a>
   <a class="knopf-dunkel" href="index.html">Zur Startseite</a>
 </header>
-
-<!-- Sprungmarken an der Seite, nur am breiten Bildschirm; am Handy öffnet das Logo die Seitenleiste -->
-<aside class="sprungleiste" aria-label="Seitenleiste">
-  <a class="sprungleiste__marke" href="index.html" aria-label="SkiTag, zum Anfang">
-    <svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>
-    SkiTag
-  </a>
-  <nav class="sprungleiste__nav" aria-label="Abschnitte">
-    <a href="index.html#blick"><span><b class="anfang">S</b>tart</span></a>
-    <a href="index.html#der-chip"><span><b class="anfang">K</b>nopf</span></a>
-    <a href="index.html#aufbau"><span><b class="anfang">I</b>nnenleben</span></a>
-    <a href="index.html#gebaut"><span><b class="anfang">T</b>echnik</span></a>
-    <a href="index.html#app" data-bis="#jeden"><span><b class="anfang">A</b>pp</span></a>
-    <a href="index.html#fragen"><span><b class="anfang">G</b>ut zu wissen</span></a>
-  </nav>
-  <a class="sprungleiste__wir" href="wir.html" aria-current="page">Das sind wir</a>
-</aside>
-
-<dialog id="seitenleiste" class="seite" aria-label="Inhalt der Seite">
-  <div class="seite__innen">
-    <div class="seite__kopf">
-      <a class="seite__marke" href="#oben"><svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag</a>
-      <button class="seite__zu" type="button" aria-label="Inhalt schließen"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-    </div>
-    <nav aria-label="Abschnitte">
-      <ol>
-        <li><a href="index.html#blick"><b class="anfang">S</b>tart</a></li>
-        <li><a href="index.html#der-chip"><b class="anfang">K</b>nopf</a></li>
-        <li><a href="index.html#aufbau"><b class="anfang">I</b>nnenleben</a></li>
-        <li><a href="index.html#gebaut"><b class="anfang">T</b>echnik</a></li>
-        <li><a href="index.html#app"><b class="anfang">A</b>pp</a></li>
-        <li><a href="index.html#fragen"><b class="anfang">G</b>ut zu wissen</a></li>
-      </ol>
-    </nav>
-  </div>
-</dialog>
 
 <main id="oben">
 
@@ -170,8 +133,6 @@
 <script src="scrollcraft.js?v=16"></script>
 <script>ScrollCraft.mount(document.body);</script>
 <script src="assets/seite.js?v=36" defer></script>
-<script src="assets/sprung-anfang.js?v=16" defer></script>
-<script src="assets/seitenleiste.js?v=17" defer></script>
-<script src="assets/sprungleiste.js?v=4" defer></script>
+<script src="assets/sprung-anfang.js?v=17" defer></script>
 </body>
 </html>

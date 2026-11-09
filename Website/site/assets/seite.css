@@ -88,7 +88,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 /* ----------------------------------------------------- Leistung und Sparmodus -- */
 /* Zier-Animationen ruhen, solange ihr Abschnitt nicht zu sehen ist (seite.js setzt .ist-weg). */
 .ist-weg .hang__chip svg, .ist-weg .hang__schatten, .ist-weg .gebirge__antenne, .ist-weg .gebirge__kabine,
-.ist-weg .schluss__chip, .ist-weg .kachel__ring-halten, .ist-weg .kachel__ring-frist, .ist-weg .kachel__thermo-saeule { animation-play-state: paused; }
+.ist-weg .schluss__chip, .ist-weg .kachel__ring-halten, .ist-weg .kachel__ring-frist, .ist-weg .kachel__ring-ziffern, .ist-weg .kachel__thermo-saeule { animation-play-state: paused; }
 /* Die Seitenleiste ändert beim Scrollen Schriftgrößen: das bleibt in ihr */
 .sprungleiste { contain: layout style; }
 /* Sparmodus (html.sparsam, im Kopf der Seite gesetzt oder nach gemessenem Ruckeln):
@@ -215,24 +215,19 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
   font-family: var(--sc-font-text); font-weight: calc(500 + var(--w) * 220); font-size: calc(0.86rem + var(--w) * 0.5rem);
   line-height: 1.12; letter-spacing: calc(0.005em - var(--w) * 0.025em); text-wrap: balance;
 }
-.sprungleiste__nav a span { opacity: calc(0.55 + var(--w) * 0.45); transition: transform 320ms var(--sc-ease-out); }
-/* „Das sind wir“ unten in der Seitenleiste, getrennt von den Kapiteln (eigene Seite) */
-.sprungleiste__wir {
-  grid-row: 3; align-self: end; justify-self: start; margin-left: 1.6rem; padding: 0.3rem 0 0.2rem;
-  font-family: var(--sc-font-text); font-weight: 600; font-size: 0.86rem; color: var(--sc-ink-soft); text-decoration: none;
-  border-bottom: 1.5px solid var(--orange); transition: color 200ms var(--sc-ease-out);
-}
-.sprungleiste__wir[aria-current="page"] { color: var(--sc-ink); }
-@media (hover: hover) and (pointer: fine) { .sprungleiste__wir:hover { color: var(--sc-ink); } }
-.sprungleiste.ist-nacht .sprungleiste__wir { color: var(--nacht-soft); }
-/* Kapitel: die Anfangsbuchstaben ergeben senkrecht SKITAG, nur dezent in Orange */
-.anfang { font-weight: inherit; color: var(--orange-2); }
+/* Die Wörter blassen nur über ihre Farbe ab, damit der Anfangsbuchstabe immer kräftig bleibt */
+.sprungleiste__nav a span { color: color-mix(in srgb, currentColor calc(55% + var(--w) * 45%), transparent); transition: transform 320ms var(--sc-ease-out); }
+/* Kapitel: die Anfangsbuchstaben ergeben senkrecht SKITAG. Sie stehen in der Titelschrift,
+   immer gleich groß und kräftig in Orange, so liest man die Spalte von oben nach unten. */
+.anfang { font-family: var(--sc-font-display); font-weight: 720; line-height: 1; letter-spacing: 0; color: var(--orange-2); }
+.sprungleiste__nav .anfang { font-size: 1.6rem; margin-right: 0.03em; }
+.seite nav .anfang { font-size: 1.35em; margin-right: 0.02em; }
 .sprungleiste__nav a::before {
   content: ""; flex: none; width: 1rem; height: 2px; border-radius: 2px; background: var(--orange);
   transform: scaleX(var(--w)); transform-origin: left center; transition: transform 200ms var(--sc-ease-out);
 }
 @media (hover: hover) and (pointer: fine) {
-  .sprungleiste__nav a:hover span { opacity: 1; transform: translateX(3px); }
+  .sprungleiste__nav a:hover span { color: inherit; transform: translateX(3px); }
   .sprungleiste__nav a:hover::before { transform: scaleX(1); }
 }
 .sprungleiste a:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
@@ -479,14 +474,21 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .kachel__ring { position: relative; flex: none; width: clamp(9rem, 16vw, 13rem); aspect-ratio: 1; }
 .kachel__ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
 .kachel__ring-spur { fill: none; stroke: rgba(255, 255, 255, 0.08); stroke-width: 12; }
-.kachel__ring-halten { fill: none; stroke: #fff; stroke-width: 12; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
-.kachel__ring-frist { fill: none; stroke: var(--notruf); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0.9; }
+.kachel__ring-halten { fill: none; stroke: #ff8a5c; stroke-width: 12; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.kachel__ring-frist { fill: none; stroke: var(--nacht-soft); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0.9; }
 .kachel--nacht.sc-in .kachel__ring-halten { animation: ring-halten 8s linear infinite; }
 .kachel--nacht.sc-in .kachel__ring-frist { animation: ring-frist 8s linear infinite; }
 @keyframes ring-halten { 0% { stroke-dashoffset: 1; } 37.5% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
 @keyframes ring-frist { 0%, 37.5% { stroke-dashoffset: 1; } 100% { stroke-dashoffset: 0; } }
 .kachel__ring-zahl { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; font-family: var(--sc-font-display); }
-.kachel__ring-zahl b { font-size: clamp(3rem, 6vw, 4.6rem); font-weight: 680; letter-spacing: -0.05em; line-height: 1; }
+.kachel__ring-zahl b { font-size: clamp(3rem, 6vw, 4.6rem); font-weight: 680; letter-spacing: -0.05em; line-height: 1; display: block; height: 1em; overflow: hidden; }
+/* Die Zahl zählt im Takt der Ringe mit: 3, 2, 1 in der Farbe von „3 s halten.“, dann 5 bis 1 in der
+   Farbe von „5 s zum Abbrechen.“; ein Streifen aus acht Ziffern rückt jede Sekunde um eine weiter */
+.kachel__ring-ziffern { display: block; }
+.kachel__ring-ziffern > span { display: block; height: 1em; line-height: 1em; color: var(--nacht-soft); }
+.kachel__ring-ziffern > span:nth-child(-n+3) { color: #ff8a5c; }
+.kachel--nacht.sc-in .kachel__ring-ziffern { animation: ring-ziffern 8s steps(8) infinite; }
+@keyframes ring-ziffern { from { transform: translateY(0); } to { transform: translateY(-8em); } }
 .kachel__ring-zahl small { font-size: var(--sc-t-sm); color: var(--nacht-soft); }
 .kachel--kalt { background: linear-gradient(180deg, #ffffff 0%, #e4effc 100%); }
 .kachel__thermo { position: absolute; right: 1.6rem; top: 1.6rem; width: 2.2rem; color: #9fb6d6; }
@@ -507,6 +509,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .kachel__huelle svg { width: 100%; height: auto; display: block; }
 @media (prefers-reduced-motion: reduce) {
   .kachel--nacht .kachel__ring-halten, .kachel--nacht .kachel__ring-frist { animation: none !important; stroke-dashoffset: 0; }
+  .kachel--nacht .kachel__ring-ziffern { animation: none !important; }
 }
 
 /* ------------------------------------- Szene am Berg (im Abschnitt Der Chip) -- */
@@ -791,6 +794,9 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
   transition: opacity var(--sc-d-base) var(--sc-ease-out), transform var(--sc-d-base) var(--sc-ease-out), background-color var(--sc-d-fast) var(--sc-ease-out);
 }
 .sprung-anfang svg { width: 1.25rem; height: 1.25rem; }
+/* Über dunkelblauen Flächen (Nacht-Abschnitte, Fuß, Nacht-Kacheln, Gebirge) wird der Knopf weiß,
+   sonst verschwindet er im Dunkel; sprung-anfang.js setzt .ist-hell */
+.sprung-anfang.ist-hell { background: rgba(255, 255, 255, 0.94); color: var(--nacht); box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.55); }
 .js-oben .sprung-anfang:not(.ist-sichtbar) { opacity: 0; transform: translateY(0.5rem); pointer-events: none; }
 @media (hover: hover) and (pointer: fine) { .sprung-anfang:hover { background: var(--orange); } }
 .sprung-anfang:active { transform: translateY(1px) scale(0.96); }
@@ -880,11 +886,20 @@ section[id] { scroll-margin-top: 0; }
     pointer-events: auto; box-shadow: 0 8px 24px -12px rgba(11, 18, 38, 0.45);
     transition: opacity 320ms var(--sc-ease-out), transform 320ms var(--sc-ease-out), visibility 0s linear 0s, background-color var(--sc-d-fast) var(--sc-ease-out);
   }
-  /* nur am Anfang sichtbar: nach dem Einstieg blendet der Knopf aus, unten in der Seitenleiste führt ein eigener Link zu „Das sind wir“ */
+  /* nur am Anfang sichtbar: nach dem Einstieg blendet der Knopf aus, zu „Das sind wir“ führt dann der Fuß */
   .leiste.ist-unten .knopf-dunkel {
     opacity: 0; transform: translateY(-8px); visibility: hidden; pointer-events: none;
     transition: opacity 320ms var(--sc-ease-out), transform 320ms var(--sc-ease-out), visibility 0s linear 320ms;
   }
+  /* Eigene Seiten („Das sind wir“, html.eigene-seite): keine Seitenleiste der Startseite. Das Blatt
+     steht gleich weit von beiden Rändern, die Kopfleiste liegt an seiner Oberkante: links das Logo
+     zur Startseite, rechts „Zur Startseite“; beide bleiben stehen, beim Scrollen bekommt sie Grund. */
+  :root.eigene-seite { --blatt-l: var(--blatt-r); --sc-gutter: clamp(1.25rem, 4vw, 5rem); }
+  .eigene-seite .leiste { inset: var(--blatt-o) var(--blatt-r) auto var(--blatt-l); padding: 1.25rem; border-radius: 18px 18px 0 0; }
+  .eigene-seite .leiste.ist-unten { background: rgba(244, 248, 251, 0.92); box-shadow: 0 1px 0 rgba(11, 18, 38, 0.08); }
+  .eigene-seite .leiste.ist-nacht.ist-unten { background: rgba(11, 18, 38, 0.92); box-shadow: none; }
+  .eigene-seite .leiste .marke { display: inline-flex; pointer-events: auto; }
+  .eigene-seite .leiste.ist-unten .knopf-dunkel { opacity: 1; transform: none; visibility: visible; pointer-events: auto; }
   .sprung-anfang { right: calc(var(--blatt-r) + 1.25rem); bottom: calc(var(--blatt-u) + 1.25rem); }
   .fuss__leiste { --unten: 1.25rem; }
   /* Glas von ganz oben bis ganz unten; rechte Kante gleich wie vorher (14rem) */

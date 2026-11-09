@@ -198,3 +198,27 @@ Umgesetzt: „Start“ mit der Überschrift „Was ist SKITAG?“, ein Satz stat
 Idee: Die Kapitel in der Seitenleiste ergeben senkrecht SKITAG, „Das sind wir“ kommt auf eine eigene Seite, „Die App“ und „Für jeden am Berg“ werden zusammengefasst. Vorschlag Lukas: Start, Knopf, I, T, App, Gut zu wissen. Für I und T von Claude: Innenleben und Technik. Die Anfangsbuchstaben dezent markieren, den Schriftzug neben dem Logo lassen, sonst wie vorgeschlagen.
 
 Umgesetzt: Seitenleiste, Handy-Menü und Fuß mit Start, Knopf, Innenleben, Technik, App, Gut zu wissen; der Anfangsbuchstabe jeweils in Orange, sonst gleich wie das Wort. „App“ umfasst in der Seitenleiste beide Abschnitte (die Abschnitte selbst bleiben getrennt). Die kleinen Überschriften darüber heißen jetzt ebenso (Knopf, Innenleben, Technik, App; bei „Gut zu wissen.“ bleibt „Fragen“, sonst stünde es doppelt). „Das sind wir“ ist die eigene Seite `wir.html` mit Kopf, Seitenleiste und Fuß; dorthin führen der Knopf oben rechts, ein kleiner Link unten in der Seitenleiste und der Fuß. Das Gebirge wächst jetzt unter „Gut zu wissen“ in den Schluss.
+
+## Feedback 29 (Lukas, 2026-11-09)
+
+Die Anfangsbuchstaben waren zu dezent: „muss größer damit man es erkennt“.
+
+Umgesetzt: Anfangsbuchstabe in der Titelschrift, immer gleich groß (1,6 rem in der Seitenleiste, im Handy-Menü 1,35-fach) und immer kräftig orange; die Wörter daneben blassen nur über die Farbe ab, nicht mehr samt Buchstabe.
+
+## Feedback 30 (Lukas, 2026-11-09)
+
+„Das sind wir“ unten in der Seitenleiste ganz weg, es soll eine eigene Seite sein, und auf der Seite „Das sind wir“ keine Seitenleiste der Startseite.
+
+Umgesetzt: Link unten in der Seitenleiste entfernt; zu „Das sind wir“ führen der Knopf oben (am PC nur im Einstieg, am Handy immer) und der Fuß. `wir.html` ohne Seitenleiste und ohne Handy-Menü: am PC steht das Blatt gleich weit von beiden Rändern, oben links das Logo zur Startseite, oben rechts „Zur Startseite“, beide bleiben beim Scrollen stehen; am Handy die normale Kopfleiste, das Logo führt zur Startseite.
+
+## Feedback 31 (Lukas, 2026-11-09)
+
+„Kein Notruf aus Versehen.“ (Technik): Die Zahl im Ring soll mitzählen, und die Ringe sollen die Farben der markierten Stellen im Text daneben haben.
+
+Umgesetzt: Halte-Ring in Orange wie „3 s halten.“, Abbruch-Ring in Blaugrau wie „5 s zum Abbrechen.“ (vorher weiß und rot). Die Zahl in der Mitte zählt im Takt der Ringe: 3, 2, 1 in Orange, dann 5, 4, 3, 2, 1 in Blaugrau.
+
+## Feedback 32 (Lukas, 2026-11-09)
+
+Der Knopf „ganz hinauf“ soll über den dunkelblauen Stellen weiß sein, damit man ihn erkennt.
+
+Umgesetzt: Liegt der Knopf über einem Nacht-Abschnitt, dem Fuß, einer Nacht-Kachel oder dem dunklen Teil des Gebirges, wird er weiß mit dunklem Pfeil, sonst bleibt er dunkel.
