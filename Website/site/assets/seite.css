@@ -85,6 +85,72 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .nacht { background: var(--nacht); color: var(--nacht-ink); --sc-ink-soft: var(--nacht-soft); }
 .nacht .sc-lede { color: var(--nacht-soft); }
 
+/* ----------------------------------------------------- Leistung und Sparmodus -- */
+/* Zier-Animationen ruhen, solange ihr Abschnitt nicht zu sehen ist (seite.js setzt .ist-weg). */
+.ist-weg .hang__chip svg, .ist-weg .hang__schatten, .ist-weg .gebirge__antenne, .ist-weg .gebirge__kabine,
+.ist-weg .schluss__chip, .ist-weg .kachel__ring-halten, .ist-weg .kachel__ring-frist, .ist-weg .kachel__thermo-saeule { animation-play-state: paused; }
+/* Die Seitenleiste ändert beim Scrollen Schriftgrößen: das bleibt in ihr */
+.sprungleiste { contain: layout style; }
+/* Sparmodus (html.sparsam, im Kopf der Seite gesetzt oder nach gemessenem Ruckeln):
+   Glas wird zu einer fast deckenden Fläche, kein Schnee, die schwebenden Dinge stehen still. */
+.sparsam .leiste.ist-unten, .sparsam .sprung-anfang, .sparsam .seite, .sparsam .sprungleiste { -webkit-backdrop-filter: none; backdrop-filter: none; }
+.sparsam .leiste.ist-unten { background: rgba(250, 252, 254, 0.97); }
+.sparsam .leiste.ist-nacht.ist-unten { background: rgba(11, 18, 38, 0.96); }
+.sparsam .sprung-anfang { background: rgba(11, 18, 38, 0.92); }
+.sparsam .seite { background: rgba(248, 251, 253, 0.98); }
+.sparsam .sprungleiste { background: #fbfcfd; }
+.sparsam .sprungleiste.ist-nacht { background: #141c33; }
+.sparsam .flocken { display: none; }
+.sparsam .hang__chip svg, .sparsam .hang__schatten, .sparsam .schluss__chip, .sparsam .gebirge__antenne { animation: none; }
+.sparsam .gebirge__kabine { animation: none; transform: translate(calc(var(--dx) * 0.6), calc(var(--dy) * 0.6)); }
+.sparsam .gebirge__kabine--2 { transform: translate(calc(var(--dx) * 0.2), calc(var(--dy) * 0.2)); }
+.sparsam .aufbau__glut { filter: none; }
+
+/* ------------------------------------------------------- Ladebildschirm -- */
+/* Skelett des Einstiegs: Seitenleiste, Knopf, Titel, Text und der Chip als ruhige
+   Flächen, über die ein Lichtschimmer läuft (durchgehend über alle Flächen, weil das
+   Verlaufsbild am Fenster hängt). seite.js blendet es aus, sobald Schrift und
+   Einstiegsbild da sind; nach 8 s geht es in jedem Fall weg. */
+.lade {
+  position: fixed; inset: 0; z-index: calc(var(--sc-z-chrome) + 30);
+  background: var(--sc-canvas); pointer-events: none;
+  transition: opacity 450ms var(--sc-ease-out), visibility 0s linear 450ms;
+  animation: lade-notaus 0s linear 8s forwards;
+}
+.lade.ist-fertig { opacity: 0; visibility: hidden; }
+@keyframes lade-notaus { to { opacity: 0; visibility: hidden; } }
+.lade__k {
+  display: block; border-radius: 999px; background-color: #e3e9f0;
+  background-image: linear-gradient(100deg, transparent 40%, rgba(255, 255, 255, 0.8) 50%, transparent 60%);
+  background-size: 200vw 100%; background-repeat: no-repeat; background-attachment: fixed;
+  animation: lade-glanz 1.5s linear infinite;
+}
+@keyframes lade-glanz { from { background-position: -120vw 0; } to { background-position: 20vw 0; } }
+.lade__leiste { display: none; }
+.lade__blatt { position: absolute; inset: 0; }
+.lade__kopf { display: flex; align-items: center; justify-content: space-between; height: 3.6rem; padding: 0 var(--sc-gutter); }
+.lade__marke { width: 6.4rem; height: 1.5rem; border-radius: 8px; }
+.lade__pille { width: 7.6rem; height: 2.4rem; }
+.lade__mitte {
+  position: absolute; left: 50%; top: clamp(5.5rem, 12vh, 8.5rem); translate: -50% 0; width: min(64rem, 92vw);
+  display: flex; flex-direction: column; align-items: center; gap: clamp(0.6rem, 1.4vw, 1.1rem);
+}
+.lade__zeile { height: calc(clamp(3rem, 1.2rem + 6.4vw, 7.2rem) * 0.74); border-radius: 18px; width: 92%; }
+.lade__zeile:nth-child(2) { width: 74%; }
+.lade__zeile:nth-child(3) { width: 52%; }
+.lade__text { height: 1.15rem; width: min(24rem, 76%); border-radius: 8px; }
+.lade__zeile + .lade__text { margin-top: var(--sc-5); }
+.lade__text:last-child { width: min(17rem, 56%); }
+.lade__chip {
+  position: absolute; left: 50%; bottom: 12.8%; translate: -50% 0;
+  width: clamp(14rem, 21vw, 19.5rem); aspect-ratio: 240 / 132; border-radius: 13% / 24%;
+}
+@media (min-width: 861px) { .lade__zeile:nth-child(3) { display: none; } .lade__zeile:nth-child(1) { width: 78%; } .lade__zeile:nth-child(2) { width: 60%; } }
+@media (prefers-reduced-motion: reduce) {
+  .lade__k { animation: none; background-image: none; }
+  .lade { transition-duration: 150ms, 0s; transition-delay: 0s, 150ms; }
+}
+
 /* ------------------------------------------- Fortschritt der Scroll-Animationen -- */
 /* Jede gepinnte Strecke (Einstieg, Was drinsteckt, Die App) füllt den Balken einmal
    ganz von links nach rechts, dazwischen blendet er aus. Die Schiene bleibt blass
@@ -205,9 +271,10 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
   position: absolute; left: 50%; bottom: 32%; z-index: 5; width: clamp(14rem, 21vw, 19.5rem);
   translate: -50% 0; transform-origin: 50% 100%;
   transform: translateY(calc(var(--sc-p, 0) * -6vh)) scale(calc(1 + var(--sc-p, 0) * 0.4));
-  filter: drop-shadow(0 18px 24px rgba(30, 55, 95, 0.25));
+  will-change: transform;
 }
-.hang__chip svg { width: 100%; height: auto; display: block; }
+/* Der Schatten sitzt auf dem schwebenden Bild selbst, so wird er nicht in jedem Bild neu gerechnet */
+.hang__chip svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 18px 24px rgba(30, 55, 95, 0.25)); will-change: transform; }
 .hang__schatten {
   position: absolute; left: 50%; bottom: calc(32% - 1.4rem); width: clamp(16rem, 24vw, 22rem); height: 2.6rem;
   translate: -50% 0; border-radius: 50%;
@@ -352,7 +419,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 }
 .blick__weiter svg { width: 1rem; height: 1rem; transition: transform 200ms var(--sc-ease-out); }
 @media (hover: hover) and (pointer: fine) { .blick__weiter:hover svg { transform: translateY(3px); } }
-.blick__liste { list-style: none; margin: clamp(2rem, 4vw, 3rem) 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sc-4); }
+.blick__liste { list-style: none; margin: clamp(2rem, 4vw, 3rem) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sc-4); }
 .blick__punkt {
   display: flex; flex-direction: column; min-height: 15.5rem; padding: clamp(1.4rem, 2.2vw, 2rem);
   border-radius: var(--r-gross); background: #fff; box-shadow: var(--sc-e1);
@@ -368,7 +435,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .blick__punkt--nacht .blick__zeichen { color: var(--nacht-ink); }
 .blick__punkt--nacht .blick__nr { color: #ff8a5c; }
 .blick__punkt--nacht p:last-child { color: var(--nacht-soft); }
-@media (max-width: 1100px) { .blick__liste { grid-template-columns: repeat(2, minmax(0, 1fr)); } .blick__punkt { min-height: 13rem; } }
+@media (max-width: 1100px) { .blick__punkt { min-height: 13rem; } }
 @media (max-width: 860px) { .blick__kopf { grid-template-columns: 1fr; } }
 /* Handy: kompakte Zeilen, Zeichen links */
 @media (max-width: 560px) {
@@ -767,6 +834,25 @@ section[id] { scroll-margin-top: 0; }
     inset: var(--blatt-o) var(--blatt-r) var(--blatt-u) var(--blatt-l); border-radius: 18px;
     box-shadow: 0 0 0 1px rgba(11, 18, 38, 0.06), 0 26px 50px -30px rgba(20, 35, 60, 0.35), 0 0 0 200vmax var(--rahmen-grund);
   }
+  /* Ladebildschirm als zwei Blätter wie die Seite */
+  .lade { background: var(--rahmen-grund); }
+  .lade__blatt {
+    inset: var(--blatt-o) var(--blatt-r) var(--blatt-u) var(--blatt-l); border-radius: 18px; background: var(--sc-canvas);
+    box-shadow: 0 0 0 1px rgba(11, 18, 38, 0.06), 0 26px 50px -30px rgba(20, 35, 60, 0.35);
+  }
+  .lade__kopf { position: absolute; top: 1.25rem; right: 1.25rem; height: auto; padding: 0; }
+  .lade__marke { display: none; }
+  .lade__leiste {
+    display: grid; grid-template-rows: auto 1fr; justify-items: center; position: absolute; z-index: 1;
+    left: 0; top: 0; bottom: 0; width: 14rem; box-sizing: border-box; padding: 2.95rem 1rem 1.5rem 1.6rem;
+    border-radius: 0 18px 18px 0; background: rgba(255, 255, 255, 0.55); border-right: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 22px 0 44px -30px rgba(20, 35, 60, 0.35);
+  }
+  .lade__logo { width: 6.4rem; height: 1.5rem; border-radius: 8px; }
+  .lade__nav { display: flex; flex-direction: column; justify-content: center; gap: 1.55rem; justify-self: start; padding-left: 1.65rem; padding-bottom: 2.95rem; }
+  .lade__nav .lade__k { height: 0.7rem; width: 6.2rem; border-radius: 6px; }
+  .lade__nav .lade__k:nth-child(3n+2) { width: 4.4rem; }
+  .lade__nav .lade__k:nth-child(4n+3) { width: 7.6rem; }
   /* Balken an der Oberkante des Blatts, rechts der Seitenleiste bis vor die runde Ecke */
   .akt-balken { top: var(--blatt-o); left: 14rem; right: calc(var(--blatt-r) + 18px); height: 4px; border-radius: 0 0 4px 4px; }
   /* Kopfleiste: nur noch „Das sind wir“, oben rechts im Blatt, ohne eigene Fläche
@@ -774,6 +860,7 @@ section[id] { scroll-margin-top: 0; }
   /* Knopf mit gleichem Abstand zum oberen und rechten Rand des Blatts (wie „nach oben“ unten rechts) */
   .leiste { inset: calc(var(--blatt-o) + 1.25rem) calc(var(--blatt-r) + 1.25rem) auto auto; height: auto; padding: 0; pointer-events: none; }
   .leiste, .leiste.ist-unten, .leiste.ist-nacht.ist-unten { background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .sparsam .leiste.ist-unten, .sparsam .leiste.ist-nacht.ist-unten { background: none; }
   .leiste .marke { display: none; }
   .leiste .knopf-dunkel {
     pointer-events: auto; box-shadow: 0 8px 24px -12px rgba(11, 18, 38, 0.45);

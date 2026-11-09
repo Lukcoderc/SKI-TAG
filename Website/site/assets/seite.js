@@ -6,6 +6,27 @@
   var ohneBewegung = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var klemme = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
   var abschnitt = function (x, von, bis) { return klemme((x - von) / (bis - von)); };
+  var wurzel = document.documentElement;
+  var sparsam = function () { return wurzel.classList.contains("sparsam"); };
+
+  /* --------------------------------------------------- Ladebildschirm -- */
+  /* Weg, sobald die Schriften und das Bild des Einstiegs da sind, spätestens nach 5 s. */
+  var lade = document.querySelector(".lade");
+  if (lade) {
+    var weg = function () {
+      if (lade.classList.contains("ist-fertig")) return;
+      lade.classList.add("ist-fertig");
+      setTimeout(function () { lade.remove(); }, 600);
+    };
+    var poster = document.querySelector(".hang .sc-stage__poster");
+    var bild = !poster || poster.complete ? Promise.resolve() : new Promise(function (fertig) {
+      poster.addEventListener("load", fertig, { once: true });
+      poster.addEventListener("error", fertig, { once: true });
+    });
+    var schrift = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+    Promise.all([bild, schrift]).then(function () { requestAnimationFrame(function () { requestAnimationFrame(weg); }); });
+    setTimeout(weg, 5000);
+  }
 
   /* ------------------------------------------------------- Kopfleiste -- */
   var leiste = document.querySelector(".leiste");
@@ -14,7 +35,6 @@
     var grenze = hang ? hang.offsetHeight - window.innerHeight * 1.1 : 200;
     leiste.classList.toggle("ist-unten", window.scrollY > grenze);
   }
-  window.addEventListener("scroll", leisteSetzen, { passive: true });
   leisteSetzen();
 
   /* ------------------------------------------------- Schneeflocken -- */
@@ -34,9 +54,14 @@
         v: nah ? 0.0016 + Math.random() * 0.0012 : 0.0005 + Math.random() * 0.0007,
         w: Math.random() * Math.PI * 2, a: nah ? 0.6 : 0.85 });
     }
-    new IntersectionObserver(function (e) { sichtbar = e[0].isIntersecting; }).observe(leinwand);
+    var laeuft = false;
+    new IntersectionObserver(function (e) {
+      sichtbar = e[0].isIntersecting;
+      if (sichtbar && !laeuft) { laeuft = true; requestAnimationFrame(schneien); }
+    }).observe(leinwand);
     var schneien = function () {
-      if (sichtbar) {
+      if (!sichtbar || sparsam()) { laeuft = false; return; }
+      {
         var b = leinwand.width, h = leinwand.height;
         ctx.clearRect(0, 0, b, h);
         for (var j = 0; j < flocken.length; j++) {
@@ -51,7 +76,6 @@
       }
       requestAnimationFrame(schneien);
     };
-    requestAnimationFrame(schneien);
   });
 
   /* ------------------------------------------- Der Chip (Vorführung) -- */
@@ -226,7 +250,12 @@
     };
 
     var demoSichtbar = false, ruheGezeichnet = false;
-    new IntersectionObserver(function (e) { var war = demoSichtbar; demoSichtbar = e[0].isIntersecting; if (demoSichtbar && !war) requestAnimationFrame(takt); }).observe(akt);
+    var hintergrund = function () {
+      if (!bewegtBild || !bewegtBild.pauseAnimations || ohneBewegung) return;
+      if (demoSichtbar && !sparsam()) bewegtBild.unpauseAnimations(); else bewegtBild.pauseAnimations();
+    };
+    window.addEventListener("skitag-sparsam", hintergrund);
+    new IntersectionObserver(function (e) { var war = demoSichtbar; demoSichtbar = e[0].isIntersecting; hintergrund(); if (demoSichtbar && !war) requestAnimationFrame(takt); }).observe(akt);
     var takt = function (jetzt) {
       if (!demoSichtbar) return;
       if (zustand === "halten") {
@@ -273,8 +302,14 @@
     nachtFlaechen.forEach(function (n) { var r = n.getBoundingClientRect(); if (r.top <= unter && r.bottom >= unter) nacht = true; });
     leiste.classList.toggle("ist-nacht", nacht);
   }
-  window.addEventListener("scroll", leisteNacht, { passive: true });
   leisteNacht();
+  // beide Kopfleisten-Prüfungen höchstens einmal je Bild, nicht bei jedem Scroll-Ereignis
+  var leisteWartet = false;
+  window.addEventListener("scroll", function () {
+    if (leisteWartet) return;
+    leisteWartet = true;
+    requestAnimationFrame(function () { leisteWartet = false; leisteSetzen(); leisteNacht(); });
+  }, { passive: true });
 
   /* --------------------------------------------- Die App im iPhone -- */
   /* Drei Bildschirme über die gepinnte Strecke: Route, Gruppe, Mein Tag. */
@@ -282,8 +317,9 @@
   if (appAkt) {
     var app = appAkt.querySelector(".app");
     var appSchritte = appAkt.querySelectorAll(".app-akt__schritte li");
-    var letztesBild = -1;
+    var letztesBild = -1, appWartet = false;
     var appTakt = function () {
+      appWartet = false;
       var p = fortschritt(appAkt);
       var nr = p < 0.36 ? 0 : p < 0.68 ? 1 : 2;
       if (nr !== letztesBild) {
@@ -291,8 +327,9 @@
         app.setAttribute("data-bild", String(nr));
         appSchritte.forEach(function (li, i) { li.classList.toggle("ist-aktiv", i === nr); });
       }
-      requestAnimationFrame(appTakt);
     };
+    // die Engine setzt --sc-p in ihrem eigenen Bild davor, darum hier ein Bild später lesen
+    window.addEventListener("scroll", function () { if (!appWartet) { appWartet = true; requestAnimationFrame(appTakt); } }, { passive: true });
     requestAnimationFrame(appTakt);
     appSchritte.forEach(function (li, i) {
       li.addEventListener("click", function () {
@@ -316,6 +353,44 @@
   };
   einmal(document.querySelector(".gebirge"), 0.25);
   einmal(document.querySelector(".fuss__wort"), 0.35);
+
+  /* -------------------------------- Zier-Animationen ruhen außer Sicht -- */
+  /* .ist-weg hält die endlosen CSS-Animationen an (Tag im Einstieg, Kacheln, Gebirge, Schluss). */
+  if ("IntersectionObserver" in window) {
+    var ruhen = new IntersectionObserver(function (eintraege) {
+      eintraege.forEach(function (e) { e.target.classList.toggle("ist-weg", !e.isIntersecting); });
+    });
+    document.querySelectorAll(".hang, .gebaut, .gebirge, .schluss").forEach(function (el) { ruhen.observe(el); });
+  }
+
+  /* --------------------------------------------- Ruckeln erkennen -- */
+  /* Liegt beim Scrollen die Hälfte der Bilder über 26 ms (unter etwa 38 Bildern je
+     Sekunde), wechselt die Seite in den Sparmodus und merkt sich das für den nächsten
+     Besuch (dann auch ohne Video im Einstieg). */
+  if (!sparsam() && !ohneBewegung) {
+    var proben = [], vorher = 0, misst = false, bis = 0;
+    var auswerten = function () {
+      if (proben.length < 40) return;
+      var s = proben.slice().sort(function (a, b) { return a - b; });
+      if (s[Math.floor(s.length / 2)] > 26) {
+        wurzel.classList.add("sparsam");
+        try { localStorage.setItem("skitag-sparsam", "1"); } catch (e) {}
+        window.dispatchEvent(new Event("skitag-sparsam"));
+        proben = null;
+      } else if (proben.length > 400) proben = null;
+    };
+    var messen = function (t) {
+      if (vorher && proben) proben.push(t - vorher);
+      vorher = t;
+      if (proben && performance.now() < bis) requestAnimationFrame(messen);
+      else { misst = false; vorher = 0; if (proben) auswerten(); }
+    };
+    window.addEventListener("scroll", function () {
+      if (!proben || document.hidden) return;
+      bis = performance.now() + 250;
+      if (!misst) { misst = true; requestAnimationFrame(messen); }
+    }, { passive: true });
+  }
 
   /* ---------------------------------- Fortschritt der Scroll-Animationen -- */
   /* Solange eine gepinnte Strecke den Bildschirm hält, zeigt der Balken ihren

@@ -18,13 +18,16 @@ if (akt && buehne && canvas && webglGeht()) start();
 
 function start() {
   const { renderer, scene } = studio(canvas, { belichtung: 0.95, umgebung: 0.4 });
+  // Sparmodus (schwächere Geräte): ein Bildpunkt je CSS-Pixel und ein kleinerer Schatten
+  const sparsam = () => document.documentElement.classList.contains("sparsam");
+  if (sparsam()) renderer.setPixelRatio(1);
   const camera = new THREE.PerspectiveCamera(26, 1, 0.05, 20);
 
   // Nachtbühne: ein weiches Oberlicht, kaltes Randlicht von hinten, warmes Streiflicht von links
   const key = new THREE.DirectionalLight("#ffffff", 1.5);
   key.position.set(-1.2, 3.0, -0.6);   // von hinten oben, damit der Deckel nicht weiß spiegelt
   key.castShadow = true;
-  key.shadow.mapSize.set(2048, 2048);
+  key.shadow.mapSize.setScalar(sparsam() ? 1024 : 2048);
   Object.assign(key.shadow.camera, { left: -1, right: 1, top: 1, bottom: -1, near: 0.5, far: 6 });
   key.shadow.bias = -0.0005; key.shadow.radius = 6;
   scene.add(key);
@@ -75,10 +78,16 @@ function start() {
     akt.classList.toggle("aufbau--schmal", schmal);
   }
   einpassen();
-  new ResizeObserver(einpassen).observe(buehne);
+  new ResizeObserver(() => { einpassen(); unruhe(); }).observe(buehne);
+  addEventListener("skitag-sparsam", () => { renderer.setPixelRatio(1); einpassen(); unruhe(); });
 
   // Ziehen dreht den Chip (senkrechtes Wischen scrollt weiter die Seite)
   let ziehYaw = 0, zielYaw = 0, zieht = null;
+  // Gezeichnet wird nur, wenn sich etwas ändert; Zeiger und Größe halten es kurz wach
+  let wachBis = 0;
+  function unruhe() { wachBis = performance.now() + 400; }
+  canvas.addEventListener("pointermove", unruhe, { passive: true });
+  canvas.addEventListener("pointerleave", unruhe);
   canvas.addEventListener("pointerdown", (e) => { zieht = { x: e.clientX, yaw: zielYaw }; canvas.setPointerCapture(e.pointerId); });
   canvas.addEventListener("pointermove", (e) => { if (zieht) zielYaw = zieht.yaw + (e.clientX - zieht.x) * 0.008; });
   const loslassen = () => { zieht = null; };
@@ -89,13 +98,17 @@ function start() {
   const zerlegt = (p) => FEST ?? (RUHIG ? 1 : THREE.MathUtils.clamp((p - 0.12) / 0.48, 0, 1));
   const ledAn = (p) => (FEST != null ? (FEST >= 1 ? 1 : 0) : RUHIG ? 0 : THREE.MathUtils.clamp((p - 0.66) / 0.1, 0, 1));
 
-  let jetzt = zerlegt(fortschritt()), sichtbar = false, letzte = performance.now(), bilder = 0;
+  let jetzt = zerlegt(fortschritt()), sichtbar = false, letzte = performance.now(), bilder = 0, letztesP = -1;
   new IntersectionObserver(([e]) => { sichtbar = e.isIntersecting; if (sichtbar) { letzte = performance.now(); requestAnimationFrame(bild); } }).observe(akt);
 
   function bild(t) {
     if (!sichtbar) return;
     const dt = Math.min(0.05, (t - letzte) / 1000); letzte = t;
     const p = fortschritt();
+    const ruhe = bilder >= 2 && p === letztesP && !zieht && t > wachBis &&
+      Math.abs(zerlegt(p) - jetzt) < 0.0005 && Math.abs(zielYaw - ziehYaw) < 0.0005 && ledAn(p) === 0;
+    if (ruhe) { requestAnimationFrame(bild); return; }
+    letztesP = p;
     jetzt += (zerlegt(p) - jetzt) * (RUHIG ? 1 : 1 - Math.pow(0.0005, dt));
     ex.set(jetzt);
     ziehYaw += (zielYaw - ziehYaw) * (1 - Math.pow(0.001, dt));

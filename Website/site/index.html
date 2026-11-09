@@ -11,9 +11,34 @@
 <link rel="preload" href="assets/fonts/funnelsans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.min.js" } }</script>
 <link rel="stylesheet" href="scrollcraft.css?v=16">
-<link rel="stylesheet" href="assets/seite.css?v=43">
+<script>
+/* Sparmodus für schwächere Geräte: kein Glas, kein Schnee, keine reinen Zier-Animationen.
+   Ohne Video im Einstieg nur, wenn die Seite hier schon einmal ruckelte oder Datensparen an ist. */
+(function () { try {
+  var n = navigator, w = document.documentElement, gemessen = localStorage.getItem("skitag-sparsam") === "1";
+  var spart = n.connection && n.connection.saveData;
+  if (gemessen || spart || (n.hardwareConcurrency && n.hardwareConcurrency <= 4) || (n.deviceMemory && n.deviceMemory <= 4)) w.classList.add("sparsam");
+  if (gemessen || spart || (n.deviceMemory && n.deviceMemory <= 2)) w.classList.add("sparsam-video");
+} catch (e) {} })();
+</script>
+<link rel="stylesheet" href="assets/seite.css?v=45">
+<noscript><style>.lade { display: none; }</style></noscript>
 </head>
 <body>
+
+<!-- Ladebildschirm: das Gerüst des Einstiegs als graue Flächen, bis Schrift und Bild da sind.
+     seite.js blendet es aus; ohne JavaScript erscheint es nicht (noscript im Kopf). -->
+<div class="lade" aria-hidden="true">
+  <div class="lade__leiste"><span class="lade__k lade__logo"></span><span class="lade__nav"><span class="lade__k"></span><span class="lade__k"></span><span class="lade__k"></span><span class="lade__k"></span><span class="lade__k"></span><span class="lade__k"></span><span class="lade__k"></span><span class="lade__k"></span></span></div>
+  <div class="lade__blatt">
+    <div class="lade__kopf"><span class="lade__k lade__marke"></span><span class="lade__k lade__pille"></span></div>
+    <div class="lade__mitte">
+      <span class="lade__k lade__zeile"></span><span class="lade__k lade__zeile"></span><span class="lade__k lade__zeile"></span>
+      <span class="lade__k lade__text"></span><span class="lade__k lade__text"></span>
+    </div>
+    <span class="lade__k lade__chip"></span>
+  </div>
+</div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
@@ -76,7 +101,7 @@
     SkiTag
   </a>
   <nav class="sprungleiste__nav" aria-label="Abschnitte">
-    <a href="#blick"><span>Auf einen Blick</span></a>
+    <a href="#blick"><span>Start</span></a>
     <a href="#der-chip"><span>Der Chip</span></a>
     <a href="#aufbau"><span>Was drinsteckt</span></a>
     <a href="#gebaut"><span>Gebaut für den Berg</span></a>
@@ -95,8 +120,7 @@
     </div>
     <nav aria-label="Abschnitte">
       <ol>
-        <li><a href="#oben">Start</a></li>
-        <li><a href="#blick">Auf einen Blick</a></li>
+        <li><a href="#blick">Start</a></li>
         <li><a href="#der-chip">Der Chip</a></li>
         <li><a href="#aufbau">Was drinsteckt</a></li>
         <li><a href="#gebaut">Gebaut für den Berg</a></li>
@@ -134,43 +158,37 @@
     </div>
   </section>
 
-  <!-- 1b · Auf einen Blick: in einer halben Minute verstehen, was SkiTag ist -->
+  <!-- 1b · Start: in wenigen Sätzen verstehen, was SkiTag ist -->
   <section id="blick" class="sc-section blick" data-sc-act="flow" data-sc-drift="#f4f8fb" aria-labelledby="blick-titel">
     <div class="sc-wrap">
       <div class="blick__kopf">
         <header class="kopfzeile" data-sc-in data-sc-stagger="80">
-          <p class="augenbraue">Auf einen Blick</p>
-          <h2 id="blick-titel" class="sc-display blick__titel">SkiTag in<br><span class="leise">30 Sekunden.</span></h2>
+          <p class="augenbraue">Start</p>
+          <h2 id="blick-titel" class="sc-display blick__titel">Was ist SKITAG?</h2>
         </header>
         <div class="blick__text" data-sc-in>
-          <p class="sc-lede">SkiTag ist ein kleiner Chip, den du für deinen Skitag mietest und in die Jacke steckst. Mit einem Knopf rufst du deine Gruppe oder holst Hilfe. Ganz ohne Handy und ohne Handynetz.</p>
+          <p class="sc-lede">Ein Mietchip für deine Skijacke. Ein Knopf ruft deine Gruppe oder holt Hilfe, ganz ohne Handy und ohne Handynetz.</p>
           <a class="blick__weiter" href="#der-chip">Gleich ausprobieren <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
       <ol class="blick__liste" data-sc-in data-sc-stagger="70">
-        <li class="blick__punkt blick__punkt--chip">
-          <div class="blick__bild" aria-hidden="true"><svg viewBox="0 0 240 120"><use href="#chip-oben"/></svg></div>
-          <p class="blick__nr">Was es ist</p>
-          <h3>Ein Chip für die Jacke.</h3>
-          <p>Klein, weich und orange. Drin stecken ein Knopf, ein Licht, Funk, GPS und ein Akku für den ganzen Skitag.</p>
-        </li>
         <li class="blick__punkt">
           <div class="blick__zeichen" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="7" fill="currentColor"/><path d="M13 14a14 14 0 0 0 0 20M35 14a14 14 0 0 1 0 20M7 9a21 21 0 0 0 0 30M41 9a21 21 0 0 1 0 30" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></div>
           <p class="blick__nr">Kurz drücken</p>
           <h3>Deine Gruppe weiß Bescheid.</h3>
-          <p>Ihre Chips vibrieren, in der App sehen sie, wo du bist. Die Bergbahn wird nicht alarmiert.</p>
+          <p>Ihre Chips vibrieren, die App zeigt, wo du bist.</p>
         </li>
         <li class="blick__punkt blick__punkt--nacht">
           <div class="blick__zeichen" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="none" stroke="currentColor" stroke-opacity=".25" stroke-width="3"/><path d="M24 5a19 19 0 1 1-16.5 28.5" fill="none" stroke="#ff8a5c" stroke-width="3" stroke-linecap="round"/><text x="24" y="29.5" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">3s</text></svg></div>
           <p class="blick__nr">Drei Sekunden halten</p>
           <h3>Hilfe kommt zu dir.</h3>
-          <p>Der Notruf geht mit deinem Standort an die Bergbahn, ein Mitarbeiter fährt zu dir. Fünf Sekunden lang kannst du noch abbrechen.</p>
+          <p>Die Bergbahn bekommt deinen Standort und schickt einen Mitarbeiter.</p>
         </li>
         <li class="blick__punkt">
           <div class="blick__zeichen" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 22V44M16 44h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="24" cy="18" r="4" fill="currentColor"/><path d="M15 10a12 12 0 0 0 0 16M33 10a12 12 0 0 1 0 16M9 5a19 19 0 0 0 0 26M39 5a19 19 0 0 1 0 26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></div>
           <p class="blick__nr">Wie es funkt</p>
           <h3>Ohne Handy, ohne Netz.</h3>
-          <p>Empfänger an den Liftstationen fangen das Funksignal auf. Die App ist ein Extra für Gruppe, Routen und deinen Tag.</p>
+          <p>Empfänger an den Liftstationen fangen das Signal auf.</p>
         </li>
       </ol>
     </div>
@@ -733,7 +751,7 @@
     </div>
     <nav aria-label="Seite">
       <b>Seite</b>
-      <a href="#blick">Auf einen Blick</a><a href="#der-chip">Der Chip</a><a href="#aufbau">Was drinsteckt</a><a href="#app">Die App</a><a href="#fragen">Fragen</a><a href="#wir">Das sind wir</a>
+      <a href="#blick">Start</a><a href="#der-chip">Der Chip</a><a href="#aufbau">Was drinsteckt</a><a href="#app">Die App</a><a href="#fragen">Fragen</a><a href="#wir">Das sind wir</a>
     </nav>
     <nav aria-label="Rechtliches">
       <b>Rechtliches</b>
@@ -759,12 +777,15 @@
 </a>
 
 <script src="scrollcraft.js?v=16"></script>
-<script>ScrollCraft.mount(document.body);</script>
-<script src="assets/seite.js?v=34" defer></script>
+<script>
+if (document.documentElement.classList.contains("sparsam-video")) { var v = document.querySelector(".hang video[data-sc-scrub]"); if (v) v.remove(); }
+ScrollCraft.mount(document.body);
+</script>
+<script src="assets/seite.js?v=36" defer></script>
 <script src="assets/sprung-anfang.js?v=16" defer></script>
 <script src="assets/seitenleiste.js?v=17" defer></script>
 <script src="assets/sprungleiste.js?v=3" defer></script>
 <script src="assets/schiene.js?v=16" defer></script>
-<script type="module" src="assets/drinsteckt.js?v=22"></script>
+<script type="module" src="assets/drinsteckt.js?v=23"></script>
 </body>
 </html>

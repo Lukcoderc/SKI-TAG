@@ -180,3 +180,15 @@ Umgesetzt: alle „soll“, „Ziel“, „geplant“ und Test-Hinweise in Gegen
 Bei allen Scroll-Animationen ein Balken wie am Anfang, der den Fortschritt zeigt, damit man merkt, dass man weiterkommt. Der bisherige Balken lief über die ganze Seite und kam im Einstieg nur ein paar Zentimeter weit.
 
 Umgesetzt: Der Balken gehört jetzt zur einzelnen Scroll-Animation (Einstieg, Was drinsteckt, Die App). Er füllt sich dort jeweils einmal ganz in Orange von links nach rechts, auf einer blassen Schiene, die zeigt, wie viel noch kommt; dazwischen blendet er aus. Über Nacht-Abschnitten ist die Schiene hell. Am PC sitzt er an der Oberkante des Blatts rechts der Seitenleiste, am Handy oben über die ganze Breite.
+
+## Feedback 26 (Lukas, 2026-11-09)
+
+Ein Skeleton-Ladebildschirm für die Website.
+
+Umgesetzt: Beim Laden steht das Gerüst des Einstiegs als ruhige graue Flächen da (am PC Seitenleiste mit Logo und acht Abschnitten, das Blatt mit dem Knopf „Das sind wir“, zwei Titelzeilen, zwei Textzeilen und der Chip; am Handy Kopfleiste, drei Titelzeilen, Text und Chip), über die ein Lichtschimmer läuft. Sobald die Schriften und das Bild des Einstiegs geladen sind, blendet es weich aus, spätestens nach 5 s, ohne JavaScript erscheint es gar nicht.
+
+## Feedback 27 (Lukas, 2026-11-09)
+
+Die Seite läuft vor allem auf schwächeren Geräten nicht gut. Der Abschnitt „SkiTag in 30 Sekunden“ soll kürzer sein, als Kapitel „Start“ heißen und die Überschrift „Was ist SKITAG?“ haben.
+
+Umgesetzt: „Start“ mit der Überschrift „Was ist SKITAG?“, ein Satz statt zwei, drei Karten statt vier (die Karte „Was es ist“ entfällt, der Satz sagt es), Kartentexte je ein kurzer Satz; „Start“ auch in Seitenleiste, Handy-Menü und Fuß. Leistung: Endlos-Schleifen laufen nur noch, solange ihr Teil zu sehen ist (Schnee, Sessellift, schwebende Dinge, Gebirge), App und Kopfleiste rechnen nur beim Scrollen, das 3D-Modell zeichnet nur, wenn sich etwas ändert. Dazu ein Sparmodus für schwächere Geräte (wenige Kerne, wenig Speicher, Datensparen oder gemessenes Ruckeln): kein Glas, kein Schnee, keine Zier-Animationen, 3D in geringerer Auflösung; hat die Seite schon einmal geruckelt, auch ohne Video im Einstieg. Gemessen in Firefox ohne Grafikkarte (wie ein schwaches Gerät): Einstieg von etwa 3 auf 7 Bilder je Sekunde, „Was drinsteckt“ von 2 auf 4; auf echten Geräten nicht gemessen.
