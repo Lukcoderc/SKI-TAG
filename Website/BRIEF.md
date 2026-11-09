@@ -222,3 +222,9 @@ Umgesetzt: Halte-Ring in Orange wie „3 s halten.“, Abbruch-Ring in Blaugrau 
 Der Knopf „ganz hinauf“ soll über den dunkelblauen Stellen weiß sein, damit man ihn erkennt.
 
 Umgesetzt: Liegt der Knopf über einem Nacht-Abschnitt, dem Fuß, einer Nacht-Kachel oder dem dunklen Teil des Gebirges, wird er weiß mit dunklem Pfeil, sonst bleibt er dunkel.
+
+## Feedback 33 (Lukas, 2026-11-09)
+
+Die großen Anfangsbuchstaben in der Seitenleiste schwarz statt orange.
+
+Umgesetzt: Anfangsbuchstaben in Schwarz, über dunklen Abschnitten in Weiß; Größe und Schrift bleiben. Gilt auch im Handy-Menü.

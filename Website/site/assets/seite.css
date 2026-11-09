@@ -218,8 +218,8 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 /* Die Wörter blassen nur über ihre Farbe ab, damit der Anfangsbuchstabe immer kräftig bleibt */
 .sprungleiste__nav a span { color: color-mix(in srgb, currentColor calc(55% + var(--w) * 45%), transparent); transition: transform 320ms var(--sc-ease-out); }
 /* Kapitel: die Anfangsbuchstaben ergeben senkrecht SKITAG. Sie stehen in der Titelschrift,
-   immer gleich groß und kräftig in Orange, so liest man die Spalte von oben nach unten. */
-.anfang { font-family: var(--sc-font-display); font-weight: 720; line-height: 1; letter-spacing: 0; color: var(--orange-2); }
+   immer gleich groß und kräftig in Schwarz (über Nacht in Weiß), so liest man die Spalte von oben nach unten. */
+.anfang { font-family: var(--sc-font-display); font-weight: 720; line-height: 1; letter-spacing: 0; color: var(--sc-ink); }
 .sprungleiste__nav .anfang { font-size: 1.6rem; margin-right: 0.03em; }
 .seite nav .anfang { font-size: 1.35em; margin-right: 0.02em; }
 .sprungleiste__nav a::before {
@@ -915,7 +915,7 @@ section[id] { scroll-margin-top: 0; }
   /* Über dunklen Abschnitten wird das Glas dunkel, wie die Kopfleiste am Tablet */
   .sprungleiste.ist-nacht { background: rgba(11, 18, 38, 0.86); border-right-color: rgba(255, 255, 255, 0.1); box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.04), 22px 0 44px -30px rgba(0, 0, 0, 0.6); }
   .sprungleiste.ist-nacht .sprungleiste__marke, .sprungleiste.ist-nacht .sprungleiste__nav a { color: var(--nacht-ink); }
-  .sprungleiste.ist-nacht .anfang { color: #ff8a5c; }
+  .sprungleiste.ist-nacht .anfang { color: var(--nacht-ink); }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .sprungleiste { background: #fbfcfd; } .sprungleiste.ist-nacht { background: #141c33; } }
   .jeden__schiene {
     padding-inline: max(var(--sc-gutter), calc((var(--band) - var(--sc-maxw)) / 2 + var(--sc-gutter)));
