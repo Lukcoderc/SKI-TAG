@@ -317,4 +317,25 @@
   einmal(document.querySelector(".gebirge"), 0.25);
   einmal(document.querySelector(".fuss__wort"), 0.35);
 
+  /* ---------------------------------- Fortschritt der Scroll-Animationen -- */
+  /* Solange eine gepinnte Strecke den Bildschirm hält, zeigt der Balken ihren
+     Fortschritt (--sc-p der Engine, 0 bis 1). Danach blendet er aus. */
+  var balken = document.querySelector(".akt-balken");
+  var akte = document.querySelectorAll('[data-sc-act="pin"], [data-sc-act="scrub"]');
+  var balkenWartet = false;
+  function balkenSetzen() {
+    balkenWartet = false;
+    var h = window.innerHeight, an = null;
+    akte.forEach(function (a) { var r = a.getBoundingClientRect(); if (r.top <= h * 0.1 && r.bottom >= h * 0.9) an = a; });
+    balken.classList.toggle("ist-an", !!an);
+    if (!an) return;
+    balken.classList.toggle("ist-nacht", an.classList.contains("nacht"));
+    balken.firstElementChild.style.transform = "scaleX(" + fortschritt(an).toFixed(4) + ")";
+  }
+  if (balken && akte.length) {
+    window.addEventListener("scroll", function () { if (!balkenWartet) { balkenWartet = true; requestAnimationFrame(balkenSetzen); } }, { passive: true });
+    window.addEventListener("resize", balkenSetzen);
+    requestAnimationFrame(balkenSetzen);
+  }
+
 })();

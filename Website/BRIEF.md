@@ -174,3 +174,9 @@ Umgesetzt: Piste breiter, beide aus der Gruppe stehen auf der Piste (einer oberh
 Überall auf der Seite, wo noch etwas mit „geplant“ steht, weg damit und so schreiben, dass es funktioniert.
 
 Umgesetzt: alle „soll“, „Ziel“, „geplant“ und Test-Hinweise in Gegenwart umgeschrieben (Akku hält einen ganzen Skitag, Notruf geht auch bei Kälte raus, Empfänger an den Liftstationen im ganzen Skigebiet, Standort wird am Ende des Tages gelöscht, Hülle schützt bei Stürzen). „Ziel“-Schilder an den Kacheln −20 °C und 8 h entfernt.
+
+## Feedback 25 (Lukas, 2026-11-09)
+
+Bei allen Scroll-Animationen ein Balken wie am Anfang, der den Fortschritt zeigt, damit man merkt, dass man weiterkommt. Der bisherige Balken lief über die ganze Seite und kam im Einstieg nur ein paar Zentimeter weit.
+
+Umgesetzt: Der Balken gehört jetzt zur einzelnen Scroll-Animation (Einstieg, Was drinsteckt, Die App). Er füllt sich dort jeweils einmal ganz in Orange von links nach rechts, auf einer blassen Schiene, die zeigt, wie viel noch kommt; dazwischen blendet er aus. Über Nacht-Abschnitten ist die Schiene hell. Am PC sitzt er an der Oberkante des Blatts rechts der Seitenleiste, am Handy oben über die ganze Breite.

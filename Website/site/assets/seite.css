@@ -85,6 +85,22 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .nacht { background: var(--nacht); color: var(--nacht-ink); --sc-ink-soft: var(--nacht-soft); }
 .nacht .sc-lede { color: var(--nacht-soft); }
 
+/* ------------------------------------------- Fortschritt der Scroll-Animationen -- */
+/* Jede gepinnte Strecke (Einstieg, Was drinsteckt, Die App) füllt den Balken einmal
+   ganz von links nach rechts, dazwischen blendet er aus. Die Schiene bleibt blass
+   sichtbar, damit man sieht, wie viel noch kommt. */
+.akt-balken {
+  position: fixed; inset: 0 0 auto 0; height: 3px; z-index: calc(var(--sc-z-chrome) + 1);
+  background: rgba(11, 18, 38, 0.1); pointer-events: none; overflow: hidden;
+  opacity: 0; transition: opacity 320ms var(--sc-ease-out), background-color 320ms var(--sc-ease-out);
+}
+.akt-balken.ist-an { opacity: 1; }
+.akt-balken.ist-nacht { background: rgba(255, 255, 255, 0.16); }
+.akt-balken__fuell {
+  display: block; height: 100%; background: var(--orange);
+  transform-origin: 0 50%; transform: scaleX(0); will-change: transform;
+}
+
 /* ----------------------------------------------------------- Kopfleiste -- */
 .leiste {
   position: fixed; inset: 0 0 auto 0; z-index: var(--sc-z-chrome);
@@ -751,7 +767,8 @@ section[id] { scroll-margin-top: 0; }
     inset: var(--blatt-o) var(--blatt-r) var(--blatt-u) var(--blatt-l); border-radius: 18px;
     box-shadow: 0 0 0 1px rgba(11, 18, 38, 0.06), 0 26px 50px -30px rgba(20, 35, 60, 0.35), 0 0 0 200vmax var(--rahmen-grund);
   }
-  [data-sc-progress] { display: none; }
+  /* Balken an der Oberkante des Blatts, rechts der Seitenleiste bis vor die runde Ecke */
+  .akt-balken { top: var(--blatt-o); left: 14rem; right: calc(var(--blatt-r) + 18px); height: 4px; border-radius: 0 0 4px 4px; }
   /* Kopfleiste: nur noch „Das sind wir“, oben rechts im Blatt, ohne eigene Fläche
      (das Logo steht in der Seitenleiste). Über Nacht-Abschnitten wird der Knopf weiß. */
   /* Knopf mit gleichem Abstand zum oberen und rechten Rand des Blatts (wie „nach oben“ unten rechts) */
