@@ -1,13 +1,17 @@
-/* SkiTag · der fertige Chip in 3D (seit Feedback 63), nur auf der Startseite.
-   Modell: „Fertiger Chip“ aus dem Hardware-Repo (ma-xi.github.io/SKI-TAG-Hardware/3d.html), nur die sichtbaren Außenteile; die Teile innen
-   sind laut Hardware noch nicht genau und fehlen darum. assets/media/chip-3d.bin entsteht aus den STL-Dateien
-   (Positionen Int16 in 0,002 mm, Normalen Int8, indiziert), die Reihenfolge steht unten in TEILE.
+/* SkiTag · der fertige Chip in 3D (Feedback 63 und 64), nur auf der Startseite.
+   Modell: „Fertiger Chip“ aus dem Hardware-Repo (ma-xi.github.io/SKI-TAG-Hardware/3d.html), nur die sichtbaren
+   Außenteile; die Teile innen sind laut Hardware noch nicht genau und fehlen darum. assets/media/chip-3d.bin
+   entsteht aus den STL-Dateien (Positionen Int16 in 0,002 mm, Normalen Int8, indiziert), Reihenfolge in TEILE.
 
    Ablauf: eine feste, durchsichtige Leinwand über der Seite (pointer-events: none). Der Chip liegt in einem
-   von drei Ankern und fliegt beim Scrollen zum nächsten:
-     .held__chip  im Einstieg vor dem Bergfenster, schwebt und folgt leicht dem Zeiger
-     .blick__chip in „Was ist SKITAG?“ (gepinnt): zeigt kurz drücken, drei Sekunden halten, Funk
-     .knopf__chip in „Ein Knopf. Zwei Wege.“: dort bleibt er, der Knopf der Vorführung (seite.js) steuert ihn
+   Anker (.chip-anker) und fliegt beim Scrollen zum nächsten:
+     .held__chip   Einstieg: schwebt vor dem Wintertag, neigt sich zum Zeiger, um ihn fällt Schnee
+     .blick__chip  „Was ist SKITAG?“ (gepinnt): kurz drücken (drei kleine Chips der Gruppe vibrieren),
+                   drei Sekunden halten (Ring füllt sich), Funk zur Liftstation
+     .knopf__chip  „Probiere den Tag aus“: Übersicht; im Ruhezustand fährt die Ansicht weiter nach
+     .knopf__nah   ganz nah an den Knopf. Dann schneidet die Fläche (.knopf__bild) den Chip ab, und der
+                   echte Knopf .chip-knopf wird in jedem Bild genau über den Knopf des Modells gelegt.
+   Den Zustand (Schritt, Ring, Sekunde, Gruppe, Notruf) schreibt seite.js nach window.skitagChip.
    Eine Welteinheit ist ein CSS-Pixel auf der Ebene z = 0, darum lassen sich Anker direkt übernehmen.
    Ohne WebGL oder bei einem Fehler bleibt das Standbild in den Ankern (.chip-bild). */
 import * as THREE from "three";
@@ -15,18 +19,26 @@ import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
 
 const wurzel = document.documentElement;
 const ohneBewegung = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const anker = { held: document.querySelector(".held__chip"), blick: document.querySelector(".blick__chip"), knopf: document.querySelector(".knopf__chip") };
+const eins = (s) => document.querySelector(s), alle = (s) => Array.prototype.slice.call(document.querySelectorAll(s));
+const anker = { held: eins(".held__chip"), blick: eins(".blick__chip"), knopf: eins(".knopf__chip"), nah: eins(".knopf__nah") };
+const miniAnker = { blick: alle(".bk-mit .chip-anker"), knopf: alle(".kn-mit .chip-anker") };
 const blickAkt = document.getElementById("blick"), knopfAkt = document.getElementById("der-chip");
+const flaeche = eins(".knopf__bild"), knopfEl = eins(".chip-knopf");
 const klemme = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
 const abschnitt = (x, a, b) => klemme((x - a) / (b - a));
 const weich = (x) => x * x * (3 - 2 * x);
 const inOut = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const federnd = (x) => 1 + 2.70158 * Math.pow(x - 1, 3) + 1.70158 * Math.pow(x - 1, 2);   // schießt leicht über
 const mix = (a, b, t) => a + (b - a) * t;
 
-/* Zustand für den Knopf der Vorführung; seite.js schreibt hinein und hängt druecken/loslassen an */
-const knopfZustand = (window.skitagChip = window.skitagChip || { zustand: "ruhe", ring: 0, gruppe: 0, hilfe: 0 });
+/* Zustand der Vorführung; seite.js schreibt hinein */
+const S = (window.skitagChip = window.skitagChip || {});
+if (!S.zustand) S.zustand = "ruhe";
+if (!S.blick) S.blick = { schritt: 0, halten: 0, spielt: false, start: 0 };
+const SCHLEIFE = 4200;   // „Gruppe rufen“ in „Was ist SKITAG?“, gleich lang wie die Animationen in seite.css
+const ORANGE = 0xff5a1c, ROT = 0xff2d2d, GRUEN = 0x45ff7a;
 
-if (anker.held && anker.blick && anker.knopf) start().catch((f) => { console.warn("Chip 3D:", f); wurzel.classList.remove("chip3d-an"); });
+if (anker.held && anker.blick && anker.knopf && anker.nah && flaeche) start().catch((f) => { console.warn("Chip 3D:", f); wurzel.classList.remove("chip3d-an"); });
 
 async function start() {
   /* ------------------------------------------------------------ Bühne -- */
@@ -112,21 +124,106 @@ async function start() {
     teile[name] = m; inhalt.add(m);
   }
 
-  // Knopf: Mitte und Größe aus dem Ring, damit Druck und Füllring genau sitzen
+  // Knopf: Mitte und Größe aus dem Ring, damit Druck, Füllring und der echte Knopf genau sitzen
   const rb = teile.ring.geometry.boundingBox, kb = teile.kappe.geometry.boundingBox;
   const knopfMitte = new THREE.Vector3((rb.min.x + rb.max.x) / 2, (rb.min.y + rb.max.y) / 2, Math.max(rb.max.z, kb.max.z) + 0.25);
   const knopfR = Math.max(rb.max.x - rb.min.x, rb.max.y - rb.min.y) / 2;
-  // Füllring um den Knopf (für das Halten): Ring aus Segmenten, gezeichnet wird ein Anteil davon
-  const SEG = 120;
-  const ringGeo = new THREE.RingGeometry(knopfR + 0.9, knopfR + 2.3, SEG, 1, 0, -Math.PI * 2);   // Winkel 0 zeigt im hochkant gedrehten Modell nach oben, negativ läuft im Uhrzeigersinn
-  // RingGeometry liegt in Segmenten hintereinander: 6 Indizes je Segment
-  const ringMat = new THREE.MeshBasicMaterial({ color: 0xff5a1c, transparent: true, toneMapped: false, depthTest: false, side: THREE.DoubleSide });
-  const fuellRing = new THREE.Mesh(ringGeo, ringMat);
-  const ringGrund = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, toneMapped: false, depthTest: false, side: THREE.DoubleSide }));
-  // die Ringe liegen in der Ebene des Knopfs, nur ohne die Drehung des Modells
-  fuellRing.position.copy(knopfMitte); ringGrund.position.copy(knopfMitte);
-  fuellRing.renderOrder = 3; ringGrund.renderOrder = 2;
-  inhalt.add(ringGrund, fuellRing);
+  const flach = (farbe, deckung) => new THREE.MeshBasicMaterial({ color: farbe, transparent: true, opacity: deckung, toneMapped: false, depthTest: false, side: THREE.DoubleSide });
+
+  // Füllring um den Knopf (Halten). Er wird nicht aus Dreiecken gebaut, sondern auf einer Fläche im Shader
+  // gerechnet: Kanten bleiben in jeder Größe scharf (Glättung über fwidth), der Bogen hat runde Enden, einen
+  // Verlauf vom Anfang zur Spitze, einen hellen Punkt an der Spitze und einen weichen Schein. Darunter liegt
+  // die blasse Spur, die voll gedeckt auch den Tastaturfokus zeigt. Winkel 0 zeigt im hochkant gedrehten
+  // Modell nach oben, der Bogen läuft im Uhrzeigersinn. Die Farben sind sRGB-Werte, wie sie auf dem Bildschirm stehen.
+  const RING_AUSSEN = knopfR + 6.5;   // halbe Kantenlänge der Fläche, lässt Platz für den Schein
+  const flaecheVS = "varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
+  const ringMat = new THREE.ShaderMaterial({
+    transparent: true, depthTest: false, depthWrite: false, side: THREE.DoubleSide,
+    uniforms: {
+      uAnteil: { value: 0 }, uSpur: { value: 0 }, uFokus: { value: 0 }, uDeckung: { value: 1 },
+      uMitte: { value: (knopfR + 2.4) / RING_AUSSEN }, uHalb: { value: 0.62 / RING_AUSSEN },
+      uA: { value: new THREE.Vector3(1, 0.62, 0.34) }, uB: { value: new THREE.Vector3(1, 0.35, 0.11) },
+    },
+    vertexShader: flaecheVS,
+    fragmentShader: `
+      precision highp float;
+      varying vec2 vUv;
+      uniform float uAnteil, uSpur, uFokus, uDeckung, uMitte, uHalb;
+      uniform vec3 uA, uB;
+      vec4 ueber(vec4 o, vec4 u) { float a = o.a + u.a * (1.0 - o.a); return vec4((o.rgb * o.a + u.rgb * u.a * (1.0 - o.a)) / max(a, 0.0001), a); }
+      void main() {
+        vec2 p = (vUv - 0.5) * 2.0;
+        float r = length(p);
+        float aa = max(fwidth(r), 0.0001) * 1.1;
+        float dKreis = abs(r - uMitte);
+        float spur = 1.0 - smoothstep(uHalb - aa, uHalb + aa, dKreis);
+        float w = atan(-p.y, p.x); if (w < 0.0) w += 6.2831853;
+        float voll = step(0.999, uAnteil), an = step(0.002, uAnteil);
+        float ende = clamp(uAnteil, 0.0, 1.0) * 6.2831853;
+        vec2 kopf = vec2(cos(ende), -sin(ende)) * uMitte, anfang = vec2(uMitte, 0.0);
+        float dKopf = length(p - kopf), dAnfang = length(p - anfang);
+        bool imBogen = w <= ende || voll > 0.5;
+        float d = imBogen ? dKreis : min(dKopf, dAnfang);
+        float fuell = (1.0 - smoothstep(uHalb - aa, uHalb + aa, d)) * an;
+        float schein = exp(-pow(max(d - uHalb, 0.0) / (uHalb * 2.8), 2.0)) * 0.27 * an;
+        float lauf = imBogen ? clamp(w / max(ende, 0.001), 0.0, 1.0) : (dKopf < dAnfang ? 1.0 : 0.0);
+        vec3 farbe = mix(uA, uB, lauf);
+        float punkt = (1.0 - smoothstep(uHalb * 0.46 - aa, uHalb * 0.46 + aa, dKopf)) * an * (1.0 - voll);
+        vec4 c = vec4(1.0, 1.0, 1.0, spur * max(uSpur, uFokus));
+        c = ueber(vec4(farbe, schein), c);
+        c = ueber(vec4(mix(farbe, vec3(1.0), punkt * 0.92), fuell), c);
+        gl_FragColor = vec4(c.rgb, c.a * uDeckung);
+      }`,
+  });
+  const ring = new THREE.Mesh(new THREE.PlaneGeometry(RING_AUSSEN * 2, RING_AUSSEN * 2), ringMat);
+  ring.position.copy(knopfMitte); ring.renderOrder = 3; ring.visible = false;
+  inhalt.add(ring);
+  const ringA = new THREE.Vector3(), ringB = new THREE.Vector3();
+  const RING_FARBEN = { [ORANGE]: [[1, 0.62, 0.34], [1, 0.35, 0.11]], [ROT]: [[1, 0.42, 0.4], [1, 0.18, 0.18]] };
+
+  // Wellen auf dem Chip: drei weiche Ringe, die vom Knopf nach außen laufen (Druck, Notruf, Hinweis „drück mich“)
+  const wellenGeo = new THREE.PlaneGeometry(2, 2);
+  const wellenFS = `
+    precision highp float;
+    varying vec2 vUv;
+    uniform vec3 uFarbe; uniform float uDeckung;
+    void main() {
+      float r = length((vUv - 0.5) * 2.0), aa = max(fwidth(r), 0.0001) * 1.5;
+      float band = smoothstep(0.89 - aa, 0.93, r) * (1.0 - smoothstep(0.955, 1.0, r));
+      gl_FragColor = vec4(uFarbe, band * uDeckung);
+    }`;
+  const wellen = [0, 1, 2].map(() => {
+    const mat = new THREE.ShaderMaterial({ transparent: true, depthTest: false, depthWrite: false, side: THREE.DoubleSide, uniforms: { uFarbe: { value: new THREE.Color(ORANGE) }, uDeckung: { value: 0 } }, vertexShader: flaecheVS, fragmentShader: wellenFS });
+    const m = new THREE.Mesh(wellenGeo, mat);
+    m.position.copy(knopfMitte); m.renderOrder = 1; m.visible = false; inhalt.add(m);
+    return { m, mat, start: -1e9, gross: 4, staerke: 0.8, dauer: 900 };
+  });
+  let letzteWelle = 0;
+  const welle = (jetzt, farbe, gross, anzahl, staerke, dauer) => {
+    for (let i = 0; i < anzahl; i++) { const w = wellen[i]; w.start = jetzt + i * 150; w.gross = gross; w.staerke = staerke; w.dauer = dauer || 900; w.mat.uniforms.uFarbe.value.set(farbe).convertLinearToSRGB(); }
+    letzteWelle = jetzt;
+  };
+
+  // Ziffer auf dem Knopf (3, 2, 1 beim Halten und in der Frist): groß gezeichnet, damit sie auch nah scharf bleibt
+  const schrift = (getComputedStyle(wurzel).getPropertyValue("--sc-font-display") || "").trim() || '"Funnel Display", system-ui, sans-serif';
+  const ziffern = {};
+  const zifferTex = (n) => {
+    if (!ziffern[n]) {
+      const c = document.createElement("canvas"); c.width = c.height = 512;
+      const x = c.getContext("2d");
+      x.font = "640 340px " + schrift; x.textAlign = "center"; x.textBaseline = "middle"; x.fillStyle = "#fff";
+      x.fillText(String(n), 256, 280);
+      const t = new THREE.CanvasTexture(c);
+      t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      ziffern[n] = t;
+    }
+    return ziffern[n];
+  };
+  const zahlMat = flach(0xffffff, 0);
+  const zahl = new THREE.Mesh(new THREE.PlaneGeometry(knopfR * 1.4, knopfR * 1.4), zahlMat);
+  zahl.position.copy(knopfMitte); zahl.rotation.z = -Math.PI / 2; zahl.renderOrder = 5; zahl.visible = false;
+  inhalt.add(zahl);
+  let gezeigteZiffer = 0;
 
   // Leuchten der LED: ein weicher Punkt vor dem Lichtleiter
   const lb = teile.ledstab.geometry.boundingBox;
@@ -137,7 +234,7 @@ async function start() {
     x.fillStyle = g; x.fillRect(0, 0, 128, 128);
     return new THREE.CanvasTexture(c);
   })();
-  const ledGlanz = new THREE.Sprite(new THREE.SpriteMaterial({ map: glanz, color: 0x45ff7a, transparent: true, opacity: 0, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending, toneMapped: false }));
+  const ledGlanz = new THREE.Sprite(new THREE.SpriteMaterial({ map: glanz, color: GRUEN, transparent: true, opacity: 0, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending, toneMapped: false }));
   // Mitte der vordersten Fläche des Lichtleiters (dort sieht man den Lichtpunkt)
   {
     const p = teile.ledstab.geometry.attributes.position; let sx = 0, sy = 0, n = 0;
@@ -160,8 +257,33 @@ async function start() {
   schatten.renderOrder = -1;
   szene.add(schatten);
 
+  /* ------------------------------------- Die Gruppe: drei kleine Chips -- */
+  const E = (x, y, z) => new THREE.Quaternion().setFromEuler(new THREE.Euler(x, y, z, "YXZ"));
+  const minis = [0, 1, 2].map((i) => {
+    const g = new THREE.Group(), l = new THREE.Group(), m = new THREE.Group(), inh = new THREE.Group();
+    m.rotation.z = Math.PI / 2; inh.position.copy(inhalt.position);
+    const led = ledMat.clone();
+    for (const [name, , , mat] of TEILE) inh.add(new THREE.Mesh(teile[name].geometry, name === "ledstab" ? led : MAT[mat]));
+    const gl = new THREE.Sprite(ledGlanz.material.clone()); gl.position.copy(ledGlanz.position); gl.scale.setScalar(16); gl.renderOrder = 4;
+    inh.add(gl); g.add(l); l.add(m); m.add(inh); g.visible = false; szene.add(g);
+    return { g, l, led, gl, pose: E(0.1 + i * 0.03, [-0.42, 0.46, -0.24][i], [0.09, -0.07, 0.05][i]) };
+  });
+  let miniRampe = 0;
+
+  /* ------------------------------------------- Schnee im Einstieg -- */
+  // drei Lagen: klein und fern (hinter dem Chip), mittel, groß und unscharf ganz vorn
+  const schnee = [];
+  if (!sparsam && !ohneBewegung) for (const [n, gr, deckung, z0, z1] of [[34, 5, 0.95, -500, -80], [14, 11, 0.75, 80, 340], [6, 34, 0.32, 520, 900]]) {
+    const pos = new Float32Array(n * 3), fl = [];
+    for (let i = 0; i < n; i++) fl.push({ x: Math.random(), y: Math.random(), z: mix(z0, z1, Math.random()), v: (0.025 + Math.random() * 0.03) * Math.sqrt(gr / 5), w: Math.random() * 6.283 });
+    const geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    const mat = new THREE.PointsMaterial({ map: glanz, size: gr, sizeAttenuation: false, transparent: true, opacity: deckung, depthWrite: false, toneMapped: false });
+    const p = new THREE.Points(geo, mat); p.frustumCulled = false; szene.add(p);
+    schnee.push({ p, geo, mat, fl, deckung, zug: gr / 34 });
+  }
+
   /* ------------------------------------------------------- Größe -- */
-  let B = 1, H = 1;
+  let B = 1, H = 1, radius = "28px";
   const groesse = () => {
     // ohne Bildlaufleiste, damit die Leinwand genau über dem Inhalt liegt
     B = document.documentElement.clientWidth || innerWidth; H = innerHeight;
@@ -171,6 +293,7 @@ async function start() {
     kamera.position.set(0, 0, (H / 2) / Math.tan(THREE.MathUtils.degToRad(FOV / 2)));
     kamera.near = kamera.position.z * 0.2; kamera.far = kamera.position.z * 3;
     kamera.updateProjectionMatrix();
+    radius = getComputedStyle(flaeche).borderTopLeftRadius || "28px";
     bedarf = true;
   };
   let bedarf = true;
@@ -180,46 +303,51 @@ async function start() {
   wurzel.classList.add("chip3d-an");
 
   /* ------------------------------------------------------- Posen -- */
-  const E = (x, y, z) => new THREE.Quaternion().setFromEuler(new THREE.Euler(x, y, z, "YXZ"));
   const POSE = {
     held: E(0.16, -0.55, 0.1),
-    gruppe: E(0.12, -0.28, 0.04),
+    gruppe: E(0.12, -0.22, 0.03),
     halten: E(0.06, -0.08, 0),
     funk: E(0.18, 0.62, -0.05),
-    knopf: E(0.1, -0.32, 0.05),
+    knopf: E(0.1, -0.3, 0.04),
+    nah: E(0.03, -0.12, 0),
+    lauf: E(0.1, 0.42, -0.03),
   };
   const ziel = new THREE.Quaternion().copy(POSE.held), jetztQ = new THREE.Quaternion().copy(POSE.held);
-  const tmpQ = new THREE.Quaternion(), dreh = new THREE.Quaternion(), achseY = new THREE.Vector3(0, 1, 0), achseX = new THREE.Vector3(1, 0, 0), achseZ = new THREE.Vector3(0, 0, 1);
+  const dreh = new THREE.Quaternion(), euler = new THREE.Euler(), punkt = new THREE.Vector3();
+  const achseY = new THREE.Vector3(0, 1, 0), achseX = new THREE.Vector3(1, 0, 0), achseZ = new THREE.Vector3(0, 0, 1);
 
-  // Zeiger im Einstieg: der Chip neigt sich leicht dorthin
+  // Zeiger: der Chip neigt sich leicht dorthin (im Einstieg deutlich, nah am Knopf nur wenig)
   let zx = 0, zy = 0, zxS = 0, zyS = 0;
-  addEventListener("pointermove", (e) => { zx = e.clientX / B - 0.5; zy = e.clientY / H - 0.5; }, { passive: true });
+  addEventListener("pointermove", (e) => { if (e.pointerType !== "touch") { zx = e.clientX / B - 0.5; zy = e.clientY / H - 0.5; } }, { passive: true });
+
+  // Fokusring am Knopf nur bei Bedienung mit der Tastatur (der echte Knopf liegt unter der Leinwand)
+  let tastatur = false;
+  addEventListener("keydown", () => { tastatur = true; }, true);
+  addEventListener("pointerdown", () => { tastatur = false; }, true);
 
   const mitte = (el) => { const r = el.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2, h: r.height, w: r.width }; };
 
   /* ---------------------------------------------- Zustände der Teile -- */
-  const effekt = { druck: 0, zittern: 0, ring: 0, ringFarbe: 0xff5a1c, led: 0.15, ledFarbe: 0x45ff7a };
-  const effektS = { druck: 0, ring: 0, led: 0.15 };
-  const ledFarbe = new THREE.Color(), ledZiel = new THREE.Color();
-  let schrittBlick = -1, sichtbar = true, eingang = ohneBewegung ? 1 : 0, startZeit = performance.now();
-
-  /* Im Abschnitt „Was ist SKITAG?“: welcher Schritt und wie weit */
-  const blickSchritt = (p) => (p < 0.34 ? 0 : p < 0.67 ? 1 : 2);
-
+  const effekt = { druck: 0, zittern: 0, ring: 0, ringFarbe: ORANGE, led: 0.15, ledFarbe: GRUEN };
+  const effektS = { druck: 0, ring: 0, led: 0.15, dunkel: 0, ringAus: 0 };
+  const ledFarbe = new THREE.Color(GRUEN), ledZiel = new THREE.Color();
+  let sichtbar = true, eingang = ohneBewegung ? 1 : 0, nah = 0, letzterZustand = "ruhe", letzteZl = 1, letzterClip = "", letzteDeckung = "", knopfAn = null;
+  const startZeit = performance.now();
   const zeit = { letzte: performance.now() };
-  const bild = (jetzt) => {
-    requestAnimationFrame(bild);
-    const dt = Math.min(0.05, (jetzt - zeit.letzte) / 1000); zeit.letzte = jetzt;
-    const s = scrollY;
 
-    // Abschnitte in Seiten-Koordinaten
+  const bild = (jetzt) => { requestAnimationFrame(bild); zeichne(jetzt); };
+  const zeichne = (jetzt) => {
+    const dt = Math.max(0, Math.min(0.05, (jetzt - zeit.letzte) / 1000)); zeit.letzte = jetzt;
+    const t = jetzt / 1000, s = scrollY;
+    const glatt = (rest) => (ohneBewegung ? 1 : 1 - Math.pow(rest, dt));   // Anteil je Bild; rest = was nach 1 s noch fehlt
+
+    /* ---- lesen: Abschnitte und Anker ---- */
     const br = blickAkt.getBoundingClientRect(), kr = knopfAkt.getBoundingClientRect();
     const blickOben = br.top + s, blickEnde = blickOben + br.height - H, knopfOben = kr.top + s;
-    const pBlick = klemme((s - blickOben) / Math.max(1, br.height - H));
     const a1 = Math.max(0, blickOben - H * 0.95), t1 = abschnitt(s, a1, blickOben);
     const t2 = abschnitt(s, blickEnde, knopfOben);
-
     const A = mitte(anker.held), Bk = mitte(anker.blick), K = mitte(anker.knopf);
+
     let x, y, h, spin = 0, kipp = 0, flug = 0, tSnap = 1;
     if (t2 > 0) {
       const e = ohneBewegung ? (t2 < 0.5 ? 0 : 1) : inOut(t2);
@@ -233,57 +361,79 @@ async function start() {
       flug = t1 > 0 && t1 < 1 ? Math.sin(Math.PI * t1) : 0; tSnap = t1 > 0 ? Math.abs(1 - 2 * t1) : 1;
     }
 
-    // Pose je nach Ort
-    const imKnopf = t2 > 0.5, imBlick = !imKnopf && t1 > 0.5;
-    const sb = blickSchritt(pBlick);
-    if (imBlick && sb !== schrittBlick) { schrittBlick = sb; blickAkt.setAttribute("data-schritt", String(sb)); }
-    ziel.copy(imKnopf ? POSE.knopf : imBlick ? [POSE.gruppe, POSE.halten, POSE.funk][sb] : POSE.held);
-    jetztQ.slerp(ziel, ohneBewegung ? 1 : 1 - Math.pow(0.0025, dt));
+    /* ---- wo ist der Chip, was zeigt er ---- */
+    const z = S.zustand, g = S.gruppe || 0, bz = S.blick, sb = bz.schritt;
+    const imKnopf = t2 > 0.5, imBlick = !imKnopf && t1 > 0.5, gelandet = t2 >= 0.98;
+    const zl = bz.spielt ? ((jetzt - bz.start) % SCHLEIFE) / SCHLEIFE : -1;   // Stand in der Schleife „Gruppe rufen“
 
-    // Wirkung auf Knopf, LED und Ring
-    effekt.druck = 0; effekt.zittern = 0; effekt.ring = 0; effekt.led = 0.15; effekt.ledFarbe = 0x45ff7a; effekt.ringFarbe = 0xff5a1c;
-    const t = jetzt / 1000;
+    // Nahansicht am Knopf: kommt mit dem letzten Stück des Flugs, weicht zurück, wenn Gruppe oder Notruf laufen
+    const nahWunsch = z === "ruhe" || z === "halten" || z === "frist" || (z === "gruppe" && (g < 0.03 || g > 0.9));
+    const nahZiel = imKnopf && nahWunsch ? (ohneBewegung ? (gelandet ? 1 : 0) : weich(abschnitt(t2, 0.8, 1))) : 0;
+    nah += (nahZiel - nah) * glatt(0.012);
+    if (Math.abs(nahZiel - nah) < 0.0008) nah = nahZiel;
+    if (nah > 0) {
+      const N = mitte(anker.nah), u = weich(nah);
+      x = mix(x, N.x, u); y = mix(y, N.y, u); h = h * Math.pow(N.h / h, u);
+    }
+
+    ziel.copy(imKnopf ? (z === "lauf" || z === "fertig" ? POSE.lauf : nahZiel > 0.5 ? POSE.nah : POSE.knopf) : imBlick ? [POSE.gruppe, POSE.halten, POSE.funk][sb] : POSE.held);
+    jetztQ.slerp(ziel, glatt(0.0025));
+
+    /* ---- Wirkung auf Knopf, LED, Ring ---- */
+    effekt.druck = 0; effekt.zittern = 0; effekt.ring = 0; effekt.ringAus = 0; effekt.led = 0.15; effekt.ledFarbe = GRUEN; effekt.ringFarbe = ORANGE;
+    let ziffer = 0;
+    const blinken = (takt) => (Math.sin(t * takt) > 0 ? 1 : 0.15);
     if (imKnopf) {
-      const z = knopfZustand.zustand;
-      if (z === "halten") { effekt.druck = 1; effekt.ring = knopfZustand.ring; }
-      else if (z === "frist") { effekt.ring = knopfZustand.ring; effekt.ringFarbe = 0xff2d2d; effekt.ledFarbe = 0xff2d2d; effekt.led = Math.sin(t * 14) > 0 ? 1 : 0.1; }
-      else if (z === "gruppe") { const g = knopfZustand.gruppe; effekt.druck = g < 0.12 ? 1 : 0; effekt.zittern = g > 0.15 && g < 0.75 ? 1 : 0; effekt.led = g < 0.85 ? (Math.sin(t * 18) > 0 ? 1 : 0.2) : 0.15; }
-      else if (z === "lauf") { const hh = knopfZustand.hilfe; effekt.ledFarbe = 0xff2d2d; effekt.led = 0.65 + 0.35 * Math.sin(t * 6); effekt.zittern = (hh > 0.16 && hh < 0.2) || (hh > 0.22 && hh < 0.26) ? 1 : 0; }
-      else if (z === "fertig") { effekt.led = 0.8; }
+      if (z === "halten") { effekt.druck = 1; effekt.ring = S.ring; ziffer = S.sek; }   // beim Halten nur Ring und Ziffer, sonst bleibt alles ruhig
+      else if (z === "frist") { effekt.ring = S.ring; effekt.ringFarbe = ROT; effekt.ledFarbe = ROT; effekt.led = blinken(7); ziffer = S.sek; }
+      else if (z === "gruppe") { effekt.zittern = g > 0.004 && g < 0.07 ? 1 : 0; effekt.led = g < 0.78 ? blinken(18) : 0.15; }
+      else if (z === "lauf") { const hh = S.hilfe || 0; effekt.ledFarbe = ROT; effekt.led = 0.65 + 0.35 * Math.sin(t * 6); effekt.zittern = (hh > 0.31 && hh < 0.35) || (hh > 0.38 && hh < 0.42) ? 1 : 0; }
+      else if (z === "fertig") { effekt.led = 0.85; }
       else { effekt.led = 0.15 + 0.12 * (0.5 + 0.5 * Math.sin(t * 2)); }
+      // Wellen: beim Rufen der Gruppe, beim Absenden des Notrufs, in Ruhe als Hinweis „drück mich“
+      if (z !== letzterZustand) {
+        if (z === "gruppe") welle(jetzt, ORANGE, 5, 3, 0.9);
+        else if (z === "lauf") welle(jetzt, ROT, 7, 3, 0.95, 1100);
+      } else if (z === "ruhe" && gelandet && nah > 0.9 && !ohneBewegung && jetzt - letzteWelle > 2600) welle(jetzt, 0xffb38f, 1.7, 1, 0.55, 1300);
     } else if (imBlick) {
-      const innen = sb === 0 ? pBlick / 0.34 : sb === 1 ? (pBlick - 0.34) / 0.33 : (pBlick - 0.67) / 0.33;
-      if (sb === 0) {   // kurz drücken: alle 2,4 s ein Druck, danach vibrieren die Chips der Gruppe
-        const z = (t % 2.4) / 2.4;
-        effekt.druck = z < 0.08 ? 1 : 0; effekt.zittern = z > 0.1 && z < 0.4 ? 1 : 0;
-        effekt.led = z < 0.5 ? (Math.sin(t * 18) > 0 ? 1 : 0.2) : 0.15;
-      } else if (sb === 1) {   // drei Sekunden halten: der Ring füllt sich mit dem Scrollen
-        const r = abschnitt(innen, 0.05, 0.75);
-        effekt.druck = r < 1 ? 1 : 0; effekt.ring = r; effekt.ringFarbe = r < 1 ? 0xff5a1c : 0xff2d2d;
-        effekt.ledFarbe = 0xff2d2d; effekt.led = r < 1 ? 0.25 : 0.7 + 0.3 * Math.sin(t * 8);
-        blickAkt.style.setProperty("--halten", r.toFixed(3));
-        const sek = String(Math.min(3, Math.max(1, Math.ceil(r * 3))));
-        if (blickAkt.dataset.sek !== sek) blickAkt.dataset.sek = sek;
-        blickAkt.toggleAttribute("data-voll", r >= 1);
+      if (sb === 0) {   // kurz drücken: einmal je Schleife, danach vibrieren die Chips der Gruppe
+        if (zl >= 0) {
+          effekt.druck = zl > 0.015 && zl < 0.07 ? 1 : 0;
+          effekt.led = zl > 0.07 && zl < 0.34 ? blinken(18) : 0.15;
+          if (letzteZl < 0.07 && zl >= 0.07 && !ohneBewegung) welle(jetzt, ORANGE, 4, 2, 0.85);
+        }
+      } else if (sb === 1) {   // drei Sekunden halten: der Ring füllt sich mit dem Scrollen (seite.js: --halten)
+        const r = bz.halten;
+        effekt.druck = r < 1 ? 1 : 0; effekt.ring = r; effekt.ringFarbe = ORANGE; effekt.ringAus = r >= 1 ? 1 : 0;   // voll: blendet aus, statt zurückzulaufen
+        effekt.ledFarbe = ROT; effekt.led = r < 1 ? 0.25 : 0.7 + 0.3 * Math.sin(t * 8);
       } else {   // Funk: rote LED ruhig, der Chip hat sich zur Liftstation gedreht
-        effekt.ledFarbe = 0xff2d2d; effekt.led = 0.55 + 0.25 * Math.sin(t * 4);
+        effekt.ledFarbe = ROT; effekt.led = 0.55 + 0.25 * Math.sin(t * 4);
       }
     }
-    const k = ohneBewegung ? 1 : 1 - Math.pow(0.0001, dt);
+    letzterZustand = z; letzteZl = zl;
+    const k = glatt(0.0001);
     effektS.druck = mix(effektS.druck, effekt.druck, k);
-    effektS.ring = effekt.ring < effektS.ring - 0.02 ? mix(effektS.ring, effekt.ring, ohneBewegung ? 1 : 1 - Math.pow(1e-9, dt)) : mix(effektS.ring, effekt.ring, ohneBewegung ? 1 : 1 - Math.pow(0.00001, dt));   // leert sich schnell, füllt sich weich
+    // In „Was ist SKITAG?“ folgt der Ring direkt dem Scrollen; ist er voll, blendet er aus und läuft nie zurück.
+    // In der Vorführung füllt er sich weich und leert sich schnell (die Frist läuft bewusst zurück).
+    if (!imKnopf) { effektS.ring = effekt.ring; if (effekt.ring > 0 && effekt.ring < 1) effektS.ringAus = 0; }
+    else effektS.ring = mix(effektS.ring, effekt.ring, effekt.ring < effektS.ring - 0.02 ? glatt(1e-9) : glatt(0.00001));
+    effektS.ringAus = effekt.ringAus ? mix(effektS.ringAus, 1, glatt(0.002)) : imKnopf ? 0 : effektS.ringAus;
     effektS.led = mix(effektS.led, effekt.led, k);
+    // Nacht: steht die Fläche auf Nacht (Notruf läuft, Schritte 2 und 3 in „Was ist SKITAG?“), wird das Licht schwächer
+    const dunkel = imKnopf ? (z === "lauf" ? 1 : 0) : imBlick && sb >= 1 ? 0.8 : 0;
+    effektS.dunkel = mix(effektS.dunkel, dunkel, glatt(0.002));
+    renderer.toneMappingExposure = mix(1.08, 0.74, effektS.dunkel);
 
     // Eingang beim Laden: schwebt von unten ins Bild
     if (eingang < 1) eingang = klemme((jetzt - startZeit) / 1400);
     const ein = 1 - Math.pow(1 - eingang, 3);
 
-    // Schweben und Zeiger nur, solange der Chip im Einstieg ist
+    // Schweben und Zeiger: voll im Einstieg, leicht in der Nahansicht
     const ruhig = 1 - klemme(t1 * 3);
     zxS = mix(zxS, zx, 0.06); zyS = mix(zyS, zy, 0.06);
-    const schweben = ohneBewegung ? 0 : Math.sin(t * 1.3) * 0.012 * h * (0.35 + 0.65 * ruhig);
+    const schweben = ohneBewegung ? 0 : Math.sin(t * 1.3) * 0.012 * h * (0.35 + 0.65 * ruhig) * (1 - nah);
 
-    // zusammensetzen
+    /* ---- zusammensetzen ---- */
     const skala = (h / GROESSE[0]) * (0.86 + 0.14 * ein);
     chip.position.set(x - B / 2, H / 2 - y + schweben - (1 - ein) * h * 0.25, flug * h * 0.6);
     chip.scale.setScalar(skala);
@@ -291,53 +441,115 @@ async function start() {
     if (spin) { dreh.setFromAxisAngle(achseY, spin); lage.quaternion.premultiply(dreh); }
     if (kipp) { dreh.setFromAxisAngle(achseX, kipp); lage.quaternion.premultiply(dreh); }
     if (!ohneBewegung) {
-      dreh.setFromEuler(new THREE.Euler(zyS * 0.35 * ruhig + Math.sin(t * 0.9) * 0.03, zxS * 0.6 * ruhig + Math.sin(t * 0.7) * 0.05 * ruhig, 0));
+      const zeiger = ruhig + nah * 0.3;
+      dreh.setFromEuler(euler.set(zyS * 0.35 * zeiger + Math.sin(t * 0.9) * 0.03 * (1 - nah), zxS * 0.6 * zeiger + Math.sin(t * 0.7) * 0.14 * ruhig, 0));
       lage.quaternion.multiply(dreh);
-      if (effekt.zittern) { dreh.setFromAxisAngle(achseZ, Math.sin(t * 90) * 0.025); lage.quaternion.multiply(dreh); chip.position.x += Math.sin(t * 117) * h * 0.006; }
+      if (effekt.zittern) { dreh.setFromAxisAngle(achseZ, Math.sin(t * 58) * 0.01); lage.quaternion.multiply(dreh); chip.position.x += Math.sin(t * 71) * Math.min(h, 420) * 0.0025; }
       if (ein < 1) { dreh.setFromAxisAngle(achseY, (1 - ein) * -1.2); lage.quaternion.multiply(dreh); }
     }
-    leinwand.style.opacity = String(ohneBewegung ? tSnap : ein);
 
-    // Knopf drücken (Modell: z ist die Dicke), Füllring, LED
-    teile.kappe.position.z = -0.9 * effektS.druck;
+    // Wie weit zeigt die Vorderseite zur Kamera? LED-Schein, Ringe, Ziffer und Wellen liegen ohne Tiefentest auf
+    // dem Chip und würden sonst durch ihn hindurch scheinen, wenn er sich im Flug umdreht.
+    punkt.set(0, 0, 1).applyQuaternion(lage.quaternion);
+    const vorn = klemme((punkt.z - 0.08) / 0.3);
+
+    // Knopf drücken (Modell: z ist die Dicke), Füllring, Spur, Ziffer, LED
+    const tief = -0.9 * effektS.druck;
+    teile.kappe.position.z = tief;
     const anteil = effektS.ring;
-    ringGeo.setDrawRange(0, Math.round(SEG * anteil) * 6);
-    fuellRing.visible = anteil > 0.002;
-    ringMat.color.setHex(effekt.ringFarbe);
-    ringGrund.material.opacity = anteil > 0.002 || effekt.ring > 0 ? 0.35 : 0;
+    const ru = ringMat.uniforms, rf = RING_FARBEN[effekt.ringFarbe] || RING_FARBEN[ORANGE];
+    const fokus = tastatur && !!knopfEl && document.activeElement === knopfEl;
+    ru.uAnteil.value = anteil;
+    ru.uSpur.value = mix(ru.uSpur.value, anteil > 0.002 || effekt.ring > 0 ? 0.2 : 0, 0.2);
+    ru.uFokus.value = mix(ru.uFokus.value, fokus ? 0.95 : 0, 0.25);
+    ru.uA.value.lerp(ringA.fromArray(rf[0]), 0.15); ru.uB.value.lerp(ringB.fromArray(rf[1]), 0.15);
+    ru.uDeckung.value = vorn * (1 - effektS.ringAus);
+    ring.visible = vorn > 0.01 && effektS.ringAus < 0.99 && (anteil > 0.002 || ru.uSpur.value > 0.005 || ru.uFokus.value > 0.005);
+    if (!imKnopf) ziffer = 0;
+    if (ziffer > 0 && ziffer !== gezeigteZiffer) { zahlMat.map = zifferTex(ziffer); zahlMat.needsUpdate = true; gezeigteZiffer = ziffer; zahl.scale.setScalar(1.25); }
+    zahlMat.opacity = mix(zahlMat.opacity, ziffer > 0 ? 1 : 0, 0.25);
+    zahl.visible = zahlMat.opacity > 0.01 && !!zahlMat.map && vorn > 0.5;
+    zahl.scale.setScalar(mix(zahl.scale.x, 1, 0.18));
+    zahl.position.z = knopfMitte.z + 0.35 + tief;
     ledZiel.setHex(effekt.ledFarbe); ledFarbe.lerp(ledZiel, 0.2);
     ledMat.emissive.copy(ledFarbe); ledMat.emissiveIntensity = 0.2 + effektS.led * 2.2;
-    ledGlanz.material.color.copy(ledFarbe); ledGlanz.material.opacity = klemme(effektS.led * 1.1 - 0.15);
+    ledGlanz.material.color.copy(ledFarbe); ledGlanz.material.opacity = klemme(effektS.led * 1.1 - 0.15) * vorn; ledGlanz.visible = vorn > 0.01;
 
-    // Schatten: liegt unter dem Chip, wird beim Fliegen größer und blasser
+    // Wellen auf dem Chip
+    for (const w of wellen) {
+      const a = (jetzt - w.start) / w.dauer;
+      if (a < 0 || a > 1) { w.m.visible = false; continue; }
+      const aus = 1 - Math.pow(1 - a, 3);
+      w.m.visible = true; w.m.scale.setScalar(knopfR * (1.15 + aus * w.gross)); w.mat.uniforms.uDeckung.value = w.staerke * Math.pow(1 - a, 1.6) * vorn;
+    }
+
+    // Schatten: liegt unter dem Chip, wird beim Fliegen größer und blasser, in der Nahansicht fällt er weg
     schatten.position.set(chip.position.x, H / 2 - y - h * 0.6, -h * 0.4);
     schatten.scale.set(h * 1.2 * (1 + flug * 0.5), h * 1.2 * (1 + flug * 0.5), 1);
-    schatten.material.opacity = (0.75 - flug * 0.6) * ein;
+    schatten.material.opacity = (0.75 - flug * 0.6) * ein * (1 - nah);
+
+    /* ---- die Gruppe ---- */
+    const miniDa = (imBlick && sb === 0 && t1 >= 0.97 && t2 === 0) || (imKnopf && z === "gruppe" && g > 0.08 && g < 0.86);
+    miniRampe = ohneBewegung ? (miniDa ? 1 : 0) : klemme(miniRampe + (miniDa ? dt : -dt) / 0.55);
+    const miniOrt = imKnopf ? miniAnker.knopf : miniAnker.blick;
+    for (let i = 0; i < 3; i++) {
+      const m = minis[i], an = miniRampe > 0 && miniOrt[i] ? Math.max(0, federnd(klemme(miniRampe * 1.6 - i * 0.3))) : 0;
+      m.g.visible = an > 0.01;
+      if (!m.g.visible) continue;
+      const r = mitte(miniOrt[i]);
+      const vib = imKnopf ? g >= 0.335 + i * 0.037 && g < 0.72 : zl >= 0.27 + i * 0.04 && zl < 0.57 + i * 0.04;
+      m.g.position.set(r.x - B / 2 + (vib && !ohneBewegung ? Math.sin(t * 71 + i) * r.h * 0.008 : 0), H / 2 - r.y + (ohneBewegung ? 0 : Math.sin(t * 1.5 + i * 2.1) * r.h * 0.02), 0);
+      m.g.scale.setScalar((r.h / GROESSE[0]) * an);
+      m.l.quaternion.copy(m.pose);
+      if (!ohneBewegung) {
+        dreh.setFromEuler(euler.set(Math.sin(t * 0.8 + i) * 0.04, Math.sin(t * 0.6 + i * 1.7) * 0.1, vib ? Math.sin(t * 58 + i * 2) * 0.025 : 0));
+        m.l.quaternion.multiply(dreh);
+      }
+      const hell = vib ? blinken(20) : 0.12;
+      m.led.emissive.setHex(0x2fd66a); m.led.emissiveIntensity = 0.2 + hell * 2.4;
+      m.gl.material.opacity = klemme(hell * 1.1 - 0.15);
+    }
+
+    /* ---- Schnee im Einstieg ---- */
+    const schneeSicht = 1 - klemme(s / (H * 0.8));
+    for (const l of schnee) {
+      l.p.visible = schneeSicht > 0.01;
+      if (!l.p.visible) continue;
+      const pos = l.geo.attributes.position;
+      for (let i = 0; i < l.fl.length; i++) {
+        const f = l.fl[i];
+        f.y += f.v * dt; if (f.y > 1.1) { f.y = -0.1; f.x = Math.random(); }
+        pos.setXYZ(i, (f.x - 0.5 + Math.sin(f.w + t * 0.5) * 0.012) * B * 1.25, (0.5 - f.y) * H * 1.25 + s * l.zug * 0.7, f.z);
+      }
+      pos.needsUpdate = true;
+      l.mat.opacity = l.deckung * schneeSicht * ein;
+    }
+
+    /* ---- schreiben: echter Knopf, Ausschnitt, Leinwand ---- */
+    if (knopfEl) {
+      const an = imKnopf && t2 > 0.9;
+      if (an) {
+        chip.updateMatrixWorld(true);
+        punkt.copy(knopfMitte); inhalt.localToWorld(punkt);
+        const naeher = kamera.position.z / (kamera.position.z - punkt.z);
+        punkt.project(kamera);
+        const r = (knopfR + 2.6) * chip.scale.x * naeher;
+        knopfEl.style.transform = "translate(" + ((punkt.x * 0.5 + 0.5) * B - (K.x - K.w / 2) - r).toFixed(1) + "px," + ((-punkt.y * 0.5 + 0.5) * H - (K.y - K.h / 2) - r).toFixed(1) + "px)";
+        knopfEl.style.width = (2 * r).toFixed(1) + "px";
+      }
+      if (an !== knopfAn) { knopfAn = an; knopfEl.style.pointerEvents = an ? "" : "none"; }
+    }
+    let clip = "none";
+    if (nah > 0.002) { const p = flaeche.getBoundingClientRect(); clip = "inset(" + p.top.toFixed(1) + "px " + (B - p.right).toFixed(1) + "px " + (H - p.bottom).toFixed(1) + "px " + p.left.toFixed(1) + "px round " + radius + ")"; }
+    if (clip !== letzterClip) { leinwand.style.clipPath = clip; letzterClip = clip; }
+    const deckung = (ohneBewegung ? tSnap : ein).toFixed(3);
+    if (deckung !== letzteDeckung) { leinwand.style.opacity = deckung; letzteDeckung = deckung; }
 
     // nur zeichnen, solange der Chip im Bild ist
+    const war = sichtbar;
     sichtbar = y + h > -h && y - h < H + h;
-    leinwand.style.visibility = sichtbar ? "visible" : "hidden";
+    if (sichtbar !== war) leinwand.style.visibility = sichtbar ? "visible" : "hidden";
     if (sichtbar || bedarf) { renderer.render(szene, kamera); bedarf = false; }
   };
   requestAnimationFrame(bild);
-
-  /* ----------------- Knopf am Chip selbst drücken (im Abschnitt Knopf) -- */
-  const strahl = new THREE.Raycaster(), zeiger = new THREE.Vector2();
-  const getroffen = (e) => {
-    zeiger.set((e.clientX / B) * 2 - 1, -(e.clientY / H) * 2 + 1);
-    strahl.setFromCamera(zeiger, kamera);
-    return strahl.intersectObjects(Object.values(teile), false).length > 0;
-  };
-  let gedrueckt = false;
-  anker.knopf.addEventListener("pointerdown", (e) => {
-    if (!getroffen(e) || !knopfZustand.druecken) return;
-    e.preventDefault(); gedrueckt = true;
-    try { anker.knopf.setPointerCapture(e.pointerId); } catch (_) {}
-    knopfZustand.druecken();
-  });
-  const los = () => { if (gedrueckt) { gedrueckt = false; knopfZustand.loslassen && knopfZustand.loslassen(); } };
-  anker.knopf.addEventListener("pointerup", los);
-  anker.knopf.addEventListener("pointercancel", los);
-  anker.knopf.addEventListener("pointermove", (e) => { anker.knopf.style.cursor = getroffen(e) ? "pointer" : ""; });
-  anker.knopf.addEventListener("contextmenu", (e) => e.preventDefault());
 }

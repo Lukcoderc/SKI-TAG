@@ -20,7 +20,7 @@
   if (gemessen || spart || (n.deviceMemory && n.deviceMemory <= 2)) w.classList.add("sparsam-video");
 } catch (e) {} })();
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=83">
+<link rel="stylesheet" href="assets/seite.css?v=88">
 <noscript><style>.lade { display: none; }</style></noscript>
 </head>
 <body>
@@ -106,9 +106,26 @@
 
 <main id="oben">
 
-  <!-- 1 · Einstieg (seit Feedback 63): links Überschrift, rechts ein Bergfenster mit dem Video, davor schwebt
-       der fertige Chip in 3D (assets/chip-3d.js). Beim Scrollen fliegt er weiter zu „Was ist SKITAG?“. -->
+  <!-- 1 · Einstieg (seit Feedback 64): ein Wintertag als Bühne. Himmel, zwei Bergketten und Neuschnee liegen als
+       Ebenen hintereinander und verschieben sich leicht mit Zeiger und Scrollen (seite.js). Davor schwebt der
+       fertige Chip in 3D (assets/chip-3d.js), um ihn fällt Schnee. Kein Video mehr. -->
   <section class="held" data-sc-act="flow" data-sc-drift="#ffffff" aria-labelledby="titel">
+    <div class="held__himmel" aria-hidden="true">
+      <div class="held__sonne"></div>
+      <svg class="held__berge" viewBox="0 0 1600 600" preserveAspectRatio="xMidYMax slice">
+        <defs><linearGradient id="held-schnee" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1f5fa"/><stop offset=".55" stop-color="#ffffff"/></linearGradient><linearGradient id="held-fern" x1="0" y1="0" x2="0" y2="1"><stop offset=".15" stop-color="#bccde2"/><stop offset=".75" stop-color="#e2eaf4"/></linearGradient><linearGradient id="held-mitte" x1="0" y1="0" x2="0" y2="1"><stop offset=".55" stop-color="#d5e0ed"/><stop offset=".95" stop-color="#f0f4f9"/></linearGradient></defs>
+        <g class="held__lage held__lage--fern">
+          <path fill="url(#held-fern)" d="M-50 600 V330 L60 270 L130 310 L250 190 L330 255 L400 215 L500 300 L610 215 L720 120 L820 215 L890 180 L1000 290 L1090 200 L1200 95 L1300 205 L1380 160 L1490 265 L1650 190 V600 Z"/>
+          <path fill="#eef3f9" d="M250 190 L278 213 L266 211 L256 226 L244 212 L230 226 L222 216 L208 232 Z M720 120 L760 158 L744 151 L730 170 L716 152 L700 166 L690 151 L676 158 Z M1200 95 L1240 139 L1224 133 L1210 152 L1196 134 L1180 148 L1170 133 L1156 137 Z M1380 160 L1404 183 L1392 180 L1382 194 L1370 180 L1352 185 Z"/>
+        </g>
+        <g class="held__lage held__lage--mitte">
+          <path fill="url(#held-mitte)" d="M-50 600 V430 L80 385 L190 425 L320 345 L430 410 L540 370 L680 440 L800 365 L930 425 L1050 355 L1170 425 L1290 375 L1420 435 L1650 380 V600 Z"/>
+        </g>
+        <g class="held__lage held__lage--nah">
+          <path fill="url(#held-schnee)" d="M-50 600 V520 C150 470 380 500 620 520 C900 545 1180 470 1650 505 V600 Z"/>
+        </g>
+      </svg>
+    </div>
     <div class="held__raster">
       <div class="held__kopf">
         <!-- Das Wort in der Pille wechselt (seite.js), Vorleser bekommen den ganzen Satz -->
@@ -116,16 +133,9 @@
         <p class="held__satz">Kurz drücken ruft deine Gruppe, drei Sekunden halten holt Hilfe. Ohne Handy, ohne Handynetz.</p>
         <div class="held__knoepfe"><a class="knopf-dunkel knopf-gross" href="#der-chip">Gleich ausprobieren <svg class="knopf__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="knopf-hell knopf-gross" href="#blick">Was ist SKITAG?</a></div>
       </div>
-      <div class="held__bild">
-        <div class="held__fenster">
-          <video class="held__video" autoplay muted loop playsinline preload="auto" poster="assets/media/hang-poster.webp" aria-hidden="true">
-            <source src="assets/media/hang-m.mp4" type="video/mp4" media="(max-width: 700px)">
-            <source src="assets/media/hang.mp4" type="video/mp4">
-          </video>
-          <canvas class="flocken held__flocken" aria-hidden="true"></canvas>
-          <p class="held__zeile">Ohne Handy.<br>Ohne Handynetz.</p>
-        </div>
-        <div class="held__chip chip-anker" aria-hidden="true"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" decoding="async"></div>
+      <div class="held__bild" aria-hidden="true">
+        <div class="held__ringe"><i></i><i></i><i></i><b></b></div>
+        <div class="held__chip chip-anker"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" decoding="async"></div>
       </div>
     </div>
   </section>
@@ -134,17 +144,23 @@
        Scrollen nacheinander, was er kann. Kurz drücken (die Gruppe vibriert), drei Sekunden halten (der Ring
        um den Knopf füllt sich, die Fläche wird Nacht), Funk zur Liftstation. Der Schritt steht in data-schritt
        (chip-3d.js), der Füllstand in --halten. -->
-  <section id="blick" class="blick" data-sc-act="pin" data-sc-span="3.2" data-sc-drift="#ffffff" data-schritt="0" aria-labelledby="blick-titel">
+  <section id="blick" class="blick" data-sc-act="pin" data-sc-span="4" data-sc-drift="#ffffff" data-schritt="0" aria-labelledby="blick-titel">
     <div class="blick__buehne" data-sc-stage>
       <div class="blick__raster">
         <div class="blick__flaeche" aria-hidden="true">
+          <!-- Schritt 1, kurz drücken: Wellen gehen vom Chip aus, ein Punkt läuft zu jedem der drei Chips der Gruppe,
+               die dann vibrieren (in 3D aus chip-3d.js, ohne WebGL als Standbild). Läuft als Schleife von 4,2 s,
+               solange data-spielt gesetzt ist (seite.js); chip-3d.js zählt dieselbe Schleife. -->
           <div class="bk-wellen"><i></i><i></i><i></i></div>
-          <div class="bk-gruppe">
-            <span class="bk-ava bk-ava--1">L</span><span class="bk-ava bk-ava--2">M</span><span class="bk-ava bk-ava--3">F</span>
-          </div>
+          <svg class="bk-linien" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M50 52 L17 22"/><path d="M50 52 L84 29"/><path d="M50 52 L21 80"/></svg>
+          <i class="bk-paket" style="--x:17%; --y:22%; --v:0s; --f:#2a4a8f"></i><i class="bk-paket" style="--x:84%; --y:29%; --v:0.17s; --f:#6b7385"></i><i class="bk-paket" style="--x:21%; --y:80%; --v:0.34s; --f:#c2410c"></i>
+          <div class="mit bk-mit" style="--x:17%; --y:22%; --v:0s; --f:#2a4a8f"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>A</i>Anna</span></div>
+          <div class="mit bk-mit" style="--x:84%; --y:29%; --v:0.17s; --f:#6b7385"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>T</i>Tom</span></div>
+          <div class="mit bk-mit" style="--x:21%; --y:80%; --v:0.34s; --f:#c2410c"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>L</i>Lea</span></div>
           <p class="bk-marke bk-marke--gruppe"><i></i>Gruppe gerufen</p>
           <div class="bk-zaehler"><span class="bk-zaehler__zahl"><b data-s="1">1</b><b data-s="2">2</b><b data-s="3">3</b></span><small>Sekunden</small></div>
           <p class="bk-marke bk-marke--notruf"><i></i>Notruf gesendet</p>
+          <p class="bk-marke bk-marke--empfangen"><i></i>Standort empfangen</p>
           <svg class="bk-funk" viewBox="0 0 400 300" preserveAspectRatio="xMaxYMid meet">
             <path class="bk-funk__weg" d="M120 170 C 200 110, 270 110, 330 128" pathLength="1"/>
             <circle class="bk-funk__punkt" r="5"/>
@@ -171,52 +187,52 @@
     </div>
   </section>
 
-  <!-- 2 · Der Chip: ausprobieren, direkt am Berg -->
-  <section id="der-chip" class="knopf" data-sc-act="flow" data-sc-drift="#ffffff" aria-labelledby="chip-titel">
+  <!-- 2 · Der Chip: ausprobieren. Seit Feedback 64 gibt es nur noch den Knopf am Chip selbst: der Chip fliegt
+       hierher, die Ansicht fährt nah an den Knopf (.knopf__nah), und .chip-knopf liegt als echter Knopf genau
+       darüber (chip-3d.js setzt Lage und Größe). Kurz drücken: die Ansicht fährt zurück, drei Chips der Gruppe
+       erscheinen und vibrieren. Drei Sekunden halten: nur der Ring um den Knopf füllt sich und die Ziffer zählt,
+       danach wird die Fläche Nacht und der Notruf läuft als Weg (Liftstation, Mitarbeiter, Hilfe). Ablauf in seite.js, Zustand in data-zustand. -->
+  <section id="der-chip" class="knopf" data-sc-act="flow" data-sc-drift="#ffffff" data-zustand="ruhe" aria-labelledby="chip-titel">
     <div class="knopf__buehne">
-      <!-- Seit Feedback 63 statt der Pistenszene: der Chip in 3D (chip-3d.js) bleibt hier stehen. Der Knopf der
-           Vorführung und der Knopf am Chip selbst steuern ihn; Wellen, Gruppe und Meldung zeichnet seite.js. -->
-      <div class="knopf__bild">
-        <div class="kn-wellen" aria-hidden="true"><i></i><i></i><i></i></div>
-        <div class="kn-gruppe" aria-hidden="true"><span class="bk-ava kn-ava--1">L</span><span class="bk-ava kn-ava--2">M</span><span class="bk-ava kn-ava--3">F</span></div>
-        <div class="knopf__chip chip-anker"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async"></div>
-        <div class="kn-meldung" aria-hidden="true">
-          <div class="kn-meldung__kopf"><span class="kn-meldung__punkt"></span><b>Notruf</b><span>SkiTag · jetzt</span></div>
-          <ol class="kn-meldung__weg">
-            <li data-ab="0">Die Liftstation empfängt deinen Standort.</li>
-            <li data-ab="0.15">Ein Mitarbeiter kommt zu Hilfe.</li>
-            <li data-ab="1">Hilfe ist da.</li>
-          </ol>
-          <span class="kn-meldung__balken"><i></i></span>
-        </div>
-        <p class="kn-tipp" aria-hidden="true">Du kannst auch direkt auf den Knopf am Chip drücken.</p>
-      </div>
-
       <div class="knopf__text">
         <p class="augenbraue">Knopf</p>
-        <h2 id="chip-titel" class="sc-display knopf__titel">Ein Knopf.<br><span class="akzent">Zwei Wege.</span></h2>
+        <h2 id="chip-titel" class="sc-display knopf__titel">Probiere den<br><span class="akzent">Tag aus.</span></h2>
         <ol class="knopf__schritte">
           <li data-schritt="gruppe"><b>Kurz drücken</b><span>Deine Gruppe spürt es und sieht, wo du bist.</span></li>
           <li data-schritt="halten"><b>Drei Sekunden halten</b><span>Der Notruf startet. Ein zweiter Druck bricht ab.</span></li>
           <li data-schritt="hilfe"><b>Hilfe kommt</b><span>Ein Mitarbeiter der Bergbahn fährt zu dir.</span></li>
         </ol>
+        <div class="knopf__status">
+          <p id="knopf-status" class="knopf-akt__status" aria-live="polite">Probier es aus: Drück den Knopf am Chip. Kurz für die Gruppe, drei Sekunden für den Notruf.</p>
+          <button class="knopf-hell" type="button" data-aktion="nochmal" hidden>Nochmal</button>
+        </div>
       </div>
 
-      <div class="knopf__bedienung">
-          <!-- Halte-Knopf nach „HoldButton“ von React Bits (David Haz, MIT + Commons Clause, assets/vendor/react-bits-LICENSE.txt):
-               beim Halten füllt er sich mit einer Welle; Ablauf und Texte steuert seite.js -->
-          <button class="haltknopf hold-button" type="button" data-zustand="ruhe" aria-describedby="knopf-status">
-            <span class="hold-button__pulse" aria-hidden="true"></span>
-            <span class="hold-button__label" aria-hidden="true"><span class="haltknopf__text">Kurz drücken oder halten</span></span>
-            <span class="hold-button__clip" aria-hidden="true">
-              <span class="hold-button__fill"><span class="hold-button__label"><span class="haltknopf__text">Kurz drücken oder halten</span></span></span>
-              <span class="hold-button__crest"><span class="hold-button__label"><span class="haltknopf__text">Kurz drücken oder halten</span></span></span>
-            </span>
-            <span class="nur-vorlesen">Knopf der Vorführung: kurz drücken oder halten</span>
+      <div class="knopf__bild">
+        <div class="kn-nacht" aria-hidden="true"></div>
+        <div class="kn-wellen" aria-hidden="true"><i></i><i></i><i></i></div>
+        <svg class="kn-linien" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path class="kn-linien__gruppe" d="M50 50 L16 24"/><path class="kn-linien__gruppe" d="M50 50 L85 29"/><path class="kn-linien__gruppe" d="M50 50 L20 79"/><path class="kn-linien__funk" d="M35 44 C 42 36, 47 32, 54 31"/></svg>
+        <i class="kn-paket" style="--x:16%; --y:24%; --v:0s; --f:#2a4a8f" aria-hidden="true"></i><i class="kn-paket" style="--x:85%; --y:29%; --v:0.17s; --f:#6b7385" aria-hidden="true"></i><i class="kn-paket" style="--x:20%; --y:79%; --v:0.34s; --f:#c2410c" aria-hidden="true"></i>
+        <div class="mit kn-mit" style="--x:16%; --y:24%; --v:0s; --f:#2a4a8f" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>A</i>Anna</span></div>
+        <div class="mit kn-mit" style="--x:85%; --y:29%; --v:0.17s; --f:#6b7385" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>T</i>Tom</span></div>
+        <div class="mit kn-mit" style="--x:20%; --y:79%; --v:0.34s; --f:#c2410c" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>L</i>Lea</span></div>
+
+        <div class="kn-weg" aria-hidden="true">
+          <p class="kn-weg__kopf"><i></i><span class="kn-weg__titel">Notruf gesendet</span></p>
+          <ol>
+            <li data-ab="0.06"><span class="kn-weg__zeichen"><svg viewBox="0 0 24 24"><path d="M12 21V9M7 21h10M12 9l-4 12M12 9l4 12"/><path d="M8 6.5a5.5 5.5 0 0 1 8 0M5.5 4a9 9 0 0 1 13 0"/></svg></span><b>Liftstation</b><span>empfängt deinen Standort</span></li>
+            <li data-ab="0.3"><span class="kn-weg__zeichen"><svg viewBox="0 0 24 24"><circle cx="14.5" cy="5" r="2"/><path d="M4 18.5l15 2.5M7 13l4-4 3 3 3 1M11 9l-1 6 4 3"/></svg></span><b>Bergbahn</b><span>Ein Mitarbeiter fährt los</span></li>
+            <li data-ab="1"><span class="kn-weg__zeichen"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><b>Bei dir</b><span>Hilfe ist da</span></li>
+          </ol>
+        </div>
+
+        <div class="knopf__nah chip-anker" aria-hidden="true"></div>
+        <div class="knopf__chip chip-anker">
+          <img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async">
+          <button class="chip-knopf" type="button" aria-describedby="knopf-status">
+            <svg class="chip-knopf__ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" pathLength="1"/></svg>
+            <span class="nur-vorlesen">Knopf am Chip (Vorführung): kurz drücken ruft die Gruppe, drei Sekunden halten startet den Notruf</span>
           </button>
-        <div class="knopf__rechts">
-          <p id="knopf-status" class="knopf-akt__status" aria-live="polite">Probier es aus: kurz drücken oder halten.</p>
-          <button class="knopf-hell" type="button" data-aktion="nochmal" hidden>Nochmal</button>
         </div>
       </div>
     </div>
@@ -535,12 +551,11 @@
 
 <script src="scrollcraft.js?v=16"></script>
 <script>
-if (document.documentElement.classList.contains("sparsam-video")) { var v = document.querySelector(".held__video"); if (v) { v.removeAttribute("autoplay"); v.preload = "none"; v.pause(); } }
 ScrollCraft.mount(document.body);
 </script>
-<script src="assets/seite.js?v=50" defer></script>
+<script src="assets/seite.js?v=54" defer></script>
 <script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.min.js" } }</script>
-<script type="module" src="assets/chip-3d.js?v=3"></script>
+<script type="module" src="assets/chip-3d.js?v=15"></script>
 <script src="assets/sprung-anfang.js?v=18" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
 </body>

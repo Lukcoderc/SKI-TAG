@@ -102,7 +102,6 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .sparsam .seite { background: rgba(250, 251, 251, 0.98); }
 .sparsam .sprungleiste { background: #fcfcfc; }
 .sparsam .sprungleiste.ist-nacht { background: #13234a; }
-.sparsam .flocken { display: none; }
 .sparsam .hang__chip, .sparsam .hang__schatten, .sparsam .schluss__chip { animation: none; }
 .sparsam .aufbau__glut { filter: none; }
 
@@ -250,9 +249,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 @media (hover: hover) and (pointer: fine) { .knopf-orange:hover { background: #ff6d33; transform: translateY(-1px); } }
 
 /* ------------------------------------------------------------ 1 · Einstieg -- */
-/* Seit 2026-11-09 (Feedback 39): weiße Bühne mit großer Überschrift und wechselndem Wort, darunter
-   das Bergvideo als ruhige Schleife in einer festen, runden Karte (wie die Produktbilder bei Notion
-   und Granola). Kein Scroll-Video und kein Aufziehen mehr: Scrollen ist wieder ganz normales Scrollen. */
+/* Überschrift mit wechselndem Wort; die Bühne (Himmel, Berge, Chip) steht unten im Block „Der fertige Chip in 3D“. */
 .held { position: relative; background: #fff; padding: clamp(6rem, 13vh, 9rem) var(--sc-gutter) clamp(2rem, 5vw, 4rem); }
 .held::before {   /* leises Punktraster hinter der Überschrift */
   content: ""; position: absolute; inset: 0 0 40% 0; pointer-events: none;
@@ -271,17 +268,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .held__kopf > :nth-child(4) { animation-delay: 240ms; } .held__kopf > :nth-child(5) { animation-delay: 320ms; }
 @keyframes held-rein { from { opacity: 0; translate: 0 22px; } to { opacity: 1; translate: 0 0; } }
 
-/* Video etwas heller und ganz langsam atmend gezoomt */
-.held__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; filter: brightness(1.12) saturate(0.95); animation: held-zoom 24s ease-in-out infinite alternate; }
-@keyframes held-zoom { from { transform: scale(1.04); } to { transform: scale(1.12); } }
-.held__flocken { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; pointer-events: none; }
-.held__zeile {
-  position: absolute; left: clamp(1.25rem, 3vw, 2.5rem); bottom: clamp(1.25rem, 3vw, 2.25rem); z-index: 2; margin: 0;
-  font-family: var(--sc-font-display); font-weight: 640; font-size: clamp(1.25rem, 0.9rem + 1.3vw, 2.1rem); line-height: 1.08; letter-spacing: -0.03em; color: #fff;
-}
-.ist-weg .held__video, .ist-weg .held__chip { animation-play-state: paused; }
-.sparsam .held__video, .sparsam .held__chip { animation: none; }
-@media (prefers-reduced-motion: reduce) { .held__kopf > *, .held__video { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .held__kopf > * { animation: none; } }
 @media (max-width: 700px) {
   .held { padding-top: 6rem; }
 }
@@ -303,66 +290,8 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 /* Platzhalter für Dinge, die später kommen (Chip, 3D-Modell): Glas mit gestrichelter Innenlinie */
 
 
-/* ----------------------------------- 2 · Der Chip: Knopf und Berg -- */
-/* Eine Bühne: die Nachtgrafik vom Berg, darauf Titel, Schritte und der Knopf.
-   Drücken oder Halten spielt den Weg direkt in der Grafik ab. */
-.knopf__buehne { position: relative; height: 100vh; height: 100svh; min-height: 46rem; max-height: 62rem; overflow: hidden; }
-.knopf__buehne::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: linear-gradient(90deg, rgba(247, 248, 248, 0.95) 0%, rgba(247, 248, 248, 0.75) 30%, transparent 55%); }
-.knopf__text { position: absolute; z-index: 3; left: var(--sc-gutter); top: clamp(5rem, 10vh, 7rem); width: min(30rem, 38vw); }
-.knopf__titel { font-size: clamp(2.6rem, 1.4rem + 3.2vw, 4.4rem); font-weight: 650; line-height: 0.96; letter-spacing: -0.045em; }
-.knopf__schritte { list-style: none; padding: 0; margin: var(--sc-5) 0 0; display: grid; gap: var(--sc-3); }
-.knopf__schritte li { position: relative; padding-left: 1.2rem; opacity: 0.55; transition: opacity 300ms var(--sc-ease-out); }
-.knopf__schritte li::before { content: ""; position: absolute; left: 0; top: 0.3rem; bottom: 0.2rem; width: 2px; border-radius: 2px; background: rgba(14, 29, 64, 0.14); transition: background-color 300ms; }
-.knopf__schritte li.ist-aktiv { opacity: 1; }
-.knopf__schritte li.ist-aktiv::before { background: var(--orange); }
-.knopf__schritte b { display: block; font-family: var(--sc-font-display); font-weight: 640; font-size: var(--sc-t-lg); letter-spacing: -0.02em; }
-.knopf__schritte span { display: block; margin-top: 0.25rem; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: 1.5; max-width: 34ch; }
-.knopf__bedienung { position: absolute; z-index: 4; left: var(--sc-gutter); bottom: clamp(1.5rem, 6vh, 3.5rem); display: flex; align-items: center; gap: var(--sc-5); }
-/* Ab Tablet: links Text und Knopf untereinander, rechts die Grafik als
-   eigene Fläche mit runden Ecken und schmalem Rand. Ist das Fenster
-   niedrig, wird die Bühne höher, statt dass etwas übereinander liegt.
-   Am Handy liegt die Grafik weiter hinter allem (.knopf__bild ohne Regeln). */
-@media (min-width: 861px) {
-  .knopf__buehne {
-    display: grid; grid-template-columns: minmax(17rem, clamp(20rem, 28vw, 27rem)) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto;
-    column-gap: clamp(1.5rem, 3vw, 3rem); row-gap: var(--sc-6);
-    height: auto; min-height: clamp(44rem, 100svh, 60rem); max-height: none;
-    /* gleiche Ränder wie alle anderen Abschnitte (.sc-wrap): Inhalt höchstens --sc-maxw breit, mittig, mit --sc-gutter */
-    --rand-inhalt: max(var(--sc-gutter), calc((100% - var(--sc-maxw)) / 2 + var(--sc-gutter)));
-    padding: clamp(4.5rem, 9vh, 6.5rem) var(--rand-inhalt) clamp(1.25rem, 3vh, 2rem);
-  }
-  .knopf__buehne::after { display: none; }
-  .knopf__text, .knopf__bedienung { position: relative; left: auto; top: auto; bottom: auto; width: auto; }
-  .knopf__text { grid-column: 1; grid-row: 1; }
-  .knopf__bedienung { grid-column: 1; grid-row: 2; flex-wrap: wrap; gap: var(--sc-4); padding-bottom: clamp(0.25rem, 2vh, 1.5rem); }
-  .knopf .haltknopf { width: clamp(12rem, 15vw, 15rem); }
-  .knopf__bild {
-    grid-column: 2; grid-row: 1 / span 2; position: relative; isolation: isolate; overflow: hidden;
-    border-radius: var(--r-gross); background: #f0f2f4; min-height: 26rem;
-    box-shadow: 0 0 0 1px rgba(14, 29, 64, 0.05), 0 30px 60px -36px hsl(var(--sc-shadow-color) / 0.45);
-  }
-}
-
-.knopf__rechts { display: grid; gap: var(--sc-3); justify-items: start; }
-/* unterwegs steht das Schild rechts von ihm, damit es nicht über die Gruppe fährt */
-
-.haltknopf {
-  position: relative; flex: none; width: clamp(13rem, 19vw, 17rem); aspect-ratio: 272 / 152; border: 0; padding: 0; background: none;
-  cursor: pointer; border-radius: 22%/40%; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
-  filter: drop-shadow(0 18px 30px rgba(255, 90, 28, 0.28)); transition: transform 300ms var(--sc-ease-out);
-}
-@media (hover: hover) and (pointer: fine) { .haltknopf:hover { transform: translateY(-3px); } }
-.haltknopf svg { width: 100%; height: 100%; overflow: visible; }
-.haltknopf:focus-visible { outline: 2px solid var(--orange); outline-offset: 8px; }
-.haltknopf .ring-spur { fill: none; stroke: #e5e6e8; stroke-width: 3; }
-.haltknopf .ring { opacity: 0; fill: none; stroke: var(--sc-ink); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
-.haltknopf[data-zustand="frist"] .ring { stroke: var(--notruf); }
-.haltknopf .knopfkappe { transition: transform 140ms var(--sc-ease-out); transform-origin: 120px 60px; transform-box: view-box; }
-.haltknopf[data-zustand="halten"] .knopfkappe { transform: scale(0.9); }
-.haltknopf .led { transition: fill 160ms linear; }
-.knopf-akt__status { margin: 0; max-width: 22rem; min-height: 3em; font-size: var(--sc-t-base); line-height: 1.45; color: var(--sc-ink); }
-.knopf-akt__status strong { font-weight: 650; }
+/* ----------------------------------- 2 · Der Chip: Knopf -- */
+/* Aufbau und Ablauf stehen unten im Block „Der fertige Chip in 3D“. */
 .knopf-hell {
   display: inline-flex; align-items: center; min-height: 2.6rem; padding: 0 1.2rem; border-radius: var(--sc-r-pill);
   border: 1px solid var(--linie); background: #fff; color: var(--sc-ink); font-weight: 600; font-size: var(--sc-t-sm); cursor: pointer; text-decoration: none;
@@ -878,18 +807,6 @@ section[id] { scroll-margin-top: 0; }
   .hang__chip { width: clamp(11rem, 50vw, 14rem); bottom: 26%; }
   .hang__schatten { bottom: calc(26% - 1rem); width: 13rem; }
   
-  .knopf__buehne { min-height: 36rem; }
-  .knopf__buehne::after { background: linear-gradient(180deg, rgba(247, 248, 248, 0.94) 0%, rgba(247, 248, 248, 0.5) 30%, transparent 44%, transparent 68%, rgba(247, 248, 248, 0.94) 84%); }
-  .knopf__text { top: 4.6rem; left: var(--sc-gutter); right: var(--sc-gutter); width: auto; }
-  .knopf__titel { font-size: clamp(2.2rem, 9.5vw, 3rem); }
-  .knopf__text .augenbraue { margin-bottom: var(--sc-2); }
-  .knopf__schritte { margin-top: var(--sc-3); }
-  .knopf__schritte li { display: none; opacity: 1; }
-  .knopf__schritte li.ist-aktiv { display: block; }
-  .knopf__bedienung { left: var(--sc-gutter); right: var(--sc-gutter); bottom: max(1.2rem, env(safe-area-inset-bottom)); flex-direction: column; gap: var(--sc-3); align-items: center; text-align: center; }
-  .knopf__rechts { justify-items: center; }
-  .haltknopf { width: min(12.5rem, 52vw); }
-  .knopf-akt__status { min-height: 2.9em; font-size: var(--sc-t-sm); max-width: 15rem; }
   /* am Ende kommt „Nochmal“ dazu und der Knopf rutscht hoch: dann tritt die Karte zurück, die Statuszeile sagt es */
   .aufbau__buehne { grid-template-columns: 1fr; align-content: start; gap: 0.5rem; padding-top: 4.2rem; }
   .aufbau__text .riesig { font-size: clamp(2.4rem, 10vw, 3.2rem); }
@@ -1148,57 +1065,6 @@ section[id] { scroll-margin-top: 0; }
 .augenbraue::before { content: none; }
 .augenbraue--hell, .nacht .augenbraue { color: #ff8a5c; }
 
-/* Halte-Knopf in „Ein Knopf. Zwei Wege.“, nach „HoldButton“ aus React Bits
-   (Copyright (c) 2026 David Haz, MIT + Commons Clause, siehe assets/vendor/react-bits-LICENSE.txt;
-   https://github.com/DavidHDev/react-bits). Übernommen: die Füllung mit Wellenkante über --hb-p,
-   der Puls am Ende, die doppelte Aufschrift, die beim Füllen die Farbe wechselt. Angepasst an
-   unsere Farben und an den Ablauf der Vorführung (seite.js setzt --hb-p, --hb-w, --hb-h). */
-.hold-button {
-  --hb-radius: 12px; --hb-bg: var(--knopf); --hb-fill: var(--notruf); --hb-text: #fff; --hb-fill-text: #fff;
-  --hb-wave: 7px; --hb-w: 0px; --hb-h: 0px; --hb-cycles: 1.4; --hb-p: 0; --hb-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-  position: relative; display: inline-grid; place-items: center; isolation: isolate; margin: 0; border: 0;
-  border-radius: var(--hb-radius); background: var(--hb-bg); color: var(--hb-text);
-  font-family: var(--sc-font-text); font-weight: 600; letter-spacing: 0.005em; line-height: 1;
-  cursor: pointer; outline: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent;
-  touch-action: none; transition: transform 160ms var(--hb-ease-out), background-color 160ms ease, box-shadow 300ms var(--hb-ease-out);
-}
-.haltknopf.hold-button {
-  width: auto; min-width: 17rem; height: 3.4rem; aspect-ratio: auto; padding: 0 1.6rem; font-size: var(--sc-t-base);
-  filter: none; box-shadow: 0 10px 24px -14px rgba(14, 29, 64, 0.6);
-}
-.haltknopf.hold-button[data-zustand="gruppe"] { --hb-fill: var(--orange); }
-.haltknopf.hold-button[data-zustand="halten"] { transform: scale(0.97); }
-.haltknopf.hold-button[data-zustand="halten"], .haltknopf.hold-button[data-zustand="frist"] { box-shadow: 0 10px 32px -6px color-mix(in srgb, var(--hb-fill) 70%, transparent); }
-@media (hover: hover) and (pointer: fine) { .haltknopf.hold-button:hover { transform: none; background: var(--knopf-hover); } }
-.haltknopf.hold-button:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
-.hold-button__pulse { position: absolute; inset: 0; z-index: 0; border-radius: var(--hb-radius); pointer-events: none; opacity: 0; }
-.haltknopf[data-zustand="frist"] .hold-button__pulse { animation: hb-pulse 600ms var(--hb-ease-out) forwards; }
-@keyframes hb-pulse {
-  from { opacity: 1; box-shadow: 0 0 0 0 color-mix(in srgb, var(--hb-fill) 55%, transparent); }
-  to { opacity: 0; box-shadow: 0 0 0 14px color-mix(in srgb, var(--hb-fill) 0%, transparent); }
-}
-.hold-button__label { position: relative; z-index: 2; display: grid; place-items: center; }
-.hold-button__label > span { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
-.hold-button__clip { position: absolute; inset: 0; z-index: 3; clip-path: inset(0 round var(--hb-radius)); pointer-events: none; }
-.hold-button__fill {
-  position: absolute; inset: 0; display: grid; place-items: center; background: var(--hb-fill); color: var(--hb-fill-text);
-  clip-path: inset(0 calc((1 - var(--hb-p)) * (100% + 0.75 * var(--hb-wave)) - var(--hb-p) * 0.25 * var(--hb-wave)) 0 0);
-}
-.hold-button__crest {
-  position: absolute; inset: 0; display: grid; place-items: center; background: var(--hb-fill); color: var(--hb-fill-text);
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='200' viewBox='0 0 20 200' preserveAspectRatio='none'%3E%3Cpath d='M0 0H10C18 8 18 25.3 10 33.3S2 58.7 10 66.7S18 92 10 100S2 125.3 10 133.3S18 158.7 10 166.7S2 192 10 200H0Z'/%3E%3C/svg%3E");
-          mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='200' viewBox='0 0 20 200' preserveAspectRatio='none'%3E%3Cpath d='M0 0H10C18 8 18 25.3 10 33.3S2 58.7 10 66.7S18 92 10 100S2 125.3 10 133.3S18 158.7 10 166.7S2 192 10 200H0Z'/%3E%3C/svg%3E");
-  -webkit-mask-repeat: repeat-y; mask-repeat: repeat-y;
-  -webkit-mask-size: var(--hb-wave) calc(var(--hb-h) * 2); mask-size: var(--hb-wave) calc(var(--hb-h) * 2);
-  -webkit-mask-position-x: calc(-1 * var(--hb-wave) + var(--hb-p) * (var(--hb-w) + var(--hb-wave))); mask-position-x: calc(-1 * var(--hb-wave) + var(--hb-p) * (var(--hb-w) + var(--hb-wave)));
-  -webkit-mask-position-y: calc(-1 * var(--hb-p) * var(--hb-cycles) * var(--hb-h)); mask-position-y: calc(-1 * var(--hb-p) * var(--hb-cycles) * var(--hb-h));
-}
-@media (prefers-reduced-motion: reduce) {
-  .haltknopf.hold-button { transform: none !important; }
-  .hold-button__crest { display: none; }
-  .hold-button__pulse { animation: none !important; }
-}
-@media (max-width: 860px) { .haltknopf.hold-button { min-width: 0; width: 100%; max-width: 22rem; } }
 
 /* ======================================================== Feedback 41 (2026-11-09) == */
 /* App: die Zielgruppen sind die Schritte (Familien, Skischulen, Sportliche, Neu im Skigebiet),
@@ -1488,96 +1354,120 @@ section#kontakt { scroll-margin-top: 4.5rem; }
 .kontakt-platz__flaeche { min-height: 14rem; }
 
 /* ======================================================================
-   Feedback 63 (2026-11-09): der fertige Chip in 3D (chip-3d.js).
+   Der fertige Chip in 3D (chip-3d.js; Feedback 63 und 64, 2026-11-09/10).
    Eine feste, durchsichtige Leinwand über der Seite; der Chip liegt in
-   einem von drei Ankern (.chip-anker) und fliegt beim Scrollen weiter:
-   Einstieg (vor dem Bergfenster), „Was ist SKITAG?“ (gepinnt, zeigt
-   drücken, halten, funken), „Ein Knopf. Zwei Wege.“ (dort bleibt er).
-   Ohne WebGL steht in jedem Anker ein Standbild (.chip-bild).
+   einem Anker (.chip-anker) und fliegt beim Scrollen zum nächsten:
+   Einstieg (Wintertag, kein Video) → „Was ist SKITAG?“ (gepinnt: drücken,
+   halten, funken) → „Probiere den Tag aus“ (nah am Knopf, dort bleibt er).
+   Alles, was im HTML über dem Chip liegen müsste, weicht ihm aus, denn die
+   Leinwand liegt über der Seite. Ohne WebGL steht in jedem Anker ein
+   Standbild (.chip-bild).
    ====================================================================== */
 .chip3d { position: fixed; left: 0; top: 0; z-index: calc(var(--sc-z-chrome) - 5); pointer-events: none; opacity: 0; }
 .chip-anker { position: absolute; aspect-ratio: 38 / 54; translate: -50% -50%; }
-.chip-bild { position: absolute; left: 50%; top: 50%; display: block; width: auto; max-width: none; height: 130%; translate: -50% -45.4%; }
+.chip-anker--mini { inset: 0; aspect-ratio: auto; translate: none; }
+.chip-bild { position: absolute; left: 50%; top: 50%; display: block; width: auto; max-width: none; height: 130%; translate: -50% -45.4%; pointer-events: none; }
 .chip3d-an .chip-bild { visibility: hidden; }
 
-/* --- Einstieg: Überschrift links, rechts das Bergfenster mit dem Chip davor --- */
-.held { min-height: 100svh; box-sizing: border-box; padding: clamp(6rem, 13vh, 8.5rem) var(--sc-gutter) clamp(2rem, 6vh, 4rem); }
-.held__raster { position: relative; max-width: var(--sc-maxw); margin: 0 auto; display: grid; gap: clamp(2rem, 5vw, 4rem); }
+/* --- Einstieg: Himmel, Berge und Neuschnee als Ebenen, davor der Chip --- */
+.held { position: relative; isolation: isolate; overflow: hidden; min-height: 100svh; box-sizing: border-box; padding: clamp(6rem, 13vh, 8.5rem) var(--sc-gutter) clamp(2rem, 6vh, 4rem); }
+.held::before { content: none; }
+.held__himmel { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: linear-gradient(180deg, #d3e1f2 0%, #e4edf8 36%, #f2f6fb 64%, #ffffff 94%); }
+.held__sonne { position: absolute; right: 2%; top: -12%; width: 58vmax; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.5) 40%, rgba(255, 255, 255, 0)); translate: calc(var(--mx, 0) * -14px) calc(var(--my, 0) * -10px + var(--sy, 0) * 50px); }
+.held__berge { position: absolute; left: -3%; bottom: 0; width: 106%; height: min(74%, 46rem); overflow: visible; }
+.held__lage--fern { translate: calc(var(--mx, 0) * -10px) calc(var(--my, 0) * -5px + var(--sy, 0) * 90px); }
+.held__lage--mitte { translate: calc(var(--mx, 0) * -20px) calc(var(--my, 0) * -9px + var(--sy, 0) * 45px); }
+.held__lage--nah { translate: calc(var(--mx, 0) * -34px) calc(var(--my, 0) * -12px); }
+.held__raster { position: relative; width: 100%; max-width: var(--sc-maxw); margin: 0 auto; display: grid; gap: clamp(1.5rem, 5vw, 4rem); }
 .held__bild { position: relative; }
-.held__fenster {
-  position: absolute; inset: 0; overflow: hidden; isolation: isolate; background: #e9ebee;
-  border-radius: 999px 999px var(--r-gross) var(--r-gross);
-  box-shadow: 0 1px 0 rgba(14, 29, 64, 0.04), 0 50px 90px -50px rgba(14, 29, 64, 0.55);
-  animation: held-rein 1200ms var(--sc-ease-out) 380ms both;
-}
-.held__fenster::after { content: ""; position: absolute; inset: 55% 0 0 0; z-index: 1; pointer-events: none; background: linear-gradient(180deg, transparent, rgba(14, 29, 64, 0.5)); }
-.held__fenster .held__zeile { font-size: clamp(1.05rem, 0.8rem + 0.8vw, 1.5rem); }
-.held__chip { left: 50%; top: 57%; height: 54%; width: auto; animation: none; }
-@media (prefers-reduced-motion: reduce) { .held__fenster { animation: none; } }
+/* Funkringe hinter dem Chip: drei feine Kreise, einer läuft alle paar Sekunden nach außen */
+.held__ringe i, .held__ringe b { position: absolute; left: 50%; top: 52%; height: var(--d); aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; border: 1px solid rgba(14, 29, 64, 0.1); }
+.held__ringe i:nth-child(1) { --d: 62%; } .held__ringe i:nth-child(2) { --d: 96%; border-color: rgba(14, 29, 64, 0.07); } .held__ringe i:nth-child(3) { --d: 132%; border-color: rgba(14, 29, 64, 0.045); }
+.held__ringe b { --d: 132%; border: 1.5px solid rgba(255, 90, 28, 0.55); opacity: 0; animation: held-funk 5.2s cubic-bezier(0.2, 0.6, 0.3, 1) infinite; }
+@keyframes held-funk { 0% { opacity: 0; scale: 0.3; } 8% { opacity: 0.8; } 60%, 100% { opacity: 0; scale: 1; } }
+.held__chip { left: 50%; top: 52%; height: 72%; }
+.ist-weg .held__ringe b, .sparsam .held__ringe b { animation: none; }
+@media (prefers-reduced-motion: reduce) { .held__ringe b { animation: none; } .held__sonne, .held__lage { translate: none; } }
 @media (min-width: 861px) {
   .held { display: grid; align-items: center; }
-  .held__raster { width: 100%; grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr); align-items: center; }
-  .held::before { inset: 0 40% 20% 0; }
+  .held__raster { grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr); align-items: center; }
   .held__kopf { text-align: left; margin: 0; max-width: 40rem; }
   .held__kopf h1 { font-size: clamp(2.6rem, 0.9rem + 4vw, 5.2rem); }
   .held__satz { margin-left: 0; }
   .held__knoepfe { justify-content: flex-start; }
-  .held__bild { height: clamp(30rem, 74svh, 48rem); width: min(100%, 36rem); justify-self: end; }
+  .held__bild { height: clamp(30rem, 76svh, 50rem); width: min(100%, 38rem); justify-self: end; }
 }
 @media (max-width: 860px) {
-  .held__bild { height: clamp(26rem, 64svh, 36rem); width: min(100%, 30rem); margin: 0 auto; }
-  .held__chip { top: 58%; height: 56%; }
+  .held { padding-top: 5.5rem; }
+  .held__raster { gap: 0.5rem; }
+  .held__bild { height: clamp(17rem, 43svh, 26rem); width: min(100%, 26rem); margin: 0 auto; }
+  .held__chip { height: 78%; }
 }
 
 /* --- Was ist SKITAG?: links die Fläche mit dem Chip, rechts Titel und drei Schritte --- */
 .blick { background: #fff; padding: 0; }
 .blick__buehne { box-sizing: border-box; height: 100svh; padding: clamp(5rem, 11vh, 6.5rem) var(--sc-gutter) clamp(1.25rem, 4vh, 2.5rem); display: grid; }
 .blick__raster { position: relative; width: 100%; max-width: var(--sc-maxw); margin: 0 auto; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
-.blick__flaeche {
-  position: relative; height: 100%; max-height: 46rem; min-height: 0; overflow: hidden; isolation: isolate; border-radius: var(--r-gross);
+.blick__flaeche, .knopf__bild {
+  position: relative; overflow: hidden; isolation: isolate; border-radius: var(--r-gross);
   background: radial-gradient(60% 55% at 50% 48%, #ffffff 0%, rgba(255, 255, 255, 0) 70%), linear-gradient(180deg, #eef1f5, #e3e7ed);
   box-shadow: 0 0 0 1px rgba(14, 29, 64, 0.05), 0 30px 60px -36px hsl(var(--sc-shadow-color) / 0.45);
 }
+.blick__flaeche { height: 100%; max-height: 46rem; min-height: 0; }
 .blick__flaeche::before {   /* Nacht für „drei Sekunden halten“ */
   content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity 600ms var(--sc-ease-out);
   background: radial-gradient(50% 46% at 50% 52%, rgba(255, 45, 45, calc(var(--halten, 0) * 0.3)) 0%, rgba(255, 45, 45, 0) 70%), radial-gradient(60% 55% at 50% 50%, #2a3d70 0%, var(--nacht) 72%);
 }
-#blick[data-schritt="1"] .blick__flaeche::before { opacity: 1; }
+#blick[data-schritt="1"] .blick__flaeche::before, #blick[data-schritt="2"] .blick__flaeche::before { opacity: 1; }
 .blick__chip { left: 50%; top: 52%; height: 64%; transition: left 900ms var(--sc-ease-out), height 900ms var(--sc-ease-out); }
+#blick[data-schritt="0"] .blick__chip { height: 46%; }
 #blick[data-schritt="2"] .blick__chip { left: 31%; height: 56%; }
 
-/* Wellen und Gruppe (Schritt 1) */
-.bk-wellen, .kn-wellen { position: absolute; left: 50%; top: 52%; width: 0; height: 0; pointer-events: none; }
-.bk-wellen i, .kn-wellen i { position: absolute; left: 0; top: 0; width: 22rem; height: 22rem; margin: -11rem 0 0 -11rem; border-radius: 50%; border: 2px solid var(--orange); opacity: 0; transform: scale(0.3); }
-#blick[data-schritt="0"] .bk-wellen i { animation: bk-welle 2.4s var(--sc-ease-out) infinite; }
-.bk-wellen i:nth-child(2), .kn-wellen i:nth-child(2) { animation-delay: 0.3s !important; }
-.bk-wellen i:nth-child(3), .kn-wellen i:nth-child(3) { animation-delay: 0.6s !important; }
-@keyframes bk-welle { 0% { opacity: 0; transform: scale(0.3); } 6% { opacity: 0.7; } 55%, 100% { opacity: 0; transform: scale(1.25); } }
-.bk-ava {
-  position: absolute; display: grid; place-items: center; width: clamp(2.6rem, 4vw, 3.4rem); aspect-ratio: 1; border-radius: 50%;
-  font-family: var(--sc-font-display); font-weight: 650; font-size: var(--sc-t-base); color: #fff; background: #2a4a8f;
-  box-shadow: 0 0 0 4px #fff, 0 14px 26px -10px rgba(14, 29, 64, 0.45);
-  opacity: 0; transform: scale(0.6); transition: opacity 400ms var(--sc-ease-out), transform 500ms var(--sc-ease-out);
+/* Die Gruppe: drei kleine Chips mit Namen (auch im Abschnitt Knopf). Am Element: --x/--y Mitte in der Fläche,
+   --v Verzögerung in der Reihe, --f Farbe des Anfangsbuchstabens. */
+.mit { position: absolute; left: var(--x); top: var(--y); height: 21%; aspect-ratio: 38 / 54; translate: -50% -50%; opacity: 0; transition: opacity 400ms var(--sc-ease-out); }
+.mit__name {
+  position: absolute; left: 50%; top: 108%; translate: -50% 0; display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.22rem 0.6rem 0.22rem 0.25rem;
+  border-radius: 999px; background: #fff; color: var(--sc-ink); font-size: var(--sc-t-xs); font-weight: 650; white-space: nowrap; box-shadow: 0 8px 18px -10px rgba(14, 29, 64, 0.45);
 }
-.bk-ava::after { content: ""; position: absolute; inset: -9px; border-radius: 50%; border: 2px solid var(--orange); opacity: 0; }
-.bk-ava--1, .kn-ava--1 { left: 13%; top: 20%; }
-.bk-ava--2, .kn-ava--2 { right: 12%; top: 28%; background: #8a91a1; }
-.bk-ava--3, .kn-ava--3 { left: 18%; bottom: 17%; background: var(--orange); }
-#blick[data-schritt="0"] .bk-ava { opacity: 1; transform: scale(1); animation: bk-vib 2.4s linear infinite; }
-#blick[data-schritt="0"] .bk-ava::after { animation: bk-ring 2.4s ease-out infinite; }
-.bk-ava--2, .kn-ava--2 { animation-delay: 0.1s !important; } .bk-ava--3, .kn-ava--3 { animation-delay: 0.2s !important; }
-@keyframes bk-vib { 0%, 14%, 40%, 100% { translate: 0 0; } 16%, 20%, 24%, 28%, 32%, 36% { translate: -2px 1px; } 18%, 22%, 26%, 30%, 34%, 38% { translate: 2px -1px; } }
-@keyframes bk-ring { 0%, 14% { opacity: 0; transform: scale(0.8); } 18% { opacity: 1; } 44%, 100% { opacity: 0; transform: scale(1.35); } }
+.mit__name i { display: grid; place-items: center; width: 1.35rem; height: 1.35rem; border-radius: 50%; background: var(--f, #2a4a8f); color: #fff; font-style: normal; font-size: 0.68rem; }
+/* Vibrieren: zwei Bögen links und rechts vom kleinen Chip */
+.mit::before, .mit::after { content: ""; position: absolute; top: 24%; bottom: 24%; width: 30%; border: 2.5px solid transparent; border-radius: 50%; opacity: 0; }
+.mit::before { right: 96%; border-left-color: var(--orange); } .mit::after { left: 96%; border-right-color: var(--orange); }
+#blick[data-schritt="0"] .bk-mit { opacity: 1; }
+#blick[data-spielt] .bk-mit::before, #blick[data-spielt] .bk-mit::after { animation: mit-bogen 4.2s linear var(--v, 0s) infinite; }
+#blick[data-spielt] .bk-mit .mit__name { animation: mit-name 4.2s linear var(--v, 0s) infinite; }
+@keyframes mit-bogen { 0%, 26% { opacity: 0; scale: 0.8 1; } 29%, 33%, 37%, 41%, 45%, 49%, 53% { opacity: 1; scale: 1.25 1; } 31%, 35%, 39%, 43%, 47%, 51% { opacity: 0.5; scale: 1 1; } 58%, 100% { opacity: 0; scale: 0.8 1; } }
+@keyframes mit-name { 0%, 26% { box-shadow: 0 8px 18px -10px rgba(14, 29, 64, 0.45); } 30%, 54% { box-shadow: 0 0 0 2.5px var(--orange), 0 8px 18px -10px rgba(14, 29, 64, 0.45); } 60%, 100% { box-shadow: 0 8px 18px -10px rgba(14, 29, 64, 0.45); } }
+
+/* Wellen vom Chip, Linien und Punkte zur Gruppe (Schritt 1) */
+.bk-wellen, .kn-wellen { position: absolute; left: 50%; top: 52%; width: 0; height: 0; pointer-events: none; }
+.bk-wellen i, .kn-wellen i { position: absolute; left: 0; top: 0; width: 26rem; height: 26rem; margin: -13rem 0 0 -13rem; border-radius: 50%; border: 2px solid var(--orange); opacity: 0; transform: scale(0.25); }
+#blick[data-spielt] .bk-wellen i { animation: bk-welle 4.2s var(--sc-ease-out) infinite; }
+.bk-wellen i:nth-child(2) { animation-delay: 0.22s !important; } .bk-wellen i:nth-child(3) { animation-delay: 0.44s !important; }
+@keyframes bk-welle { 0%, 7% { opacity: 0; transform: scale(0.25); } 10% { opacity: 0.75; } 46%, 100% { opacity: 0; transform: scale(1.3); } }
+.bk-linien, .kn-linien { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 400ms var(--sc-ease-out); }
+.bk-linien path, .kn-linien path { fill: none; stroke: rgba(14, 29, 64, 0.2); stroke-width: 1.5; stroke-dasharray: 3 6; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+#blick[data-schritt="0"] .bk-linien { opacity: 1; }
+.bk-paket, .kn-paket { position: absolute; left: 50%; top: 52%; width: 0.6rem; height: 0.6rem; margin: -0.3rem 0 0 -0.3rem; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 4px rgba(255, 90, 28, 0.2); opacity: 0; }
+#blick[data-spielt] .bk-paket { animation: bk-paket 4.2s cubic-bezier(0.4, 0, 0.6, 1) var(--v, 0s) infinite; }
+@keyframes bk-paket { 0%, 8% { left: 50%; top: 52%; opacity: 0; } 10% { left: 50%; top: 52%; opacity: 1; } 26% { left: var(--x); top: var(--y); opacity: 1; } 29%, 100% { left: var(--x); top: var(--y); opacity: 0; } }
 .bk-marke {
-  position: absolute; left: 50%; bottom: clamp(1rem, 4%, 1.75rem); translate: -50% 0; margin: 0; display: inline-flex; align-items: center; gap: 0.5rem;
+  position: absolute; left: 50%; bottom: clamp(0.75rem, 3%, 1.5rem); translate: -50% 0; margin: 0; display: inline-flex; align-items: center; gap: 0.5rem;
   padding: 0.5rem 0.95rem; border-radius: 999px; background: #fff; color: var(--sc-ink); font-weight: 650; font-size: var(--sc-t-sm); white-space: nowrap;
   box-shadow: 0 12px 26px -12px rgba(14, 29, 64, 0.4); opacity: 0; transform: translateY(10px); transition: opacity 400ms var(--sc-ease-out), transform 400ms var(--sc-ease-out);
 }
 .bk-marke i { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: #2fbf6a; }
-.bk-marke--notruf { background: #ff2d2d; color: #fff; }
+.bk-marke--notruf { background: #ff2d2d; color: #fff; transition: opacity 400ms var(--sc-ease-out), transform 400ms var(--sc-ease-out), left 900ms var(--sc-ease-out); }
 .bk-marke--notruf i { background: #fff; }
-#blick[data-schritt="0"] .bk-marke--gruppe { opacity: 1; transform: none; }
-#blick[data-schritt="1"][data-voll] .bk-marke--notruf { opacity: 1; transform: none; }
+#blick[data-spielt] .bk-marke--gruppe { animation: bk-marke 4.2s var(--sc-ease-out) infinite; }
+@keyframes bk-marke { 0%, 28% { opacity: 0; transform: translateY(10px); } 34%, 86% { opacity: 1; transform: none; } 93%, 100% { opacity: 0; transform: translateY(10px); } }
+/* „Notruf gesendet“ erscheint, sobald der Ring voll ist, und bleibt im dritten Schritt unter dem Chip stehen.
+   Dort kommt nach dem ersten Funkpaket „Standort empfangen“ an der Liftstation dazu. */
+#blick[data-schritt="1"][data-voll] .bk-marke--notruf, #blick[data-schritt="2"] .bk-marke--notruf { opacity: 1; transform: none; }
+#blick[data-schritt="2"] .bk-marke--notruf { left: 30%; }
+.bk-marke--empfangen { left: 76%; }
+#blick[data-schritt="2"] .bk-marke--empfangen { opacity: 1; transform: none; transition-delay: 1.5s; }
 
 /* Zähler (Schritt 2) */
 .bk-zaehler { position: absolute; left: 50%; top: clamp(1rem, 5%, 2rem); translate: -50% 0; display: grid; justify-items: center; color: #fff; opacity: 0; transition: opacity 400ms var(--sc-ease-out); }
@@ -1588,14 +1478,14 @@ section#kontakt { scroll-margin-top: 4.5rem; }
 #blick[data-sek="1"] .bk-zaehler__zahl b[data-s="1"], #blick[data-sek="2"] .bk-zaehler__zahl b[data-s="2"], #blick[data-sek="3"] .bk-zaehler__zahl b[data-s="3"] { opacity: 1; transform: none; }
 
 /* Funk zur Liftstation (Schritt 3) */
-.bk-funk { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 500ms var(--sc-ease-out); overflow: visible; }
+.bk-funk { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 500ms var(--sc-ease-out); overflow: visible; --sc-ink: #f6f7f9; --sc-ink-soft: #aab2c4; }   /* steht auf Nacht */
 #blick[data-schritt="2"] .bk-funk { opacity: 1; }
-.bk-funk__weg { fill: none; stroke: #ff2d2d; stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 0.012 0.018; opacity: 0.7; }
+.bk-funk__weg { fill: none; stroke: #ff5c5c; stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 0.012 0.018; opacity: 0.9; }
 #blick[data-schritt="2"] .bk-funk__weg { animation: bk-strich 1.2s linear infinite; }
 @keyframes bk-strich { to { stroke-dashoffset: -0.06; } }
 .bk-funk__punkt { fill: #ff2d2d; offset-path: path("M120 170 C 200 110, 270 110, 330 128"); offset-distance: 0%; opacity: 0; }
-#blick[data-schritt="2"] .bk-funk__punkt { animation: bk-paket 1.8s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
-@keyframes bk-paket { 0% { offset-distance: 0%; opacity: 0; } 10% { opacity: 1; } 85% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+#blick[data-schritt="2"] .bk-funk__punkt { animation: bk-funkpaket 1.8s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+@keyframes bk-funkpaket { 0% { offset-distance: 0%; opacity: 0; } 10% { opacity: 1; } 85% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
 .bk-funk__station path { fill: none; stroke: var(--sc-ink); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
 .bk-funk__station .bk-funk__bogen { stroke: #ff2d2d; opacity: 0; }
 #blick[data-schritt="2"] .bk-funk__bogen { animation: bk-bogen 1.8s ease-out infinite; }
@@ -1608,7 +1498,7 @@ section#kontakt { scroll-margin-top: 4.5rem; }
 
 /* Text: Titel, Satz, drei Schritte; der aktive ist voll, die anderen blass */
 .blick__text { align-self: center; }
-.blick__titel { font-size: clamp(2.4rem, 1.1rem + 3.2vw, 4.4rem); }
+.blick__titel { font-size: clamp(2.4rem, 1.1rem + 3.2vw, 4.4rem); line-height: 0.98; letter-spacing: -0.045em; font-weight: 640; }
 .blick__lede { margin-top: var(--sc-4); color: var(--sc-ink-soft); max-width: 32ch; }
 .blick__schritte { list-style: none; padding: 0; margin: clamp(1.5rem, 4vh, 2.5rem) 0 0; display: grid; gap: clamp(0.9rem, 2.4vh, 1.4rem); }
 .blick__schritte li { position: relative; padding-left: 1.3rem; opacity: 0.55; transition: opacity 400ms var(--sc-ease-out); }
@@ -1629,56 +1519,135 @@ section#kontakt { scroll-margin-top: 4.5rem; }
   .blick__schritte li { display: none; opacity: 1; }
   #blick[data-schritt="0"] li[data-nr="0"], #blick[data-schritt="1"] li[data-nr="1"], #blick[data-schritt="2"] li[data-nr="2"] { display: block; }
   .blick__chip { height: 50%; }
-  .bk-ava { width: 2.4rem; font-size: var(--sc-t-sm); }
-  .bk-ava--1 { left: 7%; top: 12%; } .bk-ava--2 { right: 7%; top: 18%; } .bk-ava--3 { left: 9%; bottom: 20%; }
+  #blick[data-schritt="0"] .blick__chip { height: 40%; top: 48%; }
   #blick[data-schritt="2"] .blick__chip { left: 33%; height: 42%; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .bk-wellen i, .bk-ava, .bk-ava::after, .bk-funk__weg, .bk-funk__punkt, .bk-funk__bogen, .bk-funk__licht, .kn-wellen i, .kn-gruppe .bk-ava { animation: none !important; }
-  .bk-funk__punkt { opacity: 1; offset-distance: 60%; }
+  .bk-marke { padding: 0.4rem 0.7rem; font-size: var(--sc-t-xs); }
+  #blick[data-schritt="2"] .bk-marke--notruf { left: 27%; }
+  .bk-marke--empfangen { left: 73%; }
+  .bk-wellen i, .kn-wellen i { width: 18rem; height: 18rem; margin: -9rem 0 0 -9rem; }
+  .mit { height: 19%; }
+  .mit__name { font-size: 0.7rem; padding: 0.15rem 0.5rem 0.15rem 0.2rem; }
+  .mit__name i { width: 1.15rem; height: 1.15rem; }
 }
 
-/* --- Ein Knopf. Zwei Wege.: rechts die Fläche, auf der der Chip stehen bleibt --- */
-.knopf__bild { background: radial-gradient(55% 50% at 50% 50%, #ffffff 0%, rgba(255, 255, 255, 0) 70%), linear-gradient(180deg, #eef1f5, #e3e7ed); }
-.knopf__chip { left: 50%; top: 50%; height: 64%; touch-action: none; transition: left 800ms var(--sc-ease-out), height 800ms var(--sc-ease-out); }
-/* Beim Notruf rückt der Chip nach links und macht der Meldung Platz */
-#der-chip[data-zustand="lauf"] .knopf__chip, #der-chip[data-zustand="fertig"] .knopf__chip { left: 30%; height: 50%; }
+/* --- Probiere den Tag aus: links Text und Stand, rechts die Fläche mit dem Chip, nah am Knopf --- */
+.knopf { background: #fff; }
+.knopf__buehne { box-sizing: border-box; min-height: 100svh; max-width: var(--sc-maxw); margin: 0 auto; padding: clamp(5rem, 11vh, 6.5rem) var(--sc-gutter) clamp(1.25rem, 4vh, 2.5rem); display: grid; gap: clamp(1.25rem, 4vw, 4rem); }
+.knopf__text { align-self: center; }
+.knopf__titel { font-size: clamp(2.6rem, 1.4rem + 3.2vw, 4.4rem); font-weight: 650; line-height: 0.96; letter-spacing: -0.045em; }
+.knopf__schritte { list-style: none; padding: 0; margin: var(--sc-5) 0 0; display: grid; gap: var(--sc-3); }
+.knopf__schritte li { position: relative; padding-left: 1.2rem; opacity: 0.55; transition: opacity 300ms var(--sc-ease-out); }
+.knopf__schritte li::before { content: ""; position: absolute; left: 0; top: 0.3rem; bottom: 0.2rem; width: 2px; border-radius: 2px; background: rgba(14, 29, 64, 0.14); transition: background-color 300ms; }
+.knopf__schritte li.ist-aktiv { opacity: 1; }
+.knopf__schritte li.ist-aktiv::before { background: var(--orange); }
+.knopf__schritte b { display: block; font-family: var(--sc-font-display); font-weight: 640; font-size: var(--sc-t-lg); letter-spacing: -0.02em; }
+.knopf__schritte span { display: block; margin-top: 0.25rem; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: 1.5; max-width: 34ch; }
+.knopf__status { margin-top: var(--sc-6); display: grid; gap: var(--sc-3); justify-items: start; }
+.knopf-akt__status { margin: 0; box-sizing: border-box; width: 100%; max-width: 25rem; min-height: 5.4em; padding: 0.9rem 1.1rem; border-radius: 16px; background: var(--eis); font-size: var(--sc-t-base); line-height: 1.45; color: var(--sc-ink); }
+.knopf-akt__status strong { font-weight: 650; }
+.knopf__bild { min-height: 26rem; }
+@media (min-width: 861px) {
+  .knopf__buehne { grid-template-columns: minmax(17rem, 0.6fr) minmax(0, 1fr); align-items: stretch; }
+  .knopf__bild { align-self: center; height: 100%; max-height: 50rem; }
+}
+
+/* Anker: .knopf__chip ist die Übersicht (je Zustand anders), .knopf__nah die Nahansicht am Knopf */
+.knopf__chip { left: 50%; top: 50%; height: 60%; transition: left 800ms var(--sc-ease-out), top 800ms var(--sc-ease-out), height 800ms var(--sc-ease-out); }
+.knopf__nah { left: 50%; top: 51%; height: 112%; }
+#der-chip[data-zustand="gruppe"] .knopf__chip { height: 42%; }
+#der-chip[data-zustand="lauf"] .knopf__chip, #der-chip[data-zustand="fertig"] .knopf__chip { left: 25%; height: 50%; }
+
+/* Der Knopf selbst: liegt genau über dem Knopf des Chips. Mit 3D setzt chip-3d.js Lage und Größe,
+   ohne WebGL sitzt er über dem Knopf im Standbild und zeigt den Füllring selbst. */
+.chip-knopf { position: absolute; left: 41.2%; top: 51.45%; width: 34%; aspect-ratio: 1; translate: -50% -50%; margin: 0; padding: 0; border: 0; border-radius: 50%; background: transparent; cursor: pointer; outline: none; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
+.chip3d-an .chip-knopf { left: 0; top: 0; translate: none; }
+.chip-knopf__ring { position: absolute; inset: -16%; width: 132%; height: 132%; rotate: -90deg; }
+.chip-knopf__ring circle { fill: none; stroke: var(--orange); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--ring, 0)); }
+#der-chip[data-zustand="frist"] .chip-knopf__ring circle { stroke: #ff2d2d; }
+.chip3d-an .chip-knopf__ring { display: none; }
+html:not(.chip3d-an) .chip-knopf:focus-visible { outline: 3px solid var(--orange); outline-offset: 5px; }
+html:not(.chip3d-an) .chip-knopf:active { background: rgba(255, 255, 255, 0.14); }
+
+/* Nacht mit leichtem roten Schein, erst wenn der Notruf gesendet ist. Beim Halten und in der Frist bleibt die
+   Fläche hell: dort zeigen nur der Ring und die Ziffer am Knopf, was passiert (Feedback 66). */
+.kn-nacht { position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity 700ms var(--sc-ease-out); background: radial-gradient(60% 55% at 50% 50%, #2a3d70 0%, var(--nacht) 72%); }
+#der-chip[data-zustand="lauf"] .kn-nacht { opacity: 1; }
+.kn-nacht::after { content: ""; position: absolute; inset: 0; opacity: 0.5; background: radial-gradient(46% 46% at 26% 50%, rgba(255, 45, 45, 0.45), rgba(255, 45, 45, 0) 72%); }
+
+/* Gruppe rufen: Ablauf von 4,6 s (GRUPPE in seite.js). Die Ansicht fährt zurück, Wellen und Punkte laufen los,
+   die drei Chips vibrieren, dann fährt die Ansicht wieder an den Knopf. */
 .kn-wellen { top: 50%; }
-#der-chip[data-zustand="gruppe"] .kn-wellen i { animation: bk-welle 2.4s var(--sc-ease-out) 1 both; }
-#der-chip[data-zustand="frist"] .kn-wellen i, #der-chip[data-zustand="lauf"] .kn-wellen i { border-color: #ff2d2d; animation: bk-welle 1.6s var(--sc-ease-out) infinite; }
-.knopf__bild::before {   /* rotes Glühen beim Notruf */
-  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 500ms var(--sc-ease-out);
-  background: radial-gradient(40% 40% at 50% 50%, rgba(255, 45, 45, 0.22), rgba(255, 45, 45, 0) 70%);
+#der-chip[data-zustand="gruppe"] .kn-wellen i { animation: kn-welle 4.6s var(--sc-ease-out) 1 both; }
+.kn-wellen i:nth-child(2) { animation-delay: 0.22s !important; } .kn-wellen i:nth-child(3) { animation-delay: 0.44s !important; }
+@keyframes kn-welle { 0%, 14% { opacity: 0; transform: scale(0.25); } 17% { opacity: 0.75; } 50%, 100% { opacity: 0; transform: scale(1.4); } }
+#der-chip[data-zustand="gruppe"] .kn-linien__gruppe, #der-chip[data-zustand="gruppe"] .kn-mit { animation: kn-da 4.6s linear 1 both; }
+#der-chip[data-zustand="gruppe"] .kn-linien { opacity: 1; }
+.kn-linien__gruppe, .kn-linien__funk { opacity: 0; }
+@keyframes kn-da { 0%, 9% { opacity: 0; } 16%, 84% { opacity: 1; } 90%, 100% { opacity: 0; } }
+.kn-paket { top: 50%; }
+#der-chip[data-zustand="gruppe"] .kn-paket { animation: kn-paket 4.6s cubic-bezier(0.4, 0, 0.6, 1) var(--v, 0s) 1 both; }
+@keyframes kn-paket { 0%, 17% { left: 50%; top: 50%; opacity: 0; } 19% { left: 50%; top: 50%; opacity: 1; } 33% { left: var(--x); top: var(--y); opacity: 1; } 36%, 100% { left: var(--x); top: var(--y); opacity: 0; } }
+#der-chip[data-zustand="gruppe"] .kn-mit::before, #der-chip[data-zustand="gruppe"] .kn-mit::after { animation: kn-bogen 4.6s linear var(--v, 0s) 1 both; }
+#der-chip[data-zustand="gruppe"] .kn-mit .mit__name { animation: kn-name 4.6s linear var(--v, 0s) 1 both; }
+@keyframes kn-bogen { 0%, 33% { opacity: 0; scale: 0.8 1; } 36%, 40%, 44%, 48%, 52%, 56%, 60%, 64%, 68% { opacity: 1; scale: 1.25 1; } 38%, 42%, 46%, 50%, 54%, 58%, 62%, 66% { opacity: 0.5; scale: 1 1; } 72%, 100% { opacity: 0; scale: 0.8 1; } }
+@keyframes kn-name { 0%, 33% { box-shadow: 0 8px 18px -10px rgba(14, 29, 64, 0.45); } 37%, 70% { box-shadow: 0 0 0 2.5px var(--orange), 0 8px 18px -10px rgba(14, 29, 64, 0.45); } 76%, 100% { box-shadow: 0 8px 18px -10px rgba(14, 29, 64, 0.45); } }
+
+/* Notruf: der Weg der Hilfe als Karte rechts neben dem Chip; --hilfe füllt die Linie */
+.kn-weg {
+  position: absolute; right: clamp(1rem, 5%, 2.5rem); top: 50%; translate: 0 -50%; box-sizing: border-box; width: min(20rem, 46%); padding: 1.1rem 1.2rem 1.2rem;
+  border-radius: 22px; background: #fff; color: var(--sc-ink); box-shadow: 0 0 0 1px rgba(14, 29, 64, 0.06), 0 30px 60px -28px rgba(0, 0, 0, 0.55);
+  opacity: 0; transform: translateX(18px) scale(0.97); transition: opacity 400ms var(--sc-ease-out), transform 600ms var(--sc-ease-out); pointer-events: none;
 }
-#der-chip[data-zustand="frist"] .knopf__bild::before, #der-chip[data-zustand="lauf"] .knopf__bild::before { opacity: 1; }
-#der-chip[data-zustand="gruppe"] .kn-gruppe .bk-ava { opacity: 1; transform: scale(1); animation: bk-vib 2.4s linear 1; }
-#der-chip[data-zustand="gruppe"] .kn-gruppe .bk-ava::after { animation: bk-ring 2.4s ease-out 1; }
-.kn-meldung {
-  position: absolute; right: clamp(1rem, 3vw, 2rem); top: 50%; z-index: 3; width: min(17rem, 46%); box-sizing: border-box; translate: 0 -50%;
-  padding: 0.9rem 1rem 1rem; border-radius: 20px; background: rgba(255, 255, 255, 0.96); box-shadow: 0 0 0 1px rgba(14, 29, 64, 0.06), 0 22px 44px -22px rgba(14, 29, 64, 0.5);
-  opacity: 0; transform: translateY(14px) scale(0.97); transition: opacity 400ms var(--sc-ease-out), transform 500ms var(--sc-ease-out);
-}
-.kn-meldung.ist-an { opacity: 1; transform: none; }
-.kn-meldung__kopf { display: flex; align-items: center; gap: 0.5rem; font-size: var(--sc-t-sm); }
-.kn-meldung__kopf b { font-family: var(--sc-font-display); font-weight: 680; color: #e01f1f; }
-.kn-meldung__kopf span:last-child { margin-left: auto; font-size: var(--sc-t-xs); color: var(--sc-ink-soft); }
-.kn-meldung__punkt { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: #ff2d2d; }
-.kn-meldung.ist-fertig .kn-meldung__punkt { background: #2fbf6a; }
-.kn-meldung.ist-fertig .kn-meldung__kopf b { color: #1b8f4c; }
-.kn-meldung__weg { list-style: none; margin: 0.7rem 0 0; padding: 0; display: grid; gap: 0.35rem; font-size: var(--sc-t-sm); line-height: 1.35; }
-.kn-meldung__weg li { position: relative; padding-left: 1.2rem; color: var(--sc-ink-soft); opacity: 0.35; transition: opacity 300ms, color 300ms; }
-.kn-meldung__weg li::before { content: ""; position: absolute; left: 0; top: 0.42em; width: 0.5rem; height: 0.5rem; border-radius: 50%; border: 2px solid currentColor; box-sizing: border-box; }
-.kn-meldung__weg li.ist-an { opacity: 1; color: var(--sc-ink); }
-.kn-meldung__weg li.ist-an::before { background: #2fbf6a; border-color: #2fbf6a; }
-.kn-meldung__balken { display: block; height: 3px; margin-top: 0.8rem; border-radius: 3px; background: rgba(14, 29, 64, 0.1); overflow: hidden; }
-.kn-meldung__balken i { display: block; height: 100%; background: linear-gradient(90deg, #ff2d2d, #2fbf6a); transform: scaleX(0); transform-origin: left; }
-.kn-tipp { position: absolute; left: 50%; bottom: clamp(0.75rem, 3.5%, 1.5rem); translate: -50% 0; margin: 0; font-size: var(--sc-t-xs); color: var(--sc-ink-soft); white-space: nowrap; }
+#der-chip[data-zustand="lauf"] .kn-weg, #der-chip[data-zustand="fertig"] .kn-weg { opacity: 1; transform: none; transition-delay: 350ms; }
+.kn-weg__kopf { display: flex; align-items: center; gap: 0.55rem; margin: 0 0 1rem; font-family: var(--sc-font-display); font-weight: 680; font-size: var(--sc-t-lg); letter-spacing: -0.02em; color: #d31d1d; }
+.kn-weg__kopf i { width: 0.7rem; height: 0.7rem; border-radius: 50%; background: #ff2d2d; box-shadow: 0 0 0 4px rgba(255, 45, 45, 0.18); }
+#der-chip[data-zustand="fertig"] .kn-weg__kopf { color: #17803f; }
+#der-chip[data-zustand="fertig"] .kn-weg__kopf i { background: #2fbf6a; box-shadow: 0 0 0 4px rgba(47, 191, 106, 0.2); }
+.kn-weg ol { position: relative; list-style: none; margin: 0; padding: 0; display: grid; gap: 1.15rem; }
+.kn-weg ol::before, .kn-weg ol::after { content: ""; position: absolute; left: calc(1.3rem - 1.5px); top: 1.3rem; bottom: 1.3rem; width: 3px; border-radius: 3px; background: rgba(14, 29, 64, 0.1); }
+.kn-weg ol::after { background: linear-gradient(180deg, #ff2d2d, #2fbf6a); transform: scaleY(var(--hilfe, 0)); transform-origin: top; }
+.kn-weg li { position: relative; z-index: 1; display: grid; grid-template-columns: 2.6rem minmax(0, 1fr); column-gap: 0.8rem; align-items: center; }
+.kn-weg__zeichen { grid-row: 1 / span 2; display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: 50%; background: #fff; color: #9aa2b3; box-shadow: inset 0 0 0 2px #dfe3ea; transition: background-color 300ms, color 300ms, box-shadow 300ms, scale 400ms var(--sc-ease-out); }
+.kn-weg__zeichen svg { width: 1.3rem; height: 1.3rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.kn-weg li b { align-self: end; font-family: var(--sc-font-display); font-weight: 650; font-size: var(--sc-t-base); letter-spacing: -0.01em; color: #8a91a1; transition: color 300ms; }
+.kn-weg li > span:last-child { align-self: start; font-size: var(--sc-t-sm); line-height: 1.35; color: #8a91a1; transition: color 300ms; }
+.kn-weg li.ist-an .kn-weg__zeichen { background: var(--nacht); color: #fff; box-shadow: none; scale: 1.08; }
+.kn-weg li.ist-an b { color: var(--sc-ink); } .kn-weg li.ist-an > span:last-child { color: var(--sc-ink-soft); }
+.kn-weg li:last-child.ist-an .kn-weg__zeichen { background: #2fbf6a; }
+#der-chip[data-zustand="lauf"] .kn-linien, #der-chip[data-zustand="lauf"] .kn-linien__funk { opacity: 1; }
+#der-chip[data-zustand="lauf"] .kn-linien__funk { stroke: #ff6b6b; stroke-width: 2; animation: kn-funk 0.9s linear infinite; }
+@keyframes kn-funk { to { stroke-dashoffset: -18; } }
+
 @media (max-width: 860px) {
-  .knopf__bild { position: absolute; inset: 0; }
-  .knopf__chip { top: 55%; height: min(36svh, 20rem); }
-  .kn-wellen { top: 55%; }
-  .kn-meldung { right: 50%; translate: 50% 0; top: auto; bottom: 12.6rem; width: min(18rem, 86%); }
-  #der-chip[data-zustand="lauf"] .knopf__chip, #der-chip[data-zustand="fertig"] .knopf__chip { left: 50%; top: 42%; height: min(20svh, 10rem); }
-  .kn-tipp, .kn-gruppe .kn-ava--3 { display: none; }
-  .kn-ava--1 { top: 34%; } .kn-ava--2 { top: 38%; }
+  .knopf__buehne { align-content: start; grid-template-rows: auto minmax(0, 1fr); padding-top: 5rem; }
+  .knopf__titel { font-size: clamp(2.2rem, 9.5vw, 3rem); }
+  .knopf__text .augenbraue { margin-bottom: var(--sc-2); }
+  .knopf__schritte { margin-top: var(--sc-3); }
+  .knopf__schritte li { display: none; opacity: 1; }
+  .knopf__schritte li.ist-aktiv { display: block; }
+  .knopf__status { margin-top: var(--sc-3); }
+  .knopf-akt__status { max-width: none; min-height: 4.4em; padding: 0.7rem 0.9rem; font-size: var(--sc-t-sm); }
+  .knopf__bild { min-height: 23rem; border-radius: 22px; }
+  .knopf__chip { height: 58%; }
+  .knopf__nah { height: 112%; }
+  #der-chip[data-zustand="gruppe"] .knopf__chip { height: 38%; }
+  #der-chip[data-zustand="lauf"] .knopf__chip, #der-chip[data-zustand="fertig"] .knopf__chip { left: 50%; top: 19%; height: 30%; }
+  .kn-weg { left: 5%; right: 5%; top: auto; bottom: 4%; translate: none; width: auto; padding: 0.8rem 0.9rem 0.9rem; border-radius: 18px; }
+  .kn-weg__kopf { margin-bottom: 0.6rem; font-size: var(--sc-t-base); }
+  .kn-weg ol { gap: 0.6rem; }
+  .kn-weg ol::before, .kn-weg ol::after { left: calc(1.05rem - 1.5px); top: 1.05rem; bottom: 1.05rem; }
+  .kn-weg li { grid-template-columns: 2.1rem minmax(0, 1fr); column-gap: 0.65rem; }
+  .kn-weg__zeichen { width: 2.1rem; height: 2.1rem; }
+  .kn-weg__zeichen svg { width: 1.05rem; height: 1.05rem; }
+  .kn-weg li b { font-size: var(--sc-t-sm); } .kn-weg li > span:last-child { font-size: var(--sc-t-xs); }
+  .kn-linien__funk { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bk-wellen i, .bk-paket, .bk-mit::before, .bk-mit::after, .bk-mit .mit__name, .bk-funk__weg, .bk-funk__punkt, .bk-funk__bogen, .bk-funk__licht,
+  .kn-wellen i, .kn-paket, .kn-mit::before, .kn-mit::after, .kn-mit .mit__name, .kn-linien__funk { animation: none !important; }
+  #blick[data-spielt] .bk-marke--gruppe { animation: none; opacity: 1; transform: none; }
+  #blick[data-schritt="0"] .bk-mit::before, #blick[data-schritt="0"] .bk-mit::after, #der-chip[data-zustand="gruppe"] .kn-mit::before, #der-chip[data-zustand="gruppe"] .kn-mit::after { opacity: 1; }
+  #der-chip[data-zustand="gruppe"] .kn-mit, #der-chip[data-zustand="gruppe"] .kn-linien__gruppe { animation: none; opacity: 1; }
+  .bk-funk__punkt { opacity: 1; offset-distance: 60%; }
+  .knopf__chip, .blick__chip { transition: none; }
 }

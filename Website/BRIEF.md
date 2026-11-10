@@ -413,3 +413,50 @@ Umgesetzt (Startseite):
 - Alte Regeln für Laufband, Karten und Pistenszene aus `seite.css` entfernt, der Ablauf der Vorführung in `seite.js` ohne die Szene neu.
 
 Geprüft in Chrome am PC (Einstieg, beide Flüge, alle drei Schritte, Vorführung kurz und lang) und bei Handy-Breite, keine Fehler in der Konsole.
+
+## Feedback 64 (Lukas, 2026-11-10)
+
+Das Fenster mit dem Video im Einstieg gefällt nicht: etwas Besseres überlegen oder etwas ganz anderes machen. In „Was ist SKITAG?“ besser zeigen, dass die Gruppe gerufen wird. Wenn der Chip zu „Ein Knopf. Zwei Wege.“ schwebt, soll die Ansicht näher an den Knopf heranfahren, und nur dieser Knopf ist der Test; der zweite Knopf fällt weg, sonst ist es doppelt. Die Animationen für Gruppe rufen und Notruf dort so überarbeiten, dass es wirklich gut aussieht. Internet und das Vorbild von Feedback 63 für Anregungen nutzen. Man soll einen Wow-Effekt haben. Localhost starten.
+
+Recherche: Produktseiten mit 3D-Objekt, das beim Scrollen schwebt und landet (Awwwards-Sammlungen „3D Product Scroll Animation“), Halte-Knöpfe mit Füllring und Zähler, die beim frühen Loslassen zurückfedern (Motion „hold to confirm“, Framer „press and hold“, 21st.dev), Halten als Standard für den Notruf an der Pixel Watch.
+
+Umgesetzt (Startseite):
+- Einstieg ohne Video: ein Wintertag aus Ebenen (Himmel mit Sonne, zwei Bergketten, Neuschnee), die sich mit Zeiger und Scrollen leicht gegeneinander verschieben. Davor schwebt der Chip größer als bisher, hinter ihm feine Funkringe (einer läuft alle 5 s nach außen), um ihn fällt Schnee in drei Tiefen (auch vor dem Chip). Die Videodateien liegen noch in `assets/media`, werden aber nicht mehr geladen.
+- „Was ist SKITAG?“, Schritt 1: um den Chip stehen drei kleine Chips der Gruppe (Anna, Tom, Lea) in 3D. Schleife von 4,2 s: Knopf geht runter, Wellen laufen los, je ein Punkt läuft zu jedem Chip, die drei vibrieren nacheinander (Bögen, grüne LED, Name leuchtet), dazu „Gruppe gerufen“.
+- „Ein Knopf. Zwei Wege.“: der Halte-Knopf (React Bits) ist weg, samt Lizenzdatei. Am Ende des Flugs fährt die Ansicht nah an den Knopf, die Fläche schneidet den Chip ab. Ein echter, unsichtbarer Knopf (`.chip-knopf`) liegt in jedem Bild genau über dem Knopf des Modells: Maus, Finger, Leertaste und Enter. In Ruhe läuft alle 2,6 s ein leiser Ring vom Knopf weg.
+- Kurz drücken: Welle auf dem Chip, die Ansicht fährt zurück, drei Chips der Gruppe erscheinen, Punkte laufen zu ihnen, sie vibrieren; danach fährt die Ansicht wieder an den Knopf (4,6 s).
+- Halten: jetzt 3 s wie am echten Chip (vorher 1 s). Der Ring um den Knopf füllt sich, auf dem Knopf zählt 3, 2, 1, die Fläche wird Nacht, das Licht dunkler, um den Knopf glüht es rot, der Chip bebt immer stärker. Frist 3 s (echt 5 s): Ring läuft rot zurück, ein zweiter Druck bricht ab. Notruf: rote Welle, der Chip rückt nach links, rechts die Karte mit dem Weg (Liftstation empfängt, Mitarbeiter fährt los, Hilfe ist da) mit einer Linie von Rot nach Grün; am Ende wird es wieder hell, LED grün, „Nochmal“.
+- Die Schritte von „Was ist SKITAG?“ und der Ablauf der Vorführung stehen in `seite.js` und laufen auch ohne WebGL (Standbilder, Füllring am Knopf als SVG). Die Schneeflocken-Leinwand in `seite.js` ist entfernt.
+- Behoben: `fortschritt` fehlte seit Feedback 63 in `seite.js` (Fehler in der Konsole, der Balken oben lief nicht mit).
+
+Geprüft in Chrome am PC und bei Handy-Breite: Einstieg, drei Schritte, Flug, Nahansicht, echter Klick auf den Knopf, ganzer Notruf, Gruppe, ohne 3D-Skript; keine Fehler in der Konsole. Das Testfenster zeichnet nur etwa ein Bild pro Sekunde, die Bewegung selbst ist darum nur in Einzelbildern geprüft.
+
+## Feedback 65 (Lukas, 2026-11-10)
+
+Die Shake-Effekte nicht ganz so krass.
+
+Umgesetzt in `chip-3d.js`: Vibrieren des großen Chips (kurzer Druck, Notruf) und der drei kleinen Chips auf etwa 40 % der Stärke und langsamer. Das Beben beim Halten und das Pulsieren in der Frist sind mit Feedback 66 ganz weg.
+
+## Feedback 66 (Lukas, 2026-11-10)
+
+„Ein Knopf. Zwei Wege.“ heißt jetzt „Probiere den Tag aus“. Die Effekte beim langen Drücken sollen weg. In „Was ist SKITAG?“ sieht man nur ganz kurz, dass der Notruf gesendet wurde, und scrollt leicht drüber; das besser mit der Animation des Empfängers an der Liftstation verbinden. Fliegt der Chip von „Was ist SKITAG?“ nach unten, dreht er sich um, aber das Licht scheint durch den Chip hindurch: beheben.
+
+Umgesetzt:
+- Überschrift „Probiere den Tag aus.“ (zweite Zeile „Tag aus.“ in Orange).
+- Langes Drücken in der Vorführung: nur noch der Ring um den Knopf füllt sich und die Ziffer zählt 3, 2, 1. Kein Abdunkeln, kein rotes Glühen, kein Beben, kein Heranfahren. In der Frist läuft der Ring rot zurück, die LED blinkt ruhig rot. Die Fläche wird erst Nacht, wenn der Notruf gesendet ist.
+- „Was ist SKITAG?“: die gepinnte Strecke ist länger (`data-sc-span` 4 statt 3,2). Im zweiten Schritt ist der Ring nach gut der Hälfte voll, danach bleibt „Notruf gesendet“ stehen. Der dritte Schritt schließt daran an: die Fläche bleibt Nacht, „Notruf gesendet“ wandert mit dem Chip nach links, der rote Funkweg läuft zur Liftstation, und nach dem ersten Paket erscheint dort „Standort empfangen“.
+- Flug: LED-Schein, Ringe, Ziffer und Wellen liegen ohne Tiefentest auf dem Chip. Sie werden jetzt nur gezeigt, wenn die Vorderseite zur Kamera zeigt, und scheinen nicht mehr durch die Rückseite.
+
+Geprüft in Chrome am PC und bei Handy-Breite (Schritt 2 und 3, Flug mit Rückseite, Halten, Frist), keine Fehler in der Konsole.
+
+## Feedback 67 (Lukas, 2026-11-10)
+
+In „Was ist SKITAG?“ und „Probiere den Tag aus.“ sieht der Kreis, der um den Knopf läuft, und der Countdown nicht gut aus, ein bisschen verpixelt. Soll gut und modern aussehen.
+
+Umgesetzt in `chip-3d.js`: Der Füllring besteht nicht mehr aus Dreiecken, er wird auf einer Fläche im Shader gerechnet. Kanten bleiben in jeder Größe scharf, der Bogen hat runde Enden, einen Verlauf von hellem zu kräftigem Orange (in der Frist Rot), einen kleinen weißen Punkt an der Spitze, einen weichen Schein und eine blasse Spur darunter. Die Wellen vom Knopf sind genauso gerechnet und haben weiche Ränder. Die Ziffer auf dem Knopf wird doppelt so fein gezeichnet (512 statt 256 Pixel) und bleibt weiß. Geprüft in Chrome am PC in beiden Abschnitten (Halten, Frist), keine Fehler in der Konsole.
+
+## Feedback 68 (Lukas, 2026-11-10)
+
+In „Was ist SKITAG?“ lief der Kreis um den Knopf nach dem Füllen beim Weiterscrollen sichtbar zurück. Nach dem vollen Kreis soll nichts mehr davon zu sehen sein.
+
+Umgesetzt in `chip-3d.js`: In „Was ist SKITAG?“ folgt der Ring direkt dem Scrollen; sobald er voll ist, blendet er kurz aus und bleibt weg, auch im dritten Schritt. Zurück erscheint er erst, wenn man so weit hochscrollt, dass er nicht mehr voll ist. In der Vorführung „Probiere den Tag aus.“ bleibt das Verhalten (die Frist läuft bewusst rot zurück).

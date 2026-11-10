@@ -1,5 +1,5 @@
-/* SkiTag · eigene Abläufe der Seite: Schneeflocken im Hang,
-   der Halte-Knopf mit der Zeichnung des Notrufwegs.
+/* SkiTag · eigene Abläufe der Seite: Ebenen im Einstieg, die Schritte in „Was ist SKITAG?“,
+   die Vorführung am Knopf des Chips (Gruppe rufen, Notruf).
    Die Engine (scrollcraft.js) bleibt unverändert. */
 (function () {
   "use strict";
@@ -10,7 +10,7 @@
   var sparsam = function () { return wurzel.classList.contains("sparsam"); };
 
   /* --------------------------------------------------- Ladebildschirm -- */
-  /* Weg, sobald die Schriften und das Bild des Einstiegs da sind, spätestens nach 5 s. */
+  /* Weg, sobald die Schriften da sind, spätestens nach 5 s. */
   var lade = document.querySelector(".lade");
   if (lade) {
     var weg = function () {
@@ -18,15 +18,8 @@
       lade.classList.add("ist-fertig");
       setTimeout(function () { lade.remove(); }, 600);
     };
-    // das Video im Einstieg: warten, bis das erste Bild da ist, höchstens 2,5 s
-    var film = document.querySelector(".held__video");
-    var bild = !film || film.readyState >= 2 ? Promise.resolve() : new Promise(function (fertig) {
-      film.addEventListener("loadeddata", fertig, { once: true });
-      film.addEventListener("error", fertig, { once: true });
-      setTimeout(fertig, 2500);
-    });
     var schrift = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
-    Promise.all([bild, schrift]).then(function () { requestAnimationFrame(function () { requestAnimationFrame(weg); }); });
+    schrift.then(function () { requestAnimationFrame(function () { requestAnimationFrame(weg); }); });
     setTimeout(weg, 5000);
   }
 
@@ -78,103 +71,102 @@
 
   /* Die Kopfleiste steht seit Feedback 51 in kopfleiste.js. */
 
-  /* ------------------------------------------ Video im Einstieg -- */
-  /* Läuft als Schleife; bei weniger Bewegung steht es auf dem ersten Bild, außer Sicht ruht es */
-  var heldFilm = document.querySelector(".held__video");
-  if (heldFilm) {
-    if (ohneBewegung) { heldFilm.removeAttribute("autoplay"); heldFilm.pause(); }
-    else if ("IntersectionObserver" in window) new IntersectionObserver(function (e) {
-      if (wurzel.classList.contains("sparsam-video")) return;
-      if (e[0].isIntersecting) { var p = heldFilm.play(); if (p && p.catch) p.catch(function () {}); } else heldFilm.pause();
-    }).observe(heldFilm);
+  /* --------------------------------- Einstieg: Ebenen folgen Zeiger und Scrollen -- */
+  /* Himmel, Berge und Schnee liegen hintereinander (seite.css liest --mx, --my, --sy und verschiebt die
+     Ebenen verschieden weit). Läuft nur, solange der Einstieg zu sehen ist. */
+  var held = document.querySelector(".held");
+  if (held && !ohneBewegung) {
+    var hx = 0, hy = 0, hxS = 0, hyS = 0, heldDa = false, heldLaeuft = false;
+    window.addEventListener("pointermove", function (e) {
+      if (e.pointerType === "touch") return;
+      hx = e.clientX / window.innerWidth - 0.5; hy = e.clientY / window.innerHeight - 0.5;
+    }, { passive: true });
+    var heldTakt = function () {
+      if (!heldDa) { heldLaeuft = false; return; }
+      hxS += (hx - hxS) * 0.06; hyS += (hy - hyS) * 0.06;
+      held.style.setProperty("--mx", hxS.toFixed(4));
+      held.style.setProperty("--my", hyS.toFixed(4));
+      held.style.setProperty("--sy", klemme(window.scrollY / Math.max(1, held.offsetHeight)).toFixed(4));
+      requestAnimationFrame(heldTakt);
+    };
+    new IntersectionObserver(function (e) {
+      heldDa = e[0].isIntersecting;
+      if (heldDa && !heldLaeuft) { heldLaeuft = true; requestAnimationFrame(heldTakt); }
+    }).observe(held);
   }
 
-  /* ------------------------------------------------- Schneeflocken -- */
-  if (!ohneBewegung) document.querySelectorAll("canvas.flocken").forEach(function (leinwand) {
-    var ctx = leinwand.getContext("2d");
-    var flocken = [];
-    var sichtbar = false;
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var groesse = function () { leinwand.width = leinwand.clientWidth * dpr; leinwand.height = leinwand.clientHeight * dpr; };
-    groesse();
-    window.addEventListener("resize", groesse);
-    var anzahl = window.innerWidth < 700 ? 12 : 22;
-    for (var i = 0; i < anzahl; i++) {
-      var nah = Math.random() < 0.06;
-      flocken.push({ x: Math.random(), y: Math.random(),
-        r: nah ? 2.6 + Math.random() * 2.4 : 0.8 + Math.random() * 1.4,
-        v: nah ? 0.0016 + Math.random() * 0.0012 : 0.0005 + Math.random() * 0.0007,
-        w: Math.random() * Math.PI * 2, a: nah ? 0.6 : 0.85 });
-    }
-    var laeuft = false;
-    new IntersectionObserver(function (e) {
-      sichtbar = e[0].isIntersecting;
-      if (sichtbar && !laeuft) { laeuft = true; requestAnimationFrame(schneien); }
-    }).observe(leinwand);
-    var schneien = function () {
-      if (!sichtbar || sparsam()) { laeuft = false; return; }
-      {
-        var b = leinwand.width, h = leinwand.height;
-        ctx.clearRect(0, 0, b, h);
-        for (var j = 0; j < flocken.length; j++) {
-          var f = flocken[j];
-          f.y += f.v; f.w += 0.01;
-          if (f.y > 1.02) { f.y = -0.02; f.x = Math.random(); }
-          ctx.beginPath();
-          ctx.arc((f.x + Math.sin(f.w) * 0.006) * b, f.y * h, f.r * dpr, 0, Math.PI * 2);
-          ctx.fillStyle = "rgba(255,255,255," + f.a + ")";
-          ctx.fill();
-        }
+  /* Gemeinsamer Zustand für den Chip in 3D (chip-3d.js liest ihn in jedem Bild) */
+  var chip = window.skitagChip = window.skitagChip || {};
+  chip.zustand = "ruhe"; chip.ring = 0; chip.sek = 0; chip.gruppe = 0; chip.hilfe = 0;
+  chip.blick = { schritt: 0, halten: 0, spielt: false, start: 0 };
+
+  /* ------------------------------------ Was ist SKITAG?: drei Schritte -- */
+  /* Die gepinnte Strecke ist in drei Teile geteilt: kurz drücken, drei Sekunden halten, Funk zur Liftstation.
+     data-schritt schaltet Text und Fläche, --halten füllt den Ring im zweiten Schritt, data-spielt
+     startet die Schleife „Gruppe rufen“ (4,2 s), sobald die Bühne steht. */
+  var blick = document.getElementById("blick");
+  if (blick && blick.querySelector(".blick__chip")) {
+    var bz = chip.blick, blickDa = false, blickLaeuft = false;
+    var blickTakt = function () {
+      if (!blickDa) { blickLaeuft = false; return; }
+      var r = blick.getBoundingClientRect(), vh = window.innerHeight;
+      var p = klemme(-r.top / Math.max(1, r.height - vh));
+      var sb = p < 0.28 ? 0 : p < 0.62 ? 1 : 2;
+      if (sb !== bz.schritt) { bz.schritt = sb; blick.setAttribute("data-schritt", String(sb)); }
+      var spielt = sb === 0 && r.top <= vh * 0.04 && r.bottom >= vh;
+      if (spielt !== bz.spielt) { bz.spielt = spielt; bz.start = performance.now(); blick.toggleAttribute("data-spielt", spielt); }
+      // der Ring ist nach gut der Hälfte des zweiten Schritts voll; danach bleibt „Notruf gesendet“ stehen, auch im dritten
+      var h = sb === 1 ? abschnitt((p - 0.28) / 0.34, 0.05, 0.55) : sb === 2 ? 1 : 0;
+      if (Math.abs(h - bz.halten) > 0.002 || (h === 1) !== blick.hasAttribute("data-voll")) {
+        bz.halten = h; blick.style.setProperty("--halten", h.toFixed(3));
+        var sek = String(Math.min(3, Math.max(1, Math.ceil(h * 3))));
+        if (blick.getAttribute("data-sek") !== sek) blick.setAttribute("data-sek", sek);
+        blick.toggleAttribute("data-voll", h >= 1);
       }
-      requestAnimationFrame(schneien);
+      requestAnimationFrame(blickTakt);
     };
-  });
+    new IntersectionObserver(function (e) {
+      blickDa = e[0].isIntersecting;
+      if (blickDa && !blickLaeuft) { blickLaeuft = true; requestAnimationFrame(blickTakt); }
+    }).observe(blick);
+  }
 
   /* ------------------------------------------- Der Chip (Vorführung) -- */
-  /* Kurz drücken ruft die Gruppe. Halten startet den Notruf, danach läuft
-     die Frist: wie am echten Chip bricht ein weiterer Druck ab, Loslassen
-     allein nicht. Danach läuft die Meldung von selbst: Liftstation empfängt,
-     Mitarbeiter kommt, Hilfe ist da. Seit Feedback 63 steht hier der Chip in 3D
-     (chip-3d.js): er liest den Zustand aus window.skitagChip und ruft druecken/
-     loslassen, wenn man direkt auf seinen Knopf drückt. */
+  /* Es gibt nur den Knopf am Chip selbst (.chip-knopf liegt genau über dem Knopf des 3D-Chips).
+     Kurz drücken ruft die Gruppe. Drei Sekunden halten startet den Notruf, danach läuft die Frist:
+     wie am echten Chip bricht ein weiterer Druck ab, Loslassen allein nicht. Danach läuft der Weg
+     der Hilfe von selbst: Liftstation empfängt, Mitarbeiter fährt los, Hilfe ist da.
+     chip-3d.js liest den Zustand aus window.skitagChip (Ring, Sekunde, Fortschritt). */
   var akt = document.getElementById("der-chip");
-  var knopf = akt && akt.querySelector(".haltknopf");
+  var knopf = akt && akt.querySelector(".chip-knopf");
   if (knopf) {
-    var chip = window.skitagChip = window.skitagChip || { zustand: "ruhe", ring: 0, gruppe: 0, hilfe: 0 };
     var status = document.getElementById("knopf-status");
     var nochmal = akt.querySelector('[data-aktion="nochmal"]');
     var schritte = akt.querySelectorAll(".knopf__schritte li");
-    var bildFlaeche = akt.querySelector(".knopf__bild");
-    var meldung = akt.querySelector(".kn-meldung");
-    var meldungZeilen = meldung ? meldung.querySelectorAll(".kn-meldung__weg li") : [];
-    var meldungBalken = meldung ? meldung.querySelector(".kn-meldung__balken i") : null;
+    var wegPunkte = akt.querySelectorAll(".kn-weg li");
+    var wegTitel = akt.querySelector(".kn-weg__titel");
 
-    // In der Vorführung verkürzt; am echten Chip 3 s halten und 5 s Frist.
-    var HALTEN = 1000, FRIST = 2000, LAUF = 8000, GRUPPE = 2400;
+    // Halten dauert wie am echten Chip 3 s; Frist (echt 5 s) und der Weg der Hilfe sind verkürzt.
+    var HALTEN = 3000, FRIST = 3000, LAUF = 7000, GRUPPE = 4600;
     var taktLaeuft = false, zustand = "ruhe", start = 0, hilfe = 0, gruppe = 0, letzteSekunde = -1, stufe = "";
-    var START_TEXT = "Probier es aus: kurz drücken oder halten.";
+    var START_TEXT = "Probier es aus: Drück den Knopf am Chip. Kurz für die Gruppe, drei Sekunden für den Notruf.";
 
-    // Halte-Knopf nach „HoldButton“ (React Bits): --hb-p ist der Füllstand 0 bis 1, die Welle
-    // braucht Breite und Höhe des Knopfs, die Aufschrift wechselt mit dem Zustand
-    var knopfTexte = knopf.querySelectorAll(".haltknopf__text");
-    var AUFSCHRIFT = { ruhe: "Kurz drücken oder halten", halten: "Weiter halten …", frist: "Nochmal drücken bricht ab",
-      lauf: "Notruf gesendet", fertig: "Hilfe ist da", gruppe: "Gruppe gerufen" };
-    var fuellen = function (p) { knopf.style.setProperty("--hb-p", klemme(p).toFixed(4)); };
-    var knopfMessen = function () { knopf.style.setProperty("--hb-w", knopf.offsetWidth + "px"); knopf.style.setProperty("--hb-h", knopf.offsetHeight + "px"); };
-    knopfMessen();
-    if (window.ResizeObserver) new ResizeObserver(knopfMessen).observe(knopf);
-    var setzeZustand = function (z) {
-      zustand = z; chip.zustand = z; knopf.setAttribute("data-zustand", z); akt.setAttribute("data-zustand", z);
-      var t = AUFSCHRIFT[z] || AUFSCHRIFT.ruhe;
-      knopfTexte.forEach(function (el) { el.textContent = t; });
-    };
-    var ringAuf = function (rest) { chip.ring = 1 - rest; fuellen(1 - rest); };
+    var setzeZustand = function (z) { zustand = z; chip.zustand = z; akt.setAttribute("data-zustand", z); };
+    // Ring: beim Halten 0 bis 1, in der Frist 1 bis 0. --ring füllt den Ring ohne WebGL.
+    var ringAuf = function (voll) { chip.ring = voll; akt.style.setProperty("--ring", voll.toFixed(4)); };
     var sage = function (t) { status.innerHTML = t; };
     var aktiv = function (name) { schritte.forEach(function (li) { li.classList.toggle("ist-aktiv", li.getAttribute("data-schritt") === name); }); };
+    // Weg der Hilfe: Punkte schalten nacheinander an, die Linie füllt sich mit --hilfe
+    var zeichnen = function () {
+      var an = zustand === "lauf" || zustand === "fertig";
+      wegPunkte.forEach(function (li) { li.classList.toggle("ist-an", an && hilfe >= parseFloat(li.getAttribute("data-ab"))); });
+      akt.style.setProperty("--hilfe", (an ? hilfe : 0).toFixed(3));
+      if (wegTitel) wegTitel.textContent = zustand === "fertig" ? "Hilfe ist da" : "Notruf gesendet";
+    };
 
     var zuruecksetzen = function () {
-      setzeZustand("ruhe"); hilfe = 0; gruppe = 0; stufe = ""; chip.hilfe = 0; chip.gruppe = 0;
-      ringAuf(1); nochmal.hidden = true; aktiv("gruppe");
+      setzeZustand("ruhe"); hilfe = 0; gruppe = 0; stufe = ""; chip.hilfe = 0; chip.gruppe = 0; chip.sek = 0;
+      ringAuf(0); nochmal.hidden = true; aktiv("gruppe");
       sage(START_TEXT); zeichnen();
     };
     var abbrechen = function () {
@@ -186,22 +178,23 @@
       if (zustand === "lauf") return;
       hilfe = 0; gruppe = 0; stufe = ""; chip.hilfe = 0; chip.gruppe = 0; nochmal.hidden = true;
       setzeZustand("halten"); start = performance.now(); letzteSekunde = -1;
+      ringAuf(0); zeichnen();
       aktiv("halten");
-      sage("Weiter halten für einen Notruf, oder loslassen für die Gruppe.");
+      sage("<strong>Weiter halten.</strong> Loslassen ruft nur deine Gruppe.");
       anstossen();
     };
     var loslassen = function () {
       if (zustand !== "halten") return;
       // lange genug gehalten, auch wenn seit dem Drücken kaum ein Bild gezeichnet wurde
-      if (performance.now() - start >= HALTEN) { setzeZustand("frist"); start += HALTEN; aktiv("halten"); return; }
-      ringAuf(1);
+      if (performance.now() - start >= HALTEN) { setzeZustand("frist"); start += HALTEN; chip.sek = 3; aktiv("halten"); return; }
+      ringAuf(0); chip.sek = 0;
       setzeZustand("gruppe"); start = performance.now();
       aktiv("gruppe");
-      sage("<strong>Kurz gedrückt:</strong> Deine Gruppe wird gerufen. Ihre Chips vibrieren.");
+      sage("<strong>Kurz gedrückt.</strong> Die Chips deiner Gruppe vibrieren, die App zeigt ihnen, wo du bist.");
     };
     chip.druecken = druecken; chip.loslassen = loslassen;
 
-    knopf.addEventListener("pointerdown", function (e) { e.preventDefault(); if (knopf.setPointerCapture) { try { knopf.setPointerCapture(e.pointerId); } catch (_) {} } druecken(); });
+    knopf.addEventListener("pointerdown", function (e) { e.preventDefault(); knopf.focus({ preventScroll: true }); if (knopf.setPointerCapture) { try { knopf.setPointerCapture(e.pointerId); } catch (_) {} } druecken(); });
     knopf.addEventListener("pointerup", loslassen);
     knopf.addEventListener("pointercancel", loslassen);
     knopf.addEventListener("lostpointercapture", loslassen);
@@ -213,46 +206,37 @@
     });
     knopf.addEventListener("keyup", function (e) { if (e.key === " " || e.key === "Enter") { e.preventDefault(); loslassen(); } });
     knopf.addEventListener("click", function (e) { e.preventDefault(); });
-    nochmal.addEventListener("click", function () { zuruecksetzen(); knopf.focus(); });
-
-    // Wellen, Gruppe und Meldung um den Chip
-    var zeichnen = function () {
-      bildFlaeche.style.setProperty("--gruppe", gruppe.toFixed(3));
-      if (!meldung) return;
-      meldung.classList.toggle("ist-an", zustand === "lauf" || zustand === "fertig");
-      meldung.classList.toggle("ist-fertig", zustand === "fertig");
-      meldungZeilen.forEach(function (li) { li.classList.toggle("ist-an", hilfe >= parseFloat(li.getAttribute("data-ab")) && (zustand === "lauf" || zustand === "fertig")); });
-      if (meldungBalken) meldungBalken.style.transform = "scaleX(" + hilfe.toFixed(3) + ")";
-    };
+    nochmal.addEventListener("click", function () { zuruecksetzen(); knopf.focus({ preventScroll: true }); });
 
     var anstossen = function () { if (!taktLaeuft) { taktLaeuft = true; requestAnimationFrame(takt); } };
     var takt = function (jetzt) {
       if (zustand === "halten") {
-        var t = (jetzt - start) / HALTEN;
-        ringAuf(1 - klemme(t));
-        if (t >= 1) { setzeZustand("frist"); start = jetzt; }
+        var t = klemme((jetzt - start) / HALTEN);
+        ringAuf(t);
+        var s = Math.max(1, Math.ceil((1 - t) * 3));
+        if (s !== chip.sek) chip.sek = s;
+        if (t >= 1) { setzeZustand("frist"); start = jetzt; letzteSekunde = -1; }
       } else if (zustand === "frist") {
         var rest = FRIST - (jetzt - start);
-        ringAuf(1 - klemme(rest / FRIST));
+        ringAuf(klemme(rest / FRIST));
         var sek = Math.ceil(rest / 1000);
+        chip.sek = Math.max(0, sek);
         if (sek !== letzteSekunde && sek > 0) { letzteSekunde = sek; sage("<strong>Notruf in " + sek + " s.</strong> Noch einmal kurz drücken bricht ab."); }
         if (rest <= 0) {
-          setzeZustand("lauf"); start = jetzt; ringAuf(1); aktiv("hilfe");
+          setzeZustand("lauf"); start = jetzt; ringAuf(0); chip.sek = 0; aktiv("hilfe");
           sage("<strong>Notruf gesendet.</strong> Die Liftstation empfängt deinen Standort.");
         }
       } else if (zustand === "lauf") {
         hilfe = ohneBewegung ? 1 : klemme((jetzt - start) / LAUF); chip.hilfe = hilfe;
-        if (hilfe > 0.15 && stufe === "") { stufe = "meldung"; sage("<strong>Ein Mitarbeiter kommt zu Hilfe.</strong> Dein Chip vibriert zweimal."); }
+        if (hilfe > 0.3 && stufe === "") { stufe = "meldung"; sage("<strong>Ein Mitarbeiter fährt los.</strong> Dein Chip vibriert zweimal."); }
         if (hilfe >= 1) {
           setzeZustand("fertig");
           sage("<strong>Hilfe ist da.</strong> Das war eine Vorführung, gesendet wurde nichts.");
           nochmal.hidden = false;
         }
       } else if (zustand === "gruppe") {
-        gruppe = ohneBewegung ? 1 : klemme((jetzt - start) / GRUPPE); chip.gruppe = gruppe;
-        // kurzer Druck: der Knopf füllt sich schnell orange und leert sich wieder
-        fuellen(gruppe < 0.2 ? gruppe / 0.2 : gruppe > 0.75 ? (1 - gruppe) / 0.25 : 1);
-        if (gruppe >= 1) { setzeZustand("ruhe"); gruppe = 0; chip.gruppe = 0; }
+        gruppe = klemme((jetzt - start) / GRUPPE); chip.gruppe = gruppe;
+        if (gruppe >= 1) { setzeZustand("ruhe"); gruppe = 0; chip.gruppe = 0; sage(START_TEXT); }
       }
       zeichnen();
       // in Ruhe und nach der Hilfe steht alles still
@@ -262,6 +246,8 @@
     aktiv("gruppe");
     zeichnen();
   }
+
+  var fortschritt = function (el) { return parseFloat(el.style.getPropertyValue("--sc-p")) || 0; };
 
   /* --------------------------------------------- Die App im iPhone -- */
   /* Kurzfassung seit Feedback 56 (vorher eine gepinnte Strecke mit vier ausführlichen Schritten):
