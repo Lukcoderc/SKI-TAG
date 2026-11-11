@@ -320,3 +320,11 @@ html:not(.js-app) .sz-seite[data-seite="0"] { opacity: 1; transform: none; }
 
 /* Feedback 87: ohne die Bergbahnansicht sind es drei Zugänge; ein letzter, allein stehender geht über die ganze Breite */
 .app-zugaenge li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+/* Handy, Szenen zum Antippen (Feedback 88): die Szene ist so hoch wie der Bildschirm, die Marken sind Knöpfe
+   mit großer Fläche; der laufende Teil füllt seinen Balken in der Zeit. */
+@media (max-width: 899px) {
+  .szene.ist-klick .szene__buehne { min-height: 100svh; }
+  .szene.ist-klick .szene__marken li { cursor: pointer; padding: 0.55rem 0.1rem 0.35rem; -webkit-tap-highlight-color: transparent; }
+  .szene.ist-klick .szene__marken li:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; border-radius: 8px; }
+}

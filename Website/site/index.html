@@ -24,7 +24,7 @@
   w.classList.add("js-fq");   /* Gut zu wissen: Antworten erst auf Klick (seite.js) */
 } catch (e) {} })();
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=107">
+<link rel="stylesheet" href="assets/seite.css?v=108">
 <noscript><style>.lade { display: none; }</style></noscript>
 </head>
 <body>
@@ -152,7 +152,7 @@
        Scrollen nacheinander, was er kann. Kurz drücken (die Gruppe vibriert), drei Sekunden halten (der Ring
        um den Knopf füllt sich, die Fläche wird Nacht), Funk zur Liftstation. Der Schritt steht in data-schritt
        (chip-3d.js), der Füllstand in --halten. -->
-  <section id="blick" class="blick" data-sc-act="pin" data-sc-span="5.5" data-sc-drift="#ffffff" data-marken="0.3333 0.6667" data-schritt="0" aria-labelledby="blick-titel">
+  <section id="blick" class="blick" data-klick="860" data-sc-act="pin" data-sc-span="5.5" data-sc-drift="#ffffff" data-marken="0.3333 0.6667" data-schritt="0" aria-labelledby="blick-titel">
     <div class="blick__buehne" data-sc-stage>
       <div class="blick__raster">
         <div class="blick__flaeche" aria-hidden="true">
@@ -663,11 +663,18 @@
 
 <script src="scrollcraft.js?v=16"></script>
 <script>
+/* Handy (Feedback 88): Abschnitte mit data-klick werden nicht gepinnt durchgescrollt, sondern zum Antippen.
+   Vor dem Start der Engine wird aus „pin“ ein normaler Abschnitt (.ist-klick); seite.js bzw. app-seite.js
+   spielen die Schritte dann per Auswahl ab. data-klick nennt die Breite, bis zu der das gilt. */
+(function () { document.querySelectorAll("[data-klick]").forEach(function (el) {
+  if (!window.matchMedia("(max-width: " + (el.getAttribute("data-klick") || 860) + "px)").matches) return;
+  el.setAttribute("data-sc-act", "flow"); el.removeAttribute("data-sc-span"); el.classList.add("ist-klick");
+}); })();
 ScrollCraft.mount(document.body);
 </script>
-<script src="assets/seite.js?v=67" defer></script>
+<script src="assets/seite.js?v=68" defer></script>
 <script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.min.js" } }</script>
-<script type="module" src="assets/chip-3d.js?v=31"></script>
+<script type="module" src="assets/chip-3d.js?v=32"></script>
 <script src="assets/sprung-anfang.js?v=18" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
 </body>

@@ -45,14 +45,38 @@
           }).filter(function (s) { return s.pfad; })
         };
       }),
-      teil: -1, zuletzt: -1, sichtbar: true
+      teil: -1, zuletzt: -1, sichtbar: true,
+      // Handy (Feedback 88): nicht gepinnt, die Marken sind Knöpfe; der gewählte Teil spielt in KLICK_DAUER ab
+      klick: el.classList.contains("ist-klick"), wahl: 0, start: 0, zentriert: false
     };
+  });
+  var KLICK_DAUER = 3800;
+  szenen.forEach(function (s) {
+    if (!s.klick) return;
+    var ol = s.el.querySelector(".szene__marken");
+    if (ol) { ol.removeAttribute("aria-hidden"); ol.setAttribute("role", "tablist"); }
+    s.marken.forEach(function (li, i) {
+      li.setAttribute("role", "tab"); li.setAttribute("tabindex", "0");
+      var waehle = function () { s.wahl = i; s.start = performance.now(); s.zuletzt = -1; starten(); };
+      li.addEventListener("click", waehle);
+      li.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); waehle(); } });
+    });
   });
 
   var lesen = function (el) { return parseFloat(el.style.getPropertyValue("--sc-p")) || 0; };
+  // am Handy: Stand aus dem gewählten Teil und der Zeit; läuft erst, wenn die Szene mitten im Bild steht
+  var stand = function (s) {
+    if (!s.klick) return lesen(s.el);
+    var r = s.el.getBoundingClientRect(), vh = window.innerHeight;
+    var zentriert = r.top < vh * 0.4 && r.bottom > vh * 0.6;
+    if (zentriert && !s.zentriert) s.start = performance.now();
+    s.zentriert = zentriert;
+    var roh = zentriert ? klemme((performance.now() - s.start) / KLICK_DAUER) : 0;
+    return (s.wahl + roh * 0.999) / s.teile;
+  };
 
   var setzen = function (s) {
-    var p = lesen(s.el);
+    var p = stand(s);
     if (Math.abs(p - s.zuletzt) < 0.0005) return;
     s.zuletzt = p;
 
@@ -63,6 +87,7 @@
       var f = i < teil ? 1 : i > teil ? 0 : klemme(p * n - teil);
       li.style.setProperty("--f", f.toFixed(3));
       li.classList.toggle("ist-jetzt", i === teil);
+      if (s.klick) li.setAttribute("aria-selected", i === teil ? "true" : "false");
     });
 
     s.ab.forEach(function (x) { var an = p >= x.a && p < x.b; if (an !== x.an) { x.an = an; x.n.classList.toggle("ist-an", an); } });
@@ -91,7 +116,7 @@
     szenen.forEach(function (s) { if (s.sichtbar) { irgendeine = true; setzen(s); } });
     if (irgendeine) requestAnimationFrame(bild); else laeuft = false;
   };
-  var starten = function () { if (!laeuft) { laeuft = true; requestAnimationFrame(bild); } };
+  function starten() { if (!laeuft) { laeuft = true; requestAnimationFrame(bild); } }
 
   if ("IntersectionObserver" in window) {
     szenen.forEach(function (s) { s.sichtbar = false; });

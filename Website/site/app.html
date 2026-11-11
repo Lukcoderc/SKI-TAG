@@ -20,8 +20,8 @@
   if (gemessen || spart || (n.deviceMemory && n.deviceMemory <= 2)) w.classList.add("sparsam-video");
 } catch (e) {} })();
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=107">
-<link rel="stylesheet" href="assets/app-seite.css?v=4">
+<link rel="stylesheet" href="assets/seite.css?v=108">
+<link rel="stylesheet" href="assets/app-seite.css?v=5">
 </head>
 <body>
 <div class="akt-balken" aria-hidden="true"><span class="akt-balken__fuell"></span></div>
@@ -188,7 +188,7 @@
        data-folge führt eine Figur einen Pfad entlang, data-zahl-p zählt eine Zahl. -->
 
   <!-- 2 · Allein unterwegs -->
-  <section id="allein" class="szene" data-unter="Allein" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="allein-titel">
+  <section id="allein" class="szene" data-unter="Allein" data-klick="899" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="allein-titel">
     <div class="szene__buehne" data-sc-stage>
       <div class="szene__raster">
         <div class="szene__text">
@@ -249,7 +249,7 @@
   </section>
 
   <!-- 3 · Familie und Freunde -->
-  <section id="familie" class="szene szene--grau" data-unter="Familie" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="familie-titel">
+  <section id="familie" class="szene szene--grau" data-unter="Familie" data-klick="899" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="familie-titel">
     <div class="szene__buehne" data-sc-stage>
       <div class="szene__raster">
         <div class="szene__text">
@@ -305,7 +305,7 @@
   </section>
 
   <!-- 4 · Skischule -->
-  <section id="skischule" class="szene" data-unter="Skischule" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="skischule-titel">
+  <section id="skischule" class="szene" data-unter="Skischule" data-klick="899" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="skischule-titel">
     <div class="szene__buehne" data-sc-stage>
       <div class="szene__raster">
         <div class="szene__text">
@@ -407,10 +407,19 @@
 </a>
 
 <script src="scrollcraft.js?v=16"></script>
-<script>ScrollCraft.mount(document.body);</script>
-<script src="assets/seite.js?v=67" defer></script>
+<script>
+/* Handy (Feedback 88): Abschnitte mit data-klick werden nicht gepinnt durchgescrollt, sondern zum Antippen.
+   Vor dem Start der Engine wird aus „pin“ ein normaler Abschnitt (.ist-klick); seite.js bzw. app-seite.js
+   spielen die Schritte dann per Auswahl ab. data-klick nennt die Breite, bis zu der das gilt. */
+(function () { document.querySelectorAll("[data-klick]").forEach(function (el) {
+  if (!window.matchMedia("(max-width: " + (el.getAttribute("data-klick") || 860) + "px)").matches) return;
+  el.setAttribute("data-sc-act", "flow"); el.removeAttribute("data-sc-span"); el.classList.add("ist-klick");
+}); })();
+ScrollCraft.mount(document.body);
+</script>
+<script src="assets/seite.js?v=68" defer></script>
 <script src="assets/sprung-anfang.js?v=18" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
-<script src="assets/app-seite.js?v=2" defer></script>
+<script src="assets/app-seite.js?v=3" defer></script>
 </body>
 </html>

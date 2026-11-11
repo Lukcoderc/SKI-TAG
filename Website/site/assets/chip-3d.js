@@ -50,9 +50,11 @@ async function start() {
   try { renderer = new THREE.WebGLRenderer({ canvas: leinwand, antialias: true, alpha: true, powerPreference: "high-performance" }); }
   catch (f) { aufgeben(); return; }
   const sparsam = wurzel.classList.contains("sparsam");
+  // Handy und Tablet (Feedback 88): Pixeldichte höchstens 1,25 und kein Schnee in 3D, damit es flüssig bleibt
+  const handy = matchMedia("(pointer: coarse)").matches || innerWidth < 700;
   // Pixeldichte: höchstens 1,75 (bei 2 oder 3 sieht man keinen Unterschied, zahlt aber doppelt). Brauchen die
   // Bilder trotzdem zu lange, geht sie in Stufen bis 1 herunter (siehe zeichnenWennNoetig).
-  const DPR_STUFEN = [1.75, 1.5, 1.25, 1].map((d) => Math.min(d, devicePixelRatio || 1)).filter((d, i, a) => a.indexOf(d) === i);
+  const DPR_STUFEN = (handy ? [1.25, 1] : [1.75, 1.5, 1.25, 1]).map((d) => Math.min(d, devicePixelRatio || 1)).filter((d, i, a) => a.indexOf(d) === i);
   let dprStufe = sparsam ? Math.max(0, DPR_STUFEN.length - 2) : 0;
   renderer.setPixelRatio(DPR_STUFEN[dprStufe]);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -341,7 +343,7 @@ async function start() {
   /* ------------------------------------------- Schnee im Einstieg -- */
   // drei Lagen: klein und fern (hinter dem Chip), mittel, groß und unscharf ganz vorn
   const schnee = [];
-  if (!sparsam && !ohneBewegung) for (const [n, gr, deckung, z0, z1] of [[34, 5, 0.95, -500, -80], [14, 11, 0.75, 80, 340], [6, 34, 0.32, 520, 900]]) {
+  if (!sparsam && !ohneBewegung && !handy) for (const [n, gr, deckung, z0, z1] of [[34, 5, 0.95, -500, -80], [14, 11, 0.75, 80, 340], [6, 34, 0.32, 520, 900]]) {
     const pos = new Float32Array(n * 3), fl = [];
     for (let i = 0; i < n; i++) fl.push({ x: Math.random(), y: Math.random(), z: mix(z0, z1, Math.random()), v: (0.025 + Math.random() * 0.03) * Math.sqrt(gr / 5), w: Math.random() * 6.283 });
     const geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
@@ -453,7 +455,9 @@ async function start() {
 
     /* ---- lesen: Abschnitte und Anker ---- */
     const br = blickAkt.getBoundingClientRect(), kr = knopfAkt.getBoundingClientRect();
-    const blickOben = br.top + s, blickEnde = blickOben + br.height - H, knopfOben = kr.top + s;
+    // am Handy (Abschnitt zum Antippen, nicht gepinnt) ruht der Chip, solange „Was ist SKITAG?“ oben im Bild steht
+    const klick = !!S.blick.klick;
+    const blickOben = br.top + s, blickEnde = klick ? blickOben + H * 0.3 : blickOben + br.height - H, knopfOben = kr.top + s;
     const a1 = Math.max(0, blickOben - H * 0.95), t1 = abschnitt(s, a1, blickOben);
     const t2 = abschnitt(s, blickEnde, knopfOben);
     const A = mitte(anker.held), Bk = mitte(anker.blick), K = mitte(anker.knopf);
@@ -493,10 +497,11 @@ async function start() {
     // Schritt 3 in „Was ist SKITAG?“: die Ansicht fährt an den Sender, der Chip wird größer und die Fläche schneidet
     // ihn zu. Fest an die Scrollstelle gebunden: vor dem Ende der Strecke ist er wieder normal groß, damit der Flug
     // zum nächsten Abschnitt ohne Sprung beginnt.
-    const pBlick = klemme((s - blickOben) / Math.max(1, br.height - H));
-    const senderNah = !(imBlick && t2 === 0 && blickFlaeche) ? 0 : ohneBewegung ? (pBlick >= 0.7 && pBlick < 0.95 ? 1 : 0)
-      // im dritten Drittel: hinein im selben Takt wie die anderen Schritte (5 bis 70 %), heraus kurz vor dem Ende
-      : weich(abschnitt((pBlick - 2 / 3) * 3, 0.05, 0.7)) * (1 - weich(abschnitt((pBlick - 2 / 3) * 3, 0.82, 0.95)));
+    const pBlick = klick ? S.blick.p || 0 : klemme((s - blickOben) / Math.max(1, br.height - H));
+    const senderNah = !(imBlick && (t2 === 0 || klick) && blickFlaeche) ? 0 : ohneBewegung ? (pBlick >= 0.7 && (klick || pBlick < 0.95) ? 1 : 0)
+      // im dritten Drittel: hinein im selben Takt wie die anderen Schritte (5 bis 70 %), heraus kurz vor dem Ende;
+      // am Handy bleibt die Nahansicht, bis man weiterscrollt, und geht dann mit dem Flug weich zurück
+      : weich(abschnitt((pBlick - 2 / 3) * 3, 0.05, 0.7)) * (klick ? 1 - weich(abschnitt(t2, 0, 0.3)) : 1 - weich(abschnitt((pBlick - 2 / 3) * 3, 0.82, 0.95)));
     const P = senderNah > 0 ? mitte(blickFlaeche) : null;
     if (P) h = mix(h, P.h * 1.4, senderNah);
 
@@ -610,7 +615,7 @@ async function start() {
 
     // Funkwellen aus dem Sender: im dritten Schritt von „Was ist SKITAG?“
     // nur solange die Strecke angeheftet ist; fliegt der Chip weiter, sind sie sofort weg (sonst ragen sie aus der Fläche)
-    funkS = t2 > 0 ? 0 : mix(funkS, imBlick && sb === 2 ? 1 : 0, glatt(0.02));
+    funkS = t2 > (klick ? 0.25 : 0) ? 0 : mix(funkS, imBlick && sb === 2 ? 1 : 0, glatt(0.02));
     funkMat.uniforms.uZeit.value = ohneBewegung ? 0.7 : t;
     funkMat.uniforms.uDeckung.value = funkS * vorn;
     funk.visible = funkS * vorn > 0.01;
@@ -682,7 +687,7 @@ async function start() {
     // Die Leinwand scrollt mit der Seite (absolut, um scrollY verschoben). Der Browser scrollt vor dem nächsten Bild,
     // eine feste Leinwand hinkt dann hinterher und der Chip rutscht aus seiner Fläche. Nur solange „Was ist SKITAG?“
     // angeheftet ist, steht sie fest, denn dort steht auch die Bühne still.
-    const fest = imBlick && t2 === 0 && br.top <= 1 && br.bottom >= H - 1;
+    const fest = !klick && imBlick && t2 === 0 && br.top <= 1 && br.bottom >= H - 1;   // am Handy nie angeheftet
     const modus = fest ? "fixed" : "absolute";
     if (modus !== letzterModus) { leinwand.style.position = modus; letzterModus = modus; }
     const verschub = fest ? "none" : "translate3d(0," + s + "px,0)";

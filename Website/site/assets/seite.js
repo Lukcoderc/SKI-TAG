@@ -122,18 +122,48 @@
      5 % bis 70 % und bleibt danach stehen, damit man sie lesen kann (TAKT_AN, TAKT_AUS).
      data-schritt schaltet Text und Fläche; --zl ist der Stand von „Gruppe rufen“ (0 bis 0,68 der früheren
      4,2-s-Schleife, seite.css und chip-3d.js lesen ihn), --halten füllt den Ring im zweiten Schritt. */
-  var TAKT_AN = 0.05, TAKT_AUS = 0.7, GRUPPE_ENDE = 0.68;
+  /* Am Handy (.ist-klick, Feedback 88) wird nicht gescrollt: drei Knöpfe wählen den Schritt, er spielt dann in
+     KLICK_DAUER ab (gleicher Takt), sobald der Abschnitt mitten im Bild steht. bz.p ist der Stand für chip-3d.js. */
+  var TAKT_AN = 0.05, TAKT_AUS = 0.7, GRUPPE_ENDE = 0.68, KLICK_DAUER = 3600;
   var blick = document.getElementById("blick");
   if (blick && blick.querySelector(".blick__chip")) {
     var bz = chip.blick, blickDa = false, blickLaeuft = false;
+    bz.klick = blick.classList.contains("ist-klick"); bz.wahl = 0; bz.wahlStart = 0; bz.zentriert = false;
+    if (bz.klick) {
+      var namen = ["Kurz drücken", "Drei Sekunden", "Ohne Netz"];
+      var wahl = document.createElement("div");
+      wahl.className = "blick__wahl"; wahl.setAttribute("role", "tablist"); wahl.setAttribute("aria-label", "Was der Knopf kann");
+      var wahlKnoepfe = namen.map(function (name, i) {
+        var b = document.createElement("button");
+        b.type = "button"; b.setAttribute("role", "tab"); b.setAttribute("aria-selected", i === 0 ? "true" : "false");
+        b.innerHTML = "<span>0" + (i + 1) + "</span>" + name;
+        b.addEventListener("click", function () {
+          bz.wahl = i; bz.wahlStart = performance.now();
+          wahlKnoepfe.forEach(function (k, j) { k.setAttribute("aria-selected", j === i ? "true" : "false"); });
+          if (blickDa && !blickLaeuft) { blickLaeuft = true; requestAnimationFrame(blickTakt); }
+        });
+        wahl.appendChild(b);
+        return b;
+      });
+      var liste = blick.querySelector(".blick__schritte");
+      liste.parentNode.insertBefore(wahl, liste);
+    }
     var blickTakt = function () {
       if (!blickDa) { blickLaeuft = false; return; }
-      var r = blick.getBoundingClientRect(), vh = window.innerHeight;
-      var p = klemme(-r.top / Math.max(1, r.height - vh));
+      var r = blick.getBoundingClientRect(), vh = window.innerHeight, p;
+      if (bz.klick) {
+        // läuft erst, wenn der Abschnitt mitten im Bild steht; kommt er neu dorthin, beginnt der Schritt von vorn
+        var zentriert = r.top < vh * 0.35 && r.bottom > vh * 0.65;
+        if (zentriert && !bz.zentriert) bz.wahlStart = performance.now();
+        bz.zentriert = zentriert;
+        var roh = zentriert ? klemme((performance.now() - bz.wahlStart) / KLICK_DAUER) : 0;
+        p = (bz.wahl + roh * 0.999) / 3;
+      } else p = klemme(-r.top / Math.max(1, r.height - vh));
+      bz.p = p;
       var sb = p < 1 / 3 ? 0 : p < 2 / 3 ? 1 : 2;
       var innen = abschnitt((p - sb / 3) * 3, TAKT_AN, TAKT_AUS);   // Stand der Animation im laufenden Drittel
       if (sb !== bz.schritt) { bz.schritt = sb; blick.setAttribute("data-schritt", String(sb)); }
-      var spielt = sb === 0 && r.top <= vh * 0.04 && r.bottom >= vh;
+      var spielt = sb === 0 && (bz.klick ? bz.zentriert : r.top <= vh * 0.04 && r.bottom >= vh);
       if (spielt !== bz.spielt) { bz.spielt = spielt; blick.toggleAttribute("data-spielt", spielt); }
       var zl = sb === 0 ? innen * GRUPPE_ENDE : GRUPPE_ENDE;
       if (Math.abs(zl - (bz.zl || 0)) > 0.0005) { bz.zl = zl; blick.style.setProperty("--zl", zl.toFixed(4)); }
@@ -385,7 +415,7 @@
   function balkenSetzen() {
     balkenWartet = false;
     var h = window.innerHeight, an = null;
-    akte.forEach(function (a) { var r = a.getBoundingClientRect(); if (r.top <= h * 0.1 && r.bottom >= h * 0.9) an = a; });
+    akte.forEach(function (a) { if (a.classList.contains("ist-klick")) return; var r = a.getBoundingClientRect(); if (r.top <= h * 0.1 && r.bottom >= h * 0.9) an = a; });   // am Handy zum Antippen: kein Balken
     balken.classList.toggle("ist-an", !!an);
     if (!an) return;
     if (an !== balkenAkt) { balkenAkt = an; balkenMarken(an); }

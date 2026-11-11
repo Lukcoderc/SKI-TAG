@@ -237,3 +237,10 @@ Since 2026-11-08 a placeholder until the real logo arrives, chosen by Lukas (dra
 - Don't name a ski area, a partner, a price or a date. Don't show the server, cables or charging stations (Lukas, 2026-11-04).
 - Don't show speed or speed rankings in the app screens.
 - Don't load fonts, scripts or models from a CDN.
+
+## Phones (since 2026-11-11, Feedback 88)
+
+- **No scroll-through on phones:** every pinned scroll animation gets `data-klick="<max width>"`; below that width an inline script before `ScrollCraft.mount` turns it into a normal one-screen section (`.ist-klick`). "Was ist SKITAG?" shows three step buttons (segmented control on `--eis`), the app scenes turn their step labels into tabs. A chosen step plays once over about 3.6 to 3.8 s when the section sits in the middle of the screen. Desktop keeps the scroll-driven version.
+- **One screen for the app teaser:** eyebrow, title, one sentence, the audience pills in one swipeable row, the iPhone sized to the remaining height, "Mehr zur App" below it.
+- **Compact lists:** "Gut zu wissen" collapses to slim rows (number, question, plus) and opens to picture and answer on a light tile; the Technik tiles become one swipe row with the next tile peeking.
+- **Lighter rendering:** the 3D chip renders at most at 1.25x pixel density with no 3D snow on touch devices or below 700 px; no backdrop blur on the floating back-to-top button.

@@ -602,3 +602,17 @@ Umgesetzt: auf „Die App“ ist der Gebirgsstreifen über dem Fuß (Feedback 69
 Bei „Die App“ die Bergbahnansicht weg.
 
 Umgesetzt in `app.html`: der Abschnitt „Die Einsatzkarte. Für die Bergbahn.“ (`#skigebiet`) ist entfernt, damit auch das Unterkapitel „Skigebiet“ in der Kopfleiste und die Kachel „Skigebiet“ im Überblick (die übrigen drei: Allein, Familie, Skischule; die letzte geht über die ganze Breite). Einsatzkarte und Bergbahn-Notrufe sind aus Beschreibung, Einleitung und Überblick gestrichen. Der Kontaktkasten am Ende bleibt, jetzt allgemein: „Fragen zur App? Schreib uns, wir antworten dir gern.“
+
+## Feedback 88 (Lukas, 2026-11-11)
+
+Handyansicht: Animationen laufen nicht flüssig. „Was ist SKITAG?“ am Handy mit Auswahl statt Durchscrollen. Der App-Abschnitt der Startseite auf einen Bildschirm, „Mehr zur App“ unter dem iPhone. „Gut zu wissen“ am Handy kleiner, zum Aufklappen. Bei der App jede Scroll-Animation am Handy zum Durchklicken. Die ganze Handyansicht ansehen und verbessern.
+
+Umgesetzt:
+- Abschnitte mit `data-klick="Breite"` werden bis zu dieser Breite nicht angeheftet (ein kleines Skript vor `ScrollCraft.mount` macht aus „pin“ einen normalen Abschnitt mit `.ist-klick`). Am Handy gibt es damit keine Strecke mehr, durch die man scrollen muss.
+- „Was ist SKITAG?“ (bis 860 px): drei Knöpfe „Kurz drücken“, „Drei Sekunden“, „Ohne Netz“ unter dem Titel. Der gewählte Schritt spielt in 3,6 s ab, sobald der Abschnitt mitten im Bild steht (seite.js setzt `chip.blick.p`, chip-3d.js liest es). Die Nahansicht am Sender bleibt, bis man weiterscrollt. Der Balken oben erscheint dort nicht.
+- „Die App“ (bis 899 px): die drei Szenen Allein, Familie, Skischule sind je ein Bildschirm, die Marken über dem Text sind Knöpfe. Der gewählte Teil spielt in 3,8 s ab (app-seite.js).
+- Startseite, App-Abschnitt: Titel, Satz, die Gruppen in einer Zeile zum Wischen, das iPhone so groß wie Platz ist und darunter „Mehr zur App“, zusammen ein Bildschirm.
+- „Gut zu wissen“ (bis 640 px): schmale Zeilen mit Nummer, Frage und Plus. Beim Aufklappen erscheinen Bild und Antwort, die Kachel bleibt hell.
+- Technik-Kacheln (bis 640 px): eine Reihe zum Wischen statt acht Kacheln untereinander, die nächste schaut am Rand vor.
+- Flüssiger am Handy: der 3D-Chip rechnet mit höchstens 1,25-facher Pixeldichte und ohne Schnee in 3D, die Leinwand wird am Handy nie fest angeheftet, der Knopf nach oben hat kein Milchglas mehr.
+- Am Desktop bleibt alles wie vorher.
