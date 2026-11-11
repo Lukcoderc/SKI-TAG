@@ -317,3 +317,6 @@ html:not(.js-app) .sz-seite[data-seite="0"] { opacity: 1; transform: none; }
   .bs, .bs *, .szene__teil, .sz-seite { animation: none !important; transition: none !important; }
   .bs-los__a { display: none; }
 }
+
+/* Feedback 87: ohne die Bergbahnansicht sind es drei Zugänge; ein letzter, allein stehender geht über die ganze Breite */
+.app-zugaenge li:last-child:nth-child(odd) { grid-column: 1 / -1; }

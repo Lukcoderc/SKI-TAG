@@ -10,7 +10,9 @@
   var sparsam = function () { return wurzel.classList.contains("sparsam"); };
 
   /* --------------------------------------------------- Ladebildschirm -- */
-  /* Weg, sobald die Schriften da sind, spätestens nach 5 s. */
+  /* Weg, sobald die Schriften (und auf der Startseite der 3D-Chip) da sind, spätestens nach 5 s.
+     Lädt der 3D-Chip gar nicht, zeigt die Seite nach 6 s doch das Standbild. */
+  setTimeout(function () { if (!wurzel.classList.contains("chip3d-an")) wurzel.classList.remove("chip3d-warte"); }, 6000);
   var lade = document.querySelector(".lade");
   if (lade) {
     var weg = function () {
@@ -19,7 +21,12 @@
       setTimeout(function () { lade.remove(); }, 600);
     };
     var schrift = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
-    schrift.then(function () { requestAnimationFrame(function () { requestAnimationFrame(weg); }); });
+    // auf der Startseite auch auf den 3D-Chip warten, höchstens 3 s, damit er nicht nach dem Ladebildschirm aufpoppt
+    var chipBereit = !document.querySelector(".held__chip") ? Promise.resolve() : new Promise(function (fertig) {
+      window.addEventListener("skitag-chip-bereit", fertig, { once: true });
+      setTimeout(fertig, 3000);
+    });
+    Promise.all([schrift, chipBereit]).then(function () { requestAnimationFrame(function () { requestAnimationFrame(weg); }); });
     setTimeout(weg, 5000);
   }
 
@@ -72,8 +79,9 @@
   /* Die Kopfleiste steht seit Feedback 51 in kopfleiste.js. */
 
   /* --------------------------------- Einstieg: Ebenen folgen Zeiger und Scrollen -- */
-  /* Himmel, Berge und Schnee liegen hintereinander (seite.css liest --mx, --my, --sy und verschiebt die
-     Ebenen verschieden weit). Läuft nur, solange der Einstieg zu sehen ist. */
+  /* Sonne und drei Bergebenen liegen hintereinander und werden verschieden weit verschoben. Gesetzt wird
+     direkt transform auf den Ebenen (eigene Ebenen im Browser, kein Neuzeichnen), und nur, wenn sich der
+     Wert merklich ändert. Läuft nur, solange der Einstieg zu sehen ist. */
   var held = document.querySelector(".held");
   if (held && !ohneBewegung) {
     var hx = 0, hy = 0, hxS = 0, hyS = 0, heldDa = false, heldLaeuft = false;
@@ -81,12 +89,20 @@
       if (e.pointerType === "touch") return;
       hx = e.clientX / window.innerWidth - 0.5; hy = e.clientY / window.innerHeight - 0.5;
     }, { passive: true });
+    // [Element, Weg je Zeiger x, je Zeiger y, je Scrollen] in Pixeln
+    var heldEbenen = [[".held__wort", 8, 6, -24], [".held__sonne", -14, -10, 50], [".held__lage--fern", -10, -5, 90], [".held__lage--mitte", -20, -9, 45], [".held__lage--nah", -34, -12, 0]]
+      .map(function (e) { return { el: held.querySelector(e[0]), x: e[1], y: e[2], s: e[3], alt: "" }; })
+      .filter(function (e) { return e.el; });
+    var heldHoehe = held.offsetHeight;
+    window.addEventListener("resize", function () { heldHoehe = held.offsetHeight; });
     var heldTakt = function () {
       if (!heldDa) { heldLaeuft = false; return; }
       hxS += (hx - hxS) * 0.06; hyS += (hy - hyS) * 0.06;
-      held.style.setProperty("--mx", hxS.toFixed(4));
-      held.style.setProperty("--my", hyS.toFixed(4));
-      held.style.setProperty("--sy", klemme(window.scrollY / Math.max(1, held.offsetHeight)).toFixed(4));
+      var sy = klemme(window.scrollY / Math.max(1, heldHoehe));
+      heldEbenen.forEach(function (e) {
+        var t = "translate3d(" + (hxS * e.x).toFixed(1) + "px," + (hyS * e.y + sy * e.s).toFixed(1) + "px,0)";
+        if (t !== e.alt) { e.el.style.transform = t; e.alt = t; }
+      });
       requestAnimationFrame(heldTakt);
     };
     new IntersectionObserver(function (e) {
@@ -101,9 +117,12 @@
   chip.blick = { schritt: 0, halten: 0, spielt: false, start: 0 };
 
   /* ------------------------------------ Was ist SKITAG?: drei Schritte -- */
-  /* Die gepinnte Strecke ist in drei Teile geteilt: kurz drücken, drei Sekunden halten, Funk zur Liftstation.
-     data-schritt schaltet Text und Fläche, --halten füllt den Ring im zweiten Schritt, data-spielt
-     startet die Schleife „Gruppe rufen“ (4,2 s), sobald die Bühne steht. */
+  /* Die gepinnte Strecke ist in drei gleich lange Teile geteilt: kurz drücken, drei Sekunden halten, Funk.
+     Feedback 83: alle drei laufen im selben Takt mit dem Scrollen. In jedem Drittel läuft die Animation von
+     5 % bis 70 % und bleibt danach stehen, damit man sie lesen kann (TAKT_AN, TAKT_AUS).
+     data-schritt schaltet Text und Fläche; --zl ist der Stand von „Gruppe rufen“ (0 bis 0,68 der früheren
+     4,2-s-Schleife, seite.css und chip-3d.js lesen ihn), --halten füllt den Ring im zweiten Schritt. */
+  var TAKT_AN = 0.05, TAKT_AUS = 0.7, GRUPPE_ENDE = 0.68;
   var blick = document.getElementById("blick");
   if (blick && blick.querySelector(".blick__chip")) {
     var bz = chip.blick, blickDa = false, blickLaeuft = false;
@@ -111,12 +130,15 @@
       if (!blickDa) { blickLaeuft = false; return; }
       var r = blick.getBoundingClientRect(), vh = window.innerHeight;
       var p = klemme(-r.top / Math.max(1, r.height - vh));
-      var sb = p < 0.28 ? 0 : p < 0.62 ? 1 : 2;
+      var sb = p < 1 / 3 ? 0 : p < 2 / 3 ? 1 : 2;
+      var innen = abschnitt((p - sb / 3) * 3, TAKT_AN, TAKT_AUS);   // Stand der Animation im laufenden Drittel
       if (sb !== bz.schritt) { bz.schritt = sb; blick.setAttribute("data-schritt", String(sb)); }
       var spielt = sb === 0 && r.top <= vh * 0.04 && r.bottom >= vh;
-      if (spielt !== bz.spielt) { bz.spielt = spielt; bz.start = performance.now(); blick.toggleAttribute("data-spielt", spielt); }
-      // der Ring ist nach gut der Hälfte des zweiten Schritts voll; danach bleibt „Notruf gesendet“ stehen, auch im dritten
-      var h = sb === 1 ? abschnitt((p - 0.28) / 0.34, 0.05, 0.55) : sb === 2 ? 1 : 0;
+      if (spielt !== bz.spielt) { bz.spielt = spielt; blick.toggleAttribute("data-spielt", spielt); }
+      var zl = sb === 0 ? innen * GRUPPE_ENDE : GRUPPE_ENDE;
+      if (Math.abs(zl - (bz.zl || 0)) > 0.0005) { bz.zl = zl; blick.style.setProperty("--zl", zl.toFixed(4)); }
+      // der Ring füllt sich im gleichen Takt; danach bleibt „Notruf gesendet“ stehen, auch im dritten Schritt
+      var h = sb === 1 ? innen : sb === 2 ? 1 : 0;
       if (Math.abs(h - bz.halten) > 0.002 || (h === 1) !== blick.hasAttribute("data-voll")) {
         bz.halten = h; blick.style.setProperty("--halten", h.toFixed(3));
         var sek = String(Math.min(3, Math.max(1, Math.ceil(h * 3))));
@@ -146,10 +168,10 @@
     var wegPunkte = akt.querySelectorAll(".kn-weg li");
     var wegTitel = akt.querySelector(".kn-weg__titel");
 
-    // Halten dauert wie am echten Chip 3 s; Frist (echt 5 s) und der Weg der Hilfe sind verkürzt.
-    var HALTEN = 3000, FRIST = 3000, LAUF = 7000, GRUPPE = 4600;
+    // In der Vorführung verkürzt: Halten 1,2 s (echt 3 s, Feedback 72), Abbrechen 3 s (echt 5 s, Feedback 77).
+    var HALTEN = 1200, FRIST = 3000, LAUF = 7000, GRUPPE = 4600;
     var taktLaeuft = false, zustand = "ruhe", start = 0, hilfe = 0, gruppe = 0, letzteSekunde = -1, stufe = "";
-    var START_TEXT = "Probier es aus: Drück den Knopf am Chip. Kurz für die Gruppe, drei Sekunden für den Notruf.";
+    var START_TEXT = "Probier es aus: Drück den Knopf am Chip. Kurz für die Gruppe, gedrückt halten für den Notruf.";
 
     var setzeZustand = function (z) { zustand = z; chip.zustand = z; akt.setAttribute("data-zustand", z); };
     // Ring: beim Halten 0 bis 1, in der Frist 1 bis 0. --ring füllt den Ring ohne WebGL.
@@ -252,37 +274,20 @@
   /* --------------------------------------------- Die App im iPhone -- */
   /* Kurzfassung seit Feedback 56 (vorher eine gepinnte Strecke mit vier ausführlichen Schritten):
      Die Marken Familien, Skischulen, Alle auf der Piste, Neu im Skigebiet schalten den Bildschirm
-     im iPhone um. Solange der Abschnitt zu sehen ist und niemand mit den Marken arbeitet, wechselt
-     er alle 4 s von selbst zur nächsten Marke; bei „weniger Bewegung“ nur auf Klick. */
+     im iPhone um. Seit Feedback 69 nur noch auf Klick, kein Durchlauf von selbst. */
   var appAkt = document.getElementById("app");
   var appMarken = appAkt ? appAkt.querySelectorAll(".app-akt__fuer button") : [];
   if (appAkt && appMarken.length) {
     var app = appAkt.querySelector(".app");
-    var appNr = 0, appSichtbar = false, appRuht = false, appUhr = 0;
+    var appNr = 0;
     var appZeigen = function (nr) {
       appNr = nr;
       app.setAttribute("data-bild", appMarken[nr].getAttribute("data-bild"));
       appMarken.forEach(function (m, i) { m.setAttribute("aria-pressed", i === nr ? "true" : "false"); });
     };
-    var appWeiter = function () {
-      clearTimeout(appUhr);
-      if (ohneBewegung || !appSichtbar || appRuht) return;
-      appUhr = setTimeout(function () {
-        if (!document.hidden) appZeigen((appNr + 1) % appMarken.length);
-        appWeiter();
-      }, 4000);
-    };
     appMarken.forEach(function (m, i) {
-      m.addEventListener("click", function () { appZeigen(i); appWeiter(); });
+      m.addEventListener("click", function () { appZeigen(i); });
     });
-    var appLinks = appAkt.querySelector(".app-akt__fuer");
-    appLinks.addEventListener("pointerenter", function () { appRuht = true; clearTimeout(appUhr); });
-    appLinks.addEventListener("pointerleave", function () { appRuht = false; appWeiter(); });
-    appLinks.addEventListener("focusin", function () { appRuht = true; clearTimeout(appUhr); });
-    appLinks.addEventListener("focusout", function () { appRuht = false; appWeiter(); });
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (e) { appSichtbar = e[0].isIntersecting; appWeiter(); }, { threshold: 0.35 }).observe(appAkt);
-    }
     appZeigen(0);
   }
 
@@ -306,7 +311,7 @@
     var ruhen = new IntersectionObserver(function (eintraege) {
       eintraege.forEach(function (e) { e.target.classList.toggle("ist-weg", !e.isIntersecting); });
     });
-    document.querySelectorAll(".held, .gebaut, .gebirge, .schluss").forEach(function (el) { ruhen.observe(el); });
+    document.querySelectorAll(".held, .gebaut, .gebirge, .schluss, .fragen").forEach(function (el) { ruhen.observe(el); });
   }
 
   /* --------------------------------------------- Ruckeln erkennen -- */
@@ -338,20 +343,56 @@
     }, { passive: true });
   }
 
+  /* ------------------------------------------ Gut zu wissen (Bento) -- */
+  /* Seit Feedback 75: jede Frage ist eine Kachel. Ein Klick irgendwo auf die Kachel (der Knopf ist über die ganze
+     Kachel gezogen) zeigt die Antwort, noch einer schließt sie; Escape schließt alle. Die Klasse js-fq setzt
+     schon der Kopf der Seite, damit die Antworten nicht kurz aufblitzen. */
+  var fqKacheln = document.querySelectorAll(".fq");
+  if (fqKacheln.length) {
+    wurzel.classList.add("js-fq");
+    fqKacheln.forEach(function (k) {
+      var b = k.querySelector(".fq__frage");
+      if (!b) return;
+      b.addEventListener("click", function () {
+        var auf = b.getAttribute("aria-expanded") !== "true";
+        b.setAttribute("aria-expanded", String(auf));
+        k.classList.toggle("ist-offen", auf);
+      });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      document.querySelectorAll(".fq.ist-offen .fq__frage").forEach(function (b) { b.click(); });
+    });
+  }
+
   /* ---------------------------------- Fortschritt der Scroll-Animationen -- */
   /* Solange eine gepinnte Strecke den Bildschirm hält, zeigt der Balken ihren
-     Fortschritt (--sc-p der Engine, 0 bis 1). Danach blendet er aus. */
+     Fortschritt (--sc-p der Engine, 0 bis 1). Danach blendet er aus.
+     Seit Feedback 74 ist er in Abschnitte geteilt: data-marken am Abschnitt nennt, wo der nächste Punkt
+     beginnt (Anteile 0 bis 1). Dort trennt eine kleine Lücke den Balken; erreichte Abschnitte sind voll,
+     der laufende füllt sich, die kommenden sind blass. So sieht man, wie weit es bis zum nächsten Punkt ist. */
   var balken = document.querySelector(".akt-balken");
   var akte = document.querySelectorAll('[data-sc-act="pin"], [data-sc-act="scrub"]');
-  var balkenWartet = false;
+  var balkenWartet = false, balkenAkt = null;
+  var balkenMarken = function (a) {
+    balken.querySelectorAll(".akt-balken__marke").forEach(function (m) { m.remove(); });
+    (a.getAttribute("data-marken") || "").trim().split(/\s+/).filter(Boolean).forEach(function (w) {
+      var m = document.createElement("span");
+      m.className = "akt-balken__marke"; m.style.left = (parseFloat(w) * 100).toFixed(2) + "%"; m.setAttribute("data-bei", w);
+      balken.appendChild(m);
+    });
+  };
   function balkenSetzen() {
     balkenWartet = false;
     var h = window.innerHeight, an = null;
     akte.forEach(function (a) { var r = a.getBoundingClientRect(); if (r.top <= h * 0.1 && r.bottom >= h * 0.9) an = a; });
     balken.classList.toggle("ist-an", !!an);
     if (!an) return;
+    if (an !== balkenAkt) { balkenAkt = an; balkenMarken(an); }
     balken.classList.toggle("ist-nacht", an.classList.contains("nacht"));
-    balken.firstElementChild.style.transform = "scaleX(" + fortschritt(an).toFixed(4) + ")";
+    var p = fortschritt(an);
+    balken.firstElementChild.style.transform = "scaleX(" + p.toFixed(4) + ")";
+    balken.querySelectorAll(".akt-balken__marke").forEach(function (m) { m.classList.toggle("ist-durch", p >= parseFloat(m.getAttribute("data-bei"))); });
   }
   if (balken && akte.length) {
     window.addEventListener("scroll", function () { if (!balkenWartet) { balkenWartet = true; requestAnimationFrame(balkenSetzen); } }, { passive: true });

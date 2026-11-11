@@ -90,7 +90,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 /* ----------------------------------------------------- Leistung und Sparmodus -- */
 /* Zier-Animationen ruhen, solange ihr Abschnitt nicht zu sehen ist (seite.js setzt .ist-weg). */
 .ist-weg .hang__chip, .ist-weg .hang__schatten, .ist-weg .gebirge__antenne, .ist-weg .gebirge__kabine,
-.ist-weg .schluss__chip, .ist-weg .kachel__ring-halten, .ist-weg .kachel__ring-frist, .ist-weg .kachel__ring-ziffern, .ist-weg .kachel__thermo-saeule { animation-play-state: paused; }
+.ist-weg .schluss__chip, .ist-weg .kachel__ring-halten, .ist-weg .kachel__ring-frist, .ist-weg .kachel__ring-ziffern > span, .ist-weg .kachel__thermo-saeule { animation-play-state: paused; }
 /* Die Seitenleiste ändert beim Scrollen Schriftgrößen: das bleibt in ihr */
 .sprungleiste { contain: layout style; }
 /* Sparmodus (html.sparsam, im Kopf der Seite gesetzt oder nach gemessenem Ruckeln):
@@ -361,23 +361,37 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 @keyframes ring-halten { 0% { stroke-dashoffset: 1; } 37.5% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
 @keyframes ring-frist { 0%, 37.5% { stroke-dashoffset: 1; } 100% { stroke-dashoffset: 0; } }
 .kachel__ring-zahl { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; font-family: var(--sc-font-display); }
-.kachel__ring-zahl b { font-size: clamp(3rem, 6vw, 4.6rem); font-weight: 680; letter-spacing: -0.05em; line-height: 1; display: block; height: 1em; overflow: hidden; }
+.kachel__ring-zahl b { font-size: clamp(3rem, 6vw, 4.6rem); font-weight: 680; letter-spacing: -0.05em; line-height: 1; display: block; }
 /* Die Zahl zählt im Takt der Ringe mit: 3, 2, 1 in der Farbe von „3 s halten.“, dann 5 bis 1 in der
-   Farbe von „5 s zum Abbrechen.“; ein Streifen aus acht Ziffern rückt jede Sekunde um eine weiter */
-.kachel__ring-ziffern { display: block; }
-.kachel__ring-ziffern > span { display: block; height: 1em; line-height: 1em; color: var(--nacht-soft); }
+   Farbe von „5 s zum Abbrechen.“. Seit Feedback 81 liegen die acht Ziffern übereinander und werden
+   nacheinander je eine Sekunde eingeblendet. Vorher rollte ein Streifen durch ein 1em hohes Fenster und
+   schnitt die Ziffern je nach Größe oben oder unten an. */
+.kachel__ring-ziffern { display: grid; justify-items: center; }
+.kachel__ring-ziffern > span { grid-area: 1 / 1; display: block; line-height: 1; color: var(--nacht-soft); opacity: 0; }
+.kachel__ring-ziffern > span:first-child { opacity: 1; }
 .kachel__ring-ziffern > span:nth-child(-n+3) { color: #ff8a5c; }
-.kachel--nacht.sc-in .kachel__ring-ziffern { animation: ring-ziffern 8s steps(8) infinite; }
-@keyframes ring-ziffern { from { transform: translateY(0); } to { transform: translateY(-8em); } }
+.kachel--nacht.sc-in .kachel__ring-ziffern > span { animation: ring-ziffer 8s linear infinite; }
+.kachel--nacht.sc-in .kachel__ring-ziffern > span:nth-child(2) { animation-delay: -7s; }
+.kachel--nacht.sc-in .kachel__ring-ziffern > span:nth-child(3) { animation-delay: -6s; }
+.kachel--nacht.sc-in .kachel__ring-ziffern > span:nth-child(4) { animation-delay: -5s; }
+.kachel--nacht.sc-in .kachel__ring-ziffern > span:nth-child(5) { animation-delay: -4s; }
+.kachel--nacht.sc-in .kachel__ring-ziffern > span:nth-child(6) { animation-delay: -3s; }
+.kachel--nacht.sc-in .kachel__ring-ziffern > span:nth-child(7) { animation-delay: -2s; }
+.kachel--nacht.sc-in .kachel__ring-ziffern > span:nth-child(8) { animation-delay: -1s; }
+@keyframes ring-ziffer { 0% { opacity: 0; translate: 0 0.12em; } 2% { opacity: 1; translate: 0 0; } 11.5% { opacity: 1; translate: 0 0; } 12.5%, 100% { opacity: 0; translate: 0 -0.08em; } }
 .kachel__ring-zahl small { font-size: var(--sc-t-sm); color: var(--nacht-soft); }
 .kachel--kalt { background: linear-gradient(180deg, #ffffff 0%, #eef0f2 100%); }
 .kachel__thermo { position: absolute; right: 1.6rem; top: 1.6rem; width: 2.2rem; color: #b5bac0; }
 .kachel__thermo-saeule { fill: #ff8a5c; transform-origin: 50% 100%; transform-box: fill-box; transform: scaleY(0.85); transition: transform 1.6s var(--sc-ease-out), fill 1.6s linear; }
 .kachel__thermo-kugel { fill: #ff8a5c; transition: fill 1.6s linear; }
-.kachel.sc-in .kachel__thermo-saeule { transform: scaleY(0.14); fill: #95a2b9; animation: thermo-zittern 3.2s ease-in-out 1.8s infinite; }
-.kachel.sc-in .kachel__thermo-kugel { fill: #95a2b9; }
-@keyframes thermo-zittern { 0%, 100% { transform: scaleY(0.14); } 50% { transform: scaleY(0.19); } }
-@media (prefers-reduced-motion: reduce) { .kachel__thermo-saeule, .kachel__thermo-kugel { transition: none; } .kachel.sc-in .kachel__thermo-saeule { animation: none; } }
+/* Feedback 80: die Säule fällt beim Erscheinen von warm (orange) auf eisig (blau) und schwankt danach sichtbar
+   weiter, wie draußen am Berg; die Kugel färbt sich mit. Dazu eine feine Skala. */
+.kachel.sc-in .kachel__thermo-saeule { animation: thermo-fallen 1.8s var(--sc-ease-out) both, thermo-schwanken 5.6s ease-in-out 1.8s infinite; }
+.kachel.sc-in .kachel__thermo-kugel { fill: #5f8fd6; }
+.kachel__thermo-skala { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+@keyframes thermo-fallen { from { transform: scaleY(0.85); fill: #ff8a5c; } to { transform: scaleY(0.24); fill: #5f8fd6; } }
+@keyframes thermo-schwanken { 0%, 100% { transform: scaleY(0.24); fill: #5f8fd6; } 30% { transform: scaleY(0.4); fill: #7aa6e6; } 55% { transform: scaleY(0.17); fill: #5f8fd6; } 78% { transform: scaleY(0.31); fill: #6b9ade; } }
+@media (prefers-reduced-motion: reduce) { .kachel__thermo-saeule, .kachel__thermo-kugel { transition: none; } .kachel.sc-in .kachel__thermo-saeule { animation: none; transform: scaleY(0.24); fill: #5f8fd6; } }
 .kachel__akku { position: absolute; right: 1.6rem; top: 1.7rem; width: 4.6rem; height: 2.2rem; border: 2px solid #afb3b8; border-radius: 0.6rem; padding: 3px; }
 .kachel__akku i { position: absolute; right: -0.45rem; top: 50%; width: 0.3rem; height: 0.8rem; margin-top: -0.4rem; border-radius: 0 3px 3px 0; background: #afb3b8; }
 .kachel__akku span { display: block; height: 100%; border-radius: 0.35rem; background: #1ea85a; width: 100%; transform-origin: 0 50%; transform: scaleX(1); transition: transform 2.4s var(--sc-ease-in-out) 0.4s, background-color 2.4s 0.4s; }
@@ -389,7 +403,7 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .kachel__huelle svg { width: 100%; height: auto; display: block; }
 @media (prefers-reduced-motion: reduce) {
   .kachel--nacht .kachel__ring-halten, .kachel--nacht .kachel__ring-frist { animation: none !important; stroke-dashoffset: 0; }
-  .kachel--nacht .kachel__ring-ziffern { animation: none !important; }
+  .kachel--nacht .kachel__ring-ziffern > span { animation: none !important; }
 }
 
 @keyframes puls { 0% { box-shadow: 0 0 0 0 rgba(255, 45, 45, 0.6); } 100% { box-shadow: 0 0 0 12px rgba(255, 45, 45, 0); } }
@@ -551,24 +565,6 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .fahrer--orange .fahrer__bild { top: 16%; filter: drop-shadow(0 20px 24px rgba(180, 60, 10, 0.3)); }
 
 /* --------------------------------------------------------- 8 · Fragen -- */
-.fragen__raster { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(2rem, 6vw, 6rem); align-items: start; }
-.fragen__raster .kopfzeile { position: sticky; top: 7rem; }
-.fragen__liste { border-top: 1px solid var(--linie); }
-.fragen__liste details { border-bottom: 1px solid var(--linie); }
-.fragen__liste summary {
-  list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: var(--sc-4);
-  padding: var(--sc-5) 0; font-family: var(--sc-font-display); font-weight: 620; font-size: var(--sc-t-lg); letter-spacing: -0.02em;
-}
-.fragen__liste summary::-webkit-details-marker { display: none; }
-.fragen__liste summary::after {
-  content: ""; flex: none; width: 2rem; height: 2rem; border-radius: 50%; background: #f2f3f4 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 3.5v9M3.5 8h9' stroke='%230b1226' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center / 0.9rem no-repeat;
-  transition: transform var(--sc-d-base) var(--sc-ease-out), background-color var(--sc-d-base);
-}
-.fragen__liste details[open] summary::after { transform: rotate(45deg); background-color: #ffe3d6; }
-@media (hover: hover) and (pointer: fine) { .fragen__liste summary:hover { color: var(--orange-2); } }
-.fragen__liste summary:focus-visible { outline: 2px solid var(--sc-ink); outline-offset: 4px; border-radius: 6px; }
-.fragen__liste details p { margin: 0 0 var(--sc-5); color: var(--sc-ink-soft); max-width: 56ch; line-height: 1.6; }
-.fragen__liste details[open] p { animation: auf 400ms var(--sc-ease-out); }
 @keyframes auf { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 
 /* ------------------------------------------------------------ 9 · Wir -- */
@@ -828,8 +824,6 @@ section[id] { scroll-margin-top: 0; }
   .iphone { --b: min(15rem, 34svh); }
 
   .jeden__kopf { flex-direction: column; align-items: start; }
-  .fragen__raster { grid-template-columns: 1fr; }
-  .fragen__raster .kopfzeile { position: static; }
   .wir__platz { aspect-ratio: 4 / 3; }
   .fuss__innen { grid-template-columns: 1fr 1fr; }
   .fuss__marke { grid-column: span 2; }
@@ -1373,21 +1367,14 @@ section#kontakt { scroll-margin-top: 4.5rem; }
 .held { position: relative; isolation: isolate; overflow: hidden; min-height: 100svh; box-sizing: border-box; padding: clamp(6rem, 13vh, 8.5rem) var(--sc-gutter) clamp(2rem, 6vh, 4rem); }
 .held::before { content: none; }
 .held__himmel { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: linear-gradient(180deg, #d3e1f2 0%, #e4edf8 36%, #f2f6fb 64%, #ffffff 94%); }
-.held__sonne { position: absolute; right: 2%; top: -12%; width: 58vmax; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.5) 40%, rgba(255, 255, 255, 0)); translate: calc(var(--mx, 0) * -14px) calc(var(--my, 0) * -10px + var(--sy, 0) * 50px); }
-.held__berge { position: absolute; left: -3%; bottom: 0; width: 106%; height: min(74%, 46rem); overflow: visible; }
-.held__lage--fern { translate: calc(var(--mx, 0) * -10px) calc(var(--my, 0) * -5px + var(--sy, 0) * 90px); }
-.held__lage--mitte { translate: calc(var(--mx, 0) * -20px) calc(var(--my, 0) * -9px + var(--sy, 0) * 45px); }
-.held__lage--nah { translate: calc(var(--mx, 0) * -34px) calc(var(--my, 0) * -12px); }
+/* Sonne und Bergebenen verschiebt seite.js direkt per transform (eigene Ebenen, will-change): kein Neuzeichnen beim Bewegen */
+.held__sonne { position: absolute; right: 2%; top: -12%; width: 58vmax; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.5) 40%, rgba(255, 255, 255, 0)); will-change: transform; }
+.held__berge { position: absolute; left: -3%; bottom: 0; width: 106%; height: min(74%, 46rem); overflow: visible; will-change: transform; }
 .held__raster { position: relative; width: 100%; max-width: var(--sc-maxw); margin: 0 auto; display: grid; gap: clamp(1.5rem, 5vw, 4rem); }
 .held__bild { position: relative; }
 /* Funkringe hinter dem Chip: drei feine Kreise, einer läuft alle paar Sekunden nach außen */
-.held__ringe i, .held__ringe b { position: absolute; left: 50%; top: 52%; height: var(--d); aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; border: 1px solid rgba(14, 29, 64, 0.1); }
-.held__ringe i:nth-child(1) { --d: 62%; } .held__ringe i:nth-child(2) { --d: 96%; border-color: rgba(14, 29, 64, 0.07); } .held__ringe i:nth-child(3) { --d: 132%; border-color: rgba(14, 29, 64, 0.045); }
-.held__ringe b { --d: 132%; border: 1.5px solid rgba(255, 90, 28, 0.55); opacity: 0; animation: held-funk 5.2s cubic-bezier(0.2, 0.6, 0.3, 1) infinite; }
-@keyframes held-funk { 0% { opacity: 0; scale: 0.3; } 8% { opacity: 0.8; } 60%, 100% { opacity: 0; scale: 1; } }
 .held__chip { left: 50%; top: 52%; height: 72%; }
-.ist-weg .held__ringe b, .sparsam .held__ringe b { animation: none; }
-@media (prefers-reduced-motion: reduce) { .held__ringe b { animation: none; } .held__sonne, .held__lage { translate: none; } }
+@media (prefers-reduced-motion: reduce) { .held__sonne, .held__lage { transform: none !important; } }
 @media (min-width: 861px) {
   .held { display: grid; align-items: center; }
   .held__raster { grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr); align-items: center; }
@@ -1421,7 +1408,6 @@ section#kontakt { scroll-margin-top: 4.5rem; }
 #blick[data-schritt="1"] .blick__flaeche::before, #blick[data-schritt="2"] .blick__flaeche::before { opacity: 1; }
 .blick__chip { left: 50%; top: 52%; height: 64%; transition: left 900ms var(--sc-ease-out), height 900ms var(--sc-ease-out); }
 #blick[data-schritt="0"] .blick__chip { height: 46%; }
-#blick[data-schritt="2"] .blick__chip { left: 31%; height: 56%; }
 
 /* Die Gruppe: drei kleine Chips mit Namen (auch im Abschnitt Knopf). Am Element: --x/--y Mitte in der Fläche,
    --v Verzögerung in der Reihe, --f Farbe des Anfangsbuchstabens. */
@@ -1437,14 +1423,18 @@ section#kontakt { scroll-margin-top: 4.5rem; }
 #blick[data-schritt="0"] .bk-mit { opacity: 1; }
 #blick[data-spielt] .bk-mit::before, #blick[data-spielt] .bk-mit::after { animation: mit-bogen 4.2s linear var(--v, 0s) infinite; }
 #blick[data-spielt] .bk-mit .mit__name { animation: mit-name 4.2s linear var(--v, 0s) infinite; }
-@keyframes mit-bogen { 0%, 26% { opacity: 0; scale: 0.8 1; } 29%, 33%, 37%, 41%, 45%, 49%, 53% { opacity: 1; scale: 1.25 1; } 31%, 35%, 39%, 43%, 47%, 51% { opacity: 0.5; scale: 1 1; } 58%, 100% { opacity: 0; scale: 0.8 1; } }
+@keyframes mit-bogen { 0%, 26% { opacity: 0; scale: 0.9 1; } 29%, 33%, 37%, 41%, 45%, 49%, 53% { opacity: 0.7; scale: 1.08 1; } 31%, 35%, 39%, 43%, 47%, 51% { opacity: 0.4; scale: 1 1; } 58%, 100% { opacity: 0; scale: 0.9 1; } }   /* Feedback 82: ruhiger */
 @keyframes mit-name { 0%, 26% { box-shadow: 0 8px 18px -10px rgba(14, 29, 64, 0.45); } 30%, 54% { box-shadow: 0 0 0 2.5px var(--orange), 0 8px 18px -10px rgba(14, 29, 64, 0.45); } 60%, 100% { box-shadow: 0 8px 18px -10px rgba(14, 29, 64, 0.45); } }
 
 /* Wellen vom Chip, Linien und Punkte zur Gruppe (Schritt 1) */
 .bk-wellen, .kn-wellen { position: absolute; left: 50%; top: 52%; width: 0; height: 0; pointer-events: none; }
 .bk-wellen i, .kn-wellen i { position: absolute; left: 0; top: 0; width: 26rem; height: 26rem; margin: -13rem 0 0 -13rem; border-radius: 50%; border: 2px solid var(--orange); opacity: 0; transform: scale(0.25); }
 #blick[data-spielt] .bk-wellen i { animation: bk-welle 4.2s var(--sc-ease-out) infinite; }
-.bk-wellen i:nth-child(2) { animation-delay: 0.22s !important; } .bk-wellen i:nth-child(3) { animation-delay: 0.44s !important; }
+.bk-wellen i:nth-child(2) { --v: 0.22s; } .bk-wellen i:nth-child(3) { --v: 0.44s; }
+/* Feedback 83: „Gruppe rufen“ läuft mit dem Scrollen. Die Animationen stehen still und werden über eine negative
+   Verzögerung auf den Stand gesetzt, den seite.js in --zl schreibt (Anteil der 4,2-s-Schleife). */
+#blick[data-spielt] .bk-wellen i, #blick[data-spielt] .bk-paket, #blick[data-spielt] .bk-mit::before, #blick[data-spielt] .bk-mit::after,
+#blick[data-spielt] .bk-mit .mit__name, #blick[data-spielt] .bk-marke--gruppe { animation-play-state: paused !important; animation-delay: calc(var(--v, 0s) - var(--zl, 0) * 4.2s) !important; }
 @keyframes bk-welle { 0%, 7% { opacity: 0; transform: scale(0.25); } 10% { opacity: 0.75; } 46%, 100% { opacity: 0; transform: scale(1.3); } }
 .bk-linien, .kn-linien { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 400ms var(--sc-ease-out); }
 .bk-linien path, .kn-linien path { fill: none; stroke: rgba(14, 29, 64, 0.2); stroke-width: 1.5; stroke-dasharray: 3 6; stroke-linecap: round; vector-effect: non-scaling-stroke; }
@@ -1462,39 +1452,26 @@ section#kontakt { scroll-margin-top: 4.5rem; }
 .bk-marke--notruf i { background: #fff; }
 #blick[data-spielt] .bk-marke--gruppe { animation: bk-marke 4.2s var(--sc-ease-out) infinite; }
 @keyframes bk-marke { 0%, 28% { opacity: 0; transform: translateY(10px); } 34%, 86% { opacity: 1; transform: none; } 93%, 100% { opacity: 0; transform: translateY(10px); } }
-/* „Notruf gesendet“ erscheint, sobald der Ring voll ist, und bleibt im dritten Schritt unter dem Chip stehen.
-   Dort kommt nach dem ersten Funkpaket „Standort empfangen“ an der Liftstation dazu. */
+/* „Notruf gesendet“ erscheint, sobald der Ring voll ist, und bleibt im dritten Schritt stehen (dort oben links). */
 #blick[data-schritt="1"][data-voll] .bk-marke--notruf, #blick[data-schritt="2"] .bk-marke--notruf { opacity: 1; transform: none; }
-#blick[data-schritt="2"] .bk-marke--notruf { left: 30%; }
-.bk-marke--empfangen { left: 76%; }
-#blick[data-schritt="2"] .bk-marke--empfangen { opacity: 1; transform: none; transition-delay: 1.5s; }
+/* im dritten Schritt (nah am Sender) steht „Notruf gesendet“ oben in der Mitte, dort, wohin die Funkwellen laufen */
+#blick[data-schritt="2"] .bk-marke--notruf { left: 50%; top: clamp(1.25rem, 8%, 3rem); bottom: auto; translate: -50% 0; }
 
 /* Zähler (Schritt 2) */
-.bk-zaehler { position: absolute; left: 50%; top: clamp(1rem, 5%, 2rem); translate: -50% 0; display: grid; justify-items: center; color: #fff; opacity: 0; transition: opacity 400ms var(--sc-ease-out); }
-.bk-zaehler__zahl { position: relative; display: block; width: 3ch; height: 1em; font-family: var(--sc-font-display); font-weight: 680; font-size: clamp(2.2rem, 1.5rem + 2vw, 3.4rem); line-height: 1; letter-spacing: -0.04em; text-align: center; }
-.bk-zaehler__zahl b { position: absolute; inset: 0; font-weight: inherit; opacity: 0; transform: translateY(0.3em); transition: opacity 250ms, transform 300ms var(--sc-ease-out); }
-.bk-zaehler small { margin-top: 0.3rem; font-size: var(--sc-t-xs); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); }
-#blick[data-schritt="1"] .bk-zaehler { opacity: 1; }
-#blick[data-sek="1"] .bk-zaehler__zahl b[data-s="1"], #blick[data-sek="2"] .bk-zaehler__zahl b[data-s="2"], #blick[data-sek="3"] .bk-zaehler__zahl b[data-s="3"] { opacity: 1; transform: none; }
+/* Countdown im zweiten Schritt (Feedback 84): zählt 3, 2, 1 rückwärts. Jede Ziffer rollt weich von unten herein und
+   verschwimmt beim Gehen nach oben; ist der Ring voll, macht die Zahl Platz für „Notruf gesendet“.
+   data-sek (1 bis 3) setzt seite.js, b[data-s] zeigt dafür 3, 2 und 1. */
+.bk-zaehler { position: absolute; left: 50%; top: clamp(1.25rem, 6%, 2.5rem); translate: -50% 0; display: grid; justify-items: center; color: #fff; opacity: 0; transition: opacity 400ms var(--sc-ease-out), transform 500ms var(--sc-ease-out); }
+.bk-zaehler__zahl { position: relative; display: block; width: 1.2em; height: 1.08em; overflow: visible; font-family: var(--sc-font-display); font-weight: 680; font-size: clamp(3rem, 2rem + 2.6vw, 4.6rem); line-height: 1.08; letter-spacing: -0.04em; text-align: center; font-variant-numeric: tabular-nums; }
+.bk-zaehler__zahl b { position: absolute; inset: 0; font-weight: inherit; opacity: 0; transform: translateY(0.42em) scale(0.92); filter: blur(6px); transition: opacity 320ms ease, transform 520ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 420ms ease; }
+.bk-zaehler small { margin-top: 0.45rem; font-size: var(--sc-t-sm); font-weight: 500; color: rgba(255, 255, 255, 0.62); }
+#blick[data-schritt="1"]:not([data-voll]) .bk-zaehler { opacity: 1; }
+#blick[data-schritt="1"][data-voll] .bk-zaehler { transform: translateY(-10px); }
+#blick[data-sek="1"] .bk-zaehler__zahl b[data-s="1"], #blick[data-sek="2"] .bk-zaehler__zahl b[data-s="2"], #blick[data-sek="3"] .bk-zaehler__zahl b[data-s="3"] { opacity: 1; transform: none; filter: none; }
+/* schon vorbei: nach oben hinaus */
+#blick[data-sek="2"] .bk-zaehler__zahl b[data-s="1"], #blick[data-sek="3"] .bk-zaehler__zahl b[data-s="1"], #blick[data-sek="3"] .bk-zaehler__zahl b[data-s="2"] { transform: translateY(-0.42em) scale(0.92); }
+@media (prefers-reduced-motion: reduce) { .bk-zaehler__zahl b { transition: opacity 150ms; transform: none !important; filter: none !important; } }
 
-/* Funk zur Liftstation (Schritt 3) */
-.bk-funk { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 500ms var(--sc-ease-out); overflow: visible; --sc-ink: #f6f7f9; --sc-ink-soft: #aab2c4; }   /* steht auf Nacht */
-#blick[data-schritt="2"] .bk-funk { opacity: 1; }
-.bk-funk__weg { fill: none; stroke: #ff5c5c; stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 0.012 0.018; opacity: 0.9; }
-#blick[data-schritt="2"] .bk-funk__weg { animation: bk-strich 1.2s linear infinite; }
-@keyframes bk-strich { to { stroke-dashoffset: -0.06; } }
-.bk-funk__punkt { fill: #ff2d2d; offset-path: path("M120 170 C 200 110, 270 110, 330 128"); offset-distance: 0%; opacity: 0; }
-#blick[data-schritt="2"] .bk-funk__punkt { animation: bk-funkpaket 1.8s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
-@keyframes bk-funkpaket { 0% { offset-distance: 0%; opacity: 0; } 10% { opacity: 1; } 85% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
-.bk-funk__station path { fill: none; stroke: var(--sc-ink); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
-.bk-funk__station .bk-funk__bogen { stroke: #ff2d2d; opacity: 0; }
-#blick[data-schritt="2"] .bk-funk__bogen { animation: bk-bogen 1.8s ease-out infinite; }
-#blick[data-schritt="2"] .bk-funk__bogen--2 { animation-delay: 0.2s; }
-@keyframes bk-bogen { 0%, 80% { opacity: 0; } 86% { opacity: 1; } 100% { opacity: 0; } }
-.bk-funk__licht { fill: var(--sc-ink); }
-#blick[data-schritt="2"] .bk-funk__licht { animation: bk-licht 1.8s linear infinite; }
-@keyframes bk-licht { 0%, 82% { fill: var(--sc-ink); } 86%, 100% { fill: #ff2d2d; } }
-.bk-funk__name { font-family: var(--sc-font-text); font-size: 13px; font-weight: 650; fill: var(--sc-ink-soft); text-anchor: middle; }
 
 /* Text: Titel, Satz, drei Schritte; der aktive ist voll, die anderen blass */
 .blick__text { align-self: center; }
@@ -1520,10 +1497,8 @@ section#kontakt { scroll-margin-top: 4.5rem; }
   #blick[data-schritt="0"] li[data-nr="0"], #blick[data-schritt="1"] li[data-nr="1"], #blick[data-schritt="2"] li[data-nr="2"] { display: block; }
   .blick__chip { height: 50%; }
   #blick[data-schritt="0"] .blick__chip { height: 40%; top: 48%; }
-  #blick[data-schritt="2"] .blick__chip { left: 33%; height: 42%; }
   .bk-marke { padding: 0.4rem 0.7rem; font-size: var(--sc-t-xs); }
-  #blick[data-schritt="2"] .bk-marke--notruf { left: 27%; }
-  .bk-marke--empfangen { left: 73%; }
+  #blick[data-schritt="2"] .bk-marke--notruf { top: 1rem; }
   .bk-wellen i, .kn-wellen i { width: 18rem; height: 18rem; margin: -9rem 0 0 -9rem; }
   .mit { height: 19%; }
   .mit__name { font-size: 0.7rem; padding: 0.15rem 0.5rem 0.15rem 0.2rem; }
@@ -1643,11 +1618,211 @@ html:not(.chip3d-an) .chip-knopf:active { background: rgba(255, 255, 255, 0.14);
   .kn-linien__funk { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .bk-wellen i, .bk-paket, .bk-mit::before, .bk-mit::after, .bk-mit .mit__name, .bk-funk__weg, .bk-funk__punkt, .bk-funk__bogen, .bk-funk__licht,
+  .bk-wellen i, .bk-paket, .bk-mit::before, .bk-mit::after, .bk-mit .mit__name, 
   .kn-wellen i, .kn-paket, .kn-mit::before, .kn-mit::after, .kn-mit .mit__name, .kn-linien__funk { animation: none !important; }
   #blick[data-spielt] .bk-marke--gruppe { animation: none; opacity: 1; transform: none; }
   #blick[data-schritt="0"] .bk-mit::before, #blick[data-schritt="0"] .bk-mit::after, #der-chip[data-zustand="gruppe"] .kn-mit::before, #der-chip[data-zustand="gruppe"] .kn-mit::after { opacity: 1; }
   #der-chip[data-zustand="gruppe"] .kn-mit, #der-chip[data-zustand="gruppe"] .kn-linien__gruppe { animation: none; opacity: 1; }
-  .bk-funk__punkt { opacity: 1; offset-distance: 60%; }
   .knopf__chip, .blick__chip { transition: none; }
+}
+
+/* Gebirge über dem Fuß auf allen Unterseiten (Feedback 69): ein eigener Streifen, darin dasselbe .gebirge wie auf der Startseite */
+.gebirge-band { position: relative; container-type: inline-size; height: max(7rem, 15vw); overflow: hidden; }
+
+/* ======================================================================
+   Feedback 74 (2026-11-11)
+   ====================================================================== */
+
+
+/* Ladebildschirm im Aufbau des Einstiegs: Himmel wie der Einstieg, links Titel, Text und zwei Knöpfe,
+   rechts zwei Ringe und der Chip als Fläche. Maße wie .held, damit beim Ausblenden nichts springt. */
+.lade { background: linear-gradient(180deg, #d3e1f2 0%, #e4edf8 36%, #f2f6fb 64%, #ffffff 94%); }
+.lade__k { background-color: rgba(14, 29, 64, 0.075); background-image: linear-gradient(100deg, transparent 40%, rgba(255, 255, 255, 0.7) 50%, transparent 60%); }
+.chip3d-warte .chip-bild { visibility: hidden; }   /* der 3D-Chip lädt noch: kein Standbild, sonst flackert er zweimal */
+.lade__held {
+  position: absolute; inset: 0; box-sizing: border-box; padding: clamp(6rem, 13vh, 8.5rem) var(--sc-gutter) clamp(2rem, 6vh, 4rem);
+  display: grid; align-content: center; gap: clamp(1.5rem, 5vw, 4rem); max-width: calc(var(--sc-maxw) + 2 * var(--sc-gutter)); margin: 0 auto;
+}
+.lade__links { display: flex; flex-direction: column; align-items: center; gap: clamp(0.55rem, 1.2vw, 0.9rem); }
+.lade__held .lade__zeile { height: calc(clamp(2.6rem, 0.9rem + 4vw, 5.2rem) * 0.82); width: 86%; border-radius: 16px; }
+.lade__held .lade__zeile:nth-child(2) { width: 46%; }
+.lade__held .lade__text { height: 1.05rem; width: min(26rem, 82%); border-radius: 8px; }
+.lade__held .lade__zeile + .lade__text { margin-top: clamp(0.8rem, 2vw, 1.3rem); }
+.lade__held .lade__text:nth-child(4) { width: min(18rem, 60%); }
+.lade__knoepfe { display: flex; gap: 0.6rem; margin-top: clamp(1rem, 2.4vw, 1.6rem); }
+.lade__knopf { width: 11.5rem; height: 3rem; border-radius: 12px; }
+.lade__knopf + .lade__knopf { width: 7.5rem; }
+.lade__rechts { position: relative; justify-self: center; width: min(100%, 26rem); height: clamp(17rem, 43svh, 26rem); }
+.lade__kreis { position: absolute; left: 50%; top: 52%; height: 98%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; border: 1px solid rgba(14, 29, 64, 0.08); }
+.lade__rechts .lade__kreis { display: none; }   /* seit Feedback 85 kein Kreis mehr hinter dem Chip */
+.lade__rechts .lade__chip { position: absolute; left: 50%; top: 52%; right: auto; bottom: auto; height: 62%; aspect-ratio: 38 / 54; translate: -50% -50%; border-radius: 22% / 16%; }
+@media (min-width: 861px) {
+  .lade__held { grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr); align-items: center; }
+  .lade__links { align-items: flex-start; max-width: 40rem; }
+  .lade__held .lade__zeile { width: 92%; }
+  .lade__held .lade__zeile:nth-child(2) { width: 52%; }
+  .lade__rechts { justify-self: end; width: min(100%, 38rem); height: clamp(30rem, 76svh, 50rem); }
+  .lade__rechts .lade__chip { height: 66%; }
+}
+@media (max-width: 860px) { .lade__held { padding-top: 5.5rem; align-content: start; gap: 0.5rem; } .lade__held .lade__zeile { width: 74%; } }
+
+/* ======================================================================
+   Feedback 75 (2026-11-11)
+   ====================================================================== */
+
+/* Einstieg (Feedback 85): hinter dem Chip „SKI TAG“ in zwei Zeilen, riesig, eng gesetzt und weiß über dem Himmel.
+   Der Chip liegt davor und verdeckt einen Teil, wie bei Produktseiten mit großem Wort hinter dem Gerät.
+   Kommt beim Laden einmal weich hoch; seite.js lässt es leicht mit dem Zeiger mitgehen. */
+.held__wort {
+  position: absolute; left: 50%; top: 51%; translate: -50% -50%; z-index: 0; pointer-events: none; will-change: transform;
+  font-family: var(--sc-font-display); font-weight: 760; font-size: clamp(12rem, 24vw, 25rem); line-height: 0.78; letter-spacing: -0.065em;
+  text-align: center; white-space: nowrap; color: rgba(255, 255, 255, 0.75); text-shadow: 0 1px 0 rgba(14, 29, 64, 0.04);
+  animation: held-wort 1.4s var(--sc-ease-out) 0.2s both;
+}
+@keyframes held-wort { from { opacity: 0; scale: 0.96; } to { opacity: 1; scale: 1; } }
+@media (max-width: 860px) { .held__wort { font-size: clamp(8rem, 46vw, 14rem); } }
+@media (prefers-reduced-motion: reduce) { .held__wort { animation: none; } }
+
+/* Balken oben: Abschnitte als dunkelblaue Striche im Balken, genau so hoch wie er (ragen nicht in die Kopfleiste;
+   auf Nacht weiß). Feedback 76. */
+.akt-balken { height: 5px; overflow: hidden; }
+.akt-balken__marke { position: absolute; top: 0; bottom: 0; width: 3px; margin-left: -1.5px; z-index: 1; background: var(--nacht); }
+.akt-balken.ist-nacht .akt-balken__marke { background: #fff; }
+
+/* Gut zu wissen als Bento: Kacheln in drei Größen, jede mit einer kleinen Animation. Ein Klick auf die Kachel
+   färbt sie Nachtblau und zeigt die Antwort an der Stelle der Animation. */
+.fq-raster { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(17.5rem, auto); grid-auto-flow: dense; gap: 1rem; margin-top: clamp(2rem, 4vw, 3rem); }
+.fq--breit { grid-column: span 2; }
+.fq--hoch { grid-row: span 2; }
+.fq {
+  position: relative; display: grid; grid-template-rows: minmax(0, 1fr) auto; overflow: hidden; isolation: isolate;
+  border-radius: var(--r-gross); background: linear-gradient(180deg, #f5f7fa, #eef2f7); color: var(--sc-ink);
+  box-shadow: inset 0 0 0 1px rgba(14, 29, 64, 0.05);
+  transition: background-color 450ms var(--sc-ease-out), box-shadow 300ms var(--sc-ease-out), transform 300ms var(--sc-ease-out);
+}
+.fq::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--nacht); opacity: 0; transition: opacity 450ms var(--sc-ease-out); }
+.fq__bild, .fq__antwort { grid-row: 1; grid-column: 1; min-height: 0; }
+.fq__bild { display: grid; place-items: center; padding: 1.1rem 1.1rem 0; transition: opacity 350ms var(--sc-ease-out), transform 500ms var(--sc-ease-out); }
+.fq__bild svg { display: block; width: 100%; height: 100%; max-height: 13rem; overflow: visible; font-family: var(--sc-font-text); }
+.fq--hoch .fq__bild svg { max-height: 31rem; }
+.fq__kopf { grid-row: 2; margin: 0; }
+.fq__frage {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: 1rem; width: 100%; box-sizing: border-box; margin: 0; padding: 0.9rem 1.2rem 1.25rem 1.4rem;
+  border: 0; background: none; color: inherit; text-align: left; cursor: pointer; font: inherit;
+}
+.fq__frage::after { content: ""; position: absolute; inset: 0; z-index: 3; border-radius: inherit; }   /* die ganze Kachel ist klickbar */
+.fq__frage:focus-visible { outline: none; }
+.fq:has(.fq__frage:focus-visible) { box-shadow: inset 0 0 0 1px rgba(14, 29, 64, 0.05), 0 0 0 3px var(--orange); }
+.fq__nr { grid-column: 1; font-size: var(--sc-t-xs); font-weight: 650; letter-spacing: 0.04em; color: #c2410c; transition: color 400ms; }
+.fq__text { grid-column: 1; margin-top: 0.3rem; font-family: var(--sc-font-display); font-weight: 640; font-size: clamp(1.15rem, 1rem + 0.4vw, 1.4rem); letter-spacing: -0.02em; line-height: 1.15; text-wrap: balance; }
+.fq__plus { grid-column: 2; grid-row: 1 / span 2; position: relative; width: 2.6rem; height: 2.6rem; border-radius: 50%; background: var(--nacht); transition: transform 450ms var(--sc-ease-out), background-color 400ms; }
+.fq__plus::before, .fq__plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 0.95rem; height: 2px; margin: -1px 0 0 -0.475rem; border-radius: 2px; background: #fff; transition: background-color 400ms; }
+.fq__plus::after { rotate: 90deg; }
+@media (hover: hover) and (pointer: fine) {
+  .fq:hover { transform: translateY(-3px); box-shadow: inset 0 0 0 1px rgba(14, 29, 64, 0.05), 0 22px 40px -28px rgba(14, 29, 64, 0.45); }
+  .fq:hover .fq__plus { transform: rotate(90deg); }
+}
+.fq__antwort { align-self: start; padding: 1.5rem 1.5rem 0; color: rgba(255, 255, 255, 0.88); font-size: var(--sc-t-base); line-height: 1.55; }
+.fq__antwort p { margin: 0; max-width: 44ch; }
+.fq--breit .fq__antwort { font-size: var(--sc-t-lg); }
+/* zu: Antwort verborgen (auch für Vorleser), auf: Nachtblau, Animation weg, Antwort steigt auf */
+.js-fq .fq:not(.ist-offen) .fq__antwort { visibility: hidden; opacity: 0; transform: translateY(12px); }
+.js-fq .fq__antwort { transition: opacity 400ms var(--sc-ease-out) 120ms, transform 500ms var(--sc-ease-out) 120ms, visibility 0s; }
+.js-fq .fq:not(.ist-offen) .fq__antwort { transition: opacity 200ms, transform 200ms, visibility 0s linear 200ms; }
+.fq.ist-offen { color: #fff; }
+.fq.ist-offen::before { opacity: 1; }
+.fq.ist-offen .fq__bild { opacity: 0; transform: scale(0.94); }
+.fq.ist-offen .fq__nr { color: #ff8a5c; }
+.fq.ist-offen .fq__plus { transform: rotate(45deg); background: #fff; }
+.fq.ist-offen .fq__plus::before, .fq.ist-offen .fq__plus::after { background: var(--nacht); }
+html:not(.js-fq) .fq__antwort { grid-row: 3; padding: 0 1.4rem 1.4rem; color: var(--sc-ink-soft); }
+@media (max-width: 1000px) {
+  .fq-raster { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .fq-raster { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; gap: 0.75rem; }
+  .fq--breit { grid-column: auto; }
+  .fq--hoch { grid-row: auto; }
+  .fq__bild svg { max-height: 10.5rem; }
+  .fq--hoch .fq__bild svg { max-height: 15rem; }
+  .fq { border-radius: 22px; min-height: 15rem; }
+  .fq--breit .fq__antwort { font-size: var(--sc-t-base); }
+}
+
+/* Die kleinen Animationen. Gemeinsam: Schrift, Pillen. */
+.fq-klein { font-size: 17px; font-weight: 600; fill: #6b7385; text-anchor: middle; }
+.fq-gross { font-family: var(--sc-font-display); font-size: 30px; font-weight: 680; fill: var(--sc-ink); text-anchor: middle; letter-spacing: -0.02em; }
+.fq-pille text { font-size: 16px; font-weight: 650; fill: #fff; text-anchor: middle; }
+.fq-pille { opacity: 0; }
+.fq-pille--fest { opacity: 1; }
+/* 01 Handy: Funkbögen vom Chip */
+.fq-handy { opacity: 0.8; }
+.fq-boegen path { opacity: 0; animation: fq-bogen 2.4s ease-out infinite; }
+.fq-boegen path:nth-child(2) { animation-delay: 0.22s; } .fq-boegen path:nth-child(3) { animation-delay: 0.44s; }
+@keyframes fq-bogen { 0% { opacity: 0; } 18% { opacity: 1; } 60%, 100% { opacity: 0; } }
+/* 02 Versehen: halten (orange), dann 5 s zum Abbrechen (rot läuft zurück), zweiter Druck, abgebrochen */
+.fq-halten, .fq-frist { stroke-dasharray: 1; }
+.fq-halten { stroke-dashoffset: 1; animation: fq-halten 6.4s linear infinite; }
+.fq-frist { opacity: 0; animation: fq-frist 6.4s linear infinite; }
+.fq-taste { transform-box: fill-box; transform-origin: center; animation: fq-taste 6.4s ease-in-out infinite; }
+.fq-pille--1 { animation: fq-p1 6.4s linear infinite; } .fq-pille--2 { animation: fq-p2 6.4s linear infinite; } .fq-pille--3 { animation: fq-p3 6.4s linear infinite; }
+@keyframes fq-halten { 0%, 6% { stroke-dashoffset: 1; opacity: 1; } 38% { stroke-dashoffset: 0; opacity: 1; } 40%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes fq-frist { 0%, 38% { opacity: 0; stroke-dashoffset: 0; } 40% { opacity: 1; stroke-dashoffset: 0; } 62% { opacity: 1; stroke-dashoffset: 0.45; } 66%, 100% { opacity: 0; stroke-dashoffset: 0.45; } }
+@keyframes fq-taste { 0%, 4% { scale: 1; } 7%, 38% { scale: 0.92; } 42%, 60% { scale: 1; } 62% { scale: 0.9; } 66%, 100% { scale: 1; } }
+@keyframes fq-p1 { 0%, 4% { opacity: 0; } 8%, 37% { opacity: 1; } 40%, 100% { opacity: 0; } }
+@keyframes fq-p2 { 0%, 39% { opacity: 0; } 42%, 61% { opacity: 1; } 64%, 100% { opacity: 0; } }
+@keyframes fq-p3 { 0%, 64% { opacity: 0; } 67%, 92% { opacity: 1; } 96%, 100% { opacity: 0; } }
+/* 03 Wer kommt: der Mitarbeiter fährt von der Bergstation zu dir */
+.fq-helfer { offset-path: path("M92 92 C 130 150, 110 210, 160 260 S 222 320, 228 338"); offset-rotate: 0deg; animation: fq-fahrt 7s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+.fq-du__puls { transform-box: fill-box; transform-origin: center; animation: fq-puls 1.8s ease-out infinite; }
+.fq-angekommen { animation: fq-da 7s linear infinite; }
+@keyframes fq-fahrt { 0%, 8% { offset-distance: 0%; } 72%, 100% { offset-distance: 100%; } }
+@keyframes fq-puls { 0% { scale: 1; opacity: 0.9; } 100% { scale: 2.6; opacity: 0; } }
+@keyframes fq-da { 0%, 72% { opacity: 0; } 76%, 94% { opacity: 1; } 98%, 100% { opacity: 0; } }
+/* 04 Nicht angekommen: LED blinkt doppelt rot, der Chip vibriert */
+.fq-led-rot { opacity: 0; animation: fq-doppelt 2.4s linear infinite; }
+.fq-led-rot--schein { animation-name: fq-doppelt-schein; }
+.fq-wackeln { animation: fq-wackeln 2.4s linear infinite; }
+.fq-vibration { opacity: 0; animation: fq-vib 2.4s linear infinite; }
+@keyframes fq-doppelt { 0% { opacity: 1; } 9% { opacity: 0; } 17% { opacity: 1; } 26%, 100% { opacity: 0; } }
+@keyframes fq-doppelt-schein { 0% { opacity: 0.25; } 9% { opacity: 0; } 17% { opacity: 0.25; } 26%, 100% { opacity: 0; } }
+@keyframes fq-wackeln { 0%, 30%, 100% { translate: 0 0; } 3%, 9%, 15%, 21%, 27% { translate: -2px 0; } 6%, 12%, 18%, 24% { translate: 2px 0; } }
+@keyframes fq-vib { 0%, 28% { opacity: 1; } 34%, 100% { opacity: 0; } }
+/* 05 Überall: Empfänger an den Liftstationen fangen nacheinander auf */
+.fq-abdeckung circle { transform-box: fill-box; transform-origin: center; opacity: 0; animation: fq-abdeckung 6s ease-out infinite; }
+.fq-abdeckung circle:nth-child(2) { animation-delay: 1.5s; } .fq-abdeckung circle:nth-child(3) { animation-delay: 3s; } .fq-abdeckung circle:nth-child(4) { animation-delay: 4.5s; }
+@keyframes fq-abdeckung { 0% { scale: 0.4; opacity: 0.9; } 55%, 100% { scale: 4.4; opacity: 0; } }
+/* 06 Akku: von morgens 100 % auf abends 30 % */
+.fq-akku { transform-box: fill-box; transform-origin: left center; animation: fq-akku 8s ease-in-out infinite; }
+.fq-prozent--voll, .fq-morgens { animation: fq-morgen 8s linear infinite; }
+.fq-prozent--rest, .fq-abends { opacity: 0; animation: fq-abend 8s linear infinite; }
+@keyframes fq-akku { 0%, 12% { scale: 1 1; } 68%, 92% { scale: 0.3 1; } 100% { scale: 1 1; } }
+@keyframes fq-morgen { 0%, 40% { opacity: 1; } 46%, 94% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes fq-abend { 0%, 46% { opacity: 0; } 52%, 92% { opacity: 1; } 97%, 100% { opacity: 0; } }
+/* 07 Kinder: der Chip rutscht in die Jackentasche */
+.fq-einstecken { animation: fq-einstecken 5s cubic-bezier(0.5, 0, 0.3, 1) infinite; }
+@keyframes fq-einstecken { 0% { translate: 0 -78px; opacity: 0; } 12% { opacity: 1; } 42%, 88% { translate: 0 0; opacity: 1; } 96%, 100% { translate: 0 0; opacity: 0; } }
+/* 08 Standort: die Spur des Tages zeichnet sich, um Mitternacht ist sie weg */
+.fq-spur { stroke-dasharray: 1; stroke-dashoffset: 1; animation: fq-spur 8s linear infinite; }
+.fq-uhrzeit { font-size: 15px; font-weight: 650; fill: var(--sc-ink); text-anchor: middle; font-variant-numeric: tabular-nums; opacity: 0; }
+.fq-uhrzeit--1 { animation: fq-u1 8s linear infinite; } .fq-uhrzeit--2 { animation: fq-u2 8s linear infinite; } .fq-uhrzeit--3 { animation: fq-u3 8s linear infinite; }
+.fq-geloescht { animation: fq-weg 8s linear infinite; }
+@keyframes fq-spur { 0%, 6% { stroke-dashoffset: 1; opacity: 1; } 58% { stroke-dashoffset: 0; opacity: 1; } 74% { stroke-dashoffset: 0; opacity: 1; } 82%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes fq-u1 { 0%, 28% { opacity: 1; } 31%, 100% { opacity: 0; } }
+@keyframes fq-u2 { 0%, 29% { opacity: 0; } 32%, 72% { opacity: 1; } 75%, 100% { opacity: 0; } }
+@keyframes fq-u3 { 0%, 73% { opacity: 0; } 76%, 98% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes fq-weg { 0%, 80% { opacity: 0; } 84%, 96% { opacity: 1; } 100% { opacity: 0; } }
+
+/* außer Sicht ruhen, bei weniger Bewegung stehen sie in einem verständlichen Zustand */
+.ist-weg .fq *, .fq.ist-offen .fq__bild * { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+  .fq__bild *, .fq__bild *::before { animation: none !important; }
+  .fq-boegen path, .fq-vibration, .fq-led-rot, .fq-pille--1, .fq-angekommen, .fq-prozent--rest, .fq-abends, .fq-uhrzeit--2 { opacity: 1; }
+  .fq-led-rot--schein { opacity: 0.25; }
+  .fq-halten { stroke-dashoffset: 0.35; }
+  .fq-helfer { offset-distance: 100%; }
+  .fq-abdeckung circle { opacity: 0.5; scale: 2.4; }
+  .fq-akku { scale: 0.3 1; }
+  .fq-spur { stroke-dashoffset: 0; }
+  .fq { transition: none; }
 }

@@ -460,3 +460,145 @@ Umgesetzt in `chip-3d.js`: Der Füllring besteht nicht mehr aus Dreiecken, er wi
 In „Was ist SKITAG?“ lief der Kreis um den Knopf nach dem Füllen beim Weiterscrollen sichtbar zurück. Nach dem vollen Kreis soll nichts mehr davon zu sehen sein.
 
 Umgesetzt in `chip-3d.js`: In „Was ist SKITAG?“ folgt der Ring direkt dem Scrollen; sobald er voll ist, blendet er kurz aus und bleibt weg, auch im dritten Schritt. Zurück erscheint er erst, wenn man so weit hochscrollt, dass er nicht mehr voll ist. In der Vorführung „Probiere den Tag aus.“ bleibt das Verhalten (die Frist läuft bewusst rot zurück).
+
+## Feedback 69 (Lukas, 2026-11-11)
+
+1. Gebirge über dem Fuß auf allen Seiten. 2. Bug: Unter „Probiere den Tag aus“ und wieder hochscrollen, dann glitcht der 3D-Chip unten durch. 3. In der App-Vorschau den Dauerdurchlauf ausmachen.
+
+Umgesetzt:
+- Auf „Der Chip“, „Die App“, „Am Skitag“, „Feedback“ und „Das sind wir“ steht über dem Fuß ein eigener Streifen `.gebirge-band` mit demselben Gebirge wie auf der Startseite (kommt einmal hoch, Gondeln fahren), der Fuß hat dort keine Trennlinie mehr (`fuss--berg`).
+- `chip-3d.js`: Die Leinwand stand fest über dem Fenster; der Browser scrollt aber vor dem nächsten Bild, darum hing der Chip beim schnellen Scrollen kurz hinterher und rutschte aus seiner Fläche. Jetzt scrollt die Leinwand mit der Seite (absolut, um scrollY verschoben) und steht nur fest, solange „Was ist SKITAG?“ angeheftet ist.
+- `seite.js`: Die App-Vorschau auf der Startseite wechselt nur noch auf Klick, kein Wechsel alle 4 s mehr.
+
+## Feedback 70 (Lukas, 2026-11-11)
+
+Auf manchen Geräten ruckelt die Chip-Animation, auch auf leistungsstarken. Ursache suchen und beheben.
+
+Gemessen im Browser (Rechenzeit je Bild, Grafikkarte über erzwungenes Warten):
+- Die LED war ein Material mit Transmission (durchscheinendes Glas). Dafür zeichnet three.js die ganze Szene jedes Bild ein zweites Mal in voller Bildschirmgröße und rechnet Mipmaps. Bei doppelter Pixeldichte 4,4 ms statt 1 ms je Bild, auf Retina- und Handybildschirmen der größte Posten. Jetzt nur noch Leuchten (MeshStandardMaterial mit emissive).
+- Die Berge im Einstieg wurden über CSS-Variablen auf `<g>` in einem SVG verschoben: der Browser zeichnete das große SVG jedes Bild neu und rechnete die Stile des ganzen Einstiegs neu. Jetzt sind es drei eigene SVGs, die seite.js direkt per transform verschiebt (eigene Ebenen, will-change), und nur, wenn sich der Wert ändert.
+- Der Chip wurde jedes Bild gezeichnet, auch wenn er still stand. Jetzt nur, wenn sich am Bild etwas ändert (Lage, Farben, Ring, Wellen, Schnee, Gruppe).
+- Pixeldichte höchstens 1,75 statt 2. Sind die Bilder trotzdem zu langsam (über 1,5 s mehr als 40 % über 22 ms), sinkt sie stufenweise bis 1.
+Die Rechenzeit in JavaScript war mit etwa 1 ms je Bild nie das Problem.
+
+## Feedback 71 (Lukas, 2026-11-11)
+
+Der Chip geht beim Runter- und wieder Raufscrollen noch immer unter dem Hintergrund durch.
+
+Ursache (nachgestellt): Nah am Knopf wird die Leinwand auf die Fläche von „Probiere den Tag aus“ zugeschnitten. Die Nahansicht lief beim Zurückscrollen weich aus und blieb noch etwa eine Sekunde aktiv, während der Chip schon nach oben flog; er wurde so auf die Fläche zugeschnitten und verschwand hinter ihrem Rand. Jetzt ist die Nahansicht fest an den Flug gekoppelt und endet beim Zurückscrollen sofort (`chip-3d.js`, `nahGrenze`).
+
+## Feedback 72 (Lukas, 2026-11-11)
+
+In „Probiere den Tag aus.“ soll der Kreis schneller voll werden, sonst wartet man zu lang.
+
+Umgesetzt in `seite.js`: Halten in der Vorführung 1,2 s statt 3 s (der Zähler 3, 2, 1 läuft entsprechend schneller), die Frist danach 2 s statt 3 s. Der Hinweis lautet jetzt „Kurz für die Gruppe, gedrückt halten für den Notruf.“, weil die Vorführung nicht mehr drei Sekunden dauert. Am echten Chip bleiben es 3 s halten und 5 s Frist (Netzwerk-Buch).
+
+## Feedback 73 (Lukas, 2026-11-11)
+
+Überall 5 Sekunden zum Abbrechen.
+
+Geprüft: Netzwerk-Buch (Kapitel 13, 16, Entscheidungen) und die Kachel auf der Startseite („3 s halten. 5 s zum Abbrechen.“) hatten schon 5 s. Geändert nur die Vorführung in „Probiere den Tag aus.“ (`seite.js`): Frist 5 s statt 2 s, auf dem Knopf zählt es 5, 4, 3, 2, 1, die Statuszeile sagt „Notruf in 5 s“ bis „1 s“. Halten bleibt in der Vorführung bei 1,2 s (Feedback 72).
+
+## Feedback 74 (Lukas, 2026-11-11)
+
+Skeleton-Loader ans neue Design anpassen. Beim Neuladen oben flackert der Chip zweimal. Der Balken oben bei Animationen soll überall Abschnitte mit kleinen Markierungen haben, an denen der nächste Punkt beginnt (wie bei „Was ist SKITAG?“). Die Kreise um den Chip im Einstieg besser machen, im Internet nach etwas Krassem suchen, aber clean.
+
+Umgesetzt:
+- Ladebildschirm (nur die Startseite hat einen): jetzt im Aufbau des Einstiegs, Himmel-Verlauf, links zwei Titelzeilen, zwei Textzeilen, zwei Knöpfe, rechts zwei Ringe und der Chip als Fläche; gleiche Maße wie der Einstieg. Er wartet auf Schrift und 3D-Chip (höchstens 3 s).
+- Flackern: Ursache war das Standbild des Chips, das erst erschien und verschwand, sobald 3D bereit war; danach blendete der 3D-Chip neu ein. Jetzt bleibt das Standbild verborgen, solange der 3D-Chip lädt (`chip3d-warte`, gesetzt im Kopf der Seite), und der Chip blendet einmal ein, ab seinem ersten Bild. Lädt 3D nicht, erscheint das Standbild nach spätestens 6 s.
+- Balken oben: in Abschnitte geteilt (`data-marken` am Abschnitt, kleine Lücken an den Übergängen). „Was ist SKITAG?“ bei 28 % und 62 %, die vier Szenen auf „Die App“ je bei einem und zwei Dritteln; „Die App“ hatte bisher keinen Balken.
+- Einstieg: Radar statt einfacher Kreise (Anregung: Radar mit konischem Verlauf, z. B. ics.media, CSS-Tricks). Drei feine Ringe, außen eine Skala mit 60 Strichen, ein Strahl dreht sich in 6 s einmal, und vier Punkte der Gruppe leuchten kurz auf, wenn er über sie streicht. Bei weniger Bewegung steht der Strahl.
+
+## Feedback 75 (Lukas, 2026-11-11)
+
+„Gut zu wissen“ als Bento-Raster mit Mini-Animationen (Vorschlag 3). Das Radar im Einstieg gefällt nicht: raus, etwas Cleaneres, das trotzdem gut aussieht. Die Marken im Balken oben erkennt man nicht: in unserem Dunkelblau. Clean, modern, passend zum Thema.
+
+Umgesetzt:
+- „Gut zu wissen“: Überschrift oben, darunter acht Kacheln in drei Größen (zwei breite, eine hohe, fünf normale; am Handy untereinander). Jede Kachel hat eine kleine Animation zur Frage: Funkbögen statt Handynetz, Halten und 5 s zum Abbrechen mit Ring, der Mitarbeiter fährt auf einer Karte zu dir, LED blinkt doppelt rot, Empfänger an den Liftstationen fangen auf, Akku von 100 % auf 30 %, Chip in die Jackentasche, Spur des Tages wird um Mitternacht gelöscht. Ein Klick auf die Kachel färbt sie Nachtblau und zeigt die Antwort an der Stelle der Animation; noch ein Klick oder Escape schließt. Ohne JavaScript stehen die Antworten unter den Fragen. Die Animationen ruhen außer Sicht.
+- Einstieg: statt Radar Höhenlinien wie auf einer Bergkarte, der Chip steht auf dem Gipfel. 15 Linien, jede vierte kräftiger, zeichnen sich beim Laden einmal von innen nach außen und drehen sich danach sehr langsam; dazu ein weicher heller Schein hinter dem Chip.
+- Balken oben: die Abschnitte sind jetzt kleine dunkelblaue Marken, die unter den Balken ragen (auf Nacht weiß).
+
+## Feedback 76 (Lukas, 2026-11-11)
+
+Die Marken im Balken oben ragten 11 px unter den 4 px hohen Balken und stießen in die Kopfleiste. Jetzt sind sie dunkelblaue Striche im Balken (5 px hoch, 3 px breit), genau so hoch wie er.
+
+## Feedback 77 (Lukas, 2026-11-11)
+
+Bei „Ohne Handy, ohne Netz.“ in „Was ist SKITAG?“ etwas an den Sender des Chips heranzoomen und Funkwellen herauskommen lassen; den Funkmast nicht zeigen, nur dass der Chip sendet. In „Probiere den Tag aus.“ die Zeit zum Abbrechen kürzer.
+
+Umgesetzt:
+- `chip-3d.js`: Im dritten Schritt fährt die Ansicht an den Sender heran (die LoRa-Antenne sitzt im Hardware-Modell oben links über der LED). Der Chip wird etwa anderthalbmal so groß, die Fläche schneidet ihn zu, aus dem Sender laufen drei feine orangerote Bögen nach oben, mit leisem Schein an der Antenne. Die Nahansicht hängt an der Scrollstelle (64 bis 74 % der Strecke hinein, 90 bis 98 % wieder heraus), damit der Flug zum nächsten Abschnitt ohne Sprung beginnt; fliegt der Chip weiter, sind die Wellen weg.
+- Liftstation, Funkweg und „Standort empfangen“ sind entfernt; „Notruf gesendet“ steht im dritten Schritt oben links.
+- `seite.js`: Abbrechen in der Vorführung 3 s statt 5 s (Zähler 3, 2, 1). Am echten Chip und in Kachel und FAQ bleiben es 5 s.
+
+## Feedback 78 (Lukas, 2026-11-11)
+
+Die Wellen (Höhenlinien) hinter dem Chip auf der Startseite sehen noch nicht gut aus. Etwas Cleanes aus Internet und Pinterest nehmen, das als Produkthintergrund passt.
+
+Recherche: Produktseiten 2026 setzen auf ein einzelnes Objekt mit ruhigem Hintergrund; üblich ist ein weicher Kreis oder Schein hinter dem Produkt mit Schatten darunter, Verläufe nur noch zurückhaltend.
+
+Umgesetzt: Höhenlinien raus. Hinter dem Chip steht eine runde Scheibe aus Milchglas wie ein Studio-Hintergrund (oben heller, unten durchscheinender, feiner heller Rand, weicher Schatten), durch die die Berge weich verschwimmen; davor unter dem Chip eine leise orange Glut. Keine Linien, keine Dauerbewegung, nur leichtes Mitgehen mit dem Zeiger und ein einmaliges Einblenden. Im Sparmodus ohne Unschärfe. Der Ladebildschirm zeigt dieselbe Scheibe.
+
+## Feedback 79 (Lukas, 2026-11-11)
+
+In „Was ist SKITAG?“ gehen die Animationen zu schnell vorbei, manches kann man nicht richtig lesen. Bei „Ohne Handy, ohne Netz.“ weiter auf den Sender zoomen und kurz auch das Innere zeigen, wo er sitzt. „Notruf gesendet“ mit dem Funksignal soll nicht so in der Ecke stehen.
+
+Umgesetzt:
+- Die gepinnte Strecke ist länger (`data-sc-span` 6,5 statt 4). Schritte neu verteilt: kurz drücken bis 24 %, drei Sekunden halten bis 50 % (Ring nach gut der Hälfte voll), der dritte Schritt bekommt die zweite Hälfte. Marken im Balken bei 24 % und 50 %.
+- Dritter Schritt (`chip-3d.js`): die Ansicht fährt weiter heran, dann kurz der Blick ins Innere: die Vorderseite wird durchsichtig, Platine, Funkmodul und Funkantenne erscheinen, die Antenne glüht orange, darüber das Schild „Funkantenne“. Danach schließt sich der Chip wieder, die Funkwellen laufen weiter. Dafür enthält `chip-3d.bin` jetzt auch die Innenteile aus dem Hardware-Modell (Platine, Funkmodul RAK3172, LoRa-Antenne, GPS, kleine Chips, Motor; 15 KB mehr). Sonst sind sie unsichtbar; ihre Lage ist laut Hardware ein Vorschlag.
+- „Notruf gesendet“ steht im dritten Schritt oben in der Mitte, dort, wohin die Funkwellen laufen.
+
+## Feedback 80 (Lukas, 2026-11-11)
+
+Bei „Funkt auch bei Kälte.“ das Thermometer animieren, so dass sich innen etwas bewegt. Der Hintergrund des Chips im Einstieg sieht noch nicht gut aus: Vorschläge als Bilder, Lukas entscheidet. Bei „Ohne Handy, ohne Netz.“ sieht das Innere nicht gut aus: weg, nur von außen zeigen und nicht so lange.
+
+Umgesetzt:
+- Thermometer: die Säule fällt beim Erscheinen von warm (orange) auf eisig (blau) und schwankt danach sichtbar weiter; dazu eine feine Skala.
+- Blick ins Innere entfernt, `chip-3d.bin` wieder nur mit den Außenteilen. Die Strecke ist kürzer (`data-sc-span` 5,5), Schritte bei 28 % und 60 %; die Nahansicht am Sender dauert von 62 bis 97 % der Strecke.
+- Hintergrund: sechs Vorschläge als Bilder (Milchglasscheibe wie jetzt, Studio-Bogen, Schnee-Podest, nur Licht, farbige Aura, Bergbild im Kreis), noch nicht entschieden.
+
+## Feedback 81 (Lukas, 2026-11-11)
+
+Bei „Kein Notruf aus Versehen.“ sind die Zahlen im Countdown manchmal abgeschnitten. In „Was ist SKITAG?“ alle Animationen gleich lang.
+
+Umgesetzt:
+- Countdown: die acht Ziffern rollten als Streifen durch ein 1em hohes Fenster; je nach Größe landete der Streifen zwischen zwei Pixeln und schnitt die Ziffern oben oder unten an. Jetzt liegen sie übereinander und werden nacheinander je eine Sekunde eingeblendet (gleicher Takt wie die Ringe).
+- „Was ist SKITAG?“: drei gleich lange Schritte (Wechsel bei einem und zwei Dritteln, Marken im Balken ebenso). Der Ring füllt sich im zweiten Drittel, die Nahansicht am Sender liegt im dritten.
+
+## Feedback 82 (Lukas, 2026-11-11)
+
+In „Was ist SKITAG?“ sollen die Geräte der Gruppe nicht so heftig vibrieren. Countdown und Kreise um den Knopf sehen zu sehr nach KI aus: im Internet schauen und Designs zur Auswahl geben.
+
+Umgesetzt: die drei kleinen Chips wackeln nur noch etwa ein Drittel so weit und drehen sich weniger, die Bögen daneben sind kleiner und blasser. Für Ring und Countdown vier Vorschläge als Bilder (schlicht, drei Segmente, Stoppuhr-Skala, ohne Ring mit sich füllendem Knopf), Anregung aus der Recherche: ein einziges Fortschrittssignal statt Ring, Schein, Punkt und Verlauf zugleich (Motion „Hold to confirm“), Notrufe bei Pixel Watch und Garmin mit schlichter Zahl. Entscheidung offen; in `chip-3d.js` stehen die Varianten vorübergehend als `uStil` im Shader.
+
+## Feedback 83 (Lukas, 2026-11-11)
+
+Alle Animationen in „Was ist SKITAG?“ sollen gleich lang sein.
+
+Die drei Schritte waren schon gleich lange Drittel, aber „Gruppe rufen“ lief als Schleife nach der Uhr (4,2 s, unabhängig vom Scrollen), Ring und Nahansicht dagegen mit dem Scrollen und in verschiedenen Anteilen. Jetzt gilt ein Takt für alle drei: in jedem Drittel läuft die Animation mit dem Scrollen von 5 % bis 70 % und bleibt danach stehen, damit man sie lesen kann. „Gruppe rufen“ folgt dafür dem Scrollen (`--zl`, die CSS-Animationen stehen still und werden über eine negative Verzögerung gesetzt), der Ring ist bei 70 % des zweiten Drittels voll, die Nahansicht am Sender ist bei 70 % des dritten ganz nah und geht ab 82 % wieder zurück.
+
+## Feedback 84 (Lukas, 2026-11-11)
+
+Gemeint war bei Feedback 83: die Animation des Timers in „Was ist SKITAG?“ soll einfach besser aussehen.
+
+Umgesetzt: der Countdown im zweiten Schritt zählt jetzt 3, 2, 1 rückwärts (vorher 1, 2, 3 vorwärts), größer und mit festen Ziffernbreiten. Jede Ziffer rollt weich von unten herein und verschwimmt beim Gehen nach oben; darunter „Sekunden halten“. Ist der Ring voll, gleitet die Zahl weg und „Notruf gesendet“ erscheint. Der gemeinsame Takt aus Feedback 83 bleibt.
+
+## Feedback 85 (Lukas, 2026-11-11)
+
+Hintergrund hinter dem Chip im Einstieg: Vorschlag G nehmen. Bei „Weich, wo es zählt.“ den Text kürzen und ergänzen, dass der Chip trotzdem robust gebaut ist.
+
+Umgesetzt:
+- Einstieg: die Milchglasscheibe ist weg. Hinter dem Chip steht „SKI TAG“ in zwei Zeilen, riesig, eng gesetzt und zu 75 % weiß über Himmel und Bergen; der Chip liegt davor und verdeckt einen Teil. Kommt beim Laden einmal weich hoch und geht leicht mit dem Zeiger mit. Am Handy größer gesetzt, damit die Buchstaben neben dem Chip zu sehen sind. Der Ladebildschirm zeigt rechts nur noch die Form des Chips.
+- „Weich, wo es zählt.“: „Der weiche Rand drückt nicht, wenn du stürzt. Darunter steckt eine harte Schale, die einiges aushält.“ (laut Hardware: zwei harte schwarze Schalen, weicher oranger Rand).
+
+## Feedback 86 (Lukas, 2026-11-11)
+
+Das Gebirge beim App-Teil sieht nicht gut aus: weg.
+
+Umgesetzt: auf „Die App“ ist der Gebirgsstreifen über dem Fuß (Feedback 69) wieder entfernt, der Fuß hat dort wieder seine feine Linie. Nebenbei auf allen Seiten den Nachweis „Halte-Knopf nach React Bits“ aus dem Fuß genommen; den Knopf gibt es seit Feedback 64 nicht mehr.
+
+## Feedback 87 (Lukas, 2026-11-11)
+
+Bei „Die App“ die Bergbahnansicht weg.
+
+Umgesetzt in `app.html`: der Abschnitt „Die Einsatzkarte. Für die Bergbahn.“ (`#skigebiet`) ist entfernt, damit auch das Unterkapitel „Skigebiet“ in der Kopfleiste und die Kachel „Skigebiet“ im Überblick (die übrigen drei: Allein, Familie, Skischule; die letzte geht über die ganze Breite). Einsatzkarte und Bergbahn-Notrufe sind aus Beschreibung, Einleitung und Überblick gestrichen. Der Kontaktkasten am Ende bleibt, jetzt allgemein: „Fragen zur App? Schreib uns, wir antworten dir gern.“

@@ -7,7 +7,7 @@
    Anker (.chip-anker) und fliegt beim Scrollen zum nächsten:
      .held__chip   Einstieg: schwebt vor dem Wintertag, neigt sich zum Zeiger, um ihn fällt Schnee
      .blick__chip  „Was ist SKITAG?“ (gepinnt): kurz drücken (drei kleine Chips der Gruppe vibrieren),
-                   drei Sekunden halten (Ring füllt sich), Funk zur Liftstation
+                   drei Sekunden halten (Ring füllt sich), dann nah an den Sender, aus dem Funkwellen laufen
      .knopf__chip  „Probiere den Tag aus“: Übersicht; im Ruhezustand fährt die Ansicht weiter nach
      .knopf__nah   ganz nah an den Knopf. Dann schneidet die Fläche (.knopf__bild) den Chip ab, und der
                    echte Knopf .chip-knopf wird in jedem Bild genau über den Knopf des Modells gelegt.
@@ -23,7 +23,7 @@ const eins = (s) => document.querySelector(s), alle = (s) => Array.prototype.sli
 const anker = { held: eins(".held__chip"), blick: eins(".blick__chip"), knopf: eins(".knopf__chip"), nah: eins(".knopf__nah") };
 const miniAnker = { blick: alle(".bk-mit .chip-anker"), knopf: alle(".kn-mit .chip-anker") };
 const blickAkt = document.getElementById("blick"), knopfAkt = document.getElementById("der-chip");
-const flaeche = eins(".knopf__bild"), knopfEl = eins(".chip-knopf");
+const flaeche = eins(".knopf__bild"), knopfEl = eins(".chip-knopf"), blickFlaeche = eins(".blick__flaeche");
 const klemme = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
 const abschnitt = (x, a, b) => klemme((x - a) / (b - a));
 const weich = (x) => x * x * (3 - 2 * x);
@@ -35,10 +35,11 @@ const mix = (a, b, t) => a + (b - a) * t;
 const S = (window.skitagChip = window.skitagChip || {});
 if (!S.zustand) S.zustand = "ruhe";
 if (!S.blick) S.blick = { schritt: 0, halten: 0, spielt: false, start: 0 };
-const SCHLEIFE = 4200;   // „Gruppe rufen“ in „Was ist SKITAG?“, gleich lang wie die Animationen in seite.css
 const ORANGE = 0xff5a1c, ROT = 0xff2d2d, GRUEN = 0x45ff7a;
 
-if (anker.held && anker.blick && anker.knopf && anker.nah && flaeche) start().catch((f) => { console.warn("Chip 3D:", f); wurzel.classList.remove("chip3d-an"); });
+const aufgeben = () => { wurzel.classList.remove("chip3d-an", "chip3d-warte"); dispatchEvent(new Event("skitag-chip-bereit")); };
+if (anker.held && anker.blick && anker.knopf && anker.nah && flaeche) start().catch((f) => { console.warn("Chip 3D:", f); aufgeben(); });
+else aufgeben();
 
 async function start() {
   /* ------------------------------------------------------------ Bühne -- */
@@ -47,9 +48,13 @@ async function start() {
   leinwand.setAttribute("aria-hidden", "true");
   let renderer;
   try { renderer = new THREE.WebGLRenderer({ canvas: leinwand, antialias: true, alpha: true, powerPreference: "high-performance" }); }
-  catch (f) { return; }
+  catch (f) { aufgeben(); return; }
   const sparsam = wurzel.classList.contains("sparsam");
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, sparsam ? 1.25 : 2));
+  // Pixeldichte: höchstens 1,75 (bei 2 oder 3 sieht man keinen Unterschied, zahlt aber doppelt). Brauchen die
+  // Bilder trotzdem zu lange, geht sie in Stufen bis 1 herunter (siehe zeichnenWennNoetig).
+  const DPR_STUFEN = [1.75, 1.5, 1.25, 1].map((d) => Math.min(d, devicePixelRatio || 1)).filter((d, i, a) => a.indexOf(d) === i);
+  let dprStufe = sparsam ? Math.max(0, DPR_STUFEN.length - 2) : 0;
+  renderer.setPixelRatio(DPR_STUFEN[dprStufe]);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.08;
   renderer.setClearColor(0x000000, 0);
@@ -81,7 +86,9 @@ async function start() {
     x.putImageData(d, 0, 0);
     const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
   })();
-  const ledMat = new THREE.MeshPhysicalMaterial({ color: 0x9dffa0, emissive: 0x2fd66a, emissiveIntensity: 0.25, roughness: 0.15, transmission: 0.2 });
+  // LED: nur Leuchten, keine Transmission. Transmission ließ three.js die ganze Szene jedes Bild ein zweites Mal
+  // in Bildschirmgröße zeichnen (bei doppelter Pixeldichte gemessen 4,4 statt 1 ms je Bild).
+  const ledMat = new THREE.MeshStandardMaterial({ color: 0x9dffa0, emissive: 0x2fd66a, emissiveIntensity: 0.25, roughness: 0.15 });
   const MAT = {
     schwarz: new THREE.MeshPhysicalMaterial({ color: 0x1d1f23, roughness: 0.58, clearcoat: 0.12, clearcoatRoughness: 0.5, bumpMap: struktur, bumpScale: 0.35 }),
     orange: new THREE.MeshPhysicalMaterial({ color: 0xf0561a, roughness: 0.62, sheen: 0.6, sheenColor: 0xffb08a, sheenRoughness: 0.6, clearcoat: 0.1, bumpMap: struktur, bumpScale: 0.2 }),
@@ -140,7 +147,7 @@ async function start() {
   const ringMat = new THREE.ShaderMaterial({
     transparent: true, depthTest: false, depthWrite: false, side: THREE.DoubleSide,
     uniforms: {
-      uAnteil: { value: 0 }, uSpur: { value: 0 }, uFokus: { value: 0 }, uDeckung: { value: 1 },
+      uAnteil: { value: 0 }, uSpur: { value: 0 }, uFokus: { value: 0 }, uDeckung: { value: 1 }, uStil: { value: 0 },
       uMitte: { value: (knopfR + 2.4) / RING_AUSSEN }, uHalb: { value: 0.62 / RING_AUSSEN },
       uA: { value: new THREE.Vector3(1, 0.62, 0.34) }, uB: { value: new THREE.Vector3(1, 0.35, 0.11) },
     },
@@ -148,7 +155,7 @@ async function start() {
     fragmentShader: `
       precision highp float;
       varying vec2 vUv;
-      uniform float uAnteil, uSpur, uFokus, uDeckung, uMitte, uHalb;
+      uniform float uAnteil, uSpur, uFokus, uDeckung, uMitte, uHalb, uStil;
       uniform vec3 uA, uB;
       vec4 ueber(vec4 o, vec4 u) { float a = o.a + u.a * (1.0 - o.a); return vec4((o.rgb * o.a + u.rgb * u.a * (1.0 - o.a)) / max(a, 0.0001), a); }
       void main() {
@@ -169,9 +176,36 @@ async function start() {
         float lauf = imBogen ? clamp(w / max(ende, 0.001), 0.0, 1.0) : (dKopf < dAnfang ? 1.0 : 0.0);
         vec3 farbe = mix(uA, uB, lauf);
         float punkt = (1.0 - smoothstep(uHalb * 0.46 - aa, uHalb * 0.46 + aa, dKopf)) * an * (1.0 - voll);
-        vec4 c = vec4(1.0, 1.0, 1.0, spur * max(uSpur, uFokus));
-        c = ueber(vec4(farbe, schein), c);
-        c = ueber(vec4(mix(farbe, vec3(1.0), punkt * 0.92), fuell), c);
+        float spurStark = clamp(uSpur * 5.0, 0.0, 1.0);
+        vec4 c;
+        if (uStil < 0.5) {
+          c = vec4(1.0, 1.0, 1.0, spur * max(uSpur, uFokus));
+          c = ueber(vec4(farbe, schein), c);
+          c = ueber(vec4(mix(farbe, vec3(1.0), punkt * 0.92), fuell), c);
+        } else if (uStil < 1.5) {   // schlicht: ein dünner, einfarbiger Bogen, keine Glut, kein Punkt
+          float h2 = uHalb * 0.62;
+          float sp = 1.0 - smoothstep(h2 - aa, h2 + aa, dKreis);
+          float f2 = (1.0 - smoothstep(h2 - aa, h2 + aa, imBogen ? dKreis : min(dKopf, dAnfang))) * an;
+          c = vec4(1.0, 1.0, 1.0, sp * max(0.22 * spurStark, uFokus));
+          c = ueber(vec4(uB, f2), c);
+        } else if (uStil < 2.5) {   // drei Segmente, eins je Sekunde
+          float seg = 6.2831853 / 3.0, luecke = 0.16, aaw = aa / max(r, 0.01);
+          float inSeg = mod(w, seg);
+          float offen = 1.0 - smoothstep(seg - luecke - aaw, seg - luecke + aaw, inSeg);
+          float band = (1.0 - smoothstep(uHalb * 0.8 - aa, uHalb * 0.8 + aa, dKreis)) * offen;
+          float gef = (1.0 - smoothstep(ende - aaw, ende + aaw, w)) * an;
+          c = vec4(1.0, 1.0, 1.0, band * max(0.2 * spurStark, uFokus));
+          c = ueber(vec4(uB, band * gef), c);
+        } else if (uStil < 3.5) {   // Skala wie eine Stoppuhr: 48 Striche, die nacheinander aufleuchten
+          float n = 48.0, schritt = 6.2831853 / n;
+          float wc = floor(w / schritt + 0.5) * schritt;
+          float lang = mod(floor(w / schritt + 0.5), 4.0) < 0.5 ? 1.45 : 1.0;
+          float strich = (1.0 - smoothstep(0.012 - aa, 0.012 + aa, abs(w - wc) * r)) * (1.0 - smoothstep(uHalb * 1.25 * lang - aa, uHalb * 1.25 * lang + aa, abs(r - uMitte)));
+          float gef = step(wc, ende + 0.0001) * an;
+          c = vec4(mix(vec3(1.0), uB, gef), strich * mix(0.3 * spurStark, 1.0, gef));
+        } else {
+          c = vec4(0.0);
+        }
         gl_FragColor = vec4(c.rgb, c.a * uDeckung);
       }`,
   });
@@ -199,6 +233,40 @@ async function start() {
     return { m, mat, start: -1e9, gross: 4, staerke: 0.8, dauer: 900 };
   });
   let letzteWelle = 0;
+
+  // Funkwellen aus dem Sender (Feedback 77). Die LoRa-Antenne sitzt im Hardware-Modell bei x 46, y 27 (oben links
+  // über der LED). Von dort laufen drei feine Bögen nach oben weg, gerechnet im Shader wie der Füllring.
+  // In der Fläche zeigt uv.x im Modell nach x (am Bildschirm nach oben), uv.y nach y (am Bildschirm nach links).
+  const SENDER = new THREE.Vector3(46, 27.1, GROESSE[2] + 0.4);
+  const FUNK_R = 44;   // Reichweite der Bögen in Millimetern am Modell
+  const funkMat = new THREE.ShaderMaterial({
+    transparent: true, depthTest: false, depthWrite: false, side: THREE.DoubleSide,
+    uniforms: { uZeit: { value: 0 }, uDeckung: { value: 0 }, uFarbe: { value: new THREE.Vector3(1, 0.42, 0.24) } },
+    vertexShader: flaecheVS,
+    fragmentShader: `
+      precision highp float;
+      varying vec2 vUv;
+      uniform float uZeit, uDeckung;
+      uniform vec3 uFarbe;
+      void main() {
+        vec2 p = (vUv - 0.5) * 2.0;
+        float r = length(p), w = atan(p.y, p.x);
+        float aa = max(fwidth(r), 0.0001) * 1.2;
+        float sektor = 1.0 - smoothstep(0.7, 1.05, abs(w - 0.12));
+        float a = 0.0;
+        for (int k = 0; k < 3; k++) {
+          float rk = fract(uZeit / 2.1 + float(k) / 3.0);
+          float rad = 0.07 + rk * 0.93;
+          float band = 1.0 - smoothstep(0.011 - aa, 0.011 + aa, abs(r - rad));
+          a += band * pow(1.0 - rk, 0.9) * smoothstep(0.0, 0.1, rk);
+        }
+        float schein = exp(-r * r / 0.003) * 0.28;   // nur ein leiser Schein am Sender, kein Punkt (sonst wirkt er wie eine zweite LED)
+        gl_FragColor = vec4(uFarbe, clamp(max(a * sektor, schein), 0.0, 1.0) * uDeckung);
+      }`,
+  });
+  const funk = new THREE.Mesh(new THREE.PlaneGeometry(FUNK_R * 2, FUNK_R * 2), funkMat);
+  funk.position.copy(SENDER); funk.renderOrder = 6; funk.visible = false;
+  inhalt.add(funk);
   const welle = (jetzt, farbe, gross, anzahl, staerke, dauer) => {
     for (let i = 0; i < anzahl; i++) { const w = wellen[i]; w.start = jetzt + i * 150; w.gross = gross; w.staerke = staerke; w.dauer = dauer || 900; w.mat.uniforms.uFarbe.value.set(farbe).convertLinearToSRGB(); }
     letzteWelle = jetzt;
@@ -283,7 +351,7 @@ async function start() {
   }
 
   /* ------------------------------------------------------- Größe -- */
-  let B = 1, H = 1, radius = "28px";
+  let B = 1, H = 1, radius = "28px", radiusBlick = "28px";
   const groesse = () => {
     // ohne Bildlaufleiste, damit die Leinwand genau über dem Inhalt liegt
     B = document.documentElement.clientWidth || innerWidth; H = innerHeight;
@@ -294,6 +362,7 @@ async function start() {
     kamera.near = kamera.position.z * 0.2; kamera.far = kamera.position.z * 3;
     kamera.updateProjectionMatrix();
     radius = getComputedStyle(flaeche).borderTopLeftRadius || "28px";
+    if (blickFlaeche) radiusBlick = getComputedStyle(blickFlaeche).borderTopLeftRadius || "28px";
     bedarf = true;
   };
   let bedarf = true;
@@ -307,7 +376,7 @@ async function start() {
     held: E(0.16, -0.55, 0.1),
     gruppe: E(0.12, -0.22, 0.03),
     halten: E(0.06, -0.08, 0),
-    funk: E(0.18, 0.62, -0.05),
+    funk: E(0.08, -0.14, 0.02),
     knopf: E(0.1, -0.3, 0.04),
     nah: E(0.03, -0.12, 0),
     lauf: E(0.1, 0.42, -0.03),
@@ -332,10 +401,51 @@ async function start() {
   const effektS = { druck: 0, ring: 0, led: 0.15, dunkel: 0, ringAus: 0 };
   const ledFarbe = new THREE.Color(GRUEN), ledZiel = new THREE.Color();
   let sichtbar = true, eingang = ohneBewegung ? 1 : 0, nah = 0, letzterZustand = "ruhe", letzteZl = 1, letzterClip = "", letzteDeckung = "", knopfAn = null;
-  const startZeit = performance.now();
+  let startZeit = performance.now();
+  let letzterModus = "", letzterVerschub = "", funkS = 0;
   const zeit = { letzte: performance.now() };
 
-  const bild = (jetzt) => { requestAnimationFrame(bild); zeichne(jetzt); };
+  /* Gezeichnet wird nur, wenn sich am Bild etwas ändert (Lage, Größe, Farben, Ring, Wellen, Schnee, Gruppe).
+     Steht der Chip still, etwa nah am Knopf, rechnet die Grafikkarte nichts. Sind Bilder im Schnitt zu langsam
+     (unter etwa 45 je Sekunde, obwohl gezeichnet wird), sinkt die Pixeldichte eine Stufe. */
+  let letzteSignatur = "", messStart = 0, messBilder = 0, messLang = 0, letztesBild = 0;
+  const signatur = () => {
+    const e = chip.matrixWorld.elements, q = lage.quaternion;
+    let s = e[0].toFixed(3) + e[5].toFixed(3) + e[12].toFixed(1) + e[13].toFixed(1) + e[14].toFixed(1) + q.x.toFixed(4) + q.y.toFixed(4) + q.z.toFixed(4)
+      + teile.kappe.position.z.toFixed(3) + ledMat.emissiveIntensity.toFixed(2) + ledMat.emissive.getHexString() + ledGlanz.material.opacity.toFixed(2)
+      + ringMat.uniforms.uAnteil.value.toFixed(3) + ringMat.uniforms.uSpur.value.toFixed(2) + ringMat.uniforms.uFokus.value.toFixed(2) + ringMat.uniforms.uDeckung.value.toFixed(2)
+      + zahlMat.opacity.toFixed(2) + (zahl.visible ? gezeigteZiffer : 0) + schatten.material.opacity.toFixed(2) + renderer.toneMappingExposure.toFixed(3);
+    for (const w of wellen) if (w.m.visible) s += "w" + w.m.scale.x.toFixed(2) + w.mat.uniforms.uDeckung.value.toFixed(2);
+    for (const l of schnee) if (l.p.visible) s += "s" + Math.random();   // fallender Schnee: immer neu
+    for (const m of minis) if (m.g.visible) s += "m" + Math.random();   // Gruppe bewegt sich: immer neu
+    if (funk.visible) s += "f" + Math.random();   // Funkwellen laufen: immer neu
+    return s;
+  };
+  const zeichnenWennNoetig = (jetzt) => {
+    szene.updateMatrixWorld();
+    const sig = signatur();
+    if (sig === letzteSignatur && !bedarf) { messStart = 0; return; }
+    letzteSignatur = sig;
+    renderer.render(szene, kamera);
+    bedarf = false;
+    // Bildrate nur messen, solange ohne Pause gezeichnet wird
+    if (letztesBild && jetzt - letztesBild < 100) {
+      if (!messStart) { messStart = jetzt; messBilder = 0; messLang = 0; }
+      messBilder++; if (jetzt - letztesBild > 22) messLang++;
+      if (jetzt - messStart > 1500) {
+        if (messLang > messBilder * 0.4 && dprStufe < DPR_STUFEN.length - 1) { renderer.setPixelRatio(DPR_STUFEN[++dprStufe]); bedarf = true; }
+        messStart = 0;
+      }
+    } else messStart = 0;
+    letztesBild = jetzt;
+  };
+  // erstes Bild: dann erst einblenden (der Eingang beginnt hier) und dem Ladebildschirm sagen, dass er gehen kann
+  let erstes = true;
+  const bild = (jetzt) => {
+    requestAnimationFrame(bild);
+    if (erstes) { erstes = false; startZeit = jetzt; zeichne(jetzt); wurzel.classList.remove("chip3d-warte"); dispatchEvent(new Event("skitag-chip-bereit")); return; }
+    zeichne(jetzt);
+  };
   const zeichne = (jetzt) => {
     const dt = Math.max(0, Math.min(0.05, (jetzt - zeit.letzte) / 1000)); zeit.letzte = jetzt;
     const t = jetzt / 1000, s = scrollY;
@@ -364,17 +474,31 @@ async function start() {
     /* ---- wo ist der Chip, was zeigt er ---- */
     const z = S.zustand, g = S.gruppe || 0, bz = S.blick, sb = bz.schritt;
     const imKnopf = t2 > 0.5, imBlick = !imKnopf && t1 > 0.5, gelandet = t2 >= 0.98;
-    const zl = bz.spielt ? ((jetzt - bz.start) % SCHLEIFE) / SCHLEIFE : -1;   // Stand in der Schleife „Gruppe rufen“
+    const zl = bz.spielt ? bz.zl || 0 : -1;   // Stand von „Gruppe rufen“, folgt dem Scrollen (seite.js)
 
     // Nahansicht am Knopf: kommt mit dem letzten Stück des Flugs, weicht zurück, wenn Gruppe oder Notruf laufen
     const nahWunsch = z === "ruhe" || z === "halten" || z === "frist" || (z === "gruppe" && (g < 0.03 || g > 0.9));
     const nahZiel = imKnopf && nahWunsch ? (ohneBewegung ? (gelandet ? 1 : 0) : weich(abschnitt(t2, 0.8, 1))) : 0;
     nah += (nahZiel - nah) * glatt(0.012);
     if (Math.abs(nahZiel - nah) < 0.0008) nah = nahZiel;
+    // Nie näher, als der Flug erlaubt: beim Zurückscrollen endet die Nahansicht sofort mit dem Flug. Sonst schneidet
+    // die Fläche den Chip noch zu, während er schon nach oben fliegt, und er verschwindet hinter ihrem Rand.
+    const nahGrenze = imKnopf ? (ohneBewegung ? (gelandet ? 1 : 0) : weich(abschnitt(t2, 0.8, 1))) : 0;
+    if (nah > nahGrenze) nah = nahGrenze;
     if (nah > 0) {
       const N = mitte(anker.nah), u = weich(nah);
       x = mix(x, N.x, u); y = mix(y, N.y, u); h = h * Math.pow(N.h / h, u);
     }
+
+    // Schritt 3 in „Was ist SKITAG?“: die Ansicht fährt an den Sender, der Chip wird größer und die Fläche schneidet
+    // ihn zu. Fest an die Scrollstelle gebunden: vor dem Ende der Strecke ist er wieder normal groß, damit der Flug
+    // zum nächsten Abschnitt ohne Sprung beginnt.
+    const pBlick = klemme((s - blickOben) / Math.max(1, br.height - H));
+    const senderNah = !(imBlick && t2 === 0 && blickFlaeche) ? 0 : ohneBewegung ? (pBlick >= 0.7 && pBlick < 0.95 ? 1 : 0)
+      // im dritten Drittel: hinein im selben Takt wie die anderen Schritte (5 bis 70 %), heraus kurz vor dem Ende
+      : weich(abschnitt((pBlick - 2 / 3) * 3, 0.05, 0.7)) * (1 - weich(abschnitt((pBlick - 2 / 3) * 3, 0.82, 0.95)));
+    const P = senderNah > 0 ? mitte(blickFlaeche) : null;
+    if (P) h = mix(h, P.h * 1.4, senderNah);
 
     ziel.copy(imKnopf ? (z === "lauf" || z === "fertig" ? POSE.lauf : nahZiel > 0.5 ? POSE.nah : POSE.knopf) : imBlick ? [POSE.gruppe, POSE.halten, POSE.funk][sb] : POSE.held);
     jetztQ.slerp(ziel, glatt(0.0025));
@@ -448,6 +572,14 @@ async function start() {
       if (ein < 1) { dreh.setFromAxisAngle(achseY, (1 - ein) * -1.2); lage.quaternion.multiply(dreh); }
     }
 
+    if (P) {   // den Sender an einen festen Punkt in der Fläche schieben (links oberhalb der Mitte)
+      chip.updateMatrixWorld(true);
+      punkt.copy(SENDER); inhalt.localToWorld(punkt); punkt.project(kamera);
+      const qx = P.x - P.w * 0.04, qy = P.y + P.h * 0.04;
+      chip.position.x += (qx - (punkt.x * 0.5 + 0.5) * B) * senderNah;
+      chip.position.y -= (qy - (-punkt.y * 0.5 + 0.5) * H) * senderNah;
+    }
+
     // Wie weit zeigt die Vorderseite zur Kamera? LED-Schein, Ringe, Ziffer und Wellen liegen ohne Tiefentest auf
     // dem Chip und würden sonst durch ihn hindurch scheinen, wenn er sich im Flug umdreht.
     punkt.set(0, 0, 1).applyQuaternion(lage.quaternion);
@@ -475,6 +607,14 @@ async function start() {
     ledMat.emissive.copy(ledFarbe); ledMat.emissiveIntensity = 0.2 + effektS.led * 2.2;
     ledGlanz.material.color.copy(ledFarbe); ledGlanz.material.opacity = klemme(effektS.led * 1.1 - 0.15) * vorn; ledGlanz.visible = vorn > 0.01;
 
+
+    // Funkwellen aus dem Sender: im dritten Schritt von „Was ist SKITAG?“
+    // nur solange die Strecke angeheftet ist; fliegt der Chip weiter, sind sie sofort weg (sonst ragen sie aus der Fläche)
+    funkS = t2 > 0 ? 0 : mix(funkS, imBlick && sb === 2 ? 1 : 0, glatt(0.02));
+    funkMat.uniforms.uZeit.value = ohneBewegung ? 0.7 : t;
+    funkMat.uniforms.uDeckung.value = funkS * vorn;
+    funk.visible = funkS * vorn > 0.01;
+
     // Wellen auf dem Chip
     for (const w of wellen) {
       const a = (jetzt - w.start) / w.dauer;
@@ -486,7 +626,7 @@ async function start() {
     // Schatten: liegt unter dem Chip, wird beim Fliegen größer und blasser, in der Nahansicht fällt er weg
     schatten.position.set(chip.position.x, H / 2 - y - h * 0.6, -h * 0.4);
     schatten.scale.set(h * 1.2 * (1 + flug * 0.5), h * 1.2 * (1 + flug * 0.5), 1);
-    schatten.material.opacity = (0.75 - flug * 0.6) * ein * (1 - nah);
+    schatten.material.opacity = (0.75 - flug * 0.6) * ein * (1 - nah) * (1 - senderNah);
 
     /* ---- die Gruppe ---- */
     const miniDa = (imBlick && sb === 0 && t1 >= 0.97 && t2 === 0) || (imKnopf && z === "gruppe" && g > 0.08 && g < 0.86);
@@ -498,11 +638,11 @@ async function start() {
       if (!m.g.visible) continue;
       const r = mitte(miniOrt[i]);
       const vib = imKnopf ? g >= 0.335 + i * 0.037 && g < 0.72 : zl >= 0.27 + i * 0.04 && zl < 0.57 + i * 0.04;
-      m.g.position.set(r.x - B / 2 + (vib && !ohneBewegung ? Math.sin(t * 71 + i) * r.h * 0.008 : 0), H / 2 - r.y + (ohneBewegung ? 0 : Math.sin(t * 1.5 + i * 2.1) * r.h * 0.02), 0);
+      m.g.position.set(r.x - B / 2 + (vib && !ohneBewegung ? Math.sin(t * 71 + i) * r.h * 0.003 : 0), H / 2 - r.y + (ohneBewegung ? 0 : Math.sin(t * 1.5 + i * 2.1) * r.h * 0.02), 0);
       m.g.scale.setScalar((r.h / GROESSE[0]) * an);
       m.l.quaternion.copy(m.pose);
       if (!ohneBewegung) {
-        dreh.setFromEuler(euler.set(Math.sin(t * 0.8 + i) * 0.04, Math.sin(t * 0.6 + i * 1.7) * 0.1, vib ? Math.sin(t * 58 + i * 2) * 0.025 : 0));
+        dreh.setFromEuler(euler.set(Math.sin(t * 0.8 + i) * 0.04, Math.sin(t * 0.6 + i * 1.7) * 0.1, vib ? Math.sin(t * 58 + i * 2) * 0.01 : 0));
         m.l.quaternion.multiply(dreh);
       }
       const hell = vib ? blinken(20) : 0.12;
@@ -539,8 +679,17 @@ async function start() {
       }
       if (an !== knopfAn) { knopfAn = an; knopfEl.style.pointerEvents = an ? "" : "none"; }
     }
+    // Die Leinwand scrollt mit der Seite (absolut, um scrollY verschoben). Der Browser scrollt vor dem nächsten Bild,
+    // eine feste Leinwand hinkt dann hinterher und der Chip rutscht aus seiner Fläche. Nur solange „Was ist SKITAG?“
+    // angeheftet ist, steht sie fest, denn dort steht auch die Bühne still.
+    const fest = imBlick && t2 === 0 && br.top <= 1 && br.bottom >= H - 1;
+    const modus = fest ? "fixed" : "absolute";
+    if (modus !== letzterModus) { leinwand.style.position = modus; letzterModus = modus; }
+    const verschub = fest ? "none" : "translate3d(0," + s + "px,0)";
+    if (verschub !== letzterVerschub) { leinwand.style.transform = verschub; letzterVerschub = verschub; }
     let clip = "none";
-    if (nah > 0.002) { const p = flaeche.getBoundingClientRect(); clip = "inset(" + p.top.toFixed(1) + "px " + (B - p.right).toFixed(1) + "px " + (H - p.bottom).toFixed(1) + "px " + p.left.toFixed(1) + "px round " + radius + ")"; }
+    const ausschnitt = nah > 0.002 ? [flaeche, radius] : senderNah > 0.002 || funkS > 0.01 ? [blickFlaeche, radiusBlick] : null;
+    if (ausschnitt) { const p = ausschnitt[0].getBoundingClientRect(); clip = "inset(" + p.top.toFixed(1) + "px " + (B - p.right).toFixed(1) + "px " + (H - p.bottom).toFixed(1) + "px " + p.left.toFixed(1) + "px round " + ausschnitt[1] + ")"; }
     if (clip !== letzterClip) { leinwand.style.clipPath = clip; letzterClip = clip; }
     const deckung = (ohneBewegung ? tSnap : ein).toFixed(3);
     if (deckung !== letzteDeckung) { leinwand.style.opacity = deckung; letzteDeckung = deckung; }
@@ -549,7 +698,7 @@ async function start() {
     const war = sichtbar;
     sichtbar = y + h > -h && y - h < H + h;
     if (sichtbar !== war) leinwand.style.visibility = sichtbar ? "visible" : "hidden";
-    if (sichtbar || bedarf) { renderer.render(szene, kamera); bedarf = false; }
+    if (sichtbar || bedarf) zeichnenWennNoetig(jetzt);
   };
   requestAnimationFrame(bild);
 }

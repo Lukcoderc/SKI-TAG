@@ -18,23 +18,30 @@
   var spart = n.connection && n.connection.saveData;
   if (gemessen || spart || (n.hardwareConcurrency && n.hardwareConcurrency <= 4) || (n.deviceMemory && n.deviceMemory <= 4)) w.classList.add("sparsam");
   if (gemessen || spart || (n.deviceMemory && n.deviceMemory <= 2)) w.classList.add("sparsam-video");
+  /* Der 3D-Chip lädt: bis dahin kein Standbild zeigen, sonst erscheint der Chip zweimal (Feedback 74).
+     chip-3d.js nimmt die Klasse bei einem Fehler wieder weg, seite.js spätestens nach 6 s. */
+  if ("noModule" in document.createElement("script")) w.classList.add("chip3d-warte");
+  w.classList.add("js-fq");   /* Gut zu wissen: Antworten erst auf Klick (seite.js) */
 } catch (e) {} })();
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=88">
+<link rel="stylesheet" href="assets/seite.css?v=107">
 <noscript><style>.lade { display: none; }</style></noscript>
 </head>
 <body>
 
-<!-- Ladebildschirm: das Gerüst des Einstiegs (Kopfleiste, Titel, Text, Video) als graue Flächen, bis Schrift und Bild da sind.
-     seite.js blendet es aus; ohne JavaScript erscheint es nicht (noscript im Kopf). -->
+<!-- Ladebildschirm (seit Feedback 74 im Aufbau des Einstiegs): Kopfleiste, links Titel, Text und zwei Knöpfe, rechts
+     Radar und Chip. seite.js blendet es aus, sobald Schrift und 3D-Chip bereit sind; ohne JavaScript erscheint es nicht. -->
 <div class="lade" aria-hidden="true">
   <div class="lade__blatt">
     <div class="lade__kopf"><span class="lade__k lade__marke"></span><span class="lade__nav"><span class="lade__k"></span><span class="lade__k"></span><span class="lade__k"></span><span class="lade__k"></span></span><span class="lade__k lade__pille"></span></div>
-    <div class="lade__mitte">
-      <span class="lade__k lade__zeile"></span><span class="lade__k lade__zeile"></span><span class="lade__k lade__zeile"></span>
-      <span class="lade__k lade__text"></span><span class="lade__k lade__text"></span>
+    <div class="lade__held">
+      <div class="lade__links">
+        <span class="lade__k lade__zeile"></span><span class="lade__k lade__zeile"></span>
+        <span class="lade__k lade__text"></span><span class="lade__k lade__text"></span>
+        <span class="lade__knoepfe"><span class="lade__k lade__knopf"></span><span class="lade__k lade__knopf"></span></span>
+      </div>
+      <div class="lade__rechts"><span class="lade__kreis"></span><span class="lade__k lade__chip"></span></div>
     </div>
-    <span class="lade__k lade__chip"></span>
   </div>
 </div>
 
@@ -112,18 +119,17 @@
   <section class="held" data-sc-act="flow" data-sc-drift="#ffffff" aria-labelledby="titel">
     <div class="held__himmel" aria-hidden="true">
       <div class="held__sonne"></div>
-      <svg class="held__berge" viewBox="0 0 1600 600" preserveAspectRatio="xMidYMax slice">
+      <!-- drei Ebenen als eigene SVGs: jede wird als Ganzes verschoben (eigene Ebene im Browser, kein Neuzeichnen) -->
+      <svg class="held__berge held__lage held__lage--fern" viewBox="0 0 1600 600" preserveAspectRatio="xMidYMax slice">
         <defs><linearGradient id="held-schnee" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1f5fa"/><stop offset=".55" stop-color="#ffffff"/></linearGradient><linearGradient id="held-fern" x1="0" y1="0" x2="0" y2="1"><stop offset=".15" stop-color="#bccde2"/><stop offset=".75" stop-color="#e2eaf4"/></linearGradient><linearGradient id="held-mitte" x1="0" y1="0" x2="0" y2="1"><stop offset=".55" stop-color="#d5e0ed"/><stop offset=".95" stop-color="#f0f4f9"/></linearGradient></defs>
-        <g class="held__lage held__lage--fern">
-          <path fill="url(#held-fern)" d="M-50 600 V330 L60 270 L130 310 L250 190 L330 255 L400 215 L500 300 L610 215 L720 120 L820 215 L890 180 L1000 290 L1090 200 L1200 95 L1300 205 L1380 160 L1490 265 L1650 190 V600 Z"/>
-          <path fill="#eef3f9" d="M250 190 L278 213 L266 211 L256 226 L244 212 L230 226 L222 216 L208 232 Z M720 120 L760 158 L744 151 L730 170 L716 152 L700 166 L690 151 L676 158 Z M1200 95 L1240 139 L1224 133 L1210 152 L1196 134 L1180 148 L1170 133 L1156 137 Z M1380 160 L1404 183 L1392 180 L1382 194 L1370 180 L1352 185 Z"/>
-        </g>
-        <g class="held__lage held__lage--mitte">
-          <path fill="url(#held-mitte)" d="M-50 600 V430 L80 385 L190 425 L320 345 L430 410 L540 370 L680 440 L800 365 L930 425 L1050 355 L1170 425 L1290 375 L1420 435 L1650 380 V600 Z"/>
-        </g>
-        <g class="held__lage held__lage--nah">
-          <path fill="url(#held-schnee)" d="M-50 600 V520 C150 470 380 500 620 520 C900 545 1180 470 1650 505 V600 Z"/>
-        </g>
+        <path fill="url(#held-fern)" d="M-50 600 V330 L60 270 L130 310 L250 190 L330 255 L400 215 L500 300 L610 215 L720 120 L820 215 L890 180 L1000 290 L1090 200 L1200 95 L1300 205 L1380 160 L1490 265 L1650 190 V600 Z"/>
+        <path fill="#eef3f9" d="M250 190 L278 213 L266 211 L256 226 L244 212 L230 226 L222 216 L208 232 Z M720 120 L760 158 L744 151 L730 170 L716 152 L700 166 L690 151 L676 158 Z M1200 95 L1240 139 L1224 133 L1210 152 L1196 134 L1180 148 L1170 133 L1156 137 Z M1380 160 L1404 183 L1392 180 L1382 194 L1370 180 L1352 185 Z"/>
+      </svg>
+      <svg class="held__berge held__lage held__lage--mitte" viewBox="0 0 1600 600" preserveAspectRatio="xMidYMax slice">
+        <path fill="url(#held-mitte)" d="M-50 600 V430 L80 385 L190 425 L320 345 L430 410 L540 370 L680 440 L800 365 L930 425 L1050 355 L1170 425 L1290 375 L1420 435 L1650 380 V600 Z"/>
+      </svg>
+      <svg class="held__berge held__lage held__lage--nah" viewBox="0 0 1600 600" preserveAspectRatio="xMidYMax slice">
+        <path fill="url(#held-schnee)" d="M-50 600 V520 C150 470 380 500 620 520 C900 545 1180 470 1650 505 V600 Z"/>
       </svg>
     </div>
     <div class="held__raster">
@@ -134,7 +140,9 @@
         <div class="held__knoepfe"><a class="knopf-dunkel knopf-gross" href="#der-chip">Gleich ausprobieren <svg class="knopf__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="knopf-hell knopf-gross" href="#blick">Was ist SKITAG?</a></div>
       </div>
       <div class="held__bild" aria-hidden="true">
-        <div class="held__ringe"><i></i><i></i><i></i><b></b></div>
+        <!-- Hinter dem Chip (Feedback 85): „SKI TAG“ riesig und weiß, der Chip liegt davor; Himmel und Berge bleiben.
+             Vorbild: Produktseiten mit großem Wort hinter dem Gerät (z. B. Optixel, RiDM). -->
+        <div class="held__wort" aria-hidden="true">SKI<br>TAG</div>
         <div class="held__chip chip-anker"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" decoding="async"></div>
       </div>
     </div>
@@ -144,7 +152,7 @@
        Scrollen nacheinander, was er kann. Kurz drücken (die Gruppe vibriert), drei Sekunden halten (der Ring
        um den Knopf füllt sich, die Fläche wird Nacht), Funk zur Liftstation. Der Schritt steht in data-schritt
        (chip-3d.js), der Füllstand in --halten. -->
-  <section id="blick" class="blick" data-sc-act="pin" data-sc-span="4" data-sc-drift="#ffffff" data-schritt="0" aria-labelledby="blick-titel">
+  <section id="blick" class="blick" data-sc-act="pin" data-sc-span="5.5" data-sc-drift="#ffffff" data-marken="0.3333 0.6667" data-schritt="0" aria-labelledby="blick-titel">
     <div class="blick__buehne" data-sc-stage>
       <div class="blick__raster">
         <div class="blick__flaeche" aria-hidden="true">
@@ -158,19 +166,8 @@
           <div class="mit bk-mit" style="--x:84%; --y:29%; --v:0.17s; --f:#6b7385"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>T</i>Tom</span></div>
           <div class="mit bk-mit" style="--x:21%; --y:80%; --v:0.34s; --f:#c2410c"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>L</i>Lea</span></div>
           <p class="bk-marke bk-marke--gruppe"><i></i>Gruppe gerufen</p>
-          <div class="bk-zaehler"><span class="bk-zaehler__zahl"><b data-s="1">1</b><b data-s="2">2</b><b data-s="3">3</b></span><small>Sekunden</small></div>
+          <div class="bk-zaehler"><span class="bk-zaehler__zahl"><b data-s="1">3</b><b data-s="2">2</b><b data-s="3">1</b></span><small>Sekunden halten</small></div>
           <p class="bk-marke bk-marke--notruf"><i></i>Notruf gesendet</p>
-          <p class="bk-marke bk-marke--empfangen"><i></i>Standort empfangen</p>
-          <svg class="bk-funk" viewBox="0 0 400 300" preserveAspectRatio="xMaxYMid meet">
-            <path class="bk-funk__weg" d="M120 170 C 200 110, 270 110, 330 128" pathLength="1"/>
-            <circle class="bk-funk__punkt" r="5"/>
-            <g class="bk-funk__station" transform="translate(338 140)">
-              <path d="M0 74 V0 M-14 74 h28 M0 0 l-12 74 M0 0 l12 74"/>
-              <circle class="bk-funk__licht" cy="-8" r="7"/>
-              <path class="bk-funk__bogen" d="M-16 -22 a22 22 0 0 1 32 0"/><path class="bk-funk__bogen bk-funk__bogen--2" d="M-26 -32 a36 36 0 0 1 52 0"/>
-            </g>
-            <text class="bk-funk__name" x="338" y="240">Liftstation</text>
-          </svg>
           <div class="blick__chip chip-anker"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async"></div>
         </div>
         <div class="blick__text">
@@ -203,7 +200,7 @@
           <li data-schritt="hilfe"><b>Hilfe kommt</b><span>Ein Mitarbeiter der Bergbahn fährt zu dir.</span></li>
         </ol>
         <div class="knopf__status">
-          <p id="knopf-status" class="knopf-akt__status" aria-live="polite">Probier es aus: Drück den Knopf am Chip. Kurz für die Gruppe, drei Sekunden für den Notruf.</p>
+          <p id="knopf-status" class="knopf-akt__status" aria-live="polite">Probier es aus: Drück den Knopf am Chip. Kurz für die Gruppe, gedrückt halten für den Notruf.</p>
           <button class="knopf-hell" type="button" data-aktion="nochmal" hidden>Nochmal</button>
         </div>
       </div>
@@ -263,7 +260,7 @@
           <p class="kachel__riesig"><span data-sc-count="0 -20" data-sc-count-ms="1600">−20</span><small>°C</small></p>
           <h3>Funkt auch bei Kälte.</h3>
           <p>Auch an eisigen Tagen am Berg geht der Notruf zuverlässig raus.</p>
-          <svg class="kachel__thermo" viewBox="0 0 40 140" aria-hidden="true"><rect x="13" y="6" width="14" height="104" rx="7" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="20" cy="118" r="14" fill="none" stroke="currentColor" stroke-width="2"/><rect class="kachel__thermo-saeule" x="17" y="40" width="6" height="74" rx="3"/><circle cx="20" cy="118" r="9" class="kachel__thermo-kugel"/></svg>
+          <svg class="kachel__thermo" viewBox="0 0 40 140" aria-hidden="true"><path class="kachel__thermo-skala" d="M31 22 h5 M31 38 h3 M31 54 h5 M31 70 h3 M31 86 h5"/><rect x="13" y="6" width="14" height="104" rx="7" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="20" cy="118" r="14" fill="none" stroke="currentColor" stroke-width="2"/><rect class="kachel__thermo-saeule" x="17" y="40" width="6" height="74" rx="3"/><circle cx="20" cy="118" r="9" class="kachel__thermo-kugel"/></svg>
         </article>
 
         <article class="kachel">
@@ -300,7 +297,7 @@
         <article class="kachel kachel--bild">
           <svg class="kachel__bild bild-huelle" viewBox="0 0 120 90" aria-hidden="true"><ellipse cx="60" cy="78" rx="40" ry="5" fill="#0e1d40" opacity=".08"/><rect class="bild-huelle__form" x="20" y="22" width="80" height="50" rx="22" fill="#d9dce3"/><rect x="28" y="30" width="64" height="34" rx="15" fill="#0e1d40"/></svg>
           <h3>Weich, wo es zählt.</h3>
-          <p>Eine weiche Hülle rundum und runde Ecken, nichts Hartes steht ab. Fällst du auf den Chip, tut er dir nicht weh.</p>
+          <p>Der weiche Rand drückt nicht, wenn du stürzt. Darunter steckt eine harte Schale, die einiges aushält.</p>
         </article>
       </div>
     </div>
@@ -443,44 +440,160 @@
 
   <!-- 8 · Gut zu wissen (Fragen); unten wächst das Gebirge in die Nacht des Schlusses -->
   <section id="fragen" class="sc-section fragen" data-sc-act="flow" data-sc-drift="#ffffff" aria-labelledby="fragen-titel">
-    <div class="sc-wrap fragen__raster">
-      <header class="kopfzeile" data-sc-in data-sc-stagger="80">
+    <div class="sc-wrap">
+      <header class="kopfzeile fq-kopf" data-sc-in data-sc-stagger="80">
         <p class="augenbraue">Fragen</p>
         <h2 id="fragen-titel" class="sc-display riesig">Gut zu wissen.</h2>
       </header>
-      <div class="fragen__liste" data-sc-in data-sc-stagger="60">
-        <details>
-          <summary>Brauche ich ein Handy?</summary>
-          <p>Nein. Der Chip funkt selbst, ohne Handy, ohne SIM-Karte und ohne Handynetz. Die App ist ein Extra für die Gruppe und deinen Tag.</p>
-        </details>
-        <details>
-          <summary>Was passiert, wenn ich aus Versehen drücke?</summary>
-          <p>Kurz drücken ruft nur deine eigene Gruppe, die Bergbahn wird nicht alarmiert. Ein Notruf braucht drei Sekunden Halten, danach bleiben fünf Sekunden, um ihn mit einem zweiten Druck abzubrechen.</p>
-        </details>
-        <details>
-          <summary>Wer kommt, wenn ich Hilfe rufe?</summary>
-          <p>Der Notruf geht an den Mitarbeiter der Bergbahn, der dir am nächsten ist. Nimmt er nicht rechtzeitig an, geht der Notruf an den nächsten. Bei einem schweren Unfall ruf zusätzlich die Bergrettung unter 140, wenn du kannst.</p>
-        </details>
-        <details>
-          <summary>Und wenn der Notruf nicht ankommt?</summary>
-          <p>Dann zeigt es dir der Chip: Er blinkt doppelt rot und vibriert. So weißt du, dass du selbst 140 rufen solltest. Ein Notruf darf nie still verschwinden.</p>
-        </details>
-        <details>
-          <summary>Funktioniert das überall am Berg?</summary>
-          <p>Ja, im ganzen Skigebiet. An den Liftstationen stehen Empfänger, die das Signal deines Chips auffangen.</p>
-        </details>
-        <details>
-          <summary>Hält der Akku einen ganzen Tag?</summary>
-          <p>Ja. Der Akku hält acht Stunden, am Abend sind noch mindestens 30 % übrig.</p>
-        </details>
-        <details>
-          <summary>Können Kinder den Chip tragen?</summary>
-          <p>Ja, am besten in der Jackentasche oder an einem weichen Armband. Nie an einem Band um den Hals, am Lift kann es sich verfangen.</p>
-        </details>
-        <details>
-          <summary>Was passiert mit meinem Standort?</summary>
-          <p>Dein Standort wird nur während deines Miettags verwendet und am Ende des Tages gelöscht.</p>
-        </details>
+      <!-- Bento (seit Feedback 75): jede Frage ist eine Kachel mit kleiner Animation. Ein Klick irgendwo auf die Kachel
+           zeigt die Antwort (seite.js setzt .ist-offen und aria-expanded). Ohne JavaScript steht die Antwort unter der Frage.
+           Die Animationen laufen nur, solange der Abschnitt zu sehen ist (.ist-weg hält sie an). -->
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <symbol id="fq-chip" viewBox="0 0 38 54"><rect width="38" height="54" rx="10" fill="#f0561a"/><rect x="3.5" y="3.5" width="31" height="47" rx="7.5" fill="#1f2126"/><circle cx="19" cy="31" r="7.2" fill="#f0561a"/><circle cx="19" cy="31" r="5" fill="#33363c"/><circle cx="19" cy="13" r="1.8" fill="#8dffa0"/></symbol>
+      </svg>
+      <div class="fq-raster">
+
+        <article class="fq fq--breit">
+          <div class="fq__bild" aria-hidden="true">
+            <svg viewBox="0 0 640 220">
+              <g class="fq-handy" transform="translate(150 40)">
+                <rect width="78" height="140" rx="16" fill="#fff" stroke="#c4ccd8" stroke-width="3"/>
+                <rect x="28" y="10" width="22" height="5" rx="2.5" fill="#dfe4ec"/>
+                <g fill="#dfe4ec"><rect x="20" y="88" width="7" height="10" rx="2"/><rect x="31" y="80" width="7" height="18" rx="2"/><rect x="42" y="72" width="7" height="26" rx="2"/><rect x="53" y="64" width="7" height="34" rx="2"/></g>
+                <path d="M18 64 L60 106" stroke="#ff5a5a" stroke-width="3.2" stroke-linecap="round"/>
+              </g>
+              <text class="fq-klein" x="189" y="207">Kein Netz</text>
+              <path d="M268 110 H352" stroke="#c4ccd8" stroke-width="2.4" stroke-dasharray="2 8" stroke-linecap="round"/>
+              <use href="#fq-chip" x="390" y="56" width="76" height="108"/>
+              <g class="fq-boegen" fill="none" stroke="#ff5a1c" stroke-width="4" stroke-linecap="round">
+                <path d="M488 88 a30 30 0 0 1 0 44"/><path d="M504 74 a50 50 0 0 1 0 72"/><path d="M520 60 a70 70 0 0 1 0 100"/>
+              </g>
+              <text class="fq-klein" x="428" y="207">Funkt trotzdem</text>
+            </svg>
+          </div>
+          <div class="fq__antwort" id="fq-1"><p>Nein. Der Chip funkt selbst, ohne Handy, ohne SIM-Karte und ohne Handynetz. Die App ist ein Extra für die Gruppe und deinen Tag.</p></div>
+          <h3 class="fq__kopf"><button class="fq__frage" type="button" aria-expanded="false" aria-controls="fq-1"><span class="fq__nr">01</span><span class="fq__text">Brauche ich ein Handy?</span><i class="fq__plus" aria-hidden="true"></i></button></h3>
+        </article>
+
+        <article class="fq">
+          <div class="fq__bild" aria-hidden="true">
+            <svg viewBox="0 0 320 220">
+              <circle cx="160" cy="104" r="66" fill="none" stroke="#e2e7ef" stroke-width="7"/>
+              <circle class="fq-halten" cx="160" cy="104" r="66" fill="none" stroke="#ff5a1c" stroke-width="7" stroke-linecap="round" pathLength="1" transform="rotate(-90 160 104)"/>
+              <circle class="fq-frist" cx="160" cy="104" r="66" fill="none" stroke="#ff2d2d" stroke-width="7" stroke-linecap="round" pathLength="1" transform="rotate(-90 160 104)"/>
+              <g class="fq-taste"><circle cx="160" cy="104" r="44" fill="#f0561a"/><circle cx="160" cy="104" r="33" fill="#2a2c31"/><circle cx="152" cy="94" r="10" fill="#fff" opacity=".08"/></g>
+              <g class="fq-pillen" font-weight="650">
+                <g class="fq-pille fq-pille--1"><rect x="95" y="181" width="130" height="34" rx="17" fill="#0e1d40"/><text x="160" y="203.5">3 s halten</text></g>
+                <g class="fq-pille fq-pille--2"><rect x="62" y="181" width="197" height="34" rx="17" fill="#ff2d2d"/><text x="160" y="203.5">5 s zum Abbrechen</text></g>
+                <g class="fq-pille fq-pille--3"><rect x="90" y="181" width="140" height="34" rx="17" fill="#2fbf6a"/><text x="160" y="203.5">Abgebrochen</text></g>
+              </g>
+            </svg>
+          </div>
+          <div class="fq__antwort" id="fq-2"><p>Kurz drücken ruft nur deine eigene Gruppe, die Bergbahn wird nicht alarmiert. Ein Notruf braucht drei Sekunden Halten, danach bleiben fünf Sekunden, um ihn mit einem zweiten Druck abzubrechen.</p></div>
+          <h3 class="fq__kopf"><button class="fq__frage" type="button" aria-expanded="false" aria-controls="fq-2"><span class="fq__nr">02</span><span class="fq__text">Was passiert, wenn ich aus Versehen drücke?</span><i class="fq__plus" aria-hidden="true"></i></button></h3>
+        </article>
+
+        <article class="fq fq--hoch">
+          <div class="fq__bild" aria-hidden="true">
+            <svg viewBox="0 0 320 440" preserveAspectRatio="xMidYMid meet">
+              <rect x="14" y="14" width="292" height="412" rx="22" fill="#e9eef5"/>
+              <path d="M14 150 C 90 120, 160 180, 306 130 V14 H14 Z" fill="#dde4ee"/>
+              <path d="M70 40 C 110 120, 60 200, 120 260 S 220 330, 200 426" fill="none" stroke="#fff" stroke-width="26" stroke-linecap="round"/>
+              <path d="M250 30 C 230 110, 280 170, 230 240 S 170 330, 240 426" fill="none" stroke="#fff" stroke-width="20" stroke-linecap="round"/>
+              <path class="fq-route" d="M92 92 C 130 150, 110 210, 160 260 S 222 320, 228 338" fill="none" stroke="#0e1d40" stroke-width="3" stroke-dasharray="3 9" stroke-linecap="round"/>
+              <g transform="translate(92 86)"><rect x="-22" y="-16" width="44" height="28" rx="6" fill="#0e1d40"/><path d="M-26 -14 L0 -30 L26 -14 Z" fill="#0e1d40"/></g>
+              <text class="fq-klein" x="92" y="134">Bergbahn</text>
+              <g class="fq-du"><circle class="fq-du__puls" cx="228" cy="346" r="12" fill="none" stroke="#ff5a1c" stroke-width="2.5"/><circle cx="228" cy="346" r="9" fill="#ff5a1c" stroke="#fff" stroke-width="3"/></g>
+              <text class="fq-klein" x="228" y="380">Du</text>
+              <g class="fq-helfer"><circle r="13" fill="#fff" stroke="#0e1d40" stroke-width="3"/><path d="M-5.5 0 H5.5 M0 -5.5 V5.5" stroke="#ff2d2d" stroke-width="3" stroke-linecap="round"/></g>
+              <g class="fq-pille fq-angekommen"><rect x="154" y="391" width="149" height="34" rx="17" fill="#2fbf6a"/><text x="228" y="413.5">Hilfe ist da</text></g>
+            </svg>
+          </div>
+          <div class="fq__antwort" id="fq-3"><p>Der Notruf geht an den Mitarbeiter der Bergbahn, der dir am nächsten ist. Nimmt er nicht rechtzeitig an, geht der Notruf an den nächsten. Bei einem schweren Unfall ruf zusätzlich die Bergrettung unter 140, wenn du kannst.</p></div>
+          <h3 class="fq__kopf"><button class="fq__frage" type="button" aria-expanded="false" aria-controls="fq-3"><span class="fq__nr">03</span><span class="fq__text">Wer kommt, wenn ich Hilfe rufe?</span><i class="fq__plus" aria-hidden="true"></i></button></h3>
+        </article>
+
+        <article class="fq">
+          <div class="fq__bild" aria-hidden="true">
+            <svg viewBox="0 0 320 220">
+              <g class="fq-wackeln"><use href="#fq-chip" x="122" y="28" width="76" height="108"/><circle class="fq-led-rot" cx="160" cy="54" r="5" fill="#ff2d2d"/><circle class="fq-led-rot fq-led-rot--schein" cx="160" cy="54" r="14" fill="#ff2d2d"/></g>
+              <g class="fq-vibration" fill="none" stroke="#ff5a1c" stroke-width="3.2" stroke-linecap="round"><path d="M106 66 q-8 16 0 32 M96 58 q-12 24 0 48"/><path d="M214 66 q8 16 0 32 M224 58 q12 24 0 48"/></g>
+              <g class="fq-pille fq-pille--fest"><rect x="66" y="163" width="188" height="34" rx="17" fill="#0e1d40"/><text x="160" y="185.5">Selbst 140 rufen</text></g>
+            </svg>
+          </div>
+          <div class="fq__antwort" id="fq-4"><p>Dann zeigt es dir der Chip: Er blinkt doppelt rot und vibriert. So weißt du, dass du selbst 140 rufen solltest. Ein Notruf darf nie still verschwinden.</p></div>
+          <h3 class="fq__kopf"><button class="fq__frage" type="button" aria-expanded="false" aria-controls="fq-4"><span class="fq__nr">04</span><span class="fq__text">Und wenn der Notruf nicht ankommt?</span><i class="fq__plus" aria-hidden="true"></i></button></h3>
+        </article>
+
+        <article class="fq fq--breit">
+          <div class="fq__bild" aria-hidden="true">
+            <svg viewBox="0 0 640 220">
+              <path d="M0 210 L90 120 L150 150 L250 50 L350 135 L420 95 L520 165 L640 110 V220 H0 Z" fill="#e6ecf4"/>
+              <path d="M0 210 L90 120 L150 150 L250 50 L350 135 L420 95 L520 165 L640 110" fill="none" stroke="#c4ccd8" stroke-width="2.4" stroke-linejoin="round"/>
+              <g class="fq-abdeckung" fill="none" stroke="#ff5a1c" stroke-width="2">
+                <circle cx="250" cy="58" r="20"/><circle cx="420" cy="102" r="20"/><circle cx="90" cy="127" r="20"/><circle cx="600" cy="124" r="20"/>
+              </g>
+              <g fill="#0e1d40">
+                <g transform="translate(250 58)"><path d="M0 -16 V0 M-8 0 H8" stroke="#0e1d40" stroke-width="3" stroke-linecap="round"/><circle cy="-18" r="4.5" fill="#ff5a1c"/></g>
+                <g transform="translate(420 102)"><path d="M0 -16 V0 M-8 0 H8" stroke="#0e1d40" stroke-width="3" stroke-linecap="round"/><circle cy="-18" r="4.5" fill="#ff5a1c"/></g>
+                <g transform="translate(90 127)"><path d="M0 -16 V0 M-8 0 H8" stroke="#0e1d40" stroke-width="3" stroke-linecap="round"/><circle cy="-18" r="4.5" fill="#ff5a1c"/></g>
+                <g transform="translate(600 124)"><path d="M0 -16 V0 M-8 0 H8" stroke="#0e1d40" stroke-width="3" stroke-linecap="round"/><circle cy="-18" r="4.5" fill="#ff5a1c"/></g>
+              </g>
+              <text class="fq-klein" x="320" y="204">Empfänger an den Liftstationen</text>
+            </svg>
+          </div>
+          <div class="fq__antwort" id="fq-5"><p>Ja, im ganzen Skigebiet. An den Liftstationen stehen Empfänger, die das Signal deines Chips auffangen.</p></div>
+          <h3 class="fq__kopf"><button class="fq__frage" type="button" aria-expanded="false" aria-controls="fq-5"><span class="fq__nr">05</span><span class="fq__text">Funktioniert das überall am Berg?</span><i class="fq__plus" aria-hidden="true"></i></button></h3>
+        </article>
+
+        <article class="fq">
+          <div class="fq__bild" aria-hidden="true">
+            <svg viewBox="0 0 320 220">
+              <rect x="70" y="70" width="168" height="80" rx="18" fill="#fff" stroke="#0e1d40" stroke-width="4"/>
+              <rect x="242" y="96" width="10" height="28" rx="4" fill="#0e1d40"/>
+              <rect class="fq-akku" x="80" y="80" width="148" height="60" rx="10" fill="#ff5a1c"/>
+              <text class="fq-gross fq-prozent fq-prozent--voll" x="154" y="52">100 %</text><text class="fq-gross fq-prozent fq-prozent--rest" x="154" y="52">30 %</text>
+              <g class="fq-tageszeit" font-weight="650"><text class="fq-klein fq-morgens" x="154" y="190">Morgens</text><text class="fq-klein fq-abends" x="154" y="190">Nach 8 Stunden</text></g>
+            </svg>
+          </div>
+          <div class="fq__antwort" id="fq-6"><p>Ja. Der Akku hält acht Stunden, am Abend sind noch mindestens 30 % übrig.</p></div>
+          <h3 class="fq__kopf"><button class="fq__frage" type="button" aria-expanded="false" aria-controls="fq-6"><span class="fq__nr">06</span><span class="fq__text">Hält der Akku einen ganzen Tag?</span><i class="fq__plus" aria-hidden="true"></i></button></h3>
+        </article>
+
+        <article class="fq">
+          <div class="fq__bild" aria-hidden="true">
+            <svg viewBox="0 0 320 220">
+              <path d="M118 30 L140 22 Q160 34 180 22 L202 30 L246 58 L230 96 L214 88 L214 196 H106 V88 L90 96 L74 58 Z" fill="#0e1d40"/>
+              <path d="M160 30 V196" stroke="#2a3a63" stroke-width="2.4"/>
+              <use class="fq-einstecken" href="#fq-chip" x="172" y="98" width="26" height="37"/>
+              <rect x="166" y="120" width="40" height="40" rx="6" fill="#1b2b55"/>
+              <path d="M170 120 H202" stroke="#ff5a1c" stroke-width="2.4" stroke-linecap="round"/>
+              <g class="fq-pille fq-pille--fest"><rect x="52" y="181" width="216" height="34" rx="17" fill="#fff" stroke="#e2e7ef"/><text x="160" y="203.5" fill="#0e1d40">In die Jackentasche</text></g>
+            </svg>
+          </div>
+          <div class="fq__antwort" id="fq-7"><p>Ja, am besten in der Jackentasche oder an einem weichen Armband. Nie an einem Band um den Hals, am Lift kann es sich verfangen.</p></div>
+          <h3 class="fq__kopf"><button class="fq__frage" type="button" aria-expanded="false" aria-controls="fq-7"><span class="fq__nr">07</span><span class="fq__text">Können Kinder den Chip tragen?</span><i class="fq__plus" aria-hidden="true"></i></button></h3>
+        </article>
+
+        <article class="fq fq--breit">
+          <div class="fq__bild" aria-hidden="true">
+            <svg viewBox="0 0 640 220">
+              <rect x="20" y="20" width="600" height="180" rx="22" fill="#e9eef5"/>
+              <path d="M20 120 C 140 90, 220 160, 360 110 S 540 70, 620 100" fill="none" stroke="#fff" stroke-width="22" stroke-linecap="round"/>
+              <path class="fq-spur" d="M70 160 C 120 110, 170 150, 230 120 S 330 60, 380 110 S 480 160, 560 70" fill="none" stroke="#ff5a1c" stroke-width="4" stroke-linecap="round" pathLength="1"/>
+              <circle cx="70" cy="160" r="7" fill="#0e1d40"/>
+              <g class="fq-uhr">
+                <rect x="484" y="34" width="112" height="34" rx="17" fill="#fff"/>
+                <text class="fq-uhrzeit fq-uhrzeit--1" x="540" y="57">09:00</text><text class="fq-uhrzeit fq-uhrzeit--2" x="540" y="57">16:30</text>
+                <text class="fq-uhrzeit fq-uhrzeit--3" x="540" y="57">00:00</text>
+              </g>
+              <g class="fq-pille fq-geloescht"><rect x="241" y="163" width="159" height="34" rx="17" fill="#0e1d40"/><text x="320" y="185.5">Spur gelöscht</text></g>
+            </svg>
+          </div>
+          <div class="fq__antwort" id="fq-8"><p>Dein Standort wird nur während deines Miettags verwendet und am Ende des Tages gelöscht.</p></div>
+          <h3 class="fq__kopf"><button class="fq__frage" type="button" aria-expanded="false" aria-controls="fq-8"><span class="fq__nr">08</span><span class="fq__text">Was passiert mit meinem Standort?</span><i class="fq__plus" aria-hidden="true"></i></button></h3>
+        </article>
+
       </div>
     </div>
     <div class="gebirge" aria-hidden="true">
@@ -534,7 +647,6 @@
       <b>Nachweise</b>
       <span>Bergvideos und Fotos: Mixkit</span>
       <span>Schrift der App: Bricolage Grotesque (OFL)</span>
-      <span>Halte-Knopf nach React Bits (MIT + Commons Clause)</span>
     </div>
   </div>
   <div class="fuss__wort" aria-hidden="true">
@@ -553,9 +665,9 @@
 <script>
 ScrollCraft.mount(document.body);
 </script>
-<script src="assets/seite.js?v=54" defer></script>
+<script src="assets/seite.js?v=67" defer></script>
 <script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.min.js" } }</script>
-<script type="module" src="assets/chip-3d.js?v=15"></script>
+<script type="module" src="assets/chip-3d.js?v=31"></script>
 <script src="assets/sprung-anfang.js?v=18" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
 </body>
