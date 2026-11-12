@@ -1944,3 +1944,39 @@ html:not(.js-fq) .fq__antwort { grid-row: 3; padding: 0 1.4rem 1.4rem; color: va
   @view-transition { navigation: none; }
   .ohne-uebergang main, .ohne-uebergang.seite-geht main { animation: none; }
 }
+
+/* Feedback 96: über dunkelblauen Flächen ist der Knopf nach oben immer weiß. Die Regel steht am Ende und ist genauer
+   als die blauen Grundregeln (.sparsam .sprung-anfang hatte sie auf sparsamen Geräten und vielen Handys überstimmt). */
+.sprung-anfang.ist-hell, .sparsam .sprung-anfang.ist-hell { background: #fff; color: var(--nacht); box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.55); }
+@media (hover: hover) and (pointer: fine) { .sprung-anfang.ist-hell:hover { background: var(--orange); color: #fff; } }
+
+/* ======================================================================
+   Feedback 97 (2026-11-12): Handyansicht durchgesehen
+   ====================================================================== */
+@media (max-width: 860px) {
+  /* Knopf nach oben: kleiner; sprung-anfang.js zeigt ihn am Handy nur beim Hochscrollen und am Seitenende,
+     damit er beim Lesen keinen Text verdeckt */
+  .sprung-anfang { width: 2.75rem; height: 2.75rem; }
+  /* Vorführung: „Nochmal“ steht neben dem Hinweis statt darunter, der Hinweis hat Platz für drei Zeilen.
+     So springt die Fläche mit dem Chip nicht mehr, wenn der Knopf erscheint. */
+  .knopf__status { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0.6rem; }
+  .knopf-akt__status { min-height: 6.2em; }
+  .knopf__status .knopf-hell { min-height: 2.75rem; }
+  /* Weg der Hilfe: der Chip sitzt kleiner und höher, damit er auf kleinen Handys die Karte darunter nicht verdeckt */
+  #der-chip[data-zustand="lauf"] .knopf__chip, #der-chip[data-zustand="fertig"] .knopf__chip { top: 14%; height: 23%; }
+  /* Namen an den kleinen Chips der Gruppe: mindestens 12 px */
+  .mit__name { font-size: 0.75rem; }
+  /* App-Abschnitt der Startseite: das iPhone wird auf niedrigen Bildschirmen nicht kleiner als gut lesbar */
+  .app-akt--kurz .iphone { --b: max(9rem, min(15rem, 56vw, calc((100svh - 25rem) * 0.462))); }
+}
+@media (max-width: 640px) {
+  /* Fuß: Links mit genug Fläche für den Finger, die Nachweise über die ganze Breite statt in einer schmalen Spalte */
+  .fuss nav { gap: 0; }
+  .fuss nav a, .fuss nav span { padding: 0.5rem 0; }
+  .fuss nav b { margin-bottom: 0.35rem; }
+  .fuss__nachweis { grid-column: 1 / -1; }
+}
+@media (max-width: 360px) {
+  /* schmale Handys: „Ein Mietchip“ bleibt in einer Zeile */
+  .held__kopf h1 { font-size: 2.1rem; }
+}

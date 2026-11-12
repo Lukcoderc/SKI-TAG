@@ -87,7 +87,7 @@
   /* Uhr als schmale Leiste oben, die stehen bleibt */
   .tag__uhr {
     top: 4.4rem; z-index: 3; grid-template-columns: 5.5rem 1fr; align-items: center; gap: 0.9rem;
-    padding: 0.5rem; border-radius: 18px; background: rgba(255, 255, 255, 0.96); border: 1px solid var(--linie);
+    padding: 0.5rem; border-radius: 18px; background: #fff; border: 1px solid var(--linie);   /* deckend: darunter läuft Text durch */
     box-shadow: 0 10px 30px -20px rgba(14, 29, 64, 0.45);
   }
   .tag__himmel { border-radius: 12px; }

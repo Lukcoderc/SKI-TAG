@@ -675,3 +675,27 @@ Umgesetzt in `seite.css`, `seite.js` und im Kopf jeder Seite: der Browser blende
 Explosionsansicht: die LED sieht komisch aus. Danach: LED als Beschreibung dazu, dann alles pushen.
 
 Umgesetzt: der Lichtleiter der LED bleibt in der Vorderschale sitzen (schwebte vorher als loser Winkel darüber). „LED“ ist der sechste Name, zwischen Knopf und Hülle, mit Linie zum Lichtpunkt. Der Satz daneben heißt „Sechs Teile, ein Auftrag: Hilfe holen, wenn du sie brauchst.“
+
+## Feedback 96 (Lukas, 2026-11-12)
+
+Den Knopf zum Hochspringen auf dunkelblauen Hintergründen weiß machen, damit man ihn erkennt.
+
+Umgesetzt: Der Knopf wurde über dunklen Flächen schon als hell markiert, eine spätere blaue Grundregel für sparsame Geräte (`.sparsam .sprung-anfang`) überstimmte das Weiß aber. Eine genauere Regel am Ende von `seite.css` setzt ihn dort jetzt immer weiß. `sprung-anfang.js` kennt zusätzlich den dunklen Kontaktkasten der App-Seite und die Fläche der Vorführung, solange der Notruf läuft.
+
+## Feedback 97 (Lukas, 2026-11-12)
+
+Die ganze Handyansicht verbessern: ansehen, was nicht gut läuft oder was man nicht gut sieht.
+
+Durchgesehen: alle sechs Seiten bei 390 und 320 px Breite, dazu automatisch geprüft (seitliches Überlaufen, zu kleine Knöpfe, Schrift unter 12 px). Kein seitliches Überlaufen, keine zu kleinen Knöpfe außerhalb des Fußes. Umgesetzt:
+- Knopf nach oben: am Handy kleiner und nur noch beim Hochscrollen und am Seitenende sichtbar, er verdeckte sonst Text (`sprung-anfang.js`).
+- Vorführung auf der Chip-Seite: „Nochmal“ steht neben dem Hinweis statt darunter, der Hinweis hat Platz für drei Zeilen; die Fläche mit dem Chip springt nicht mehr. Beim Weg der Hilfe sitzt der Chip kleiner und höher und verdeckt die Karte nicht mehr.
+- Fuß: Links mit mehr Fläche für den Finger, die Nachweise über die ganze Breite.
+- „Am Skitag“: die mitlaufende Uhr ist deckend weiß, darunter schien Text durch.
+- Startseite: auf schmalen Handys (bis 360 px) bleibt „Ein Mietchip“ in einer Zeile; das iPhone im App-Abschnitt wird auf niedrigen Bildschirmen nicht mehr winzig.
+- Namen an den kleinen Chips der Gruppe: 12 px statt 11 px.
+
+## Feedback 98 (Lukas, 2026-11-12)
+
+Bei „Die App“ das Fenster „Fragen zur App?“ weiter hinauf in den weißen Hintergrund, und unten beim Fuß wieder das Gebirge.
+
+Umgesetzt in `app.html` und `app-seite.css`: der Kontaktabschnitt ist nicht mehr dunkel, der Kasten steht als dunkelblaue Karte auf Weiß direkt nach der Skischule. Darunter liegt wieder das Gebirge über dem Fuß wie auf den anderen Seiten (in Feedback 86 entfernt, weil es am dunklen Abschnitt nicht gut aussah).

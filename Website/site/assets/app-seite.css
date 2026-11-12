@@ -69,11 +69,12 @@
 .js-app .szene[data-teil="2"] .szene__teil:nth-child(3) { opacity: 1; transform: none; pointer-events: auto; }
 .szene__bild { display: grid; justify-items: center; }
 
-/* Kontakt nach der Einsatzkarte */
-.app-kontakt-abschnitt { padding-block: 0 var(--sc-section); }
+/* Kontakt am Ende: seit Feedback 98 ein dunkelblauer Kasten auf weißem Grund (vorher ein dunkler Abschnitt bis zum Fuß);
+   darunter folgt das Gebirge über dem Fuß wie auf den anderen Seiten */
+.app-kontakt-abschnitt { padding-block: var(--sc-6) calc(var(--sc-section) * 0.6); background: #fff; }
 .app-kontakt {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sc-5);
-  padding: clamp(1.5rem, 3vw, 2.5rem); border-radius: 24px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: clamp(1.5rem, 3vw, 2.5rem); border-radius: var(--r-gross); background: radial-gradient(120% 140% at 0% 0%, #22376a 0%, var(--nacht) 60%);
 }
 .app-kontakt h3 { margin: 0; font-family: var(--sc-font-display); font-weight: 650; font-size: clamp(1.4rem, 1rem + 1.2vw, 2rem); letter-spacing: -0.03em; color: var(--nacht-ink); }
 .app-kontakt p { margin: 0.5rem 0 0; max-width: 46ch; color: var(--nacht-soft); line-height: 1.5; }
