@@ -38,7 +38,10 @@ if (!S.blick) S.blick = { schritt: 0, halten: 0, spielt: false, start: 0 };
 const ORANGE = 0xff5a1c, ROT = 0xff2d2d, GRUEN = 0x45ff7a;
 
 const aufgeben = () => { wurzel.classList.remove("chip3d-an", "chip3d-warte"); dispatchEvent(new Event("skitag-chip-bereit")); };
-if (anker.held && anker.blick && anker.knopf && anker.nah && flaeche) start().catch((f) => { console.warn("Chip 3D:", f); aufgeben(); });
+// Feedback 93: zwei Fälle. Startseite: Einstieg und „Was ist SKITAG?“ (der Flug endet dort). Chip-Seite: nur
+// „Probiere den Tag aus.“, der Chip liegt von Anfang an in dessen Fläche.
+const hatStart = !!(anker.held && anker.blick && blickAkt), hatKnopf = !!(anker.knopf && anker.nah && flaeche && knopfAkt);
+if (hatStart || hatKnopf) start().catch((f) => { console.warn("Chip 3D:", f); aufgeben(); });
 else aufgeben();
 
 async function start() {
@@ -50,8 +53,8 @@ async function start() {
   try { renderer = new THREE.WebGLRenderer({ canvas: leinwand, antialias: true, alpha: true, powerPreference: "high-performance" }); }
   catch (f) { aufgeben(); return; }
   const sparsam = wurzel.classList.contains("sparsam");
-  // Handy und Tablet (Feedback 88): Pixeldichte höchstens 1,25 und kein Schnee in 3D, damit es flüssig bleibt
   const handy = matchMedia("(pointer: coarse)").matches || innerWidth < 700;
+  // Handy und Tablet (Feedback 88): Pixeldichte höchstens 1,25 und kein Schnee in 3D, damit es flüssig bleibt
   // Pixeldichte: höchstens 1,75 (bei 2 oder 3 sieht man keinen Unterschied, zahlt aber doppelt). Brauchen die
   // Bilder trotzdem zu lange, geht sie in Stufen bis 1 herunter (siehe zeichnenWennNoetig).
   const DPR_STUFEN = (handy ? [1.25, 1] : [1.75, 1.5, 1.25, 1]).map((d) => Math.min(d, devicePixelRatio || 1)).filter((d, i, a) => a.indexOf(d) === i);
@@ -98,6 +101,9 @@ async function start() {
     metall: new THREE.MeshStandardMaterial({ color: 0x9a9da2, roughness: 0.3, metalness: 0.9 }),
     led: ledMat,
   };
+  // Handy (Feedback 89): ohne Klarlack und Samtglanz. three.js lässt die Shader-Zweige dann ganz weg; der Chip sieht
+  // fast gleich aus, kostet aber je Bildpunkt deutlich weniger.
+  if (handy) for (const m of [MAT.schwarz, MAT.orange, MAT.knopf]) { m.clearcoat = 0; m.sheen = 0; }
 
   const chip = new THREE.Group();          // Lage und Größe auf der Seite
   const lage = new THREE.Group();          // Drehung (Pose, Flug, Zittern)
@@ -281,8 +287,10 @@ async function start() {
     if (!ziffern[n]) {
       const c = document.createElement("canvas"); c.width = c.height = 512;
       const x = c.getContext("2d");
-      x.font = "640 340px " + schrift; x.textAlign = "center"; x.textBaseline = "middle"; x.fillStyle = "#fff";
-      x.fillText(String(n), 256, 280);
+      x.font = "640 340px " + schrift; x.textAlign = "left"; x.textBaseline = "alphabetic"; x.fillStyle = "#fff";
+      // Feedback 89: an der gemessenen Form der Ziffer ausrichten, nicht an Grundlinie und Laufweite der Schrift
+      const m = x.measureText(String(n));
+      x.fillText(String(n), 256 + (m.actualBoundingBoxLeft - m.actualBoundingBoxRight) / 2, 256 + (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2);
       const t = new THREE.CanvasTexture(c);
       t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = renderer.capabilities.getMaxAnisotropy();
       ziffern[n] = t;
@@ -343,7 +351,7 @@ async function start() {
   /* ------------------------------------------- Schnee im Einstieg -- */
   // drei Lagen: klein und fern (hinter dem Chip), mittel, groß und unscharf ganz vorn
   const schnee = [];
-  if (!sparsam && !ohneBewegung && !handy) for (const [n, gr, deckung, z0, z1] of [[34, 5, 0.95, -500, -80], [14, 11, 0.75, 80, 340], [6, 34, 0.32, 520, 900]]) {
+  if (!sparsam && !ohneBewegung && !handy && hatStart) for (const [n, gr, deckung, z0, z1] of [[34, 5, 0.95, -500, -80], [14, 11, 0.75, 80, 340], [6, 34, 0.32, 520, 900]]) {
     const pos = new Float32Array(n * 3), fl = [];
     for (let i = 0; i < n; i++) fl.push({ x: Math.random(), y: Math.random(), z: mix(z0, z1, Math.random()), v: (0.025 + Math.random() * 0.03) * Math.sqrt(gr / 5), w: Math.random() * 6.283 });
     const geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
@@ -363,7 +371,7 @@ async function start() {
     kamera.position.set(0, 0, (H / 2) / Math.tan(THREE.MathUtils.degToRad(FOV / 2)));
     kamera.near = kamera.position.z * 0.2; kamera.far = kamera.position.z * 3;
     kamera.updateProjectionMatrix();
-    radius = getComputedStyle(flaeche).borderTopLeftRadius || "28px";
+    if (flaeche) radius = getComputedStyle(flaeche).borderTopLeftRadius || "28px";
     if (blickFlaeche) radiusBlick = getComputedStyle(blickFlaeche).borderTopLeftRadius || "28px";
     bedarf = true;
   };
@@ -419,7 +427,7 @@ async function start() {
       + zahlMat.opacity.toFixed(2) + (zahl.visible ? gezeigteZiffer : 0) + schatten.material.opacity.toFixed(2) + renderer.toneMappingExposure.toFixed(3);
     for (const w of wellen) if (w.m.visible) s += "w" + w.m.scale.x.toFixed(2) + w.mat.uniforms.uDeckung.value.toFixed(2);
     for (const l of schnee) if (l.p.visible) s += "s" + Math.random();   // fallender Schnee: immer neu
-    for (const m of minis) if (m.g.visible) s += "m" + Math.random();   // Gruppe bewegt sich: immer neu
+    for (const m of minis) if (m.g.visible) { const p = m.g.position, mq = m.l.quaternion; s += "m" + p.x.toFixed(1) + p.y.toFixed(1) + m.g.scale.x.toFixed(4) + mq.x.toFixed(4) + mq.y.toFixed(4) + mq.z.toFixed(4) + m.led.emissiveIntensity.toFixed(2); }
     if (funk.visible) s += "f" + Math.random();   // Funkwellen laufen: immer neu
     return s;
   };
@@ -454,13 +462,19 @@ async function start() {
     const glatt = (rest) => (ohneBewegung ? 1 : 1 - Math.pow(rest, dt));   // Anteil je Bild; rest = was nach 1 s noch fehlt
 
     /* ---- lesen: Abschnitte und Anker ---- */
-    const br = blickAkt.getBoundingClientRect(), kr = knopfAkt.getBoundingClientRect();
     // am Handy (Abschnitt zum Antippen, nicht gepinnt) ruht der Chip, solange „Was ist SKITAG?“ oben im Bild steht
     const klick = !!S.blick.klick;
-    const blickOben = br.top + s, blickEnde = klick ? blickOben + H * 0.3 : blickOben + br.height - H, knopfOben = kr.top + s;
-    const a1 = Math.max(0, blickOben - H * 0.95), t1 = abschnitt(s, a1, blickOben);
-    const t2 = abschnitt(s, blickEnde, knopfOben);
-    const A = mitte(anker.held), Bk = mitte(anker.blick), K = mitte(anker.knopf);
+    // t1: Flug vom Einstieg zu „Was ist SKITAG?“, t2: weiter zu „Probiere den Tag aus.“. Fehlt ein Abschnitt,
+    // steht der Wert fest: ohne Einstieg liegt der Chip gleich am Knopf (1, 1), ohne Knopf endet der Flug bei t2 = 0.
+    let br = null, blickOben = 0, t1 = 1, t2 = hatKnopf ? 1 : 0;
+    if (hatStart) {
+      br = blickAkt.getBoundingClientRect(); blickOben = br.top + s;
+      const blickEnde = klick ? blickOben + H * 0.3 : blickOben + br.height - H;
+      t1 = abschnitt(s, Math.max(0, blickOben - H * 0.95), blickOben);
+      t2 = hatKnopf ? abschnitt(s, blickEnde, knopfAkt.getBoundingClientRect().top + s) : 0;
+    }
+    const K0 = hatKnopf ? mitte(anker.knopf) : null;
+    const A = hatStart ? mitte(anker.held) : K0, Bk = hatStart ? mitte(anker.blick) : K0, K = K0 || Bk;
 
     let x, y, h, spin = 0, kipp = 0, flug = 0, tSnap = 1;
     if (t2 > 0) {
@@ -489,15 +503,17 @@ async function start() {
     // die Fläche den Chip noch zu, während er schon nach oben fliegt, und er verschwindet hinter ihrem Rand.
     const nahGrenze = imKnopf ? (ohneBewegung ? (gelandet ? 1 : 0) : weich(abschnitt(t2, 0.8, 1))) : 0;
     if (nah > nahGrenze) nah = nahGrenze;
+    let nahMitte = null;
     if (nah > 0) {
       const N = mitte(anker.nah), u = weich(nah);
       x = mix(x, N.x, u); y = mix(y, N.y, u); h = h * Math.pow(N.h / h, u);
+      nahMitte = N;
     }
 
     // Schritt 3 in „Was ist SKITAG?“: die Ansicht fährt an den Sender, der Chip wird größer und die Fläche schneidet
     // ihn zu. Fest an die Scrollstelle gebunden: vor dem Ende der Strecke ist er wieder normal groß, damit der Flug
     // zum nächsten Abschnitt ohne Sprung beginnt.
-    const pBlick = klick ? S.blick.p || 0 : klemme((s - blickOben) / Math.max(1, br.height - H));
+    const pBlick = klick ? S.blick.p || 0 : hatStart ? klemme((s - blickOben) / Math.max(1, br.height - H)) : 0;
     const senderNah = !(imBlick && (t2 === 0 || klick) && blickFlaeche) ? 0 : ohneBewegung ? (pBlick >= 0.7 && (klick || pBlick < 0.95) ? 1 : 0)
       // im dritten Drittel: hinein im selben Takt wie die anderen Schritte (5 bis 70 %), heraus kurz vor dem Ende;
       // am Handy bleibt die Nahansicht, bis man weiterscrollt, und geht dann mit dem Flug weich zurück
@@ -560,7 +576,8 @@ async function start() {
     // Schweben und Zeiger: voll im Einstieg, leicht in der Nahansicht
     const ruhig = 1 - klemme(t1 * 3);
     zxS = mix(zxS, zx, 0.06); zyS = mix(zyS, zy, 0.06);
-    const schweben = ohneBewegung ? 0 : Math.sin(t * 1.3) * 0.012 * h * (0.35 + 0.65 * ruhig) * (1 - nah);
+    // am Handy (Feedback 89) kein Dauer-Schweben: sonst zeichnet die Grafikkarte in jedem Bild, auch ohne Scrollen
+    const schweben = ohneBewegung || handy ? 0 : Math.sin(t * 1.3) * 0.012 * h * (0.35 + 0.65 * ruhig) * (1 - nah);
 
     /* ---- zusammensetzen ---- */
     const skala = (h / GROESSE[0]) * (0.86 + 0.14 * ein);
@@ -571,12 +588,21 @@ async function start() {
     if (kipp) { dreh.setFromAxisAngle(achseX, kipp); lage.quaternion.premultiply(dreh); }
     if (!ohneBewegung) {
       const zeiger = ruhig + nah * 0.3;
-      dreh.setFromEuler(euler.set(zyS * 0.35 * zeiger + Math.sin(t * 0.9) * 0.03 * (1 - nah), zxS * 0.6 * zeiger + Math.sin(t * 0.7) * 0.14 * ruhig, 0));
+      const wiegen = handy ? 0 : 1;
+      dreh.setFromEuler(euler.set(zyS * 0.35 * zeiger + Math.sin(t * 0.9) * 0.03 * (1 - nah) * wiegen, zxS * 0.6 * zeiger + Math.sin(t * 0.7) * 0.14 * ruhig * wiegen, 0));
       lage.quaternion.multiply(dreh);
       if (effekt.zittern) { dreh.setFromAxisAngle(achseZ, Math.sin(t * 58) * 0.01); lage.quaternion.multiply(dreh); chip.position.x += Math.sin(t * 71) * Math.min(h, 420) * 0.0025; }
       if (ein < 1) { dreh.setFromAxisAngle(achseY, (1 - ein) * -1.2); lage.quaternion.multiply(dreh); }
     }
 
+    if (nahMitte) {   // Feedback 89: der Knopf liegt genau in der Mitte der Nahansicht (sonst sitzt der Countdown am Handy schief)
+      chip.updateMatrixWorld(true);
+      punkt.copy(knopfMitte); inhalt.localToWorld(punkt);
+      const naeher = kamera.position.z / (kamera.position.z - punkt.z), u = weich(nah);
+      punkt.project(kamera);
+      chip.position.x += (nahMitte.x - (punkt.x * 0.5 + 0.5) * B) / naeher * u;
+      chip.position.y -= (nahMitte.y - (-punkt.y * 0.5 + 0.5) * H) / naeher * u;
+    }
     if (P) {   // den Sender an einen festen Punkt in der Fläche schieben (links oberhalb der Mitte)
       chip.updateMatrixWorld(true);
       punkt.copy(SENDER); inhalt.localToWorld(punkt); punkt.project(kamera);
@@ -643,11 +669,12 @@ async function start() {
       if (!m.g.visible) continue;
       const r = mitte(miniOrt[i]);
       const vib = imKnopf ? g >= 0.335 + i * 0.037 && g < 0.72 : zl >= 0.27 + i * 0.04 && zl < 0.57 + i * 0.04;
-      m.g.position.set(r.x - B / 2 + (vib && !ohneBewegung ? Math.sin(t * 71 + i) * r.h * 0.003 : 0), H / 2 - r.y + (ohneBewegung ? 0 : Math.sin(t * 1.5 + i * 2.1) * r.h * 0.02), 0);
+      m.g.position.set(r.x - B / 2 + (vib && !ohneBewegung ? Math.sin(t * 71 + i) * r.h * 0.003 : 0), H / 2 - r.y + (ohneBewegung || handy ? 0 : Math.sin(t * 1.5 + i * 2.1) * r.h * 0.02), 0);
       m.g.scale.setScalar((r.h / GROESSE[0]) * an);
       m.l.quaternion.copy(m.pose);
       if (!ohneBewegung) {
-        dreh.setFromEuler(euler.set(Math.sin(t * 0.8 + i) * 0.04, Math.sin(t * 0.6 + i * 1.7) * 0.1, vib ? Math.sin(t * 58 + i * 2) * 0.01 : 0));
+        const w = handy ? 0 : 1;
+        dreh.setFromEuler(euler.set(Math.sin(t * 0.8 + i) * 0.04 * w, Math.sin(t * 0.6 + i * 1.7) * 0.1 * w, vib ? Math.sin(t * 58 + i * 2) * 0.01 : 0));
         m.l.quaternion.multiply(dreh);
       }
       const hell = vib ? blinken(20) : 0.12;
@@ -687,7 +714,7 @@ async function start() {
     // Die Leinwand scrollt mit der Seite (absolut, um scrollY verschoben). Der Browser scrollt vor dem nächsten Bild,
     // eine feste Leinwand hinkt dann hinterher und der Chip rutscht aus seiner Fläche. Nur solange „Was ist SKITAG?“
     // angeheftet ist, steht sie fest, denn dort steht auch die Bühne still.
-    const fest = !klick && imBlick && t2 === 0 && br.top <= 1 && br.bottom >= H - 1;   // am Handy nie angeheftet
+    const fest = hatStart && !klick && imBlick && t2 === 0 && br.top <= 1 && br.bottom >= H - 1;   // am Handy nie angeheftet
     const modus = fest ? "fixed" : "absolute";
     if (modus !== letzterModus) { leinwand.style.position = modus; letzterModus = modus; }
     const verschub = fest ? "none" : "translate3d(0," + s + "px,0)";

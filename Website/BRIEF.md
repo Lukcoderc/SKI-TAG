@@ -616,3 +616,62 @@ Umgesetzt:
 - Technik-Kacheln (bis 640 px): eine Reihe zum Wischen statt acht Kacheln untereinander, die nächste schaut am Rand vor.
 - Flüssiger am Handy: der 3D-Chip rechnet mit höchstens 1,25-facher Pixeldichte und ohne Schnee in 3D, die Leinwand wird am Handy nie fest angeheftet, der Knopf nach oben hat kein Milchglas mehr.
 - Am Desktop bleibt alles wie vorher.
+
+## Feedback 89 (Lukas, 2026-11-12)
+
+Am Handy laufen die Animationen noch nicht flüssig. Bei „Probiere den Tag aus.“ sitzt der Countdown nicht mittig. Die Technik-Kacheln haben am Handy zu viel Weiß.
+
+Umgesetzt:
+- Hauptursache Ruckeln: die Engine schreibt in jedem Scrollbild --sc-p an jeden Abschnitt; als vererbte Variable rechnete der Browser dabei alle Stile im Abschnitt neu (am Computer gemessen 1 bis 2,5 ms je Abschnitt und Bild, am Handy ein Mehrfaches). `@property --sc-p { inherits: false }` in seite.css, jetzt 0,05 ms. Kein Element las den Wert vom Abschnitt.
+- Vorführung: --ring und --hilfe nur noch an die Elemente, die sie lesen, und nur bei Änderung; Titel des Hilfewegs nur bei Änderung.
+- „Was ist SKITAG?“ am Handy: die Animationen von „Gruppe rufen“ laufen von selbst (einmal bis 68 %), kein --zl mehr in jedem Bild; --halten nur in groben Stufen.
+- 3D-Chip am Handy: ohne Klarlack und Samtglanz (billigere Shader), kein Dauer-Schweben und Wiegen, die Gruppe wird nur bei echter Änderung neu gezeichnet.
+- Countdown: in der Nahansicht liegt jetzt der Knopf (nicht die Chipmitte) genau in der Mitte der Fläche, die Ziffer ist an ihrer gemessenen Form zentriert.
+- Technik-Kacheln am Handy: statt Wischreihe mit leeren Flächen eine kompakte Liste, Bilder links neben dem Text, kleinerer Ring und kleinere Zahlen, keine Mindesthöhe.
+
+## Feedback 90 (Lukas, 2026-11-12)
+
+„Am Skitag“: die Scrollanimation ruckelt am Handy, weil man dort nicht gleichmäßig scrollt wie am PC.
+
+Umgesetzt in `assets/skitag.js` und `skitag.css`: der Zeitstrahl folgt dem Scrollen nicht mehr direkt, sondern gleitet weich zum Ziel (Zeitkonstante 0,16 s); Uhr, Himmel und Stationen folgen dem geglätteten Stand. Linie und kleiner Chip laufen nur über transform statt über `top` (vorher Layout in jedem Bild), Uhrzeit, Text und Himmel werden nur bei Änderung geschrieben. Nebenbei: das Skript schrieb die Variable `--linie`, die auch der Farbton für Linien im ganzen Design ist; das entfällt.
+
+## Feedback 91 (Lukas, 2026-11-12)
+
+Den Teil „Der Chip“ bauen, er soll sehr stark aussehen. Knopf: kurz beschreiben. Innenleben: eine Explosionsansicht des SkiTag, die sich beim Scrollen öffnet (mit dem ScrollCraft-Plugin), nur mit dem, was für den Gast wichtig ist, nichts Genaues. Technik: Kacheln mit den wichtigen technischen Angaben für den Nutzer. Passend zum Design, reibungslos auf allen Plattformen.
+
+Umgesetzt in `chip.html`, `assets/chip-seite.css`, `assets/chip-seite.js`, `assets/media/chip-innen.bin`:
+- Einstieg: „Klein in der Jacke. Groß, wenn es zählt.“
+- Knopf: Nahaufnahme des Knopfs aus dem 3D-Modell (einmal gezeichnet, der Knopf liegt in der Mitte), darum ein Ring, der sich in drei Sekunden füllt, dann „Notruf gesendet“. Daneben „Ein Knopf. Zwei Wege.“ mit drei kurzen Zeilen: kurz drücken, drei Sekunden halten, noch einmal drücken.
+- Innenleben (gepinnt, Spanne 5, Nacht): das 3D-Modell zieht sich entlang seiner Dicke auseinander (4 bis 26 % der Strecke), dann treten sieben Teile nacheinander hervor (Knopf, Hülle, Ortung, Funk, Signal, Akku, Laden), die anderen treten ins Dunkel zurück; ein Zeiger verbindet Teil und Text; am Ende schließt sich der Chip wieder. Der Stapel dreht sich mit dem Scrollen und lässt sich ziehen. Außenteile aus chip-3d.bin, Innenteile aus dem Hardware-Modell (`chip-innen.bin`, 33 kB). Das Hardware-Modell führt die Innenteile als noch nicht maßgenau; sie stehen hier nur als Schichten ohne Maße.
+- Am Handy (bis 899 px), bei „weniger Bewegung“ und ohne WebGL ist das Innenleben nicht gepinnt: der Chip öffnet sich, sobald der Abschnitt im Bild steht, sieben Knöpfe wählen das Teil. Ohne WebGL bleibt das Standbild, ohne JavaScript stehen alle Teile mit Text da.
+- Technik: sieben Kacheln im Stil der Startseite: 8 h Akku, −20 °C, 5 × 4 cm, eigener Funk, Ortung mit GPS, vibriert und leuchtet, kabellos laden.
+- Die Größe (5 × 4 cm, knapp 2 cm dick) stammt aus dem 3D-Modell (54 × 37,5 × 17,8 mm), nicht aus einer Messung am fertigen Chip.
+- Ein WebGL-Kontext für die ganze Seite, gezeichnet wird nur bei Änderung, am Handy höchstens 1,5-fache Pixeldichte.
+
+## Feedback 92 (Lukas, 2026-11-12)
+
+Explosionsansicht: nicht jede Info einzeln, sondern alle sauber daneben mit der gestrichelten Linie dazwischen, ohne die Zusatzinfo darunter.
+
+Umgesetzt: Ist der Chip offen, stehen alle sieben Namen (Knopf, Hülle, Signal, Ortung, Funk, Akku, Laden) in einer Spalte rechts neben dem Stapel, jeder mit Punkt am Teil und gestrichelter Linie. Die Zusatztexte, das Hervortreten einzelner Teile und die Knöpfe am Handy entfallen. Die Strecke ist kürzer (Spanne 3,2 statt 5): öffnen, stehen, schließen. Am Handy öffnet sich der Chip von selbst. Ohne WebGL stehen die Namen als kleine Marken unter dem Standbild.
+
+## Feedback 93 (Lukas, 2026-11-12)
+
+Explosionsansicht: statt Signal, Ortung und Funk nur „Platine mit Sensoren“; beim Weiterscrollen soll sie sich nicht wieder zusammenbauen, sondern offen bleiben. Den ganzen Teil „Probiere den Tag aus.“ von der Startseite nehmen und auf der Chip-Seite statt „Ein Knopf. Zwei Wege.“ einsetzen.
+
+Umgesetzt:
+- Explosionsansicht: fünf Namen (Knopf, Hülle, Platine mit Sensoren, Akku, Laden). Die Strecke ist kürzer (Spanne 2,6), der Chip öffnet sich und bleibt offen.
+- Startseite: der Abschnitt „Probiere den Tag aus.“ (`#der-chip`) ist entfernt. Der 3D-Chip fliegt vom Einstieg zu „Was ist SKITAG?“ und bleibt dort; danach folgt die Technik. Der Knopf „Gleich ausprobieren“ im Einstieg führt jetzt zu `chip.html#der-chip`.
+- Chip-Seite: „Probiere den Tag aus.“ steht als Unterkapitel „Knopf“ an der Stelle von „Ein Knopf. Zwei Wege.“, mit derselben Vorführung (kurz drücken, drei Sekunden halten, Weg der Hilfe). Die Nahaufnahme mit Ring aus Feedback 91 entfällt.
+- `chip-3d.js` läuft jetzt in zwei Fällen: mit Einstieg und „Was ist SKITAG?“ (Startseite) oder nur mit dem Knopf-Abschnitt (Chip-Seite, der Chip liegt von Anfang an in dessen Fläche). Auf der Chip-Seite laufen damit zwei WebGL-Leinwände (Vorführung und Explosionsansicht); beide zeichnen nur bei Änderung.
+
+## Feedback 94 (Lukas, 2026-11-12)
+
+Beim Wechsel zwischen den Unterseiten ein kleiner Effekt von unter einer Sekunde, etwa ein kurzes Verblassen, wie auf der Kochwebsite, aber viel kürzer und einfacher. Nur der Inhalt, die Leiste oben hat schon ihren Effekt.
+
+Umgesetzt in `seite.css`, `seite.js` und im Kopf jeder Seite: der Browser blendet zwischen den Seiten über (View Transitions zwischen Dokumenten). Der alte Inhalt verschwimmt und geht leicht nach oben weg (0,17 s), der neue kommt scharf von unten herein (0,3 s), zusammen gut 0,4 s. Die Kopfleiste hat einen eigenen Namen und bleibt stehen. Browser ohne diese Technik blenden nur `main` kurz aus und ein. Bei „weniger Bewegung“ gibt es keinen Übergang.
+
+## Feedback 95 (Lukas, 2026-11-12)
+
+Explosionsansicht: die LED sieht komisch aus. Danach: LED als Beschreibung dazu, dann alles pushen.
+
+Umgesetzt: der Lichtleiter der LED bleibt in der Vorderschale sitzen (schwebte vorher als loser Winkel darüber). „LED“ ist der sechste Name, zwischen Knopf und Hülle, mit Linie zum Lichtpunkt. Der Satz daneben heißt „Sechs Teile, ein Auftrag: Hilfe holen, wenn du sie brauchst.“

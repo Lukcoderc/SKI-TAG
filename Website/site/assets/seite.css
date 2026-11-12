@@ -1897,12 +1897,50 @@ html:not(.js-fq) .fq__antwort { grid-row: 3; padding: 0 1.4rem 1.4rem; color: va
   .sprung-anfang { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--nacht); }
 }
 
-/* Technik-Kacheln am Handy: nebeneinander zum Wischen statt acht Kacheln untereinander; die nächste schaut am Rand vor */
+/* Technik-Kacheln am Handy (Feedback 89): eine kompakte Liste ohne leere Flächen. Kacheln mit Bild zeigen es links
+   neben dem Text, die großen Zahlen und der Ring sind kleiner, keine Mindesthöhe. */
 @media (max-width: 640px) {
-  .kacheln {
-    display: flex; gap: 0.75rem; margin: 2rem calc(-1 * var(--sc-gutter)) 0; padding: 0.25rem var(--sc-gutter) 0.75rem;
-    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--sc-gutter); scrollbar-width: none;
-  }
-  .kacheln::-webkit-scrollbar { display: none; }
-  .kacheln > .kachel { flex: 0 0 84%; min-height: 21rem; scroll-snap-align: start; }
+  .kacheln { gap: 0.6rem; margin-top: 2rem; }
+  .kacheln > .kachel { min-height: 0; padding: 1.15rem 1.2rem 1.25rem; border-radius: 20px; }
+  .kachel h3 { font-size: 1.2rem; }
+  .kachel--gross { gap: 0.9rem; }
+  .kachel__ring { width: 7rem; }
+  .kachel__riesig { font-size: 3.4rem !important; }
+  .kachel--bild { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); column-gap: 1rem; align-items: center; }
+  .kachel--bild .kachel__bild { position: static; width: 4.5rem; grid-row: 1 / span 2; align-self: center; }
+  .kachel--bild h3 { margin: 0; align-self: end; }
+  .kachel--bild p { margin-top: 0.25rem; align-self: start; }
+}
+
+/* Feedback 89, flüssiger beim Scrollen: die Engine schreibt in jedem Scrollbild --sc-p an jeden Abschnitt. Als
+   vererbte Variable zwingt das den Browser, die Stile aller Elemente darin neu zu rechnen (am Handy mehrere ms je
+   Bild). Kein Element liest --sc-p von seinem Abschnitt, die Skripte lesen den Wert direkt am Abschnitt; darum wird
+   sie nicht vererbt. */
+@property --sc-p { syntax: "*"; inherits: false; }
+/* Feedback 89: am Handy (zum Antippen) laufen die Animationen von „Gruppe rufen“ von selbst, einmal bis 68 % der
+   Schleife, und bleiben dort stehen; seite.js schreibt dann kein --zl mehr in jedem Bild. */
+#blick.ist-klick[data-spielt] .bk-wellen i, #blick.ist-klick[data-spielt] .bk-paket, #blick.ist-klick[data-spielt] .bk-mit::before, #blick.ist-klick[data-spielt] .bk-mit::after,
+#blick.ist-klick[data-spielt] .bk-mit .mit__name, #blick.ist-klick[data-spielt] .bk-marke--gruppe {
+  animation-play-state: running !important; animation-delay: var(--v, 0s) !important; animation-iteration-count: 0.68 !important; animation-fill-mode: forwards !important;
+}
+
+/* ======================================================================
+   Feedback 94 (2026-11-12): kurzer Übergang beim Wechsel zwischen den Seiten
+   ====================================================================== */
+/* Der Browser blendet zwischen zwei Seiten über (View Transitions zwischen Dokumenten): der Inhalt der alten Seite
+   verschwimmt und geht leicht nach oben weg, der neue kommt scharf von unten herein, zusammen gut 0,4 s. Die
+   Kopfleiste hat einen eigenen Namen und bleibt dabei stehen; ihre Unterkapitel fahren wie bisher aus.
+   Browser ohne diese Technik (.ohne-uebergang, im Kopf jeder Seite gesetzt) blenden nur den Inhalt (main) ein und aus. */
+@view-transition { navigation: auto; }
+.oben { view-transition-name: kopfleiste; }
+::view-transition-old(root) { animation: seite-raus 170ms cubic-bezier(0.4, 0, 1, 1) both; }
+::view-transition-new(root) { animation: seite-rein 300ms cubic-bezier(0.2, 0.7, 0.2, 1) 110ms both; }
+::view-transition-group(kopfleiste) { animation-duration: 220ms; }
+@keyframes seite-raus { to { opacity: 0; transform: translateY(-10px); filter: blur(8px); } }
+@keyframes seite-rein { from { opacity: 0; transform: translateY(16px); filter: blur(8px); } }
+.ohne-uebergang main { animation: seite-rein 320ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.ohne-uebergang.seite-geht main { animation: seite-raus 150ms cubic-bezier(0.4, 0, 1, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  .ohne-uebergang main, .ohne-uebergang.seite-geht main { animation: none; }
 }

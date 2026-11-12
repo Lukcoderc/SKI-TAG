@@ -139,6 +139,7 @@
         b.innerHTML = "<span>0" + (i + 1) + "</span>" + name;
         b.addEventListener("click", function () {
           bz.wahl = i; bz.wahlStart = performance.now();
+          if (bz.spielt) { bz.spielt = false; blick.removeAttribute("data-spielt"); void blick.offsetWidth; }
           wahlKnoepfe.forEach(function (k, j) { k.setAttribute("aria-selected", j === i ? "true" : "false"); });
           if (blickDa && !blickLaeuft) { blickLaeuft = true; requestAnimationFrame(blickTakt); }
         });
@@ -165,12 +166,17 @@
       if (sb !== bz.schritt) { bz.schritt = sb; blick.setAttribute("data-schritt", String(sb)); }
       var spielt = sb === 0 && (bz.klick ? bz.zentriert : r.top <= vh * 0.04 && r.bottom >= vh);
       if (spielt !== bz.spielt) { bz.spielt = spielt; blick.toggleAttribute("data-spielt", spielt); }
-      var zl = sb === 0 ? innen * GRUPPE_ENDE : GRUPPE_ENDE;
-      if (Math.abs(zl - (bz.zl || 0)) > 0.0005) { bz.zl = zl; blick.style.setProperty("--zl", zl.toFixed(4)); }
+      // Feedback 89: am Handy laufen die CSS-Animationen von „Gruppe rufen“ von selbst (einmal, bis 68 %), statt in
+      // jedem Bild über --zl gestellt zu werden; bz.zl folgt derselben Uhr, damit die Gruppe in 3D im Takt vibriert.
+      var zl = !bz.klick ? (sb === 0 ? innen * GRUPPE_ENDE : GRUPPE_ENDE)
+        : sb === 0 ? (bz.zentriert ? Math.min(GRUPPE_ENDE, (performance.now() - bz.wahlStart) / 4200) : 0) : GRUPPE_ENDE;
+      if (Math.abs(zl - (bz.zl || 0)) > 0.0005) { bz.zl = zl; if (!bz.klick) blick.style.setProperty("--zl", zl.toFixed(4)); }
       // der Ring füllt sich im gleichen Takt; danach bleibt „Notruf gesendet“ stehen, auch im dritten Schritt
       var h = sb === 1 ? innen : sb === 2 ? 1 : 0;
       if (Math.abs(h - bz.halten) > 0.002 || (h === 1) !== blick.hasAttribute("data-voll")) {
-        bz.halten = h; blick.style.setProperty("--halten", h.toFixed(3));
+        bz.halten = h;
+        var hc = bz.klick ? (Math.round(h * 20) / 20).toFixed(2) : h.toFixed(3);
+        if (hc !== bz.haltenCss) { bz.haltenCss = hc; blick.style.setProperty("--halten", hc); }
         var sek = String(Math.min(3, Math.max(1, Math.ceil(h * 3))));
         if (blick.getAttribute("data-sek") !== sek) blick.setAttribute("data-sek", sek);
         blick.toggleAttribute("data-voll", h >= 1);
@@ -197,6 +203,7 @@
     var schritte = akt.querySelectorAll(".knopf__schritte li");
     var wegPunkte = akt.querySelectorAll(".kn-weg li");
     var wegTitel = akt.querySelector(".kn-weg__titel");
+    var wegLinie = akt.querySelector(".kn-weg ol"), hilfeCss = "";
 
     // In der Vorführung verkürzt: Halten 1,2 s (echt 3 s, Feedback 72), Abbrechen 3 s (echt 5 s, Feedback 77).
     var HALTEN = 1200, FRIST = 3000, LAUF = 7000, GRUPPE = 4600;
@@ -205,15 +212,23 @@
 
     var setzeZustand = function (z) { zustand = z; chip.zustand = z; akt.setAttribute("data-zustand", z); };
     // Ring: beim Halten 0 bis 1, in der Frist 1 bis 0. --ring füllt den Ring ohne WebGL.
-    var ringAuf = function (voll) { chip.ring = voll; akt.style.setProperty("--ring", voll.toFixed(4)); };
+    // Feedback 89: nicht mehr an den ganzen Abschnitt (sonst rechnet der Browser jedes Bild alle Stile darin neu)
+    var ringEl = akt.querySelector(".chip-knopf__ring"), ringCss = "";
+    var ringAuf = function (voll) {
+      chip.ring = voll;
+      if (!ringEl || wurzel.classList.contains("chip3d-an")) return;   // mit 3D zeichnet chip-3d.js den Ring
+      var v = voll.toFixed(3); if (v !== ringCss) { ringCss = v; ringEl.style.setProperty("--ring", v); }
+    };
     var sage = function (t) { status.innerHTML = t; };
     var aktiv = function (name) { schritte.forEach(function (li) { li.classList.toggle("ist-aktiv", li.getAttribute("data-schritt") === name); }); };
     // Weg der Hilfe: Punkte schalten nacheinander an, die Linie füllt sich mit --hilfe
     var zeichnen = function () {
       var an = zustand === "lauf" || zustand === "fertig";
       wegPunkte.forEach(function (li) { li.classList.toggle("ist-an", an && hilfe >= parseFloat(li.getAttribute("data-ab"))); });
-      akt.style.setProperty("--hilfe", (an ? hilfe : 0).toFixed(3));
-      if (wegTitel) wegTitel.textContent = zustand === "fertig" ? "Hilfe ist da" : "Notruf gesendet";
+      var hv = (an ? hilfe : 0).toFixed(3);
+      if (wegLinie && hv !== hilfeCss) { hilfeCss = hv; wegLinie.style.setProperty("--hilfe", hv); }
+      var titel = zustand === "fertig" ? "Hilfe ist da" : "Notruf gesendet";
+      if (wegTitel && wegTitel.textContent !== titel) wegTitel.textContent = titel;
     };
 
     var zuruecksetzen = function () {
@@ -341,7 +356,7 @@
     var ruhen = new IntersectionObserver(function (eintraege) {
       eintraege.forEach(function (e) { e.target.classList.toggle("ist-weg", !e.isIntersecting); });
     });
-    document.querySelectorAll(".held, .gebaut, .gebirge, .schluss, .fragen").forEach(function (el) { ruhen.observe(el); });
+    document.querySelectorAll(".held, .gebaut, .gebirge, .schluss, .fragen, .ct").forEach(function (el) { ruhen.observe(el); });
   }
 
   /* --------------------------------------------- Ruckeln erkennen -- */
@@ -428,6 +443,24 @@
     window.addEventListener("scroll", function () { if (!balkenWartet) { balkenWartet = true; requestAnimationFrame(balkenSetzen); } }, { passive: true });
     window.addEventListener("resize", balkenSetzen);
     requestAnimationFrame(balkenSetzen);
+  }
+
+  /* ------------------------------------------------ Seitenwechsel -- */
+  /* Feedback 94: Wo der Browser nicht selbst zwischen den Seiten überblendet (.ohne-uebergang), blendet der Inhalt
+     kurz aus, bevor die nächste Seite lädt. Nur für eigene Seiten im selben Fenster, nicht für Sprünge auf der Seite. */
+  if (wurzel.classList.contains("ohne-uebergang") && !ohneBewegung) {
+    document.addEventListener("click", function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest ? e.target.closest("a[href]") : null;
+      if (!a || a.target || a.hasAttribute("download")) return;
+      var ziel = new URL(a.href, location.href);
+      if (ziel.origin !== location.origin || (ziel.pathname === location.pathname && ziel.search === location.search)) return;
+      e.preventDefault();
+      wurzel.classList.add("seite-geht");
+      setTimeout(function () { location.href = ziel.href; }, 140);
+    });
+    // zurück aus dem Seitenspeicher des Browsers: wieder sichtbar
+    window.addEventListener("pageshow", function () { wurzel.classList.remove("seite-geht"); });
   }
 
 })();

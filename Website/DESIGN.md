@@ -244,3 +244,14 @@ Since 2026-11-08 a placeholder until the real logo arrives, chosen by Lukas (dra
 - **One screen for the app teaser:** eyebrow, title, one sentence, the audience pills in one swipeable row, the iPhone sized to the remaining height, "Mehr zur App" below it.
 - **Compact lists:** "Gut zu wissen" collapses to slim rows (number, question, plus) and opens to picture and answer on a light tile; the Technik tiles become one swipe row with the next tile peeking.
 - **Lighter rendering:** the 3D chip renders at most at 1.25x pixel density with no 3D snow on touch devices or below 700 px; no backdrop blur on the floating back-to-top button.
+
+## Chip page (since 2026-11-12, Feedback 91)
+
+- **Knopf:** since Feedback 93 this is the interactive section "Probiere den Tag aus." moved here from the start page (text and steps left, the 3D chip close to its button in a rounded panel right; styles `knopf__*` and `kn-*` in `seite.css`). The start page no longer has it; its hero button links here.
+- **Innenleben (the page’s peak):** a pinned night act, canvas left, title right. The chip opens along its thickness and stays open (it does not reassemble). Six part names (Knopf, LED, Hülle, Platine mit Sensoren, Akku, Laden) stand in one column to the right of the stack in the display face, each joined to its part by an orange dot and a dashed white line. No descriptions, no dimensions.
+- **Phones, reduced motion, no WebGL:** not pinned; the chip opens by itself. Without WebGL the names are small pills under the still image.
+- **Technik:** the tile system of the start page (`.kacheln`), first tile wide and night, last tile two columns wide.
+
+## Page change (since 2026-11-12, Feedback 94)
+
+Switching between pages takes a little over 0.4 s: the old content blurs (8px) and lifts 10px while fading out, the new content rises 16px into focus. The header pill keeps its place (`view-transition-name: kopfleiste`) and only runs its own sub-chapter animation. No colour wipe, no curtain, nothing longer than half a second. Off under reduced motion.

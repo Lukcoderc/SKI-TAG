@@ -1,0 +1,92 @@
+/* SkiTag · Seite „Der Chip“ (Feedback 91), nur auf chip.html geladen.
+   Abschnitte: Knopf („Probiere den Tag aus.“, Stile in seite.css), Innenleben (Explosionsansicht des 3D-Modells, gepinnt;
+   chip-seite.js liest --sc-p der Engine) und Technik (Kacheln, Stile aus seite.css).
+   Am Handy, bei „weniger Bewegung“ und ohne WebGL ist das Innenleben nicht gepinnt (.ist-klick): die Teile
+   wählt man dann über Knöpfe. Ohne JavaScript stehen alle Teile mit Text untereinander. */
+
+/* ------------------------------------------------------------ Einstieg -- */
+.chip-anfang { padding-bottom: calc(var(--sc-section) * 0.15); }
+.chip-anfang .kopfzeile__text { max-width: 36rem; }
+
+/* ---------------------------------------------------------- Innenleben -- */
+/* Feedback 92: alle sieben Namen stehen zugleich rechts neben dem offenen Chip, jeder mit einer gestrichelten Linie
+   zu seinem Teil; keine Zusatztexte. chip-seite.js setzt Lage und Deckkraft der Namen und zeichnet die Linien. */
+.innen { position: relative; overflow-x: clip; }
+.innen__buehne {
+  box-sizing: border-box; height: 100vh; height: 100svh; padding: clamp(5rem, 11vh, 6.5rem) var(--sc-gutter) clamp(1.25rem, 4vh, 2.5rem);
+  display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: stretch;
+  max-width: calc(var(--sc-maxw) + 2 * var(--sc-gutter)); margin-inline: auto;   /* kein position: die Engine macht die Bühne sticky */
+}
+.innen__bild { position: relative; min-height: 0; border-radius: var(--r-gross); }
+.innen__bild::before {   /* weiches Licht hinter dem Stapel */
+  content: ""; position: absolute; inset: -6% -10%; z-index: 0; pointer-events: none;
+  background: radial-gradient(46% 44% at 42% 50%, rgba(74, 106, 178, 0.55) 0%, rgba(42, 61, 112, 0.28) 45%, rgba(14, 29, 64, 0) 72%);
+}
+.innen__gl { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; display: none; touch-action: pan-y; cursor: grab; }
+.innen__gl:active { cursor: grabbing; }
+.innen__ersatz { position: absolute; left: 50%; top: 44%; height: 62%; width: auto; translate: -50% -50%; z-index: 1; }
+.chip3d-seite .innen__gl { display: block; }
+.chip3d-seite .innen__ersatz { display: none; }
+/* Linien vom Teil zum Namen: Punkt am Teil, gestrichelte Linie, kurzes waagrechtes Ende vor dem Namen */
+.innen__zeiger { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; overflow: visible; display: none; }
+.chip3d-seite .innen__zeiger { display: block; }
+.innen__zeiger path { fill: none; stroke: rgba(255, 255, 255, 0.5); stroke-width: 1.2; stroke-dasharray: 3 5; stroke-linecap: round; }
+.innen__zeiger circle { fill: var(--orange); stroke: #fff; stroke-width: 1.8; }
+/* Namen: ohne 3D eine Reihe kleiner Marken unter dem Standbild, mit 3D frei gesetzt neben dem Stapel */
+.innen__marken { list-style: none; margin: 0; padding: 0; position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
+.innen__marken li {
+  padding: 0.4rem 0.8rem; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.05);
+  color: var(--nacht-ink); font: 600 var(--sc-t-sm)/1 var(--sc-font-text); white-space: nowrap;
+}
+.chip3d-seite .innen__marken { inset: 0; display: block; pointer-events: none; }
+.chip3d-seite .innen__marken li {
+  position: absolute; left: 0; top: 0; padding: 0; border: 0; border-radius: 0; background: none; opacity: 0; will-change: transform, opacity;
+  font-family: var(--sc-font-display); font-weight: 640; font-size: clamp(1.05rem, 0.9rem + 0.5vw, 1.4rem); letter-spacing: -0.02em; line-height: 1.08;
+  white-space: normal; width: max-content; max-width: 7.4em;   /* „Platine mit Sensoren“ steht in zwei Zeilen */
+}
+
+.innen__text { align-self: center; position: relative; z-index: 3; }
+.innen__text h2 { margin: var(--sc-4) 0 0; font-size: clamp(2.2rem, 1.4rem + 2.8vw, 4rem); font-weight: 640; letter-spacing: -0.045em; line-height: 1; }
+.innen__text .akzent { color: #ff8a5c; }
+.innen__lede { margin-top: var(--sc-5) !important; max-width: 24rem; }
+
+/* ------------------------------------------------------------- Technik -- */
+.ct { background: var(--eis); }
+.ct .kacheln { margin-top: clamp(2rem, 5vw, 4rem); }
+.ct__zwei { grid-column: span 2; }   /* letzte Reihe: Signal und, doppelt breit, Laden */
+.ct .kachel--gross .kachel__riesig { color: #fff; }
+.ct .kachel--gross .kachel__riesig small { color: var(--nacht-soft); }
+.ct__akku { position: relative; flex: none; width: clamp(8rem, 14vw, 11rem); aspect-ratio: 2.1; border: 3px solid rgba(255, 255, 255, 0.5); border-radius: 1.1rem; padding: 5px; box-sizing: border-box; }
+.ct__akku::after { content: ""; position: absolute; right: -0.7rem; top: 50%; width: 0.45rem; height: 36%; translate: 0 -50%; border-radius: 0 5px 5px 0; background: rgba(255, 255, 255, 0.5); }
+.ct__akku span { display: block; height: 100%; border-radius: 0.65rem; background: #2fbf6a; transform-origin: 0 50%; transition: transform 2.6s var(--sc-ease-in-out) 0.4s, background-color 2.6s 0.4s; }
+.kachel.sc-in .ct__akku span { transform: scaleX(0.3); background: #f2a33a; }
+/* Größe: der Chip im Maßstab neben einer Hand breit angedeutet, nur Umriss und Maße */
+.ct__mass { position: absolute; right: 1.5rem; top: 1.5rem; width: 6.4rem; height: auto; overflow: visible; }
+.ct__mass text { font: 600 9px var(--sc-font-text); fill: #6b7385; text-anchor: middle; }
+/* Funk: Bögen laufen vom Chip weg */
+.bild-funk path { fill: none; stroke: #ff5a1c; stroke-width: 3; stroke-linecap: round; opacity: 0; }
+.kachel.sc-in .bild-funk path { animation: ct-funk 2.4s ease-out infinite; }
+.kachel.sc-in .bild-funk path:nth-of-type(2) { animation-delay: 0.25s; }
+.kachel.sc-in .bild-funk path:nth-of-type(3) { animation-delay: 0.5s; }
+@keyframes ct-funk { 0% { opacity: 0; } 20% { opacity: 1; } 70%, 100% { opacity: 0; } }
+
+/* --------------------------------------------------------------- Handy -- */
+@media (max-width: 899px) {
+  .innen__buehne { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; gap: 0.75rem; padding: 4.75rem var(--sc-gutter) max(1rem, env(safe-area-inset-bottom)); }
+  .innen__text { align-self: end; }
+  .innen__text .augenbraue { display: none; }
+  .innen__text h2 { margin-top: 0; font-size: clamp(1.9rem, 8vw, 2.4rem); }
+  .innen__lede { margin-top: 0.6rem !important; font-size: var(--sc-t-base) !important; }
+  .innen__bild::before { background: radial-gradient(50% 44% at 36% 50%, rgba(74, 106, 178, 0.55) 0%, rgba(42, 61, 112, 0.28) 45%, rgba(14, 29, 64, 0) 72%); }
+  .chip3d-seite .innen__marken li { font-size: 0.95rem; max-width: 5.9rem; }
+}
+@media (max-width: 640px) {
+  .ct__akku { width: 6.5rem; }
+  .ct__mass { width: 4.6rem; right: 1.1rem; top: 1.1rem; }
+}
+
+/* --------------------------------------------------- weniger Bewegung -- */
+@media (prefers-reduced-motion: reduce) {
+  .kachel.sc-in .bild-funk path { animation: none; opacity: 1; }
+  .ct__akku span { transition: none; }
+}

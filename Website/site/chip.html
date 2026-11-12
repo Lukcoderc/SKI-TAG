@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Der Chip · SkiTag</title>
-<meta name="description" content="Der SkiTag-Chip: Knopf, Innenleben und Technik.">
+<meta name="description" content="Der SkiTag-Chip: ein Knopf, was in ihm steckt und was er technisch kann.">
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><mask id='m' maskUnits='userSpaceOnUse' x='0' y='0' width='32' height='32'><rect width='32' height='32' fill='%23fff'/><path d='M5 23 L11.5 14 L15 18.5 L19.5 12 L27 23 Z' fill='%23000'/><circle cx='24.2' cy='12.2' r='3.6' fill='%23000'/></mask><rect x='1.5' y='6.5' width='29' height='19' rx='6.5' fill='%230b1226' mask='url(%23m)'/><circle cx='24.2' cy='12.2' r='2.2' fill='%23ff5a1c'/></svg>">
 <link rel="preload" href="assets/fonts/funnel-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -18,9 +18,16 @@
   var spart = n.connection && n.connection.saveData;
   if (gemessen || spart || (n.hardwareConcurrency && n.hardwareConcurrency <= 4) || (n.deviceMemory && n.deviceMemory <= 4)) w.classList.add("sparsam");
   if (gemessen || spart || (n.deviceMemory && n.deviceMemory <= 2)) w.classList.add("sparsam-video");
+  /* Der 3D-Chip lädt: bis dahin kein Standbild zeigen (chip-3d.js nimmt die Klasse bei einem Fehler weg, seite.js nach 6 s) */
+  if ("noModule" in document.createElement("script")) w.classList.add("chip3d-warte");
 } catch (e) {} })();
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=108">
+<script>
+/* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
+if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
+</script>
+<link rel="stylesheet" href="assets/seite.css?v=111">
+<link rel="stylesheet" href="assets/chip-seite.css?v=6">
 </head>
 <body>
 
@@ -88,41 +95,152 @@
   <div class="oben__menue" id="oben-menue" hidden></div>
 </header>
 
+<div class="akt-balken" aria-hidden="true"><span class="akt-balken__fuell"></span></div>
 <main id="oben">
-
-  <!-- Gerüst seit Feedback 51: der Inhalt dieser Seite folgt im nächsten Schritt.
+  <!-- Seite „Der Chip“ (Feedback 91): Einstieg, Knopf, Innenleben (Explosionsansicht), Technik.
        Jeder Abschnitt mit id und data-unter erscheint als Unterkapitel in der Kopfleiste (kopfleiste.js). -->
-  <section class="sc-section seite-anfang" aria-labelledby="seite-titel">
+  <section class="sc-section seite-anfang chip-anfang" aria-labelledby="seite-titel">
     <div class="sc-wrap">
       <header class="kopfzeile" data-sc-in data-sc-stagger="80">
         <p class="augenbraue">Der Chip</p>
-        <h1 id="seite-titel" class="sc-display riesig">Der Chip.</h1>
-        <p class="sc-lede kopfzeile__text">Diese Seite entsteht gerade.</p>
+        <h1 id="seite-titel" class="sc-display riesig">Klein in der Jacke.<br><span class="leise">Groß, wenn es zählt.</span></h1>
+        <p class="sc-lede kopfzeile__text">Ein Knopf, ein Akku für den ganzen Skitag und eigener Funk. Mehr brauchst du am Berg nicht dabeizuhaben.</p>
       </header>
     </div>
   </section>
 
-  <section id="knopf" class="sc-section platz-abschnitt" data-unter="Knopf" aria-labelledby="knopf-titel">
-    <div class="sc-wrap">
-      <h2 id="knopf-titel" class="sc-display">Knopf</h2>
-      <div class="platz-flaeche"><span>Inhalt folgt</span></div>
+  <!-- 1 · Knopf: „Probiere den Tag aus.“ (seit Feedback 93 hier statt auf der Startseite). Der fertige Chip in 3D
+       liegt nah am Knopf in der Fläche (assets/chip-3d.js), .chip-knopf liegt als echter Knopf genau darüber.
+       Kurz drücken: die Ansicht fährt zurück, drei Chips der Gruppe erscheinen und vibrieren. Drei Sekunden halten:
+       der Ring füllt sich und die Ziffer zählt, danach wird die Fläche Nacht und der Notruf läuft als Weg
+       (Liftstation, Mitarbeiter, Hilfe). Ablauf in seite.js, Zustand in data-zustand. -->
+  <section id="der-chip" class="knopf" data-unter="Knopf" data-sc-act="flow" data-zustand="ruhe" aria-labelledby="chip-titel">
+    <div class="knopf__buehne">
+      <div class="knopf__text">
+        <p class="augenbraue">Knopf</p>
+        <h2 id="chip-titel" class="sc-display knopf__titel">Probiere den<br><span class="akzent">Tag aus.</span></h2>
+        <ol class="knopf__schritte">
+          <li data-schritt="gruppe"><b>Kurz drücken</b><span>Deine Gruppe spürt es und sieht, wo du bist.</span></li>
+          <li data-schritt="halten"><b>Drei Sekunden halten</b><span>Der Notruf startet. Ein zweiter Druck bricht ab.</span></li>
+          <li data-schritt="hilfe"><b>Hilfe kommt</b><span>Ein Mitarbeiter der Bergbahn fährt zu dir.</span></li>
+        </ol>
+        <div class="knopf__status">
+          <p id="knopf-status" class="knopf-akt__status" aria-live="polite">Probier es aus: Drück den Knopf am Chip. Kurz für die Gruppe, gedrückt halten für den Notruf.</p>
+          <button class="knopf-hell" type="button" data-aktion="nochmal" hidden>Nochmal</button>
+        </div>
+      </div>
+
+      <div class="knopf__bild">
+        <div class="kn-nacht" aria-hidden="true"></div>
+        <div class="kn-wellen" aria-hidden="true"><i></i><i></i><i></i></div>
+        <svg class="kn-linien" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path class="kn-linien__gruppe" d="M50 50 L16 24"/><path class="kn-linien__gruppe" d="M50 50 L85 29"/><path class="kn-linien__gruppe" d="M50 50 L20 79"/><path class="kn-linien__funk" d="M35 44 C 42 36, 47 32, 54 31"/></svg>
+        <i class="kn-paket" style="--x:16%; --y:24%; --v:0s; --f:#2a4a8f" aria-hidden="true"></i><i class="kn-paket" style="--x:85%; --y:29%; --v:0.17s; --f:#6b7385" aria-hidden="true"></i><i class="kn-paket" style="--x:20%; --y:79%; --v:0.34s; --f:#c2410c" aria-hidden="true"></i>
+        <div class="mit kn-mit" style="--x:16%; --y:24%; --v:0s; --f:#2a4a8f" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>A</i>Anna</span></div>
+        <div class="mit kn-mit" style="--x:85%; --y:29%; --v:0.17s; --f:#6b7385" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>T</i>Tom</span></div>
+        <div class="mit kn-mit" style="--x:20%; --y:79%; --v:0.34s; --f:#c2410c" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>L</i>Lea</span></div>
+
+        <div class="kn-weg" aria-hidden="true">
+          <p class="kn-weg__kopf"><i></i><span class="kn-weg__titel">Notruf gesendet</span></p>
+          <ol>
+            <li data-ab="0.06"><span class="kn-weg__zeichen"><svg viewBox="0 0 24 24"><path d="M12 21V9M7 21h10M12 9l-4 12M12 9l4 12"/><path d="M8 6.5a5.5 5.5 0 0 1 8 0M5.5 4a9 9 0 0 1 13 0"/></svg></span><b>Liftstation</b><span>empfängt deinen Standort</span></li>
+            <li data-ab="0.3"><span class="kn-weg__zeichen"><svg viewBox="0 0 24 24"><circle cx="14.5" cy="5" r="2"/><path d="M4 18.5l15 2.5M7 13l4-4 3 3 3 1M11 9l-1 6 4 3"/></svg></span><b>Bergbahn</b><span>Ein Mitarbeiter fährt los</span></li>
+            <li data-ab="1"><span class="kn-weg__zeichen"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><b>Bei dir</b><span>Hilfe ist da</span></li>
+          </ol>
+        </div>
+
+        <div class="knopf__nah chip-anker" aria-hidden="true"></div>
+        <div class="knopf__chip chip-anker">
+          <img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async">
+          <button class="chip-knopf" type="button" aria-describedby="knopf-status">
+            <svg class="chip-knopf__ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" pathLength="1"/></svg>
+            <span class="nur-vorlesen">Knopf am Chip (Vorführung): kurz drücken ruft die Gruppe, drei Sekunden halten startet den Notruf</span>
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section id="innenleben" class="sc-section platz-abschnitt" data-unter="Innenleben" aria-labelledby="innenleben-titel">
-    <div class="sc-wrap">
-      <h2 id="innenleben-titel" class="sc-display">Innenleben</h2>
-      <div class="platz-flaeche"><span>Inhalt folgt</span></div>
+  <!-- 2 · Innenleben: gepinnte Strecke. Das 3D-Modell des Chips (Außenteile wie auf der Startseite, dazu die
+       Innenteile aus dem Hardware-Modell) zieht sich beim Scrollen auseinander und bleibt offen (seit Feedback 93
+       baut es sich nicht wieder zusammen). Rechts daneben stehen sechs Namen, jeder mit einer gestrichelten Linie
+       zu seinem Teil (assets/chip-seite.js liest --sc-p).
+       Am Handy, bei „weniger Bewegung“ und ohne WebGL nicht gepinnt: der Chip öffnet sich von selbst (data-klick). -->
+  <section id="innenleben" class="innen nacht" data-unter="Innenleben" data-klick="899" data-sc-act="pin" data-sc-span="2.6" aria-labelledby="innenleben-titel">
+    <div class="innen__buehne" data-sc-stage>
+      <div class="innen__bild">
+        <canvas class="innen__gl" aria-hidden="true"></canvas>
+        <img class="innen__ersatz" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async">
+        <svg class="innen__zeiger" aria-hidden="true"></svg>
+        <ol class="innen__marken" aria-label="Was im Chip steckt">
+          <li>Knopf</li><li>LED</li><li>Hülle</li><li>Platine mit Sensoren</li><li>Akku</li><li>Laden</li>
+        </ol>
+      </div>
+      <div class="innen__text">
+        <p class="augenbraue">Innenleben</p>
+        <h2 id="innenleben-titel" class="sc-display">Was im Chip <span class="akzent">steckt.</span></h2>
+        <p class="sc-lede innen__lede">Sechs Teile, ein Auftrag: Hilfe holen, wenn du sie brauchst.</p>
+      </div>
     </div>
   </section>
 
-  <section id="technik" class="sc-section platz-abschnitt" data-unter="Technik" aria-labelledby="technik-titel">
+  <!-- 3 · Technik: Kacheln mit dem, was ein Gast wissen will (Stile der Kacheln aus seite.css, wie auf der Startseite) -->
+  <section id="technik" class="sc-section ct" data-unter="Technik" data-sc-act="flow" aria-labelledby="technik-titel">
     <div class="sc-wrap">
-      <h2 id="technik-titel" class="sc-display">Technik</h2>
-      <div class="platz-flaeche"><span>Inhalt folgt</span></div>
+      <header class="kopfzeile" data-sc-in data-sc-stagger="80">
+        <p class="augenbraue">Technik</p>
+        <h2 id="technik-titel" class="sc-display riesig">Das Wichtigste.<br><span class="leise">In Zahlen.</span></h2>
+      </header>
+
+      <div class="kacheln" data-sc-in data-sc-stagger="70">
+        <article class="kachel kachel--gross kachel--nacht">
+          <div class="ct__akku" aria-hidden="true"><span></span></div>
+          <div>
+            <p class="kachel__riesig"><span data-sc-count="0 8" data-sc-count-ms="1400">8</span><small>h</small></p>
+            <h3>Ein ganzer Skitag.</h3>
+            <p>Vom ersten Lift bis zur letzten Abfahrt. Am Abend sind noch mindestens 30&nbsp;% im Akku, als Reserve für die Kälte.</p>
+          </div>
+        </article>
+
+        <article class="kachel kachel--kalt">
+          <p class="kachel__riesig"><span data-sc-count="0 -20" data-sc-count-ms="1600">−20</span><small>°C</small></p>
+          <h3>Funkt auch bei Kälte.</h3>
+          <p>Auch an eisigen Tagen am Berg geht der Notruf zuverlässig raus.</p>
+          <svg class="kachel__thermo" viewBox="0 0 40 140" aria-hidden="true"><path class="kachel__thermo-skala" d="M31 22 h5 M31 38 h3 M31 54 h5 M31 70 h3 M31 86 h5"/><rect x="13" y="6" width="14" height="104" rx="7" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="20" cy="118" r="14" fill="none" stroke="currentColor" stroke-width="2"/><rect class="kachel__thermo-saeule" x="17" y="40" width="6" height="74" rx="3"/><circle cx="20" cy="118" r="9" class="kachel__thermo-kugel"/></svg>
+        </article>
+
+        <article class="kachel">
+          <p class="kachel__riesig kachel__riesig--wort">5 × 4<small>cm</small></p>
+          <h3>Passt in jede Tasche.</h3>
+          <p>Etwa so groß wie eine Streichholzschachtel und knapp 2&nbsp;cm dick. In der Jackentasche vergisst du ihn.</p>
+          <svg class="ct__mass" viewBox="0 0 100 78" aria-hidden="true"><rect x="8" y="6" width="84" height="56" rx="14" fill="none" stroke="#c9ced8" stroke-width="2.5"/><circle cx="50" cy="34" r="11" fill="none" stroke="#ff5a1c" stroke-width="2.5"/><path d="M8 72 H92 M8 68 V76 M92 68 V76" stroke="#c9ced8" stroke-width="1.5" fill="none"/></svg>
+        </article>
+
+        <article class="kachel kachel--bild">
+          <svg class="kachel__bild bild-funk" viewBox="0 0 120 90" aria-hidden="true"><rect x="16" y="50" width="40" height="27" rx="8" fill="#0e1d40"/><circle cx="36" cy="63.5" r="6" fill="#ff5a1c"/><path d="M62 44a14 14 0 0 1 10 10"/><path d="M66 30a28 28 0 0 1 20 20"/><path d="M70 16a42 42 0 0 1 30 30"/></svg>
+          <h3>Eigener Funk.</h3>
+          <p>Der Chip funkt selbst zu den Empfängern an den Liftstationen. Ohne Handy, ohne SIM-Karte, ohne Handynetz.</p>
+        </article>
+
+        <article class="kachel kachel--bild">
+          <svg class="kachel__bild bild-gps" viewBox="0 0 120 90" aria-hidden="true"><path d="M4 70c20-12 34 4 56-6s34-14 56-4M4 50c22-10 38 2 58-8s32-12 54-4M4 30c18-8 36 4 56-6s34-10 56-2" fill="none" stroke="#e3e5ea" stroke-width="2"/><circle class="bild-gps__ring" cx="60" cy="58" r="10" fill="none" stroke="#ff5a1c" stroke-width="2"/><path d="M60 62c-10-12-15-19-15-26a15 15 0 0 1 30 0c0 7-5 14-15 26z" fill="#0e1d40"/><circle cx="60" cy="36" r="5.5" fill="#fff"/></svg>
+          <h3>Ortung mit GPS.</h3>
+          <p>Beim Notruf sieht die Bergbahn, wo du bist. Du musst nichts erklären.</p>
+        </article>
+
+        <article class="kachel kachel--bild">
+          <svg class="kachel__bild bild-vibration" viewBox="0 0 120 90" aria-hidden="true"><path class="bild-vibration__wellen" d="M14 30q-6 15 0 30M6 24q-10 21 0 42M106 30q6 15 0 30M114 24q10 21 0 42" fill="none" stroke="#8a91a1" stroke-width="2.4" stroke-linecap="round"/><rect class="bild-vibration__chip" x="26" y="25" width="68" height="40" rx="13" fill="#0e1d40"/><circle cx="60" cy="45" r="8" fill="#fff" opacity=".9"/></svg>
+          <h3>Vibriert und leuchtet.</h3>
+          <p>Ruft deine Gruppe oder kommt Hilfe, spürst du es in der Jacke und siehst es am Licht.</p>
+        </article>
+
+        <article class="kachel kachel--bild ct__zwei">
+          <svg class="kachel__bild bild-laden" viewBox="0 0 120 90" aria-hidden="true"><rect x="14" y="58" width="92" height="16" rx="8" fill="#eceef2"/><rect x="30" y="24" width="60" height="34" rx="11" fill="#0e1d40"/><rect x="38" y="36" width="44" height="8" rx="4" fill="#ffffff" opacity=".18"/><rect class="bild-laden__balken" x="38" y="36" width="44" height="8" rx="4" fill="#ff5a1c"/><path d="M62 8l-8 11h6l-3 9 9-12h-6l3-8z" fill="#0e1d40"/></svg>
+          <h3>Kabellos laden.</h3>
+          <p>Abends kommt der Chip in die Ladebox. Kein Stecker und kein Loch im Gehäuse, durch das Schnee eindringen kann.</p>
+        </article>
+      </div>
     </div>
   </section>
-
 </main>
 
 <!-- Gebirge über dem Fuß wie auf der Startseite (seit Feedback 69): kommt einmal hoch, Gondeln fahren (seite.js, seite.css) -->
@@ -190,9 +308,27 @@
 </a>
 
 <script src="scrollcraft.js?v=16"></script>
-<script>ScrollCraft.mount(document.body);</script>
-<script src="assets/seite.js?v=68" defer></script>
+<script>
+/* Das Innenleben wird nur am breiten Bildschirm mit WebGL und ohne „weniger Bewegung“ gepinnt durchgescrollt.
+   Sonst macht dieses Skript vor dem Start der Engine einen normalen Abschnitt daraus (.ist-klick), in dem man
+   die Teile über Knöpfe wählt (assets/chip-seite.js). */
+(function () {
+  var ohne3d = false;
+  try { var c = document.createElement("canvas"); ohne3d = !(c.getContext("webgl2") || c.getContext("webgl")); } catch (e) { ohne3d = true; }
+  var ruhig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll("[data-klick]").forEach(function (el) {
+    var schmal = window.matchMedia("(max-width: " + (el.getAttribute("data-klick") || 860) + "px)").matches;
+    if (!schmal && !ruhig && !ohne3d) return;
+    el.setAttribute("data-sc-act", "flow"); el.removeAttribute("data-sc-span"); el.classList.add("ist-klick");
+  });
+})();
+ScrollCraft.mount(document.body);
+</script>
+<script src="assets/seite.js?v=72" defer></script>
 <script src="assets/sprung-anfang.js?v=18" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
+<script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.min.js" } }</script>
+<script type="module" src="assets/chip-3d.js?v=34"></script>
+<script type="module" src="assets/chip-seite.js?v=13"></script>
 </body>
 </html>

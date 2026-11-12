@@ -20,7 +20,11 @@
   if (gemessen || spart || (n.deviceMemory && n.deviceMemory <= 2)) w.classList.add("sparsam-video");
 } catch (e) {} })();
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=108">
+<script>
+/* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
+if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
+</script>
+<link rel="stylesheet" href="assets/seite.css?v=111">
 <link rel="stylesheet" href="assets/feedback.css?v=3">
 </head>
 <body>
@@ -153,7 +157,7 @@
           </fieldset>
 
           <fieldset class="fb__frage" data-schritt="1">
-            <legend>Wer bist du am Berg?</legend>
+            <legend>Was passt zu dir?</legend>
             <p class="fb__hilfe">Eins auswählen.</p>
             <div class="fb__wahl">
               <label><input type="radio" name="wer" value="skifahrer" checked><span><svg viewBox="0 0 24 24"><path d="M3 20l6-9 4 5 3-4 5 8"/><path d="M14 6l2-3 2 3"/></svg>Auf der Piste</span></label>
@@ -172,9 +176,9 @@
               <label><input type="checkbox" name="wichtig" value="gruppe"><span>Gruppe rufen</span></label>
               <label><input type="checkbox" name="wichtig" value="reichweite"><span>Reichweiten-Alarm</span></label>
               <label><input type="checkbox" name="wichtig" value="skischule"><span>Kurs im Blick</span></label>
-              <label><input type="checkbox" name="wichtig" value="tag"><span>Mein Tag in Zahlen</span></label>
-              <label><input type="checkbox" name="wichtig" value="weg"><span>Weg ins Tal</span></label>
-              <label><input type="checkbox" name="wichtig" value="mieten"><span>Einfach mieten</span></label>
+              <label><input type="checkbox" name="wichtig" value="tag"><span>Tagesübersicht</span></label>
+              <label><input type="checkbox" name="wichtig" value="weg"><span>Routenplanung</span></label>
+              <label><input type="checkbox" name="wichtig" value="app"><span>Die App</span></label>
             </div>
           </fieldset>
 
@@ -279,7 +283,7 @@
 
 <script src="scrollcraft.js?v=16"></script>
 <script>ScrollCraft.mount(document.body);</script>
-<script src="assets/seite.js?v=68" defer></script>
+<script src="assets/seite.js?v=72" defer></script>
 <script src="assets/sprung-anfang.js?v=18" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
 <script src="assets/feedback.js?v=1" defer></script>

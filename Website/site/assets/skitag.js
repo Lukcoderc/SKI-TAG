@@ -48,37 +48,52 @@
     tag.classList.toggle("ist-nacht", m >= 1060);
   };
 
-  var letzteZeit = "";
-  var setzen = function () {
-    var r = linie.getBoundingClientRect();
-    var lese = window.innerHeight * 0.55;
-    var f = r.height > 0 ? klemme((lese - r.top) / r.height) : 0;
-    linie.style.setProperty("--linie", f.toFixed(4));
+  /* Feedback 90: Am Handy scrollt man ruckweise (Finger, Schwung), am PC gleichmäßig. Darum folgt der Strahl
+     dem Scrollen nicht direkt, sondern gleitet weich zum Ziel (Zeitkonstante GLEITEN). Linie und Chip laufen nur über
+     transform (keine Layoutarbeit je Bild), Text und Himmel werden nur bei Änderung geschrieben. */
+  var GLEITEN = 0.16;
+  var fuellung = tag.querySelector(".tag__fuellung"), chipEl = tag.querySelector(".tag__chip");
+  var ziel = 0, jetztF = -1, zuletzt = 0, laeuft = false, letzteZeit = "", letztesWas = "", letzterHimmel = -1, mass = null;
+  var ohneBewegung = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Stationen: erreicht, sobald die Leselinie ihren Punkt passiert hat
-    var ys = halte.map(function (h) { var p = h.punkt.getBoundingClientRect(); return p.top + p.height / 2; });
-    var nr = -1;
-    halte.forEach(function (h, i) { var da = ys[i] <= lese; h.el.classList.toggle("ist-da", da); if (da) nr = i; });
+  // Ziel aus der Scrollstelle; die Lage der Stationen auf der Linie (0 bis 1) wird dabei mitgemessen
+  var messen = function () {
+    var r = linie.getBoundingClientRect(), lese = window.innerHeight * 0.55;
+    var anteile = halte.map(function (h) { var p = h.punkt.getBoundingClientRect(); return r.height > 0 ? (p.top + p.height / 2 - r.top) / r.height : 0; });
+    mass = { hoehe: r.height, anteile: anteile };
+    ziel = r.height > 0 ? klemme((lese - r.top) / r.height) : 0;
+  };
 
-    // Uhrzeit zwischen der letzten erreichten und der nächsten Station
+  var zeigen = function (f) {
+    fuellung.style.transform = "scaleY(" + f.toFixed(4) + ")";
+    chipEl.style.transform = "translate3d(0," + (f * mass.hoehe).toFixed(1) + "px,0)";
+    var a = mass.anteile, nr = -1;
+    halte.forEach(function (h, i) { var da = a[i] <= f + 0.0001; if (da !== h.da) { h.da = da; h.el.classList.toggle("ist-da", da); } if (da) nr = i; });
     var m;
     if (nr < 0) m = halte[0].min;
     else if (nr >= halte.length - 1) m = halte[halte.length - 1].min;
-    else {
-      var t = klemme((lese - ys[nr]) / (ys[nr + 1] - ys[nr]));
-      m = halte[nr].min + (halte[nr + 1].min - halte[nr].min) * t;
-    }
+    else m = halte[nr].min + (halte[nr + 1].min - halte[nr].min) * klemme((f - a[nr]) / Math.max(0.0001, a[nr + 1] - a[nr]));
     var gerundet = Math.round(m / 5) * 5;
     var text = zwei(Math.floor(gerundet / 60) % 24) + ":" + zwei(gerundet % 60);
     if (text !== letzteZeit) { letzteZeit = text; zeitEl.textContent = text; }
-    wasEl.textContent = halte[Math.max(0, nr)].was;
-    himmelSetzen(m);
+    var was = halte[Math.max(0, nr)].was;
+    if (was !== letztesWas) { letztesWas = was; wasEl.textContent = was; }
+    var mr = Math.round(m);
+    if (mr !== letzterHimmel) { letzterHimmel = mr; himmelSetzen(m); }
   };
 
-  var wartet = false;
-  var anfragen = function () { if (!wartet) { wartet = true; requestAnimationFrame(function () { wartet = false; setzen(); }); } };
+  var bild = function (t) {
+    var dt = zuletzt ? Math.min(0.1, (t - zuletzt) / 1000) : 0.016; zuletzt = t;
+    messen();
+    if (jetztF < 0 || ohneBewegung) jetztF = ziel;
+    else jetztF += (ziel - jetztF) * (1 - Math.exp(-dt / GLEITEN));
+    if (Math.abs(ziel - jetztF) < 0.0004) jetztF = ziel;
+    zeigen(jetztF);
+    if (jetztF !== ziel) requestAnimationFrame(bild); else { laeuft = false; zuletzt = 0; }
+  };
+  var anfragen = function () { if (!laeuft) { laeuft = true; requestAnimationFrame(bild); } };
   window.addEventListener("scroll", anfragen, { passive: true });
   window.addEventListener("resize", anfragen);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(anfragen);
-  setzen();
+  messen(); jetztF = ziel; zeigen(jetztF);
 })();

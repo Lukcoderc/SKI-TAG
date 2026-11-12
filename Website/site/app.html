@@ -20,7 +20,11 @@
   if (gemessen || spart || (n.deviceMemory && n.deviceMemory <= 2)) w.classList.add("sparsam-video");
 } catch (e) {} })();
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=108">
+<script>
+/* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
+if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
+</script>
+<link rel="stylesheet" href="assets/seite.css?v=111">
 <link rel="stylesheet" href="assets/app-seite.css?v=5">
 </head>
 <body>
@@ -417,7 +421,7 @@
 }); })();
 ScrollCraft.mount(document.body);
 </script>
-<script src="assets/seite.js?v=68" defer></script>
+<script src="assets/seite.js?v=72" defer></script>
 <script src="assets/sprung-anfang.js?v=18" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
 <script src="assets/app-seite.js?v=3" defer></script>
