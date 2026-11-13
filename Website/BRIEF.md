@@ -699,3 +699,43 @@ Durchgesehen: alle sechs Seiten bei 390 und 320 px Breite, dazu automatisch gepr
 Bei „Die App“ das Fenster „Fragen zur App?“ weiter hinauf in den weißen Hintergrund, und unten beim Fuß wieder das Gebirge.
 
 Umgesetzt in `app.html` und `app-seite.css`: der Kontaktabschnitt ist nicht mehr dunkel, der Kasten steht als dunkelblaue Karte auf Weiß direkt nach der Skischule. Darunter liegt wieder das Gebirge über dem Fuß wie auf den anderen Seiten (in Feedback 86 entfernt, weil es am dunklen Abschnitt nicht gut aussah).
+
+## Feedback 99 (Lukas, 2026-11-13)
+
+Auf der Chip-Seite „Das Wichtigste. In Zahlen.“ mit den Kacheln entfernen und durch eine Grafik ersetzen, die den Weg zur Hilfe mit dem Chip und den üblichen Weg mit dem Handy zeigt. Ziel: zeigen, dass man mit SkiTag viel schneller Hilfe holt. Passend zum Design und gut aussehend.
+
+Umgesetzt:
+- Neuer Abschnitt „Der Weg zur Hilfe“ (`#weg`, Unterkapitel „Der Weg“) statt Technik: Titel „Ein Knopf. Statt sechs Schritten.“, darunter eine Nachttafel mit zwei Bahnen.
+- Mit SkiTag: Knopf halten, Standort geht raus (per Funk, ohne Handynetz), Hilfe ist unterwegs. Mit dem Handy: Handschuhe aus, Handy finden, Entsperren, Netz suchen, Nummer wählen, Ort erklären, Hilfe ist unterwegs.
+- Beide Bahnen laufen im gleichen Takt los, sobald die Tafel im Bild ist; SkiTag ist nach dem dritten Feld am Ziel, das Handy nach dem siebten. Über den freien Feldern steht „Vier Schritte Vorsprung“. Darunter „Ohne Handy, ohne Handynetz, ohne Nummer, ohne Ortsangabe“ und „Nochmal ansehen“.
+- Bewusst ohne Zeitangaben: Zielzeiten für den Notruf dürfen nicht behauptet werden (PRODUCT.md), der Vorsprung wird in Schritten gezeigt.
+- Am Handy stehen die Bahnen als zwei Spalten nebeneinander. Bei „weniger Bewegung“ und ohne JavaScript steht gleich das Endbild.
+- Die Angaben der alten Kacheln (8 h Akku, −20 °C, 5 × 4 cm, kabellos laden, GPS, Vibration) stehen damit nicht mehr auf der Chip-Seite.
+
+## Feedback 100 (Lukas, 2026-11-13)
+
+Statt der zwei Bahnen eine Grafik am Berg: zwei Leute rufen an unterschiedlichen Orten den Notruf, einer mit dem Handy, einer mit dem Chip. Alles schön und animiert.
+
+Umgesetzt:
+- Titel „Zwei Stürze. Zwei Wege zur Hilfe.“, darunter eine gezeichnete Bergszene in der Dämmerung (Liftstation mit Antenne, Seilbahn, Pisten, Bäume).
+- Links (SkiTag): Knopf halten (Ring füllt sich), Funk zur Liftstation, Standort-Nadel, ein Mitarbeiter der Bergbahn fährt direkt hin, Haken.
+- Rechts (Handy): Sprechblase mit Handschuhe aus, Handy finden, Entsperren, Netz suchen, Nummer wählen, Ort erklären; danach sucht ein Helfer in einem gestrichelten Suchgebiet und kommt deutlich später an.
+- Beide Seiten im gleichen Takt je Schritt; keine Zeitangaben. Zwei Karten zeigen den aktuellen Schritt und die eigenen Schritte (1 gegen 6). Einmal abgespielt, wenn die Szene ins Bild kommt, „Nochmal ansehen“ spielt sie erneut.
+- Am Handy ein Ausschnitt mit beiden Leuten und größeren Figuren, die Karten stehen darunter. Ohne JavaScript und bei „weniger Bewegung“ das Endbild.
+
+## Feedback 101 (Lukas, 2026-11-13)
+
+Beim Weg mit dem Handy zusätzlich zeigen, dass die Rettung dann erst die Bergbahn informieren muss.
+
+Umgesetzt:
+- Beim „Ort erklären“ führt eine gepunktete Anruflinie vom Handy zur Rettung (weißer Kreis mit rotem Kreuz im Himmel).
+- Danach ruft die Rettung die Liftstation an: zweite Anruflinie, Ringe an der Station, Karte „Rettung ruft Bergbahn an“. Erst dann startet der Helfer und sucht.
+- Der Schritt zählt nicht zu den eigenen Schritten (weiter 6). Die Szene läuft dadurch etwa 17 s.
+
+## Feedback 102 (Lukas, 2026-11-13)
+
+Am Schluss die durchschnittliche Dauer dazuschreiben, recherchiert.
+
+Umgesetzt:
+- Karte „Mit dem Handy“ zeigt am Ende „Im Schnitt nach 21 bis 32 Min.“. Unter der Szene steht die Quelle: Wagner u. a., „Emergency Service Assistance for Injuries on Alpine Ski Slopes: A Cross-Sectional Study“, Prehospital and Disaster Medicine 37 (6), 2022, doi 10.1017/S1049023X22001364 (10.143 Unfälle, Leitstelle Tirol). Für SkiTag keine Zeit (Zielzeiten dürfen nicht behauptet werden), dafür der Satz „Für SkiTag gibt es noch keine gemessenen Zeiten.“
+- **Ungeprüft:** Die Werte 21 Minuten (leichte Pisten) und 32 Minuten (mittlere und schwere) stammen aus einem Suchauszug. Der frei lesbare Abstract nennt sie nicht, der Volltext ist hinter einer Bezahlschranke. Offen ist auch, ab wann gemessen wird (Notruf oder Alarmierung). Vor dem Veröffentlichen im Volltext prüfen (Entscheidung Lukas: so einbauen, als ungeprüft vermerken).

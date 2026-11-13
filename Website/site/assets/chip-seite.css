@@ -1,6 +1,6 @@
 /* SkiTag · Seite „Der Chip“ (Feedback 91), nur auf chip.html geladen.
    Abschnitte: Knopf („Probiere den Tag aus.“, Stile in seite.css), Innenleben (Explosionsansicht des 3D-Modells, gepinnt;
-   chip-seite.js liest --sc-p der Engine) und Technik (Kacheln, Stile aus seite.css).
+   chip-seite.js liest --sc-p der Engine) und Der Weg zur Hilfe (Bergszene: Sturz mit SkiTag und mit dem Handy, assets/weg.js).
    Am Handy, bei „weniger Bewegung“ und ohne WebGL ist das Innenleben nicht gepinnt (.ist-klick): die Teile
    wählt man dann über Knöpfe. Ohne JavaScript stehen alle Teile mit Text untereinander. */
 
@@ -50,25 +50,96 @@
 .innen__text .akzent { color: #ff8a5c; }
 .innen__lede { margin-top: var(--sc-5) !important; max-width: 24rem; }
 
-/* ------------------------------------------------------------- Technik -- */
-.ct { background: var(--eis); }
-.ct .kacheln { margin-top: clamp(2rem, 5vw, 4rem); }
-.ct__zwei { grid-column: span 2; }   /* letzte Reihe: Signal und, doppelt breit, Laden */
-.ct .kachel--gross .kachel__riesig { color: #fff; }
-.ct .kachel--gross .kachel__riesig small { color: var(--nacht-soft); }
-.ct__akku { position: relative; flex: none; width: clamp(8rem, 14vw, 11rem); aspect-ratio: 2.1; border: 3px solid rgba(255, 255, 255, 0.5); border-radius: 1.1rem; padding: 5px; box-sizing: border-box; }
-.ct__akku::after { content: ""; position: absolute; right: -0.7rem; top: 50%; width: 0.45rem; height: 36%; translate: 0 -50%; border-radius: 0 5px 5px 0; background: rgba(255, 255, 255, 0.5); }
-.ct__akku span { display: block; height: 100%; border-radius: 0.65rem; background: #2fbf6a; transform-origin: 0 50%; transition: transform 2.6s var(--sc-ease-in-out) 0.4s, background-color 2.6s 0.4s; }
-.kachel.sc-in .ct__akku span { transform: scaleX(0.3); background: #f2a33a; }
-/* Größe: der Chip im Maßstab neben einer Hand breit angedeutet, nur Umriss und Maße */
-.ct__mass { position: absolute; right: 1.5rem; top: 1.5rem; width: 6.4rem; height: auto; overflow: visible; }
-.ct__mass text { font: 600 9px var(--sc-font-text); fill: #6b7385; text-anchor: middle; }
-/* Funk: Bögen laufen vom Chip weg */
-.bild-funk path { fill: none; stroke: #ff5a1c; stroke-width: 3; stroke-linecap: round; opacity: 0; }
-.kachel.sc-in .bild-funk path { animation: ct-funk 2.4s ease-out infinite; }
-.kachel.sc-in .bild-funk path:nth-of-type(2) { animation-delay: 0.25s; }
-.kachel.sc-in .bild-funk path:nth-of-type(3) { animation-delay: 0.5s; }
-@keyframes ct-funk { 0% { opacity: 0; } 20% { opacity: 1; } 70%, 100% { opacity: 0; } }
+/* --------------------------------------------------- Der Weg zur Hilfe -- */
+/* Feedback 100: eine gezeichnete Bergszene in der Dämmerung. Links stürzt jemand mit SkiTag, rechts jemand mit dem Handy.
+   weg.js spielt die Szene einmal ab, sobald sie zu 40 % im Bild ist (Stellungen je Bild aus einer Zeitleiste), und
+   schreibt den aktuellen Schritt in die beiden Karten. Das Markup selbst zeigt das Endbild (ohne JavaScript, bei
+   „weniger Bewegung“). Am breiten Bildschirm liegen die Karten oben links und rechts im Himmel, am Handy unter der Szene;
+   dort zeigt die Szene nur den Ausschnitt mit beiden Leuten (viewBox aus weg.js). */
+.weg { background: var(--eis); }
+.weg__lede { margin-top: var(--sc-5) !important; max-width: 36rem; }
+.berg {
+  position: relative; isolation: isolate; overflow: hidden; margin-top: clamp(2rem, 5vw, 3.5rem);
+  border-radius: var(--r-gross); background: #0a1633; color: var(--nacht-ink);
+  box-shadow: 0 0 0 1px rgba(14, 29, 64, 0.06), 0 40px 80px -50px rgba(14, 29, 64, 0.6);
+}
+.berg__bild { display: block; width: 100%; height: auto; }
+.berg__name { font: 600 17px var(--sc-font-text); fill: rgba(255, 255, 255, 0.82); letter-spacing: 0.01em; }
+.berg__frage { font: 700 19px var(--sc-font-display); fill: #0e1d40; }
+.berg__da { transform-box: fill-box; }
+/* Gondeln fahren die Seilbahn hinauf (wie im Gebirge über dem Fuß); außer Sicht ruhen sie */
+.berg__gondel { animation: berg-gondel 22s linear infinite; }
+.berg__gondel--2 { animation-delay: -11s; }
+.berg.ist-weg .berg__gondel { animation-play-state: paused; }
+@keyframes berg-gondel { from { transform: translate(0, 0); } to { transform: translate(-560px, -172px); } }
+.berg__blinkt { animation: berg-blinkt 0.9s steps(2, jump-none) infinite; }
+@keyframes berg-blinkt { 50% { opacity: 0.15; } }
+
+/* Karten mit dem aktuellen Schritt */
+.berg__karten {
+  position: absolute; left: clamp(1rem, 2.2vw, 1.75rem); right: clamp(1rem, 2.2vw, 1.75rem); top: clamp(1rem, 2.2vw, 1.75rem);
+  display: flex; justify-content: space-between; gap: 1rem; pointer-events: none;
+}
+.berg__karte {
+  box-sizing: border-box; width: min(17.5rem, 31%); padding: 0.85rem 1.1rem 0.95rem; border-radius: 18px;
+  background: rgba(10, 22, 51, 0.78); border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: border-color 300ms ease, background-color 300ms ease;
+}
+.berg__wer { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-weight: 600; font-size: var(--sc-t-sm); color: var(--nacht-soft); }
+.berg__wer i { flex: none; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--orange); }
+.berg__karte--handy .berg__wer i { background: #8a93a8; }
+.berg__jetzt {
+  margin: 0.3rem 0 0; min-height: 1.15em; font-family: var(--sc-font-display); font-weight: 640;
+  font-size: clamp(1.05rem, 0.8rem + 0.7vw, 1.45rem); letter-spacing: -0.02em; line-height: 1.15; color: #fff;
+}
+.berg__zahl { display: flex; align-items: center; gap: 0.6rem; margin: 0.65rem 0 0; font-size: var(--sc-t-xs); color: var(--nacht-soft); }
+.berg__punkte { display: flex; gap: 0.25rem; }
+.berg__punkte i { width: 1.1rem; height: 0.32rem; border-radius: 99px; background: rgba(255, 255, 255, 0.18); transition: background-color 250ms ease; }
+.berg__punkte i.an { background: #fff; }
+.berg__karte--chip .berg__punkte i.an { background: var(--orange); }
+/* Durchschnittsdauer beim Handy (Studie, siehe .weg__quelle); weg.js blendet sie erst am Schluss ein, der Platz bleibt */
+.berg__dauer { margin: 0.35rem 0 0; font-weight: 600; font-size: var(--sc-t-sm); line-height: 1.3; color: #fff; }
+.berg__karte.ist-fertig { border-color: rgba(47, 191, 106, 0.55); }
+.berg__karte.ist-fertig .berg__jetzt { color: #7be3a6; }
+
+.weg__fuss { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.25rem; }
+.weg__nochmal { justify-content: center; }
+.weg__quelle { margin: 1rem 0 0; max-width: 46rem; font-size: var(--sc-t-xs); line-height: 1.5; color: var(--sc-ink-soft); }
+.weg__quelle a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.weg__ohne { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.weg__ohne li {
+  display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.5rem 0.95rem 0.5rem 0.8rem; border-radius: 999px;
+  background: #fff; border: 1px solid var(--linie); color: var(--sc-ink); font-weight: 600; font-size: var(--sc-t-sm); line-height: 1.2;
+}
+.weg__ohne li::before {
+  content: ""; flex: none; width: 0.85rem; height: 0.85rem; background: var(--orange-2);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5' fill='none' stroke='%23000' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5' fill='none' stroke='%23000' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Handy: Szene als Ausschnitt mit beiden Leuten, Karten darunter nebeneinander */
+@media (max-width: 700px) {
+  .weg__lede { font-size: var(--sc-t-base) !important; }
+  .berg { border-radius: 22px; }
+  .berg__name { display: none; }
+  .berg__karten { position: static; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.5rem; padding: 0.6rem; }
+  .berg__karte { width: auto; padding: 0.7rem 0.75rem 0.75rem; border-radius: 14px; background: rgba(255, 255, 255, 0.05); }
+  .berg__wer { font-size: 0.78rem; gap: 0.4rem; }
+  .berg__jetzt { min-height: 2.3em; font-size: 0.98rem; }
+  .berg__dauer { margin-top: 0.15rem; font-size: 0.76rem; }
+  .berg__zahl { flex-direction: column; align-items: flex-start; gap: 0.4rem; margin-top: 0.5rem; font-size: 0.72rem; }
+  .berg__punkte i { width: 0.85rem; }
+  .weg__fuss { flex-direction: column; align-items: stretch; gap: 0.85rem; }
+  .weg__ohne { gap: 0.4rem; }
+  .weg__ohne li { padding: 0.45rem 0.75rem 0.45rem 0.65rem; font-size: 0.8rem; }
+}
+@media (max-width: 360px) {
+  /* schmale Handys: „Mit dem Handy“ bleibt in einer Zeile */
+  .berg__karten { padding: 0.5rem; gap: 0.4rem; }
+  .berg__karte { padding: 0.6rem 0.6rem 0.65rem; }
+  .berg__wer { font-size: 0.72rem; gap: 0.35rem; }
+  .berg__jetzt { font-size: 0.9rem; }
+}
 
 /* --------------------------------------------------------------- Handy -- */
 @media (max-width: 899px) {
@@ -80,13 +151,8 @@
   .innen__bild::before { background: radial-gradient(50% 44% at 36% 50%, rgba(74, 106, 178, 0.55) 0%, rgba(42, 61, 112, 0.28) 45%, rgba(14, 29, 64, 0) 72%); }
   .chip3d-seite .innen__marken li { font-size: 0.95rem; max-width: 5.9rem; }
 }
-@media (max-width: 640px) {
-  .ct__akku { width: 6.5rem; }
-  .ct__mass { width: 4.6rem; right: 1.1rem; top: 1.1rem; }
-}
 
 /* --------------------------------------------------- weniger Bewegung -- */
 @media (prefers-reduced-motion: reduce) {
-  .kachel.sc-in .bild-funk path { animation: none; opacity: 1; }
-  .ct__akku span { transition: none; }
+  .berg__gondel { animation: none; }
 }

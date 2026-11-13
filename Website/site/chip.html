@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Der Chip · SkiTag</title>
-<meta name="description" content="Der SkiTag-Chip: ein Knopf, was in ihm steckt und was er technisch kann.">
+<meta name="description" content="Der SkiTag-Chip: ein Knopf, was in ihm steckt und wie viel kürzer der Weg zur Hilfe ist.">
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><mask id='m' maskUnits='userSpaceOnUse' x='0' y='0' width='32' height='32'><rect width='32' height='32' fill='%23fff'/><path d='M5 23 L11.5 14 L15 18.5 L19.5 12 L27 23 Z' fill='%23000'/><circle cx='24.2' cy='12.2' r='3.6' fill='%23000'/></mask><rect x='1.5' y='6.5' width='29' height='19' rx='6.5' fill='%230b1226' mask='url(%23m)'/><circle cx='24.2' cy='12.2' r='2.2' fill='%23ff5a1c'/></svg>">
 <link rel="preload" href="assets/fonts/funnel-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -27,7 +27,7 @@
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=114">
-<link rel="stylesheet" href="assets/chip-seite.css?v=6">
+<link rel="stylesheet" href="assets/chip-seite.css?v=11">
 </head>
 <body>
 
@@ -97,7 +97,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
 <div class="akt-balken" aria-hidden="true"><span class="akt-balken__fuell"></span></div>
 <main id="oben">
-  <!-- Seite „Der Chip“ (Feedback 91): Einstieg, Knopf, Innenleben (Explosionsansicht), Technik.
+  <!-- Seite „Der Chip“ (Feedback 91): Einstieg, Knopf, Innenleben (Explosionsansicht), Der Weg zur Hilfe.
        Jeder Abschnitt mit id und data-unter erscheint als Unterkapitel in der Kopfleiste (kopfleiste.js). -->
   <section class="sc-section seite-anfang chip-anfang" aria-labelledby="seite-titel">
     <div class="sc-wrap">
@@ -183,62 +183,180 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </div>
   </section>
 
-  <!-- 3 · Technik: Kacheln mit dem, was ein Gast wissen will (Stile der Kacheln aus seite.css, wie auf der Startseite) -->
-  <section id="technik" class="sc-section ct" data-unter="Technik" data-sc-act="flow" aria-labelledby="technik-titel">
+  <!-- 3 · Der Weg zur Hilfe (Feedback 99/100): eine gezeichnete Bergszene. Zwei Leute stürzen am selben Berg, links mit
+       SkiTag, rechts mit dem Handy. Kommt die Szene ins Bild, läuft beides im gleichen Takt (assets/weg.js): links Knopf,
+       Funk zur Liftstation, ein Mitarbeiter fährt direkt hin; rechts Handschuhe, Handy, Entsperren, Netz, Nummer, Ort
+       erklären, dann ruft die Rettung erst die Bergbahn an, dann sucht die Hilfe. Keine Zeiten, nur Schritte (Zielzeiten dürfen nicht behauptet werden).
+       Die beiden Karten oben zeigen den jeweiligen Schritt; am Handy stehen sie unter der Szene.
+       Ohne JavaScript und bei „weniger Bewegung“ steht gleich das Endbild. -->
+  <section id="weg" class="sc-section weg" data-unter="Der Weg" data-sc-act="flow" aria-labelledby="weg-titel">
     <div class="sc-wrap">
       <header class="kopfzeile" data-sc-in data-sc-stagger="80">
-        <p class="augenbraue">Technik</p>
-        <h2 id="technik-titel" class="sc-display riesig">Das Wichtigste.<br><span class="leise">In Zahlen.</span></h2>
+        <p class="augenbraue">Der Weg zur Hilfe</p>
+        <h2 id="weg-titel" class="sc-display riesig">Zwei Stürze.<br><span class="leise">Zwei Wege zur Hilfe.</span></h2>
+        <p class="sc-lede weg__lede">Gleicher Berg, gleicher Moment. Links holt jemand Hilfe mit SkiTag, rechts mit dem Handy. Schau, bei wem die Hilfe zuerst ist.</p>
       </header>
 
-      <div class="kacheln" data-sc-in data-sc-stagger="70">
-        <article class="kachel kachel--gross kachel--nacht">
-          <div class="ct__akku" aria-hidden="true"><span></span></div>
-          <div>
-            <p class="kachel__riesig"><span data-sc-count="0 8" data-sc-count-ms="1400">8</span><small>h</small></p>
-            <h3>Ein ganzer Skitag.</h3>
-            <p>Vom ersten Lift bis zur letzten Abfahrt. Am Abend sind noch mindestens 30&nbsp;% im Akku, als Reserve für die Kälte.</p>
+      <div class="berg" data-sc-in>
+        <svg class="berg__bild" viewBox="0 0 1200 640" role="img" aria-labelledby="berg-alt">
+          <title id="berg-alt">Zeichnung: Zwei Leute stürzen am selben Berg. Links hält jemand den Knopf am SkiTag, der Standort geht per Funk zur Liftstation und ein Mitarbeiter der Bergbahn fährt direkt hin. Rechts muss jemand erst das Handy herausholen, entsperren, Netz suchen, die Nummer wählen und den Ort erklären. Die Rettung muss dann erst die Bergbahn anrufen, und die Hilfe sucht nach der Beschreibung und kommt deutlich später an.</title>
+          <defs>
+            <linearGradient id="berg-himmel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1633"/><stop offset=".5" stop-color="#1a2f60"/><stop offset=".85" stop-color="#3f5f9e"/></linearGradient>
+            <radialGradient id="berg-abend" cx=".5" cy=".46" r=".5"><stop offset="0" stop-color="#ff9a6a" stop-opacity=".38"/><stop offset="1" stop-color="#ff9a6a" stop-opacity="0"/></radialGradient>
+            <linearGradient id="berg-fern" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a5f93"/><stop offset="1" stop-color="#26396b"/></linearGradient>
+            <linearGradient id="berg-schnee" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4f7fc"/><stop offset=".55" stop-color="#e2e9f4"/><stop offset="1" stop-color="#c9d4e6"/></linearGradient>
+            <path id="berg-tanne" d="M0 -46 L12 -26 L6 -26 L16 -10 L8 -10 L19 4 L-19 4 L-8 -10 L-16 -10 L-6 -26 L-12 -26 Z"/>
+            <path id="berg-pfad-a" d="M540 200 C 500 240 450 285 405 335 C 372 372 372 420 385 448" fill="none"/>
+            <path id="berg-pfad-b" d="M668 200 C 724 245 800 300 880 345 C 940 380 1010 400 1040 445 C 1066 478 1032 466 1000 440" fill="none"/>
+          </defs>
+          <rect width="1200" height="640" fill="url(#berg-himmel)"/>
+          <g fill="#fff"><circle cx="588.5" cy="106.6" r="1" opacity="0.4"/><circle cx="531.9" cy="96.2" r="0.9" opacity="0.8"/><circle cx="707.3" cy="78.1" r="1.2" opacity="0.7"/><circle cx="788.9" cy="14.6" r="1.4" opacity="0.4"/><circle cx="806.4" cy="30" r="1.5" opacity="0.5"/><circle cx="211.4" cy="9.5" r="2" opacity="0.8"/><circle cx="144.9" cy="84.4" r="2" opacity="0.4"/><circle cx="503.1" cy="104.6" r="1.7" opacity="0.4"/><circle cx="204.5" cy="187.3" r="1.4" opacity="0.4"/><circle cx="656.5" cy="62.8" r="1" opacity="0.7"/><circle cx="422" cy="66.5" r="0.9" opacity="0.8"/><circle cx="286.4" cy="168" r="1.4" opacity="0.4"/><circle cx="723.6" cy="76.3" r="1.8" opacity="0.6"/><circle cx="163.2" cy="42.5" r="1.4" opacity="0.3"/><circle cx="57.2" cy="78.3" r="1.7" opacity="0.6"/><circle cx="1146.2" cy="61.7" r="1.4" opacity="0.5"/><circle cx="526.6" cy="159.3" r="1.4" opacity="0.5"/><circle cx="316.9" cy="45" r="1.8" opacity="0.3"/><circle cx="324.4" cy="145.7" r="1.9" opacity="0.8"/><circle cx="1112.2" cy="163.5" r="1.8" opacity="0.6"/><circle cx="665.5" cy="4.6" r="1.2" opacity="0.5"/><circle cx="258.2" cy="74.8" r="1.7" opacity="0.7"/><circle cx="320.1" cy="181.7" r="0.8" opacity="0.5"/><circle cx="702.9" cy="83.8" r="0.9" opacity="0.8"/><circle cx="547.5" cy="165.7" r="1.6" opacity="0.5"/><circle cx="150.1" cy="150.7" r="2" opacity="0.4"/><circle cx="29.3" cy="29.3" r="1.7" opacity="0.7"/><circle cx="792.4" cy="165.2" r="1.1" opacity="0.7"/><circle cx="202.4" cy="7.1" r="0.9" opacity="0.3"/><circle cx="644.5" cy="157.8" r="1.9" opacity="0.3"/><circle cx="592.8" cy="9.9" r="1.2" opacity="0.5"/><circle cx="76.9" cy="67.6" r="1.1" opacity="0.4"/><circle cx="948.7" cy="26" r="1" opacity="0.3"/><circle cx="748.8" cy="16.4" r="1.3" opacity="0.3"/></g>
+          <ellipse cx="600" cy="300" rx="620" ry="190" fill="url(#berg-abend)"/>
+          <path d="M0 300 L70 262 L130 270 L205 222 L262 248 L330 236 L392 262 L470 228 L540 250 L600 236 L668 252 L742 214 L812 240 L880 226 L960 196 L1030 230 L1090 214 L1150 240 L1200 232 L1200 420 L0 420 Z" fill="url(#berg-fern)"/>
+          <g fill="#d7e0ef" opacity=".75"><path d="M180 236 L205 222 L232 236 L218 240 L205 233 L192 241 Z"/><path d="M718 228 L742 214 L770 228 L755 232 L742 225 L730 233 Z"/><path d="M932 212 L960 196 L990 212 L974 216 L960 208 L946 217 Z"/><path d="M450 240 L470 228 L492 240 L480 243 L470 237 L460 244 Z"/></g>
+          <path class="berg__hang" d="M0 640 L0 400 C 140 360 300 290 420 240 C 480 214 530 186 560 180 L 650 180 C 690 190 760 222 840 262 C 960 318 1090 352 1200 372 L1200 640 Z" fill="url(#berg-schnee)"/>
+          <path d="M650 180 C 690 190 760 222 840 262 C 960 318 1090 352 1200 372 L1200 640 L 780 640 C 770 470 720 300 650 180 Z" fill="#aebdd6" opacity=".28"/>
+          <g fill="none" stroke="#fff" stroke-linecap="round" opacity=".7">
+            <path d="M590 186 C 520 240 430 282 384 340 C 344 392 322 446 304 520 C 292 572 282 610 272 650" stroke-width="44"/>
+            <path d="M615 186 C 700 240 820 300 900 360 C 960 410 992 480 1012 650" stroke-width="44"/>
+          </g>
+          <g class="berg__lift">
+            <path d="M640 128 L1200 300" stroke="#55627e" stroke-width="1.6" fill="none"/>
+            <g stroke="#55627e" stroke-width="3"><path d="M800 177 V244"/><path d="M950 222 V302"/><path d="M1100 268 V346"/></g>
+            <g class="berg__gondel"><g transform="translate(1200 300)"><path d="M0 0 V8" stroke="#55627e" stroke-width="1.4"/><rect x="-7" y="8" width="14" height="12" rx="3" fill="#ff5a1c"/><rect x="-4.5" y="10.5" width="9" height="4" rx="1" fill="#ffd9c8"/></g></g>
+            <g class="berg__gondel berg__gondel--2"><g transform="translate(1200 300)"><path d="M0 0 V8" stroke="#55627e" stroke-width="1.4"/><rect x="-7" y="8" width="14" height="12" rx="3" fill="#e9edf4"/><rect x="-4.5" y="10.5" width="9" height="4" rx="1" fill="#9fb0cc"/></g></g>
+          </g>
+          <g><use href="#berg-tanne" fill="#0e1d40" transform="translate(880 270) scale(0.45)"/><use href="#berg-tanne" fill="#16295a" transform="translate(992 312) scale(0.5)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(262 318) scale(0.5)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(1030 326) scale(0.55)"/><use href="#berg-tanne" fill="#16295a" transform="translate(228 330) scale(0.55)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(196 352) scale(0.6)"/><use href="#berg-tanne" fill="#16295a" transform="translate(590 398) scale(0.95)"/><use href="#berg-tanne" fill="#1f3567" transform="translate(676 404) scale(0.9)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(548 418) scale(0.85)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(632 426) scale(0.8)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(1176 452) scale(0.8)"/><use href="#berg-tanne" fill="#16295a" transform="translate(700 466) scale(0.95)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(70 470) scale(1.05)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(612 470) scale(1)"/><use href="#berg-tanne" fill="#16295a" transform="translate(1150 498) scale(0.9)"/><use href="#berg-tanne" fill="#16295a" transform="translate(118 500) scale(0.9)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(566 512) scale(1.05)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(742 512) scale(1)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(1100 520) scale(1)"/><use href="#berg-tanne" fill="#1f3567" transform="translate(654 530) scale(1.1)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(40 540) scale(1.2)"/><use href="#berg-tanne" fill="#1f3567" transform="translate(452 566) scale(0.95)"/><use href="#berg-tanne" fill="#1f3567" transform="translate(92 572) scale(1.1)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(1128 586) scale(1.15)"/><use href="#berg-tanne" fill="#16295a" transform="translate(790 590) scale(1.05)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(716 598) scale(1.2)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(160 600) scale(1)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(500 604) scale(1.1)"/><use href="#berg-tanne" fill="#16295a" transform="translate(600 612) scale(1.15)"/><use href="#berg-tanne" fill="#1f3567" transform="translate(1180 612) scale(1.1)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(1060 626) scale(1.2)"/><use href="#berg-tanne" fill="#16295a" transform="translate(30 628) scale(1.15)"/><use href="#berg-tanne" fill="#0e1d40" transform="translate(210 640) scale(1.2)"/></g>
+          <g class="berg__station">
+            <rect x="562" y="140" width="76" height="41" rx="4" fill="#1b2c58"/>
+            <path d="M554 143 L600 119 L646 143 Z" fill="#0e1d40"/>
+            <rect x="571" y="150" width="12" height="10" rx="2" fill="#ffd28a"/><rect x="617" y="150" width="12" height="10" rx="2" fill="#ffd28a"/>
+            <rect x="594" y="158" width="12" height="23" rx="2" fill="#0e1d40"/>
+            <path d="M626 133 V99" stroke="#95a2b9" stroke-width="3" stroke-linecap="round"/>
+            <circle id="berg-antenne-licht" cx="626" cy="95" r="6" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/>
+            <circle id="berg-antenne-spitze" cx="626" cy="95" r="4.5" fill="#95a2b9"/>
+            <text class="berg__name" x="508" y="152" text-anchor="end">Liftstation</text>
+          </g>
+
+          <ellipse id="berg-suche" cx="972" cy="420" rx="112" ry="78" fill="#0e1d40" fill-opacity=".04" stroke="#0e1d40" stroke-opacity=".35" stroke-width="2" stroke-dasharray="7 8" style="opacity:0"/>
+          <!-- Handy: Anruf bei der Rettung, dann ruft die Rettung erst die Bergbahn an (Pfade setzt weg.js je nach Breite) -->
+          <g id="berg-anruf-a" fill="none" stroke-linecap="round" stroke-dasharray="0 12" style="opacity:0"><path d="M957 368 Q 927 170 760 110" stroke="#0e1d40" stroke-opacity=".45" stroke-width="9"/><path d="M957 368 Q 927 170 760 110" stroke="#fff" stroke-width="5.5"/></g>
+          <g id="berg-anruf-b" fill="none" stroke-linecap="round" stroke-dasharray="0 12" style="opacity:0"><path d="M760 110 Q 704 90 648 146" stroke="#0e1d40" stroke-opacity=".45" stroke-width="9"/><path d="M760 110 Q 704 90 648 146" stroke="#fff" stroke-width="5.5"/></g>
+          <circle id="berg-station-ring" cx="600" cy="158" r="30" fill="none" stroke="#fff" stroke-width="2.5" style="opacity:0"/>
+          <g id="berg-rettung" transform="translate(760 110)">
+            <circle id="berg-rettung-ring" r="24" fill="none" stroke="#fff" stroke-width="2.5" style="opacity:0"/>
+            <circle r="24" fill="#fff"/>
+            <path d="M-4.5 -13 H4.5 V-4.5 H13 V4.5 H4.5 V13 H-4.5 V4.5 H-13 V-4.5 H-4.5 Z" fill="#e0313c"/>
+            <text class="berg__name" y="48" text-anchor="middle">Rettung</text>
+          </g>
+          <path id="berg-funk" d="M326 437 C 350 320 470 170 626 99" fill="none" stroke="#ff5a1c" stroke-width="3" stroke-linecap="round" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" style="opacity:0"/>
+          <circle id="berg-funk-punkt" r="6" fill="#ff5a1c" stroke="#fff" stroke-width="2" style="opacity:0"/>
+          <ellipse id="berg-ring-a" cx="322" cy="466" rx="20" ry="6" fill="none" stroke="#ff5a1c" stroke-width="2.5" style="opacity:0"/>
+          <g class="berg__wellen"><circle class="berg__welle" cx="326" cy="434" r="12" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/><circle class="berg__welle" cx="326" cy="434" r="12" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/><circle class="berg__welle" cx="326" cy="434" r="12" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/></g>
+          <g id="berg-puff-a" style="opacity:0"><circle cx="-26" cy="6" r="10" fill="#fff"/><circle cx="-8" cy="0" r="13" fill="#fff"/><circle cx="14" cy="5" r="10" fill="#fff"/></g>
+          <g id="berg-puff-b" style="opacity:0"><circle cx="-26" cy="6" r="10" fill="#fff"/><circle cx="-8" cy="0" r="13" fill="#fff"/><circle cx="14" cy="5" r="10" fill="#fff"/></g>
+
+          <g id="berg-person-a" transform="translate(322 455)"><g transform="scale(1.2)">
+            <ellipse cx="0" cy="10" rx="40" ry="6.5" fill="#0e1d40" opacity=".13"/>
+            <path d="M-40 8 L24 2" stroke="#0e1d40" stroke-width="4" stroke-linecap="round"/>
+            <path d="M-22 13 L38 -4" stroke="#0e1d40" stroke-width="4" stroke-linecap="round"/>
+            <path d="M-4 0 L-20 7 M6 0 L21 5" stroke="#2b3550" stroke-width="8.5" stroke-linecap="round"/>
+            <path d="M-10 -27 Q-14 -2 -4 2 L8 2 Q13 -12 6 -27 Z" fill="#2a4a8f"/>
+            <path d="M-8 -21 L-21 -7" stroke="#2a4a8f" stroke-width="6.5" stroke-linecap="round"/>
+            <rect x="-1" y="-19" width="9" height="6.5" rx="2.2" fill="#ff5a1c"/><circle cx="3.5" cy="-15.75" r="1.5" fill="#fff"/>
+            <path d="M6 -21 L15 -10" stroke="#2a4a8f" stroke-width="6.5" stroke-linecap="round"/>
+            <circle cx="-2" cy="-35" r="8" fill="#f2c9a5"/>
+            <path d="M-10.6 -35.5 A8.6 8.6 0 0 1 6.6 -35.5 Z" fill="#fff"/>
+            <rect x="-7.5" y="-36" width="11" height="4" rx="2" fill="#0e1d40"/>
+          </g></g>
+
+          <g id="berg-person-b" transform="translate(938 420)"><g transform="scale(1.2)">
+            <ellipse cx="0" cy="10" rx="40" ry="6.5" fill="#0e1d40" opacity=".13"/>
+            <path d="M-40 8 L24 2" stroke="#0e1d40" stroke-width="4" stroke-linecap="round"/>
+            <path d="M-22 13 L38 -4" stroke="#0e1d40" stroke-width="4" stroke-linecap="round"/>
+            <path d="M-4 0 L-20 7 M6 0 L21 5" stroke="#2b3550" stroke-width="8.5" stroke-linecap="round"/>
+            <path d="M-10 -27 Q-14 -2 -4 2 L8 2 Q13 -12 6 -27 Z" fill="#6b7385"/>
+            <path d="M-8 -21 L-21 -7" stroke="#6b7385" stroke-width="6.5" stroke-linecap="round"/>
+            <path id="berg-arm-unten" d="M6 -21 L15 -10" stroke="#6b7385" stroke-width="6.5" stroke-linecap="round" style="opacity:0"/>
+            <g id="berg-arm-hoch"><path d="M6 -21 L15 -33" stroke="#6b7385" stroke-width="6.5" stroke-linecap="round"/><rect x="12" y="-46" width="8" height="13" rx="2" fill="#0e1d40"/><rect class="berg__schirm" x="13.4" y="-44.4" width="5.2" height="9" rx="1" fill="#9fd0ff"/></g>
+            <circle cx="-2" cy="-35" r="8" fill="#f2c9a5"/>
+            <path d="M-10.6 -35.5 A8.6 8.6 0 0 1 6.6 -35.5 Z" fill="#fff"/>
+            <rect x="-7.5" y="-36" width="11" height="4" rx="2" fill="#0e1d40"/>
+          </g></g>
+
+          <g id="berg-helfer-a" class="berg__helfer" transform="translate(385 448)">
+            <circle class="berg__alarm" r="10" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/>
+            <g class="berg__dreh" transform="scale(-1.15 1.15)">
+              <ellipse cx="0" cy="2" rx="22" ry="4.5" fill="#0e1d40" opacity=".16"/>
+              <path d="M-22 0 L20 0 Q24 0 25 -3" stroke="#0e1d40" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+              <path d="M-3 -16 L-6 -1 M5 -16 L7 -1" stroke="#2b3550" stroke-width="6.5" stroke-linecap="round"/>
+              <path d="M-9 -39 Q-11 -18 -4 -15 L8 -15 Q12 -28 7 -39 Z" fill="#0e1d40"/>
+              <path d="M-9.6 -26 H9.4" stroke="#e6ebf3" stroke-width="2.6"/>
+              <path d="M7 -35 L15 -22" stroke="#0e1d40" stroke-width="5" stroke-linecap="round"/><path d="M15 -22 L20 0" stroke="#95a2b9" stroke-width="1.6"/>
+              <circle cx="-1" cy="-33" r="4.4" fill="#2fbf6a"/><path d="M-1 -35.6 V-30.4 M-3.6 -33 H1.6" stroke="#fff" stroke-width="1.7"/>
+              <circle cx="1" cy="-46" r="7.5" fill="#f2c9a5"/><path d="M-7 -46.5 A8 8 0 0 1 9 -46.5 Z" fill="#fff"/><rect x="1.5" y="-47.5" width="7.5" height="3.6" rx="1.8" fill="#0e1d40"/>
+            </g>
+          </g>
+
+          <g id="berg-helfer-b" class="berg__helfer" transform="translate(1000 440)">
+            <circle class="berg__alarm" r="10" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/>
+            <g class="berg__dreh" transform="scale(-1.15 1.15)">
+              <ellipse cx="0" cy="2" rx="22" ry="4.5" fill="#0e1d40" opacity=".16"/>
+              <path d="M-22 0 L20 0 Q24 0 25 -3" stroke="#0e1d40" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+              <path d="M-3 -16 L-6 -1 M5 -16 L7 -1" stroke="#2b3550" stroke-width="6.5" stroke-linecap="round"/>
+              <path d="M-9 -39 Q-11 -18 -4 -15 L8 -15 Q12 -28 7 -39 Z" fill="#0e1d40"/>
+              <path d="M-9.6 -26 H9.4" stroke="#e6ebf3" stroke-width="2.6"/>
+              <path d="M7 -35 L15 -22" stroke="#0e1d40" stroke-width="5" stroke-linecap="round"/><path d="M15 -22 L20 0" stroke="#95a2b9" stroke-width="1.6"/>
+              <circle cx="-1" cy="-33" r="4.4" fill="#2fbf6a"/><path d="M-1 -35.6 V-30.4 M-3.6 -33 H1.6" stroke="#fff" stroke-width="1.7"/>
+              <circle cx="1" cy="-46" r="7.5" fill="#f2c9a5"/><path d="M-7 -46.5 A8 8 0 0 1 9 -46.5 Z" fill="#fff"/><rect x="1.5" y="-47.5" width="7.5" height="3.6" rx="1.8" fill="#0e1d40"/>
+            </g>
+          </g>
+          <g id="berg-frage-b" style="opacity:0"><circle r="14" fill="#fff"/><text class="berg__frage" y="6" text-anchor="middle">?</text></g>
+
+          <g id="berg-chipruf" transform="translate(322 372)" style="opacity:0">
+            <circle r="25" fill="#fff"/>
+            <circle id="berg-chipruf-ring" r="25" fill="none" stroke="#ff5a1c" stroke-width="4" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" transform="rotate(-90)"/>
+            <rect x="-11" y="-7.5" width="22" height="15" rx="5" fill="#ff5a1c"/><circle r="4" fill="#fff"/>
+          </g>
+          <g id="berg-pin-a" transform="translate(322 404)" style="opacity:0">
+            <path d="M0 0 C -12 -14 -16 -22 -16 -30 A16 16 0 0 1 16 -30 C 16 -22 12 -14 0 0 Z" fill="#ff5a1c" stroke="#fff" stroke-width="2.5"/>
+            <circle cy="-30" r="6" fill="#fff"/>
+          </g>
+          <g id="berg-blase-b" transform="translate(938 322)" style="opacity:0">
+            <path d="M-34 -32 H34 A12 12 0 0 1 46 -20 V12 A12 12 0 0 1 34 24 H8 L0 34 L-8 24 H-34 A12 12 0 0 1 -46 12 V-20 A12 12 0 0 1 -34 -32 Z" fill="#fff"/>
+            <g fill="none" stroke="#0e1d40" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" transform="translate(0 -4)"><g class="berg__blase-zeichen" data-k="0" transform="translate(-18 -23) scale(1.5)"><path d="M7.5 20.5V10a1.5 1.5 0 0 1 3 0V5.5a1.5 1.5 0 0 1 3 0V10m0-3.5a1.5 1.5 0 0 1 3 0V13l1.3-1.6a1.5 1.5 0 0 1 2.3 1.9l-3.6 7.2z"/><path d="M6.5 20.5h11"/></g><g class="berg__blase-zeichen" data-k="1" transform="translate(-18 -23) scale(1.5)"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></g><g class="berg__blase-zeichen" data-k="2" transform="translate(-18 -23) scale(1.5)"><rect x="5.5" y="10.5" width="13" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5M12 14.5v2"/></g><g class="berg__blase-zeichen" data-k="3" transform="translate(-18 -23) scale(1.5)"><path d="M4 19v-2.5M8.5 19v-5"/><path class="berg__blinkt" d="M13 19v-8M17.5 19V8" stroke-dasharray="1.5 2.6"/><path d="M15 3.5l5 5M20 3.5l-5 5" stroke="#e5450d"/></g><g class="berg__blase-zeichen" data-k="4" transform="translate(-18 -23) scale(1.5)"><path d="M7 5.5h.01M12 5.5h.01M17 5.5h.01M7 10h.01M12 10h.01M17 10h.01M7 14.5h.01M12 14.5h.01M17 14.5h.01M12 19h.01" stroke-width="3.2"/></g><g class="berg__blase-zeichen" data-k="5" transform="translate(-18 -23) scale(1.5)"><path d="M4.5 5.5h15v10h-8l-4.5 3.5v-3.5h-2.5z"/><path d="M10.2 9a1.9 1.9 0 1 1 2.6 1.8c-.5.2-.8.6-.8 1.1M12 13.6v.1"/></g></g>
+          </g>
+          <g id="berg-da-a" class="berg__da" transform="translate(322 378)"><circle r="20" fill="#2fbf6a" stroke="#fff" stroke-width="3"/><path d="M-8 0.5 L-2.5 6 L8.5 -5.5" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+          <g id="berg-da-b" class="berg__da" transform="translate(938 338)"><circle r="20" fill="#2fbf6a" stroke="#fff" stroke-width="3"/><path d="M-8 0.5 L-2.5 6 L8.5 -5.5" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+        </svg>
+        <div class="berg__karten" aria-hidden="true">
+          <div class="berg__karte berg__karte--chip ist-fertig">
+            <p class="berg__wer"><i></i>Mit SkiTag</p>
+            <p class="berg__jetzt">Hilfe ist da</p>
+            <p class="berg__zahl"><span class="berg__punkte"><i class="an"></i></span>1 Schritt für dich</p>
           </div>
-        </article>
-
-        <article class="kachel kachel--kalt">
-          <p class="kachel__riesig"><span data-sc-count="0 -20" data-sc-count-ms="1600">−20</span><small>°C</small></p>
-          <h3>Funkt auch bei Kälte.</h3>
-          <p>Auch an eisigen Tagen am Berg geht der Notruf zuverlässig raus.</p>
-          <svg class="kachel__thermo" viewBox="0 0 40 140" aria-hidden="true"><path class="kachel__thermo-skala" d="M31 22 h5 M31 38 h3 M31 54 h5 M31 70 h3 M31 86 h5"/><rect x="13" y="6" width="14" height="104" rx="7" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="20" cy="118" r="14" fill="none" stroke="currentColor" stroke-width="2"/><rect class="kachel__thermo-saeule" x="17" y="40" width="6" height="74" rx="3"/><circle cx="20" cy="118" r="9" class="kachel__thermo-kugel"/></svg>
-        </article>
-
-        <article class="kachel">
-          <p class="kachel__riesig kachel__riesig--wort">5 × 4<small>cm</small></p>
-          <h3>Passt in jede Tasche.</h3>
-          <p>Etwa so groß wie eine Streichholzschachtel und knapp 2&nbsp;cm dick. In der Jackentasche vergisst du ihn.</p>
-          <svg class="ct__mass" viewBox="0 0 100 78" aria-hidden="true"><rect x="8" y="6" width="84" height="56" rx="14" fill="none" stroke="#c9ced8" stroke-width="2.5"/><circle cx="50" cy="34" r="11" fill="none" stroke="#ff5a1c" stroke-width="2.5"/><path d="M8 72 H92 M8 68 V76 M92 68 V76" stroke="#c9ced8" stroke-width="1.5" fill="none"/></svg>
-        </article>
-
-        <article class="kachel kachel--bild">
-          <svg class="kachel__bild bild-funk" viewBox="0 0 120 90" aria-hidden="true"><rect x="16" y="50" width="40" height="27" rx="8" fill="#0e1d40"/><circle cx="36" cy="63.5" r="6" fill="#ff5a1c"/><path d="M62 44a14 14 0 0 1 10 10"/><path d="M66 30a28 28 0 0 1 20 20"/><path d="M70 16a42 42 0 0 1 30 30"/></svg>
-          <h3>Eigener Funk.</h3>
-          <p>Der Chip funkt selbst zu den Empfängern an den Liftstationen. Ohne Handy, ohne SIM-Karte, ohne Handynetz.</p>
-        </article>
-
-        <article class="kachel kachel--bild">
-          <svg class="kachel__bild bild-gps" viewBox="0 0 120 90" aria-hidden="true"><path d="M4 70c20-12 34 4 56-6s34-14 56-4M4 50c22-10 38 2 58-8s32-12 54-4M4 30c18-8 36 4 56-6s34-10 56-2" fill="none" stroke="#e3e5ea" stroke-width="2"/><circle class="bild-gps__ring" cx="60" cy="58" r="10" fill="none" stroke="#ff5a1c" stroke-width="2"/><path d="M60 62c-10-12-15-19-15-26a15 15 0 0 1 30 0c0 7-5 14-15 26z" fill="#0e1d40"/><circle cx="60" cy="36" r="5.5" fill="#fff"/></svg>
-          <h3>Ortung mit GPS.</h3>
-          <p>Beim Notruf sieht die Bergbahn, wo du bist. Du musst nichts erklären.</p>
-        </article>
-
-        <article class="kachel kachel--bild">
-          <svg class="kachel__bild bild-vibration" viewBox="0 0 120 90" aria-hidden="true"><path class="bild-vibration__wellen" d="M14 30q-6 15 0 30M6 24q-10 21 0 42M106 30q6 15 0 30M114 24q10 21 0 42" fill="none" stroke="#8a91a1" stroke-width="2.4" stroke-linecap="round"/><rect class="bild-vibration__chip" x="26" y="25" width="68" height="40" rx="13" fill="#0e1d40"/><circle cx="60" cy="45" r="8" fill="#fff" opacity=".9"/></svg>
-          <h3>Vibriert und leuchtet.</h3>
-          <p>Ruft deine Gruppe oder kommt Hilfe, spürst du es in der Jacke und siehst es am Licht.</p>
-        </article>
-
-        <article class="kachel kachel--bild ct__zwei">
-          <svg class="kachel__bild bild-laden" viewBox="0 0 120 90" aria-hidden="true"><rect x="14" y="58" width="92" height="16" rx="8" fill="#eceef2"/><rect x="30" y="24" width="60" height="34" rx="11" fill="#0e1d40"/><rect x="38" y="36" width="44" height="8" rx="4" fill="#ffffff" opacity=".18"/><rect class="bild-laden__balken" x="38" y="36" width="44" height="8" rx="4" fill="#ff5a1c"/><path d="M62 8l-8 11h6l-3 9 9-12h-6l3-8z" fill="#0e1d40"/></svg>
-          <h3>Kabellos laden.</h3>
-          <p>Abends kommt der Chip in die Ladebox. Kein Stecker und kein Loch im Gehäuse, durch das Schnee eindringen kann.</p>
-        </article>
+          <div class="berg__karte berg__karte--handy ist-fertig">
+            <p class="berg__wer"><i></i>Mit dem Handy</p>
+            <p class="berg__jetzt">Hilfe ist da</p>
+            <p class="berg__dauer">Im Schnitt nach 21 bis 32 Min.</p>
+            <p class="berg__zahl"><span class="berg__punkte"><i class="an"></i><i class="an"></i><i class="an"></i><i class="an"></i><i class="an"></i><i class="an"></i></span>6 Schritte für dich</p>
+          </div>
+        </div>
       </div>
+      <div class="nur-vorlesen">
+        <p>Mit SkiTag: Knopf drei Sekunden halten. Der Standort geht per Funk zur Liftstation, ohne Handynetz. Ein Mitarbeiter der Bergbahn fährt direkt zu dir.</p>
+        <p>Mit dem Handy: Handschuhe aus, Handy finden, entsperren, Netz suchen, Nummer wählen, Ort erklären. Dann muss die Rettung erst die Bergbahn anrufen, und die Hilfe sucht nach deiner Beschreibung. Im Schnitt ist die Pistenrettung nach 21 bis 32 Minuten bei dir.</p>
+      </div>
+
+      <div class="weg__fuss">
+        <ul class="weg__ohne" aria-label="Mit SkiTag brauchst du">
+          <li>Ohne Handy</li><li>Ohne Handynetz</li><li>Ohne Nummer</li><li>Ohne Ortsangabe</li>
+        </ul>
+        <button class="knopf-hell weg__nochmal" type="button" data-aktion="weg-nochmal" hidden>Nochmal ansehen</button>
+      </div>
+      <!-- Feedback 102: Durchschnittsdauer beim Handy aus der Studie (Volltext noch nicht geprüft, siehe BRIEF.md).
+           Für SkiTag keine Zeit: Zielzeiten für den Notruf dürfen nicht behauptet werden. -->
+      <p class="weg__quelle">Die Zeit beim Handy stammt aus einer Auswertung von 10.143 Skiunfällen in Tirol: Je nach Piste braucht die Pistenrettung dort im Schnitt 21 bis 32 Minuten bis zur verletzten Person (<a href="https://doi.org/10.1017/S1049023X22001364" rel="noopener">Wagner u. a., 2022</a>). Für SkiTag gibt es noch keine gemessenen Zeiten.</p>
     </div>
   </section>
 </main>
@@ -327,6 +445,7 @@ ScrollCraft.mount(document.body);
 <script src="assets/seite.js?v=72" defer></script>
 <script src="assets/sprung-anfang.js?v=20" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
+<script src="assets/weg.js?v=5" defer></script>
 <script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.min.js" } }</script>
 <script type="module" src="assets/chip-3d.js?v=34"></script>
 <script type="module" src="assets/chip-seite.js?v=13"></script>
