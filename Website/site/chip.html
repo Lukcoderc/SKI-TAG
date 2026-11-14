@@ -26,8 +26,8 @@
 /* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=114">
-<link rel="stylesheet" href="assets/chip-seite.css?v=11">
+<link rel="stylesheet" href="assets/seite.css?v=118">
+<link rel="stylesheet" href="assets/chip-seite.css?v=12">
 </head>
 <body>
 
@@ -135,9 +135,9 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
         <div class="kn-wellen" aria-hidden="true"><i></i><i></i><i></i></div>
         <svg class="kn-linien" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path class="kn-linien__gruppe" d="M50 50 L16 24"/><path class="kn-linien__gruppe" d="M50 50 L85 29"/><path class="kn-linien__gruppe" d="M50 50 L20 79"/><path class="kn-linien__funk" d="M35 44 C 42 36, 47 32, 54 31"/></svg>
         <i class="kn-paket" style="--x:16%; --y:24%; --v:0s; --f:#2a4a8f" aria-hidden="true"></i><i class="kn-paket" style="--x:85%; --y:29%; --v:0.17s; --f:#6b7385" aria-hidden="true"></i><i class="kn-paket" style="--x:20%; --y:79%; --v:0.34s; --f:#c2410c" aria-hidden="true"></i>
-        <div class="mit kn-mit" style="--x:16%; --y:24%; --v:0s; --f:#2a4a8f" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>A</i>Anna</span></div>
-        <div class="mit kn-mit" style="--x:85%; --y:29%; --v:0.17s; --f:#6b7385" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>T</i>Tom</span></div>
-        <div class="mit kn-mit" style="--x:20%; --y:79%; --v:0.34s; --f:#c2410c" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>L</i>Lea</span></div>
+        <div class="mit kn-mit" style="--x:16%; --y:24%; --v:0s; --f:#2a4a8f" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp?v=2" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>A</i>Anna</span></div>
+        <div class="mit kn-mit" style="--x:85%; --y:29%; --v:0.17s; --f:#6b7385" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp?v=2" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>T</i>Tom</span></div>
+        <div class="mit kn-mit" style="--x:20%; --y:79%; --v:0.34s; --f:#c2410c" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp?v=2" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>L</i>Lea</span></div>
 
         <div class="kn-weg" aria-hidden="true">
           <p class="kn-weg__kopf"><i></i><span class="kn-weg__titel">Notruf gesendet</span></p>
@@ -150,7 +150,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
         <div class="knopf__nah chip-anker" aria-hidden="true"></div>
         <div class="knopf__chip chip-anker">
-          <img class="chip-bild" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async">
+          <img class="chip-bild" src="assets/media/chip-3d.webp?v=2" alt="" width="600" height="800" loading="lazy" decoding="async">
           <button class="chip-knopf" type="button" aria-describedby="knopf-status">
             <svg class="chip-knopf__ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" pathLength="1"/></svg>
             <span class="nur-vorlesen">Knopf am Chip (Vorführung): kurz drücken ruft die Gruppe, drei Sekunden halten startet den Notruf</span>
@@ -160,8 +160,8 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </div>
   </section>
 
-  <!-- 2 · Innenleben: gepinnte Strecke. Das 3D-Modell des Chips (Außenteile wie auf der Startseite, dazu die
-       Innenteile aus dem Hardware-Modell) zieht sich beim Scrollen auseinander und bleibt offen (seit Feedback 93
+  <!-- 2 · Innenleben: gepinnte Strecke. Das 3D-Modell des Chips (seit Feedback 111 Maxis aktuelles Modell „Fertiger
+       Chip“ mit nachgebauten Bauteilen, assets/media/chip-teile.bin) zieht sich beim Scrollen auseinander und bleibt offen (seit Feedback 93
        baut es sich nicht wieder zusammen). Rechts daneben stehen sechs Namen, jeder mit einer gestrichelten Linie
        zu seinem Teil (assets/chip-seite.js liest --sc-p).
        Am Handy, bei „weniger Bewegung“ und ohne WebGL nicht gepinnt: der Chip öffnet sich von selbst (data-klick). -->
@@ -169,16 +169,22 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     <div class="innen__buehne" data-sc-stage>
       <div class="innen__bild">
         <canvas class="innen__gl" aria-hidden="true"></canvas>
-        <img class="innen__ersatz" src="assets/media/chip-3d.webp" alt="" width="600" height="800" loading="lazy" decoding="async">
+        <img class="innen__ersatz" src="assets/media/chip-3d.webp?v=2" alt="" width="600" height="800" loading="lazy" decoding="async">
         <svg class="innen__zeiger" aria-hidden="true"></svg>
         <ol class="innen__marken" aria-label="Was im Chip steckt">
-          <li>Knopf</li><li>LED</li><li>Hülle</li><li>Platine mit Sensoren</li><li>Akku</li><li>Laden</li>
+          <li><b>Knopf</b><span>Groß genug für Handschuhe</span></li>
+          <li><b>LED</b><span>Zeigt, was der Chip gerade tut</span></li>
+          <li><b>Hülle</b><span>Weicher Rand mit Stoßecken</span></li>
+          <li><b>Platine</b><span>Funkmodul, GPS und Sensoren</span></li>
+          <li><b>Akku</b><span>Flach, unter der Platine</span></li>
+          <li><b>Laden</b><span>Kabellos über eine Spule</span></li>
         </ol>
       </div>
       <div class="innen__text">
         <p class="augenbraue">Innenleben</p>
         <h2 id="innenleben-titel" class="sc-display">Was im Chip <span class="akzent">steckt.</span></h2>
         <p class="sc-lede innen__lede">Sechs Teile, ein Auftrag: Hilfe holen, wenn du sie brauchst.</p>
+        <p class="innen__hinweis">Konzept aus Maxis Werkstattbuch, noch kein Bauplan. Die Lage der Bauteile ist ein Vorschlag.</p>
       </div>
     </div>
   </section>
@@ -409,7 +415,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </nav>
     <div class="fuss__nachweis">
       <b>Nachweise</b>
-      <span>Bergvideos und Fotos: Mixkit</span>
+      <span>Bergvideo: Pexels. Fotos: Unsplash</span>
       <span>Schrift der App: Bricolage Grotesque (OFL)</span>
     </div>
   </div>
@@ -442,12 +448,12 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 })();
 ScrollCraft.mount(document.body);
 </script>
-<script src="assets/seite.js?v=72" defer></script>
+<script src="assets/seite.js?v=75" defer></script>
 <script src="assets/sprung-anfang.js?v=20" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
 <script src="assets/weg.js?v=5" defer></script>
 <script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.min.js" } }</script>
-<script type="module" src="assets/chip-3d.js?v=34"></script>
-<script type="module" src="assets/chip-seite.js?v=13"></script>
+<script type="module" src="assets/chip-3d.js?v=37"></script>
+<script type="module" src="assets/chip-seite.js?v=21"></script>
 </body>
 </html>

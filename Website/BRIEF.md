@@ -739,3 +739,129 @@ Am Schluss die durchschnittliche Dauer dazuschreiben, recherchiert.
 Umgesetzt:
 - Karte „Mit dem Handy“ zeigt am Ende „Im Schnitt nach 21 bis 32 Min.“. Unter der Szene steht die Quelle: Wagner u. a., „Emergency Service Assistance for Injuries on Alpine Ski Slopes: A Cross-Sectional Study“, Prehospital and Disaster Medicine 37 (6), 2022, doi 10.1017/S1049023X22001364 (10.143 Unfälle, Leitstelle Tirol). Für SkiTag keine Zeit (Zielzeiten dürfen nicht behauptet werden), dafür der Satz „Für SkiTag gibt es noch keine gemessenen Zeiten.“
 - **Ungeprüft:** Die Werte 21 Minuten (leichte Pisten) und 32 Minuten (mittlere und schwere) stammen aus einem Suchauszug. Der frei lesbare Abstract nennt sie nicht, der Volltext ist hinter einer Bezahlschranke. Offen ist auch, ab wann gemessen wird (Notruf oder Alarmierung). Vor dem Veröffentlichen im Volltext prüfen (Entscheidung Lukas: so einbauen, als ungeprüft vermerken).
+
+## Feedback 103 (Lukas, 2026-11-14)
+
+Die Startseite gefällt noch nicht ganz. Vorbild: eine Skischul-Seite mit Video im Hintergrund. Vergleich mit unserer Seite, dann Auswahl: Punkt 1 (Video im Einstieg, Stockvideo ohne Wasserzeichen, der Chip schwebt weiter dort, wo er ist) und Punkt 5 (echte Fotos von Leuten im Schnee, im Internet suchen). Allgemein: kein KI-Look, weniger Kästen, eine Webseite muss eine Webseite bleiben.
+
+Umgesetzt:
+- Einstieg: Bergvideo über den ganzen ersten Bildschirm (Pexels, Drohnenflug über einer Liftstation mit Skifahrern, freie Lizenz, ohne Wasserzeichen), vor und zurück als ruhige Schleife von 15 s, eigenes Hochformat fürs Handy. Dunkler Verlauf links, Titel, Satz und Knöpfe weiß, wechselndes Wort in hellen Farben, „SKI TAG“ hinter dem Chip leiser. Die gezeichneten Berge und die Sonne sind raus. Der 3D-Chip schwebt unverändert rechts. Kopfleiste über dem Video gleich als weiße Pille. Bei „weniger Bewegung“ und im Sparmodus nur das Standbild, außer Sicht pausiert das Video.
+- Neuer Abschnitt „Für deinen Skitag.“ nach „Was ist SKITAG?“: Text direkt auf der Seite mit Häkchenliste, daneben ein großes Foto (Familie am Pistenrand), darunter drei Fotos mit kurzer Zeile: Familien, Skischulen, Freunde (am Handy zum Wischen). Fotos von Unsplash (freie Lizenz), Herkunft je Datei in `assets/media/*.json`.
+- Nachweis im Fuß aller Seiten: „Bergvideo: Pexels. Fotos: Unsplash“ (Mixkit wird nicht mehr verwendet).
+
+## Feedback 104 (Lukas, 2026-11-14)
+
+„Gut zu wissen“ soll erst aufgeklappt werden müssen, bevor die Grafik erscheint, und als cleane Liste aussehen. Die Leiste oben soll wieder erst beim Scrollen weiß werden und ganz oben durchsichtig über dem Video sein, trotzdem gut aussehen.
+
+Umgesetzt:
+- Gut zu wissen: statt Kacheln eine schlichte Liste mit feinen Linien, je Zeile Nummer, Frage und rundes Plus. Ein Klick klappt weich auf: links die Antwort, rechts (am Handy darunter) die kleine Animation auf hellgrauer Fläche. Die Animationen laufen nur aufgeklappt. Ohne JavaScript ist alles offen.
+- Kopfleiste auf der Startseite: ganz oben durchsichtig, Logo und Links weiß mit leichtem Schatten, „Das sind wir“ als weißer Knopf, Menü-Knopf am Handy hell umrandet. Ab dem ersten Scrollen die gewohnte weiße Pille, Farben gleiten über.
+
+## Feedback 105 (Lukas, 2026-11-14)
+
+„Was ist SKITAG?“ und „Für deinen Skitag.“ erklären beide, was SkiTag ist. Den oberen Text bei „Für deinen Skitag.“ weg.
+
+Umgesetzt: der erste Absatz unter „Für deinen Skitag.“ (was SkiTag ist) entfernt; der Satz zum Handy im Rucksack, die Häkchenliste und die Fotos bleiben.
+
+## Feedback 106 (Lukas, 2026-11-14)
+
+„Das sind wir“ neu: wir sind drei HTLer und wollen die Skiwelt sicherer machen. Bei „Schreib uns“ auch Sponsoren ansprechen, Kontakt skitag.team@gmail.com. Gut aussehen, im Internet schauen, wie andere es machen, passend zum Design.
+
+Recherche: Über-uns-Seiten junger Teams folgen meist dem Muster Ziel, Geschichte, Team mit Foto, Rolle und kurzem Text, dann ein klarer nächster Schritt (Kontakt).
+
+Umgesetzt (`wir.html`, neu `assets/wir-seite.css` und `assets/wir-seite.js`):
+- Kopf: „Das sind wir.“ mit „Wir sind drei HTLer und wollen die Skiwelt ein Stück sicherer machen …“, darunter der Fotoplatz für uns drei.
+- Ziel: großer Satz „Ob nach einem Sturz Hilfe kommt, soll nicht davon abhängen, ob dein Handy Netz hat.“ (Ende in Orange), darunter zwei kurze Absätze.
+- „Wir drei.“: je ein Fotoplatz im Hochformat mit Anfangsbuchstaben, Vorname, Rolle in Orange und ein Satz (Maximilian Hardware, Lukas Netz, Tobias App und Projekt). Am Handy zum Wischen.
+- „Schreib uns.“: die Adresse groß zum Anklicken, Knöpfe „E-Mail schreiben“ und „Adresse kopieren“; rechts eine Liste mit Linien für Bergbahnen, Skischulen, Sponsoren und alle anderen, jede Zeile öffnet eine E-Mail mit passendem Betreff.
+
+## Feedback 107 (Lukas, 2026-11-14)
+
+Bei „Schreib uns.“ die Liste rechts (Bergbahnen, Skischulen, Sponsoren, Alle anderen) weg und den Teil links verbessern.
+
+Umgesetzt: Kontakt als eine Spalte in der Mitte: kleines oranges Briefzeichen, „Schreib uns.“, „Ob Bergbahn, Skischule, Sponsor oder einfach neugierig: Wir freuen uns über jede Nachricht.“, die Adresse groß mit oranger Linie (beim Drüberfahren dicker), darunter „E-Mail schreiben“ und „Adresse kopieren“ und klein „Wir antworten persönlich.“
+
+## Feedback 108 (Lukas, 2026-11-14)
+
+Den ganzen Teil „Wir drei.“ weg: die einzelnen Aufgaben gehen niemanden etwas an, das Gesamtbild steht schon oben.
+
+Umgesetzt: Abschnitt „Wir drei.“ samt Regeln entfernt. Die Seite hat jetzt Kopf mit Fotoplatz, den Satz zum Ziel und den Kontakt.
+
+## Feedback 109 (Lukas, 2026-11-14)
+
+„E-Mail schreiben“ funktioniert nicht. Ein Klick auf die Adresse soll sie kopieren.
+
+Ursache: ein reiner mailto-Link tut nichts, wenn am Gerät kein Mail-Programm eingerichtet ist.
+
+Umgesetzt: Klick auf die Adresse kopiert sie, darunter steht kurz „✓ Adresse kopiert“ (sonst „Klick auf die Adresse kopiert sie.“). „E-Mail schreiben“ öffnet eine kleine Auswahl: Gmail und Outlook im Browser mit fertigem Empfänger, oder die Mail-App am Gerät. Der Knopf „Adresse kopieren“ fällt weg, die Adresse selbst kopiert.
+
+## Feedback 110 (Lukas, 2026-11-14)
+
+Bei „Für deinen Skitag.“ zu viele Bilder: das große Foto rechts weg, die anderen so, dass das Format gut aussieht und neben den Text passt.
+
+Umgesetzt: großes Foto entfernt (Datei `foto-gruppe.webp` gelöscht). Die drei Fotos (Familien, Skischulen, Freunde) stehen jetzt rechts neben dem Text im Hochformat 2:3, das mittlere etwas tiefer, so sind Text und Fotos etwa gleich hoch. Unter 1100 px Breite stehen die Fotos unter dem Text, am Handy zum Wischen.
+
+## Feedback 111 (Lukas, 2026-11-14)
+
+„Was im Chip steckt.“ gefällt nicht: die Qualität des 3D-Modells sieht nicht gut aus, generell alles nicht. Die Teile aus Maxis Werkstattbuch anschauen und ein besser aussehendes 3D-Modell machen, auch sein normales 3D-Modell (3d.html) anschauen.
+
+Umgesetzt:
+- Modell: Maxis aktuelles Modell „Fertiger Chip“ (fertig4, ca. 66 × 46 × 18 mm, Stand 09.11.) statt des älteren. Seine 12 Netze (Schalen, Rand, Ring, Knopf, Lichtleiter, Schrauben, Platine, Akku, Ferrit, Motor, kleine Chips) in `assets/media/chip-teile.bin` (328 KB) mit weich gerechneten Rundungen und scharfen Kanten. `chip-innen.bin` entfällt.
+- Die Bauteile, die bei ihm nur Quader sind, in seiner Größe und Lage nachgebaut: Funkmodul RAK3172 und GPS L76K mit Trägerplatine, goldenen Lötkanten und Blechdeckel mit Aufschrift, GPS-Antenne aus Keramik mit Silberfläche, LoRa-Antenne, Taster mit Stößel unter dem Knopf, LED, die Ladespule als Kupferspirale.
+- Aussehen: Platine mit Leiterbahnen, Durchkontaktierungen, Lötflächen und Bestückungsdruck, Akku mit Folie und Aufkleber „LiPo“, Schalen mit Klarlack, Rand mit weichem Glanz, weiche Schatten der Bauteile. Die Schichten stehen weiter auseinander, damit Platine und Spule frei zu sehen sind.
+- Namen mit einer kurzen Zeile darunter (Knopf: Groß genug für Handschuhe, LED: Zeigt, was der Chip gerade tut, Hülle: Weicher Rand mit Stoßecken, Platine: Funkmodul, GPS und Sensoren, Akku: Flach, unter der Platine, Laden: Kabellos über eine Spule). Unter dem Text der Hinweis „Konzept aus Maxis Werkstattbuch, noch kein Bauplan. Die Lage der Bauteile ist ein Vorschlag.“
+- Die Startseite und „Probiere den Tag aus“ nutzen weiter das ältere Außenmodell (`chip-3d.bin`).
+
+## Feedback 112 (Lukas, 2026-11-14)
+
+Wenn man das Modell bei „Was im Chip steckt.“ umdreht, steht der Text im Modell. Er soll außerhalb bleiben.
+
+Umgesetzt: Die Spalte mit den Namen richtet sich nach der rechten Kante des ganzen Stapels in der aktuellen Drehung (alle Ecken aller Schichten). Jede Linie setzt am Punkt des Teils an, der gerade am weitesten rechts steht (Knopf und Ladespule als Kreis, die anderen als Rechteck), die LED bleibt ein fester Punkt. Geprüft mit Drehen um etwa 120° und 180°.
+
+## Feedback 113 (Lukas, 2026-11-14)
+
+Nicht clean, dass sich der Text beim Drehen bewegt. Nur die Linie soll sich bewegen.
+
+Umgesetzt: Die Namen stehen fest. Die Spalte liegt rechts neben dem Kreis, den der Stapel beim Drehen überstreicht, die Höhen kommen von Punkten auf der Drehachse. Der Stapel bleibt beim Drehen gleich groß (Kamera nach der Diagonale). Nur die Linien suchen sich ihren Ansatz am Teil. Gemessen: Positionen der Namen vor und nach dem Drehen gleich.
+
+## Feedback 114 (Lukas, 2026-11-14)
+
+Maxi hat am Chip etwas verändert, der Knopf ist größer, Rest im Werkstattbuch und in seiner 3D-Ansicht. Jede 3D-Ansicht und Animation des Chips auf der Website auf das neuere Modell umstellen.
+
+Geprüft: Seine 3D-Seite lädt „fertig4“ (Commit 10.11.: Knopf 25 mm, ca. 66 × 46 × 18 mm). Seither keine neuen Modelldateien; „Was im Chip steckt.“ nutzt fertig4 schon seit Feedback 111.
+
+Umgesetzt:
+- `assets/media/chip-3d.bin` neu aus den Außenteilen von fertig4 (303 KB, Stufung 0,0025 mm, weil der Chip über 65 mm lang ist). `chip-3d.js`: Teileliste, Maße 66 × 46 × 18, die Funkwellen kommen jetzt aus der LoRa-Antenne bei x 59,5 / y 30,5. Knopfmitte, Füllring, Ziffer und der unsichtbare Knopf richten sich weiter nach den Maßen von Ring und Kappe.
+- Damit neu: der Chip im Einstieg, „Was ist SKITAG?“ (Gruppe, Halten mit Füllring, Funk) samt den drei kleinen Chips, „Probiere den Tag aus“ auf der Chip-Seite (nah am Knopf, kurz drücken und halten).
+- Standbild `chip-3d.webp` (ohne WebGL und solange 3D lädt) aus dem neuen Modell gerendert.
+- Geprüft am Desktop (Einstieg, alle drei Schritte, kurz drücken auf der Chip-Seite) und bei 390 px Breite.
+
+## Feedback 115 (Lukas, 2026-11-14)
+
+Bei „Was ist SKITAG?“ und „Probiere den Tag aus.“ geht der Füllring über die LED, das sieht nicht gut aus.
+
+Ursache: Beim großen Knopf von fertig4 sitzt die LED nur 19 mm neben der Knopfmitte, der Ring lag bei 17,9 mm.
+
+Umgesetzt: Der Füllring rechnet seinen Radius jetzt aus der Lage der LED (Abstand LED-Rand bis Ringkante 1,2 mm) und ist etwas schmaler. Er liegt eng um den orangen Knopfring. Gilt für Halten (orange) und die Frist (rot), geprüft auf beiden Seiten.
+
+## Feedback 116 (Lukas, 2026-11-14)
+
+Performance so gut wie möglich optimieren, damit die Seite und die Animationen auch auf schlechteren Geräten funktionieren.
+
+Ausgangslage: Es gibt schon einen Sparmodus (`html.sparsam`: wenige Kerne oder wenig Speicher, Datensparen oder gemessenes Ruckeln beim Scrollen), Zier-Animationen ruhen außer Sicht, der 3D-Chip zeichnet nur bei Änderungen und senkt bei langsamen Bildern die Pixeldichte.
+
+Umgesetzt:
+- 3D-Chip (Startseite, „Probiere den Tag aus“): im Sparmodus wie am Handy ohne Klarlack und Samtglanz, kein Dauer-Schweben und Wiegen (sonst wird jedes Bild neu gezeichnet, auch ohne Scrollen). Wird der Sparmodus erst beim Scrollen erkannt, schaltet der Chip sofort um (Pixeldichte 1, kein Schnee).
+- „Was im Chip steckt.“: am Handy und im Sparmodus ohne weiche Schatten, ohne Klarlack, mit weniger Pixeln (Handy 1,25, Sparmodus 1, sonst höchstens 1,75 statt 2) und einer gröberen Ladespule.
+- Einstieg: die Schleife für Zeiger und Scrollen ruht, sobald sich nichts mehr bewegt (vorher lief sie in jedem Bild, solange der Einstieg zu sehen war). Im Sparmodus wird das Video nicht mehr mitverschoben.
+- Video: neue Fassung `held-l.mp4` mit 1280 px (1,3 MB statt 3,3 MB) für Bildschirme bis 1440 px und den Sparmodus; das Video lädt nur noch die Eckdaten vorab (preload metadata).
+- Fotos bei „Für deinen Skitag.“ auf 640 px verkleinert: zusammen 112 KB statt 196 KB.
+- Geprüft: Startseite normal und im Sparmodus (auch der Wechsel während des Besuchs), Chip-Seite im Sparmodus, keine Fehler in der Konsole. Auf einem echten schwachen Gerät nicht gemessen.
+
+## Feedback 117 (Lukas, 2026-11-14)
+
+Bei Feedback am Schluss („Halten zum Senden“) ist der Ring verschoben und nicht zentral.
+
+Ursache: Die allgemeine Regel `max-width: 100%` für Grafiken kappte die Breite der Ring-Grafik auf die Knopfbreite, die Höhe nicht. Durch die Drehung um 90° saß der Ring dann schief.
+
+Umgesetzt: `max-width: none` für die Ring-Grafik (`feedback.css?v=4`). Nachgemessen: Mitte von Knopf und Ring gleich, Ring 195 × 195 px.

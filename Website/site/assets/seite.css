@@ -1689,66 +1689,6 @@ html:not(.chip3d-an) .chip-knopf:active { background: rgba(255, 255, 255, 0.14);
 .akt-balken__marke { position: absolute; top: 0; bottom: 0; width: 3px; margin-left: -1.5px; z-index: 1; background: var(--nacht); }
 .akt-balken.ist-nacht .akt-balken__marke { background: #fff; }
 
-/* Gut zu wissen als Bento: Kacheln in drei Größen, jede mit einer kleinen Animation. Ein Klick auf die Kachel
-   färbt sie Nachtblau und zeigt die Antwort an der Stelle der Animation. */
-.fq-raster { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(17.5rem, auto); grid-auto-flow: dense; gap: 1rem; margin-top: clamp(2rem, 4vw, 3rem); }
-.fq--breit { grid-column: span 2; }
-.fq--hoch { grid-row: span 2; }
-.fq {
-  position: relative; display: grid; grid-template-rows: minmax(0, 1fr) auto; overflow: hidden; isolation: isolate;
-  border-radius: var(--r-gross); background: linear-gradient(180deg, #f5f7fa, #eef2f7); color: var(--sc-ink);
-  box-shadow: inset 0 0 0 1px rgba(14, 29, 64, 0.05);
-  transition: background-color 450ms var(--sc-ease-out), box-shadow 300ms var(--sc-ease-out), transform 300ms var(--sc-ease-out);
-}
-.fq::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--nacht); opacity: 0; transition: opacity 450ms var(--sc-ease-out); }
-.fq__bild, .fq__antwort { grid-row: 1; grid-column: 1; min-height: 0; }
-.fq__bild { display: grid; place-items: center; padding: 1.1rem 1.1rem 0; transition: opacity 350ms var(--sc-ease-out), transform 500ms var(--sc-ease-out); }
-.fq__bild svg { display: block; width: 100%; height: 100%; max-height: 13rem; overflow: visible; font-family: var(--sc-font-text); }
-.fq--hoch .fq__bild svg { max-height: 31rem; }
-.fq__kopf { grid-row: 2; margin: 0; }
-.fq__frage {
-  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: 1rem; width: 100%; box-sizing: border-box; margin: 0; padding: 0.9rem 1.2rem 1.25rem 1.4rem;
-  border: 0; background: none; color: inherit; text-align: left; cursor: pointer; font: inherit;
-}
-.fq__frage::after { content: ""; position: absolute; inset: 0; z-index: 3; border-radius: inherit; }   /* die ganze Kachel ist klickbar */
-.fq__frage:focus-visible { outline: none; }
-.fq:has(.fq__frage:focus-visible) { box-shadow: inset 0 0 0 1px rgba(14, 29, 64, 0.05), 0 0 0 3px var(--orange); }
-.fq__nr { grid-column: 1; font-size: var(--sc-t-xs); font-weight: 650; letter-spacing: 0.04em; color: #c2410c; transition: color 400ms; }
-.fq__text { grid-column: 1; margin-top: 0.3rem; font-family: var(--sc-font-display); font-weight: 640; font-size: clamp(1.15rem, 1rem + 0.4vw, 1.4rem); letter-spacing: -0.02em; line-height: 1.15; text-wrap: balance; }
-.fq__plus { grid-column: 2; grid-row: 1 / span 2; position: relative; width: 2.6rem; height: 2.6rem; border-radius: 50%; background: var(--nacht); transition: transform 450ms var(--sc-ease-out), background-color 400ms; }
-.fq__plus::before, .fq__plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 0.95rem; height: 2px; margin: -1px 0 0 -0.475rem; border-radius: 2px; background: #fff; transition: background-color 400ms; }
-.fq__plus::after { rotate: 90deg; }
-@media (hover: hover) and (pointer: fine) {
-  .fq:hover { transform: translateY(-3px); box-shadow: inset 0 0 0 1px rgba(14, 29, 64, 0.05), 0 22px 40px -28px rgba(14, 29, 64, 0.45); }
-  .fq:hover .fq__plus { transform: rotate(90deg); }
-}
-.fq__antwort { align-self: start; padding: 1.5rem 1.5rem 0; color: rgba(255, 255, 255, 0.88); font-size: var(--sc-t-base); line-height: 1.55; }
-.fq__antwort p { margin: 0; max-width: 44ch; }
-.fq--breit .fq__antwort { font-size: var(--sc-t-lg); }
-/* zu: Antwort verborgen (auch für Vorleser), auf: Nachtblau, Animation weg, Antwort steigt auf */
-.js-fq .fq:not(.ist-offen) .fq__antwort { visibility: hidden; opacity: 0; transform: translateY(12px); }
-.js-fq .fq__antwort { transition: opacity 400ms var(--sc-ease-out) 120ms, transform 500ms var(--sc-ease-out) 120ms, visibility 0s; }
-.js-fq .fq:not(.ist-offen) .fq__antwort { transition: opacity 200ms, transform 200ms, visibility 0s linear 200ms; }
-.fq.ist-offen { color: #fff; }
-.fq.ist-offen::before { opacity: 1; }
-.fq.ist-offen .fq__bild { opacity: 0; transform: scale(0.94); }
-.fq.ist-offen .fq__nr { color: #ff8a5c; }
-.fq.ist-offen .fq__plus { transform: rotate(45deg); background: #fff; }
-.fq.ist-offen .fq__plus::before, .fq.ist-offen .fq__plus::after { background: var(--nacht); }
-html:not(.js-fq) .fq__antwort { grid-row: 3; padding: 0 1.4rem 1.4rem; color: var(--sc-ink-soft); }
-@media (max-width: 1000px) {
-  .fq-raster { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 640px) {
-  .fq-raster { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; gap: 0.75rem; }
-  .fq--breit { grid-column: auto; }
-  .fq--hoch { grid-row: auto; }
-  .fq__bild svg { max-height: 10.5rem; }
-  .fq--hoch .fq__bild svg { max-height: 15rem; }
-  .fq { border-radius: 22px; min-height: 15rem; }
-  .fq--breit .fq__antwort { font-size: var(--sc-t-base); }
-}
-
 /* Die kleinen Animationen. Gemeinsam: Schrift, Pillen. */
 .fq-klein { font-size: 17px; font-weight: 600; fill: #6b7385; text-anchor: middle; }
 .fq-gross { font-family: var(--sc-font-display); font-size: 30px; font-weight: 680; fill: var(--sc-ink); text-anchor: middle; letter-spacing: -0.02em; }
@@ -1814,7 +1754,7 @@ html:not(.js-fq) .fq__antwort { grid-row: 3; padding: 0 1.4rem 1.4rem; color: va
 @keyframes fq-weg { 0%, 80% { opacity: 0; } 84%, 96% { opacity: 1; } 100% { opacity: 0; } }
 
 /* außer Sicht ruhen, bei weniger Bewegung stehen sie in einem verständlichen Zustand */
-.ist-weg .fq *, .fq.ist-offen .fq__bild * { animation-play-state: paused !important; }
+.ist-weg .fq *, .fq:not(.ist-offen) .fq__bild * { animation-play-state: paused !important; }
 @media (prefers-reduced-motion: reduce) {
   .fq__bild *, .fq__bild *::before { animation: none !important; }
   .fq-boegen path, .fq-vibration, .fq-led-rot, .fq-pille--1, .fq-angekommen, .fq-prozent--rest, .fq-abends, .fq-uhrzeit--2 { opacity: 1; }
@@ -1824,7 +1764,7 @@ html:not(.js-fq) .fq__antwort { grid-row: 3; padding: 0 1.4rem 1.4rem; color: va
   .fq-abdeckung circle { opacity: 0.5; scale: 2.4; }
   .fq-akku { scale: 0.3 1; }
   .fq-spur { stroke-dashoffset: 0; }
-  .fq { transition: none; }
+  .fq__auf, .fq__plus, .fq__innen { transition: none !important; }
 }
 
 /* ======================================================================
@@ -1859,30 +1799,6 @@ html:not(.js-fq) .fq__antwort { grid-row: 3; padding: 0 1.4rem 1.4rem; color: va
   .app-akt--kurz .app-akt__fuer button { flex: none; scroll-snap-align: start; }
   .app-akt--kurz .iphone { order: 5; justify-self: center; --b: min(15rem, 56vw, calc((100svh - 25rem) * 0.462)); }
   .app-akt--kurz .app-akt__mehr { order: 6; justify-self: center; margin: 0.25rem 0 0; }
-}
-
-/* Gut zu wissen am Handy: schmale Zeilen mit Frage und Plus. Erst beim Aufklappen erscheinen Bild und Antwort,
-   die Kachel bleibt hell. */
-@media (max-width: 640px) {
-  .fq-raster { gap: 0.5rem; margin-top: 1.5rem; }
-  .fq { min-height: 0; border-radius: 18px; grid-template-rows: auto; }
-  .fq:hover { transform: none; }
-  .fq__kopf { grid-row: 1; }
-  .fq__frage { padding: 0.95rem 1rem 0.95rem 1.1rem; column-gap: 0.75rem; align-items: center; }
-  .fq__text { font-size: 1.05rem; margin-top: 0.15rem; }
-  .fq__plus { width: 2.2rem; height: 2.2rem; }
-  .fq__bild { grid-row: 2; display: none; padding: 0 1rem; }
-  .fq__antwort { grid-row: 3; }
-  .js-fq .fq:not(.ist-offen) .fq__antwort { display: none; }
-  .fq.ist-offen::before { opacity: 0; }
-  .fq.ist-offen { color: var(--sc-ink); }
-  .fq.ist-offen .fq__nr { color: #c2410c; }
-  .fq.ist-offen .fq__plus { background: var(--nacht); }
-  .fq.ist-offen .fq__plus::before, .fq.ist-offen .fq__plus::after { background: #fff; }
-  .fq.ist-offen .fq__bild { display: grid; opacity: 1; transform: none; }
-  .fq.ist-offen .fq__bild svg { max-height: 9.5rem; }
-  .fq--hoch.ist-offen .fq__bild svg { max-height: 13rem; }
-  .fq__antwort, .fq--breit .fq__antwort { padding: 0.75rem 1.1rem 1.15rem; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); }
 }
 
 /* „Probiere den Tag aus“ am Handy: Text und Fläche zusammen ein Bildschirm */
@@ -1979,4 +1895,125 @@ html:not(.js-fq) .fq__antwort { grid-row: 3; padding: 0 1.4rem 1.4rem; color: va
 @media (max-width: 360px) {
   /* schmale Handys: „Ein Mietchip“ bleibt in einer Zeile */
   .held__kopf h1 { font-size: 2.1rem; }
+}
+
+/* ======================================================= Feedback 103 (2026-11-14) == */
+/* Einstieg mit Bergvideo wie bei Skischul-Seiten: das Video füllt den ganzen ersten Bildschirm,
+   ein dunkler Verlauf links hält den Text lesbar, Text und Knöpfe weiß. Der 3D-Chip bleibt rechts.
+   Die Kopfleiste ist über dem Video von Anfang an eine weiße Pille. */
+.held__video { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background: #3c5079; }
+.held__film { display: block; width: 100%; height: 100%; object-fit: cover; will-change: transform; }
+.held__video::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(8, 18, 44, 0.7) 0%, rgba(8, 18, 44, 0.5) 38%, rgba(8, 18, 44, 0.12) 68%, rgba(8, 18, 44, 0.05) 100%),
+    linear-gradient(180deg, rgba(8, 18, 44, 0.32) 0%, rgba(8, 18, 44, 0) 26%, rgba(8, 18, 44, 0) 72%, rgba(8, 18, 44, 0.3) 100%);
+}
+.held--video .held__kopf h1 { color: #fff; text-shadow: 0 2px 24px rgba(8, 18, 44, 0.25); }
+.held--video .held__satz { color: rgba(255, 255, 255, 0.92); }
+.held--video .wechsel[data-farbe="0"] { --wt: #ffffff; }
+.held--video .wechsel[data-farbe="1"] { --wt: #ffad87; }
+.held--video .wechsel[data-farbe="2"] { --wt: #a9c8ff; }
+.held--video .wechsel[data-farbe="3"] { --wt: #ffd88f; }
+.held--video .wechsel[data-farbe="4"] { --wt: #9ee6c4; }
+.held--video .knopf-dunkel { background: #fff; color: var(--nacht); border-color: #fff; }
+.held--video .knopf-hell { background: rgba(255, 255, 255, 0.1); color: #fff; border-color: rgba(255, 255, 255, 0.7); }
+@media (hover: hover) and (pointer: fine) {
+  .held--video .knopf-dunkel:hover { background: #eef1f6; }
+  .held--video .knopf-hell:hover { background: rgba(255, 255, 255, 0.2); border-color: #fff; }
+}
+.held--video .held__knoepfe a { font-size: var(--sc-t-base); }   /* beide Knöpfe gleich groß */
+.held--video .held__wort { color: rgba(255, 255, 255, 0.24); text-shadow: none; }
+/* Kopfleiste über dem Video (Feedback 104): ganz oben durchsichtig mit weißer Schrift und weißem Knopf, ab dem
+   ersten Scrollen (.ist-unten aus kopfleiste.js) die gewohnte weiße Pille. Schrift und Knopf gleiten mit. */
+body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) .oben__pille { background-color: transparent; border-color: transparent; box-shadow: none; }
+body:has(.held--video) .oben__marke, body:has(.held--video) .oben__seiten > li > a, body:has(.held--video) .oben__wir, body:has(.held--video) .oben__menue-knopf {
+  transition: color 300ms ease-out, background-color 300ms ease-out, border-color 300ms ease-out, box-shadow 300ms ease-out;
+}
+body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) .oben__marke { color: #fff; text-shadow: 0 1px 12px rgba(8, 18, 44, 0.35); }
+body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) .oben__seiten > li > a { color: rgba(255, 255, 255, 0.94); text-shadow: 0 1px 12px rgba(8, 18, 44, 0.35); }
+body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) .oben__wir { background: #fff; color: var(--nacht); border-color: #fff; box-shadow: 0 4px 18px -6px rgba(8, 18, 44, 0.45); }
+body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) .oben__menue-knopf { background: rgba(255, 255, 255, 0.16); color: #fff; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35); }
+@media (hover: hover) and (pointer: fine) {
+  body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) .oben__seiten > li > a:hover { background: rgba(255, 255, 255, 0.16); color: #fff; }
+  body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) .oben__wir:hover { background: #eef1f6; }
+}
+body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) a:focus-visible, body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) button:focus-visible { outline-color: #fff; }
+@media (max-width: 860px) {
+  /* Handy: Text oben, Chip darunter; der Verlauf liegt oben hinter dem Text */
+  .held__video::after {
+    background: linear-gradient(180deg, rgba(8, 18, 44, 0.66) 0%, rgba(8, 18, 44, 0.5) 40%, rgba(8, 18, 44, 0.15) 70%, rgba(8, 18, 44, 0.3) 100%);
+  }
+}
+@media (prefers-reduced-motion: reduce) { .held__film { transform: none !important; } }
+
+/* Für deinen Skitag: Text direkt auf der Seite, großes Foto daneben, darunter drei Fotos mit kurzer Zeile.
+   Keine Kästen, nur runde Bildecken. */
+.am-berg { background: #fff; }
+.am-berg__oben { display: grid; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+.am-berg__text h2 { margin: 0; font-size: clamp(2.3rem, 1.2rem + 3.6vw, 4rem); letter-spacing: -0.045em; line-height: 1.02; color: var(--sc-ink); }
+.am-berg__text p { margin: 1.1rem 0 0; max-width: 34rem; font-size: var(--sc-t-lg); line-height: 1.55; color: var(--sc-ink-soft); }
+.am-berg__text h2 + p { margin-top: 1.5rem; }
+.am-berg__liste { list-style: none; margin: 1.6rem 0 0; padding: 0; display: grid; gap: 0.7rem; }
+.am-berg__liste li { display: flex; align-items: center; gap: 0.7rem; font-weight: 600; color: var(--sc-ink); }
+.am-berg__liste li::before {
+  content: ""; flex: none; width: 1.4rem; height: 1.4rem; border-radius: 50%;
+  background: var(--knopf) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.5 12.5l3.6 3.6 7.4-8' fill='none' stroke='%23fff' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 72% no-repeat;
+}
+/* Drei Fotos im Hochformat neben dem Text (Feedback 110), das mittlere etwas tiefer */
+.am-berg__drei { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(0.8rem, 1.6vw, 1.25rem); grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; }
+.am-berg__drei img { display: block; width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 18px; }
+.am-berg__drei b { display: block; margin-top: 0.8rem; font-family: var(--sc-font-display); font-size: 1.15rem; font-weight: 650; letter-spacing: -0.02em; color: var(--sc-ink); }
+.am-berg__drei span { display: block; margin-top: 0.15rem; font-size: var(--sc-t-sm); color: var(--sc-ink-soft); line-height: 1.45; }
+@media (min-width: 1101px) {
+  .am-berg__oben { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
+  .am-berg__drei li:nth-child(2) { margin-top: 2.5rem; }
+  .am-berg__drei { padding-bottom: 1rem; }
+}
+@media (max-width: 700px) {
+  .am-berg__drei { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 62%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 0.5rem; margin-left: calc(-1 * var(--sc-gutter)); margin-right: calc(-1 * var(--sc-gutter)); padding-left: var(--sc-gutter); padding-right: var(--sc-gutter); scroll-padding-inline: var(--sc-gutter); scrollbar-width: none; }
+  .am-berg__drei li { scroll-snap-align: start; }
+}
+
+/* ======================================================= Feedback 104 (2026-11-14) == */
+/* Gut zu wissen als schlichte Liste: Nummer, Frage und Plus in einer Zeile, feine Linien dazwischen, keine Kacheln.
+   Aufgeklappt gleitet die Antwort auf, daneben (am Handy darunter) erscheint die kleine Animation. */
+.fq-liste { margin-top: clamp(2rem, 4vw, 3rem); border-top: 1px solid var(--linie); }
+.fq { border-bottom: 1px solid var(--linie); color: var(--sc-ink); }
+.fq__kopf { margin: 0; }
+.fq__frage {
+  display: grid; grid-template-columns: 3.2rem minmax(0, 1fr) auto; align-items: center; column-gap: 0.5rem; width: 100%;
+  padding: clamp(1.1rem, 2.2vw, 1.6rem) 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer;
+}
+.fq__frage:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; border-radius: 6px; }
+.fq__nr { font-size: var(--sc-t-sm); font-weight: 650; letter-spacing: 0.04em; color: #c2410c; font-variant-numeric: tabular-nums; }
+.fq__text { font-family: var(--sc-font-display); font-weight: 640; font-size: clamp(1.15rem, 0.95rem + 0.8vw, 1.65rem); letter-spacing: -0.025em; line-height: 1.2; text-wrap: balance; transition: color 250ms ease; }
+.fq__plus { position: relative; width: 2.5rem; height: 2.5rem; border-radius: 50%; border: 1px solid var(--linie); transition: transform 450ms var(--sc-ease-out), background-color 300ms, border-color 300ms; }
+.fq__plus::before, .fq__plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 0.85rem; height: 2px; margin: -1px 0 0 -0.425rem; border-radius: 2px; background: var(--sc-ink); transition: background-color 300ms; }
+.fq__plus::after { rotate: 90deg; }
+@media (hover: hover) and (pointer: fine) {
+  .fq__frage:hover .fq__text { color: var(--knopf); }
+  .fq__frage:hover .fq__plus { border-color: var(--sc-ink); }
+}
+.fq.ist-offen .fq__plus { transform: rotate(45deg); background: var(--nacht); border-color: var(--nacht); }
+.fq.ist-offen .fq__plus::before, .fq.ist-offen .fq__plus::after { background: #fff; }
+
+/* Aufklappen: Höhe gleitet von 0 auf den Inhalt (Raster mit 0fr/1fr) */
+.fq__auf { display: grid; grid-template-rows: 1fr; }
+.fq__innen { min-height: 0; overflow: hidden; display: grid; gap: clamp(1rem, 3vw, 2.5rem); align-items: center; padding: 0 0 clamp(1.4rem, 3vw, 2.2rem) 3.7rem; }
+.js-fq .fq__auf { grid-template-rows: 0fr; transition: grid-template-rows 480ms var(--sc-ease-out); }
+.js-fq .fq.ist-offen .fq__auf { grid-template-rows: 1fr; }
+.js-fq .fq__innen { padding-bottom: 0; opacity: 0; transform: translateY(-6px); transition: opacity 300ms ease, transform 420ms var(--sc-ease-out), padding-bottom 480ms var(--sc-ease-out); }
+.js-fq .fq.ist-offen .fq__innen { padding-bottom: clamp(1.4rem, 3vw, 2.2rem); opacity: 1; transform: none; transition-delay: 0s, 60ms, 0s; }
+.js-fq .fq:not(.ist-offen) .fq__innen { visibility: hidden; transition: opacity 200ms ease, transform 300ms ease, padding-bottom 480ms var(--sc-ease-out), visibility 0s linear 480ms; }
+.fq__antwort p { margin: 0; max-width: 46ch; font-size: var(--sc-t-lg); line-height: 1.55; color: var(--sc-ink-soft); }
+.fq__bild { border-radius: 20px; background: #f4f6f9; padding: clamp(0.8rem, 2vw, 1.4rem); }
+.fq__bild svg { display: block; width: 100%; height: auto; max-height: 15rem; overflow: visible; font-family: var(--sc-font-text); }
+@media (min-width: 861px) { .fq__innen { grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr); } }
+@media (max-width: 860px) {
+  .fq__frage { grid-template-columns: 2.4rem minmax(0, 1fr) auto; }
+  .fq__innen { padding-left: 0; }
+  .fq__antwort p { font-size: var(--sc-t-base); }
+  .fq__bild svg { max-height: 12rem; }
+  .fq__plus { width: 2.2rem; height: 2.2rem; }
 }

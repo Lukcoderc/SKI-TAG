@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Das sind wir · SkiTag</title>
-<meta name="description" content="Maximilian, Lukas und Tobias: das Team hinter SkiTag, dem Mietchip für die Skijacke.">
+<meta name="description" content="Maximilian, Lukas und Tobias: drei HTLer, die mit SkiTag die Skiwelt sicherer machen wollen. Kontakt für Bergbahnen, Skischulen und Sponsoren.">
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><mask id='m' maskUnits='userSpaceOnUse' x='0' y='0' width='32' height='32'><rect width='32' height='32' fill='%23fff'/><path d='M5 23 L11.5 14 L15 18.5 L19.5 12 L27 23 Z' fill='%23000'/><circle cx='24.2' cy='12.2' r='3.6' fill='%23000'/></mask><rect x='1.5' y='6.5' width='29' height='19' rx='6.5' fill='%230b1226' mask='url(%23m)'/><circle cx='24.2' cy='12.2' r='2.2' fill='%23ff5a1c'/></svg>">
 <link rel="preload" href="assets/fonts/funnel-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -24,7 +24,8 @@
 /* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=114">
+<link rel="stylesheet" href="assets/seite.css?v=118">
+<link rel="stylesheet" href="assets/wir-seite.css?v=5">
 </head>
 <body>
 
@@ -94,13 +95,14 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
 <main id="oben">
 
-  <!-- Das sind wir: eigene Seite seit 2026-11-09 -->
+  <!-- Das sind wir (seit Feedback 106): wie Über-uns-Seiten junger Teams aufgebaut. Oben wer wir sind und warum,
+       dann ein großer Satz als Ziel, am Ende der Kontakt mit der Team-Adresse (die Rollen einzeln seit Feedback 108 nicht mehr). Bewusst ohne Kacheln: Text, Fotoplätze und feine Linien.
+       Öffentliches Repo: nur Vornamen, als Kontakt nur die Team-Adresse. -->
   <section id="wir" class="sc-section wir wir--seite" data-sc-act="flow" data-sc-drift="#ffffff" aria-labelledby="wir-titel">
     <div class="sc-wrap">
-      <header class="kopfzeile wir__kopf" data-sc-in data-sc-stagger="80">
-        <p class="augenbraue">Das sind wir</p>
+      <header class="wir__kopf" data-sc-in data-sc-stagger="80">
         <h1 id="wir-titel" class="sc-display riesig">Das sind wir.</h1>
-        <p class="sc-lede kopfzeile__text">Wir haben SkiTag zu dritt angefangen und bauen jedes Teil selbst: die Hardware, das Netz und die App.</p>
+        <p class="wir__lede">Wir sind drei HTL Schüler und wollen die Skiwelt ein großes Stück sicherer machen. Deshalb bauen wir SkiTag ein Chip der Hilfe holt, auch wenn dein Handy keinen Empfang hat.</p>
       </header>
       <figure class="wir__foto" data-sc-in>
         <div class="wir__platz" role="img" aria-label="Platzhalter für ein Foto von Maximilian, Lukas und Tobias">
@@ -112,16 +114,41 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </div>
   </section>
 
-  <!-- Kontakt (Platzhalter seit Feedback 57): die Kontaktseite kommt hierher; Ziel des Links „Kontakt aufnehmen“ auf app.html.
-       Keine Telefonnummern oder Adressen ins öffentliche Repo, bis sie freigegeben sind. -->
-  <section id="kontakt" class="sc-section kontakt-platz" aria-labelledby="kontakt-titel">
+  <!-- Unser Ziel: ein großer Satz, darunter zwei kurze Absätze -->
+  <section class="sc-section wir-ziel" data-sc-act="flow" data-sc-drift="#ffffff" aria-labelledby="ziel-titel">
     <div class="sc-wrap">
-      <header class="kopfzeile">
-        <p class="augenbraue">Kontakt</p>
-        <h2 id="kontakt-titel" class="sc-display app-titel">Schreib uns.</h2>
-        <p class="sc-lede kopfzeile__text">Für Bergbahnen, Skischulen und alle, die SkiTag ausprobieren möchten.</p>
-      </header>
-      <div class="platz-flaeche kontakt-platz__flaeche"><span>Kontaktdaten folgen</span></div>
+      <h2 id="ziel-titel" class="nur-vorlesen">Unser Ziel</h2>
+      <p class="wir-ziel__satz" data-sc-in>Ob nach einem Sturz Hilfe kommt, soll nicht davon abhängen, ob <span>dein Handy Netz hat.</span></p>
+      <div class="wir-ziel__text" data-sc-in data-sc-stagger="80">
+        <p>Am Berg ist das Handy oft im Rucksack, die Finger sind kalt und das Netz ist schwach. Genau dann soll ein einziger Knopf reichen.</p>
+        <p>Wir bauen alles selbst: den Chip, das Funknetz an den Liftstationen und die App. So passt jedes Teil zum anderen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kontakt (seit Feedback 107): eine Spalte in der Mitte. Überschrift, ein Satz für wen, die Adresse groß zum
+       Anklicken, darunter „E-Mail schreiben“ und „Adresse kopieren“. Ziel von „Kontakt aufnehmen“ auf app.html. -->
+  <section id="kontakt" class="sc-section wir-kontakt" aria-labelledby="kontakt-titel">
+    <div class="sc-wrap">
+      <div class="wk" data-sc-in data-sc-stagger="80">
+        <span class="wk__zeichen" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="3"/><path d="M4.5 7.5l7.5 5.5 7.5-5.5"/></svg></span>
+        <h2 id="kontakt-titel" class="wir-h2">Schreib uns.</h2>
+        <p class="wk__lede">Ob Bergbahn, Skischule, Sponsor oder einfach neugierig: Wir freuen uns über jede Nachricht.</p>
+        <!-- Klick auf die Adresse kopiert sie (wir-seite.js); ohne JavaScript bleibt es ein normaler E-Mail-Link -->
+        <a class="wk__mail" href="mailto:skitag.team@gmail.com" data-mail="skitag.team@gmail.com">skitag.team@gmail.com</a>
+        <p class="wk__tipp" aria-live="polite"><span class="wk__tipp-text">Klick auf die Adresse kopiert sie.</span></p>
+        <!-- „E-Mail schreiben“: Auswahl, womit (Feedback 109). Ein reiner mailto-Link tut nichts, wenn kein Mail-Programm
+             eingerichtet ist. details/summary funktioniert auch ohne JavaScript. -->
+        <details class="wk__schreiben">
+          <summary class="knopf-dunkel knopf-gross">E-Mail schreiben <svg class="wk__auf" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+          <div class="wk__wahl">
+            <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=skitag.team%40gmail.com" target="_blank" rel="noopener">Gmail <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5h6.5V10M12.5 3.5 4 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="https://outlook.live.com/mail/0/deeplink/compose?to=skitag.team%40gmail.com" target="_blank" rel="noopener">Outlook <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5h6.5V10M12.5 3.5 4 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="mailto:skitag.team@gmail.com">Mail-App am Gerät</a>
+          </div>
+        </details>
+        <p class="wk__fuss">Wir antworten persönlich.</p>
+      </div>
     </div>
   </section>
 
@@ -175,7 +202,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </nav>
     <div class="fuss__nachweis">
       <b>Nachweise</b>
-      <span>Bergvideos und Fotos: Mixkit</span>
+      <span>Bergvideo: Pexels. Fotos: Unsplash</span>
       <span>Schrift der App: Bricolage Grotesque (OFL)</span>
     </div>
   </div>
@@ -193,8 +220,9 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
 <script src="scrollcraft.js?v=16"></script>
 <script>ScrollCraft.mount(document.body);</script>
-<script src="assets/seite.js?v=72" defer></script>
+<script src="assets/seite.js?v=75" defer></script>
 <script src="assets/sprung-anfang.js?v=20" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
+<script src="assets/wir-seite.js?v=3" defer></script>
 </body>
 </html>

@@ -255,3 +255,30 @@ Since 2026-11-08 a placeholder until the real logo arrives, chosen by Lukas (dra
 ## Page change (since 2026-11-12, Feedback 94)
 
 Switching between pages takes a little over 0.4 s: the old content blurs (8px) and lifts 10px while fading out, the new content rises 16px into focus. The header pill keeps its place (`view-transition-name: kopfleiste`) and only runs its own sub-chapter animation. No colour wipe, no curtain, nothing longer than half a second. Off under reduced motion.
+
+## Start page since Feedback 103 (2026-11-14)
+
+- **Hero:** a full-screen background video (`assets/media/held.mp4`, portrait `held-m.mp4` on phones, posters as webp) instead of the drawn mountain layers. A navy gradient from the left (from the top on phones) keeps the white title, sentence and buttons readable; the primary button is white with navy text, the secondary a white outline. The swapping word uses light tints. The 3D chip keeps its anchor on the right, "SKI TAG" behind it at 24 % white. The header is transparent at the very top (white logo and links, white "Das sind wir" button) and turns into the usual white pill once the page scrolls (Feedback 104). Reduced motion and the saving mode show only the poster; the video pauses off screen.
+- **Für deinen Skitag (`#am-berg`):** real photos, no cards. Plain heading, two paragraphs and a check list on the left, and since Feedback 110 three portrait photos (2:3, 18px corners, the middle one 2.5rem lower) beside the text on the right, each with a bold label and one line; below the text under 1100px, a swipe row on phones.
+- Direction (Lukas): no "AI look". Prefer real images and plain text sections over boxes, pills and nested cards.
+- **Gut zu wissen as a list (Feedback 104):** no tiles. Rows separated by hairlines (`--linie`): number, question, round plus. A click slides the row open (grid rows 0fr to 1fr): answer on the left, the small animation on a light grey panel on the right (below on phones). Animations run only while a row is open.
+
+## Das sind wir since Feedback 106 (2026-11-14)
+
+- `wir.html` with its own `assets/wir-seite.css`: heading and lede, group photo placeholder, a large mission sentence (last words in `--orange-2`), ("Wir drei." with the single roles was removed in Feedback 108) and "Schreib uns." (since Feedback 107) as one centred column: a small orange envelope badge, heading, one sentence naming Bergbahn, Skischule and Sponsor, the team address as a large link with an orange underline that thickens on hover, a click on the address copies it (hint line below turns green), and "E-Mail schreiben" opens a small chooser (Gmail, Outlook, Mail-App) since Feedback 109 and a small "Wir antworten persönlich." No tiles.
+
+## Chip page Innenleben since Feedback 111 (2026-11-14)
+
+- Model: Maxi's current "Fertiger Chip" (fertig4, about 66 × 46 × 18 mm) from `assets/media/chip-teile.bin`; small parts rebuilt at his sizes and positions in `chip-seite.js` (modules with metal shields and printed names, ceramic antennas, tactile switch, LED, copper spiral coil). Canvas textures for the PCB (traces, vias, pads, silkscreen), module lids and battery label. Physical materials (clear coat on shells, sheen on the orange bumper), PCF soft shadows from the key light.
+- Exploded layers along the thickness: screws -72, back shell -58, coil -40, ferrite -28, battery -16, PCB 0, bumper 30, front shell 45, ring 58, button 64 (mm when fully open).
+- Labels: name plus one short line in 62 % white; on phones only the name. A small concept note under the lede.
+- Labels stand still when the stack is turned (Feedback 112/113): the column sits right of the circle the stack sweeps while turning, heights come from points on the turning axis, the camera distance follows the diagonal so the stack keeps its size. Only the lines move; each starts at the currently rightmost point of its part's outline.
+
+## Chip model since Feedback 114 (2026-11-14)
+
+- Every 3D chip on the site uses Maxi's "fertig4" (about 66 × 46 × 18 mm, 25 mm button): `chip-3d.bin` (outer parts, `chip-3d.js`: hero, Was ist SKITAG?, Probiere den Tag aus) and `chip-teile.bin` (all parts, `chip-seite.js`: Innenleben). The still `chip-3d.webp` is rendered from the same model. Radio arcs start at the LoRa antenna (x 59.5, y 30.5).
+- Fill ring (Feedback 115): its radius is the smaller of button ring + 2.4 mm and the LED distance minus LED radius, half width and 1.2 mm gap, so it never touches the LED on the 25 mm button.
+
+## Performance since Feedback 116 (2026-11-14)
+
+- `html.sparsam` (and phones) mean: no clear coat or sheen on 3D materials, no idle floating or rocking of the 3D chip, no soft shadows in Innenleben, pixel ratio 1 (phones 1.25, desktop at most 1.75), the hero video does not move with scrolling and uses the 1280 px file. The hero parallax loop sleeps when nothing moves. Photos are 640 px wide.

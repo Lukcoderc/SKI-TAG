@@ -84,31 +84,48 @@
      Wert merklich ändert. Läuft nur, solange der Einstieg zu sehen ist. */
   var held = document.querySelector(".held");
   if (held && !ohneBewegung) {
-    var hx = 0, hy = 0, hxS = 0, hyS = 0, heldDa = false, heldLaeuft = false;
+    var hx = 0, hy = 0, hxS = 0, hyS = 0, syAlt = -1, heldDa = false, heldLaeuft = false;
+    // Feedback 116: die Schleife läuft nur, solange sich etwas bewegt (Zeiger, Scrollen, Nachgleiten), sonst ruht sie
+    var anstossen = function () { if (heldDa && !heldLaeuft) { heldLaeuft = true; requestAnimationFrame(heldTakt); } };
     window.addEventListener("pointermove", function (e) {
       if (e.pointerType === "touch") return;
       hx = e.clientX / window.innerWidth - 0.5; hy = e.clientY / window.innerHeight - 0.5;
+      anstossen();
     }, { passive: true });
-    // [Element, Weg je Zeiger x, je Zeiger y, je Scrollen] in Pixeln
-    var heldEbenen = [[".held__wort", 8, 6, -24], [".held__sonne", -14, -10, 50], [".held__lage--fern", -10, -5, 90], [".held__lage--mitte", -20, -9, 45], [".held__lage--nah", -34, -12, 0]]
+    window.addEventListener("scroll", function () { anstossen(); }, { passive: true });
+    // [Element, Weg je Zeiger x, je Zeiger y, je Scrollen] in Pixeln. Im Sparmodus bleibt das Video stehen (spart
+    // auf schwachen Grafikkarten das Verschieben einer großen Videofläche in jedem Bild).
+    var heldEbenen = [[".held__wort", 8, 6, -24], [".held__film", 0, 0, 110], [".held__sonne", -14, -10, 50], [".held__lage--fern", -10, -5, 90], [".held__lage--mitte", -20, -9, 45], [".held__lage--nah", -34, -12, 0]]
       .map(function (e) { return { el: held.querySelector(e[0]), x: e[1], y: e[2], s: e[3], alt: "" }; })
       .filter(function (e) { return e.el; });
     var heldHoehe = held.offsetHeight;
-    window.addEventListener("resize", function () { heldHoehe = held.offsetHeight; });
+    window.addEventListener("resize", function () { heldHoehe = held.offsetHeight; anstossen(); });
     var heldTakt = function () {
       if (!heldDa) { heldLaeuft = false; return; }
       hxS += (hx - hxS) * 0.06; hyS += (hy - hyS) * 0.06;
-      var sy = klemme(window.scrollY / Math.max(1, heldHoehe));
+      var sy = klemme(window.scrollY / Math.max(1, heldHoehe)), spar = sparsam();
       heldEbenen.forEach(function (e) {
+        if (spar && e.s === 110) { if (e.alt) { e.el.style.transform = ""; e.alt = ""; } return; }
         var t = "translate3d(" + (hxS * e.x).toFixed(1) + "px," + (hyS * e.y + sy * e.s).toFixed(1) + "px,0)";
         if (t !== e.alt) { e.el.style.transform = t; e.alt = t; }
       });
+      var ruht = Math.abs(hx - hxS) < 0.0008 && Math.abs(hy - hyS) < 0.0008 && sy === syAlt;
+      syAlt = sy;
+      if (ruht) { heldLaeuft = false; return; }
       requestAnimationFrame(heldTakt);
     };
     new IntersectionObserver(function (e) {
       heldDa = e[0].isIntersecting;
-      if (heldDa && !heldLaeuft) { heldLaeuft = true; requestAnimationFrame(heldTakt); }
+      anstossen();
     }).observe(held);
+  }
+  /* Bergvideo im Einstieg (Feedback 103): läuft nur, solange der Einstieg zu sehen ist */
+  var heldFilm = document.getElementById("held-film");
+  if (heldFilm && heldFilm.autoplay && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (e) {
+      if (e[0].isIntersecting) { var p = heldFilm.play(); if (p && p.catch) p.catch(function () {}); }
+      else heldFilm.pause();
+    }).observe(heldFilm);
   }
 
   /* Gemeinsamer Zustand für den Chip in 3D (chip-3d.js liest ihn in jedem Bild) */
@@ -388,9 +405,9 @@
     }, { passive: true });
   }
 
-  /* ------------------------------------------ Gut zu wissen (Bento) -- */
-  /* Seit Feedback 75: jede Frage ist eine Kachel. Ein Klick irgendwo auf die Kachel (der Knopf ist über die ganze
-     Kachel gezogen) zeigt die Antwort, noch einer schließt sie; Escape schließt alle. Die Klasse js-fq setzt
+  /* ------------------------------------------ Gut zu wissen (Liste) -- */
+  /* Seit Feedback 104 eine schlichte Liste: ein Klick auf die Frage klappt Antwort und Animation auf, noch einer
+     schließt sie; Escape schließt alle. Die Klasse js-fq setzt
      schon der Kopf der Seite, damit die Antworten nicht kurz aufblitzen. */
   var fqKacheln = document.querySelectorAll(".fq");
   if (fqKacheln.length) {

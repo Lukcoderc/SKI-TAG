@@ -1,0 +1,4 @@
+{
+  "prompt": "Herkunft: Maxis Modell „Fertiger Chip“ in der Fassung fertig4 (Commit vom 10.11.2026: Knopf 25 mm, ca. 66 × 46 × 18 mm), https://ma-xi.github.io/SKI-TAG-Hardware/3d.html, Dateien modelle/fertig4_*.json. Nur die Außenteile rueckschale, schrauben, vorderschale, rand, ring, kappe, ledstab für chip-3d.js. Positionen Int16 in 0,0025-mm-Schritten, Normalen weich (Knick ab 38°). Das Standbild chip-3d.webp ist aus diesem Modell gerendert.",
+  "createdAt": "2026-11-14"
+}

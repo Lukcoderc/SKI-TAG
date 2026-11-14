@@ -34,7 +34,7 @@ Must not be claimed: that SkiTag works, is tested or available today (nothing ha
 
 ## Brand Commitments
 
-Name: SkiTag (the pitch writes "SKI-Tag"; the book and code use SkiTag; the app writes "Ski Tag"). The chip is shown in signal orange with a graphite sleeve, the colour decided in the hardware workshop book; the app's night blue (`#0b1226`) is the website's dark colour. App screens on the website are rebuilt after Tobias' app design and keep the app's "Sie"; the website itself speaks "du". The exact company name, seat, register number and contact address are not known yet and must stay visible placeholders. No logo exists. Full names of the team are undecided for the public site; the `SKI-TAG` repo is public and allows first names only.
+Name: SkiTag (the pitch writes "SKI-Tag"; the book and code use SkiTag; the app writes "Ski Tag"). The chip is shown in signal orange with a graphite sleeve, the colour decided in the hardware workshop book; the app's night blue (`#0b1226`) is the website's dark colour. App screens on the website are rebuilt after Tobias' app design and keep the app's "Sie"; the website itself speaks "du". The exact company name, seat and register number are not known yet and must stay visible placeholders. Contact (Lukas, 2026-11-14): the team address skitag.team@gmail.com, on wir.html#kontakt; no phone numbers or postal addresses. No logo exists. Full names of the team are undecided for the public site; the `SKI-TAG` repo is public and allows first names only.
 
 ## Evidence on Hand
 

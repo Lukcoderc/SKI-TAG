@@ -1,0 +1,70 @@
+/* SkiTag · Das sind wir (Feedback 106), nur auf wir.html.
+   Aufbau wie die Über-uns-Seiten junger Teams: wer wir sind, ein großer Satz als Ziel,
+   Kontakt mit einer Adresse und Wegen nach Anliegen. Keine Kacheln: Text, Fotoplätze und feine Linien. */
+
+/* Kopf */
+.wir__kopf { max-width: 56rem; }
+.wir__kopf h1 { margin: 0; }
+.wir__lede { margin: 1.5rem 0 0; max-width: 40rem; font-size: clamp(1.15rem, 1rem + 0.6vw, 1.45rem); line-height: 1.5; color: var(--sc-ink-soft); text-wrap: pretty; }
+.wir--seite { min-height: 0; padding-bottom: clamp(3rem, 7vw, 6rem); }
+
+/* Ziel: ein großer Satz, das Ende in Orange, darunter zwei Absätze nebeneinander */
+.wir-ziel { background: #fff; padding-block: clamp(2rem, 6vw, 5rem); border-top: 1px solid var(--linie); }
+.wir-ziel__satz {
+  margin: 0; max-width: 22ch; font-family: var(--sc-font-display); font-weight: 640;
+  font-size: clamp(2rem, 1rem + 3.6vw, 4.2rem); line-height: 1.04; letter-spacing: -0.045em; color: var(--sc-ink); text-wrap: balance;
+}
+.wir-ziel__satz span { color: var(--orange-2); }
+.wir-ziel__text { display: grid; gap: 1rem clamp(1.5rem, 4vw, 4rem); margin-top: clamp(1.8rem, 4vw, 3rem); max-width: 60rem; }
+.wir-ziel__text p { margin: 0; font-size: var(--sc-t-lg); line-height: 1.55; color: var(--sc-ink-soft); }
+@media (min-width: 761px) { .wir-ziel__text { grid-template-columns: 1fr 1fr; } }
+
+/* Überschriften der Abschnitte */
+.wir-h2 { margin: 0; font-family: var(--sc-font-display); font-size: clamp(2.4rem, 1.4rem + 3.6vw, 4.6rem); font-weight: 640; line-height: 0.98; letter-spacing: -0.045em; color: var(--sc-ink); }
+
+/* Kontakt (Feedback 107): eine ruhige Spalte in der Mitte. Kleines Briefzeichen, Überschrift, ein Satz,
+   die Adresse groß mit oranger Linie, die beim Drüberfahren dicker wird, darunter die Knöpfe. */
+.wir-kontakt { background: #fff; padding-block: clamp(3.5rem, 8vw, 7rem) var(--sc-section); border-top: 1px solid var(--linie); }
+section#kontakt { scroll-margin-top: 4.5rem; }
+.wk { display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 46rem; margin: 0 auto; }
+.wk__zeichen { display: grid; place-items: center; width: 3.5rem; height: 3.5rem; margin-bottom: 1.4rem; border-radius: 50%; background: #fff1ea; color: var(--orange-2); }
+.wk__zeichen svg { width: 1.6rem; height: 1.6rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.wk__lede { margin: 1.2rem 0 0; max-width: 36rem; font-size: var(--sc-t-lg); line-height: 1.5; color: var(--sc-ink-soft); text-wrap: pretty; }
+.wk__mail {
+  display: inline-block; margin-top: clamp(2rem, 4vw, 2.8rem); max-width: 100%; overflow-wrap: anywhere;
+  font-family: var(--sc-font-display); font-weight: 640; font-size: clamp(1.55rem, 0.8rem + 3.4vw, 3.4rem); letter-spacing: -0.04em; line-height: 1.1;
+  color: var(--sc-ink); text-decoration: none;
+  background: linear-gradient(var(--orange), var(--orange)) 50% 100% / 100% 3px no-repeat; padding-bottom: 0.25rem;
+  transition: background-size 300ms var(--sc-ease-out), color 200ms ease;
+}
+@media (hover: hover) and (pointer: fine) { .wk__mail:hover { color: var(--knopf); background-size: 100% 6px; } }
+.wk__mail:focus-visible { outline: 2px solid var(--orange); outline-offset: 6px; border-radius: 4px; }
+.wk__mail { cursor: copy; }
+.wk__tipp { margin: 0.8rem 0 0; min-height: 1.5em; font-size: var(--sc-t-sm); color: #7c8494; }
+.wk__tipp.ist-kopiert { color: #1c8f63; font-weight: 600; }
+.wk__tipp.ist-kopiert .wk__tipp-text::before { content: "✓ "; }
+
+/* „E-Mail schreiben“ öffnet eine kleine Auswahl darunter (Gmail, Outlook, Mail-App) */
+.wk__schreiben { position: relative; margin-top: clamp(1.4rem, 3vw, 2rem); }
+.wk__schreiben summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; }
+.wk__schreiben summary::-webkit-details-marker { display: none; }
+.wk__auf { width: 1rem; height: 1rem; transition: transform 250ms var(--sc-ease-out); }
+.wk__schreiben[open] .wk__auf { transform: rotate(180deg); }
+.wk__wahl {
+  position: absolute; left: 50%; top: calc(100% + 0.5rem); z-index: 5; translate: -50% 0; min-width: 15rem; padding: 0.4rem;
+  display: grid; text-align: left; background: #fff; border: 1px solid var(--linie); border-radius: 16px;
+  box-shadow: 0 2px 4px rgba(14, 29, 64, 0.05), 0 18px 40px -14px rgba(14, 29, 64, 0.28);
+  animation: wk-wahl 220ms var(--sc-ease-out);
+}
+@keyframes wk-wahl { from { opacity: 0; transform: translateY(-4px); } }
+.wk__wahl a {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.75rem 0.9rem; border-radius: 10px;
+  font-weight: 600; color: var(--sc-ink); text-decoration: none;
+}
+.wk__wahl a + a { border-top: 1px solid #eef0f3; }
+.wk__wahl svg { width: 0.9rem; height: 0.9rem; color: #9aa1ae; }
+@media (hover: hover) and (pointer: fine) { .wk__wahl a:hover { background: #f4f6f9; color: var(--knopf); } }
+.wk__wahl a:focus-visible { outline: 2px solid var(--orange); outline-offset: -2px; }
+@media (prefers-reduced-motion: reduce) { .wk__wahl { animation: none; } .wk__auf { transition: none; } }
+.wk__fuss { margin: 1.4rem 0 0; font-size: var(--sc-t-sm); color: #7c8494; }
+@media (prefers-reduced-motion: reduce) { .wk__mail { transition: none; } }

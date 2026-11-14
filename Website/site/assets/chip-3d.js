@@ -1,7 +1,7 @@
 /* SkiTag · der fertige Chip in 3D (Feedback 63 und 64), nur auf der Startseite.
-   Modell: „Fertiger Chip“ aus dem Hardware-Repo (ma-xi.github.io/SKI-TAG-Hardware/3d.html), nur die sichtbaren
-   Außenteile; die Teile innen sind laut Hardware noch nicht genau und fehlen darum. assets/media/chip-3d.bin
-   entsteht aus den STL-Dateien (Positionen Int16 in 0,002 mm, Normalen Int8, indiziert), Reihenfolge in TEILE.
+   Modell: „Fertiger Chip“ aus dem Hardware-Repo (ma-xi.github.io/SKI-TAG-Hardware/3d.html), seit Feedback 114 die
+   Fassung „fertig4“ (ca. 66 × 46 × 18 mm, Knopf 25 mm), nur die sichtbaren Außenteile. assets/media/chip-3d.bin
+   entsteht aus den STL-Dateien (Positionen Int16 in 0,0025 mm, Normalen Int8, indiziert), Reihenfolge in TEILE.
 
    Ablauf: eine feste, durchsichtige Leinwand über der Seite (pointer-events: none). Der Chip liegt in einem
    Anker (.chip-anker) und fliegt beim Scrollen zum nächsten:
@@ -52,7 +52,7 @@ async function start() {
   let renderer;
   try { renderer = new THREE.WebGLRenderer({ canvas: leinwand, antialias: true, alpha: true, powerPreference: "high-performance" }); }
   catch (f) { aufgeben(); return; }
-  const sparsam = wurzel.classList.contains("sparsam");
+  let sparsam = wurzel.classList.contains("sparsam");   // Sparmodus: aus dem Kopf der Seite oder später bei Ruckeln (Ereignis unten)
   const handy = matchMedia("(pointer: coarse)").matches || innerWidth < 700;
   // Handy und Tablet (Feedback 88): Pixeldichte höchstens 1,25 und kein Schnee in 3D, damit es flüssig bleibt
   // Pixeldichte: höchstens 1,75 (bei 2 oder 3 sieht man keinen Unterschied, zahlt aber doppelt). Brauchen die
@@ -77,11 +77,12 @@ async function start() {
 
   /* ---------------------------------------------------------- Modell -- */
   const TEILE = [
-    ["rueckschale", 5028, 16158, "schwarz"], ["schrauben", 2689, 9474, "metall"], ["vorderschale", 4043, 13542, "schwarz"],
-    ["rand", 2304, 9252, "orange"], ["ring", 1536, 9216, "orange"], ["kappe", 1440, 6420, "knopf"], ["ledstab", 248, 840, "led"],
+    ["rueckschale", 5042, 17046, "schwarz"], ["schrauben", 2530, 9468, "metall"], ["vorderschale", 4146, 14070, "schwarz"],
+    ["rand", 2297, 9438, "orange"], ["ring", 1536, 9216, "orange"], ["kappe", 2592, 12948, "knopf"], ["ledstab", 136, 492, "led"],
   ];
-  const SCHRITT = 0.002, GROESSE = [54, 37.5, 17.8];
-  const daten = await fetch("assets/media/chip-3d.bin").then((r) => { if (!r.ok) throw new Error("Modell fehlt"); return r.arrayBuffer(); });
+  // Seit Feedback 114: Maxis „fertig4“ (ca. 66 × 46 × 18 mm, Knopf 25 mm). Über 65 mm passt nicht mehr in Int16 zu 0,002 mm.
+  const SCHRITT = 0.0025, GROESSE = [66, 46, 18];
+  const daten = await fetch("assets/media/chip-3d.bin?v=2").then((r) => { if (!r.ok) throw new Error("Modell fehlt"); return r.arrayBuffer(); });
 
   // feine Struktur wie gestrahlter Kunststoff
   const struktur = (() => {
@@ -103,7 +104,9 @@ async function start() {
   };
   // Handy (Feedback 89): ohne Klarlack und Samtglanz. three.js lässt die Shader-Zweige dann ganz weg; der Chip sieht
   // fast gleich aus, kostet aber je Bildpunkt deutlich weniger.
-  if (handy) for (const m of [MAT.schwarz, MAT.orange, MAT.knopf]) { m.clearcoat = 0; m.sheen = 0; }
+  // Feedback 116: im Sparmodus genauso (schwächere Rechner und Tablets)
+  const leichter = () => { for (const m of [MAT.schwarz, MAT.orange, MAT.knopf]) { m.clearcoat = 0; m.sheen = 0; m.needsUpdate = true; } };
+  if (handy || sparsam) leichter();
 
   const chip = new THREE.Group();          // Lage und Größe auf der Seite
   const lage = new THREE.Group();          // Drehung (Pose, Flug, Zittern)
@@ -151,12 +154,18 @@ async function start() {
   // die blasse Spur, die voll gedeckt auch den Tastaturfokus zeigt. Winkel 0 zeigt im hochkant gedrehten
   // Modell nach oben, der Bogen läuft im Uhrzeigersinn. Die Farben sind sRGB-Werte, wie sie auf dem Bildschirm stehen.
   const RING_AUSSEN = knopfR + 6.5;   // halbe Kantenlänge der Fläche, lässt Platz für den Schein
+  // Seit Feedback 115: beim großen Knopf von fertig4 sitzt die LED nur 19 mm neben der Knopfmitte. Der Füllring
+  // bleibt so weit innen, dass Ring und Spitze die LED nicht berühren (Abstand LED-Rand bis Ringkante 1,2 mm).
+  const lbF = teile.ledstab.geometry.boundingBox;
+  const ledAbstand = Math.hypot((lbF.min.x + lbF.max.x) / 2 - knopfMitte.x, (lbF.min.y + lbF.max.y) / 2 - knopfMitte.y);
+  const ledR = Math.max(lbF.max.x - lbF.min.x, lbF.max.y - lbF.min.y) / 2;
+  const RING_HALB = 0.5, RING_MITTE = Math.min(knopfR + 2.4, ledAbstand - ledR - RING_HALB - 1.2);
   const flaecheVS = "varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
   const ringMat = new THREE.ShaderMaterial({
     transparent: true, depthTest: false, depthWrite: false, side: THREE.DoubleSide,
     uniforms: {
       uAnteil: { value: 0 }, uSpur: { value: 0 }, uFokus: { value: 0 }, uDeckung: { value: 1 }, uStil: { value: 0 },
-      uMitte: { value: (knopfR + 2.4) / RING_AUSSEN }, uHalb: { value: 0.62 / RING_AUSSEN },
+      uMitte: { value: RING_MITTE / RING_AUSSEN }, uHalb: { value: RING_HALB / RING_AUSSEN },
       uA: { value: new THREE.Vector3(1, 0.62, 0.34) }, uB: { value: new THREE.Vector3(1, 0.35, 0.11) },
     },
     vertexShader: flaecheVS,
@@ -242,10 +251,10 @@ async function start() {
   });
   let letzteWelle = 0;
 
-  // Funkwellen aus dem Sender (Feedback 77). Die LoRa-Antenne sitzt im Hardware-Modell bei x 46, y 27 (oben links
-  // über der LED). Von dort laufen drei feine Bögen nach oben weg, gerechnet im Shader wie der Füllring.
+  // Funkwellen aus dem Sender (Feedback 77). Die LoRa-Antenne sitzt in Maxis „fertig4“ bei x 58,5 bis 60,5,
+  // y 27 bis 34 (oben, neben der LED). Von dort laufen drei feine Bögen nach oben weg, gerechnet im Shader wie der Füllring.
   // In der Fläche zeigt uv.x im Modell nach x (am Bildschirm nach oben), uv.y nach y (am Bildschirm nach links).
-  const SENDER = new THREE.Vector3(46, 27.1, GROESSE[2] + 0.4);
+  const SENDER = new THREE.Vector3(59.5, 30.5, GROESSE[2] + 0.4);
   const FUNK_R = 44;   // Reichweite der Bögen in Millimetern am Modell
   const funkMat = new THREE.ShaderMaterial({
     transparent: true, depthTest: false, depthWrite: false, side: THREE.DoubleSide,
@@ -419,6 +428,13 @@ async function start() {
      Steht der Chip still, etwa nah am Knopf, rechnet die Grafikkarte nichts. Sind Bilder im Schnitt zu langsam
      (unter etwa 45 je Sekunde, obwohl gezeichnet wird), sinkt die Pixeldichte eine Stufe. */
   let letzteSignatur = "", messStart = 0, messBilder = 0, messLang = 0, letztesBild = 0;
+  addEventListener("skitag-sparsam", () => {
+    if (sparsam) return;
+    sparsam = true; leichter();
+    dprStufe = DPR_STUFEN.length - 1; renderer.setPixelRatio(DPR_STUFEN[dprStufe]);
+    for (const l of schnee) l.p.visible = false;
+    bedarf = true;
+  });
   const signatur = () => {
     const e = chip.matrixWorld.elements, q = lage.quaternion;
     let s = e[0].toFixed(3) + e[5].toFixed(3) + e[12].toFixed(1) + e[13].toFixed(1) + e[14].toFixed(1) + q.x.toFixed(4) + q.y.toFixed(4) + q.z.toFixed(4)
@@ -577,7 +593,7 @@ async function start() {
     const ruhig = 1 - klemme(t1 * 3);
     zxS = mix(zxS, zx, 0.06); zyS = mix(zyS, zy, 0.06);
     // am Handy (Feedback 89) kein Dauer-Schweben: sonst zeichnet die Grafikkarte in jedem Bild, auch ohne Scrollen
-    const schweben = ohneBewegung || handy ? 0 : Math.sin(t * 1.3) * 0.012 * h * (0.35 + 0.65 * ruhig) * (1 - nah);
+    const schweben = ohneBewegung || handy || sparsam ? 0 : Math.sin(t * 1.3) * 0.012 * h * (0.35 + 0.65 * ruhig) * (1 - nah);
 
     /* ---- zusammensetzen ---- */
     const skala = (h / GROESSE[0]) * (0.86 + 0.14 * ein);
@@ -588,7 +604,7 @@ async function start() {
     if (kipp) { dreh.setFromAxisAngle(achseX, kipp); lage.quaternion.premultiply(dreh); }
     if (!ohneBewegung) {
       const zeiger = ruhig + nah * 0.3;
-      const wiegen = handy ? 0 : 1;
+      const wiegen = handy || sparsam ? 0 : 1;
       dreh.setFromEuler(euler.set(zyS * 0.35 * zeiger + Math.sin(t * 0.9) * 0.03 * (1 - nah) * wiegen, zxS * 0.6 * zeiger + Math.sin(t * 0.7) * 0.14 * ruhig * wiegen, 0));
       lage.quaternion.multiply(dreh);
       if (effekt.zittern) { dreh.setFromAxisAngle(achseZ, Math.sin(t * 58) * 0.01); lage.quaternion.multiply(dreh); chip.position.x += Math.sin(t * 71) * Math.min(h, 420) * 0.0025; }
@@ -669,11 +685,11 @@ async function start() {
       if (!m.g.visible) continue;
       const r = mitte(miniOrt[i]);
       const vib = imKnopf ? g >= 0.335 + i * 0.037 && g < 0.72 : zl >= 0.27 + i * 0.04 && zl < 0.57 + i * 0.04;
-      m.g.position.set(r.x - B / 2 + (vib && !ohneBewegung ? Math.sin(t * 71 + i) * r.h * 0.003 : 0), H / 2 - r.y + (ohneBewegung || handy ? 0 : Math.sin(t * 1.5 + i * 2.1) * r.h * 0.02), 0);
+      m.g.position.set(r.x - B / 2 + (vib && !ohneBewegung ? Math.sin(t * 71 + i) * r.h * 0.003 : 0), H / 2 - r.y + (ohneBewegung || handy || sparsam ? 0 : Math.sin(t * 1.5 + i * 2.1) * r.h * 0.02), 0);
       m.g.scale.setScalar((r.h / GROESSE[0]) * an);
       m.l.quaternion.copy(m.pose);
       if (!ohneBewegung) {
-        const w = handy ? 0 : 1;
+        const w = handy || sparsam ? 0 : 1;
         dreh.setFromEuler(euler.set(Math.sin(t * 0.8 + i) * 0.04 * w, Math.sin(t * 0.6 + i * 1.7) * 0.1 * w, vib ? Math.sin(t * 58 + i * 2) * 0.01 : 0));
         m.l.quaternion.multiply(dreh);
       }

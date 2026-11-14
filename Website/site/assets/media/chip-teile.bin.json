@@ -1,0 +1,4 @@
+{
+  "prompt": "Herkunft: Maxis Modell „Fertiger Chip“ (fertig4) aus dem Werkstattbuch, https://ma-xi.github.io/SKI-TAG-Hardware/3d.html, Dateien modelle/fertig4_*.json (STL aus OpenSCAD). Umgewandelt mit weich gerechneten Normalen (Knick ab 38°), Positionen als Int16 in 0,0025-mm-Schritten. Teile: rueckschale, schrauben, qi_ferrit, akku, platine, klein, motor, rand, vorderschale, ledstab, ring, kappe. Die kleinen Bauteile (Funkmodul, GPS, Antennen, Taster, LED, Ladespule) baut chip-seite.js in derselben Größe und Lage nach. Laut Werkstattbuch ein Konzept, kein Bauplan.",
+  "createdAt": "2026-11-14"
+}

@@ -146,7 +146,7 @@ html:not(.js-fb) .fb__danke, html:not(.js-fb) .fb__nav, html:not(.js-fb) .fb__st
   box-shadow: 0 18px 36px -18px rgba(229, 69, 13, 0.7), inset 0 2px 0 rgba(255, 255, 255, 0.25);
   transition: transform 200ms ease;
 }
-.fb__halten svg { position: absolute; inset: -0.6rem; width: calc(100% + 1.2rem); height: calc(100% + 1.2rem); transform: rotate(-90deg); pointer-events: none; }
+.fb__halten svg { position: absolute; inset: -0.6rem; width: calc(100% + 1.2rem); max-width: none; height: calc(100% + 1.2rem); transform: rotate(-90deg); pointer-events: none; }   /* max-width: none, sonst kappt die allgemeine Regel für svg die Breite und der Ring sitzt schief (Feedback 117) */
 .fb__ring-grund { fill: none; stroke: rgba(229, 69, 13, 0.15); stroke-width: 5; }
 .fb__ring { fill: none; stroke: #0b1226; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--halt, 0)); }
 .fb__halten-text { position: relative; display: block; padding: 0 1.4rem; font-weight: 700; font-size: var(--sc-t-base); line-height: 1.2; }
