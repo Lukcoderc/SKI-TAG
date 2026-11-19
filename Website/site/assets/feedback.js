@@ -48,7 +48,12 @@
   wetterSetzen();
 
   /* ---------------------------------------------------------- Slalom -- */
+  // Feedback 128: Ohne gezeichnete Piste (neue Gestaltung) zeigt ein schlichter Balken den Fortschritt (--fortschritt)
   var piste = karte.querySelector("#fb-piste");
+  if (!piste) {
+    var fahren = function (bis) { karte.style.setProperty("--fortschritt", bis.toFixed(3)); };
+    var ziele = [0.12, 0.37, 0.62, 0.87, 1, 1];
+  } else {
   var fahrer = karte.querySelector(".fb__fahrer");
   var tore = Array.prototype.slice.call(karte.querySelectorAll(".fb__tor"));
   var laenge = piste.getTotalLength();
@@ -78,6 +83,7 @@
     };
     fahrt = requestAnimationFrame(schrittBild);
   };
+  }
 
   /* ---------------------------------------------------------- Fragen -- */
   var zeigen = function (n, fokus) {
@@ -108,9 +114,11 @@
   /* ------------------------------------------------- Halten zum Senden -- */
   var knopf = karte.querySelector(".fb__halten");
   var dauerHalten = 1200, beginn = 0, halteBild = 0, gehalten = false;
-  var ring = function (v) { knopf.style.setProperty("--halt", v.toFixed(3)); };
+  // Füllstand direkt am Kreis (calc() mit Zahlen ohne Einheit ist für stroke-dashoffset in Firefox ungültig)
+  var ringEl = knopf.querySelector(".fb__ring");
+  var ring = function (v) { knopf.style.setProperty("--halt", v.toFixed(3)); ringEl.style.strokeDashoffset = (1 - v).toFixed(3); };
   var fertig = function () {
-    gehalten = false; knopf.classList.remove("ist-gedrueckt"); ring(0);
+    knopf.classList.remove("ist-gedrueckt", "ist-voll"); ring(0);
     var name = (karte.querySelector("input[name=vorname]").value || "").trim();
     karte.querySelector(".fb__danke-name").textContent = name ? ", " + name : "";
     regler.value = "4"; wetterSetzen();
@@ -121,7 +129,9 @@
     if (!gehalten) return;
     var p = Math.min(1, (t - beginn) / dauerHalten);
     ring(p);
-    if (p >= 1) fertig(); else halteBild = requestAnimationFrame(laufen);
+    // voll: kurz aufleuchten und einen Puls nach außen schicken, dann „Danke“
+    if (p >= 1) { gehalten = false; knopf.classList.add("ist-voll"); setTimeout(fertig, 520); }
+    else halteBild = requestAnimationFrame(laufen);
   };
   var start = function (e) {
     if (gehalten) return;
@@ -137,6 +147,9 @@
     var zurueckBild = function (t) { var p = Math.min(1, (t - t0) / 300); ring(v * (1 - p)); if (p < 1 && !gehalten) requestAnimationFrame(zurueckBild); };
     requestAnimationFrame(zurueckBild);
   };
+  // Fokusrahmen nur bei Bedienung mit der Tastatur (das Formular fokussiert den Knopf auch beim Weiterblättern)
+  window.addEventListener("keydown", function (e) { if (e.key === "Tab") document.documentElement.classList.add("mit-tastatur"); }, true);
+  window.addEventListener("pointerdown", function () { document.documentElement.classList.remove("mit-tastatur"); }, true);
   knopf.addEventListener("pointerdown", start);
   ["pointerup", "pointerleave", "pointercancel"].forEach(function (n) { knopf.addEventListener(n, stopp); });
   knopf.addEventListener("keydown", function (e) { if ((e.key === " " || e.key === "Enter") && !e.repeat) start(e); });

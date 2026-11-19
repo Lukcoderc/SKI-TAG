@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><title>Render</title>
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+<script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.min.js" } }</script>
+</head><body>
+<script type="module">
+// Nur zum Erzeugen der Produktbilder (assets/media/chip-*.webp), wird nicht veröffentlicht.
+import * as THREE from "three";
+const GROESSE_PX = 1800;
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1); renderer.setSize(GROESSE_PX, GROESSE_PX);
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+renderer.setClearColor(0x000000, 0);
+document.body.appendChild(renderer.domElement);
+const szene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+const sz = new THREE.Scene();
+const flaeche = (b, h, hell, farbe) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(b, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(farbe || 0xffffff).multiplyScalar(hell), side: THREE.DoubleSide })); sz.add(m); return m; };
+sz.add(new THREE.Mesh(new THREE.BoxGeometry(20, 12, 20), new THREE.MeshBasicMaterial({ color: new THREE.Color(0x2a2d33), side: THREE.BackSide })));
+const boden = flaeche(20, 20, 0.9, 0xe9eef5); boden.rotation.x = -Math.PI / 2; boden.position.y = -5.9;
+const oben = flaeche(9, 6, 7); oben.rotation.x = Math.PI / 2; oben.position.set(-1.5, 5.9, 1);
+const links = flaeche(1.6, 8, 5.5, 0xfff3e8); links.rotation.y = Math.PI / 2; links.position.set(-9.9, 0.5, 2);
+const rechts = flaeche(1.2, 8, 3.2, 0xe6efff); rechts.rotation.y = -Math.PI / 2; rechts.position.set(9.9, 0.5, -1);
+const vorn = flaeche(10, 3, 1.1); vorn.position.set(0, -2.5, 9.9); vorn.rotation.y = Math.PI;
+const front = flaeche(9, 6, 4.5); front.position.set(-1.5, 2, 9.9); front.rotation.y = Math.PI;
+const hinten = flaeche(6, 2.2, 4, 0xdfe9ff); hinten.position.set(3, 3.5, -9.9);
+szene.environment = pmrem.fromScene(sz, 0.02).texture;
+const licht = new THREE.DirectionalLight(0xfff8f0, 1.9); licht.position.set(-0.6, 1, 0.9).multiplyScalar(400);
+const kante = new THREE.DirectionalLight(0xdce8ff, 1.4); kante.position.set(1, 0.5, -0.7).multiplyScalar(400);
+szene.add(licht, kante, new THREE.HemisphereLight(0xffffff, 0x6d7380, 0.18));
+
+const TEILE = [["rueckschale", 5042, 17046, "schwarz"], ["schrauben", 2530, 9468, "metall"], ["vorderschale", 4146, 14070, "schwarz"],
+  ["rand", 2297, 9438, "orange"], ["ring", 1536, 9216, "orange"], ["kappe", 2592, 12948, "knopf"], ["ledstab", 136, 492, "led"]];
+const SCHRITT = 0.0025, GROESSE = [66, 46, 18];
+const daten = await fetch("assets/media/chip-3d.bin?v=2").then((r) => r.arrayBuffer());
+const struktur = (() => { const c = document.createElement("canvas"); c.width = c.height = 512; const x = c.getContext("2d"), d = x.createImageData(512, 512);
+  for (let i = 0; i < d.data.length; i += 4) { const v = 120 + Math.random() * 40; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; }
+  x.putImageData(d, 0, 0); const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t; })();
+const MAT = {
+  schwarz: new THREE.MeshPhysicalMaterial({ color: 0x1c1f24, roughness: 0.4, clearcoat: 0.5, clearcoatRoughness: 0.22, bumpMap: struktur, bumpScale: 0.12, envMapIntensity: 1.25 }),
+  orange: new THREE.MeshPhysicalMaterial({ color: 0xe44e10, roughness: 0.5, sheen: 0.35, sheenColor: 0xffc2a0, sheenRoughness: 0.45, clearcoat: 0.18, clearcoatRoughness: 0.4, bumpMap: struktur, bumpScale: 0.08, envMapIntensity: 1.1 }),
+  knopf: new THREE.MeshPhysicalMaterial({ color: 0x24262b, roughness: 0.55, clearcoat: 0.25, clearcoatRoughness: 0.5, envMapIntensity: 1.1 }),
+  metall: new THREE.MeshStandardMaterial({ color: 0x9a9da2, roughness: 0.3, metalness: 0.9 }),
+  led: new THREE.MeshStandardMaterial({ color: 0x9dffa0, emissive: 0x2fd66a, emissiveIntensity: 0.6, roughness: 0.15 }),
+};
+const lage = new THREE.Group(), modell = new THREE.Group(), inhalt = new THREE.Group();
+modell.rotation.z = Math.PI / 2; inhalt.position.set(-GROESSE[0] / 2, -GROESSE[1] / 2, -GROESSE[2] / 2);
+lage.add(modell); modell.add(inhalt); szene.add(lage);
+let ofs = 0;
+for (const [name, ecken, indizes, mat] of TEILE) {
+  const p16 = new Int16Array(daten, ofs, ecken * 3); ofs += Math.ceil(ecken * 6 / 4) * 4;
+  const n8 = new Int8Array(daten, ofs, ecken * 3); ofs += Math.ceil(ecken * 3 / 4) * 4;
+  const ix = new Uint16Array(daten, ofs, indizes); ofs += Math.ceil(indizes * 2 / 4) * 4;
+  const pos = new Float32Array(ecken * 3), nor = new Float32Array(ecken * 3), uv = new Float32Array(ecken * 2);
+  for (let i = 0; i < ecken * 3; i++) { pos[i] = p16[i] * SCHRITT; nor[i] = n8[i] / 127; }
+  for (let i = 0; i < ecken; i++) { const ax = Math.abs(nor[3 * i]), ay = Math.abs(nor[3 * i + 1]), az = Math.abs(nor[3 * i + 2]);
+    const x = pos[3 * i], y = pos[3 * i + 1], z = pos[3 * i + 2]; const [u, v] = az >= ax && az >= ay ? [x, y] : ax >= ay ? [y, z] : [x, z];
+    uv[2 * i] = u / 9; uv[2 * i + 1] = v / 9; }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.BufferAttribute(pos, 3)); g.setAttribute("normal", new THREE.BufferAttribute(nor, 3));
+  g.setAttribute("uv", new THREE.BufferAttribute(uv, 2)); g.setIndex(new THREE.BufferAttribute(ix, 1));
+  inhalt.add(new THREE.Mesh(g, MAT[name === "ledstab" ? "led" : mat]));
+}
+const kamera = new THREE.PerspectiveCamera(20, 1, 1, 2000);
+window.rendern = (x, y, z, abstand, led) => {
+  lage.rotation.set(x, y, z, "YXZ");
+  MAT.led.emissiveIntensity = led;
+  kamera.position.set(0, 0, abstand); kamera.lookAt(0, 0, 0);
+  renderer.render(szene, kamera);
+  return renderer.domElement.toDataURL("image/png");
+};
+window.bereit = true;
+</script>
+</body></html>

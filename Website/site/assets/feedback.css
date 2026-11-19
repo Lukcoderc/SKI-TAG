@@ -142,16 +142,25 @@ html:not(.js-fb) .fb__danke, html:not(.js-fb) .fb__nav, html:not(.js-fb) .fb__st
 .fb__senden { display: grid; justify-items: start; }
 .fb__halten {
   position: relative; margin-top: 1.8rem; width: 11rem; height: 11rem; border: 0; padding: 0; border-radius: 50%; cursor: pointer;
-  background: radial-gradient(circle at 42% 36%, #ff8a4c, var(--orange) 55%, #e2470f); color: #fff; touch-action: none; -webkit-user-select: none; user-select: none;
-  box-shadow: 0 18px 36px -18px rgba(229, 69, 13, 0.7), inset 0 2px 0 rgba(255, 255, 255, 0.25);
+  background: radial-gradient(circle at 40% 32%, #4067b4, #2a4a8f 58%, #1f3b76); color: #fff; touch-action: none; -webkit-user-select: none; user-select: none;
+  box-shadow: 0 18px 36px -18px rgba(42, 74, 143, 0.75), inset 0 2px 0 rgba(255, 255, 255, 0.2);
   transition: transform 200ms ease;
 }
-.fb__halten svg { position: absolute; inset: -0.6rem; width: calc(100% + 1.2rem); max-width: none; height: calc(100% + 1.2rem); transform: rotate(-90deg); pointer-events: none; }   /* max-width: none, sonst kappt die allgemeine Regel für svg die Breite und der Ring sitzt schief (Feedback 117) */
-.fb__ring-grund { fill: none; stroke: rgba(229, 69, 13, 0.15); stroke-width: 5; }
-.fb__ring { fill: none; stroke: #0b1226; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--halt, 0)); }
+.fb__halten svg { position: absolute; inset: -1rem; width: calc(100% + 2rem); max-width: none; height: calc(100% + 2rem); transform: rotate(-90deg); pointer-events: none; }   /* max-width: none, sonst kappt die allgemeine Regel für svg die Breite und der Ring sitzt schief (Feedback 117) */
+/* Feedback 131: beim Drücken erscheint die Spur, ein leuchtender Ring läuft im Uhrzeigersinn herum; voll: Puls nach außen */
+.fb__ring-grund { fill: none; stroke: rgba(42, 74, 143, 0.14); stroke-width: 3; opacity: 0; transition: opacity 250ms ease; }
+.fb__halten.ist-gedrueckt .fb__ring-grund, .fb__halten.ist-voll .fb__ring-grund { opacity: 1; }
+.fb__ring { fill: none; stroke: var(--v-blau, #2a4a8f); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; filter: drop-shadow(0 0 5px rgba(42, 74, 143, 0.55)); }
+.fb__halten.ist-voll .fb__ring { stroke-width: 5; }
+.fb__halten::after { content: ""; position: absolute; inset: -1rem; border-radius: 50%; border: 2px solid var(--v-blau, #2a4a8f); opacity: 0; pointer-events: none; }
+.fb__halten.ist-voll::after { animation: fb-puls 520ms cubic-bezier(0.16, 1, 0.3, 1); }
+.fb__halten.ist-voll { transform: scale(1.03); }
+@keyframes fb-puls { from { opacity: 0.8; transform: scale(1); } to { opacity: 0; transform: scale(1.35); } }
+@media (prefers-reduced-motion: reduce) { .fb__halten.ist-voll::after { animation: none; } }
 .fb__halten-text { position: relative; display: block; padding: 0 1.4rem; font-weight: 700; font-size: var(--sc-t-base); line-height: 1.2; }
 .fb__halten.ist-gedrueckt { transform: scale(0.96); }
-.fb__halten:focus-visible { outline: 3px solid var(--knopf); outline-offset: 6px; }
+.fb__halten:focus-visible { outline: none; }
+.mit-tastatur .fb__halten:focus-visible { outline: 3px solid var(--knopf); outline-offset: 6px; }
 .fb__vorschau { margin: 1.4rem 0 0; font-size: var(--sc-t-xs); font-weight: 600; color: var(--sc-ink-soft); padding: 0.35rem 0.75rem; border-radius: 999px; background: var(--eis); }
 
 /* Danke */

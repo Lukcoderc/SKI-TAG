@@ -15,7 +15,6 @@
    Eine Welteinheit ist ein CSS-Pixel auf der Ebene z = 0, darum lassen sich Anker direkt übernehmen.
    Ohne WebGL oder bei einem Fehler bleibt das Standbild in den Ankern (.chip-bild). */
 import * as THREE from "three";
-import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
 
 const wurzel = document.documentElement;
 const ohneBewegung = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -66,14 +65,33 @@ async function start() {
 
   const szene = new THREE.Scene();
   const pmrem = new THREE.PMREMGenerator(renderer);
-  szene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  // Feedback 125: Fotostudio statt RoomEnvironment. Große Softbox oben, zwei Lichtstreifen an den Seiten, heller
+  // Schneeboden, dunkle Wände dazwischen. Erst die Kontraste in den Spiegelungen lassen Kunststoff und Gummi echt
+  // wirken (länglicher Glanz auf den Kanten, Verlauf auf der schwarzen Front), RoomEnvironment war zu gleichmäßig.
+  const studio = (() => {
+    const sz = new THREE.Scene();
+    const flaeche = (b, h, hell, farbe) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(b, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(farbe || 0xffffff).multiplyScalar(hell), side: THREE.DoubleSide })); sz.add(m); return m; };
+    const raum = new THREE.Mesh(new THREE.BoxGeometry(20, 12, 20), new THREE.MeshBasicMaterial({ color: new THREE.Color(0x2a2d33), side: THREE.BackSide }));
+    sz.add(raum);
+    const boden = flaeche(20, 20, 0.9, 0xe9eef5); boden.rotation.x = -Math.PI / 2; boden.position.y = -5.9;   // Schnee
+    const oben = flaeche(9, 6, 7); oben.rotation.x = Math.PI / 2; oben.position.set(-1.5, 5.9, 1);               // Softbox
+    const links = flaeche(1.6, 8, 5.5, 0xfff3e8); links.rotation.y = Math.PI / 2; links.position.set(-9.9, 0.5, 2); // warmer Streifen
+    const rechts = flaeche(1.2, 8, 3.2, 0xe6efff); rechts.rotation.y = -Math.PI / 2; rechts.position.set(9.9, 0.5, -1); // kühler Streifen
+    const vorn = flaeche(10, 3, 1.1); vorn.position.set(0, -2.5, 9.9); vorn.rotation.y = Math.PI;                 // weiche Aufhellung
+    // große Softbox schräg vorn oben: gibt der schwarzen Front und dem Knopf den weichen Glanzverlauf eines Produktfotos
+    const front = flaeche(9, 6, 4.5); front.position.set(-1.5, 2, 9.9); front.rotation.y = Math.PI;
+    const hinten = flaeche(6, 2.2, 4, 0xdfe9ff); hinten.position.set(3, 3.5, -9.9);                               // Kante von hinten
+    return pmrem.fromScene(sz, 0.02).texture;
+  })();
+  szene.environment = studio;
   const FOV = 22;
   const kamera = new THREE.PerspectiveCamera(FOV, 1, 50, 20000);
-  const licht = new THREE.DirectionalLight(0xffffff, 1.5);
-  licht.position.set(0.5, 0.9, 1).multiplyScalar(4000);
-  const kante = new THREE.DirectionalLight(0xffe2d0, 0.9);   // warmes Kantenlicht von hinten links
-  kante.position.set(-1, 0.4, -0.6).multiplyScalar(4000);
-  szene.add(licht, kante, new THREE.HemisphereLight(0xffffff, 0x8a8f99, 0.35));
+  // Hauptlicht schräg von oben links, kühles Kantenlicht von hinten rechts, wenig Grundlicht: mehr Form, weniger Plastik
+  const licht = new THREE.DirectionalLight(0xfff8f0, 1.9);
+  licht.position.set(-0.6, 1, 0.9).multiplyScalar(4000);
+  const kante = new THREE.DirectionalLight(0xdce8ff, 1.4);
+  kante.position.set(1, 0.5, -0.7).multiplyScalar(4000);
+  szene.add(licht, kante, new THREE.HemisphereLight(0xffffff, 0x6d7380, 0.18));
 
   /* ---------------------------------------------------------- Modell -- */
   const TEILE = [
@@ -96,17 +114,20 @@ async function start() {
   // in Bildschirmgröße zeichnen (bei doppelter Pixeldichte gemessen 4,4 statt 1 ms je Bild).
   const ledMat = new THREE.MeshStandardMaterial({ color: 0x9dffa0, emissive: 0x2fd66a, emissiveIntensity: 0.25, roughness: 0.15 });
   const MAT = {
-    schwarz: new THREE.MeshPhysicalMaterial({ color: 0x1d1f23, roughness: 0.58, clearcoat: 0.12, clearcoatRoughness: 0.5, bumpMap: struktur, bumpScale: 0.35 }),
-    orange: new THREE.MeshPhysicalMaterial({ color: 0xf0561a, roughness: 0.62, sheen: 0.6, sheenColor: 0xffb08a, sheenRoughness: 0.6, clearcoat: 0.1, bumpMap: struktur, bumpScale: 0.2 }),
-    knopf: new THREE.MeshPhysicalMaterial({ color: 0x2a2c31, roughness: 0.35, clearcoat: 0.6, clearcoatRoughness: 0.25 }),
+    // Feedback 125: Gehäuse aus gestrahltem schwarzem Kunststoff mit leichtem Lack, Rand und Ring aus orangem Gummi
+    // (TPU: tieferes Orange, matt, weicher Glanz), Knopf aus Silikon
+    schwarz: new THREE.MeshPhysicalMaterial({ color: 0x1c1f24, roughness: 0.4, clearcoat: 0.5, clearcoatRoughness: 0.22, bumpMap: struktur, bumpScale: 0.25, envMapIntensity: 1.25 }),
+    orange: new THREE.MeshPhysicalMaterial({ color: 0xe44e10, roughness: 0.5, sheen: 0.35, sheenColor: 0xffc2a0, sheenRoughness: 0.45, clearcoat: 0.18, clearcoatRoughness: 0.4, bumpMap: struktur, bumpScale: 0.15, envMapIntensity: 1.1 }),
+    knopf: new THREE.MeshPhysicalMaterial({ color: 0x24262b, roughness: 0.55, clearcoat: 0.25, clearcoatRoughness: 0.5, bumpMap: struktur, bumpScale: 0.12, envMapIntensity: 1.1 }),
     metall: new THREE.MeshStandardMaterial({ color: 0x9a9da2, roughness: 0.3, metalness: 0.9 }),
     led: ledMat,
   };
   // Handy (Feedback 89): ohne Klarlack und Samtglanz. three.js lässt die Shader-Zweige dann ganz weg; der Chip sieht
   // fast gleich aus, kostet aber je Bildpunkt deutlich weniger.
   // Feedback 116: im Sparmodus genauso (schwächere Rechner und Tablets)
-  const leichter = () => { for (const m of [MAT.schwarz, MAT.orange, MAT.knopf]) { m.clearcoat = 0; m.sheen = 0; m.needsUpdate = true; } };
-  if (handy || sparsam) leichter();
+  // Feedback 125: am PC bleibt der Klarlack auch im Sparmodus (er macht den Glanz echt und kostet wenig), nur der Samtglanz fällt weg
+  const leichter = (auchLack) => { for (const m of [MAT.schwarz, MAT.orange, MAT.knopf]) { if (auchLack) m.clearcoat = 0; m.sheen = 0; m.needsUpdate = true; } };
+  if (handy) leichter(true); else if (sparsam) leichter(false);
 
   const chip = new THREE.Group();          // Lage und Größe auf der Seite
   const lage = new THREE.Group();          // Drehung (Pose, Flug, Zittern)
@@ -146,6 +167,18 @@ async function start() {
   const rb = teile.ring.geometry.boundingBox, kb = teile.kappe.geometry.boundingBox;
   const knopfMitte = new THREE.Vector3((rb.min.x + rb.max.x) / 2, (rb.min.y + rb.max.y) / 2, Math.max(rb.max.z, kb.max.z) + 0.25);
   const knopfR = Math.max(rb.max.x - rb.min.x, rb.max.y - rb.min.y) / 2;
+  // Feedback 125: Stellen am Modell für die Beschriftungen in „Was ist SKITAG?“ (Modellmaße in mm; x zeigt nach
+  // oben, kleines y nach rechts): LED, Knopf, Gummirand oben rechts, Seite unten rechts
+  const PUNKTE = (() => {
+    const lb = teile.ledstab.geometry.boundingBox, ob = teile.rand.geometry.boundingBox, sb = teile.rueckschale.geometry.boundingBox;
+    return [
+      new THREE.Vector3((lb.min.x + lb.max.x) / 2, (lb.min.y + lb.max.y) / 2, lb.max.z),
+      knopfMitte.clone(),
+      new THREE.Vector3(ob.max.x - 3, ob.min.y + (ob.max.y - ob.min.y) * 0.18, ob.max.z - 1.5),
+      new THREE.Vector3(sb.min.x + (sb.max.x - sb.min.x) * 0.32, sb.min.y + 0.5, (sb.min.z + sb.max.z) / 2),
+    ];
+  })();
+  const punktV = new THREE.Vector3();
   const flach = (farbe, deckung) => new THREE.MeshBasicMaterial({ color: farbe, transparent: true, opacity: deckung, toneMapped: false, depthTest: false, side: THREE.DoubleSide });
 
   // Füllring um den Knopf (Halten). Er wird nicht aus Dreiecken gebaut, sondern auf einer Fläche im Shader
@@ -393,6 +426,7 @@ async function start() {
   /* ------------------------------------------------------- Posen -- */
   const POSE = {
     held: E(0.16, -0.55, 0.1),
+    schau: E(0.1, -0.32, 0.03),   // Feedback 125: „Was ist SKITAG?“ als ruhige Vorstellung, dreht sich langsam
     gruppe: E(0.12, -0.22, 0.03),
     halten: E(0.06, -0.08, 0),
     funk: E(0.08, -0.14, 0.02),
@@ -419,7 +453,7 @@ async function start() {
   const effekt = { druck: 0, zittern: 0, ring: 0, ringFarbe: ORANGE, led: 0.15, ledFarbe: GRUEN };
   const effektS = { druck: 0, ring: 0, led: 0.15, dunkel: 0, ringAus: 0 };
   const ledFarbe = new THREE.Color(GRUEN), ledZiel = new THREE.Color();
-  let sichtbar = true, eingang = ohneBewegung ? 1 : 0, nah = 0, letzterZustand = "ruhe", letzteZl = 1, letzterClip = "", letzteDeckung = "", knopfAn = null;
+  let sichtbar = true, eingang = ohneBewegung ? 1 : 0, nah = 0, letzterZustand = "ruhe", letzteZl = 1, letzterClip = "", letzteDeckung = "", knopfAn = null, senderS = 0;
   let startZeit = performance.now();
   let letzterModus = "", letzterVerschub = "", funkS = 0;
   const zeit = { letzte: performance.now() };
@@ -430,7 +464,7 @@ async function start() {
   let letzteSignatur = "", messStart = 0, messBilder = 0, messLang = 0, letztesBild = 0;
   addEventListener("skitag-sparsam", () => {
     if (sparsam) return;
-    sparsam = true; leichter();
+    sparsam = true; leichter(handy);
     dprStufe = DPR_STUFEN.length - 1; renderer.setPixelRatio(DPR_STUFEN[dprStufe]);
     for (const l of schnee) l.p.visible = false;
     bedarf = true;
@@ -530,14 +564,22 @@ async function start() {
     // ihn zu. Fest an die Scrollstelle gebunden: vor dem Ende der Strecke ist er wieder normal groß, damit der Flug
     // zum nächsten Abschnitt ohne Sprung beginnt.
     const pBlick = klick ? S.blick.p || 0 : hatStart ? klemme((s - blickOben) / Math.max(1, br.height - H)) : 0;
-    const senderNah = !(imBlick && (t2 === 0 || klick) && blickFlaeche) ? 0 : ohneBewegung ? (pBlick >= 0.7 && (klick || pBlick < 0.95) ? 1 : 0)
+    const senderZiel = bz.schau || !(imBlick && (t2 === 0 || klick) && blickFlaeche) ? 0 : ohneBewegung ? (pBlick >= 0.7 && (klick || pBlick < 0.95) ? 1 : 0)
       // im dritten Drittel: hinein im selben Takt wie die anderen Schritte (5 bis 70 %), heraus kurz vor dem Ende;
       // am Handy bleibt die Nahansicht, bis man weiterscrollt, und geht dann mit dem Flug weich zurück
       : weich(abschnitt((pBlick - 2 / 3) * 3, 0.05, 0.7)) * (klick ? 1 - weich(abschnitt(t2, 0, 0.3)) : 1 - weich(abschnitt((pBlick - 2 / 3) * 3, 0.82, 0.95)));
+    // Feedback 123: am Handy und mit der Zeitleiste (klick) gleitet die Nahansicht weich hinein und heraus, auch wenn
+    // die Schleife von Schritt 3 auf Schritt 1 springt. Beim Hochscrollen ist sie nach dem ersten Zehntel ganz weg,
+    // bevor der Chip zum Einstieg fliegt; sonst dreht sich der große, zugeschnittene Chip aus der Fläche.
+    const obenAus = klick ? weich(abschnitt(t1, 0.9, 1)) : 1;
+    const senderZielAus = senderZiel * (1 - weich(bz.senderAus || 0));
+    if (klick && !ohneBewegung) { senderS += (senderZielAus - senderS) * glatt(0.02); if (Math.abs(senderZielAus - senderS) < 0.002) senderS = senderZielAus; }
+    else senderS = senderZielAus;
+    const senderNah = Math.min(senderS, obenAus);
     const P = senderNah > 0 ? mitte(blickFlaeche) : null;
     if (P) h = mix(h, P.h * 1.4, senderNah);
 
-    ziel.copy(imKnopf ? (z === "lauf" || z === "fertig" ? POSE.lauf : nahZiel > 0.5 ? POSE.nah : POSE.knopf) : imBlick ? [POSE.gruppe, POSE.halten, POSE.funk][sb] : POSE.held);
+    ziel.copy(imKnopf ? (z === "lauf" || z === "fertig" ? POSE.lauf : nahZiel > 0.5 ? POSE.nah : POSE.knopf) : imBlick ? (bz.schau ? POSE.schau : [POSE.gruppe, POSE.halten, POSE.funk][sb]) : POSE.held);
     jetztQ.slerp(ziel, glatt(0.0025));
 
     /* ---- Wirkung auf Knopf, LED, Ring ---- */
@@ -557,11 +599,13 @@ async function start() {
         else if (z === "lauf") welle(jetzt, ROT, 7, 3, 0.95, 1100);
       } else if (z === "ruhe" && gelandet && nah > 0.9 && !ohneBewegung && jetzt - letzteWelle > 2600) welle(jetzt, 0xffb38f, 1.7, 1, 0.55, 1300);
     } else if (imBlick) {
-      if (sb === 0) {   // kurz drücken: einmal je Schleife, danach vibrieren die Chips der Gruppe
+      if (bz.schau) {   // Vorstellung: nur die LED atmet ruhig
+        effekt.led = 0.2 + 0.25 * (0.5 + 0.5 * Math.sin(t * 2.2));
+      } else if (sb === 0) {   // kurz drücken: einmal je Schleife, danach vibrieren die Chips der Gruppe
         if (zl >= 0) {
           effekt.druck = zl > 0.015 && zl < 0.07 ? 1 : 0;
           effekt.led = zl > 0.07 && zl < 0.34 ? blinken(18) : 0.15;
-          if (letzteZl < 0.07 && zl >= 0.07 && !ohneBewegung) welle(jetzt, ORANGE, 4, 2, 0.85);
+          // Feedback 122: keine eigene 3D-Welle mehr; sie lief über den Rand der Fläche, die Wellen dort zeigt seite.js
         }
       } else if (sb === 1) {   // drei Sekunden halten: der Ring füllt sich mit dem Scrollen (seite.js: --halten)
         const r = bz.halten;
@@ -581,7 +625,7 @@ async function start() {
     effektS.ringAus = effekt.ringAus ? mix(effektS.ringAus, 1, glatt(0.002)) : imKnopf ? 0 : effektS.ringAus;
     effektS.led = mix(effektS.led, effekt.led, k);
     // Nacht: steht die Fläche auf Nacht (Notruf läuft, Schritte 2 und 3 in „Was ist SKITAG?“), wird das Licht schwächer
-    const dunkel = imKnopf ? (z === "lauf" ? 1 : 0) : imBlick && sb >= 1 ? 0.8 : 0;
+    const dunkel = imKnopf ? (z === "lauf" ? 1 : 0) : imBlick && sb >= 1 && !bz.schau ? 0.8 : 0;
     effektS.dunkel = mix(effektS.dunkel, dunkel, glatt(0.002));
     renderer.toneMappingExposure = mix(1.08, 0.74, effektS.dunkel);
 
@@ -600,6 +644,8 @@ async function start() {
     chip.position.set(x - B / 2, H / 2 - y + schweben - (1 - ein) * h * 0.25, flug * h * 0.6);
     chip.scale.setScalar(skala);
     lage.quaternion.copy(jetztQ);
+    // Vorstellung: langsames Hin- und Herdrehen wie auf einem Drehteller
+    if (imBlick && bz.schau && !ohneBewegung) { dreh.setFromAxisAngle(achseY, Math.sin(t * 0.42) * 0.38 * (1 - flug)); lage.quaternion.multiply(dreh); }
     if (spin) { dreh.setFromAxisAngle(achseY, spin); lage.quaternion.premultiply(dreh); }
     if (kipp) { dreh.setFromAxisAngle(achseX, kipp); lage.quaternion.premultiply(dreh); }
     if (!ohneBewegung) {
@@ -657,7 +703,8 @@ async function start() {
 
     // Funkwellen aus dem Sender: im dritten Schritt von „Was ist SKITAG?“
     // nur solange die Strecke angeheftet ist; fliegt der Chip weiter, sind sie sofort weg (sonst ragen sie aus der Fläche)
-    funkS = t2 > (klick ? 0.25 : 0) ? 0 : mix(funkS, imBlick && sb === 2 ? 1 : 0, glatt(0.02));
+    funkS = t2 > (klick ? 0.25 : 0) ? 0 : mix(funkS, imBlick && sb === 2 && !bz.schau ? 1 : 0, glatt(0.02));
+    if (klick) funkS = Math.min(funkS, obenAus, 1 - weich(bz.senderAus || 0), senderNah > 0.02 ? 1 : senderNah * 50);   // Feedback 123: mit der Nahansicht weg
     funkMat.uniforms.uZeit.value = ohneBewegung ? 0.7 : t;
     funkMat.uniforms.uDeckung.value = funkS * vorn;
     funk.visible = funkS * vorn > 0.01;
@@ -675,8 +722,14 @@ async function start() {
     schatten.scale.set(h * 1.2 * (1 + flug * 0.5), h * 1.2 * (1 + flug * 0.5), 1);
     schatten.material.opacity = (0.75 - flug * 0.6) * ein * (1 - nah) * (1 - senderNah);
 
+    /* ---- Beschriftungen: wo LED, Knopf, Rand und Seite gerade auf dem Bildschirm sind ---- */
+    if (imBlick && bz.schau && t2 === 0) {
+      chip.updateMatrixWorld(true);
+      bz.punkte = PUNKTE.map((v) => { punktV.copy(v); inhalt.localToWorld(punktV).project(kamera); return { x: (punktV.x + 1) / 2 * B, y: (1 - punktV.y) / 2 * H }; });
+    } else bz.punkte = null;
+
     /* ---- die Gruppe ---- */
-    const miniDa = (imBlick && sb === 0 && t1 >= 0.97 && t2 === 0) || (imKnopf && z === "gruppe" && g > 0.08 && g < 0.86);
+    const miniDa = (imBlick && !bz.schau && sb === 0 && t1 >= 0.97 && t2 === 0) || (imKnopf && z === "gruppe" && g > 0.08 && g < 0.86);
     miniRampe = ohneBewegung ? (miniDa ? 1 : 0) : klemme(miniRampe + (miniDa ? dt : -dt) / 0.55);
     const miniOrt = imKnopf ? miniAnker.knopf : miniAnker.blick;
     for (let i = 0; i < 3; i++) {

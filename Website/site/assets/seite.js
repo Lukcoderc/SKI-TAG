@@ -62,6 +62,26 @@
     if (ohneBewegung) return;
     var nr = 0, sichtbar = true;
     if ("IntersectionObserver" in window) new IntersectionObserver(function (e) { sichtbar = e[0].isIntersecting; }).observe(platz);
+    /* Feedback 121: mit GSAP fallen die Buchstaben nacheinander nach oben weg und das neue Wort steigt von unten ein
+       (expo-Kurve, leicht gedreht, unscharf zu scharf); die Unterstreichung läuft weiter über ist-raus/ist-rein. */
+    if (window.gsap) {
+      platz.classList.add("gs-wechsel");
+      setInterval(function () {
+        if (!sichtbar || document.hidden) return;
+        platz.classList.add("ist-raus");
+        gsap.to(wort.children, { yPercent: -45, opacity: 0, filter: "blur(5px)", duration: 0.28, ease: "power2.in", stagger: 0.012, onComplete: function () {
+          nr = (nr + 1) % woerter.length;
+          platz.classList.add("ist-rein");
+          setzeWort(woerter[nr]);
+          platz.setAttribute("data-farbe", String(nr % 5));
+          platz.classList.remove("ist-raus");
+          gsap.fromTo(wort.children, { yPercent: 60, rotate: 5, opacity: 0, filter: "blur(8px)" },
+            { yPercent: 0, rotate: 0, opacity: 1, filter: "blur(0px)", duration: 0.75, ease: "expo.out", stagger: 0.024, clearProps: "filter" });
+          requestAnimationFrame(function () { requestAnimationFrame(function () { platz.classList.remove("ist-rein"); }); });
+        } });
+      }, 2600);
+      return;
+    }
     setInterval(function () {
       if (!sichtbar || document.hidden) return;
       platz.classList.add("ist-raus");
@@ -141,9 +161,166 @@
      4,2-s-Schleife, seite.css und chip-3d.js lesen ihn), --halten füllt den Ring im zweiten Schritt. */
   /* Am Handy (.ist-klick, Feedback 88) wird nicht gescrollt: drei Knöpfe wählen den Schritt, er spielt dann in
      KLICK_DAUER ab (gleicher Takt), sobald der Abschnitt mitten im Bild steht. bz.p ist der Stand für chip-3d.js. */
-  var TAKT_AN = 0.05, TAKT_AUS = 0.7, GRUPPE_ENDE = 0.68, KLICK_DAUER = 3600;
+  var TAKT_AN = 0.05, TAKT_AUS = 0.7, GRUPPE_ENDE = 0.68, KLICK_DAUER = 3600, WEITER_PAUSE = 1400;
   var blick = document.getElementById("blick");
-  if (blick && blick.querySelector(".blick__chip")) {
+
+  /* Feedback 122: mit GSAP neu. Eine Zeitleiste spielt die drei Schritte als Schleife ab (je SCHRITT Sekunden):
+     1 · kurz drücken: Wellen, je ein Punkt zu den drei Chips der Gruppe, die vibrieren, „Gruppe gerufen“;
+     2 · drei Sekunden halten: der Ring füllt sich in echten drei Sekunden, 3-2-1, dann „Notruf gesendet“;
+     3 · ohne Netz: der 3D-Chip zeigt den Funk zur Liftstation (chip-3d.js).
+     Die Zeitleiste setzt dabei denselben Zustand wie früher (bz.p, schritt, halten, zl, spielt), den chip-3d.js liest,
+     und bewegt die Teile von Schritt 1 selbst (die CSS-Keyframes dafür sind aus, Klasse gs-blick). Ein Knopf unten
+     rechts in der Fläche hält an und spielt weiter; die Schritte (Liste am PC, Knöpfe am Handy) springen dorthin.
+     Außer Sicht pausiert sie; bei „weniger Bewegung“ startet sie nicht von selbst. */
+  /* Feedback 125: „Was ist SKITAG?“ als ruhige Vorstellung (Klasse blick--schau). Kein Ablauf mehr; chip-3d.js
+     dreht den Chip langsam und meldet in bz.punkte, wo LED, Knopf, Rand und Seite auf dem Bildschirm sind. Hier
+     laufen die Linien von den Beschriftungen zu diesen Stellen; sie folgen dem Chip, solange er im Bild ist. */
+  var schau = blick && blick.classList.contains("blick--schau");
+  if (schau) (function () {
+    var bz = chip.blick;
+    bz.klick = true; bz.schau = true; bz.schritt = 0; bz.spielt = false; bz.zl = 0; bz.p = 0; bz.halten = 0;
+    var buehne = blick.querySelector(".schau__buehne"), svg = blick.querySelector(".schau__linien");
+    var linien = svg ? svg.querySelectorAll("path") : [], marken = blick.querySelectorAll(".schau__marke");
+    var breit = window.matchMedia("(min-width: 861px)");
+    var sichtbar = false, raf = 0;
+    var bild = function () {
+      raf = 0;
+      if (!sichtbar) return;
+      var p = bz.punkte, br = buehne.getBoundingClientRect();
+      var an = !!p && breit.matches;
+      svg.classList.toggle("ist-an", an);
+      if (an) {
+        svg.setAttribute("viewBox", "0 0 " + Math.round(br.width) + " " + Math.round(br.height));
+        for (var i = 0; i < linien.length && i < marken.length; i++) {
+          var m = marken[i].getBoundingClientRect(), links = i < 2;
+          var ax = (links ? m.right + 14 : m.left - 14) - br.left, ay = m.top + 12 - br.top;
+          var px = p[i].x - br.left, py = p[i].y - br.top;
+          var kx = links ? Math.min(px - 24, ax + 36) : Math.max(px + 24, ax - 36);   // kurzer waagrechter Ansatz, dann schräg
+          linien[i].setAttribute("d", "M" + ax.toFixed(1) + " " + ay.toFixed(1) + " H" + kx.toFixed(1) + " L" + px.toFixed(1) + " " + py.toFixed(1));
+        }
+      }
+      raf = requestAnimationFrame(bild);
+    };
+    new IntersectionObserver(function (e) {
+      sichtbar = e[0].isIntersecting;
+      if (sichtbar && !raf) raf = requestAnimationFrame(bild);
+    }).observe(buehne);
+    // einmal einblenden: Beschriftungen nacheinander, Kennzahlen von unten
+    if (window.gsap && !ohneBewegung) {
+      var teile = Array.prototype.slice.call(marken), zahlen = blick.querySelectorAll(".schau__zahlen > div");
+      gsap.set(teile, { opacity: 0, y: 10 }); gsap.set(zahlen, { opacity: 0, y: 16 });
+      var einmal = new IntersectionObserver(function (e) {
+        if (!e[0].isIntersecting) return;
+        einmal.disconnect();
+        gsap.to(teile, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", stagger: 0.12, delay: 0.35 });
+        gsap.to(zahlen, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.1, delay: 0.6 });
+      }, { threshold: 0.35 });
+      einmal.observe(blick);
+    }
+  })();
+
+  if (blick && !schau && blick.querySelector(".blick__chip") && window.gsap) (function () {
+    var bz = chip.blick, SCHRITT = 5, HALTEN_AB = 0.3, HALTEN_DAUER = 3;
+    bz.klick = true; bz.zl = 0; bz.p = 0;
+    blick.classList.add("gs-blick");
+    var flaeche = blick.querySelector(".blick__flaeche");
+    var $$ = function (sel) { return Array.prototype.slice.call(blick.querySelectorAll(sel)); };
+    var wahlKnoepfe = [];
+    var wahlZeigen = function (sb) { wahlKnoepfe.forEach(function (k, j) { k.setAttribute("aria-selected", j === sb ? "true" : "false"); }); };
+
+    /* Zustand aus der Zeit t (0 bis 3 · SCHRITT) */
+    var zustand = function (t) {
+      var sb = Math.min(2, Math.floor(t / SCHRITT)), lokal = t - sb * SCHRITT;
+      bz.p = (sb + Math.min(0.999, lokal / 3.6)) / 3;
+      if (sb !== bz.schritt) { bz.schritt = sb; blick.setAttribute("data-schritt", String(sb)); wahlZeigen(sb); }
+      var spielt = sb === 0;
+      if (spielt !== bz.spielt) { bz.spielt = spielt; blick.toggleAttribute("data-spielt", spielt); }
+      bz.zl = sb === 0 ? Math.min(GRUPPE_ENDE, lokal / 4.2) : GRUPPE_ENDE;
+      bz.senderAus = sb === 2 ? klemme((lokal - 4.1) / 0.7) : 0;   // Feedback 123: Nahansicht vor dem Neustart zurück
+      var h = sb === 1 ? klemme((lokal - HALTEN_AB) / HALTEN_DAUER) : sb === 2 ? 1 : 0;
+      if (h !== bz.halten) {
+        bz.halten = h;
+        blick.style.setProperty("--halten", h.toFixed(3));
+        var sek = String(Math.min(3, Math.max(1, Math.ceil(h * 3))));
+        if (blick.getAttribute("data-sek") !== sek) blick.setAttribute("data-sek", sek);
+        blick.toggleAttribute("data-voll", h >= 1);
+      }
+    };
+
+    /* Zeitleiste: die Uhr läuft gleichmäßig, dazu die Teile von Schritt 1 */
+    var uhr = { t: 0 };
+    var tl = gsap.timeline({ paused: true, repeat: -1 });
+    tl.to(uhr, { t: 3 * SCHRITT - 0.001, duration: 3 * SCHRITT, ease: "none", onUpdate: function () { zustand(uhr.t); } }, 0);
+    tl.fromTo($$(".bk-wellen i"), { scale: 0.25, opacity: 0 },
+      { scale: 1.3, keyframes: { opacity: [0, 0.75, 0.4, 0] }, duration: 1.6, ease: "power2.out", stagger: 0.22 }, 0.3);
+    $$(".bk-paket").forEach(function (punkt, i) {
+      var st = punkt.style;
+      tl.fromTo(punkt, { left: "50%", top: "52%", opacity: 0, scale: 1 },
+        { left: st.getPropertyValue("--x").trim(), top: st.getPropertyValue("--y").trim(), opacity: 1, duration: 0.7, ease: "power2.inOut" }, 0.45 + i * 0.17)
+        .to(punkt, { opacity: 0, scale: 1.8, duration: 0.25, ease: "power1.out" }, 1.15 + i * 0.17);
+    });
+    $$(".bk-mit").forEach(function (m, i) {
+      var ab = 1.2 + i * 0.17;
+      tl.fromTo(m, { "--vb": 0 }, { "--vb": 1, duration: 0.09, ease: "sine.inOut", yoyo: true, repeat: 11 }, ab)
+        .fromTo(m, { "--vn": 0 }, { "--vn": 1, duration: 0.2, ease: "power2.out" }, ab)
+        .to(m, { "--vn": 0, duration: 0.4, ease: "power2.inOut" }, ab + 1.3);
+    });
+    var gruppe = blick.querySelector(".bk-marke--gruppe");
+    tl.fromTo(gruppe, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: "back.out(1.6)" }, 1.25)
+      .to(gruppe, { opacity: 0, y: 10, duration: 0.35, ease: "power2.in" }, SCHRITT - 0.5);
+
+    /* Start und Stopp */
+    // in einer Hülle um die Fläche, unten rechts: in der Fläche selbst (eigene Ebene) läge er unter dem 3D-Chip
+    var huelle = document.createElement("div");
+    huelle.className = "blick__huelle";
+    flaeche.parentNode.insertBefore(huelle, flaeche);
+    huelle.appendChild(flaeche);
+    // Feedback 123: „Notruf gesendet“ auch in die Hülle, über den 3D-Chip und seine Funkbögen
+    huelle.appendChild(blick.querySelector(".bk-marke--notruf"));
+    var knopf = document.createElement("button");
+    knopf.type = "button"; knopf.className = "blick__spiel";
+    huelle.appendChild(knopf);
+    var angehalten = ohneBewegung, sichtbar = false;
+    var knopfZeigen = function () {
+      knopf.setAttribute("aria-label", angehalten ? "Animation abspielen" : "Animation anhalten");
+      knopf.innerHTML = angehalten
+        ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg><span>Abspielen</span>'
+        : '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="5.5" width="3.6" height="13" rx="1"/><rect x="13.9" y="5.5" width="3.6" height="13" rx="1"/></svg><span>Anhalten</span>';
+    };
+    var weiter = function () { if (sichtbar && !angehalten) tl.play(); else tl.pause(); };
+    knopf.addEventListener("click", function () { angehalten = !angehalten; knopfZeigen(); weiter(); });
+
+    /* Schritte anspringen: am Handy drei Knöpfe, am PC die Liste rechts */
+    var springen = function (i) {
+      tl.seek(i * SCHRITT + (angehalten ? 3.4 : 0));   // angehalten: gleich das fertige Bild des Schritts zeigen
+      zustand(uhr.t);
+      weiter();
+    };
+    var wahl = document.createElement("div");
+    wahl.className = "blick__wahl"; wahl.setAttribute("role", "tablist"); wahl.setAttribute("aria-label", "Was der Knopf kann");
+    ["Kurz drücken", "Drei Sekunden", "Ohne Netz"].forEach(function (name, i) {
+      var b = document.createElement("button");
+      b.type = "button"; b.setAttribute("role", "tab"); b.setAttribute("aria-selected", i === 0 ? "true" : "false");
+      b.innerHTML = "<span>0" + (i + 1) + "</span>" + name;
+      b.addEventListener("click", function () { springen(i); });
+      wahl.appendChild(b); wahlKnoepfe.push(b);
+    });
+    var liste = blick.querySelector(".blick__schritte");
+    liste.parentNode.insertBefore(wahl, liste);
+    $$(".blick__schritte li").forEach(function (li, i) {
+      li.setAttribute("tabindex", "0");
+      li.addEventListener("click", function () { springen(i); });
+      li.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); springen(i); } });
+    });
+
+    bz.schritt = -1; bz.halten = -1;
+    if (ohneBewegung) tl.seek(3.4);   // ohne Bewegung: das fertige Bild von Schritt 1
+    zustand(uhr.t);
+    knopfZeigen();
+    new IntersectionObserver(function (e) { sichtbar = e[0].isIntersecting; weiter(); }, { threshold: 0.5 }).observe(blick);
+  })();
+
+  if (blick && !schau && blick.querySelector(".blick__chip") && !window.gsap) {
     var bz = chip.blick, blickDa = false, blickLaeuft = false;
     bz.klick = blick.classList.contains("ist-klick"); bz.wahl = 0; bz.wahlStart = 0; bz.zentriert = false;
     if (bz.klick) {
@@ -154,17 +331,19 @@
         var b = document.createElement("button");
         b.type = "button"; b.setAttribute("role", "tab"); b.setAttribute("aria-selected", i === 0 ? "true" : "false");
         b.innerHTML = "<span>0" + (i + 1) + "</span>" + name;
-        b.addEventListener("click", function () {
-          bz.wahl = i; bz.wahlStart = performance.now();
-          if (bz.spielt) { bz.spielt = false; blick.removeAttribute("data-spielt"); void blick.offsetWidth; }
-          wahlKnoepfe.forEach(function (k, j) { k.setAttribute("aria-selected", j === i ? "true" : "false"); });
-          if (blickDa && !blickLaeuft) { blickLaeuft = true; requestAnimationFrame(blickTakt); }
-        });
+        b.addEventListener("click", function () { bz.waehle(i); });
         wahl.appendChild(b);
         return b;
       });
       var liste = blick.querySelector(".blick__schritte");
       liste.parentNode.insertBefore(wahl, liste);
+      // einen Schritt wählen (Knopf oder automatisch): beginnt von vorn, die Animation von „Gruppe rufen“ neu
+      bz.waehle = function (i) {
+        bz.wahl = i; bz.wahlStart = performance.now();
+        if (bz.spielt) { bz.spielt = false; blick.removeAttribute("data-spielt"); void blick.offsetWidth; }
+        wahlKnoepfe.forEach(function (k, j) { k.setAttribute("aria-selected", j === i ? "true" : "false"); });
+        if (blickDa && !blickLaeuft) { blickLaeuft = true; requestAnimationFrame(blickTakt); }
+      };
     }
     var blickTakt = function () {
       if (!blickDa) { blickLaeuft = false; return; }
@@ -176,6 +355,9 @@
         bz.zentriert = zentriert;
         var roh = zentriert ? klemme((performance.now() - bz.wahlStart) / KLICK_DAUER) : 0;
         p = (bz.wahl + roh * 0.999) / 3;
+        // Feedback 120: läuft wie ein Video von selbst weiter; nach jedem Schritt eine kurze Pause, nach dem dritten
+        // wieder der erste (bei „weniger Bewegung“ bleibt der gewählte Schritt stehen)
+        if (zentriert && !ohneBewegung && performance.now() - bz.wahlStart > KLICK_DAUER + WEITER_PAUSE) bz.waehle((bz.wahl + 1) % 3);
       } else p = klemme(-r.top / Math.max(1, r.height - vh));
       bz.p = p;
       var sb = p < 1 / 3 ? 0 : p < 2 / 3 ? 1 : 2;

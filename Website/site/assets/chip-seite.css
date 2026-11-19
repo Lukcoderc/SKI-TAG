@@ -164,3 +164,57 @@
 @media (prefers-reduced-motion: reduce) {
   .berg__gondel { animation: none; }
 }
+
+/* ------------------------------------- Feedback 118: Der Weg zur Hilfe am Tag -- */
+/* Tag statt Nacht: heller Himmel mit Sonne, helle Berge, keine Sterne, keine beleuchteten Fenster.
+   Weniger „KI-Look“: statt dunkler Glaskarten mit Leuchtpunkten schlichte weiße Karten wie
+   Hinweisschilder, Fortschritt als ruhige Striche, unter der Szene eine einfache Häkchen-Zeile
+   statt Pillen. Der Abschnitt steht auf Weiß wie das Gebirge darunter, so gibt es keinen Farbsprung. */
+.weg { background: #fff; }
+.berg { background: #cfe2f5; color: var(--sc-ink); box-shadow: 0 0 0 1px rgba(14, 29, 64, 0.08); }
+.berg__name { fill: rgba(14, 29, 64, 0.72); }
+.berg__karte {
+  background: #fff; border: 1px solid rgba(14, 29, 64, 0.1); border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(14, 29, 64, 0.08), 0 10px 24px -16px rgba(14, 29, 64, 0.4);
+}
+.berg__wer { color: var(--sc-ink-soft); }
+.berg__jetzt { color: var(--sc-ink); }
+.berg__zahl, .berg__dauer { color: var(--sc-ink-soft); }
+.berg__dauer { color: var(--sc-ink); }
+.berg__punkte i { background: #e3e6ec; border-radius: 2px; }
+.berg__punkte i.an { background: var(--sc-ink); }
+.berg__karte--chip .berg__punkte i.an { background: var(--orange); }
+.berg__karte.ist-fertig { border-color: rgba(28, 143, 99, 0.5); }
+.berg__karte.ist-fertig .berg__jetzt { color: #1c8f63; }
+.weg__ohne { gap: 0.4rem 1.5rem; }
+.weg__ohne li { padding: 0; border: 0; border-radius: 0; background: none; }
+@media (max-width: 700px) {
+  .berg__karten { background: #fff; border-top: 1px solid rgba(14, 29, 64, 0.08); }
+  .berg__karte { background: #fff; box-shadow: none; }
+  .weg__ohne { gap: 0.35rem 1rem; }
+  .weg__ohne li { padding: 0; }
+}
+
+/* ------------------------------------- Feedback 124: Der Weg zur Hilfe auf einem echten Foto -- */
+/* Statt gezeichnetem Berg ein Foto (assets/media/berg-foto.webp), darauf nur Kartenpunkte: die beiden Gestürzten,
+   die Liftstation, die Rettung, die Helfer als grüne Punkte mit Spur. Beschriftungen mit weißem Rand, damit sie
+   auf Wald und Schnee lesbar sind. */
+.berg { background: #2b3a2f; }
+.berg__foto { image-rendering: auto; }
+.berg__name { font: 650 15px var(--sc-font-text); fill: #0e1d40; paint-order: stroke; stroke: #fff; stroke-width: 5px; stroke-linejoin: round; letter-spacing: 0.01em; }
+.berg__name--klein { font-size: 13px; }
+.berg__spur { fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; filter: drop-shadow(0 1px 1.5px rgba(14, 29, 64, 0.5)); }
+
+/* Feedback 131: Startknopf mitten in der Bergszene (assets/weg.js), davor ist das Bild leicht abgedunkelt */
+.berg__start { position: absolute; inset: 0; z-index: 3; display: grid; place-content: center; justify-items: center; gap: 0.9rem; padding: 1.5rem; text-align: center;
+  background: radial-gradient(60% 60% at 50% 55%, rgba(8, 16, 34, 0.55), rgba(8, 16, 34, 0.25)); transition: opacity 500ms ease; }
+.berg__start.ist-weg { opacity: 0; pointer-events: none; }
+.berg__start p { margin: 0; max-width: 26rem; font-size: var(--sc-t-sm); line-height: 1.45; color: rgba(255, 255, 255, 0.86); text-shadow: 0 1px 12px rgba(4, 10, 24, 0.5); }
+.berg__los { display: inline-flex; align-items: center; gap: 0.6rem; height: 3.4rem; padding: 0 1.6rem 0 1.25rem; border: 0; border-radius: 999px; cursor: pointer;
+  background: #fff; color: var(--sc-ink); font: 650 1.02rem/1 var(--sc-font-text); letter-spacing: -0.01em;
+  box-shadow: 0 18px 40px -16px rgba(4, 10, 24, 0.6); transition: transform 200ms ease, box-shadow 200ms ease; }
+.berg__los svg { width: 1rem; height: 1rem; fill: currentColor; }
+.berg__los:hover { transform: scale(1.04); box-shadow: 0 22px 46px -16px rgba(4, 10, 24, 0.7); }
+.berg__los:active { transform: scale(0.97); }
+.berg__los:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+@media (max-width: 700px) { .berg__los { height: 3rem; font-size: 0.95rem; } .berg__start p { font-size: 0.8rem; } }

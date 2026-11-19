@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Das sind wir · SkiTag</title>
+<meta name="description" content="Maximilian, Lukas und Tobias: drei HTLer, die mit SkiTag die Skiwelt sicherer machen wollen. Kontakt für Bergbahnen, Skischulen und Sponsoren.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><mask id='m' maskUnits='userSpaceOnUse' x='0' y='0' width='32' height='32'><rect width='32' height='32' fill='%23fff'/><path d='M5 23 L11.5 14 L15 18.5 L19.5 12 L27 23 Z' fill='%23000'/><circle cx='24.2' cy='12.2' r='3.6' fill='%23000'/></mask><rect x='1.5' y='6.5' width='29' height='19' rx='6.5' fill='%230b1226' mask='url(%23m)'/><circle cx='24.2' cy='12.2' r='2.2' fill='%23ff5a1c'/></svg>">
+<link rel="preload" href="assets/fonts/funnel-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/funnelsans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="scrollcraft.css?v=16">
+<script>
+/* Sparmodus für schwächere Geräte: kein Glas, kein Schnee, keine reinen Zier-Animationen.
+   Ohne Video im Einstieg nur, wenn die Seite hier schon einmal ruckelte oder Datensparen an ist. */
+(function () { try {
+  var n = navigator, w = document.documentElement, gemessen = localStorage.getItem("skitag-sparsam") === "1";
+  var spart = n.connection && n.connection.saveData;
+  if (gemessen || spart || (n.hardwareConcurrency && n.hardwareConcurrency <= 4) || (n.deviceMemory && n.deviceMemory <= 4)) w.classList.add("sparsam");
+  if (gemessen || spart || (n.deviceMemory && n.deviceMemory <= 2)) w.classList.add("sparsam-video");
+} catch (e) {} })();
+</script>
+<script>
+/* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
+if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
+</script>
+<link rel="stylesheet" href="assets/seite.css?v=125">
+<link rel="stylesheet" href="assets/wir-seite.css?v=5">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g-orange" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a3d"/><stop offset=".55" stop-color="#ff5a1c"/><stop offset="1" stop-color="#e2470f"/></linearGradient>
+    <linearGradient id="g-graphit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a414c"/><stop offset="1" stop-color="#1c2027"/></linearGradient>
+    <radialGradient id="g-knopf" cx=".42" cy=".36" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".7" stop-color="#f0f1f2"/><stop offset="1" stop-color="#d4d5d7"/></radialGradient>
+    <linearGradient id="g-glanz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <!-- Der Chip von oben: Hülle, Deckel in Signal-Orange, Knopf mit Kragen, LED. Verhältnis 120 × 60 mm. -->
+    <symbol id="chip-oben" viewBox="0 0 240 120">
+      <rect x="1" y="1" width="238" height="118" rx="31" fill="url(#g-graphit)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-orange)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-glanz)"/>
+      <text x="26" y="98" font-family="Funnel Display, sans-serif" font-weight="650" font-size="13" fill="#b33a0c" opacity=".55">SkiTag</text>
+      <circle cx="120" cy="60" r="31" fill="url(#g-graphit)"/>
+      <circle cx="120" cy="61.5" r="19" fill="#0e1116" opacity=".35"/>
+      <circle cx="120" cy="60" r="18" fill="url(#g-knopf)"/>
+      <circle cx="198" cy="88" r="4.2" fill="#fff4ee" style="fill: var(--led, #fff4ee)"/>
+    </symbol>
+    <!-- Der Tag im Einstieg: wie #chip-oben, mit sichtbarer Kante, leicht von vorn gesehen -->
+    <linearGradient id="g-kante" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a3039"/><stop offset="1" stop-color="#14171c"/></linearGradient>
+    <symbol id="chip-tag" viewBox="0 0 240 132">
+      <rect x="1" y="13" width="238" height="118" rx="31" fill="url(#g-kante)"/>
+      <rect x="1" y="1" width="238" height="118" rx="31" fill="url(#g-graphit)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-orange)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-glanz)"/>
+      <path d="M33 8.5 H207" stroke="#fff" stroke-opacity=".45" stroke-width="1.2" stroke-linecap="round"/>
+      <text x="26" y="98" font-family="Funnel Display, sans-serif" font-weight="650" font-size="13" fill="#b33a0c" opacity=".55">SkiTag</text>
+      <circle cx="120" cy="60" r="31" fill="url(#g-graphit)"/>
+      <circle cx="120" cy="62" r="19.5" fill="#0e1116" opacity=".4"/>
+      <circle cx="120" cy="60" r="18" fill="url(#g-knopf)"/>
+      <circle cx="198" cy="88" r="4.2" fill="#fff4ee" style="fill: var(--led, #fff4ee)"/>
+    </symbol>
+    <!-- Logo (Platzhalter bis zum echten Logo): der Chip von oben als runde Fläche,
+         der Berg ausgespart, oben rechts der orange Knopf. Fläche in currentColor,
+         damit es auf hellem und dunklem Grund passt; Berg und Lücke sind durchsichtig. -->
+    <mask id="logo-luecke" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32"><rect width="32" height="32" fill="#fff"/><path d="M5 23 L11.5 14 L15 18.5 L19.5 12 L27 23 Z" fill="#000"/><circle cx="24.2" cy="12.2" r="3.6" fill="#000"/></mask>
+    <symbol id="logo" viewBox="0 0 32 32">
+      <rect x="1.5" y="6.5" width="29" height="19" rx="6.5" fill="currentColor" mask="url(#logo-luecke)"/>
+      <circle cx="24.2" cy="12.2" r="2.2" fill="#ff5a1c"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- Kopfleiste wie bei Granola: oben unsichtbar, beim Scrollen eine weiße Pille (kopfleiste.js).
+     Auf der Seite eines Kapitels fahren rechts neben seinem Namen die Unterkapitel aus. -->
+<header class="oben">
+  <nav class="oben__pille" aria-label="Hauptmenü">
+    <a class="oben__marke" href="index.html" aria-label="SkiTag, zur Startseite">
+      <svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>
+      SkiTag
+    </a>
+    <ul class="oben__seiten">
+      <li><a href="chip.html">Der Chip</a></li>
+      <li><a href="app.html">Die App</a></li>
+      <li><a href="skitag.html">Am Skitag</a></li>
+      <li><a href="feedback.html">Feedback</a></li>
+    </ul>
+    <div class="oben__rechts">
+      <a class="knopf-dunkel oben__wir" href="wir.html">Das sind wir</a>
+      <button class="oben__menue-knopf" type="button" aria-expanded="false" aria-controls="oben-menue" aria-label="Menü öffnen"><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="oben__menue" id="oben-menue" hidden></div>
+</header>
+
+<main id="oben">
+
+  <!-- Das sind wir (seit Feedback 106): wie Über-uns-Seiten junger Teams aufgebaut. Oben wer wir sind und warum,
+       dann ein großer Satz als Ziel, am Ende der Kontakt mit der Team-Adresse (die Rollen einzeln seit Feedback 108 nicht mehr). Bewusst ohne Kacheln: Text, Fotoplätze und feine Linien.
+       Öffentliches Repo: nur Vornamen, als Kontakt nur die Team-Adresse. -->
+  <section id="wir" class="sc-section wir wir--seite" data-sc-act="flow" data-sc-drift="#ffffff" aria-labelledby="wir-titel">
+    <div class="sc-wrap">
+      <header class="wir__kopf" data-sc-in data-sc-stagger="80">
+        <h1 id="wir-titel" class="sc-display riesig">Das sind wir.</h1>
+        <p class="wir__lede">Wir sind drei HTL Schüler und wollen die Skiwelt ein großes Stück sicherer machen. Deshalb bauen wir SkiTag ein Chip der Hilfe holt, auch wenn dein Handy keinen Empfang hat.</p>
+      </header>
+      <figure class="wir__foto" data-sc-in>
+        <div class="wir__platz" role="img" aria-label="Platzhalter für ein Foto von Maximilian, Lukas und Tobias">
+          <svg viewBox="0 0 120 60" aria-hidden="true"><g fill="currentColor"><circle cx="34" cy="20" r="8"/><path d="M20 50 C20 36 48 36 48 50 Z"/><circle cx="60" cy="16" r="9"/><path d="M44 50 C44 32 76 32 76 50 Z"/><circle cx="86" cy="20" r="8"/><path d="M72 50 C72 36 100 36 100 50 Z"/></g></svg>
+          <span>Foto von uns dreien folgt</span>
+        </div>
+        <figcaption>Maximilian, Lukas und Tobias</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Unser Ziel: ein großer Satz, darunter zwei kurze Absätze -->
+  <section class="sc-section wir-ziel" data-sc-act="flow" data-sc-drift="#ffffff" aria-labelledby="ziel-titel">
+    <div class="sc-wrap">
+      <h2 id="ziel-titel" class="nur-vorlesen">Unser Ziel</h2>
+      <p class="wir-ziel__satz" data-sc-in>Ob nach einem Sturz Hilfe kommt, soll nicht davon abhängen, ob <span>dein Handy Netz hat.</span></p>
+      <div class="wir-ziel__text" data-sc-in data-sc-stagger="80">
+        <p>Am Berg ist das Handy oft im Rucksack, die Finger sind kalt und das Netz ist schwach. Genau dann soll ein einziger Knopf reichen.</p>
+        <p>Wir bauen alles selbst: den Chip, das Funknetz an den Liftstationen und die App. So passt jedes Teil zum anderen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kontakt (seit Feedback 107): eine Spalte in der Mitte. Überschrift, ein Satz für wen, die Adresse groß zum
+       Anklicken, darunter „E-Mail schreiben“ und „Adresse kopieren“. Ziel von „Kontakt aufnehmen“ auf app.html. -->
+  <section id="kontakt" class="sc-section wir-kontakt" aria-labelledby="kontakt-titel">
+    <div class="sc-wrap">
+      <div class="wk" data-sc-in data-sc-stagger="80">
+        <span class="wk__zeichen" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="3"/><path d="M4.5 7.5l7.5 5.5 7.5-5.5"/></svg></span>
+        <h2 id="kontakt-titel" class="wir-h2">Schreib uns.</h2>
+        <p class="wk__lede">Ob Bergbahn, Skischule, Sponsor oder einfach neugierig: Wir freuen uns über jede Nachricht.</p>
+        <!-- Klick auf die Adresse kopiert sie (wir-seite.js); ohne JavaScript bleibt es ein normaler E-Mail-Link -->
+        <a class="wk__mail" href="mailto:skitag.team@gmail.com" data-mail="skitag.team@gmail.com">skitag.team@gmail.com</a>
+        <p class="wk__tipp" aria-live="polite"><span class="wk__tipp-text">Klick auf die Adresse kopiert sie.</span></p>
+        <!-- „E-Mail schreiben“: Auswahl, womit (Feedback 109). Ein reiner mailto-Link tut nichts, wenn kein Mail-Programm
+             eingerichtet ist. details/summary funktioniert auch ohne JavaScript. -->
+        <details class="wk__schreiben">
+          <summary class="knopf-dunkel knopf-gross">E-Mail schreiben <svg class="wk__auf" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+          <div class="wk__wahl">
+            <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=skitag.team%40gmail.com" target="_blank" rel="noopener">Gmail <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5h6.5V10M12.5 3.5 4 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="https://outlook.live.com/mail/0/deeplink/compose?to=skitag.team%40gmail.com" target="_blank" rel="noopener">Outlook <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3.5h6.5V10M12.5 3.5 4 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a href="mailto:skitag.team@gmail.com">Mail-App am Gerät</a>
+          </div>
+        </details>
+        <p class="wk__fuss">Wir antworten persönlich.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Gebirge über dem Fuß wie auf der Startseite (seit Feedback 69): kommt einmal hoch, Gondeln fahren (seite.js, seite.css) -->
+<div class="gebirge-band" aria-hidden="true">
+    <div class="gebirge">
+      <svg class="gebirge__bild" viewBox="0 0 1600 240" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="b-fern" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6b6f77"/><stop offset=".75" stop-color="#28365f"/></linearGradient>
+        <linearGradient id="b-mitte" x1="0" y1="0" x2="0" y2="1"><stop offset=".3" stop-color="#26335d"/><stop offset=".85" stop-color="#111a37"/></linearGradient>
+        <path id="b-tanne" d="M0 -14 L4.2 -7 L2 -7 L6 0 L-6 0 L-2 -7 L-4.2 -7 Z"/>
+      </defs>
+      <g class="gebirge__lage gebirge__lage--fern">
+        <path d="M0 240 L0 132 L18.1 130.4 L43.1 119.7 L69.5 117.3 L90 112 L108.5 109 L132.2 102.3 L151.6 98.1 L170 92 L194 82.9 L211.4 79.7 L235.5 67.4 L255 64 L281.6 71.1 L308.7 81.1 L330 86 L346.7 73.1 L373.7 61.5 L391.3 47.6 L410 34 L436.1 48.8 L453.9 55.7 L480.5 67.2 L500 80 L519.4 75.9 L544.4 73.4 L571.3 73 L590 70 L615.4 82.4 L632.8 86.9 L660 98 L681.8 87.6 L701.8 74.5 L727.3 62.9 L745 56 L765.1 45.3 L788.9 40.4 L808.9 24.8 L830 18 L852.9 27.3 L876.3 39.4 L899.8 51.3 L925 62 L947.3 65.4 L971.1 72.7 L991.9 79.6 L1010 84 L1032.4 77.6 L1052.5 72.5 L1077.6 63.7 L1095 58 L1118.1 64.5 L1138.3 73.8 L1157.3 82.6 L1180 92 L1206.3 82 L1224.1 68.6 L1247.5 52.3 L1275 40 L1295.7 46.1 L1326.9 56.8 L1347.4 65.7 L1370 78 L1389.6 75.7 L1406.8 75.4 L1433.4 72.1 L1450 66 L1473.4 78.8 L1492.3 83.2 L1505.7 92.5 L1530 104 L1549.6 97.3 L1577.7 96.5 L1600 96 L1600 240 Z" fill="url(#b-fern)"/>
+                <g fill="#e6e8ea"><path d="M214.7 78 L235.5 67.4 L255 64 L281.6 71.1 L300.3 78 L283.2 76.9 L266 70.8 L248.9 76 L231.8 71.1 Z"/><path d="M380.7 56 L391.3 47.6 L410 34 L436.1 48.8 L453.9 55.7 L454.6 56 L439.8 54.7 L425 45.9 L410.3 54.5 L395.5 43.3 Z"/><path d="M707.4 72 L727.3 62.9 L745 56 L765.1 45.3 L788.9 40.4 L808.9 24.8 L830 18 L852.9 27.3 L876.3 39.4 L899.8 51.3 L925 62 L947.3 65.4 L968.9 72 L916.6 69.7 L864.3 62.2 L812 68.9 L759.7 63.2 Z"/><path d="M763.7 46 L765.1 45.3 L788.9 40.4 L808.9 24.8 L830 18 L852.9 27.3 L876.3 39.4 L889.4 46 L864.2 40.7 L839.1 31.2 L814 41.2 L788.8 28 Z"/><path d="M1054 72 L1077.6 63.7 L1095 58 L1118.1 64.5 L1134.3 72 L1118.3 69.1 L1102.2 63 L1086.1 69.3 L1070.1 64 Z"/><path d="M1233.5 62 L1247.5 52.3 L1275 40 L1295.7 46.1 L1326.9 56.8 L1339 62 L1317.9 57.4 L1296.8 51.3 L1275.7 60.6 L1254.6 48.9 Z"/><path d="M1387.4 76 L1389.6 75.7 L1406.8 75.4 L1433.4 72.1 L1450 66 L1468.3 76 L1452.1 74.2 L1436 70.6 L1419.8 74.4 L1403.6 70.7 Z"/></g>
+      </g>
+      <g class="gebirge__lage gebirge__lage--mitte">
+        <path d="M0 240 L0 168 L21.7 163.4 L41.4 157.4 L62.8 152.9 L80 150 L96.6 154.9 L112.3 154.9 L128.9 160 L150 160 L169 155.3 L182.6 148 L201.8 141.2 L222.5 132.3 L240 124 L258.3 127.8 L277.9 135.4 L296.8 142.1 L320 146 L341.4 143.8 L360 136.2 L377.2 138 L400 132 L414.8 138.1 L437.8 139.2 L455.3 149.2 L470 152 L491.5 152.3 L507.9 146.7 L522.2 146.2 L544.8 141.8 L560 140 L578.1 144.4 L602.8 150.4 L618.9 155.7 L640 160 L661.7 152 L681.6 145.5 L697.8 137.9 L720 132 L743.5 139.5 L761 143.2 L783 143.7 L800 150 L821 136.3 L840 127.3 L862 118.2 L880 104 L899.9 110.1 L919.6 118 L941.2 128.1 L960 136 L980.4 133.5 L1001.9 130.2 L1021.8 125.7 L1040 126 L1058.6 133.3 L1077.9 141.3 L1098.5 145.4 L1120 154 L1141.1 147.6 L1156.9 143.6 L1182.3 138.5 L1200 130 L1221 135.1 L1239.3 135.2 L1255.9 142.6 L1273.6 148.4 L1290 150 L1306.7 139.3 L1327 130.6 L1347 121.6 L1370 116 L1390.8 126.2 L1407.8 128.8 L1427.9 139.5 L1450 146 L1468.2 143.7 L1493.6 141.5 L1511.3 141.6 L1530 138 L1546.8 141 L1561.8 143.4 L1584.7 151.3 L1600 152 L1600 240 Z" fill="url(#b-mitte)"/>
+                <g class="gebirge__lift">
+          <path d="M650 232 L872 108" stroke="#b7b9bf" stroke-opacity=".55" stroke-width="1.2" fill="none"/>
+          <g stroke="#b7b9bf" stroke-opacity=".45" stroke-width="2"><path d="M716.6 192.8 V210.8"/><path d="M772.1 161.8 V179.8"/><path d="M823.2 133.3 V151.3"/></g>
+          <g fill="#b7b9bf" fill-opacity=".8"><rect x="870" y="100" width="20" height="11" rx="1.5"/><path d="M868 101 L880 94 L892 101 Z"/></g>
+          <path d="M886 96 V80" stroke="#b7b9bf" stroke-opacity=".8" stroke-width="1.4"/>
+          <circle class="gebirge__antenne" cx="886" cy="78" r="2.6" fill="#95a2b9"/>
+          <g class="gebirge__kabine" style="--dx:222px; --dy:-124px"><g transform="translate(650 232)"><path d="M0 0 V5" stroke="#b7b9bf" stroke-width="1"/><rect x="-4" y="5" width="8" height="7" rx="1.6" fill="#ff5a1c"/></g></g>
+          <g class="gebirge__kabine gebirge__kabine--2" style="--dx:222px; --dy:-124px"><g transform="translate(650 232)"><path d="M0 0 V5" stroke="#b7b9bf" stroke-width="1"/><rect x="-4" y="5" width="8" height="7" rx="1.6" fill="#eff0f2"/></g></g>
+        </g>
+      </g>
+      <g class="gebirge__lage gebirge__lage--vorn" fill="#0e1d40">
+        <path d="M0 240 L0 193.8 L16 192.1 L32 191.2 L48 191.3 L64 192.5 L80 194.6 L96 197 L112 199.4 L128 201.1 L144 201.8 L160 201.6 L176 200.5 L192 199 L208 197.6 L224 196.7 L240 196.5 L256 196.9 L272 197.7 L288 198.5 L304 198.9 L320 198.6 L336 197.5 L352 195.9 L368 194.1 L384 192.7 L400 192.2 L416 192.9 L432 194.8 L448 197.7 L464 201 L480 204.4 L496 207.2 L512 209.3 L528 210.7 L544 211.5 L560 212.1 L576 212.9 L592 214.3 L608 216.2 L624 218.6 L640 221.1 L656 223.1 L672 224.2 L688 224.2 L704 222.9 L720 220.8 L736 218.1 L752 215.6 L768 213.6 L784 212.4 L800 212.2 L816 212.6 L832 213.3 L848 213.9 L864 213.9 L880 213.2 L896 212.1 L912 210.6 L928 209.4 L944 208.7 L960 209 L976 210.1 L992 211.9 L1008 213.8 L1024 215.5 L1040 216.2 L1056 215.9 L1072 214.4 L1088 212 L1104 209.2 L1120 206.4 L1136 204 L1152 202.4 L1168 201.4 L1184 200.7 L1200 200.1 L1216 199.1 L1232 197.5 L1248 195.2 L1264 192.4 L1280 189.6 L1296 187.2 L1312 185.9 L1328 185.7 L1344 186.8 L1360 188.9 L1376 191.5 L1392 194.1 L1408 196.2 L1424 197.5 L1440 198.1 L1456 198.1 L1472 198.1 L1488 198.3 L1504 199.1 L1520 200.6 L1536 202.6 L1552 204.7 L1568 206.5 L1584 207.6 L1600 207.6 L1600 240 Z"/>
+        <use href="#b-tanne" transform="translate(20 194.8) scale(0.8699999999999999)"/><use href="#b-tanne" transform="translate(35.3 194.1) scale(1.22)"/><use href="#b-tanne" transform="translate(43.4 194.1) scale(0.9199999999999999)"/><use href="#b-tanne" transform="translate(55.9 194.7) scale(0.8800000000000001)"/><use href="#b-tanne" transform="translate(63.6 195.4) scale(0.99)"/><use href="#b-tanne" transform="translate(76.4 197) scale(1.27)"/><use href="#b-tanne" transform="translate(87.7 198.7) scale(1.7100000000000002)"/><use href="#b-tanne" transform="translate(95.4 199.9) scale(1.1300000000000001)"/><use href="#b-tanne" transform="translate(105.2 201.4) scale(0.72)"/><use href="#b-tanne" transform="translate(112.3 202.4) scale(1.1300000000000001)"/><use href="#b-tanne" transform="translate(120.1 203.3) scale(0.95)"/><use href="#b-tanne" transform="translate(135.4 204.6) scale(1.49)"/><use href="#b-tanne" transform="translate(149.3 204.8) scale(1.15)"/><use href="#b-tanne" transform="translate(164 204.4) scale(1.6800000000000002)"/><use href="#b-tanne" transform="translate(178.2 203.3) scale(1.3800000000000001)"/><use href="#b-tanne" transform="translate(190.3 202.2) scale(1.06)"/><use href="#b-tanne" transform="translate(201 201.2) scale(1.21)"/><use href="#b-tanne" transform="translate(330 201) scale(1.28)"/><use href="#b-tanne" transform="translate(343.5 199.8) scale(1.3800000000000001)"/><use href="#b-tanne" transform="translate(356.2 198.4) scale(1.44)"/><use href="#b-tanne" transform="translate(371.2 196.8) scale(1.56)"/><use href="#b-tanne" transform="translate(387 195.6) scale(1.15)"/><use href="#b-tanne" transform="translate(398.4 195.2) scale(1.67)"/><use href="#b-tanne" transform="translate(414.2 195.8) scale(1.0699999999999998)"/><use href="#b-tanne" transform="translate(421.9 196.5) scale(1.06)"/><use href="#b-tanne" transform="translate(436.9 198.6) scale(1.42)"/><use href="#b-tanne" transform="translate(450.5 201.2) scale(1.67)"/><use href="#b-tanne" transform="translate(464.6 204.1) scale(0.9199999999999999)"/><use href="#b-tanne" transform="translate(473.7 206.1) scale(1.51)"/><use href="#b-tanne" transform="translate(481.7 207.7) scale(1.6300000000000001)"/><use href="#b-tanne" transform="translate(495.9 210.2) scale(1.35)"/><use href="#b-tanne" transform="translate(509.3 212) scale(1.25)"/><use href="#b-tanne" transform="translate(960 212) scale(1.59)"/><use href="#b-tanne" transform="translate(972.1 212.8) scale(1.59)"/><use href="#b-tanne" transform="translate(981.5 213.7) scale(1.4)"/><use href="#b-tanne" transform="translate(992.4 214.9) scale(1.1099999999999999)"/><use href="#b-tanne" transform="translate(1001.1 216) scale(1.3)"/><use href="#b-tanne" transform="translate(1010.2 217.1) scale(1.61)"/><use href="#b-tanne" transform="translate(1024.6 218.5) scale(1.05)"/><use href="#b-tanne" transform="translate(1037.7 219.2) scale(1.59)"/><use href="#b-tanne" transform="translate(1045.8 219.2) scale(1.02)"/><use href="#b-tanne" transform="translate(1061.1 218.5) scale(0.72)"/><use href="#b-tanne" transform="translate(1069.2 217.7) scale(1.1099999999999999)"/><use href="#b-tanne" transform="translate(1076.4 216.8) scale(1.41)"/><use href="#b-tanne" transform="translate(1091.5 214.4) scale(0.89)"/><use href="#b-tanne" transform="translate(1100.4 212.8) scale(1.6600000000000001)"/><use href="#b-tanne" transform="translate(1113.7 210.4) scale(0.89)"/><use href="#b-tanne" transform="translate(1121.8 209.1) scale(1.34)"/><use href="#b-tanne" transform="translate(1128.9 208) scale(1.53)"/><use href="#b-tanne" transform="translate(1141.2 206.4) scale(1.47)"/><use href="#b-tanne" transform="translate(1149.4 205.6) scale(1.05)"/><use href="#b-tanne" transform="translate(1162.8 204.6) scale(1.67)"/><use href="#b-tanne" transform="translate(1174.8 204.1) scale(1.3)"/><use href="#b-tanne" transform="translate(1330 188.8) scale(1.42)"/><use href="#b-tanne" transform="translate(1343.6 189.8) scale(1.31)"/><use href="#b-tanne" transform="translate(1351.5 190.7) scale(0.76)"/><use href="#b-tanne" transform="translate(1364 192.6) scale(0.9400000000000001)"/><use href="#b-tanne" transform="translate(1376.3 194.6) scale(0.97)"/><use href="#b-tanne" transform="translate(1385.3 196) scale(1.33)"/><use href="#b-tanne" transform="translate(1397.9 197.9) scale(1.53)"/><use href="#b-tanne" transform="translate(1407.1 199.1) scale(1.6199999999999999)"/><use href="#b-tanne" transform="translate(1414.6 199.8) scale(1.4)"/><use href="#b-tanne" transform="translate(1425.2 200.6) scale(1.51)"/><use href="#b-tanne" transform="translate(1438.2 201) scale(1.52)"/><use href="#b-tanne" transform="translate(1446.1 201.1) scale(1.6300000000000001)"/><use href="#b-tanne" transform="translate(1457.6 201.1) scale(1.54)"/><use href="#b-tanne" transform="translate(1468.4 201.1) scale(1.58)"/><use href="#b-tanne" transform="translate(1482.5 201.2) scale(1.44)"/><use href="#b-tanne" transform="translate(1497.7 201.7) scale(1.5699999999999998)"/><use href="#b-tanne" transform="translate(1506.4 202.3) scale(1.4300000000000002)"/><use href="#b-tanne" transform="translate(1514.8 203.1) scale(0.8400000000000001)"/><use href="#b-tanne" transform="translate(1530.4 204.9) scale(1.67)"/><use href="#b-tanne" transform="translate(1537.9 205.9) scale(0.79)"/><use href="#b-tanne" transform="translate(1547.2 207.1) scale(1.6600000000000001)"/><use href="#b-tanne" transform="translate(1562.1 208.9) scale(1.67)"/><use href="#b-tanne" transform="translate(1571.5 209.9) scale(0.9099999999999999)"/><use href="#b-tanne" transform="translate(1578.8 210.4) scale(1.1800000000000002)"/>
+      </g>
+    </svg>
+    </div>
+</div>
+<footer class="fuss fuss--berg">
+  <div class="fuss__innen">
+    <div class="fuss__marke">
+      <b><svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag</b>
+      <span>SkiTag GmbH · Firmenname, Sitz und Firmenbuch folgen (Platzhalter)</span>
+    </div>
+    <nav aria-label="Seite">
+      <b>Seite</b>
+      <a href="index.html">Start</a><a href="chip.html">Der Chip</a><a href="app.html">Die App</a><a href="skitag.html">Am Skitag</a><a href="feedback.html">Feedback</a><a href="wir.html" aria-current="page">Das sind wir</a>
+    </nav>
+    <nav aria-label="Rechtliches">
+      <b>Rechtliches</b>
+      <span>Impressum folgt</span><span>Datenschutz folgt</span>
+    </nav>
+    <div class="fuss__nachweis">
+      <b>Nachweise</b>
+      <span>Bergvideo: Pexels. Fotos: Unsplash</span>
+      <span>Schrift der App: Bricolage Grotesque (OFL)</span>
+    </div>
+  </div>
+  <div class="fuss__wort" aria-hidden="true">
+    <p class="fuss__wort-zeile"><span style="--i:0">S</span><span style="--i:1">K</span><span style="--i:2">I</span><span style="--i:3">T</span><span style="--i:4">A</span><span style="--i:5">G</span></p>
+  </div>
+  <div class="fuss__leiste">
+    <span>© 2026 SkiTag</span>
+  </div>
+</footer>
+
+<a class="sprung-anfang" href="#oben" aria-label="Nach oben">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</a>
+
+<script src="scrollcraft.js?v=16"></script>
+<script>ScrollCraft.mount(document.body);</script>
+<script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
+<script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
+<script src="assets/seite.js?v=82" defer></script>
+<script src="assets/gsap-effekte.js?v=1" defer></script>
+<script src="assets/sprung-anfang.js?v=20" defer></script>
+<script src="assets/kopfleiste.js?v=2" defer></script>
+<script src="assets/wir-seite.js?v=3" defer></script>
+</body>
+</html>

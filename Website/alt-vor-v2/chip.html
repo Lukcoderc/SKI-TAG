@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Der Chip · SkiTag</title>
+<meta name="description" content="Der SkiTag-Chip: ein Knopf, was in ihm steckt und wie viel kürzer der Weg zur Hilfe ist.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><mask id='m' maskUnits='userSpaceOnUse' x='0' y='0' width='32' height='32'><rect width='32' height='32' fill='%23fff'/><path d='M5 23 L11.5 14 L15 18.5 L19.5 12 L27 23 Z' fill='%23000'/><circle cx='24.2' cy='12.2' r='3.6' fill='%23000'/></mask><rect x='1.5' y='6.5' width='29' height='19' rx='6.5' fill='%230b1226' mask='url(%23m)'/><circle cx='24.2' cy='12.2' r='2.2' fill='%23ff5a1c'/></svg>">
+<link rel="preload" href="assets/fonts/funnel-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/funnelsans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="scrollcraft.css?v=16">
+<script>
+/* Sparmodus für schwächere Geräte: kein Glas, kein Schnee, keine reinen Zier-Animationen.
+   Ohne Video im Einstieg nur, wenn die Seite hier schon einmal ruckelte oder Datensparen an ist. */
+(function () { try {
+  var n = navigator, w = document.documentElement, gemessen = localStorage.getItem("skitag-sparsam") === "1";
+  var spart = n.connection && n.connection.saveData;
+  if (gemessen || spart || (n.hardwareConcurrency && n.hardwareConcurrency <= 4) || (n.deviceMemory && n.deviceMemory <= 4)) w.classList.add("sparsam");
+  if (gemessen || spart || (n.deviceMemory && n.deviceMemory <= 2)) w.classList.add("sparsam-video");
+  /* Der 3D-Chip lädt: bis dahin kein Standbild zeigen (chip-3d.js nimmt die Klasse bei einem Fehler weg, seite.js nach 6 s) */
+  if ("noModule" in document.createElement("script")) w.classList.add("chip3d-warte");
+} catch (e) {} })();
+</script>
+<script>
+/* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
+if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
+</script>
+<link rel="stylesheet" href="assets/seite.css?v=125">
+<link rel="stylesheet" href="assets/chip-seite.css?v=14">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g-orange" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a3d"/><stop offset=".55" stop-color="#ff5a1c"/><stop offset="1" stop-color="#e2470f"/></linearGradient>
+    <linearGradient id="g-graphit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a414c"/><stop offset="1" stop-color="#1c2027"/></linearGradient>
+    <radialGradient id="g-knopf" cx=".42" cy=".36" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".7" stop-color="#f0f1f2"/><stop offset="1" stop-color="#d4d5d7"/></radialGradient>
+    <linearGradient id="g-glanz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <!-- Der Chip von oben: Hülle, Deckel in Signal-Orange, Knopf mit Kragen, LED. Verhältnis 120 × 60 mm. -->
+    <symbol id="chip-oben" viewBox="0 0 240 120">
+      <rect x="1" y="1" width="238" height="118" rx="31" fill="url(#g-graphit)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-orange)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-glanz)"/>
+      <text x="26" y="98" font-family="Funnel Display, sans-serif" font-weight="650" font-size="13" fill="#b33a0c" opacity=".55">SkiTag</text>
+      <circle cx="120" cy="60" r="31" fill="url(#g-graphit)"/>
+      <circle cx="120" cy="61.5" r="19" fill="#0e1116" opacity=".35"/>
+      <circle cx="120" cy="60" r="18" fill="url(#g-knopf)"/>
+      <circle cx="198" cy="88" r="4.2" fill="#fff4ee" style="fill: var(--led, #fff4ee)"/>
+    </symbol>
+    <!-- Der Tag im Einstieg: wie #chip-oben, mit sichtbarer Kante, leicht von vorn gesehen -->
+    <linearGradient id="g-kante" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a3039"/><stop offset="1" stop-color="#14171c"/></linearGradient>
+    <symbol id="chip-tag" viewBox="0 0 240 132">
+      <rect x="1" y="13" width="238" height="118" rx="31" fill="url(#g-kante)"/>
+      <rect x="1" y="1" width="238" height="118" rx="31" fill="url(#g-graphit)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-orange)"/>
+      <rect x="7" y="7" width="226" height="106" rx="26" fill="url(#g-glanz)"/>
+      <path d="M33 8.5 H207" stroke="#fff" stroke-opacity=".45" stroke-width="1.2" stroke-linecap="round"/>
+      <text x="26" y="98" font-family="Funnel Display, sans-serif" font-weight="650" font-size="13" fill="#b33a0c" opacity=".55">SkiTag</text>
+      <circle cx="120" cy="60" r="31" fill="url(#g-graphit)"/>
+      <circle cx="120" cy="62" r="19.5" fill="#0e1116" opacity=".4"/>
+      <circle cx="120" cy="60" r="18" fill="url(#g-knopf)"/>
+      <circle cx="198" cy="88" r="4.2" fill="#fff4ee" style="fill: var(--led, #fff4ee)"/>
+    </symbol>
+    <!-- Logo (Platzhalter bis zum echten Logo): der Chip von oben als runde Fläche,
+         der Berg ausgespart, oben rechts der orange Knopf. Fläche in currentColor,
+         damit es auf hellem und dunklem Grund passt; Berg und Lücke sind durchsichtig. -->
+    <mask id="logo-luecke" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32"><rect width="32" height="32" fill="#fff"/><path d="M5 23 L11.5 14 L15 18.5 L19.5 12 L27 23 Z" fill="#000"/><circle cx="24.2" cy="12.2" r="3.6" fill="#000"/></mask>
+    <symbol id="logo" viewBox="0 0 32 32">
+      <rect x="1.5" y="6.5" width="29" height="19" rx="6.5" fill="currentColor" mask="url(#logo-luecke)"/>
+      <circle cx="24.2" cy="12.2" r="2.2" fill="#ff5a1c"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- Kopfleiste wie bei Granola: oben unsichtbar, beim Scrollen eine weiße Pille (kopfleiste.js).
+     Auf der Seite eines Kapitels fahren rechts neben seinem Namen die Unterkapitel aus. -->
+<header class="oben">
+  <nav class="oben__pille" aria-label="Hauptmenü">
+    <a class="oben__marke" href="index.html" aria-label="SkiTag, zur Startseite">
+      <svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>
+      SkiTag
+    </a>
+    <ul class="oben__seiten">
+      <li><a href="chip.html">Der Chip</a></li>
+      <li><a href="app.html">Die App</a></li>
+      <li><a href="skitag.html">Am Skitag</a></li>
+      <li><a href="feedback.html">Feedback</a></li>
+    </ul>
+    <div class="oben__rechts">
+      <a class="knopf-dunkel oben__wir" href="wir.html">Das sind wir</a>
+      <button class="oben__menue-knopf" type="button" aria-expanded="false" aria-controls="oben-menue" aria-label="Menü öffnen"><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="oben__menue" id="oben-menue" hidden></div>
+</header>
+
+<div class="akt-balken" aria-hidden="true"><span class="akt-balken__fuell"></span></div>
+<main id="oben">
+  <!-- Seite „Der Chip“ (Feedback 91): Einstieg, Knopf, Innenleben (Explosionsansicht), Der Weg zur Hilfe.
+       Jeder Abschnitt mit id und data-unter erscheint als Unterkapitel in der Kopfleiste (kopfleiste.js). -->
+  <section class="sc-section seite-anfang chip-anfang" aria-labelledby="seite-titel">
+    <div class="sc-wrap">
+      <header class="kopfzeile" data-sc-in data-sc-stagger="80">
+        <p class="augenbraue">Der Chip</p>
+        <h1 id="seite-titel" class="sc-display riesig">Klein in der Jacke.<br><span class="leise">Groß, wenn es zählt.</span></h1>
+        <p class="sc-lede kopfzeile__text">Ein Knopf, ein Akku für den ganzen Skitag und eigener Funk. Mehr brauchst du am Berg nicht dabeizuhaben.</p>
+      </header>
+    </div>
+  </section>
+
+  <!-- 1 · Knopf: „Probiere den Tag aus.“ (seit Feedback 93 hier statt auf der Startseite). Der fertige Chip in 3D
+       liegt nah am Knopf in der Fläche (assets/chip-3d.js), .chip-knopf liegt als echter Knopf genau darüber.
+       Kurz drücken: die Ansicht fährt zurück, drei Chips der Gruppe erscheinen und vibrieren. Drei Sekunden halten:
+       der Ring füllt sich und die Ziffer zählt, danach wird die Fläche Nacht und der Notruf läuft als Weg
+       (Liftstation, Mitarbeiter, Hilfe). Ablauf in seite.js, Zustand in data-zustand. -->
+  <section id="der-chip" class="knopf" data-unter="Knopf" data-sc-act="flow" data-zustand="ruhe" aria-labelledby="chip-titel">
+    <div class="knopf__buehne">
+      <div class="knopf__text">
+        <p class="augenbraue">Knopf</p>
+        <h2 id="chip-titel" class="sc-display knopf__titel">Probiere den<br><span class="akzent">Tag aus.</span></h2>
+        <ol class="knopf__schritte">
+          <li data-schritt="gruppe"><b>Kurz drücken</b><span>Deine Gruppe spürt es und sieht, wo du bist.</span></li>
+          <li data-schritt="halten"><b>Drei Sekunden halten</b><span>Der Notruf startet. Ein zweiter Druck bricht ab.</span></li>
+          <li data-schritt="hilfe"><b>Hilfe kommt</b><span>Ein Mitarbeiter der Bergbahn fährt zu dir.</span></li>
+        </ol>
+        <div class="knopf__status">
+          <p id="knopf-status" class="knopf-akt__status" aria-live="polite">Probier es aus: Drück den Knopf am Chip. Kurz für die Gruppe, gedrückt halten für den Notruf.</p>
+          <button class="knopf-hell" type="button" data-aktion="nochmal" hidden>Nochmal</button>
+        </div>
+      </div>
+
+      <div class="knopf__bild">
+        <div class="kn-nacht" aria-hidden="true"></div>
+        <div class="kn-wellen" aria-hidden="true"><i></i><i></i><i></i></div>
+        <svg class="kn-linien" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path class="kn-linien__gruppe" d="M50 50 L16 24"/><path class="kn-linien__gruppe" d="M50 50 L85 29"/><path class="kn-linien__gruppe" d="M50 50 L20 79"/><path class="kn-linien__funk" d="M35 44 C 42 36, 47 32, 54 31"/></svg>
+        <i class="kn-paket" style="--x:16%; --y:24%; --v:0s; --f:#2a4a8f" aria-hidden="true"></i><i class="kn-paket" style="--x:85%; --y:29%; --v:0.17s; --f:#6b7385" aria-hidden="true"></i><i class="kn-paket" style="--x:20%; --y:79%; --v:0.34s; --f:#c2410c" aria-hidden="true"></i>
+        <div class="mit kn-mit" style="--x:16%; --y:24%; --v:0s; --f:#2a4a8f" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp?v=2" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>A</i>Anna</span></div>
+        <div class="mit kn-mit" style="--x:85%; --y:29%; --v:0.17s; --f:#6b7385" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp?v=2" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>T</i>Tom</span></div>
+        <div class="mit kn-mit" style="--x:20%; --y:79%; --v:0.34s; --f:#c2410c" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp?v=2" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>L</i>Lea</span></div>
+
+        <div class="kn-weg" aria-hidden="true">
+          <p class="kn-weg__kopf"><i></i><span class="kn-weg__titel">Notruf gesendet</span></p>
+          <ol>
+            <li data-ab="0.06"><span class="kn-weg__zeichen"><svg viewBox="0 0 24 24"><path d="M12 21V9M7 21h10M12 9l-4 12M12 9l4 12"/><path d="M8 6.5a5.5 5.5 0 0 1 8 0M5.5 4a9 9 0 0 1 13 0"/></svg></span><b>Liftstation</b><span>empfängt deinen Standort</span></li>
+            <li data-ab="0.3"><span class="kn-weg__zeichen"><svg viewBox="0 0 24 24"><circle cx="14.5" cy="5" r="2"/><path d="M4 18.5l15 2.5M7 13l4-4 3 3 3 1M11 9l-1 6 4 3"/></svg></span><b>Bergbahn</b><span>Ein Mitarbeiter fährt los</span></li>
+            <li data-ab="1"><span class="kn-weg__zeichen"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><b>Bei dir</b><span>Hilfe ist da</span></li>
+          </ol>
+        </div>
+
+        <div class="knopf__nah chip-anker" aria-hidden="true"></div>
+        <div class="knopf__chip chip-anker">
+          <img class="chip-bild" src="assets/media/chip-3d.webp?v=2" alt="" width="600" height="800" loading="lazy" decoding="async">
+          <button class="chip-knopf" type="button" aria-describedby="knopf-status">
+            <svg class="chip-knopf__ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" pathLength="1"/></svg>
+            <span class="nur-vorlesen">Knopf am Chip (Vorführung): kurz drücken ruft die Gruppe, drei Sekunden halten startet den Notruf</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · Innenleben: gepinnte Strecke. Das 3D-Modell des Chips (seit Feedback 111 Maxis aktuelles Modell „Fertiger
+       Chip“ mit nachgebauten Bauteilen, assets/media/chip-teile.bin) zieht sich beim Scrollen auseinander und bleibt offen (seit Feedback 93
+       baut es sich nicht wieder zusammen). Rechts daneben stehen sechs Namen, jeder mit einer gestrichelten Linie
+       zu seinem Teil (assets/chip-seite.js liest --sc-p).
+       Am Handy, bei „weniger Bewegung“ und ohne WebGL nicht gepinnt: der Chip öffnet sich von selbst (data-klick). -->
+  <section id="innenleben" class="innen nacht" data-unter="Innenleben" data-klick="899" data-sc-act="pin" data-sc-span="2.6" aria-labelledby="innenleben-titel">
+    <div class="innen__buehne" data-sc-stage>
+      <div class="innen__bild">
+        <canvas class="innen__gl" aria-hidden="true"></canvas>
+        <img class="innen__ersatz" src="assets/media/chip-3d.webp?v=2" alt="" width="600" height="800" loading="lazy" decoding="async">
+        <svg class="innen__zeiger" aria-hidden="true"></svg>
+        <ol class="innen__marken" aria-label="Was im Chip steckt">
+          <li><b>Knopf</b><span>Groß genug für Handschuhe</span></li>
+          <li><b>LED</b><span>Zeigt, was der Chip gerade tut</span></li>
+          <li><b>Hülle</b><span>Weicher Rand mit Stoßecken</span></li>
+          <li><b>Platine</b><span>Funkmodul, GPS und Sensoren</span></li>
+          <li><b>Akku</b><span>Flach, unter der Platine</span></li>
+          <li><b>Laden</b><span>Kabellos über eine Spule</span></li>
+        </ol>
+      </div>
+      <div class="innen__text">
+        <p class="augenbraue">Innenleben</p>
+        <h2 id="innenleben-titel" class="sc-display">Was im Chip <span class="akzent">steckt.</span></h2>
+        <p class="sc-lede innen__lede">Sechs Teile, ein Auftrag: Hilfe holen, wenn du sie brauchst.</p>
+        <p class="innen__hinweis">Konzept aus Maxis Werkstattbuch, noch kein Bauplan. Die Lage der Bauteile ist ein Vorschlag.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · Der Weg zur Hilfe (Feedback 99/100, seit 124 auf einem echten Foto). Zwei Leute stürzen am selben Berg, links mit
+       SkiTag, rechts mit dem Handy. Kommt die Szene ins Bild, läuft beides im gleichen Takt (assets/weg.js): links Knopf,
+       Funk zur Liftstation, ein Mitarbeiter fährt direkt hin; rechts Handschuhe, Handy, Entsperren, Netz, Nummer, Ort
+       erklären, dann ruft die Rettung erst die Bergbahn an, dann sucht die Hilfe. Keine Zeiten, nur Schritte (Zielzeiten dürfen nicht behauptet werden).
+       Die beiden Karten oben zeigen den jeweiligen Schritt; am Handy stehen sie unter der Szene.
+       Ohne JavaScript und bei „weniger Bewegung“ steht gleich das Endbild. -->
+  <section id="weg" class="sc-section weg" data-unter="Der Weg" data-sc-act="flow" aria-labelledby="weg-titel">
+    <div class="sc-wrap">
+      <header class="kopfzeile" data-sc-in data-sc-stagger="80">
+        <p class="augenbraue">Der Weg zur Hilfe</p>
+        <h2 id="weg-titel" class="sc-display riesig">Zwei Stürze.<br><span class="leise">Zwei Wege zur Hilfe.</span></h2>
+        <p class="sc-lede weg__lede">Gleiche Piste, gleicher Moment. Einer holt Hilfe mit SkiTag, der andere mit dem Handy. Schau, bei wem die Hilfe zuerst ist.</p>
+      </header>
+
+      <div class="berg" data-sc-in>
+        <svg class="berg__bild" viewBox="0 0 1200 640" role="img" aria-labelledby="berg-alt">
+          <title id="berg-alt">Foto eines Skibergs mit Liftstation oben: Zwei Leute stürzen auf derselben Piste. Weiter unten hält jemand den Knopf am SkiTag, der Standort geht per Funk zur Liftstation und ein Mitarbeiter der Bergbahn fährt direkt hin. Weiter oben muss jemand erst das Handy herausholen, entsperren, Netz suchen, die Nummer wählen und den Ort erklären. Die Rettung muss dann erst die Bergbahn anrufen, und die Hilfe sucht nach der Beschreibung und kommt deutlich später an.</title>
+          <!-- Feedback 124: echtes Foto statt Zeichnung (Unsplash nigBao-IlDk, Barnabas Davoti, Unsplash-Lizenz), darauf nur
+               Kartenpunkte. Beide liegen auf derselben Piste: mit SkiTag weiter unten (weiter weg von der Station), mit dem Handy weiter oben; oben die Liftstation. -->
+          <defs>
+            <path id="berg-pfad-a" d="M632 96 C 610 150 612 220 640 262 C 668 304 684 360 696 410 C 702 440 696 460 694 480" fill="none"/>
+            <path id="berg-pfad-b" d="M640 96 C 618 150 622 220 650 262 C 676 300 690 360 698 410 C 704 440 736 420 734 324" fill="none"/>
+          </defs>
+          <image class="berg__foto" href="assets/media/berg-foto.webp?v=1" x="0" y="0" width="1200" height="640" preserveAspectRatio="xMidYMid slice"/>
+          <rect class="berg__schleier" width="1200" height="640" fill="#0e1d40" opacity=".12"/>
+
+          <!-- Liftstation: hier hängt der Empfänger -->
+          <g class="berg__station">
+            <circle id="berg-antenne-licht" cx="630" cy="74" r="6" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/>
+            <circle cx="630" cy="74" r="9" fill="#fff"/>
+            <circle id="berg-antenne-spitze" cx="630" cy="74" r="5" fill="#95a2b9"/>
+            <text class="berg__name" x="648" y="66">Liftstation</text>
+          </g>
+
+          <ellipse id="berg-suche" cx="708" cy="334" rx="70" ry="46" fill="#fff" fill-opacity=".08" stroke="#fff" stroke-opacity=".85" stroke-width="2" stroke-dasharray="7 8" style="opacity:0"/>
+          <!-- Spuren der Helfer: wachsen mit, entlang der Piste -->
+          <path id="berg-spur-a" class="berg__spur" d="M632 96 C 610 150 612 220 640 262 C 668 304 684 360 696 410 C 702 440 696 460 694 480" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" style="opacity:0"/>
+          <path id="berg-spur-b" class="berg__spur" d="M640 96 C 618 150 622 220 650 262 C 676 300 690 360 698 410 C 704 440 736 420 734 324" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" style="opacity:0"/>
+          <!-- Handy: Anruf bei der Rettung, dann ruft die Rettung erst die Bergbahn an (Pfade setzt weg.js je nach Breite) -->
+          <g id="berg-anruf-a" fill="none" stroke-linecap="round" stroke-dasharray="0 12" style="opacity:0"><path d="M720 418 Q 700 160 790 62" stroke="#0e1d40" stroke-opacity=".45" stroke-width="9"/><path d="M720 418 Q 700 160 790 62" stroke="#fff" stroke-width="5.5"/></g>
+          <g id="berg-anruf-b" fill="none" stroke-linecap="round" stroke-dasharray="0 12" style="opacity:0"><path d="M790 62 Q 720 30 646 76" stroke="#0e1d40" stroke-opacity=".45" stroke-width="9"/><path d="M790 62 Q 720 30 646 76" stroke="#fff" stroke-width="5.5"/></g>
+          <circle id="berg-station-ring" cx="630" cy="74" r="18" fill="none" stroke="#fff" stroke-width="2.5" style="opacity:0"/>
+          <g id="berg-rettung" transform="translate(790 62)">
+            <circle id="berg-rettung-ring" r="20" fill="none" stroke="#fff" stroke-width="2.5" style="opacity:0"/>
+            <circle r="20" fill="#fff"/>
+            <path d="M-4 -11 H4 V-4 H11 V4 H4 V11 H-4 V4 H-11 V-4 H-4 Z" fill="#e0313c"/>
+            <text class="berg__name" y="42" text-anchor="middle">Rettung</text>
+          </g>
+          <path id="berg-funk" d="M722 486 C 640 400 590 200 630 74" fill="none" stroke="#ff5a1c" stroke-width="3" stroke-linecap="round" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" style="opacity:0"/>
+          <circle id="berg-funk-punkt" r="6" fill="#ff5a1c" stroke="#fff" stroke-width="2" style="opacity:0"/>
+          <ellipse id="berg-ring-a" cx="722" cy="486" rx="20" ry="9" fill="none" stroke="#ff5a1c" stroke-width="2.5" style="opacity:0"/>
+          <g class="berg__wellen"><circle class="berg__welle" cx="722" cy="486" r="12" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/><circle class="berg__welle" cx="722" cy="486" r="12" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/><circle class="berg__welle" cx="722" cy="486" r="12" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/></g>
+          <!-- Sturz: ein Ring im Schnee, wo die Person liegen bleibt -->
+          <g id="berg-puff-a" style="opacity:0"><circle r="16" fill="none" stroke="#fff" stroke-width="2.5"/></g>
+          <g id="berg-puff-b" style="opacity:0"><circle r="16" fill="none" stroke="#fff" stroke-width="2.5"/></g>
+
+          <!-- Die beiden Gestürzten als Punkte: links mit SkiTag (Chip orange in der Mitte), rechts mit dem Handy -->
+          <g id="berg-person-a" transform="translate(722 486)">
+            <circle r="13" fill="#0e1d40" stroke="#fff" stroke-width="3"/>
+            <circle r="4.5" fill="#ff5a1c"/>
+            <text class="berg__name berg__name--klein" y="34" text-anchor="middle">Mit SkiTag</text>
+          </g>
+          <g id="berg-person-b" transform="translate(708 318)">
+            <circle r="13" fill="#5d6679" stroke="#fff" stroke-width="3"/>
+            <circle r="4.5" fill="#fff"/>
+            <g id="berg-arm-unten"></g>
+            <g id="berg-arm-hoch"><rect x="7" y="-25" width="10" height="15" rx="2.5" fill="#0e1d40" stroke="#fff" stroke-width="1.6"/><rect class="berg__schirm" x="9" y="-22.5" width="6" height="8.5" rx="1" fill="#9fd0ff"/></g>
+            <text class="berg__name berg__name--klein" y="34" text-anchor="middle">Mit Handy</text>
+          </g>
+
+          <!-- Mitarbeiter der Bergbahn: grüner Punkt mit Kreuz, fährt die Piste hinunter -->
+          <g id="berg-helfer-a" class="berg__helfer" transform="translate(694 480)">
+            <circle class="berg__alarm" r="10" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/>
+            <g class="berg__dreh"><circle r="10.5" fill="#1c8f63" stroke="#fff" stroke-width="2.5"/><path d="M0 -5.5 V5.5 M-5.5 0 H5.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></g>
+          </g>
+          <g id="berg-helfer-b" class="berg__helfer" transform="translate(734 324)">
+            <circle class="berg__alarm" r="10" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/>
+            <g class="berg__dreh"><circle r="10.5" fill="#1c8f63" stroke="#fff" stroke-width="2.5"/><path d="M0 -5.5 V5.5 M-5.5 0 H5.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></g>
+          </g>
+          <g id="berg-frage-b" style="opacity:0"><circle r="13" fill="#fff"/><text class="berg__frage" y="6" text-anchor="middle">?</text></g>
+
+          <g id="berg-chipruf" transform="translate(722 431)" style="opacity:0">
+            <circle r="25" fill="#fff"/>
+            <circle id="berg-chipruf-ring" r="25" fill="none" stroke="#ff5a1c" stroke-width="4" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" transform="rotate(-90)"/>
+            <rect x="-11" y="-7.5" width="22" height="15" rx="5" fill="#ff5a1c"/><circle r="4" fill="#fff"/>
+          </g>
+          <g id="berg-pin-a" transform="translate(722 452)" style="opacity:0">
+            <path d="M0 0 C -12 -14 -16 -22 -16 -30 A16 16 0 0 1 16 -30 C 16 -22 12 -14 0 0 Z" fill="#ff5a1c" stroke="#fff" stroke-width="2.5"/>
+            <circle cy="-30" r="6" fill="#fff"/>
+          </g>
+          <g id="berg-blase-b" transform="translate(708 250)" style="opacity:0">
+            <path d="M-34 -32 H34 A12 12 0 0 1 46 -20 V12 A12 12 0 0 1 34 24 H8 L0 34 L-8 24 H-34 A12 12 0 0 1 -46 12 V-20 A12 12 0 0 1 -34 -32 Z" fill="#fff"/>
+            <g fill="none" stroke="#0e1d40" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" transform="translate(0 -4)"><g class="berg__blase-zeichen" data-k="0" transform="translate(-18 -23) scale(1.5)"><path d="M7.5 20.5V10a1.5 1.5 0 0 1 3 0V5.5a1.5 1.5 0 0 1 3 0V10m0-3.5a1.5 1.5 0 0 1 3 0V13l1.3-1.6a1.5 1.5 0 0 1 2.3 1.9l-3.6 7.2z"/><path d="M6.5 20.5h11"/></g><g class="berg__blase-zeichen" data-k="1" transform="translate(-18 -23) scale(1.5)"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></g><g class="berg__blase-zeichen" data-k="2" transform="translate(-18 -23) scale(1.5)"><rect x="5.5" y="10.5" width="13" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5M12 14.5v2"/></g><g class="berg__blase-zeichen" data-k="3" transform="translate(-18 -23) scale(1.5)"><path d="M4 19v-2.5M8.5 19v-5"/><path class="berg__blinkt" d="M13 19v-8M17.5 19V8" stroke-dasharray="1.5 2.6"/><path d="M15 3.5l5 5M20 3.5l-5 5" stroke="#e5450d"/></g><g class="berg__blase-zeichen" data-k="4" transform="translate(-18 -23) scale(1.5)"><path d="M7 5.5h.01M12 5.5h.01M17 5.5h.01M7 10h.01M12 10h.01M17 10h.01M7 14.5h.01M12 14.5h.01M17 14.5h.01M12 19h.01" stroke-width="3.2"/></g><g class="berg__blase-zeichen" data-k="5" transform="translate(-18 -23) scale(1.5)"><path d="M4.5 5.5h15v10h-8l-4.5 3.5v-3.5h-2.5z"/><path d="M10.2 9a1.9 1.9 0 1 1 2.6 1.8c-.5.2-.8.6-.8 1.1M12 13.6v.1"/></g></g>
+          </g>
+          <g id="berg-da-a" class="berg__da" transform="translate(722 444)"><circle r="18" fill="#2fbf6a" stroke="#fff" stroke-width="3"/><path d="M-7.5 0.5 L-2.5 5.5 L7.5 -5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></g>
+          <g id="berg-da-b" class="berg__da" transform="translate(708 276)"><circle r="18" fill="#2fbf6a" stroke="#fff" stroke-width="3"/><path d="M-7.5 0.5 L-2.5 5.5 L7.5 -5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></g>
+        </svg>
+        <div class="berg__karten" aria-hidden="true">
+          <div class="berg__karte berg__karte--chip ist-fertig">
+            <p class="berg__wer"><i></i>Mit SkiTag</p>
+            <p class="berg__jetzt">Hilfe ist da</p>
+            <p class="berg__zahl"><span class="berg__punkte"><i class="an"></i></span>1 Schritt für dich</p>
+          </div>
+          <div class="berg__karte berg__karte--handy ist-fertig">
+            <p class="berg__wer"><i></i>Mit dem Handy</p>
+            <p class="berg__jetzt">Hilfe ist da</p>
+            <p class="berg__dauer">Im Schnitt nach 21 bis 32 Min.</p>
+            <p class="berg__zahl"><span class="berg__punkte"><i class="an"></i><i class="an"></i><i class="an"></i><i class="an"></i><i class="an"></i><i class="an"></i></span>6 Schritte für dich</p>
+          </div>
+        </div>
+      </div>
+      <div class="nur-vorlesen">
+        <p>Mit SkiTag: Knopf drei Sekunden halten. Der Standort geht per Funk zur Liftstation, ohne Handynetz. Ein Mitarbeiter der Bergbahn fährt direkt zu dir.</p>
+        <p>Mit dem Handy: Handschuhe aus, Handy finden, entsperren, Netz suchen, Nummer wählen, Ort erklären. Dann muss die Rettung erst die Bergbahn anrufen, und die Hilfe sucht nach deiner Beschreibung. Im Schnitt ist die Pistenrettung nach 21 bis 32 Minuten bei dir.</p>
+      </div>
+
+      <div class="weg__fuss">
+        <ul class="weg__ohne" aria-label="Mit SkiTag brauchst du">
+          <li>Ohne Handy</li><li>Ohne Handynetz</li><li>Ohne Nummer</li><li>Ohne Ortsangabe</li>
+        </ul>
+        <button class="knopf-hell weg__nochmal" type="button" data-aktion="weg-nochmal" hidden>Nochmal ansehen</button>
+      </div>
+      <!-- Feedback 102: Durchschnittsdauer beim Handy aus der Studie (Volltext noch nicht geprüft, siehe BRIEF.md).
+           Für SkiTag keine Zeit: Zielzeiten für den Notruf dürfen nicht behauptet werden. -->
+      <p class="weg__quelle">Die Zeit beim Handy stammt aus einer Auswertung von 10.143 Skiunfällen in Tirol: Je nach Piste braucht die Pistenrettung dort im Schnitt 21 bis 32 Minuten bis zur verletzten Person (<a href="https://doi.org/10.1017/S1049023X22001364" rel="noopener">Wagner u. a., 2022</a>). Für SkiTag gibt es noch keine gemessenen Zeiten.</p>
+    </div>
+  </section>
+</main>
+
+<!-- Gebirge über dem Fuß wie auf der Startseite (seit Feedback 69): kommt einmal hoch, Gondeln fahren (seite.js, seite.css) -->
+<div class="gebirge-band" aria-hidden="true">
+    <div class="gebirge">
+      <svg class="gebirge__bild" viewBox="0 0 1600 240" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="b-fern" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6b6f77"/><stop offset=".75" stop-color="#28365f"/></linearGradient>
+        <linearGradient id="b-mitte" x1="0" y1="0" x2="0" y2="1"><stop offset=".3" stop-color="#26335d"/><stop offset=".85" stop-color="#111a37"/></linearGradient>
+        <path id="b-tanne" d="M0 -14 L4.2 -7 L2 -7 L6 0 L-6 0 L-2 -7 L-4.2 -7 Z"/>
+      </defs>
+      <g class="gebirge__lage gebirge__lage--fern">
+        <path d="M0 240 L0 132 L18.1 130.4 L43.1 119.7 L69.5 117.3 L90 112 L108.5 109 L132.2 102.3 L151.6 98.1 L170 92 L194 82.9 L211.4 79.7 L235.5 67.4 L255 64 L281.6 71.1 L308.7 81.1 L330 86 L346.7 73.1 L373.7 61.5 L391.3 47.6 L410 34 L436.1 48.8 L453.9 55.7 L480.5 67.2 L500 80 L519.4 75.9 L544.4 73.4 L571.3 73 L590 70 L615.4 82.4 L632.8 86.9 L660 98 L681.8 87.6 L701.8 74.5 L727.3 62.9 L745 56 L765.1 45.3 L788.9 40.4 L808.9 24.8 L830 18 L852.9 27.3 L876.3 39.4 L899.8 51.3 L925 62 L947.3 65.4 L971.1 72.7 L991.9 79.6 L1010 84 L1032.4 77.6 L1052.5 72.5 L1077.6 63.7 L1095 58 L1118.1 64.5 L1138.3 73.8 L1157.3 82.6 L1180 92 L1206.3 82 L1224.1 68.6 L1247.5 52.3 L1275 40 L1295.7 46.1 L1326.9 56.8 L1347.4 65.7 L1370 78 L1389.6 75.7 L1406.8 75.4 L1433.4 72.1 L1450 66 L1473.4 78.8 L1492.3 83.2 L1505.7 92.5 L1530 104 L1549.6 97.3 L1577.7 96.5 L1600 96 L1600 240 Z" fill="url(#b-fern)"/>
+                <g fill="#e6e8ea"><path d="M214.7 78 L235.5 67.4 L255 64 L281.6 71.1 L300.3 78 L283.2 76.9 L266 70.8 L248.9 76 L231.8 71.1 Z"/><path d="M380.7 56 L391.3 47.6 L410 34 L436.1 48.8 L453.9 55.7 L454.6 56 L439.8 54.7 L425 45.9 L410.3 54.5 L395.5 43.3 Z"/><path d="M707.4 72 L727.3 62.9 L745 56 L765.1 45.3 L788.9 40.4 L808.9 24.8 L830 18 L852.9 27.3 L876.3 39.4 L899.8 51.3 L925 62 L947.3 65.4 L968.9 72 L916.6 69.7 L864.3 62.2 L812 68.9 L759.7 63.2 Z"/><path d="M763.7 46 L765.1 45.3 L788.9 40.4 L808.9 24.8 L830 18 L852.9 27.3 L876.3 39.4 L889.4 46 L864.2 40.7 L839.1 31.2 L814 41.2 L788.8 28 Z"/><path d="M1054 72 L1077.6 63.7 L1095 58 L1118.1 64.5 L1134.3 72 L1118.3 69.1 L1102.2 63 L1086.1 69.3 L1070.1 64 Z"/><path d="M1233.5 62 L1247.5 52.3 L1275 40 L1295.7 46.1 L1326.9 56.8 L1339 62 L1317.9 57.4 L1296.8 51.3 L1275.7 60.6 L1254.6 48.9 Z"/><path d="M1387.4 76 L1389.6 75.7 L1406.8 75.4 L1433.4 72.1 L1450 66 L1468.3 76 L1452.1 74.2 L1436 70.6 L1419.8 74.4 L1403.6 70.7 Z"/></g>
+      </g>
+      <g class="gebirge__lage gebirge__lage--mitte">
+        <path d="M0 240 L0 168 L21.7 163.4 L41.4 157.4 L62.8 152.9 L80 150 L96.6 154.9 L112.3 154.9 L128.9 160 L150 160 L169 155.3 L182.6 148 L201.8 141.2 L222.5 132.3 L240 124 L258.3 127.8 L277.9 135.4 L296.8 142.1 L320 146 L341.4 143.8 L360 136.2 L377.2 138 L400 132 L414.8 138.1 L437.8 139.2 L455.3 149.2 L470 152 L491.5 152.3 L507.9 146.7 L522.2 146.2 L544.8 141.8 L560 140 L578.1 144.4 L602.8 150.4 L618.9 155.7 L640 160 L661.7 152 L681.6 145.5 L697.8 137.9 L720 132 L743.5 139.5 L761 143.2 L783 143.7 L800 150 L821 136.3 L840 127.3 L862 118.2 L880 104 L899.9 110.1 L919.6 118 L941.2 128.1 L960 136 L980.4 133.5 L1001.9 130.2 L1021.8 125.7 L1040 126 L1058.6 133.3 L1077.9 141.3 L1098.5 145.4 L1120 154 L1141.1 147.6 L1156.9 143.6 L1182.3 138.5 L1200 130 L1221 135.1 L1239.3 135.2 L1255.9 142.6 L1273.6 148.4 L1290 150 L1306.7 139.3 L1327 130.6 L1347 121.6 L1370 116 L1390.8 126.2 L1407.8 128.8 L1427.9 139.5 L1450 146 L1468.2 143.7 L1493.6 141.5 L1511.3 141.6 L1530 138 L1546.8 141 L1561.8 143.4 L1584.7 151.3 L1600 152 L1600 240 Z" fill="url(#b-mitte)"/>
+                <g class="gebirge__lift">
+          <path d="M650 232 L872 108" stroke="#b7b9bf" stroke-opacity=".55" stroke-width="1.2" fill="none"/>
+          <g stroke="#b7b9bf" stroke-opacity=".45" stroke-width="2"><path d="M716.6 192.8 V210.8"/><path d="M772.1 161.8 V179.8"/><path d="M823.2 133.3 V151.3"/></g>
+          <g fill="#b7b9bf" fill-opacity=".8"><rect x="870" y="100" width="20" height="11" rx="1.5"/><path d="M868 101 L880 94 L892 101 Z"/></g>
+          <path d="M886 96 V80" stroke="#b7b9bf" stroke-opacity=".8" stroke-width="1.4"/>
+          <circle class="gebirge__antenne" cx="886" cy="78" r="2.6" fill="#95a2b9"/>
+          <g class="gebirge__kabine" style="--dx:222px; --dy:-124px"><g transform="translate(650 232)"><path d="M0 0 V5" stroke="#b7b9bf" stroke-width="1"/><rect x="-4" y="5" width="8" height="7" rx="1.6" fill="#ff5a1c"/></g></g>
+          <g class="gebirge__kabine gebirge__kabine--2" style="--dx:222px; --dy:-124px"><g transform="translate(650 232)"><path d="M0 0 V5" stroke="#b7b9bf" stroke-width="1"/><rect x="-4" y="5" width="8" height="7" rx="1.6" fill="#eff0f2"/></g></g>
+        </g>
+      </g>
+      <g class="gebirge__lage gebirge__lage--vorn" fill="#0e1d40">
+        <path d="M0 240 L0 193.8 L16 192.1 L32 191.2 L48 191.3 L64 192.5 L80 194.6 L96 197 L112 199.4 L128 201.1 L144 201.8 L160 201.6 L176 200.5 L192 199 L208 197.6 L224 196.7 L240 196.5 L256 196.9 L272 197.7 L288 198.5 L304 198.9 L320 198.6 L336 197.5 L352 195.9 L368 194.1 L384 192.7 L400 192.2 L416 192.9 L432 194.8 L448 197.7 L464 201 L480 204.4 L496 207.2 L512 209.3 L528 210.7 L544 211.5 L560 212.1 L576 212.9 L592 214.3 L608 216.2 L624 218.6 L640 221.1 L656 223.1 L672 224.2 L688 224.2 L704 222.9 L720 220.8 L736 218.1 L752 215.6 L768 213.6 L784 212.4 L800 212.2 L816 212.6 L832 213.3 L848 213.9 L864 213.9 L880 213.2 L896 212.1 L912 210.6 L928 209.4 L944 208.7 L960 209 L976 210.1 L992 211.9 L1008 213.8 L1024 215.5 L1040 216.2 L1056 215.9 L1072 214.4 L1088 212 L1104 209.2 L1120 206.4 L1136 204 L1152 202.4 L1168 201.4 L1184 200.7 L1200 200.1 L1216 199.1 L1232 197.5 L1248 195.2 L1264 192.4 L1280 189.6 L1296 187.2 L1312 185.9 L1328 185.7 L1344 186.8 L1360 188.9 L1376 191.5 L1392 194.1 L1408 196.2 L1424 197.5 L1440 198.1 L1456 198.1 L1472 198.1 L1488 198.3 L1504 199.1 L1520 200.6 L1536 202.6 L1552 204.7 L1568 206.5 L1584 207.6 L1600 207.6 L1600 240 Z"/>
+        <use href="#b-tanne" transform="translate(20 194.8) scale(0.8699999999999999)"/><use href="#b-tanne" transform="translate(35.3 194.1) scale(1.22)"/><use href="#b-tanne" transform="translate(43.4 194.1) scale(0.9199999999999999)"/><use href="#b-tanne" transform="translate(55.9 194.7) scale(0.8800000000000001)"/><use href="#b-tanne" transform="translate(63.6 195.4) scale(0.99)"/><use href="#b-tanne" transform="translate(76.4 197) scale(1.27)"/><use href="#b-tanne" transform="translate(87.7 198.7) scale(1.7100000000000002)"/><use href="#b-tanne" transform="translate(95.4 199.9) scale(1.1300000000000001)"/><use href="#b-tanne" transform="translate(105.2 201.4) scale(0.72)"/><use href="#b-tanne" transform="translate(112.3 202.4) scale(1.1300000000000001)"/><use href="#b-tanne" transform="translate(120.1 203.3) scale(0.95)"/><use href="#b-tanne" transform="translate(135.4 204.6) scale(1.49)"/><use href="#b-tanne" transform="translate(149.3 204.8) scale(1.15)"/><use href="#b-tanne" transform="translate(164 204.4) scale(1.6800000000000002)"/><use href="#b-tanne" transform="translate(178.2 203.3) scale(1.3800000000000001)"/><use href="#b-tanne" transform="translate(190.3 202.2) scale(1.06)"/><use href="#b-tanne" transform="translate(201 201.2) scale(1.21)"/><use href="#b-tanne" transform="translate(330 201) scale(1.28)"/><use href="#b-tanne" transform="translate(343.5 199.8) scale(1.3800000000000001)"/><use href="#b-tanne" transform="translate(356.2 198.4) scale(1.44)"/><use href="#b-tanne" transform="translate(371.2 196.8) scale(1.56)"/><use href="#b-tanne" transform="translate(387 195.6) scale(1.15)"/><use href="#b-tanne" transform="translate(398.4 195.2) scale(1.67)"/><use href="#b-tanne" transform="translate(414.2 195.8) scale(1.0699999999999998)"/><use href="#b-tanne" transform="translate(421.9 196.5) scale(1.06)"/><use href="#b-tanne" transform="translate(436.9 198.6) scale(1.42)"/><use href="#b-tanne" transform="translate(450.5 201.2) scale(1.67)"/><use href="#b-tanne" transform="translate(464.6 204.1) scale(0.9199999999999999)"/><use href="#b-tanne" transform="translate(473.7 206.1) scale(1.51)"/><use href="#b-tanne" transform="translate(481.7 207.7) scale(1.6300000000000001)"/><use href="#b-tanne" transform="translate(495.9 210.2) scale(1.35)"/><use href="#b-tanne" transform="translate(509.3 212) scale(1.25)"/><use href="#b-tanne" transform="translate(960 212) scale(1.59)"/><use href="#b-tanne" transform="translate(972.1 212.8) scale(1.59)"/><use href="#b-tanne" transform="translate(981.5 213.7) scale(1.4)"/><use href="#b-tanne" transform="translate(992.4 214.9) scale(1.1099999999999999)"/><use href="#b-tanne" transform="translate(1001.1 216) scale(1.3)"/><use href="#b-tanne" transform="translate(1010.2 217.1) scale(1.61)"/><use href="#b-tanne" transform="translate(1024.6 218.5) scale(1.05)"/><use href="#b-tanne" transform="translate(1037.7 219.2) scale(1.59)"/><use href="#b-tanne" transform="translate(1045.8 219.2) scale(1.02)"/><use href="#b-tanne" transform="translate(1061.1 218.5) scale(0.72)"/><use href="#b-tanne" transform="translate(1069.2 217.7) scale(1.1099999999999999)"/><use href="#b-tanne" transform="translate(1076.4 216.8) scale(1.41)"/><use href="#b-tanne" transform="translate(1091.5 214.4) scale(0.89)"/><use href="#b-tanne" transform="translate(1100.4 212.8) scale(1.6600000000000001)"/><use href="#b-tanne" transform="translate(1113.7 210.4) scale(0.89)"/><use href="#b-tanne" transform="translate(1121.8 209.1) scale(1.34)"/><use href="#b-tanne" transform="translate(1128.9 208) scale(1.53)"/><use href="#b-tanne" transform="translate(1141.2 206.4) scale(1.47)"/><use href="#b-tanne" transform="translate(1149.4 205.6) scale(1.05)"/><use href="#b-tanne" transform="translate(1162.8 204.6) scale(1.67)"/><use href="#b-tanne" transform="translate(1174.8 204.1) scale(1.3)"/><use href="#b-tanne" transform="translate(1330 188.8) scale(1.42)"/><use href="#b-tanne" transform="translate(1343.6 189.8) scale(1.31)"/><use href="#b-tanne" transform="translate(1351.5 190.7) scale(0.76)"/><use href="#b-tanne" transform="translate(1364 192.6) scale(0.9400000000000001)"/><use href="#b-tanne" transform="translate(1376.3 194.6) scale(0.97)"/><use href="#b-tanne" transform="translate(1385.3 196) scale(1.33)"/><use href="#b-tanne" transform="translate(1397.9 197.9) scale(1.53)"/><use href="#b-tanne" transform="translate(1407.1 199.1) scale(1.6199999999999999)"/><use href="#b-tanne" transform="translate(1414.6 199.8) scale(1.4)"/><use href="#b-tanne" transform="translate(1425.2 200.6) scale(1.51)"/><use href="#b-tanne" transform="translate(1438.2 201) scale(1.52)"/><use href="#b-tanne" transform="translate(1446.1 201.1) scale(1.6300000000000001)"/><use href="#b-tanne" transform="translate(1457.6 201.1) scale(1.54)"/><use href="#b-tanne" transform="translate(1468.4 201.1) scale(1.58)"/><use href="#b-tanne" transform="translate(1482.5 201.2) scale(1.44)"/><use href="#b-tanne" transform="translate(1497.7 201.7) scale(1.5699999999999998)"/><use href="#b-tanne" transform="translate(1506.4 202.3) scale(1.4300000000000002)"/><use href="#b-tanne" transform="translate(1514.8 203.1) scale(0.8400000000000001)"/><use href="#b-tanne" transform="translate(1530.4 204.9) scale(1.67)"/><use href="#b-tanne" transform="translate(1537.9 205.9) scale(0.79)"/><use href="#b-tanne" transform="translate(1547.2 207.1) scale(1.6600000000000001)"/><use href="#b-tanne" transform="translate(1562.1 208.9) scale(1.67)"/><use href="#b-tanne" transform="translate(1571.5 209.9) scale(0.9099999999999999)"/><use href="#b-tanne" transform="translate(1578.8 210.4) scale(1.1800000000000002)"/>
+      </g>
+    </svg>
+    </div>
+</div>
+<footer class="fuss fuss--berg">
+  <div class="fuss__innen">
+    <div class="fuss__marke">
+      <b><svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag</b>
+      <span>SkiTag GmbH · Firmenname, Sitz und Firmenbuch folgen (Platzhalter)</span>
+    </div>
+    <nav aria-label="Seite">
+      <b>Seite</b>
+      <a href="index.html">Start</a><a href="chip.html" aria-current="page">Der Chip</a><a href="app.html">Die App</a><a href="skitag.html">Am Skitag</a><a href="feedback.html">Feedback</a><a href="wir.html">Das sind wir</a>
+    </nav>
+    <nav aria-label="Rechtliches">
+      <b>Rechtliches</b>
+      <span>Impressum folgt</span><span>Datenschutz folgt</span>
+    </nav>
+    <div class="fuss__nachweis">
+      <b>Nachweise</b>
+      <span>Bergvideo: Pexels. Fotos: Unsplash</span>
+      <span>Schrift der App: Bricolage Grotesque (OFL)</span>
+    </div>
+  </div>
+  <div class="fuss__wort" aria-hidden="true">
+    <p class="fuss__wort-zeile"><span style="--i:0">S</span><span style="--i:1">K</span><span style="--i:2">I</span><span style="--i:3">T</span><span style="--i:4">A</span><span style="--i:5">G</span></p>
+  </div>
+  <div class="fuss__leiste">
+    <span>© 2026 SkiTag</span>
+  </div>
+</footer>
+
+<a class="sprung-anfang" href="#oben" aria-label="Nach oben">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</a>
+
+<script src="scrollcraft.js?v=16"></script>
+<script>
+/* Das Innenleben wird nur am breiten Bildschirm mit WebGL und ohne „weniger Bewegung“ gepinnt durchgescrollt.
+   Sonst macht dieses Skript vor dem Start der Engine einen normalen Abschnitt daraus (.ist-klick), in dem man
+   die Teile über Knöpfe wählt (assets/chip-seite.js). */
+(function () {
+  var ohne3d = false;
+  try { var c = document.createElement("canvas"); ohne3d = !(c.getContext("webgl2") || c.getContext("webgl")); } catch (e) { ohne3d = true; }
+  var ruhig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll("[data-klick]").forEach(function (el) {
+    var schmal = window.matchMedia("(max-width: " + (el.getAttribute("data-klick") || 860) + "px)").matches;
+    if (!schmal && !ruhig && !ohne3d) return;
+    el.setAttribute("data-sc-act", "flow"); el.removeAttribute("data-sc-span"); el.classList.add("ist-klick");
+  });
+})();
+ScrollCraft.mount(document.body);
+</script>
+<script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
+<script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
+<script src="assets/seite.js?v=82" defer></script>
+<script src="assets/gsap-effekte.js?v=1" defer></script>
+<script src="assets/sprung-anfang.js?v=20" defer></script>
+<script src="assets/kopfleiste.js?v=2" defer></script>
+<script src="assets/weg.js?v=11" defer></script>
+<script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.min.js" } }</script>
+<script type="module" src="assets/chip-3d.js?v=46"></script>
+<script type="module" src="assets/chip-seite.js?v=21"></script>
+</body>
+</html>

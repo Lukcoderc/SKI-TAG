@@ -1,0 +1,22 @@
+<!doctype html><meta charset="utf-8"><title>Export</title>
+<script type="importmap">{ "imports": { "three": "../assets/vendor/three.module.min.js" } }</script>
+<section id="innenleben" class="ist-klick"><div class="innen__bild" style="width:800px;height:600px"><canvas class="innen__gl"></canvas><svg class="innen__zeiger"></svg>
+<ol class="innen__marken"><li></li><li></li><li></li><li></li><li></li><li></li></ol></div></section>
+<script>console.warn=(...a)=>{document.title="W: "+a.map(String).join(" ")}; window.onerror=(m,u,l)=>{document.title="F: "+m+" "+l}; addEventListener("unhandledrejection",e=>{document.title="F: "+(e.reason&&e.reason.message)})</script>
+<script type="module">
+import * as THREE from "three";
+import { GLTFExporter } from "./GLTFExporter.js";
+let q = await (await fetch("../assets/chip-seite.js")).text();
+const basis = new URL("../assets/", location.href).href;
+q = q.replace(/"\.\/vendor\//g, '"' + basis + 'vendor/').replace(/"assets\/media\//g, '"' + basis + 'media/');
+q = q.replace("const VERSATZ = alle.reduce", "for (const [k, m] of Object.entries(MAT)) m.name = k; for (const t of alle) t.m.name = 'ebene_' + t.name; window.__ex = { stapel, alle, NETZ }; const VERSATZ = alle.reduce");
+const url = URL.createObjectURL(new Blob([q], { type: "text/javascript" }));
+await import(url);
+for (let i = 0; i < 100 && !window.__ex; i++) await new Promise((r) => setTimeout(r, 100));
+const { stapel, alle } = window.__ex;
+for (const t of alle) { t.m.position.z = 0; t.m.visible = true; t.m.userData = { versatz: t.versatz, innen: t.innen }; }
+stapel.traverse((o) => { if (o.isMesh && !o.material.name) o.material.name = o.material.map ? "deckel" : "ohne"; });
+const glb = await new GLTFExporter().parseAsync(stapel, { binary: true });
+const b = new Uint8Array(glb); let s = ""; for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
+window.__glb = btoa(s); document.title = "fertig";
+</script>

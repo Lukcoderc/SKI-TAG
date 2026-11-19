@@ -1,0 +1,1 @@
+chip-render.html: erzeugt die Produktbilder (assets/media/produkt-*.webp) und die Drehung (assets/media/dreh/). Zum Benutzen kurz nach Website/site/ kopieren, über einen lokalen Server öffnen und rendern(x, y, z, abstand, led) aufrufen; danach wieder löschen, damit es nicht veröffentlicht wird.

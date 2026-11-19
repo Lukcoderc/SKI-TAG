@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="de" class="mit-tagwelt v2">
   <head>
     <meta charset="utf-8" />
     <meta
@@ -51,8 +51,11 @@
     /* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
     if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
     </script>
-    <link rel="stylesheet" href="assets/seite.css?v=118" />
-    <link rel="stylesheet" href="assets/skitag.css?v=4" />
+    <link rel="stylesheet" href="assets/seite.css?v=125" />
+    <link rel="stylesheet" href="assets/skitag.css?v=13" />
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/v2.css?v=6">
+<link rel="stylesheet" href="assets/v2-alt.css?v=2">
   </head>
   <body>
     <svg
@@ -245,6 +248,24 @@
       <div class="oben__menue" id="oben-menue" hidden></div>
     </header>
 
+    <!-- Feedback 126: Der Tag läuft über die ganze Seite. Feste Ebene hinter allem: Himmel (drei Farben), weiches
+         Sonnenlicht im Bogen, Mond und Sterne in der Nacht, unten zwei Bergketten. Die vordere Kette ist das echte
+         Gipfelprofil aus dem ersten Bild von held.mp4, die hintere dieselbe Kette gespiegelt und flacher.
+         assets/skitag.js (GSAP ScrollTrigger) setzt die Farben und Lagen je nach Uhrzeit. -->
+    <div class="tagwelt" aria-hidden="true">
+      <canvas class="tagwelt__sterne"></canvas>
+      <i class="tagwelt__licht"></i>
+      <i class="tagwelt__sonne"></i>
+      <i class="tagwelt__mond"></i>
+      <!-- Feedback 131: echtes Bergpanorama (Unsplash LpTFcGpU2Lc, Pix Tresa) statt gezeichneter Ketten, der Himmel ist
+           ausgeschnitten. Drei Fassungen im Licht des Tages (Tag, goldenes Licht, Nacht) blendet skitag.js mit der Uhrzeit über. -->
+      <div class="tagwelt__berge">
+        <img class="tw-panorama" src="assets/media/panorama-tag.webp?v=1" alt="" width="2400" height="686" decoding="async">
+        <img class="tw-panorama tw-panorama--gold" src="assets/media/panorama-gold.webp?v=1" alt="" width="2400" height="686" decoding="async">
+        <img class="tw-panorama tw-panorama--nacht" src="assets/media/panorama-nacht.webp?v=1" alt="" width="2400" height="686" decoding="async">
+      </div>
+    </div>
+
     <main id="oben">
       <!-- Am Skitag (seit Feedback 60): der Ablauf vom Mieten bis zur Rückgabe als Zeitstrahl, ohne Unterkapitel.
        Beim Scrollen zeichnet sich die Linie, ein kleiner Chip fährt mit, jede Station erscheint, wenn er sie
@@ -273,28 +294,9 @@
       <section id="ablauf" class="tag" aria-labelledby="ablauf-titel">
         <h2 id="ablauf-titel" class="nur-vorlesen">Der Ablauf eines Skitags</h2>
         <div class="sc-wrap tag__raster">
-          <!-- Uhr mit Himmel: läuft beim Scrollen mit -->
+          <!-- Uhr: läuft beim Scrollen mit (der Himmel dazu ist seit Feedback 126 die ganze Seite) -->
           <div class="tag__uhr" aria-hidden="true">
-            <div class="tag__himmel">
-              <i class="tag__stern" style="--x: 18%; --y: 22%"></i
-              ><i class="tag__stern" style="--x: 72%; --y: 14%"></i
-              ><i class="tag__stern" style="--x: 86%; --y: 40%"></i
-              ><i class="tag__stern" style="--x: 40%; --y: 10%"></i>
-              <i class="tag__sonne"></i>
-              <i class="tag__mond"></i>
-              <svg
-                class="tag__berge"
-                viewBox="0 0 240 80"
-                preserveAspectRatio="none">
-                <path
-                  class="tag__berg-hinten"
-                  d="M0 80 V46 L34 26 L58 40 L96 12 L132 38 L160 22 L196 40 L240 24 V80 Z" />
-                <path
-                  class="tag__berg-vorn"
-                  d="M0 80 V60 L40 44 L74 58 L112 36 L150 56 L188 42 L240 58 V80 Z" />
-              </svg>
-            </div>
-            <div class="tag__anzeige">
+            <div class="tag__anzeige"><span class="tag__ueber">Uhrzeit am Berg</span>
               <b class="tag__zeit">08:10</b>
               <span class="tag__was">Chip holen</span>
             </div>
@@ -570,9 +572,14 @@
     <script>
       ScrollCraft.mount(document.body);
     </script>
-    <script src="assets/seite.js?v=75" defer></script>
+    <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
+    <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
+    <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
+    <script src="assets/seite.js?v=82" defer></script>
+    <script src="assets/gsap-effekte.js?v=4" defer></script>
     <script src="assets/sprung-anfang.js?v=20" defer></script>
     <script src="assets/kopfleiste.js?v=2" defer></script>
-    <script src="assets/skitag.js?v=2" defer></script>
-  </body>
+    <script src="assets/skitag.js?v=6" defer></script>
+  <script src="assets/v2.js?v=2" defer></script>
+</body>
 </html>

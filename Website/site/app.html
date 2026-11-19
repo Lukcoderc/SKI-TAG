@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="de" class="v2">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -24,8 +24,11 @@
 /* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=118">
-<link rel="stylesheet" href="assets/app-seite.css?v=7">
+<link rel="stylesheet" href="assets/seite.css?v=125">
+<link rel="stylesheet" href="assets/app-seite.css?v=12">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/v2.css?v=6">
+<link rel="stylesheet" href="assets/v2-alt.css?v=3">
 </head>
 <body>
 <div class="akt-balken" aria-hidden="true"><span class="akt-balken__fuell"></span></div>
@@ -192,7 +195,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
        data-folge führt eine Figur einen Pfad entlang, data-zahl-p zählt eine Zahl. -->
 
   <!-- 2 · Allein unterwegs -->
-  <section id="allein" class="szene" data-unter="Allein" data-klick="899" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="allein-titel">
+  <section id="allein" class="szene" data-unter="Allein" data-klick="99999" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="allein-titel">
     <div class="szene__buehne" data-sc-stage>
       <div class="szene__raster">
         <div class="szene__text">
@@ -253,7 +256,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   </section>
 
   <!-- 3 · Familie und Freunde -->
-  <section id="familie" class="szene szene--grau" data-unter="Familie" data-klick="899" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="familie-titel">
+  <section id="familie" class="szene szene--grau" data-unter="Familie" data-klick="99999" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="familie-titel">
     <div class="szene__buehne" data-sc-stage>
       <div class="szene__raster">
         <div class="szene__text">
@@ -309,7 +312,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   </section>
 
   <!-- 4 · Skischule -->
-  <section id="skischule" class="szene" data-unter="Skischule" data-klick="899" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="skischule-titel">
+  <section id="skischule" class="szene" data-unter="Skischule" data-klick="99999" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="skischule-titel">
     <div class="szene__buehne" data-sc-stage>
       <div class="szene__raster">
         <div class="szene__text">
@@ -365,7 +368,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   <!-- Kontakt am Ende (seit Feedback 87 ohne die Bergbahnansicht davor, darum allgemein) -->
   <section class="sc-section app-kontakt-abschnitt" aria-label="Kontakt">
     <div class="sc-wrap">
-      <div class="app-kontakt" data-sc-in>
+      <div class="app-kontakt">
         <div>
           <h3>Fragen zur App?</h3>
           <p>Schreib uns, wir antworten dir gern.</p>
@@ -446,16 +449,23 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 <script>
 /* Handy (Feedback 88): Abschnitte mit data-klick werden nicht gepinnt durchgescrollt, sondern zum Antippen.
    Vor dem Start der Engine wird aus „pin“ ein normaler Abschnitt (.ist-klick); seite.js bzw. app-seite.js
-   spielen die Schritte dann per Auswahl ab. data-klick nennt die Breite, bis zu der das gilt. */
+   spielen die Schritte dann per Auswahl ab. data-klick nennt die Breite, bis zu der das gilt.
+   Feedback 119: auf „Die App“ gilt das jetzt überall (data-klick="99999"), kein gepinntes Durchscrollen mehr. */
 (function () { document.querySelectorAll("[data-klick]").forEach(function (el) {
   if (!window.matchMedia("(max-width: " + (el.getAttribute("data-klick") || 860) + "px)").matches) return;
   el.setAttribute("data-sc-act", "flow"); el.removeAttribute("data-sc-span"); el.classList.add("ist-klick");
 }); })();
 ScrollCraft.mount(document.body);
 </script>
-<script src="assets/seite.js?v=75" defer></script>
+<script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
+<script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
+<script src="assets/seite.js?v=82" defer></script>
+<script src="assets/gsap-effekte.js?v=4" defer></script>
+<script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
+<script src="assets/auftritte.js?v=4" defer></script>
 <script src="assets/sprung-anfang.js?v=20" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
-<script src="assets/app-seite.js?v=3" defer></script>
+<script src="assets/app-seite.js?v=5" defer></script>
+<script src="assets/v2.js?v=2" defer></script>
 </body>
 </html>

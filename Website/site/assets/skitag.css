@@ -103,3 +103,102 @@
 @media (prefers-reduced-motion: reduce) {
   .js-tag .tag__karte, .js-tag .tag__bild *, .tag__punkt, .tag__sonne, .tag__mond, .tag__stern { transition: none; }
 }
+
+/* ===================================================== Feedback 126: der Tag über die ganze Seite == */
+/* Eine feste Ebene hinter allem (.tagwelt): Himmel aus drei Farben (--h1 oben, --h2 Mitte, --h3 Horizont), weiches
+   Sonnenlicht im Bogen (--sx, --sy, --sonne), Mond und Sterne (--nacht), unten zwei Bergketten (--b1/--b2 Kamm,
+   unten in den Dunst). skitag.js rechnet alles aus der Uhrzeit, die am Scrollen hängt (GSAP ScrollTrigger).
+   Die Seite selbst ist hier durchsichtig, damit der Himmel überall durchscheint; Karten bleiben weiß. */
+html.mit-tagwelt, html.mit-tagwelt body { background: transparent !important; }
+html.mit-tagwelt { background-color: #a7b4d6 !important; }
+.tagwelt {
+  --h1: #a7b4d6; --h2: #d7b3bd; --h3: #f6d2b4; --b1: #b9a9bf; --b2: #5d5a7c; --sx: 8%; --sy: 76%; --sonne: 1; --nacht: 0;
+  position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+  background: linear-gradient(180deg, var(--h1) 0%, var(--h2) 52%, var(--h3) 88%);
+}
+.tagwelt__sterne { position: absolute; inset: 0; width: 100%; height: 100%; opacity: var(--nacht); }
+/* Sonne: kein gezeichneter Ball, sondern Licht. Ein kleiner heller Kern und ein großer weicher Schein, der den
+   Himmel um sich aufhellt (screen). */
+.tagwelt__licht, .tagwelt__sonne { position: absolute; left: var(--sx); top: var(--sy); translate: -50% -50%; border-radius: 50%; opacity: var(--sonne); }
+.tagwelt__licht { width: 95vmax; aspect-ratio: 1; mix-blend-mode: screen;
+  background: radial-gradient(circle, rgba(255, 246, 225, 0.75) 0%, rgba(255, 224, 180, 0.32) 7%, rgba(255, 210, 160, 0.12) 20%, rgba(255, 210, 160, 0) 42%); }
+.tagwelt__sonne { width: clamp(2.6rem, 4.5vw, 4.2rem); aspect-ratio: 1; background: radial-gradient(circle, #fffdf6 0%, #fff6dc 42%, rgba(255, 238, 200, 0) 72%); filter: blur(0.5px); }
+.tagwelt__mond { position: absolute; left: 36%; top: 14%; width: clamp(2rem, 3.2vw, 3rem); aspect-ratio: 1; border-radius: 50%; opacity: var(--nacht);
+  background: radial-gradient(circle at 38% 36%, #fbf8ee, #e4dfcf 60%, #cfc8b3);
+  box-shadow: 0 0 40px 10px rgba(220, 225, 255, 0.12), 0 0 120px 40px rgba(170, 185, 255, 0.08); }
+.tagwelt__berge { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: clamp(13rem, 46vh, 34rem);   /* Feedback 131: Berge ragen etwas weiter herein */
+  /* unten läuft das Panorama in den Dunst aus, damit Text darüber lesbar bleibt */
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 50%, rgba(0, 0, 0, 0.4) 80%, rgba(0, 0, 0, 0.14) 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 50%, rgba(0, 0, 0, 0.4) 80%, rgba(0, 0, 0, 0.14) 100%); }
+/* Feedback 131: echtes Panorama in drei Lichtfassungen, übereinander; --gold und --nacht aus skitag.js */
+.tw-panorama { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 0%; }
+.tw-panorama--gold { opacity: var(--gold, 0); }
+.tw-panorama--nacht { opacity: var(--nacht, 0); }
+
+/* Seite durchsichtig, Text passt sich an: am Tag dunkel, ab der Dämmerung hell */
+html.mit-tagwelt .tag-kopf, html.mit-tagwelt .tag { background: transparent; }
+html.mit-tagwelt .tag-kopf .kopfzeile__text { color: rgba(14, 29, 64, 0.72); }
+.tag__uhr { transition: color 600ms ease; }
+html.tagwelt-dunkel .tag__uhr, html.tagwelt-dunkel .tag__ueber, html.tagwelt-dunkel .tag__was { color: #fff; }
+html.tagwelt-dunkel .tag__was, html.tagwelt-dunkel .tag__ueber { color: rgba(255, 255, 255, 0.7); }
+html.tagwelt-dunkel .tag__linie { background: rgba(255, 255, 255, 0.18); }
+
+/* Uhr ohne Kasten: groß, ruhig, steht beim Scrollen */
+.tag__uhr { top: calc(50svh - 6rem); }
+.tag__anzeige { display: grid; gap: 0.35rem; padding-left: 0; }
+.tag__ueber { font-size: var(--sc-t-xs); font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(14, 29, 64, 0.55); }
+.tag__zeit { font-size: clamp(4.2rem, 2rem + 6vw, 8.5rem); font-weight: 620; letter-spacing: -0.055em; line-height: 0.9; }
+.tag__was { font-size: clamp(1.1rem, 0.9rem + 0.6vw, 1.45rem); font-weight: 600; color: rgba(14, 29, 64, 0.7); }
+
+/* Karten: weiß mit leichtem Glas, damit sie bei jedem Licht gut lesbar sind */
+.tag__karte { background: rgba(255, 255, 255, 0.97); -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 1px 2px rgba(14, 29, 64, 0.06), 0 24px 50px -30px rgba(14, 29, 64, 0.5); }
+.tag__punkt { box-shadow: inset 0 0 0 3px rgba(14, 29, 64, 0.25), 0 0 0 4px rgba(255, 255, 255, 0.35); }
+/* GSAP übernimmt das Erscheinen der Karten (skitag.js); ohne GSAP bleibt die CSS-Fassung oben */
+.js-tag-gsap .tag__karte { transition: none; }
+
+@media (max-width: 899px) {
+  .tag__uhr { top: 4.4rem; background: #fff; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-color: rgba(255, 255, 255, 0.6); grid-template-columns: 1fr; padding: 0.7rem 1rem; }
+  html.tagwelt-dunkel .tag__uhr { background: #0e1836; border-color: rgba(255, 255, 255, 0.12); }
+  .tag__anzeige { grid-template-columns: auto 1fr; align-items: baseline; column-gap: 0.8rem; }
+  .tag__ueber { display: none; }
+  .tag__zeit { font-size: 2.3rem; }
+  .tagwelt__mond { left: 78%; top: 22%; }
+}
+
+/* ===================================================== Feedback 127: ruhig statt KI-Optik == */
+/* Keine Kartenboxen, keine Icon-Kästchen, keine Pillen, kein Logo-Chip auf der Linie. Die Stationen stehen als Text
+   direkt auf dem Himmel: kleine Uhrzeit, große Überschrift, ein Absatz. Am Tag dunkle Schrift, ab der Dämmerung hell. */
+.tag__karte, .tag__halt--wichtig .tag__karte {
+  display: block; padding: 0.15rem 0 0; border: 0; border-radius: 0; background: none !important; box-shadow: none !important;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.tag__bild { display: none; }
+.tag__karte time { font: 650 var(--sc-t-sm)/1 var(--sc-font-text); letter-spacing: 0.08em; color: var(--orange); }
+.tag__karte h3 { margin-top: 0.55rem; font-size: clamp(1.9rem, 1.2rem + 2vw, 3rem); font-weight: 640; letter-spacing: -0.045em; line-height: 1.02; color: var(--sc-ink); transition: color 600ms ease; }
+.tag__karte p { margin-top: 0.85rem; max-width: 40ch; font-size: var(--sc-t-lg); line-height: 1.55; color: rgba(14, 29, 64, 0.82); transition: color 600ms ease; }
+.tag__orte { gap: 0; margin-top: 0.9rem; }
+.tag__orte li { padding: 0; border-radius: 0; background: none; font-size: var(--sc-t-sm); font-weight: 600; color: rgba(14, 29, 64, 0.6); }
+.tag__orte li + li::before { content: "·"; margin: 0 0.5rem; }
+.tag__hinweis { display: inline-flex; align-items: center; gap: 0.45rem; margin: 0 0 0.6rem; padding: 0; border-radius: 0; background: none; color: var(--orange); font-size: var(--sc-t-xs); letter-spacing: 0.08em; text-transform: uppercase; }
+.tag__hinweis::before { content: ""; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: currentColor; }
+.tag__halt--wichtig .tag__karte { padding-left: 1.1rem; border-left: 2px solid var(--orange); }
+html.tagwelt-dunkel .tag__karte h3 { color: #fff; }
+html.tagwelt-dunkel .tag__karte p, html.tagwelt-dunkel .tag__orte li { color: rgba(255, 255, 255, 0.72); }
+html.tagwelt-dunkel .tag__karte time, html.tagwelt-dunkel .tag__hinweis { color: #ff9a6b; }
+.tag__halt { min-height: 42svh; }
+/* Linie: fein; Punkte klein; statt Logo-Chip ein leuchtender Punkt an der Spitze */
+.tag__linie { width: 1px; left: calc(var(--spalte) / 2 - 0.5px); background: rgba(14, 29, 64, 0.16); }
+.tag__fuellung { background: var(--orange); }
+.tag__punkt { width: 0.6rem; height: 0.6rem; margin-top: 0.35rem; background: transparent; box-shadow: inset 0 0 0 1.5px rgba(14, 29, 64, 0.35); }
+html.tagwelt-dunkel .tag__punkt { box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.4); }
+.tag__halt.ist-da .tag__punkt { background: var(--orange); box-shadow: none; transform: none; }
+.tag__chip { width: 0.8rem; height: 0.8rem; border-radius: 50%; background: #fff; box-shadow: 0 0 0 3px var(--orange), 0 0 18px 4px rgba(255, 120, 50, 0.55); }
+.tag__chip i { display: none; }
+@media (max-width: 899px) {
+  .tag__uhr { border-radius: 0; margin-inline: calc(-1 * var(--sc-gutter)); padding-inline: var(--sc-gutter); border: 0; border-bottom: 1px solid rgba(14, 29, 64, 0.08); box-shadow: none; }
+  html.tagwelt-dunkel .tag__uhr { border-bottom-color: rgba(255, 255, 255, 0.1); }
+  .tag__halt { min-height: 0; padding-bottom: 2.5rem; }
+  .tag__karte h3 { font-size: 1.9rem; }
+  .tag__karte p { font-size: var(--sc-t-md, 1rem); }
+}
