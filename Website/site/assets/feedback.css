@@ -197,3 +197,16 @@ html:not(.js-fb) .fb__danke, html:not(.js-fb) .fb__nav, html:not(.js-fb) .fb__st
   .fb__wolke, .fb__schnee, .fb__funkeln path { animation: none !important; }
   .js-fb .fb__frage, .js-fb .fb__frage.ist-dran { transition: none; }
 }
+
+/* Absenden (Feedback 138): Spam-Falle unsichtbar; ohne JavaScript ein normaler Knopf statt „Halten zum Senden“;
+   während des Sendens pulsiert der volle Ring; Fehlermeldung rot */
+.fb__falle { position: absolute !important; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.fb__absenden { margin-top: 1.2rem; }
+.js-fb .fb__absenden { display: none; }
+html:not(.js-fb) .fb__halten { display: none; }
+.fb__halten.ist-am-senden { cursor: progress; }
+.fb__halten.ist-am-senden .fb__ring { stroke-dashoffset: 0 !important; animation: fb-sendet 1s ease-in-out infinite; }
+@keyframes fb-sendet { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.fb__vorschau.ist-fehler { color: #b42318; background: #fef0ee; }
+@media (prefers-reduced-motion: reduce) { .fb__halten.ist-am-senden .fb__ring { animation: none; } }
+.fb__danke:focus { outline: none; }   /* wird nur für Screenreader fokussiert, kein Rahmen um die Karte */

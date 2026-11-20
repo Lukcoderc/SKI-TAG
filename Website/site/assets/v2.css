@@ -264,26 +264,45 @@ html.v2 body { font-family: var(--sc-font-text); color: var(--v-text); font-feat
 .fb2 { --orange: var(--v-blau); }
 
 /* =================================================================== Das sind wir -- */
-.wir2__foto { margin-top: clamp(2.5rem, 5vw, 4rem); }
-.wir2__platz { aspect-ratio: 21 / 9; display: grid; place-content: center; justify-items: center; gap: 0.8rem; color: var(--v-leise); font-weight: 550; }
-.wir2__foto figcaption { margin-top: 0.9rem; font-size: 0.92rem; color: var(--v-leise); }
+/* Drei Porträts (Feedback 137): je eine hohe Fläche mit dem Anfangsbuchstaben, bis echte Fotos da sind, darunter Vorname
+   und was die Person baut. Beim Darüberfahren hebt sich die Karte, der Buchstabe rückt ein Stück nach oben. */
+.wir2__leute { list-style: none; max-width: 52rem; margin: clamp(2.25rem, 4.5vw, 3.5rem) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(0.75rem, 2.5vw, 2rem); }
+.wir2__person { display: grid; align-content: start; gap: 0.3rem; }
+.wir2__portrait { aspect-ratio: 4 / 5; margin-bottom: 0.7rem; display: grid; place-items: center;
+  transition: transform 500ms var(--v-weich), box-shadow 500ms var(--v-weich); }
+.wir2__initial { font: 700 clamp(4.5rem, 2rem + 9vw, 11rem)/1 var(--sc-font-display); letter-spacing: -0.06em; color: #dfe5ee;
+  transition: transform 600ms var(--v-weich), color 400ms ease; }
+.wir2__folgt { position: absolute; left: 0; right: 0; bottom: clamp(0.8rem, 2vw, 1.25rem); display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+  font-size: 0.85rem; font-weight: 550; color: var(--v-leise); }
+.wir2__folgt svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.wir2__person .titel-3 { font-size: clamp(1.1rem, 0.95rem + 0.6vw, 1.45rem); }
+.wir2__rolle { color: var(--v-text); line-height: 1.45; }
+@media (hover: hover) and (pointer: fine) {
+  .wir2__person:hover .wir2__portrait { transform: translateY(-6px); box-shadow: 0 24px 40px -24px rgba(11, 20, 39, 0.35); }
+  .wir2__person:hover .wir2__initial { transform: translateY(-4%); color: #cfd8e6; }
+}
+@media (max-width: 600px) {
+  .wir2__folgt { font-size: 0.7rem; } .wir2__folgt svg { display: none; }
+  .wir2__rolle { font-size: 0.85rem; }
+}
+@media (prefers-reduced-motion: reduce) { .wir2__portrait, .wir2__initial { transition: none; } }
+.wird-ausgeteilt .wir2__portrait, .wird-ausgeteilt .wir2__initial { transition: none; }
 .wir2__satz { max-width: 22ch; font: 660 clamp(2rem, 1.2rem + 3vw, 3.8rem)/1.08 var(--sc-font-display); letter-spacing: -0.042em; color: var(--v-tinte); text-wrap: balance; }
 .wir2__satz span { color: var(--v-blau); }
-.wir2__text { margin-top: clamp(2rem, 4vw, 3rem); max-width: 56rem; }
-.wir2__text p { font-size: 1.1rem; line-height: 1.65; color: var(--v-text); }
-.wir2__bau { margin-top: clamp(3.5rem, 7vw, 5.5rem); }
-.wir2__karte { display: grid; gap: 0.5rem; text-decoration: none; }
-.wir2__karte > span:last-child { color: var(--v-text); line-height: 1.55; }
-.wir2__bild { display: block; aspect-ratio: 4 / 3; margin-bottom: 0.75rem; overflow: hidden; }
-.wir2__bild img { width: 100%; height: 100%; object-fit: cover; transition: transform 900ms var(--v-weich); }
-.wir2__bild--chip { display: grid; place-items: center; }
-.wir2__bild--chip img { width: 62%; height: auto; object-fit: contain; filter: drop-shadow(0 22px 28px rgba(11, 20, 39, 0.25)); }
-@media (hover: hover) { .wir2__karte:hover .wir2__bild img { transform: scale(1.04); } .wir2__karte:hover .titel-3 { color: var(--v-blau); } }
-.wir2__kontakt { padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 5vw, 4rem); border-radius: var(--v-r-l); border: 1px solid var(--v-linie); background: #fff; box-shadow: var(--v-schatten); }
-.wir2__kontakt .wk__mail { display: inline-block; margin-top: 2rem; font: 650 clamp(1.5rem, 1.1rem + 1.6vw, 2.4rem)/1.1 var(--sc-font-display); letter-spacing: -0.035em; color: var(--v-tinte); text-decoration: none; border-bottom: 2px solid var(--v-linie-2); padding-bottom: 0.15rem; }
-.wir2__kontakt .wk__mail:hover { border-color: var(--v-blau); color: var(--v-blau); }
-.wir2__kontakt .wk__schreiben { margin-top: 1.5rem; }
-.wir2__kontakt .wk__fuss { margin-top: 1.25rem; font-size: 0.9rem; color: var(--v-leise); }
+/* Kontakt (Feedback 136): ohne Box, größere Schrift. Die Adresse hat einen eigenen Strich darunter (::after), den
+   auftritte.js über --strich von links aufzieht; ohne JavaScript steht er einfach da. */
+.wir2__kontakt { padding: 0; }
+.wir2__kontakt .titel-2 { font-size: clamp(2.6rem, 1.4rem + 4vw, 5rem); line-height: 1; }
+.wir2__kontakt .lead { margin-top: 1.4rem; max-width: 34rem; font-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.45rem); }
+.wir2__kontakt .wk__mail { position: relative; display: inline-block; margin-top: clamp(2.2rem, 4.5vw, 3rem); padding-bottom: 0.35rem;
+  font: 650 clamp(1.6rem, 0.9rem + 4vw, 3.8rem)/1.1 var(--sc-font-display); letter-spacing: -0.04em; color: var(--v-tinte);
+  text-decoration: none; border: 0; background: none; transition: color 200ms ease; }
+.wir2__kontakt .wk__mail::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; border-radius: 2px;
+  background: var(--v-blau); transform: scaleX(var(--strich, 1)); transform-origin: left center; transition: height 250ms var(--v-weich); }
+@media (hover: hover) and (pointer: fine) { .wir2__kontakt .wk__mail:hover { color: var(--v-blau); background: none; } .wir2__kontakt .wk__mail:hover::after { height: 5px; } }
+.wir2__kontakt .wk__tipp { margin-top: 1rem; font-size: 1rem; }
+.wir2__kontakt .wk__schreiben { margin-top: 1.75rem; }
+.wir2__kontakt .wk__fuss { margin-top: 1.5rem; font-size: 1rem; color: var(--v-leise); }
 
 /* Überschrift Wort für Wort aus der Unschärfe (v2.js) */
 .wb-h { display: inline-block; }

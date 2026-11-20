@@ -172,32 +172,56 @@
      und bewegt die Teile von Schritt 1 selbst (die CSS-Keyframes dafür sind aus, Klasse gs-blick). Ein Knopf unten
      rechts in der Fläche hält an und spielt weiter; die Schritte (Liste am PC, Knöpfe am Handy) springen dorthin.
      Außer Sicht pausiert sie; bei „weniger Bewegung“ startet sie nicht von selbst. */
-  /* Feedback 125: „Was ist SKITAG?“ als ruhige Vorstellung (Klasse blick--schau). Kein Ablauf mehr; chip-3d.js
-     dreht den Chip langsam und meldet in bz.punkte, wo LED, Knopf, Rand und Seite auf dem Bildschirm sind. Hier
-     laufen die Linien von den Beschriftungen zu diesen Stellen; sie folgen dem Chip, solange er im Bild ist. */
+  /* Feedback 125: „Was ist SKITAG?“ als ruhige Vorstellung (Klasse blick--schau). Kein Ablauf mehr; chip-film.js
+     meldet in bz.punkte, wo LED, Knopf, Rand und Seite auf dem Bildschirm sind. Hier laufen die Linien von den
+     Beschriftungen zu diesen Stellen; sie folgen dem Chip, solange er im Bild ist.
+     Feedback 132 (Linien zu dünn, wirkte wie von einer KI): kräftige Linien mit orangem Punkt, die beim ersten Hinsehen
+     nacheinander hineinwachsen (CSS, Klasse ist-gezeigt). Am Knopf läuft alle paar Sekunden ein Druck (zwei Ringe),
+     danach blinkt die LED zweimal grün; beides per CSS, hier werden nur Lage und Größe gesetzt. */
   var schau = blick && blick.classList.contains("blick--schau");
   if (schau) (function () {
     var bz = chip.blick;
     bz.klick = true; bz.schau = true; bz.schritt = 0; bz.spielt = false; bz.zl = 0; bz.p = 0; bz.halten = 0;
     var buehne = blick.querySelector(".schau__buehne"), svg = blick.querySelector(".schau__linien");
-    var linien = svg ? svg.querySelectorAll("path") : [], marken = blick.querySelectorAll(".schau__marke");
+    var marken = blick.querySelectorAll(".schau__marke");
     var breit = window.matchMedia("(min-width: 861px)");
+    var neu = function (name, attr, eltern) {
+      var el = document.createElementNS("http://www.w3.org/2000/svg", name);
+      for (var k in attr) el.setAttribute(k, attr[k]);
+      (eltern || svg).appendChild(el); return el;
+    };
+    // Reihenfolge wie bz.punkte: LED, Knopf, Rand, Seite
+    var linien = [], punkte = [];
+    for (var i = 0; i < marken.length; i++) {
+      var g = neu("g", { "class": "schau__zeiger", style: "--i:" + i });
+      linien.push(neu("path", { pathLength: "1" }, g));
+      punkte.push(neu("circle", { r: "6" }, g));
+    }
+    var druck = neu("g", { "class": "schau__druck" });
+    var ringe = [neu("circle", { r: "10" }, druck), neu("circle", { r: "10" }, druck)];
+    var led = neu("circle", { "class": "schau__led", r: "4" });
     var sichtbar = false, raf = 0;
     var bild = function () {
       raf = 0;
       if (!sichtbar) return;
       var p = bz.punkte, br = buehne.getBoundingClientRect();
-      var an = !!p && breit.matches;
-      svg.classList.toggle("ist-an", an);
-      if (an) {
+      svg.classList.toggle("ist-an", !!p);
+      svg.classList.toggle("ist-breit", breit.matches);
+      if (p) {
         svg.setAttribute("viewBox", "0 0 " + Math.round(br.width) + " " + Math.round(br.height));
-        for (var i = 0; i < linien.length && i < marken.length; i++) {
+        var q = p.map(function (o) { return [o.x - br.left, o.y - br.top]; });
+        if (breit.matches) for (var i = 0; i < linien.length && i < q.length; i++) {
           var m = marken[i].getBoundingClientRect(), links = i < 2;
-          var ax = (links ? m.right + 14 : m.left - 14) - br.left, ay = m.top + 12 - br.top;
-          var px = p[i].x - br.left, py = p[i].y - br.top;
-          var kx = links ? Math.min(px - 24, ax + 36) : Math.max(px + 24, ax - 36);   // kurzer waagrechter Ansatz, dann schräg
+          var ax = (links ? m.right + 16 : m.left - 16) - br.left, ay = m.top + 13 - br.top;
+          var px = q[i][0], py = q[i][1];
+          var kx = links ? Math.min(px - 28, ax + 40) : Math.max(px + 28, ax - 40);   // kurzer waagrechter Ansatz, dann schräg
           linien[i].setAttribute("d", "M" + ax.toFixed(1) + " " + ay.toFixed(1) + " H" + kx.toFixed(1) + " L" + px.toFixed(1) + " " + py.toFixed(1));
+          punkte[i].setAttribute("cx", px.toFixed(1)); punkte[i].setAttribute("cy", py.toFixed(1));
         }
+        // Größe des Knopfs aus dem Abstand LED – Knopfmitte (der Knopf ist etwa zwei Drittel so breit)
+        var rk = Math.hypot(q[0][0] - q[1][0], q[0][1] - q[1][1]) * 0.66;
+        ringe.forEach(function (c) { c.setAttribute("cx", q[1][0].toFixed(1)); c.setAttribute("cy", q[1][1].toFixed(1)); c.setAttribute("r", rk.toFixed(1)); });
+        led.setAttribute("cx", q[0][0].toFixed(1)); led.setAttribute("cy", q[0][1].toFixed(1)); led.setAttribute("r", Math.max(3, rk * 0.11).toFixed(1));
       }
       raf = requestAnimationFrame(bild);
     };
@@ -205,18 +229,20 @@
       sichtbar = e[0].isIntersecting;
       if (sichtbar && !raf) raf = requestAnimationFrame(bild);
     }).observe(buehne);
-    // einmal einblenden: Beschriftungen nacheinander, Kennzahlen von unten
+    // einmal zeigen: Linien wachsen nacheinander (CSS), Beschriftungen und Kennzahlen kommen mit
+    var zeigen = function () { blick.classList.add("ist-gezeigt"); };
     if (window.gsap && !ohneBewegung) {
       var teile = Array.prototype.slice.call(marken), zahlen = blick.querySelectorAll(".schau__zahlen > div");
-      gsap.set(teile, { opacity: 0, y: 10 }); gsap.set(zahlen, { opacity: 0, y: 16 });
+      gsap.set(teile, { opacity: 0, x: function (i) { return i < 2 ? -14 : 14; } }); gsap.set(zahlen, { opacity: 0, y: 16 });
       var einmal = new IntersectionObserver(function (e) {
         if (!e[0].isIntersecting) return;
         einmal.disconnect();
-        gsap.to(teile, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out", stagger: 0.12, delay: 0.35 });
-        gsap.to(zahlen, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.1, delay: 0.6 });
+        setTimeout(zeigen, 450);
+        gsap.to(teile, { opacity: 1, x: 0, duration: 0.8, ease: "power3.out", stagger: 0.16, delay: 0.75 });
+        gsap.to(zahlen, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.1, delay: 0.5 });
       }, { threshold: 0.35 });
       einmal.observe(blick);
-    }
+    } else zeigen();
   })();
 
   if (blick && !schau && blick.querySelector(".blick__chip") && window.gsap) (function () {

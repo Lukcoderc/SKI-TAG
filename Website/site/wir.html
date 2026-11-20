@@ -12,8 +12,8 @@
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="scrollcraft.css?v=16">
 <script>if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");</script>
-<link rel="stylesheet" href="assets/seite.css?v=125">
-<link rel="stylesheet" href="assets/v2.css?v=6">
+<link rel="stylesheet" href="assets/seite.css?v=133">
+<link rel="stylesheet" href="assets/v2.css?v=12">
 <link rel="stylesheet" href="assets/wir-seite.css?v=5">
 </head>
 <body>
@@ -82,47 +82,64 @@
 
 <main id="oben">
 
-  <!-- Das sind wir (seit Feedback 128 in der neuen Gestaltung): oben wer wir sind, Platz für das Teamfoto, das Ziel als
-       großer Satz, darunter was wir bauen, am Ende der Kontakt. Öffentliches Repo: nur Vornamen, als Kontakt nur die
+  <!-- Das sind wir (seit Feedback 128 in der neuen Gestaltung): oben wer wir sind und was wir bauen, drei Porträts, das
+       Ziel als großer Satz im Bildfenster, am Ende der Kontakt. Öffentliches Repo: nur Vornamen, als Kontakt nur die
        Team-Adresse. -->
   <section id="wir" class="abschnitt held-unter" aria-labelledby="wir-titel">
     <div class="w">
       <div class="kopf" data-auf>
         <p class="auge">Über uns</p>
         <h1 id="wir-titel" class="titel-1">Das sind wir.</h1>
-        <p class="lead">Wir sind drei HTL Schüler und wollen die Skiwelt ein großes Stück sicherer machen. Deshalb bauen wir SkiTag ein Chip der Hilfe holt, auch wenn dein Handy keinen Empfang hat.</p>
+        <p class="lead">Wir sind drei HTL-Schüler und wollen die Skiwelt ein großes Stück sicherer machen. Dafür bauen wir alles selbst: den Chip mit einem Knopf, der Hilfe holt, ein eigenes Funknetz an den Liftstationen, damit kein Handyempfang nötig ist, und die App für deine Gruppe.</p>
       </div>
-      <figure class="wir2__foto" data-auf>
-        <div class="flaeche wir2__platz" role="img" aria-label="Platzhalter für ein Foto von Maximilian, Lukas und Tobias">
-          <span class="zeichen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg></span>
-          <span>Foto von uns dreien folgt</span>
-        </div>
-        <figcaption>Maximilian, Lukas und Tobias</figcaption>
-      </figure>
+      <!-- Feedback 137: statt einem großen Teamfoto drei Porträts, je mit Vornamen und dem, was die Person baut (öffentliches
+           Repo: nur Vornamen). Bis echte Fotos da sind, steht in jeder Fläche der Anfangsbuchstabe. auftritte.js teilt die
+           drei beim ersten Hinsehen wie Karten aus; beim Darüberfahren hebt sich eine Karte leicht an. -->
+      <ul class="wir2__leute" aria-label="Das Team">
+        <li class="wir2__person">
+          <div class="flaeche wir2__portrait" role="img" aria-label="Platzhalter für ein Foto von Maximilian">
+            <span class="wir2__initial" aria-hidden="true">M</span>
+            <span class="wir2__folgt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>Foto folgt</span>
+          </div>
+          <b class="titel-3">Maximilian</b>
+          <span class="wir2__rolle">Baut den Chip</span>
+        </li>
+        <li class="wir2__person">
+          <div class="flaeche wir2__portrait" role="img" aria-label="Platzhalter für ein Foto von Lukas">
+            <span class="wir2__initial" aria-hidden="true">L</span>
+            <span class="wir2__folgt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>Foto folgt</span>
+          </div>
+          <b class="titel-3">Lukas</b>
+          <span class="wir2__rolle">Baut das Funknetz</span>
+        </li>
+        <li class="wir2__person">
+          <div class="flaeche wir2__portrait" role="img" aria-label="Platzhalter für ein Foto von Tobias">
+            <span class="wir2__initial" aria-hidden="true">T</span>
+            <span class="wir2__folgt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>Foto folgt</span>
+          </div>
+          <b class="titel-3">Tobias</b>
+          <span class="wir2__rolle">Baut die App und führt das Projekt</span>
+        </li>
+      </ul>
     </div>
   </section>
 
-  <section class="abschnitt abschnitt--grau" aria-labelledby="ziel-titel">
-    <div class="w">
+  <!-- Unser Ziel als Bildfenster (Feedback 134, wie auf der Startseite): das Foto steht beim Scrollen still, die Seite
+       gleitet darüber (Regeln in seite.css unter „Bildfenster“). Das Foto ist hell (Schneesturm), deshalb steht der Satz
+       dunkel links (fenster--hell). Was wir bauen, steht seit Feedback 137 kurz oben in der Beschreibung. -->
+  <section class="fenster fenster--hell" style="--lage:46% 50%" aria-labelledby="ziel-titel">
+    <div class="fenster__bild"><img src="assets/media/fenster-sturm.webp?v=1" srcset="assets/media/fenster-sturm-m.webp?v=1 1400w, assets/media/fenster-sturm.webp?v=1 2400w" sizes="(max-aspect-ratio: 1/1) 170vh, 100vw" alt="Zwei Menschen kämpfen sich im Schneesturm über einen Berg, daneben eine Reihe Markierungsstangen." width="2400" height="1600" loading="lazy" decoding="async"></div>
+    <div class="w fenster__innen">
       <h2 id="ziel-titel" class="nur-vorlesen">Unser Ziel</h2>
-      <p class="auge" data-auf>Unser Ziel</p>
+      <p class="auge">Unser Ziel</p>
       <p class="wir2__satz">Ob nach einem Sturz Hilfe kommt, soll nicht davon abhängen, ob <span>dein Handy Netz hat.</span></p>
-      <div class="raster-2 wir2__text" data-auf-gruppe>
-        <p data-auf>Am Berg ist das Handy oft im Rucksack, die Finger sind kalt und das Netz ist schwach. Genau dann soll ein einziger Knopf reichen.</p>
-        <p data-auf>Wir bauen alles selbst: den Chip, das Funknetz an den Liftstationen und die App. So passt jedes Teil zum anderen.</p>
-      </div>
-      <div class="raster-3 wir2__bau" data-auf-gruppe>
-        <a class="wir2__karte" href="chip.html"><span class="flaeche wir2__bild wir2__bild--chip"><img src="assets/media/produkt-liegend.webp?v=2" alt="Der Chip, schräg von oben" width="1063" height="1013" loading="lazy" decoding="async"></span><b class="titel-3">Den Chip</b><span>Ein Knopf, ein Akku für den ganzen Skitag, eigener Funk.</span></a>
-        <a class="wir2__karte" href="skitag.html"><span class="v-rahmen wir2__bild"><img src="assets/media/foto-lift-morgen.webp?v=1" alt="Sessellift am Morgen im Skigebiet" width="1068" height="1600" loading="lazy" decoding="async"></span><b class="titel-3">Das Funknetz</b><span>Empfänger an den Liftstationen fangen das Signal auf.</span></a>
-        <a class="wir2__karte" href="app.html"><span class="v-rahmen wir2__bild"><img src="assets/media/skitag-familie.webp?v=1" alt="Eine Mutter hält ihr kleines Kind an der Hand, beide auf Ski" width="1400" height="927" loading="lazy" decoding="async" style="object-position: 18% 50%"></span><b class="titel-3">Die App</b><span>Für die Gruppe und deinen Tag, ohne Konto.</span></a>
-      </div>
     </div>
   </section>
 
   <!-- Kontakt: Klick auf die Adresse kopiert sie (wir-seite.js); „E-Mail schreiben“ bietet Gmail, Outlook oder die Mail-App -->
   <section id="kontakt" class="abschnitt" aria-labelledby="kontakt-titel">
     <div class="w w--schmal">
-      <div class="wir2__kontakt mitte" data-auf>
+      <div class="wir2__kontakt mitte">
         <p class="auge">Kontakt</p>
         <h2 id="kontakt-titel" class="titel-2">Schreib uns.</h2>
         <p class="lead">Ob Bergbahn, Skischule, Sponsor oder einfach neugierig: Wir freuen uns über jede Nachricht.</p>
@@ -210,13 +227,13 @@
 </a>
 
 <script src="assets/v2.js?v=2" defer></script>
-<script src="assets/seite.js?v=82" defer></script>
+<script src="assets/seite.js?v=83" defer></script>
 <script src="assets/sprung-anfang.js?v=20" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
-<script src="assets/auftritte.js?v=4" defer></script>
+<script src="assets/auftritte.js?v=7" defer></script>
 <script src="assets/wir-seite.js?v=3" defer></script>
 </body>
 </html>

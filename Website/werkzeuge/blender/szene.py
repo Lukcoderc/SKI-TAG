@@ -183,13 +183,27 @@ def ruhelage():
         d = o.parent.matrix_world.inverted().to_3x3() @ Vector((0, 0, 1))
         S['ruhe'][k] = (o.location.copy(), d)
 
+# Gestaffelte Explosion (Feedback 132: die Teile steckten beim Öffnen ineinander). Weg je Schicht in mm und Reihenfolge
+# (0 = geht zuerst). Die Wege sind aus den Höhen der Schichten im geschlossenen Chip gerechnet, sodass offen zwischen zwei
+# Nachbarn mindestens 8 mm Luft bleiben (Hülle über der Platine und Deckel über der Hülle 14 mm, Akku unter der Platine 16 mm,
+# damit man von schräg oben seine Aufschrift sieht, Spule unter dem Ferrit 4 mm). Außen liegende Teile fahren zuerst los;
+# weil sie dabei immer weiter sind als ihr innerer Nachbar, schneidet sich zu keinem Zeitpunkt etwas.
+STAFFEL = {'kappe': (75.1, 0), 'ring': (60.4, 1), 'vorderschale': (49.9, 2), 'ledstab': (49.9, 2), 'rand': (26.9, 3),
+           'platine': (0.0, 4), 'akku': (-15.6, 3), 'qi_ferrit': (-27.5, 2), 'qi': (-31.5, 2), 'rueckschale': (-49.5, 1), 'schrauben': (-67.6, 0)}
+
+def weg(k, e):
+    """Weg der Schicht k beim Öffnungsgrad e (0 zu, 1 offen), in mm entlang der Dicke"""
+    v, rang = STAFFEL.get(k, (S['ebenen'][k].get('versatz', 0), 4))
+    t = max(0.0, min(1.0, (e - 0.13 * rang) / 0.48))
+    return v * t * t * (3 - 2 * t)
+
 def oeffnen(e):
-    """Explosion: jede Schicht wandert um versatz * e mm entlang der Dicke; innen liegende Teile erst ab e > 0,012"""
+    """Explosion: jede Schicht wandert um weg(k, e) mm entlang der Dicke; innen liegende Teile erst ab e > 0,012"""
     for k, o in S['ebenen'].items():
         ort, d = S['ruhe'][k]
-        o.location = ort + d * (o.get('versatz', 0) * e)
-        weg = bool(o.get('innen', 0)) and e <= 0.012
-        for c in o.children_recursive: c.hide_render = weg
+        o.location = ort + d * weg(k, e)
+        verdeckt = bool(o.get('innen', 0)) and e <= 0.012
+        for c in o.children_recursive: c.hide_render = verdeckt
     bpy.context.view_layer.update()
 
 def welt_bbox(o):

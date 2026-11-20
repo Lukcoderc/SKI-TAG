@@ -12,9 +12,9 @@
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="scrollcraft.css?v=16">
 <script>if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");</script>
-<link rel="stylesheet" href="assets/seite.css?v=125">
-<link rel="stylesheet" href="assets/v2.css?v=6">
-<link rel="stylesheet" href="assets/feedback.css?v=7">
+<link rel="stylesheet" href="assets/seite.css?v=133">
+<link rel="stylesheet" href="assets/v2.css?v=12">
+<link rel="stylesheet" href="assets/feedback.css?v=9">
 </head>
 <body>
 
@@ -94,7 +94,17 @@
 
   <section id="feedback" class="fb fb2" aria-label="Feedback-Formular">
     <div class="w">
-      <form class="fb__karte" action="#" novalidate data-schritt="0">
+      <!-- Feedback 138: das Formular schickt wirklich ab. GitHub Pages hat keinen Server, deshalb nimmt FormSubmit
+           (formsubmit.co) die Antworten an und leitet sie als E-Mail an die Team-Adresse weiter (kein Konto nötig;
+           die erste Antwort löst eine Bestätigungsmail an die Team-Adresse aus, erst nach dem Klick darin kommen Antworten an).
+           Mit JavaScript schickt feedback.js im Hintergrund (fetch an /ajax/), ohne JavaScript schickt der Knopf
+           „Absenden“ das Formular normal ab. _honey ist eine Falle für Spam-Programme, Menschen sehen das Feld nicht. -->
+      <form class="fb__karte" action="https://formsubmit.co/skitag.team@gmail.com" method="POST" novalidate data-schritt="0">
+        <input type="hidden" name="_subject" value="Neues Feedback über die SkiTag-Website">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="https://lukcoderc.github.io/SKI-TAG/website/feedback.html">
+        <input class="fb__falle" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
 
         <!-- Bergszene: Wetter nach Bewertung, Slalom als Fortschritt -->
         <div class="fb__szene fb2__szene" aria-hidden="true">
@@ -144,7 +154,6 @@
             <div class="fb__wahl fb__wahl--klein">
               <label><input type="checkbox" name="wichtig" value="notruf"><span>Notruf ohne Handy</span></label>
               <label><input type="checkbox" name="wichtig" value="gruppe"><span>Gruppe rufen</span></label>
-              <label><input type="checkbox" name="wichtig" value="reichweite"><span>Reichweiten-Alarm</span></label>
               <label><input type="checkbox" name="wichtig" value="skischule"><span>Kurs im Blick</span></label>
               <label><input type="checkbox" name="wichtig" value="tag"><span>Tagesübersicht</span></label>
               <label><input type="checkbox" name="wichtig" value="weg"><span>Routenplanung</span></label>
@@ -166,14 +175,15 @@
               <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="fb__ring-grund" cx="60" cy="60" r="54"/><circle class="fb__ring" cx="60" cy="60" r="54" pathLength="1"/></svg>
               <span class="fb__halten-text">Halten zum Senden</span>
             </button>
-            <p id="fb-vorschau" class="fb__vorschau">Vorschau: Das Formular schickt noch nichts ab.</p>
+            <button type="submit" class="k-voll fb__absenden">Absenden</button>
+            <p id="fb-vorschau" class="fb__vorschau" aria-live="polite">Deine Antwort geht über den Dienst FormSubmit per E-Mail an unser Team.</p>
           </div>
 
           <div class="fb__frage fb__danke" data-schritt="5" tabindex="-1">
             <svg class="fb__danke-zeichen" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30"/><path d="M19 33l9 9 17-19"/></svg>
             <p class="fb__danke-titel">Danke<span class="fb__danke-name"></span>!</p>
-            <p class="fb__hilfe">So sieht es aus, wenn deine Antwort angekommen ist. Sobald das Formular fertig ist, landet sie direkt bei uns.</p>
-            <button type="button" class="knopf-hell fb__nochmal">Nochmal ansehen</button>
+            <p class="fb__hilfe">Deine Antwort ist bei uns angekommen. Wir lesen jede einzelne.</p>
+            <button type="button" class="knopf-hell fb__nochmal">Noch eine Antwort schicken</button>
           </div>
 
           <div class="fb__nav">
@@ -252,13 +262,13 @@
 </a>
 
 <script src="assets/v2.js?v=2" defer></script>
-<script src="assets/seite.js?v=82" defer></script>
+<script src="assets/seite.js?v=83" defer></script>
 <script src="assets/sprung-anfang.js?v=20" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
-<script src="assets/auftritte.js?v=4" defer></script>
-<script src="assets/feedback.js?v=5" defer></script>
+<script src="assets/auftritte.js?v=7" defer></script>
+<script src="assets/feedback.js?v=6" defer></script>
 </body>
 </html>

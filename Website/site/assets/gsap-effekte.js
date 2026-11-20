@@ -3,6 +3,7 @@
    https://gsap.com/standard-license); die Seite lädt nichts von fremden Servern.
    Überschriften: Jede große Überschrift wird in Wörter geteilt, jedes Wort steckt in einer Maske und steigt von unten
    hinein, sobald die Überschrift ins Bild kommt (einmal). Steht sie beim Laden schon im Bild, bleibt sie, wie sie ist.
+   Der Satz in den Bildfenstern (Feedback 133) kommt genauso.
    Ohne GSAP oder bei „weniger Bewegung“ passiert nichts. */
 (function () {
   "use strict";
@@ -10,7 +11,7 @@
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   gsap.registerPlugin(SplitText);
 
-  var titel = Array.prototype.slice.call(document.querySelectorAll("h2.sc-display, h2.szene__titel, h2.wir-h2"));
+  var titel = Array.prototype.slice.call(document.querySelectorAll("h2.sc-display, h2.szene__titel, h2.wir-h2, p.fenster__satz"));
   var vh = window.innerHeight;
   titel = titel.filter(function (h) {
     var r = h.getBoundingClientRect();

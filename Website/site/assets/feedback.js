@@ -3,8 +3,11 @@
    - Wetter-Regler: setzt --w (0 bis 4) und die Himmelsfarben an der Karte, dazu Wort und Untertitel
      des Wetterberichts; bei Pulvertag funkelt der Schnee, bei Sturm wird der Bericht hell.
    - Slalom: der kleine Chip fährt je Frage durch das nächste Tor bis ins Ziel.
-   - Senden: Knopf 1,2 s halten (Maus, Finger, Leertaste oder Enter), dann „Danke“.
-   Das Formular schickt nichts ab; ohne JavaScript stehen alle Fragen untereinander. */
+   - Senden: Knopf 1,2 s halten (Maus, Finger, Leertaste oder Enter). Seit Feedback 138 geht die Antwort dann wirklich
+     raus: als JSON an FormSubmit (formsubmit.co/ajax/…), das sie als E-Mail an die Team-Adresse weiterleitet. „Danke“
+     erscheint erst, wenn FormSubmit den Empfang bestätigt; sonst steht unter dem Knopf, was schiefging, und man kann
+     es nochmal halten. Ist die Spam-Falle (_honey) ausgefüllt, wird nichts gesendet.
+   Ohne JavaScript stehen alle Fragen untereinander und „Absenden“ schickt das Formular normal ab. */
 (function () {
   "use strict";
   var karte = document.querySelector(".fb__karte");
@@ -117,13 +120,57 @@
   // Füllstand direkt am Kreis (calc() mit Zahlen ohne Einheit ist für stroke-dashoffset in Firefox ungültig)
   var ringEl = knopf.querySelector(".fb__ring");
   var ring = function (v) { knopf.style.setProperty("--halt", v.toFixed(3)); ringEl.style.strokeDashoffset = (1 - v).toFixed(3); };
-  var fertig = function () {
-    knopf.classList.remove("ist-gedrueckt", "ist-voll"); ring(0);
+  /* Absenden an FormSubmit. Die E-Mail soll lesbar sein: statt der internen Werte stehen die sichtbaren Wörter drin. */
+  var ZIEL = "https://formsubmit.co/ajax/skitag.team@gmail.com";
+  var hinweis = karte.querySelector(".fb__vorschau"), hinweisText = hinweis.textContent, knopfText = knopf.querySelector(".fb__halten-text");
+  var beschriftung = function (input) { var l = input.closest("label"); return l ? l.textContent.replace(/\s+/g, " ").trim() : input.value; };
+  var antwort = function () {
+    var w = wetter[Math.round(parseFloat(regler.value))];
+    var wer = karte.querySelector("input[name=wer]:checked");
+    var wichtig = Array.prototype.map.call(karte.querySelectorAll("input[name=wichtig]:checked"), beschriftung);
+    return {
+      "Bewertung": w.wort.replace(".", "") + " (" + w.sub.toLowerCase() + ")",
+      "Wer": wer ? beschriftung(wer) : "keine Angabe",
+      "Am wichtigsten": wichtig.length ? wichtig.join(", ") : "keine Angabe",
+      "Nachricht": nachricht.value.trim() || "keine",
+      "Vorname": (karte.querySelector("input[name=vorname]").value || "").trim() || "keine Angabe",
+      "_subject": karte.querySelector("input[name=_subject]").value,
+      "_template": "table",
+      "_captcha": "false"
+    };
+  };
+  var sendet = false;
+  var meldung = function (text, fehler) { hinweis.textContent = text; hinweis.classList.toggle("ist-fehler", !!fehler); };
+  var danke = function () {
+    knopf.classList.remove("ist-gedrueckt", "ist-voll", "ist-am-senden"); ring(0);
     var name = (karte.querySelector("input[name=vorname]").value || "").trim();
     karte.querySelector(".fb__danke-name").textContent = name ? ", " + name : "";
     regler.value = "4"; wetterSetzen();
     zeigen(5, false);
     karte.querySelector(".fb__danke").focus({ preventScroll: true });
+  };
+  var fehlgeschlagen = function () {
+    sendet = false; knopf.disabled = false;
+    knopf.classList.remove("ist-gedrueckt", "ist-voll", "ist-am-senden"); ring(0); knopfText.textContent = "Halten zum Senden";
+    meldung("Das hat nicht geklappt. Halt den Knopf nochmal oder schreib uns an skitag.team@gmail.com.", true);
+  };
+  var fertig = function () {
+    if (sendet) return;
+    // Spam-Falle ausgefüllt: so tun, als wäre alles gut, aber nichts senden
+    if (karte.querySelector("input[name=_honey]").value) { danke(); return; }
+    sendet = true; knopf.disabled = true; knopf.classList.add("ist-am-senden"); knopfText.textContent = "Wird gesendet …";
+    meldung(hinweisText, false);
+    var abbruch = "AbortController" in window ? new AbortController() : null;
+    var uhr = setTimeout(function () { if (abbruch) abbruch.abort(); }, 15000);
+    fetch(ZIEL, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(antwort()), signal: abbruch ? abbruch.signal : undefined })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (x) {
+        clearTimeout(uhr);
+        if (x.ok && String(x.d.success) === "true") { sendet = false; knopf.disabled = false; knopfText.textContent = "Halten zum Senden"; danke(); }
+        else { if (window.console) console.warn("FormSubmit:", x.d && x.d.message); fehlgeschlagen(); }
+      })
+      .catch(function () { clearTimeout(uhr); fehlgeschlagen(); });
   };
   var laufen = function (t) {
     if (!gehalten) return;
@@ -156,7 +203,12 @@
   knopf.addEventListener("keyup", function (e) { if (e.key === " " || e.key === "Enter") stopp(); });
   knopf.addEventListener("contextmenu", function (e) { e.preventDefault(); });
 
-  karte.querySelector(".fb__nochmal").addEventListener("click", function () { zeigen(0, true); });
+  // „Noch eine Antwort schicken“: alles zurück auf Anfang
+  karte.querySelector(".fb__nochmal").addEventListener("click", function () {
+    karte.reset(); regler.value = "3"; wetterSetzen(); zaehler.textContent = "0"; meldung(hinweisText, false);
+    zeigen(0, true);
+  });
+  // mit JavaScript schickt nur der Halten-Knopf ab (Enter in einem Feld soll nicht absenden)
   karte.addEventListener("submit", function (e) { e.preventDefault(); });
 
   zeigen(0, false);

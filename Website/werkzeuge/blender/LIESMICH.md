@@ -7,7 +7,8 @@ Maxis Modell „fertig4“ als Produktfoto aus Blender 4.2 (Cycles). Nicht Teil 
    (danach `site/_werkzeug/` wieder löschen, es soll nicht veröffentlicht werden).
 2. `blender -b --python dreh.py -- <dieser Ordner> chip.glb <ausgabe>`: 30 Drehbilder und `punkte.json`
    (`innen.py`: 25 Bilder der Explosionsansicht, `produkt.py`: liegendes Produktbild). Licht und Materialien in `szene.py`.
-3. `python3 wandeln.py <ausgabe> ../../site/assets/media/chip 900` (Explosion: `... innen 1200 .../innen/m 700`),
+   Die Explosionsansicht auf der Chip-Seite macht `oeffnen.py` (48 Bilder, 1800 x 1350, gestaffelt geöffnet, Wege in `szene.py` unter `STAFFEL`).
+3. `python3 wandeln.py <ausgabe> ../../site/assets/media/chip 900` (Explosion: `... innen 1800 .../innen/m 1100 --zuschnitt`),
    `standbild.py` macht `chip-3d.webp`.
 
 Dauer auf 4 Kernen: etwa 1 bis 1,5 Minuten je Bild.

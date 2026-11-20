@@ -1,7 +1,9 @@
 /* SkiTag · Chip-Seite, „Was im Chip steckt“ (Feedback 131, ersetzt chip-seite.js).
    Maxis Modell „fertig4“ mit allen Innenteilen ist in Blender (Cycles) gerendert: 48 Bilder vom geschlossenen bis zum
-   ganz offenen Chip (assets/media/innen/00.webp bis 47.webp, am Handy und auf schwächeren Geräten die halbe Größe in
-   innen/m/). Die Bildfolge hängt nicht am Scrollen (das ruckelte beim langsamen Scrollen): sobald der Abschnitt im Bild
+   ganz offenen Chip (assets/media/innen/00.webp bis 47.webp, 1800 px breit gerechnet und auf den Chip zugeschnitten; wo die
+   Fläche auch mit der Pixeldichte des Bildschirms kleiner ist, die kleinere Fassung in innen/m/). Seit Feedback 132 öffnen
+   sich die Teile gestaffelt von außen nach innen und stecken nicht mehr ineinander; die Größe richtet sich nach dem
+   Bildschirm, nicht mehr nach dem Sparmodus (der lud auf Rechnern mit vier Kernen die kleinen Bilder, das wirkte pixelig). Die Bildfolge hängt nicht am Scrollen (das ruckelte beim langsamen Scrollen): sobald der Abschnitt im Bild
    steht, öffnet sich der Chip in einem Zug (1,8 s, etwa 26 Bilder je Sekunde); sobald man nach oben scrollt, schließt
    er sich wieder, scrollt man weiter nach unten, öffnet er sich erneut. Gespielt wird erst, wenn alle Bilder geladen und dekodiert sind.
    assets/media/innen/punkte.json sagt je Bild, wo die sechs Teile ihren äußersten Punkt rechts haben (Ansatz der Linie),
@@ -14,8 +16,10 @@
   if (!feld || !zeiger) return;
   var wurzel = document.documentElement, marken = Array.prototype.slice.call(akt.querySelectorAll(".innen__marken li"));
   var ruhig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var klein = window.innerWidth < 700 || wurzel.classList.contains("sparsam");   // Handy und schwächere Geräte: halbe Größe
-  var ORDNER = "assets/media/innen/" + (klein ? "m/" : ""), V = "?v=3", N = 48, SEITE = 4 / 3, DAUER = 1800;
+  // Breite des ganzen Bildes in Gerätepixeln: über 1150 die große Fassung (1800 px), sonst die kleine (1100 px)
+  var flaeche = Math.min(feld.clientWidth || window.innerWidth, (feld.clientHeight || window.innerHeight) * 4 / 3);
+  var klein = flaeche * Math.min(window.devicePixelRatio || 1, 2) < 1150;
+  var ORDNER = "assets/media/innen/" + (klein ? "m/" : ""), V = "?v=4", N = 48, SEITE = 4 / 3, DAUER = 1800;
   var klemme = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
   var abschnitt = function (x, a, b) { return klemme((x - a) / (b - a)); };
   var weich = function (x) { return x * x * (3 - 2 * x); };
@@ -52,7 +56,7 @@
     return geladen;
   };
 
-  var daten = null;
+  var daten = null, letzteLage = "";
   var zeichnen = function () {
     if (geladen && !da[gezeigt]) gezeigt = gutesBild(gezeigt);
     if (a.getAttribute("data-nr") !== String(gezeigt)) { a.src = url(gezeigt); a.setAttribute("data-nr", String(gezeigt)); }
@@ -61,6 +65,12 @@
     var b = daten.bilder[Math.min(gezeigt, daten.bilder.length - 1)];
     // Bild mit „contain“ in der Fläche
     var bw = Math.min(B, H * SEITE), bh = bw / SEITE, bx = (B - bw) / 2, by = (H - bh) / 2;
+    // das Bild ist auf den Chip zugeschnitten: an seinen Platz im ganzen Bild setzen
+    var z = daten.ausschnitt || [0, 0, 1, 1], lage = [bx + z[0] * bw, by + z[1] * bh, (z[2] - z[0]) * bw, (z[3] - z[1]) * bh].map(Math.round).join(",");
+    if (lage !== letzteLage) {
+      letzteLage = lage; var l = lage.split(",");
+      a.style.left = l[0] + "px"; a.style.top = l[1] + "px"; a.style.width = l[2] + "px"; a.style.height = l[3] + "px";
+    }
     zeiger.setAttribute("viewBox", "0 0 " + Math.round(B) + " " + Math.round(H));
     var spalte = Math.min(bx + b.spalte * bw + (B < 500 ? 18 : 34), B - (B < 500 ? 94 : 110));
     marken.forEach(function (li, k) {

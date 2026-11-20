@@ -36,7 +36,7 @@
   var T = 17.3, TAKT = 1.55;
   var TEMPO = 1.25;   // Feedback 131: alles einen Ticken langsamer (der Ablauf dauert 25 % länger, die Schritte bleiben im Verhältnis)
   var RUF = 1.2 + 5 * TAKT, BB = 1.2 + 6 * TAKT;   // Handy: Anruf bei der Rettung („Ort erklären“), danach ruft die Rettung die Bergbahn an
-  var RX = 1060, RY = 50;                            // Stelle der Rettung im Himmel oben rechts
+  var RX = 600, RY = 64;                             // Stelle der Rettung im Himmel oben in der Mitte (Feedback 139: oben rechts lag sie unter der Karte)
   // Feedback 131: Skigebiet von oben mit zwei getrennten Pisten. A mit SkiTag auf der Hauptpiste links, B mit dem Handy auf der
   // Piste rechts hinter dem Wald, wie die Karten darüber (Koordinaten im Foto); die Talstation mit dem Empfänger liegt unten (SX, SY)
   var AX = 370, AY = 340, BX = 935, BY = 285, SX = 668, SY = 540;
@@ -186,7 +186,8 @@
     k = Math.max(0, Math.min(5, k));
     var lokal = (t - 1.2) - k * TAKT;
     deck(e.blase, blaseAn ? Math.min(1, ramp(t, 1.2, 1.35)) * (1 - ramp(t, 1.2 + 6 * TAKT - 0.2, 1.2 + 6 * TAKT)) : 0);
-    stelle(e.blase, BX, BY - 68 * G, (0.82 + 0.18 * federn(ramp(lokal, 0, 0.35))) * G);
+    // links neben der Person, Zipfel nach rechts (über ihr lag die Blase halb hinter der Karte „Mit dem Handy“)
+    stelle(e.blase, BX - 70 * G, BY - 20 * G, (0.82 + 0.18 * federn(ramp(lokal, 0, 0.35))) * G);
     for (var j = 0; j < e.blasenZeichen.length; j++) e.blasenZeichen[j].style.display = j === k ? "" : "none";
     var hoch = t >= 1.2 + TAKT;
     e.armHoch.style.opacity = hoch ? 1 : 0; e.armUnten.style.opacity = hoch ? 0 : 1;
@@ -249,7 +250,8 @@
     LF = e.funk.getTotalLength();
     for (var i = 0; i < e.wellen.length; i++) { e.wellen[i].setAttribute("cx", AX); e.wellen[i].setAttribute("cy", AY); }
     // Rettung im Himmel; Anruf vom Handy der Person zur Rettung und von der Rettung zur Liftstation
-    RX = G > 1 ? 1080 : 1060; RY = G > 1 ? 70 : 50;
+    // am PC oben in der Mitte zwischen den beiden Karten; am Handy stehen die Karten unter dem Bild, dort oben rechts
+    RX = G > 1 ? 1050 : 600; RY = G > 1 ? 78 : 64;   // am Handy weit genug vom rechten Rand (1110), sonst wird das Zeichen abgeschnitten
     var hx = BX + 12 * G, hy = BY - 25 * G;
     linien(e.anrufALinien, "M" + fix(hx) + " " + fix(hy) + " Q " + fix(hx - 10) + " " + (RY + 90) + " " + RX + " " + RY);
     linien(e.anrufBLinien, "M" + RX + " " + RY + " Q " + fix((RX + SX) / 2 + 60) + " " + fix((RY + SY) / 2 - 60) + " " + SX + " " + SY);

@@ -23,8 +23,8 @@
 /* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=125">
-<link rel="stylesheet" href="assets/chip-film.css?v=9">
+<link rel="stylesheet" href="assets/seite.css?v=133">
+<link rel="stylesheet" href="assets/chip-film.css?v=12">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/schrift-inter.css?v=1">
 <link rel="stylesheet" href="assets/am-berg.css?v=4">
@@ -156,24 +156,26 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </div>
   </section>
 
-  <!-- 1b · Was ist SKITAG? (seit Feedback 125 eine ruhige Vorstellung): der 3D-Chip landet groß in der Mitte und dreht
-       sich langsam, dünne Linien zeigen auf LED, Knopf, Gummirand und Seite (chip-film.js meldet, wo diese Stellen
-       gerade sind, seite.js zieht die Linien). Was der Knopf genau macht, spielt die Seite Der Chip vor, nicht hier. -->
+  <!-- 1b · Was ist SKITAG? (seit Feedback 125 eine ruhige Vorstellung, seit 132 in Alltagssprache): oben die Frage und
+       die Antwort in einem Satz, in der Mitte der Chip groß, links und rechts je zwei Beschriftungen mit kräftigen Linien
+       zu LED, Knopf, Rand und Seite (chip-film.js meldet, wo diese Stellen gerade sind, seite.js zieht die Linien, lässt
+       sie beim ersten Hinsehen nacheinander hineinwachsen und zeigt am Knopf ab und zu einen Druck mit grüner LED).
+       Was der Knopf genau macht, spielt die Seite Der Chip vor, nicht hier. -->
   <section id="blick" class="blick blick--schau" data-sc-act="flow" data-sc-drift="#ffffff" aria-labelledby="blick-titel">
     <div class="sc-wrap schau">
       <header class="schau__kopf">
-        <p class="augenbraue">Start</p>
         <h2 id="blick-titel" class="sc-display schau__titel">Was ist SKITAG?</h2>
-        <p class="sc-lede schau__lede">Ein Mietchip für deine Skijacke. Er ruft deine Gruppe oder holt Hilfe, ganz ohne Handy und ohne Handynetz.</p>
+        <p class="schau__antwort">Ein kleiner Notrufknopf, den du dir für den Skitag ausleihst und an der Jacke trägst.</p>
+        <p class="schau__lede">Einmal drücken ruft deine Freunde. Drei Sekunden halten schickt einen Notruf mit deinem Standort an die Bergbahn. Dein Handy brauchst du dafür nicht.</p>
       </header>
       <div class="schau__buehne">
         <div class="blick__chip chip-anker"><img class="chip-bild" src="assets/media/chip-3d.webp?v=3" alt="Der SkiTag-Chip: schwarzes Gehäuse mit orangem Gummirand und einem runden Knopf" width="600" height="800" loading="lazy" decoding="async"></div>
-        <svg class="schau__linien" aria-hidden="true"><defs><marker id="schau-punkt" viewBox="0 0 12 12" refX="6" refY="6" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse"><circle cx="6" cy="6" r="4" fill="#fff" stroke="#0e1d40" stroke-width="2"/></marker></defs><path/><path/><path/><path/></svg>
+        <svg class="schau__linien" aria-hidden="true"></svg>
         <ul class="schau__marken">
-          <li class="schau__marke schau__marke--l1"><b>LED</b><span>Zeigt dir, was der Chip gerade tut.</span></li>
-          <li class="schau__marke schau__marke--l2"><b>Ein Knopf</b><span>Kurz drücken ruft die Gruppe, drei Sekunden halten holt Hilfe.</span></li>
-          <li class="schau__marke schau__marke--r1"><b>Gummirand</b><span>Gemacht für Stürze, Kälte und Nässe.</span></li>
-          <li class="schau__marke schau__marke--r2"><b>Eigener Funk</b><span>Die Liftstationen fangen das Signal auf.</span></li>
+          <li class="schau__marke schau__marke--l1"><b>Das Licht</b><span>Zeigt dir, was der Chip gerade macht.</span></li>
+          <li class="schau__marke schau__marke--l2"><b>Der Knopf</b><span>Groß genug für Handschuhe. Kurz drücken oder drei Sekunden halten.</span></li>
+          <li class="schau__marke schau__marke--r1"><b>Der Gummirand</b><span>Gemacht für Stürze, Kälte und Nässe.</span></li>
+          <li class="schau__marke schau__marke--r2"><b>Eigener Funk</b><span>Kein Handynetz nötig. Empfänger an den Liftstationen fangen das Signal auf.</span></li>
         </ul>
       </div>
       <div class="schau__fuss">
@@ -241,7 +243,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </div>
   </section>
 
-  <!-- 6 · Vom Kind bis zum Profi (seit Feedback 125): oben Überschrift und Link zur App, darunter eine Collage aus fünf
+  <!-- 6 · Vom Anfänger bis zum Profi (seit Feedback 125): oben Überschrift und Link zur App, darunter eine Collage aus fünf
        Fotos (Unsplash, Herkunft in assets/media/collage-*.webp.json). Beim Darüberfahren zoomt ein Foto, zeigt seinen
        Namen, die anderen treten zurück. Daneben das iPhone als ruhiges Standbild, ohne Schalter: was die App kann,
        zeigt app.html. -->
@@ -250,7 +252,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
       <header class="kollage__kopf" data-sc-in data-sc-stagger="80">
         <div>
           <p class="augenbraue">App</p>
-          <h2 id="app-titel" class="sc-display riesig">Vom Kind<br><span class="leise">bis zum Profi.</span></h2>
+          <h2 id="app-titel" class="sc-display riesig">Vom Anfänger<br><span class="leise">bis zum Profi.</span></h2>
         </div>
         <div class="kollage__rechts">
           <p class="sc-lede">Eltern sehen, wo ihre Kinder sind, Skilehrer ihre ganze Gruppe. Und du deinen Tag und den Weg ins Tal.</p>
@@ -277,6 +279,14 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
       </div>
     </div>
   </section>
+
+  <!-- Bildfenster (Feedback 133, nach dem Vorbild von Element3): das Foto steht beim Scrollen still, die Seite gleitet
+       darüber (clip-path statt background-attachment: fixed, Regeln in seite.css unter „Bildfenster“). Vor den Fragen,
+       eine Familie am Pistenrand. Die Fenster mit Piste und Abendspuren hat Feedback 134 wieder entfernt. -->
+  <div class="fenster" style="--lage:68% 50%">
+    <div class="fenster__bild"><img src="assets/media/fenster-gruppe.webp?v=1" srcset="assets/media/fenster-gruppe-m.webp?v=1 1400w, assets/media/fenster-gruppe.webp?v=1 2400w" sizes="(max-aspect-ratio: 1/1) 170vh, 100vw" alt="Eine Familie mit Kindern steht am Pistenrand und schaut auf schneebedeckte Gipfel." width="2400" height="1606" loading="lazy" decoding="async"></div>
+    <div class="sc-wrap fenster__innen"><p class="fenster__satz">Einmal drücken, und deine Freunde wissen Bescheid.</p></div>
+  </div>
 
   <!-- 8 · Gut zu wissen (Fragen); unten wächst das Gebirge in die Nacht des Schlusses -->
   <section id="fragen" class="sc-section fragen" data-sc-act="flow" data-sc-drift="#ffffff" aria-labelledby="fragen-titel">
@@ -551,9 +561,9 @@ ScrollCraft.mount(document.body);
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
 <script src="assets/am-berg.js?v=4" defer></script>
-<script src="assets/seite.js?v=82" defer></script>
-<script src="assets/gsap-effekte.js?v=4" defer></script>
-<script src="assets/chip-film.js?v=10" defer></script>
+<script src="assets/seite.js?v=83" defer></script>
+<script src="assets/gsap-effekte.js?v=5" defer></script>
+<script src="assets/chip-film.js?v=11" defer></script>
 <script src="assets/sprung-anfang.js?v=20" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
 </body>

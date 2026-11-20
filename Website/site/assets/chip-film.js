@@ -98,9 +98,9 @@
   /* ------------------------------------------------ „Was ist SKITAG?“: langsame Drehung -- */
   if (blick) {
     var bf = Film(blick, bildNr(-0.32));
-    // Feedback 131: keine Drehung aus Einzelbildern mehr (sah ruckelig aus); ein festes Bild, das per CSS schwebt.
-    // Die Linien folgen trotzdem genau, weil bz.punkte beim Lesen aus der aktuellen Lage gerechnet wird.
-    bf.box.classList.add("chip-film--schau", "chip-film--schwebt");
+    // Feedback 131: keine Drehung aus Einzelbildern mehr (sah ruckelig aus); seit Feedback 132 steht das Bild still
+    // (kein Auf und Ab mehr). bz.punkte wird beim Lesen aus der aktuellen Lage gerechnet.
+    bf.box.classList.add("chip-film--schau");
     var bz = S.blick, blickSicht = false, gesehen = false;
     // bz.punkte wird erst beim Lesen ausgerechnet (seite.js zieht damit die Linien): so passen sie auch beim Scrollen genau
     var punkteAn = false;

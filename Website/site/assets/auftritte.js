@@ -12,8 +12,10 @@
                · „Fragen zur App?“: das dunkle Band zieht sich von der Mitte auf, Text und Knopf folgen.
    Feedback    · die Karte klappt von unten hoch, das Foto wischt von links herein, die Frage folgt.
    Das sind wir· „Unser Ziel“: der große Satz wird Wort für Wort hell, während man liest (am Scrollen).
-               · die drei Karten werden wie Spielkarten ausgeteilt (leicht gedreht, nacheinander).
-               · die E-Mail-Adresse baut sich Buchstabe für Buchstabe von der Mitte aus auf. */
+               · die drei Porträts werden wie Spielkarten ausgeteilt (leicht gedreht, nacheinander), der
+                 Anfangsbuchstabe steigt auf, Name und Rolle folgen (Feedback 137).
+               · Kontakt: Überschrift Wort für Wort, dann die Adresse Buchstabe für Buchstabe von links, der Strich
+                 darunter zieht sich auf (Feedback 136). */
 (function () {
   "use strict";
   if (!window.gsap || !window.ScrollTrigger) return;
@@ -116,22 +118,45 @@
         scrollTrigger: { trigger: satz, start: "top 72%", end: "bottom 35%", scrub: 0.5 } });
     }
   }
-  var bau = alle(".wir2__bau .wir2__karte");
-  if (bau.length) {
-    var tlk = gsap.timeline({ paused: true, defaults: { ease: "expo.out" } });
-    gsap.set(bau, { y: 160, x: function (i) { return handy ? 0 : [90, 0, -90][i] || 0; }, rotate: function (i) { return handy ? 0 : [-10, 3, 11][i] || 0; }, opacity: 0, transformOrigin: "50% 100%" });
-    tlk.to(bau, { y: 0, x: 0, rotate: 0, opacity: 1, duration: 1.4, stagger: 0.16, clearProps: "transform" }, 0);
-    alle(".wir2__bau img").forEach(function (im, i) { gsap.set(im, { scale: 1.3 }); tlk.to(im, { scale: 1, duration: 2, ease: "power3.out", clearProps: "transform" }, 0.1 + i * 0.16); });
-    einmal(eins(".wir2__bau"), tlk, "top 62%");
+  /* Die drei Porträts (Feedback 137) werden wie Karten ausgeteilt: von unten, leicht gedreht, nacheinander; in jeder
+     Fläche steigt danach der Anfangsbuchstabe auf, Name und Rolle folgen. */
+  var leute = alle(".wir2__person");
+  if (leute.length) {
+    // während des Austeilens keine CSS-Übergänge (das Anheben beim Darüberfahren würde sonst gegen GSAP arbeiten)
+    var liste = eins(".wir2__leute");
+    liste.classList.add("wird-ausgeteilt");
+    var tlp = gsap.timeline({ paused: true, defaults: { ease: "expo.out" }, onComplete: function () { liste.classList.remove("wird-ausgeteilt"); } });
+    var flaechen = leute.map(function (p) { return eins(".wir2__portrait", p); });
+    var buchst = leute.map(function (p) { return eins(".wir2__initial", p); });
+    var texte = leute.map(function (p) { return alle(".titel-3, .wir2__rolle", p); });
+    gsap.set(flaechen, { y: handy ? 80 : 140, x: function (i) { return handy ? 0 : [70, 0, -70][i] || 0; }, rotate: function (i) { return handy ? 0 : [-8, 2, 9][i] || 0; }, opacity: 0, transformOrigin: "50% 100%" });
+    gsap.set(buchst, { yPercent: 40, opacity: 0 });
+    gsap.set(texte, { y: 14, opacity: 0 });
+    tlp.to(flaechen, { y: 0, x: 0, rotate: 0, opacity: 1, duration: 1.3, stagger: 0.14, clearProps: "transform,opacity" }, 0);
+    tlp.to(buchst, { yPercent: 0, opacity: 1, duration: 1.1, stagger: 0.14, clearProps: "transform,opacity" }, 0.45);
+    texte.forEach(function (t, i) { tlp.to(t, { y: 0, opacity: 1, duration: 0.8, stagger: 0.08, clearProps: "transform,opacity" }, 0.7 + i * 0.14); });
+    einmal(liste, tlp, "top 78%");
   }
-  var mail = eins(".wk__mail");
-  if (mail) {
-    var zeichen = teilen(mail, "chars", { charsClass: "mail-zeichen" });
-    if (zeichen) {
-      var tlm = gsap.timeline({ paused: true });
-      gsap.set(zeichen.chars, { yPercent: 120, opacity: 0, rotate: 8 });
-      tlm.to(zeichen.chars, { yPercent: 0, opacity: 1, rotate: 0, duration: 0.9, ease: "expo.out", stagger: { each: 0.025, from: "center" } });
-      einmal(mail, tlm, "top 70%");
+  /* Kontakt (Feedback 136): ein ruhiger Ablauf statt gedrehter Buchstaben. Kennzeile, dann die Überschrift Wort für Wort
+     aus einer Maske, der Satz, die Adresse Buchstabe für Buchstabe von links, der Strich darunter zieht sich auf,
+     zuletzt Hinweis, Knopf und Fußzeile. */
+  var kontakt = eins(".wir2__kontakt");
+  if (kontakt) {
+    var kAuge = eins(".auge", kontakt), kTitel = eins(".titel-2", kontakt), kLead = eins(".lead", kontakt), kMail = eins(".wk__mail", kontakt);
+    var kRest = alle(".wk__tipp, .wk__schreiben, .wk__fuss", kontakt);
+    var kWorte = teilen(kTitel, "words", { mask: "words" }), kZeichen = kMail && teilen(kMail, "chars", { mask: "chars", charsClass: "mail-zeichen" });
+    var tlc = gsap.timeline({ paused: true, defaults: { ease: "expo.out" } });
+    gsap.set(kAuge, { opacity: 0, y: 12 });
+    gsap.set([kLead].concat(kRest), { opacity: 0, y: 18 });
+    tlc.to(kAuge, { opacity: 1, y: 0, duration: 0.7, clearProps: "transform" }, 0);
+    if (kWorte) { gsap.set(kWorte.words, { yPercent: 110 }); tlc.to(kWorte.words, { yPercent: 0, duration: 1.1, stagger: 0.08 }, 0.1); }
+    tlc.to(kLead, { opacity: 1, y: 0, duration: 0.9, clearProps: "transform" }, 0.45);
+    if (kMail) {
+      gsap.set(kMail, { "--strich": 0 });
+      if (kZeichen) { gsap.set(kZeichen.chars, { yPercent: 105 }); tlc.to(kZeichen.chars, { yPercent: 0, duration: 0.8, ease: "power4.out", stagger: 0.022 }, 0.7); }
+      tlc.to(kMail, { "--strich": 1, duration: 0.9, ease: "power3.inOut" }, 1.05);
     }
+    tlc.to(kRest, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, clearProps: "transform" }, 1.3);
+    einmal(kontakt, tlc, "top 72%");
   }
 })();
