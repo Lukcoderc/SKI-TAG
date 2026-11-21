@@ -144,11 +144,46 @@
     var glatt = ohneBewegung ? true : 0.8;
     gs.to(stand, { vor: 1, ease: "none", onUpdate: zeigen,
       scrollTrigger: { trigger: kopf || tag, start: "top top", end: "bottom 55%", scrub: glatt } });
+    // Feedback 146: beginnt die Linie schon oberhalb von 55 % des Fensters (kurzer Kopf), startet der Fortschritt bei
+    // Seitenanfang, damit der Punkt ganz oben auch ganz oben auf der Linie steht
     gs.to(stand, { f: 1, ease: "none", onUpdate: zeigen,
-      scrollTrigger: { trigger: linie, start: "top 55%", end: "bottom 55%", scrub: glatt, onRefresh: function () { messen(); } } });
+      scrollTrigger: { trigger: linie, start: function () { return Math.max(0, linie.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.55); },
+        end: "bottom 55%", scrub: glatt, onRefresh: function () { messen(); } } });
     // Feedback 127: am Ende sinkt das Gebirge der Tageswelt weich weg, während das Gebirge über dem Fuß hochkommt,
     // dazu wird der Himmel unten zum Dunkelblau des Fußes; so gibt es nie zwei Bergketten übereinander.
     var band = document.querySelector(".gebirge-band"), berge = welt && welt.querySelector(".tagwelt__berge");
+    // Feedback 145: ganz oben wartet das Gebirge unter dem Bildrand (sonst liegt die Uhr auf dem Berg) und steigt
+    // auf, während die Überschrift aus dem Bild scrollt. Eigene Größe --auf (CSS translate), damit es sich nicht mit dem
+    // Absinken am Ende (transform) in die Quere kommt.
+    // Feedback 146: die Berge sind ganz oben schon zu sehen, stehen aber knapp unter dem tiefsten Text im Bild (Uhr und
+    // erste Station) und fahren beim Scrollen ganz hoch. Gemessen wird beim Laden und nach Größenänderungen.
+    var auf = berge && berge.querySelector(".tagwelt__auf");
+    if (auf && !ohneBewegung) {
+      // das Panorama ist oben durchsichtig: der höchste Gipfel liegt bei 37,5 % der Bildhöhe (Bild 2400 × 686, cover, oben
+      // angelegt); gerechnet wird mit dem Gipfel, nicht mit der unsichtbaren Bildkante
+      var gipfel = function () { var r = berge.getBoundingClientRect(); return 0.375 * Math.max(r.height, r.width * 686 / 2400); };
+      var startAuf = function () {
+        var hb = berge.getBoundingClientRect().height, oben = window.innerHeight - hb + gipfel(), unten = 0;
+        [tag.querySelector(".tag__uhr .tag__anzeige"), tag.querySelector(".tag__halt .tag__karte")].forEach(function (el) {
+          if (el) unten = Math.max(unten, el.getBoundingClientRect().bottom + window.scrollY);
+        });
+        return hb > 0 ? klemme((unten + 18 - oben) / hb) : 0;
+      };
+      // Startwert als Funktion: ScrollTrigger rechnet ihn bei jedem refresh neu (nach dem Laden der Schrift, bei Größenänderung)
+      // ganz ausgefahren stehen die Berge knapp unter der Uhr, die beim Scrollen stehen bleibt (sonst läge sie auf dem Berg)
+      var endAuf = function () {
+        var uhr = tag.querySelector(".tag__uhr"), anz = tag.querySelector(".tag__uhr .tag__anzeige");
+        if (!uhr || !anz || window.innerWidth < 900) return 0;
+        var hb = berge.getBoundingClientRect().height, oben = window.innerHeight - hb + gipfel();
+        var uhrUnten = (parseFloat(getComputedStyle(uhr).top) || 0) + anz.getBoundingClientRect().height;
+        return hb > 0 ? klemme((uhrUnten + 18 - oben) / hb) : 0;
+      };
+      gs.fromTo(auf, { "--auf": startAuf }, { "--auf": endAuf, ease: "none", immediateRender: true,
+        scrollTrigger: { trigger: kopf || tag, start: "top top", end: function () { return Math.max(200, (kopf || tag).offsetHeight + window.innerHeight * 0.25); }, scrub: glatt, invalidateOnRefresh: true } });
+      var neuRechnen = function () { window.ScrollTrigger.refresh(); };
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(neuRechnen);
+      window.addEventListener("load", neuRechnen);
+    }
     if (band && berge) {
       gs.fromTo(berge, { opacity: 1, yPercent: 0 }, { opacity: 0, yPercent: 35, ease: "power1.in",
         scrollTrigger: { trigger: band, start: "top bottom", end: "top 45%", scrub: glatt } });

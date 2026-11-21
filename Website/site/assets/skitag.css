@@ -203,20 +203,30 @@ html.tagwelt-dunkel .tag__punkt { box-shadow: inset 0 0 0 1.5px rgba(255, 255, 2
   .tag__karte p { font-size: var(--sc-t-md, 1rem); }
 }
 
-/* ===================================================== Feedback 141: besser lesbar == */
-/* Der Text steht weiter ohne Kasten auf dem Himmel, bekommt aber einen weichen Schein, der ihn vom Hintergrund abhebt
-   (wie ein Schatten, nur hell): am Tag hell hinter dunkler Schrift, in der Dämmerung und Nacht dunkel hinter heller.
-   Die kleine Uhrzeit über jeder Station ist am Tag dunkleres Orange und etwas größer (helles Orange auf hellem Himmel
-   war kaum zu lesen). */
-.tag__zeit, .tag__ueber, .tag__was, .tag__karte h3, .tag__karte p, .tag__karte time, .tag__orte li, .tag__hinweis,
-html.mit-tagwelt .tag-kopf .kopfzeile__text, .tag-kopf h1 {
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.55), 0 0 14px rgba(255, 255, 255, 0.75), 0 0 34px rgba(255, 255, 255, 0.55);
-}
+/* ===================================================== Feedback 141/145: besser lesbar == */
+/* Der Text steht ohne Kasten auf dem Himmel. Die kleine Uhrzeit über jeder Station ist am Tag dunkleres Orange und etwas
+   größer (helles Orange auf hellem Himmel war kaum zu lesen), der Absatz etwas dunkler. Den hellen Schein hinter der
+   Schrift (Feedback 141) hat Feedback 145 wieder entfernt, er wirkte komisch; dafür steht das Gebirge ganz oben noch
+   unter dem Bildrand und steigt erst beim Scrollen auf (skitag.js), so liegt am Anfang kein Text auf dem Berg. */
 .tag__karte p { color: rgba(14, 29, 64, 0.9); }
 .tag__karte time, .tag__hinweis { color: #b93a0b; font-size: 0.95rem; font-weight: 700; }
-html.tagwelt-dunkel .tag__zeit, html.tagwelt-dunkel .tag__ueber, html.tagwelt-dunkel .tag__was, html.tagwelt-dunkel .tag__karte h3,
-html.tagwelt-dunkel .tag__karte p, html.tagwelt-dunkel .tag__karte time, html.tagwelt-dunkel .tag__orte li, html.tagwelt-dunkel .tag__hinweis {
-  text-shadow: 0 1px 2px rgba(6, 12, 28, 0.6), 0 0 16px rgba(6, 12, 28, 0.7), 0 0 36px rgba(6, 12, 28, 0.5);
-}
 html.tagwelt-dunkel .tag__karte p { color: rgba(255, 255, 255, 0.86); }
 html.tagwelt-dunkel .tag__karte time, html.tagwelt-dunkel .tag__hinweis { color: #ffb08a; }
+/* die Linie beginnt genau am ersten Stationspunkt, damit der Punkt ganz oben auch ganz oben auf der Linie sitzt */
+.tag__linie { top: 0.66rem; }
+/* Gebirge: skitag.js setzt --auf von 1 (ganz oben, unter dem Bildrand) bis 0 (aufgestiegen) */
+.tagwelt__auf { position: absolute; inset: 0; translate: 0 calc(var(--auf, 0) * 100%); }   /* eigenes Element: das Absinken am Ende bewegt .tagwelt__berge per transform */
+/* Feedback 146: die Berge sind schon ganz oben zu sehen, berühren aber keinen Text. Dafür am PC etwas mehr Platz unten:
+   Überschrift in zwei statt drei Zeilen, Absatz der Stationen etwas breiter, oben etwas weniger Luft.
+   skitag.js misst, wo der Text ganz oben endet, und stellt die Berge knapp darunter (--auf); beim Scrollen fahren sie hoch. */
+@media (min-width: 900px) {
+  .v2 main .tag-kopf.seite-anfang { padding-top: clamp(6.5rem, 12vh, 8rem); }
+  .v2 main .tag-kopf h1.sc-display { font-size: clamp(2.8rem, 1.3rem + 3.2vw, 4.5rem); }
+  .tag-kopf .kopfzeile { max-width: 76rem; }
+  .tag-kopf { padding-bottom: calc(var(--sc-section) * 0.25); }
+  .tag__karte p { max-width: 50ch; }
+}
+/* Feedback 147: der Chip-Punkt liegt über den Stationspunkten und verdeckt sie ganz; vorher schien der orange
+   Stationspunkt als Kern durch, und je nach Browser-Rundung wirkte er leicht verschoben */
+.tag__linie { z-index: 2; }
+.tag__punkt { position: relative; z-index: 1; }
