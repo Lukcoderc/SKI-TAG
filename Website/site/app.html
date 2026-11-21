@@ -24,8 +24,8 @@
 /* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=133">
-<link rel="stylesheet" href="assets/app-seite.css?v=12">
+<link rel="stylesheet" href="assets/seite.css?v=137">
+<link rel="stylesheet" href="assets/app-seite.css?v=14">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=12">
 <link rel="stylesheet" href="assets/v2-alt.css?v=3">
@@ -133,8 +133,10 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </defs>
   </svg>
 
-  <!-- Kopf der Seite -->
-  <section class="sc-section seite-anfang app-kopf" aria-labelledby="seite-titel">
+  <!-- Kopf der Seite. Feedback 141: statt weißer Fläche ein Foto über die ganze Breite (jemand schaut am Berg aufs Handy,
+       Unsplash, Herkunft in assets/media/app-held.webp.json), dunkler Verlauf von links unten, Schrift hell darauf -->
+  <section class="sc-section seite-anfang app-kopf app-kopf--foto" aria-labelledby="seite-titel">
+    <div class="app-kopf__bild" aria-hidden="true"><img src="assets/media/app-held.webp?v=1" srcset="assets/media/app-held-m.webp?v=1 1400w, assets/media/app-held.webp?v=1 2400w" sizes="(max-aspect-ratio: 1/1) 160vh, 100vw" alt="" width="2400" height="1600" decoding="async" fetchpriority="high"></div>
     <div class="sc-wrap">
       <header class="kopfzeile" data-sc-in data-sc-stagger="80">
         <p class="augenbraue">Die App</p>
@@ -459,10 +461,10 @@ ScrollCraft.mount(document.body);
 </script>
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
-<script src="assets/seite.js?v=83" defer></script>
+<script src="assets/seite.js?v=85" defer></script>
 <script src="assets/gsap-effekte.js?v=5" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
-<script src="assets/auftritte.js?v=7" defer></script>
+<script src="assets/auftritte.js?v=9" defer></script>
 <script src="assets/sprung-anfang.js?v=20" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
 <script src="assets/app-seite.js?v=5" defer></script>

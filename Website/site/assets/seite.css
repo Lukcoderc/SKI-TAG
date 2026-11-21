@@ -2296,3 +2296,28 @@ body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) a:focus-visible, bo
 .fenster--hell .fenster__innen { flex-direction: column; align-items: flex-start; justify-content: center; padding-block: 0; }
 .fenster--hell .wir2__satz { margin-top: 0.75rem; }
 @media (max-width: 860px) { .fenster--hell { height: clamp(20rem, 56svh, 28rem); } }
+
+/* ---------------------------------------------- Kälte. Nässe. Stürze. kürzer (Feedback 141) -- */
+/* nur die fette Zeile unter den Zahlen, vier Punkte nebeneinander statt sechs in zwei Reihen */
+.spec--kurz .spec__zahlen dd { margin-top: 0.9rem; }
+.spec--kurz .spec__zahlen dd b { margin: 0; }
+@media (min-width: 861px) {
+  .spec--kurz .spec__raster { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .spec--kurz .spec__raster li { border-top: 0; }
+  .spec--kurz .spec__raster li:nth-child(n) { border-left: 1px solid rgba(14, 29, 64, 0.08); }
+  .spec--kurz .spec__raster li:first-child { border-left: 0; }
+}
+
+/* „Gleich ausprobieren“ springt auf #der-chip (Feedback 141): bündig ansteuern (die Kopfleiste schwebt, der Abschnitt
+   hat oben selbst Platz dafür) und am PC genau eine Bildschirmhöhe hoch, damit die Fläche mit dem Chip nicht unten
+   abgeschnitten ist und oben kein leerer Streifen bleibt */
+#der-chip { scroll-margin-top: 0; }
+@media (min-width: 861px) {
+  #der-chip .knopf__buehne { min-height: 38rem; height: 100vh; height: 100svh; max-height: 64rem;
+    padding-top: clamp(5rem, 10vh, 6rem); padding-bottom: clamp(1.25rem, 3vh, 2rem); }
+  #der-chip .knopf__bild { min-height: 0; max-height: none; }   /* height: 100 % der Zeile wie bisher (auftritte.js misst den Chip daran) */
+}
+/* Bildfenster ohne Satz (Feedback 141): kein dunkler Verlauf, etwas niedriger */
+.fenster--ohne-text { height: clamp(20rem, 62vh, 40rem); }
+.fenster--ohne-text::after { display: none; }
+@media (max-width: 860px) { .fenster--ohne-text { height: clamp(18rem, 52svh, 26rem); } }

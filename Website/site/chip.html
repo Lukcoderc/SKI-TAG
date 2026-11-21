@@ -24,9 +24,9 @@
 /* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=133">
-<link rel="stylesheet" href="assets/chip-seite.css?v=15">
-<link rel="stylesheet" href="assets/chip-film.css?v=12">
+<link rel="stylesheet" href="assets/seite.css?v=137">
+<link rel="stylesheet" href="assets/chip-seite.css?v=21">
+<link rel="stylesheet" href="assets/chip-film.css?v=24">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=12">
 <link rel="stylesheet" href="assets/v2-alt.css?v=3">
@@ -102,12 +102,21 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   <!-- Seite „Der Chip“ (Feedback 91): Einstieg, Knopf, Innenleben (Explosionsansicht), Der Weg zur Hilfe.
        Jeder Abschnitt mit id und data-unter erscheint als Unterkapitel in der Kopfleiste (kopfleiste.js). -->
   <section class="sc-section seite-anfang chip-anfang" aria-labelledby="seite-titel">
-    <div class="sc-wrap">
+    <!-- Feedback 141: der Einstieg war zu leer. Links Überschrift, ein kurzer Satz und drei Merkmale mit Zeichen, rechts klein
+         das Produktbild (liegender Chip), das beim Laden sanft hineinkommt. Kein großes Bild, damit „Probiere den Tag aus“
+         darunter schon anklingt. -->
+    <div class="sc-wrap chip-anfang__raster">
       <header class="kopfzeile" data-sc-in data-sc-stagger="80">
         <p class="augenbraue">Der Chip</p>
         <h1 id="seite-titel" class="sc-display riesig">Klein in der Jacke.<br><span class="leise">Groß, wenn es zählt.</span></h1>
-        <p class="sc-lede kopfzeile__text">Ein Knopf, ein Akku für den ganzen Skitag und eigener Funk. Mehr brauchst du am Berg nicht dabeizuhaben.</p>
+        <p class="sc-lede kopfzeile__text">Mehr brauchst du am Berg nicht dabeizuhaben.</p>
+        <ul class="chip-anfang__fakten">
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/></svg>Ein Knopf</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7.5" width="16" height="9" rx="2.5"/><path d="M21 10.5v3M6 10.5v3M9 10.5v3M12 10.5v3"/></svg>Akku für den ganzen Tag</li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20v-8"/><circle cx="12" cy="10.5" r="1.5"/><path d="M8.5 7a5 5 0 0 1 7 0M5.8 4.3a8.8 8.8 0 0 1 12.4 0"/></svg>Eigener Funk</li>
+        </ul>
       </header>
+      <figure class="chip-anfang__bild" aria-hidden="true"><img src="assets/media/produkt-frei.webp?v=1" alt="" width="859" height="540" decoding="async"></figure>
     </div>
   </section>
 
@@ -140,6 +149,19 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
         <div class="mit kn-mit" style="--x:16%; --y:24%; --v:0s; --f:#2a4a8f" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp?v=3" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>A</i>Anna</span></div>
         <div class="mit kn-mit" style="--x:85%; --y:29%; --v:0.17s; --f:#6b7385" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp?v=3" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>T</i>Tom</span></div>
         <div class="mit kn-mit" style="--x:20%; --y:79%; --v:0.34s; --f:#c2410c" aria-hidden="true"><div class="chip-anker chip-anker--mini"><img class="chip-bild" src="assets/media/chip-3d.webp?v=3" alt="" width="600" height="800" loading="lazy" decoding="async"></div><span class="mit__name"><i>L</i>Lea</span></div>
+
+        <!-- Feedback 142 (Lukas wählte aus Vorschlägen): Gruppe rufen als Mitteilungen. Dein Chip rückt nach links, rechts
+             gleiten drei Karten herein wie Handy-Mitteilungen, in jeder wackelt ein kleiner Chip, dann ein Häkchen.
+             Abgespielt per CSS bei data-zustand="gruppe" (chip-film.css, „Gruppe rufen als Mitteilungen“). -->
+        <div class="gm" aria-hidden="true">
+          <p class="gm__kopf">Deine Gruppe:</p>
+          <div class="gm__karte" style="--i:0"><span class="gm__chip"><img src="assets/media/chip-3d.webp?v=3" alt="" width="600" height="800" decoding="async" loading="lazy"></span><span class="gm__text"><b>Anna</b><span>Chip vibriert</span><span>Sieht deinen Standort in der App</span></span><i class="gm__ok"></i></div>
+          <div class="gm__karte" style="--i:1"><span class="gm__chip"><img src="assets/media/chip-3d.webp?v=3" alt="" width="600" height="800" decoding="async" loading="lazy"></span><span class="gm__text"><b>Tom</b><span>Chip vibriert</span><span>Sieht deinen Standort in der App</span></span><i class="gm__ok"></i></div>
+          <div class="gm__karte" style="--i:2"><span class="gm__chip"><img src="assets/media/chip-3d.webp?v=3" alt="" width="600" height="800" decoding="async" loading="lazy"></span><span class="gm__text"><b>Lea</b><span>Chip vibriert</span><span>Sieht deinen Standort in der App</span></span><i class="gm__ok"></i></div>
+        </div>
+        <!-- Feedback 142: Notruf als großer Countdown. In der Frist steht groß „Notruf in 3 s“, danach wird die Fläche
+             dunkelrot und groß steht „Notruf gesendet“ mit einer Zeile darunter; seite.js setzt die Texte. -->
+        <div class="nr" aria-hidden="true"><p class="nr__titel">Notruf gesendet</p><p class="nr__sub">Standort übermittelt</p></div>
 
         <div class="kn-weg" aria-hidden="true">
           <p class="kn-weg__kopf"><i></i><span class="kn-weg__titel">Notruf gesendet</span></p>
@@ -404,10 +426,10 @@ ScrollCraft.mount(document.body);
 </script>
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
-<script src="assets/seite.js?v=83" defer></script>
+<script src="assets/seite.js?v=85" defer></script>
 <script src="assets/gsap-effekte.js?v=5" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
-<script src="assets/auftritte.js?v=7" defer></script>
+<script src="assets/auftritte.js?v=9" defer></script>
 <script src="assets/sprung-anfang.js?v=20" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
 <script src="assets/weg.js?v=19" defer></script>

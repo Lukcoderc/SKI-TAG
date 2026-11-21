@@ -202,3 +202,21 @@ html.tagwelt-dunkel .tag__punkt { box-shadow: inset 0 0 0 1.5px rgba(255, 255, 2
   .tag__karte h3 { font-size: 1.9rem; }
   .tag__karte p { font-size: var(--sc-t-md, 1rem); }
 }
+
+/* ===================================================== Feedback 141: besser lesbar == */
+/* Der Text steht weiter ohne Kasten auf dem Himmel, bekommt aber einen weichen Schein, der ihn vom Hintergrund abhebt
+   (wie ein Schatten, nur hell): am Tag hell hinter dunkler Schrift, in der Dämmerung und Nacht dunkel hinter heller.
+   Die kleine Uhrzeit über jeder Station ist am Tag dunkleres Orange und etwas größer (helles Orange auf hellem Himmel
+   war kaum zu lesen). */
+.tag__zeit, .tag__ueber, .tag__was, .tag__karte h3, .tag__karte p, .tag__karte time, .tag__orte li, .tag__hinweis,
+html.mit-tagwelt .tag-kopf .kopfzeile__text, .tag-kopf h1 {
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.55), 0 0 14px rgba(255, 255, 255, 0.75), 0 0 34px rgba(255, 255, 255, 0.55);
+}
+.tag__karte p { color: rgba(14, 29, 64, 0.9); }
+.tag__karte time, .tag__hinweis { color: #b93a0b; font-size: 0.95rem; font-weight: 700; }
+html.tagwelt-dunkel .tag__zeit, html.tagwelt-dunkel .tag__ueber, html.tagwelt-dunkel .tag__was, html.tagwelt-dunkel .tag__karte h3,
+html.tagwelt-dunkel .tag__karte p, html.tagwelt-dunkel .tag__karte time, html.tagwelt-dunkel .tag__orte li, html.tagwelt-dunkel .tag__hinweis {
+  text-shadow: 0 1px 2px rgba(6, 12, 28, 0.6), 0 0 16px rgba(6, 12, 28, 0.7), 0 0 36px rgba(6, 12, 28, 0.5);
+}
+html.tagwelt-dunkel .tag__karte p { color: rgba(255, 255, 255, 0.86); }
+html.tagwelt-dunkel .tag__karte time, html.tagwelt-dunkel .tag__hinweis { color: #ffb08a; }

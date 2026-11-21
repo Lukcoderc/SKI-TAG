@@ -23,8 +23,8 @@
 /* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=133">
-<link rel="stylesheet" href="assets/chip-film.css?v=12">
+<link rel="stylesheet" href="assets/seite.css?v=137">
+<link rel="stylesheet" href="assets/chip-film.css?v=24">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/schrift-inter.css?v=1">
 <link rel="stylesheet" href="assets/am-berg.css?v=4">
@@ -223,25 +223,29 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
         <h2 id="gebaut-titel" class="sc-display riesig">Kälte. Nässe. Stürze.<br><span class="leise">Der Chip hält mit.</span></h2>
       </header>
 
-      <!-- Feedback 125: eine ruhige Fläche statt acht bunter Kacheln (wie bei cal.com): oben drei Kennzahlen, darunter
-           sechs Punkte mit kleinen Strich-Zeichen. Inhalte unverändert. -->
-      <div class="spec" data-sc-in>
+      <!-- Feedback 125: eine ruhige Fläche statt acht bunter Kacheln (wie bei cal.com). Seit Feedback 141 kürzer: bei den
+           drei Kennzahlen nur noch die fette Zeile, darunter vier statt sechs Punkte mit je einer kurzen Zeile. -->
+      <div class="spec spec--kurz" data-sc-in>
         <dl class="spec__zahlen">
-          <div><dt><span data-hoch="3">3</span><small>s</small></dt><dd><b>Kein Notruf aus Versehen.</b> Erst nach drei Sekunden Halten startet der Notruf, dann bleiben fünf Sekunden für einen zweiten Druck.</dd></div>
-          <div><dt><span data-hoch="-20">−20</span><small>°C</small></dt><dd><b>Funkt auch bei Kälte.</b> Auch an eisigen Tagen am Berg geht der Notruf zuverlässig raus.</dd></div>
-          <div><dt><span data-hoch="8">8</span><small>h</small></dt><dd><b>Ein ganzer Skitag.</b> Am Abend sind noch mindestens 30&nbsp;% im Akku, als Reserve für die Kälte.</dd></div>
+          <div><dt><span data-hoch="3">3</span><small>s</small></dt><dd><b>Halten, dann geht der Notruf raus.</b></dd></div>
+          <div><dt><span data-hoch="-20">−20</span><small>°C</small></dt><dd><b>Funkt auch bei Kälte.</b></dd></div>
+          <div><dt><span data-hoch="8">8</span><small>h</small></dt><dd><b>Hält den ganzen Skitag.</b></dd></div>
         </dl>
         <ul class="spec__raster">
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg><h3>Weicher Kragen</h3><p>Der Kragen um den Knopf schützt zusätzlich vor einem Druck aus Versehen.</p></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 13V6.5a1.5 1.5 0 0 1 3 0V11m0-5.5V4.5a1.5 1.5 0 0 1 3 0V11m0-4.5a1.5 1.5 0 0 1 3 0V12m0-3a1.5 1.5 0 0 1 3 0v4.5A7.5 7.5 0 0 1 12.5 21H12a7 7 0 0 1-6-3.4L4.3 14a1.5 1.5 0 0 1 2.6-1.5L8 14"/></svg><h3>Auch mit Handschuhen</h3><p>Ein großer Knopf, den du auch mit dicken Skihandschuhen sicher triffst. Der Knopf selbst ist wasserdicht.</p></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="5" width="10" height="14" rx="3"/><path d="M3.5 9v6M20.5 9v6"/></svg><h3>Spürbar in der Jacke</h3><p>Ruft deine Gruppe oder kommt Hilfe, vibriert der Chip. Das merkst du auch im Lärm am Lift.</p></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-6.2-6-11a6 6 0 0 1 12 0c0 4.8-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg><h3>Weiß, wo du bist</h3><p>Mit GPS sieht die Bergbahn beim Notruf genau, wo du liegst. Du musst nichts erklären.</p></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg><h3>Kabellos laden</h3><p>Abends kommt der Chip in die Ladebox. Kein Stecker, kein Loch im Gehäuse, durch das Schnee eindringen kann.</p></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="6"/><rect x="6.5" y="9" width="11" height="6" rx="3"/></svg><h3>Weich, wo es zählt</h3><p>Der weiche Rand drückt nicht, wenn du stürzt. Darunter steckt eine harte Schale, die einiges aushält.</p></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 13V6.5a1.5 1.5 0 0 1 3 0V11m0-5.5V4.5a1.5 1.5 0 0 1 3 0V11m0-4.5a1.5 1.5 0 0 1 3 0V12m0-3a1.5 1.5 0 0 1 3 0v4.5A7.5 7.5 0 0 1 12.5 21H12a7 7 0 0 1-6-3.4L4.3 14a1.5 1.5 0 0 1 2.6-1.5L8 14"/></svg><h3>Auch mit Handschuhen</h3><p>Großer Knopf, wasserdicht.</p></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="5" width="10" height="14" rx="3"/><path d="M3.5 9v6M20.5 9v6"/></svg><h3>Spürbar in der Jacke</h3><p>Der Chip vibriert.</p></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-6.2-6-11a6 6 0 0 1 12 0c0 4.8-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg><h3>Weiß, wo du bist</h3><p>GPS schickt deinen Standort mit.</p></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg><h3>Kabellos laden</h3><p>Kein Stecker, kein Loch im Gehäuse.</p></li>
         </ul>
       </div>
     </div>
   </section>
+
+  <!-- Bildfenster zwischen Technik und App (Feedback 141): ein Skifahrer im Sprung, das Foto steht beim Scrollen still
+       (Regeln in seite.css unter „Bildfenster“). Ohne Satz, die Überschrift darunter sagt schon „Vom Anfänger bis zum Profi“. -->
+  <div class="fenster fenster--ohne-text" style="--lage:50% 0%">
+    <div class="fenster__bild"><img src="assets/media/fenster-sprung.webp?v=1" srcset="assets/media/fenster-sprung-m.webp?v=1 1400w, assets/media/fenster-sprung.webp?v=1 2400w" sizes="(max-aspect-ratio: 1/1) 170vh, 100vw" alt="Ein Skifahrer springt über eine Schneekante, dahinter Sonne und verschneite Berge." width="2400" height="1600" loading="lazy" decoding="async"></div>
+  </div>
 
   <!-- 6 · Vom Anfänger bis zum Profi (seit Feedback 125): oben Überschrift und Link zur App, darunter eine Collage aus fünf
        Fotos (Unsplash, Herkunft in assets/media/collage-*.webp.json). Beim Darüberfahren zoomt ein Foto, zeigt seinen
@@ -561,7 +565,7 @@ ScrollCraft.mount(document.body);
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
 <script src="assets/am-berg.js?v=4" defer></script>
-<script src="assets/seite.js?v=83" defer></script>
+<script src="assets/seite.js?v=85" defer></script>
 <script src="assets/gsap-effekte.js?v=5" defer></script>
 <script src="assets/chip-film.js?v=11" defer></script>
 <script src="assets/sprung-anfang.js?v=20" defer></script>

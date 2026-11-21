@@ -428,6 +428,8 @@
     var schritte = akt.querySelectorAll(".knopf__schritte li");
     var wegPunkte = akt.querySelectorAll(".kn-weg li");
     var wegTitel = akt.querySelector(".kn-weg__titel");
+    // Notruf als großer Countdown (Feedback 142): Titel und Zeile in der Fläche
+    var nrTitel = akt.querySelector(".nr__titel"), nrZeile = akt.querySelector(".nr__sub");
     var wegLinie = akt.querySelector(".kn-weg ol"), hilfeCss = "";
 
     // In der Vorführung verkürzt: Halten 1,2 s (echt 3 s, Feedback 72), Abbrechen 3 s (echt 5 s, Feedback 77).
@@ -454,6 +456,14 @@
       if (wegLinie && hv !== hilfeCss) { hilfeCss = hv; wegLinie.style.setProperty("--hilfe", hv); }
       var titel = zustand === "fertig" ? "Hilfe ist da" : "Notruf gesendet";
       if (wegTitel && wegTitel.textContent !== titel) wegTitel.textContent = titel;
+      if (nrTitel) {
+        var nt = "", nz = "";
+        if (zustand === "frist") { nt = "Notruf in " + Math.max(1, chip.sek || 1) + " s"; nz = "Noch einmal drücken bricht ab"; }
+        else if (zustand === "lauf") { nt = "Notruf gesendet"; nz = hilfe > 0.3 ? "Ein Mitarbeiter der Bergbahn fährt los" : "Standort an die Liftstation übermittelt"; }
+        else if (zustand === "fertig") { nt = "Hilfe ist da"; nz = "Ein Mitarbeiter ist bei dir"; }
+        if (nt && nrTitel.textContent !== nt) nrTitel.textContent = nt;
+        if (nz && nrZeile.textContent !== nz) nrZeile.textContent = nz;
+      }
     };
 
     var zuruecksetzen = function () {
@@ -688,4 +698,22 @@
     window.addEventListener("pageshow", function () { wurzel.classList.remove("seite-geht"); });
   }
 
+})();
+
+/* Sprung zu einem Anker beim Laden (z. B. „Gleich ausprobieren“ → chip.html#der-chip, Feedback 141): der Browser springt,
+   bevor Schriften und Bilder fertig sind; verschiebt sich darüber danach noch etwas, landet der Abschnitt zu hoch oder
+   zu tief. Nach dem Laden einmal nachjustieren, solange niemand selbst gescrollt hat. */
+(function () {
+  "use strict";
+  var ziel = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+  if (!ziel) return;
+  var selbst = false;
+  ["wheel", "touchstart", "keydown"].forEach(function (n) { window.addEventListener(n, function () { selbst = true; }, { passive: true, once: true }); });
+  var richten = function () {
+    if (selbst) return;
+    var rand = parseFloat(getComputedStyle(ziel).scrollMarginTop) || 0, top = ziel.getBoundingClientRect().top - rand;
+    if (Math.abs(top) > 3) window.scrollTo(0, window.scrollY + top);
+  };
+  window.addEventListener("load", function () { richten(); setTimeout(richten, 400); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(richten);
 })();

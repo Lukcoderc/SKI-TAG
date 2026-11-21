@@ -149,10 +149,12 @@
     zeigen(5, false);
     karte.querySelector(".fb__danke").focus({ preventScroll: true });
   };
-  var fehlgeschlagen = function () {
+  var fehlgeschlagen = function (grund) {
     sendet = false; knopf.disabled = false;
     knopf.classList.remove("ist-gedrueckt", "ist-voll", "ist-am-senden"); ring(0); knopfText.textContent = "Halten zum Senden";
-    meldung("Das hat nicht geklappt. Halt den Knopf nochmal oder schreib uns an skitag.team@gmail.com.", true);
+    // FormSubmit wartet noch auf die Bestätigung per Mail an die Team-Adresse: das klar sagen, nicht „nochmal versuchen“
+    if (/activ/i.test(grund || "")) meldung("Das Formular ist noch nicht freigeschaltet. Schreib uns bis dahin bitte an skitag.team@gmail.com.", true);
+    else meldung("Das hat nicht geklappt. Halt den Knopf nochmal oder schreib uns an skitag.team@gmail.com.", true);
   };
   var fertig = function () {
     if (sendet) return;
@@ -168,7 +170,7 @@
       .then(function (x) {
         clearTimeout(uhr);
         if (x.ok && String(x.d.success) === "true") { sendet = false; knopf.disabled = false; knopfText.textContent = "Halten zum Senden"; danke(); }
-        else { if (window.console) console.warn("FormSubmit:", x.d && x.d.message); fehlgeschlagen(); }
+        else { if (window.console) console.warn("FormSubmit:", x.d && x.d.message); fehlgeschlagen(x.d && x.d.message); }
       })
       .catch(function () { clearTimeout(uhr); fehlgeschlagen(); });
   };
