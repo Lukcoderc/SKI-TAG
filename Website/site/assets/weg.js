@@ -36,7 +36,7 @@
   var T = 17.3, TAKT = 1.55;
   var TEMPO = 1.25;   // Feedback 131: alles einen Ticken langsamer (der Ablauf dauert 25 % länger, die Schritte bleiben im Verhältnis)
   var RUF = 1.2 + 5 * TAKT, BB = 1.2 + 6 * TAKT;   // Handy: Anruf bei der Rettung („Ort erklären“), danach ruft die Rettung die Bergbahn an
-  var RX = 600, RY = 64;                             // Stelle der Rettung im Himmel oben in der Mitte (Feedback 139: oben rechts lag sie unter der Karte)
+  var RX = 960, RY = 562;                            // Stelle der Rettung unten im Tal beim Ort, rechts neben der Liftstation (Feedback 140; vorher im Himmel)
   // Feedback 131: Skigebiet von oben mit zwei getrennten Pisten. A mit SkiTag auf der Hauptpiste links, B mit dem Handy auf der
   // Piste rechts hinter dem Wald, wie die Karten darüber (Koordinaten im Foto); die Talstation mit dem Empfänger liegt unten (SX, SY)
   var AX = 370, AY = 340, BX = 935, BY = 285, SX = 668, SY = 540;
@@ -250,10 +250,10 @@
     LF = e.funk.getTotalLength();
     for (var i = 0; i < e.wellen.length; i++) { e.wellen[i].setAttribute("cx", AX); e.wellen[i].setAttribute("cy", AY); }
     // Rettung im Himmel; Anruf vom Handy der Person zur Rettung und von der Rettung zur Liftstation
-    // am PC oben in der Mitte zwischen den beiden Karten; am Handy stehen die Karten unter dem Bild, dort oben rechts
-    RX = G > 1 ? 1050 : 600; RY = G > 1 ? 78 : 64;   // am Handy weit genug vom rechten Rand (1110), sonst wird das Zeichen abgeschnitten
+    // im Tal beim Ort (Feedback 140), am PC und am Handy gleich; am Handy etwas höher, damit der Name darunter nicht abgeschnitten wird
+    RX = 960; RY = G > 1 ? 552 : 562;
     var hx = BX + 12 * G, hy = BY - 25 * G;
-    linien(e.anrufALinien, "M" + fix(hx) + " " + fix(hy) + " Q " + fix(hx - 10) + " " + (RY + 90) + " " + RX + " " + RY);
+    linien(e.anrufALinien, "M" + fix(hx) + " " + fix(hy) + " Q " + fix(hx + 70) + " " + fix((hy + RY) / 2) + " " + RX + " " + RY);
     linien(e.anrufBLinien, "M" + RX + " " + RY + " Q " + fix((RX + SX) / 2 + 60) + " " + fix((RY + SY) / 2 - 60) + " " + SX + " " + SY);
     zeichne(zuletzt);
   };
