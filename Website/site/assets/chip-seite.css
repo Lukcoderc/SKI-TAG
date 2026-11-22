@@ -264,3 +264,15 @@
 /* „Zwei Wege zur Hilfe.“ wartet vor dem Hineingleiten seitlich versetzt (auftritte.js); der Abschnitt schneidet das ab,
    sonst wird die Seite am Handy breiter als das Fenster (Feedback 149) */
 #weg { overflow-x: clip; }
+
+/* Handyansicht (Feedback 150): Der Weg zur Hilfe passt mit Überschrift, Karte und den vier Punkten auf einen
+   Bildschirm; die Quelle steht klein darunter. Nur bis 600 px Breite. */
+@media (max-width: 600px) {
+  .weg { padding-block: 4.5rem 3rem; }
+  .weg .riesig { font-size: 2.3rem; }
+  .weg__lede { margin-top: 0.75rem !important; font-size: 0.95rem !important; line-height: 1.5; }
+  .weg .berg { margin-top: 1.25rem; }
+  .weg__fuss { margin-top: 1rem; }
+  .weg__ohne li { font-size: 0.92rem; }
+  .weg__quelle { margin-top: 0.75rem; font-size: 0.72rem; line-height: 1.45; }
+}

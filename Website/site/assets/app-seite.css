@@ -384,3 +384,21 @@ html:not(.js-app) .sz-seite[data-seite="0"] { opacity: 1; transform: none; }
   .app-kopf__bild img { object-position: 52% 40%; }
   .app-kopf--foto::before { background: linear-gradient(0deg, rgba(8, 14, 32, 0.85) 0%, rgba(8, 14, 32, 0.45) 55%, rgba(8, 14, 32, 0.15) 100%); }
 }
+
+/* Handyansicht (Feedback 150): der Überblick passt auf einen Bildschirm. Titel und beide Absätze oben, darunter das
+   iPhone mit dem Login klein links und die drei Zugänge als schmale Liste rechts daneben. Nur bis 600 px Breite. */
+@media (max-width: 600px) {
+  .app-blick { padding-block: 4.25rem 3rem; }
+  .app-blick__raster { grid-template-columns: auto minmax(0, 1fr); gap: 0 0.85rem; align-items: start; }
+  .app-blick__text { display: contents; }
+  .app-blick .app-titel, .app-blick .app-absatz { grid-column: 1 / -1; }
+  .app-blick .app-titel { font-size: 2.3rem; }
+  .app-blick .app-absatz { margin-top: 0.7rem; font-size: 0.94rem; line-height: 1.48; }
+  .app-blick__bild { order: 0; grid-column: 1; grid-row: 4; margin-top: 1.4rem; }
+  .app-blick .app-iphone { --b: min(9.5rem, 38vw); filter: drop-shadow(0 24px 30px rgba(25, 45, 90, 0.25)); }
+  .app-zugaenge { grid-column: 2; grid-row: 4; align-self: center; margin: 1.4rem 0 0; gap: 0.5rem; }
+  .app-zugaenge a { grid-template-columns: 1fr; padding: 0.7rem 0.8rem; border-radius: 14px; row-gap: 0.15rem; }
+  .app-zugaenge svg { display: none; }
+  .app-zugaenge b { font-size: 1rem; }
+  .app-zugaenge span { font-size: 0.8rem; line-height: 1.35; }
+}

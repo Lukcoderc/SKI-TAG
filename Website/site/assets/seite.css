@@ -2321,3 +2321,74 @@ body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) a:focus-visible, bo
 .fenster--ohne-text { height: clamp(20rem, 62vh, 40rem); }
 .fenster--ohne-text::after { display: none; }
 @media (max-width: 860px) { .fenster--ohne-text { height: clamp(18rem, 52svh, 26rem); } }
+
+/* ---------------------------------------------- Handyansicht: ein Abschnitt, ein Bildschirm (Feedback 150) -- */
+/* Nur am Handy (bis 600 px Breite), der PC bleibt wie er ist. Jeder Abschnitt der Startseite soll möglichst auf einen
+   Handybildschirm passen, ohne dass man für einen Gedanken scrollen muss: weniger Luft, kleinere Bühnen, Doppeltes weg. */
+@media (max-width: 600px) {
+  /* Was ist SKITAG?: Chip kleiner, die drei Kennzahlen weg (sie wiederholen den Satz darüber) */
+  .blick--schau { padding: 4.5rem 0 2.5rem; }
+  .schau__titel { font-size: 2.3rem; }
+  .schau__antwort { margin-top: 0.55rem; font-size: 1.14rem; }
+  .schau__lede { margin-top: 0.5rem; font-size: 0.94rem; line-height: 1.5; }
+  .schau__buehne { --bh: clamp(9rem, 25svh, 14rem); margin-top: 0.4rem; }
+  .schau__marken { gap: 0.75rem 1rem; margin-top: 0.9rem; }
+  .schau__marke { gap: 0.15rem; }
+  .schau__marke span { font-size: 0.8rem; line-height: 1.38; }
+  .schau__fuss { margin-top: 1rem; padding-top: 0.9rem; }
+  .schau__zahlen { display: none; }
+
+  /* Für deinen Skitag: kürzere Punkte und flachere Fotos */
+  .am-berg--nacht { padding-block: 4.5rem 3.25rem; }
+  .am-berg__kopf { gap: 1.1rem; }
+  .am-berg__kopf h2 { font-size: 2.4rem; }
+  .am-berg__satz { margin-top: 0.8rem; font-size: 0.98rem; line-height: 1.5; }
+  .am-berg__punkte li { padding: 0.55rem 0; font-size: 0.92rem; }
+  .am-berg__karten { margin-top: 1.4rem; grid-auto-columns: 72%; }
+  .am-berg__karte { aspect-ratio: 3 / 2; border-radius: 18px; }
+  .am-berg__karte div { padding: 0.9rem 1rem; }
+  .am-berg__karte b { font-size: 1.2rem; }
+  .am-berg__karte span { font-size: 0.82rem; }
+
+  /* Kälte. Nässe. Stürze.: Kennzahlen nebeneinander, vier Punkte als 2 × 2 */
+  .gebaut { padding-block: 4.5rem 3rem; }
+  .gebaut .riesig { font-size: 2.25rem; }
+  .spec { margin-top: 1.25rem; border-radius: 20px; }
+  .spec__zahlen { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .spec__zahlen > div { padding: 1rem 0.75rem; }
+  .spec__zahlen > div + div { border-top: 0; border-left: 1px solid rgba(14, 29, 64, 0.08); }
+  .spec__zahlen dt { font-size: 2.2rem; }
+  .spec--kurz .spec__zahlen dd { margin-top: 0.5rem; }
+  .spec--kurz .spec__zahlen dd b { font-size: 0.84rem; line-height: 1.3; }
+  .spec__raster { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .spec__raster li { padding: 1rem 0.85rem; }
+  .spec__raster li:nth-child(-n+2) { border-top: 0 !important; }
+  .spec__raster li:nth-child(2n) { border-left: 1px solid rgba(14, 29, 64, 0.08) !important; }
+  .spec__raster svg { width: 2rem; height: 2rem; padding: 0.4rem; }
+  .spec__raster h3 { margin-top: 0.6rem; font-size: 0.95rem; }
+  .spec__raster p { margin-top: 0.25rem; font-size: 0.82rem; line-height: 1.4; }
+
+  /* Vom Anfänger bis zum Profi: drei Fotos untereinander, daneben das iPhone (statt fünf Fotos kreuz und quer) */
+  .kollage-akt { padding-block: 4.5rem 3.25rem; }
+  .kollage-akt .riesig { font-size: 2.5rem; }
+  .kollage__kopf { gap: 1rem; }
+  .kollage__rechts { gap: 1rem; }
+  .kollage__rechts .sc-lede { font-size: 0.98rem; line-height: 1.5; }
+  .kollage { grid-template-columns: minmax(0, 1fr) auto; gap: 0.75rem; align-items: stretch; margin-top: 1.5rem; }
+  .kollage__raster { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 0.6rem; }
+  .kollage__bild, .kollage__bild--hoch, .kollage__bild--breit, .kollage__bild:last-child { grid-row: auto; grid-column: auto; border-radius: 14px; }
+  .kollage__bild:nth-child(4), .kollage__bild:nth-child(5) { display: none; }
+  .kollage__bild img { position: absolute; inset: 0; }
+  .kollage__bild span { left: 0.5rem; bottom: 0.5rem; padding: 0.3rem 0.6rem; font-size: 0.72rem; }
+  .kollage__handy { --b: min(9.75rem, 40vw); margin-top: 0; align-self: center; filter: drop-shadow(0 24px 30px rgba(25, 45, 90, 0.25)); }
+
+  /* Gut zu wissen: die acht Fragen enger, damit Überschrift und Liste zusammen passen */
+  .fragen { padding-top: 4.5rem; }
+  .fq-zwei .fq-kopf h2 { font-size: 2.4rem; }
+  .fq-kopf__satz { margin-top: 0.7rem; font-size: 0.98rem; }
+  .fq-kopf__mehr { margin-top: 0.8rem; }
+  .fq-liste { margin-top: 1.25rem; }
+  .fq__frage { padding: 0.7rem 0; grid-template-columns: 2.1rem minmax(0, 1fr) auto; }
+  .fq__text { font-size: 1.02rem; }
+  .fq__plus { width: 2rem; height: 2rem; }
+}
