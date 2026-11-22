@@ -43,15 +43,14 @@ In `site/feedback.html` am `<form class="fb__karte">`:
 
 Danach eine Testantwort schicken und im Postfach (Label „Website-Feedback“) nachsehen.
 
-Stand 2026-11-22: umgestellt auf `https://skitag-feedback.skitag.workers.dev/`. Fällt der Worker weg, `data-worker`
-entfernen und `action` wieder auf `https://formsubmit.co/skitag.team@gmail.com` setzen, dann schickt das Formular
-wie vorher direkt an FormSubmit.
+Stand 2026-11-22: umgestellt auf `https://skitag-feedback.skitag.workers.dev/`. Einen Rückfall auf FormSubmit gibt
+es im Formular nicht mehr.
 
 ## Ehrlich: was der Worker nicht verhindert
 
-Der Resend-Schlüssel liegt nur im Worker, am Worker vorbei kommt also niemand an Resend. FormSubmit nimmt aber
-weiter Formulare für die Team-Adresse an; wer die Adresse kennt, kann dort direkt senden. Wenn das passiert, das
-Formular bei FormSubmit über den Link in seiner Bestätigungsmail abschalten. Die Mailadresse selbst ist öffentlich
-und kann wie jede Adresse normalen Spam bekommen, das filtert Gmail.
+Der Resend-Schlüssel liegt nur im Worker, am Worker vorbei kommt also niemand an Resend. FormSubmit nimmt zwar
+weiter Formulare für die Team-Adresse an und lässt sich nicht abschalten; deshalb schiebt ein Gmail-Filter alle Mails
+von `submissions@formsubmit.co` in den Papierkorb. Die Mailadresse selbst ist öffentlich und kann wie jede Adresse
+normalen Spam bekommen, das filtert Gmail.
 
 Eingerichtet am 2026-11-22 im Cloudflare-Konto von Lukas (Worker `skitag-feedback`, KV `skitag-feedback-zaehler`).

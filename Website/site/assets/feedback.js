@@ -3,14 +3,15 @@
    - Wetter-Regler: setzt --w (0 bis 4) und die Himmelsfarben an der Karte, dazu Wort und Untertitel
      des Wetterberichts; bei Pulvertag funkelt der Schnee, bei Sturm wird der Bericht hell.
    - Slalom: der kleine Chip fährt je Frage durch das nächste Tor bis ins Ziel.
-   - Senden: Knopf 1,2 s halten (Maus, Finger, Leertaste oder Enter). Seit Feedback 138 geht die Antwort dann wirklich
-     raus: als JSON an FormSubmit (formsubmit.co/ajax/…), das sie als E-Mail an die Team-Adresse weiterleitet. „Danke“
-     erscheint erst, wenn FormSubmit den Empfang bestätigt; sonst steht unter dem Knopf, was schiefging, und man kann
-     es nochmal halten. Ist die Spam-Falle (_honey) ausgefüllt, wird nichts gesendet.
-   - Spamschutz (Feedback 139): Die Nachricht ist Pflicht (mindestens 10 Zeichen), sonst geht es bei Frage 4 nicht weiter.
-     Höchstens 10 Antworten pro Tag und 30 s Pause dazwischen, gezählt im Browser (localStorage). Das bremst nur
-     normale Besucher: wer direkt an FormSubmit schickt oder den Speicher löscht, kommt daran vorbei. Echten Schutz
-     geben nur FormSubmit selbst (Spam-Filter, _honey, _blacklist) oder ein eigener Server.
+   - Senden: Knopf 1,2 s halten (Maus, Finger, Leertaste oder Enter). Die Antwort geht als JSON an den Cloudflare-Worker
+     (data-worker am Formular, Code in Website/feedback-worker), der auf dem Server zählt (10 pro Anschluss, 100 pro Tag)
+     und sie über Resend als E-Mail an die Team-Adresse schickt. „Danke“ erscheint erst, wenn der Worker den Versand
+     bestätigt; sonst steht unter dem Knopf, was schiefging, und man kann es nochmal halten. Ist die Spam-Falle
+     (_honey) ausgefüllt, wird nichts gesendet.
+   - Spamschutz im Browser (Feedback 139): Die Nachricht ist Pflicht (mindestens 10 Zeichen), sonst geht es bei Frage 4
+     nicht weiter. Höchstens 10 Antworten pro Tag und 30 s Pause dazwischen, gezählt im localStorage. Das ist nur
+     Bequemlichkeit für Besucher; das echte Limit zählt der Worker. Seit Feedback 152 gibt es keinen Rückfall auf
+     FormSubmit mehr (FormSubmit-Mails filtert das Team-Postfach weg).
    Ohne JavaScript stehen alle Fragen untereinander und „Absenden“ schickt das Formular normal ab. */
 (function () {
   "use strict";
@@ -166,12 +167,8 @@
   // Füllstand direkt am Kreis (calc() mit Zahlen ohne Einheit ist für stroke-dashoffset in Firefox ungültig)
   var ringEl = knopf.querySelector(".fb__ring");
   var ring = function (v) { knopf.style.setProperty("--halt", v.toFixed(3)); ringEl.style.strokeDashoffset = (1 - v).toFixed(3); };
-  /* Absenden an FormSubmit. Die E-Mail soll lesbar sein: statt der internen Werte stehen die sichtbaren Wörter drin. */
-  /* Ziel: steht im Formular data-worker (Cloudflare-Worker mit echtem Tageslimit, siehe Website/feedback-worker), sonst
-     wie bisher direkt FormSubmit. Der Worker antwortet im selben Format wie FormSubmit. Seit Feedback 151 ist der
-     Worker eingerichtet (skitag-feedback.skitag.workers.dev) und verschickt über Resend. */
-  var WORKER = karte.getAttribute("data-worker") || "";
-  var ZIEL = WORKER || "https://formsubmit.co/ajax/skitag.team@gmail.com";
+  /* Absenden an den Worker. Die E-Mail soll lesbar sein: statt der internen Werte stehen die sichtbaren Wörter drin. */
+  var ZIEL = karte.getAttribute("data-worker");
   var hinweis = karte.querySelector(".fb__vorschau"), hinweisText = hinweis.textContent, knopfText = knopf.querySelector(".fb__halten-text");
   var beschriftung = function (input) { var l = input.closest("label"); return l ? l.textContent.replace(/\s+/g, " ").trim() : input.value; };
   // Steuerzeichen raus, Länge begrenzen (maxlength im HTML lässt sich im Browser abschalten)
@@ -186,10 +183,6 @@
       "Am wichtigsten": wichtig.length ? wichtig.join(", ") : "keine Angabe",
       "Nachricht": sauber(nachricht.value, MAX_TEXT),
       "Vorname": sauber(karte.querySelector("input[name=vorname]").value, 40) || "keine Angabe",
-      "_subject": karte.querySelector("input[name=_subject]").value,
-      "_template": "table",
-      "_captcha": "false",
-      "_blacklist": karte.querySelector("input[name=_blacklist]").value,
       "_honey": karte.querySelector("input[name=_honey]").value
     };
   };
@@ -206,10 +199,8 @@
   var fehlgeschlagen = function (grund) {
     sendet = false; knopf.disabled = false;
     knopf.classList.remove("ist-gedrueckt", "ist-voll", "ist-am-senden"); ring(0); knopfText.textContent = "Halten zum Senden";
-    // FormSubmit wartet noch auf die Bestätigung per Mail an die Team-Adresse: das klar sagen, nicht „nochmal versuchen“
     if (grund === "limit-ip") meldung("Von deinem Anschluss sind heute schon genug Antworten gekommen. Danke! Morgen geht es wieder.", true);
     else if (grund === "limit-gesamt") meldung("Heute sind schon sehr viele Antworten gekommen. Versuch es bitte morgen wieder oder schreib uns an skitag.team@gmail.com.", true);
-    else if (/activ/i.test(grund || "")) meldung("Das Formular ist noch nicht freigeschaltet. Schreib uns bis dahin bitte an skitag.team@gmail.com.", true);
     else meldung("Das hat nicht geklappt. Halt den Knopf nochmal oder schreib uns an skitag.team@gmail.com.", true);
   };
   var abgelehnt = function (text) {
@@ -234,7 +225,7 @@
       .then(function (x) {
         clearTimeout(uhr);
         if (x.ok && String(x.d.success) === "true") { gesendetMerken(); sendet = false; knopf.disabled = false; knopfText.textContent = "Halten zum Senden"; danke(); }
-        else { if (window.console) console.warn("FormSubmit:", x.d && x.d.message); fehlgeschlagen(x.d && x.d.message); }
+        else { if (window.console) console.warn("Feedback-Worker:", x.d && x.d.message); fehlgeschlagen(x.d && x.d.message); }
       })
       .catch(function () { clearTimeout(uhr); fehlgeschlagen(); });
   };
