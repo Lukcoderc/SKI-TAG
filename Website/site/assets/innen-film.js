@@ -9,10 +9,13 @@
    und dekodiert sind.
    Seit 2026-11-22 (Ruckeln): die Bilder liegen vorab dekodiert als ImageBitmap bereit und werden auf ein Canvas gemalt,
    statt die Quelle eines img zu tauschen (das ließ den Browser bei jedem Wechsel neu dekodieren). Zwischen zwei
-   Nachbarbildern wird genau überblendet, die Namen und Linien gehen ebenso stufenlos mit.
+   Nachbarbildern wird genau überblendet, die Namen und Linien gehen ebenso stufenlos mit. Die 192 Bilder sind gleichmäßig
+   in der Zeit gerendert (das weiche Anfahren und Abbremsen steckt in den Bildern, punkte.json „zeit“), deshalb läuft die
+   Folge gleichmäßig ab und zeigt auch am Anfang und Ende fast in jedem Bildschirmbild ein neues Renderbild.
    punkte.json im jeweiligen Ordner sagt je Bild, wo die sechs Teile ihren äußersten Punkt rechts haben (Ansatz der Linie),
    wo die Spalte der Namen steht und wie hoch der Stapel reicht; die kleine Fassung darf weniger Bilder haben (fehlt ihre
-   punkte.json, gilt die große). Die Namen kommen nacheinander, wenn der Chip fast offen ist.
+   punkte.json, gilt die große). Seit 2026-11-22: 192 Bilder; geladen werden so viele, wie dekodiert in den Speicher
+   passen (am Rechner meist alle, am Handy etwa jedes dritte), jeweils gleich in der Bildschirmgröße dekodiert. Die Namen kommen nacheinander, wenn der Chip fast offen ist.
    Bei „weniger Bewegung“ steht der Chip gleich offen da. */
 (function () {
   "use strict";
@@ -24,13 +27,16 @@
   // Breite des ganzen Bildes in Gerätepixeln: über 1150 die große Fassung, sonst die kleine
   var flaeche = Math.min(feld.clientWidth || window.innerWidth, (feld.clientHeight || window.innerHeight) * 4 / 3);
   var klein = flaeche * Math.min(window.devicePixelRatio || 1, 2) < 1150;
-  var ORDNER = "assets/media/innen/" + (klein ? "m/" : ""), V = "?v=5", N = 48, SEITE = 4 / 3, DAUER = 1800;
+  var ORDNER = "assets/media/innen/" + (klein ? "m/" : ""), V = "?v=8", N = 48, SEITE = 4 / 3, DAUER = 1800;
   var klemme = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
   var abschnitt = function (x, a, b) { return klemme((x - a) / (b - a)); };
   var weich = function (x) { return x * x * (3 - 2 * x); };
   var mix = function (a, b, t) { return a + (b - a) * t; };
   var inOut = function (x) { return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; };
-  var url = function (i) { return ORDNER + (i < 10 ? "0" : "") + i + ".webp" + V; };
+  // welche Renderbilder geladen werden (nr[k] = Nummer der Datei) und in welcher Größe sie dekodiert bereitliegen
+  var nr = [], GESAMT = 0, ZIEL = null;
+  // Namen zweistellig, ab über 100 Bildern dreistellig (wie wandeln.py)
+  var url = function (i) { var n = String(nr[i]); while (n.length < (GESAMT > 100 ? 3 : 2)) n = "0" + n; return ORDNER + n + ".webp" + V; };
 
   var leinwand = document.createElement("canvas");
   leinwand.className = "innen__film"; leinwand.setAttribute("aria-hidden", "true");
@@ -54,7 +60,12 @@
     };
     if (!window.createImageBitmap || !window.fetch) return alsBild();
     return fetch(url(i)).then(function (r) { if (!r.ok) throw r; return r.blob(); })
-      .then(function (b) { return createImageBitmap(b); })
+      .then(function (b) {
+        // gleich in der Größe dekodieren, in der das Bild auf dem Bildschirm steht (spart Speicher und Arbeit beim Malen)
+        if (!ZIEL) return createImageBitmap(b);
+        return createImageBitmap(b, { resizeWidth: ZIEL[0], resizeHeight: ZIEL[1], resizeQuality: "high" })
+          .catch(function () { return createImageBitmap(b); });
+      })
       .catch(alsBild);
   };
   var vorrat = [], geladen = null, erstes = null;
@@ -131,7 +142,8 @@
   var bild = function (jetzt) {
     var weg = Math.abs(ziel - von), dauer = DAUER * Math.max(0.25, weg / (N - 1));
     var t = klemme((jetzt - start) / dauer);
-    gezeigt = mix(von, ziel, inOut(t));
+    // liegen die Bilder schon gleichmäßig in der Zeit (punkte.json „zeit“), gleichmäßig abspielen, sonst hier weich machen
+    gezeigt = mix(von, ziel, daten.zeit ? t : inOut(t));
     zeichnen();
     if (t < 1) requestAnimationFrame(bild); else laeuft = false;
   };
@@ -171,6 +183,19 @@
   // Das erste Bild kommt sofort, alle anderen, sobald der Abschnitt näher kommt.
   var punkteHolen = function (ordner) { return fetch(ordner + "punkte.json" + V).then(function (r) { if (!r.ok) throw r; return r.json(); }); };
   punkteHolen(ORDNER).catch(function () { return punkteHolen("assets/media/innen/"); }).then(function (d) {
+    /* Wie viele Bilder: alle, solange sie dekodiert in den Speicherrahmen passen (Rechner etwa 360 MB, Handy und
+       schwache Geräte etwa 160 MB); sonst jedes zweite, dritte ... (das Überblenden glättet den Rest) */
+    GESAMT = d.bilder.length;
+    var z = d.ausschnitt || [0, 0, 1, 1], dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var quelle = klein ? 1100 : 1800, bw = flaeche || 800;
+    var zw = Math.round(Math.min(quelle, bw * dpr) * (z[2] - z[0])), zh = Math.round(zw * ((z[3] - z[1]) * 3) / ((z[2] - z[0]) * 4));
+    if (zw < Math.round(quelle * (z[2] - z[0])) - 8) ZIEL = [zw, zh];
+    var schwach = window.matchMedia("(pointer: coarse)").matches || (navigator.deviceMemory && navigator.deviceMemory <= 4);
+    var rahmen = schwach ? 160e6 : 360e6, je = zw * zh * 4, schritt = 1;
+    [1, 2, 3, 4, 6, 8].some(function (s) { schritt = s; return Math.ceil(GESAMT / s) * je <= rahmen; });
+    for (var k = 0; k < GESAMT; k += schritt) nr.push(k);
+    if (nr[nr.length - 1] !== GESAMT - 1) nr.push(GESAMT - 1);
+    d.bilder = nr.map(function (k) { return d.bilder[k]; });
     daten = d; N = d.bilder.length;
     wurzel.classList.add("chip3d-seite", "innen-film-an");
     if (ruhig) { gezeigt = N - 1; ziel = N - 1; holen(N - 1).then(ablegen(N - 1), function () {}); }

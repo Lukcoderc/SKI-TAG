@@ -39,9 +39,15 @@ pts = [o.matrix_world @ Vector(v) for o in chip for v in o.bound_box]
 zoben = max(p.z for p in pts); zunten = min(p.z for p in pts); DIAG = math.hypot(66, 46)
 cam = ko.data; cam.lens = 70; cam.sensor_fit = 'VERTICAL'; cam.sensor_height = 24
 daten = {'bilder': [], 'n': N}
+# ZEITKURVE=1 (seit 2026-11-22): die Bilder liegen gleichmäßig in der Zeit statt im Öffnungsgrad. Die weiche Kurve am Anfang
+# und Ende steckt dann schon in den Bildern, innen-film.js spielt sie gleichmäßig ab und zeigt fast in jedem Bildschirmbild
+# ein echtes Renderbild (vorher blieben am Anfang und Ende einzelne Bilder lange stehen und wurden nur überblendet).
+ZEIT = bool(os.environ.get('ZEITKURVE'))
+if ZEIT: daten['zeit'] = 'inOut'
+inOut = lambda x: 2 * x * x if x < 0.5 else 1 - (-2 * x + 2) ** 2 / 2
 def proj(v): p = world_to_camera_view(sc, ko, v); return [round(p.x, 5), round(1 - p.y, 5)]
 for i in range(N):
-    e = i / (N - 1); p = e
+    p = i / (N - 1); e = inOut(p) if ZEIT else p
     Z.oeffnen(e)
     az = -0.62 + e * 0.25; el = 0.52 + (0.44 - 0.52) * e
     vs = [Z.weg(k, e) for k in E]
@@ -73,5 +79,5 @@ for i in range(N):
     daten['bilder'].append(b)
     json.dump(daten, open(f'{aus}/punkte.json', 'w'))
     import os
-    if os.path.exists(f'{aus}/{i:02d}.png') or (os.environ.get('NUR') and str(i) not in os.environ['NUR'].split(',')): continue   # schon fertig (nach einem Abbruch weitermachen)
-    tt = time.time(); Z.rendern(f'{aus}/{i:02d}.png'); print('Bild', i, round(time.time() - tt), flush=True)
+    if os.path.exists(f'{aus}/{i:03d}.png') or (os.environ.get('NUR') and str(i) not in os.environ['NUR'].split(',')): continue   # schon fertig (nach einem Abbruch weitermachen)
+    tt = time.time(); Z.rendern(f'{aus}/{i:03d}.png'); print('Bild', i, round(time.time() - tt), flush=True)

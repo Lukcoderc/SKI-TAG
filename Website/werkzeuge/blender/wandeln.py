@@ -1,16 +1,17 @@
-# PNG-Renderbilder -> WebP im Projekt; Aufruf: wandeln.py quelle ziel groesse [klein_ziel klein_groesse] [--zuschnitt] [--klein-jedes-zweite]
-# Mit --klein-jedes-zweite bekommt die kleine Fassung nur jedes zweite Bild (fortlaufend nummeriert, eigene punkte.json),
+# PNG-Renderbilder -> WebP im Projekt; Aufruf: wandeln.py quelle ziel groesse [klein_ziel klein_groesse] [--zuschnitt] [--klein-schritt=N]
+# Mit --klein-schritt=N bekommt die kleine Fassung nur jedes N-te Bild (fortlaufend nummeriert, eigene punkte.json),
 # damit das Handy nicht doppelt so viele dekodierte Bilder im Speicher halten muss.
 # groesse ist die Breite des ganzen Bildes. Mit --zuschnitt (Explosionsansicht, Feedback 132) wird jedes Bild auf den Bereich
 # geschnitten, den der Chip in irgendeinem der Bilder einnimmt (für alle derselbe Ausschnitt); der Ausschnitt steht
 # als „ausschnitt“ [x0, y0, x1, y1] (Anteile des ganzen Bildes) in punkte.json, innen-film.js setzt das Bild dorthin.
 import sys, os, glob, json
 from PIL import Image
-args = [a for a in sys.argv[1:] if not a.startswith('--')]; zuschnitt = '--zuschnitt' in sys.argv; zweite = '--klein-jedes-zweite' in sys.argv
+args = [a for a in sys.argv[1:] if not a.startswith('--')]; zuschnitt = '--zuschnitt' in sys.argv; schritt = int(next((a.split('=')[1] for a in sys.argv if a.startswith('--klein-schritt=')), 1)); zweite = schritt > 1
 q, z, g = args[0], args[1], int(args[2])
 klein = (args[3], int(args[4])) if len(args) > 4 else None
 os.makedirs(z, exist_ok=True)
-bilder = sorted(glob.glob(q + '/[0-9][0-9].png'))
+bilder = sorted(glob.glob(q + '/[0-9][0-9].png') + glob.glob(q + '/[0-9][0-9][0-9].png'))
+stellen = lambda n: 3 if n > 100 else 2   # über 100 Bilder dreistellige Namen (innen-film.js macht es genauso)
 daten = json.load(open(q + '/punkte.json'))
 box = (0.0, 0.0, 1.0, 1.0)
 if zuschnitt:
@@ -27,15 +28,15 @@ def speichern(im, breite, pfad, qual):
     teil = im.crop((round(box[0] * im.width), round(box[1] * im.height), round(box[2] * im.width), round(box[3] * im.height)))
     teil = teil.resize((round(teil.width * s), round(teil.height * s)), Image.LANCZOS) if s != 1 else teil
     teil.save(pfad, 'WEBP', quality=qual, method=6, alpha_quality=90)
-# kleine Fassung: bei jedem zweiten Bild immer mit dem letzten (ganz offen) enden
-wahl = list(range(0, len(bilder), 2)) if zweite else list(range(len(bilder)))
+# kleine Fassung: bei jedem N-ten Bild immer mit dem letzten (ganz offen) enden
+wahl = list(range(0, len(bilder), schritt)) if zweite else list(range(len(bilder)))
 if zweite and wahl[-1] != len(bilder) - 1: wahl.append(len(bilder) - 1)
 for k, p in enumerate(bilder):
-    n = os.path.basename(p)[:-4]
+    n = str(k).zfill(stellen(len(bilder)))
     im = Image.open(p).convert('RGBA')
     speichern(im, g, f'{z}/{n}.webp', 86)
     if klein and k in wahl:
-        os.makedirs(klein[0], exist_ok=True); speichern(im, klein[1], f'{klein[0]}/{wahl.index(k):02d}.webp', 84)
+        os.makedirs(klein[0], exist_ok=True); speichern(im, klein[1], f'{klein[0]}/{str(wahl.index(k)).zfill(stellen(len(wahl)))}.webp', 84)
 json.dump(daten, open(z + '/punkte.json', 'w'))
 if klein and zweite:
     kd = dict(daten); kd['bilder'] = [daten['bilder'][k] for k in wahl]; kd['n'] = len(wahl)

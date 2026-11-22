@@ -8,9 +8,9 @@ Maxis Modell „fertig4“ als Produktfoto aus Blender 4.2 (Cycles). Nicht Teil 
 2. `blender -b --python dreh.py -- <dieser Ordner> chip.glb <ausgabe>`: 30 Drehbilder und `punkte.json`
    (`innen.py`: 25 Bilder der Explosionsansicht, `produkt.py`: liegendes Produktbild). Licht und Materialien in `szene.py`.
    Die Explosionsansicht auf der Chip-Seite macht `oeffnen.py` (1800 x 1350, gestaffelt geöffnet, Wege in `szene.py` unter `STAFFEL`).
-   Seit 2026-11-22 mit 96 Bildern auf der Grafikkarte: `BILDER=96 GERAET=OPTIX PROBEN=64 blender -b --python oeffnen.py -- ...`
-   (RTX 4070 Super: etwa 8 s je Bild).
-3. `python3 wandeln.py <ausgabe> ../../site/assets/media/chip 900` (Explosion: `... innen 1800 .../innen/m 1100 --zuschnitt --klein-jedes-zweite`, die Handyfassung hat dann nur jedes zweite Bild),
+   Seit 2026-11-22 mit 192 Bildern auf der Grafikkarte, gleichmäßig in der Zeit verteilt:
+   `ZEITKURVE=1 BILDER=192 GERAET=OPTIX PROBEN=64 blender -b --python oeffnen.py -- ...` (RTX 4070 Super: etwa 6 bis 8 s je Bild).
+3. `python3 wandeln.py <ausgabe> ../../site/assets/media/chip 900` (Explosion: `... innen 1800 .../innen/m 1100 --zuschnitt --klein-schritt=3`, die Handyfassung hat dann nur jedes dritte Bild),
    `standbild.py` macht `chip-3d.webp`.
 
 Dauer auf 4 Kernen: etwa 1 bis 1,5 Minuten je Bild; auf der Grafikkarte (GERAET=OPTIX) einige Sekunden.
