@@ -14,7 +14,7 @@
 <script>if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");</script>
 <link rel="stylesheet" href="assets/seite.css?v=138">
 <link rel="stylesheet" href="assets/v2.css?v=12">
-<link rel="stylesheet" href="assets/feedback.css?v=9">
+<link rel="stylesheet" href="assets/feedback.css?v=10">
 </head>
 <body>
 
@@ -99,10 +99,12 @@
            die erste Antwort löst eine Bestätigungsmail an die Team-Adresse aus, erst nach dem Klick darin kommen Antworten an).
            Mit JavaScript schickt feedback.js im Hintergrund (fetch an /ajax/), ohne JavaScript schickt der Knopf
            „Absenden“ das Formular normal ab. _honey ist eine Falle für Spam-Programme, Menschen sehen das Feld nicht. -->
-      <form class="fb__karte" action="https://formsubmit.co/skitag.team@gmail.com" method="POST" novalidate data-schritt="0">
+      <form class="fb__karte" action="https://formsubmit.co/skitag.team@gmail.com" method="POST" data-schritt="0">
         <input type="hidden" name="_subject" value="Neues Feedback über die SkiTag-Website">
         <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_captcha" value="false">
+        <!-- Spamschutz: ohne JavaScript prüft FormSubmit mit reCAPTCHA (kein _captcha=false mehr); Antworten mit diesen
+             Wörtern verwirft FormSubmit (_blacklist); Limit pro Tag und Pflichttext stehen in feedback.js -->
+        <input type="hidden" name="_blacklist" value="viagra, cialis, casino, porn, bitcoin, crypto, forex, loan, seo service, backlinks">
         <input type="hidden" name="_next" value="https://lukcoderc.github.io/SKI-TAG/website/feedback.html">
         <input class="fb__falle" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
 
@@ -163,8 +165,9 @@
 
           <fieldset class="fb__frage" data-schritt="3">
             <legend>Was sollen wir besser machen?</legend>
-            <p class="fb__hilfe">Ideen, Kritik, Wünsche. Alles hilft.</p>
-            <label class="fb__feld fb__feld--text"><span>Deine Nachricht</span><textarea name="nachricht" rows="5" maxlength="600" placeholder="Zum Beispiel: Ich hätte gern …"></textarea><i class="fb__zaehler"><b>0</b> / 600</i></label>
+            <p class="fb__hilfe">Ideen, Kritik, Wünsche. Alles hilft. Ein paar Worte brauchen wir, mindestens 10 Zeichen.</p>
+            <label class="fb__feld fb__feld--text"><span>Deine Nachricht</span><textarea name="nachricht" rows="5" minlength="10" maxlength="600" required aria-describedby="fb-text-fehler" placeholder="Zum Beispiel: Ich hätte gern …"></textarea><i class="fb__zaehler"><b>0</b> / 600</i></label>
+            <p id="fb-text-fehler" class="fb__text-fehler" aria-live="polite"></p>
             <label class="fb__feld"><span>Vorname <em>freiwillig</em></span><input type="text" name="vorname" autocomplete="given-name" maxlength="40"></label>
           </fieldset>
 
@@ -269,6 +272,6 @@
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
 <script src="assets/auftritte.js?v=9" defer></script>
-<script src="assets/feedback.js?v=7" defer></script>
+<script src="assets/feedback.js?v=8" defer></script>
 </body>
 </html>

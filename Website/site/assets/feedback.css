@@ -136,6 +136,9 @@ html:not(.js-fb) .fb__danke, html:not(.js-fb) .fb__nav, html:not(.js-fb) .fb__st
   font: 500 var(--sc-t-base)/1.5 var(--sc-font-text); color: var(--sc-ink); resize: vertical; transition: border-color 200ms ease, background-color 200ms ease, box-shadow 200ms ease;
 }
 .fb__feld textarea:focus, .fb__feld input:focus { outline: none; background: #fff; border-color: var(--knopf); box-shadow: 0 0 0 4px var(--knopf-hell); }
+.fb__text-fehler { margin: 0.5rem 0 0; font-size: var(--sc-t-sm); font-weight: 600; color: #b42318; }
+.fb__text-fehler:empty { display: none; }
+.fb__feld textarea.ist-fehler { border-color: #b42318; }
 .fb__zaehler { position: absolute; right: 0.9rem; bottom: 0.7rem; font-style: normal; font-size: var(--sc-t-xs); font-weight: 600; color: var(--sc-ink-soft); }
 
 /* Halten zum Senden */

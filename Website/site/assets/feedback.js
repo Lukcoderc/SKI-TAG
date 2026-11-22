@@ -7,6 +7,10 @@
      raus: als JSON an FormSubmit (formsubmit.co/ajax/…), das sie als E-Mail an die Team-Adresse weiterleitet. „Danke“
      erscheint erst, wenn FormSubmit den Empfang bestätigt; sonst steht unter dem Knopf, was schiefging, und man kann
      es nochmal halten. Ist die Spam-Falle (_honey) ausgefüllt, wird nichts gesendet.
+   - Spamschutz (Feedback 139): Die Nachricht ist Pflicht (mindestens 10 Zeichen), sonst geht es bei Frage 4 nicht weiter.
+     Höchstens 10 Antworten pro Tag und 30 s Pause dazwischen, gezählt im Browser (localStorage). Das bremst nur
+     normale Besucher: wer direkt an FormSubmit schickt oder den Speicher löscht, kommt daran vorbei. Echten Schutz
+     geben nur FormSubmit selbst (Spam-Filter, _honey, _blacklist) oder ein eigener Server.
    Ohne JavaScript stehen alle Fragen untereinander und „Absenden“ schickt das Formular normal ab. */
 (function () {
   "use strict";
@@ -106,13 +110,55 @@
       try { ziel.focus({ preventScroll: true }); } catch (e) { ziel.focus(); }
     }
   };
-  weiter.addEventListener("click", function () { if (schritt < 4) zeigen(schritt + 1, true); });
+  weiter.addEventListener("click", function () {
+    if (schritt === 3 && !textPruefen()) { nachricht.focus(); return; }
+    if (schritt < 4) zeigen(schritt + 1, true);
+    if (schritt === 4) { var grenze = limitHinweis(); meldung(grenze || hinweisText, !!grenze); }
+  });
   zurueck.addEventListener("click", function () { if (schritt > 0) zeigen(schritt - 1, true); });
   regler.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); zeigen(1, true); } });
 
   var nachricht = karte.querySelector("textarea[name=nachricht]");
   var zaehler = karte.querySelector(".fb__zaehler b");
-  nachricht.addEventListener("input", function () { zaehler.textContent = String(nachricht.value.length); });
+  var textFehler = karte.querySelector(".fb__text-fehler");
+  var MIN_TEXT = 10, MAX_TEXT = 600;
+  var textOk = function () { return nachricht.value.trim().length >= MIN_TEXT; };
+  var textMelden = function (text) { textFehler.textContent = text; nachricht.classList.toggle("ist-fehler", !!text); nachricht.setAttribute("aria-invalid", text ? "true" : "false"); };
+  var textPruefen = function () {
+    if (textOk()) { textMelden(""); return true; }
+    var fehlt = MIN_TEXT - nachricht.value.trim().length;
+    textMelden(nachricht.value.trim() ? "Noch " + fehlt + " Zeichen, dann geht es weiter." : "Schreib uns bitte ein paar Worte, mindestens " + MIN_TEXT + " Zeichen.");
+    return false;
+  };
+  nachricht.addEventListener("input", function () {
+    zaehler.textContent = String(nachricht.value.length);
+    if (textFehler.textContent && textOk()) textMelden("");
+  });
+
+  /* Limit pro Browser: höchstens 10 Antworten in 24 Stunden, 30 s Pause zwischen zwei Antworten. Ohne localStorage
+     (privates Fenster, gesperrt) zählt die Seite im Speicher mit, bis sie neu geladen wird. */
+  var LIMIT_TAG = 10, PAUSE = 30000, TAG = 86400000, SPEICHER = "skitag-feedback-gesendet", imSpeicher = [];
+  var gesendetLesen = function () {
+    var liste = imSpeicher;
+    try { var roh = JSON.parse(localStorage.getItem(SPEICHER) || "[]"); if (Array.isArray(roh)) liste = roh.concat(imSpeicher); } catch (e) {}
+    var jetzt = Date.now();
+    return liste.filter(function (z, i, a) { return typeof z === "number" && z <= jetzt && jetzt - z < TAG && a.indexOf(z) === i; }).sort();
+  };
+  var gesendetMerken = function () {
+    var liste = gesendetLesen(); liste.push(Date.now()); imSpeicher = liste;
+    try { localStorage.setItem(SPEICHER, JSON.stringify(liste)); } catch (e) {}
+  };
+  // gibt einen Hinweis zurück, wenn gerade nicht gesendet werden darf, sonst ""
+  var limitHinweis = function () {
+    var liste = gesendetLesen(), jetzt = Date.now();
+    if (liste.length >= LIMIT_TAG) {
+      var stunden = Math.ceil((liste[0] + TAG - jetzt) / 3600000);
+      return "Du hast heute schon " + LIMIT_TAG + " Antworten geschickt, danke! Die nächste geht in " + (stunden <= 1 ? "einer Stunde" : stunden + " Stunden") + " wieder.";
+    }
+    var warten = liste.length ? Math.ceil((liste[liste.length - 1] + PAUSE - jetzt) / 1000) : 0;
+    if (warten > 0) return "Kurz durchatmen: die nächste Antwort geht in " + warten + " Sekunden.";
+    return "";
+  };
 
   /* ------------------------------------------------- Halten zum Senden -- */
   var knopf = karte.querySelector(".fb__halten");
@@ -124,6 +170,8 @@
   var ZIEL = "https://formsubmit.co/ajax/skitag.team@gmail.com";
   var hinweis = karte.querySelector(".fb__vorschau"), hinweisText = hinweis.textContent, knopfText = knopf.querySelector(".fb__halten-text");
   var beschriftung = function (input) { var l = input.closest("label"); return l ? l.textContent.replace(/\s+/g, " ").trim() : input.value; };
+  // Steuerzeichen raus, Länge begrenzen (maxlength im HTML lässt sich im Browser abschalten)
+  var sauber = function (wert, max) { return String(wert || "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").trim().slice(0, max); };
   var antwort = function () {
     var w = wetter[Math.round(parseFloat(regler.value))];
     var wer = karte.querySelector("input[name=wer]:checked");
@@ -132,11 +180,13 @@
       "Bewertung": w.wort.replace(".", "") + " (" + w.sub.toLowerCase() + ")",
       "Wer": wer ? beschriftung(wer) : "keine Angabe",
       "Am wichtigsten": wichtig.length ? wichtig.join(", ") : "keine Angabe",
-      "Nachricht": nachricht.value.trim() || "keine",
-      "Vorname": (karte.querySelector("input[name=vorname]").value || "").trim() || "keine Angabe",
+      "Nachricht": sauber(nachricht.value, MAX_TEXT),
+      "Vorname": sauber(karte.querySelector("input[name=vorname]").value, 40) || "keine Angabe",
       "_subject": karte.querySelector("input[name=_subject]").value,
       "_template": "table",
-      "_captcha": "false"
+      "_captcha": "false",
+      "_blacklist": karte.querySelector("input[name=_blacklist]").value,
+      "_honey": karte.querySelector("input[name=_honey]").value
     };
   };
   var sendet = false;
@@ -156,10 +206,18 @@
     if (/activ/i.test(grund || "")) meldung("Das Formular ist noch nicht freigeschaltet. Schreib uns bis dahin bitte an skitag.team@gmail.com.", true);
     else meldung("Das hat nicht geklappt. Halt den Knopf nochmal oder schreib uns an skitag.team@gmail.com.", true);
   };
+  var abgelehnt = function (text) {
+    knopf.classList.remove("ist-gedrueckt", "ist-voll", "ist-am-senden"); ring(0);
+    if (text) meldung(text, true);
+  };
   var fertig = function () {
     if (sendet) return;
     // Spam-Falle ausgefüllt: so tun, als wäre alles gut, aber nichts senden
     if (karte.querySelector("input[name=_honey]").value) { danke(); return; }
+    // Pflichttext und Tageslimit noch einmal direkt vor dem Senden prüfen
+    if (!textPruefen()) { abgelehnt(""); zeigen(3, true); return; }
+    var grenze = limitHinweis();
+    if (grenze) { abgelehnt(grenze); return; }
     sendet = true; knopf.disabled = true; knopf.classList.add("ist-am-senden"); knopfText.textContent = "Wird gesendet …";
     meldung(hinweisText, false);
     var abbruch = "AbortController" in window ? new AbortController() : null;
@@ -169,7 +227,7 @@
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (x) {
         clearTimeout(uhr);
-        if (x.ok && String(x.d.success) === "true") { sendet = false; knopf.disabled = false; knopfText.textContent = "Halten zum Senden"; danke(); }
+        if (x.ok && String(x.d.success) === "true") { gesendetMerken(); sendet = false; knopf.disabled = false; knopfText.textContent = "Halten zum Senden"; danke(); }
         else { if (window.console) console.warn("FormSubmit:", x.d && x.d.message); fehlgeschlagen(x.d && x.d.message); }
       })
       .catch(function () { clearTimeout(uhr); fehlgeschlagen(); });
@@ -183,8 +241,10 @@
     else halteBild = requestAnimationFrame(laufen);
   };
   var start = function (e) {
-    if (gehalten) return;
+    if (gehalten || sendet) return;
     if (e && e.cancelable) e.preventDefault();
+    var grenze = limitHinweis();
+    if (grenze) { meldung(grenze, true); return; }
     gehalten = true; beginn = performance.now(); knopf.classList.add("ist-gedrueckt");
     halteBild = requestAnimationFrame(laufen);
   };
@@ -207,10 +267,13 @@
 
   // „Noch eine Antwort schicken“: alles zurück auf Anfang
   karte.querySelector(".fb__nochmal").addEventListener("click", function () {
-    karte.reset(); regler.value = "3"; wetterSetzen(); zaehler.textContent = "0"; meldung(hinweisText, false);
+    karte.reset(); regler.value = "3"; wetterSetzen(); zaehler.textContent = "0"; textMelden("");
+    var grenze = limitHinweis(); meldung(grenze || hinweisText, !!grenze);
     zeigen(0, true);
   });
   // mit JavaScript schickt nur der Halten-Knopf ab (Enter in einem Feld soll nicht absenden)
+  // ohne JavaScript prüft der Browser „required“ und „minlength“, mit JavaScript macht das textPruefen()
+  karte.noValidate = true;
   karte.addEventListener("submit", function (e) { e.preventDefault(); });
 
   zeigen(0, false);
