@@ -44,7 +44,8 @@ In `site/feedback.html` am `<form class="fb__karte">`:
 Danach eine Testantwort schicken und im Postfach (Label „Website-Feedback“) nachsehen.
 
 Stand 2026-11-22: umgestellt auf `https://skitag-feedback.skitag.workers.dev/`. Einen Rückfall auf FormSubmit gibt
-es im Formular nicht mehr.
+es im Formular nicht mehr. Für die Testkopie auf dem NAS (nginx liefert `/var/www/skitag` unter `http://skitag.at` aus,
+der Name zeigt per Pi-hole auf das NAS) stehen auch `http://skitag.at` und `http://www.skitag.at` in `ERLAUBTE_HERKUNFT`.
 
 ## Ehrlich: was der Worker nicht verhindert
 
