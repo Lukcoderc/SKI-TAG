@@ -5,8 +5,14 @@ import bpy, szene as Z
 from mathutils import Vector
 from bpy_extras.object_utils import world_to_camera_view
 glb, aus = sys.argv[-2], sys.argv[-1]
-W, H, N = 1800, 1350, 48
-Z.aufbauen(glb, (W, H), 24)
+import os
+W, H, N = 1800, 1350, int(os.environ.get('BILDER', 48))   # seit 2026-11-22: 96 Bilder (BILDER=96), gegen das Ruckeln
+Z.aufbauen(glb, (W, H), int(os.environ.get('PROBEN', 24)))
+# GERAET=OPTIX oder CUDA rechnet auf der Grafikkarte (sonst CPU)
+if os.environ.get('GERAET'):
+    pr = bpy.context.preferences.addons['cycles'].preferences; pr.compute_device_type = os.environ['GERAET']; pr.get_devices()
+    for d in pr.devices: d.use = d.type == os.environ['GERAET']
+    bpy.context.scene.cycles.device = 'GPU'
 Z.ruhelage(); Z.oeffnen(0)
 # von oben spiegelt die Front sonst die helle Decke und wirkt weiß: Umgebung leiser, Spiegelkarten (für die Ansicht von vorn) aus
 for n in ('softbox', 'streifen'): bpy.data.objects[n].hide_render = True
