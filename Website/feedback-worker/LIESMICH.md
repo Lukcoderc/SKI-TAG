@@ -14,7 +14,10 @@ Die Website liegt auf GitHub Pages und hat keinen eigenen Server. Ein Limit nur 
 
 Die IP-Adresse wird nicht gespeichert, nur ein Hash mit Datum; die Zähler verfallen nach zwei Tagen.
 Gezählt wird nach UTC-Tag (neuer Tag um 1 Uhr Wiener Zeit, im Sommer um 2 Uhr).
-Die Adresse bei FormSubmit steht nur im Worker (Secret `FORMSUBMIT_ZIEL`), nicht mehr in der Seite.
+Die Mails verschickt der Worker über Resend (kostenlos, 100 Mails pro Tag), weil FormSubmit Anfragen von
+Cloudflare-Workern mit „Rate limit exceeded“ ablehnt (Cloudflare teilt seine Adressen mit vielen Nutzern).
+Ohne eigene Domain schickt Resend nur an die Adresse des eigenen Kontos, deshalb läuft das Resend-Konto auf die
+Team-Adresse. Ohne `RESEND_KEY` fällt der Worker auf FormSubmit zurück.
 
 ## Einrichten im Cloudflare-Dashboard (ohne Kommandozeile)
 
@@ -24,10 +27,11 @@ Die Adresse bei FormSubmit steht nur im Worker (Secret `FORMSUBMIT_ZIEL`), nicht
 4. **Edit code**: den ganzen Inhalt von `worker.js` hineinkopieren, **Deploy**.
 5. Im Worker unter **Settings → Bindings → Add → KV namespace**: Variablenname `ZAEHLER`, Namespace aus Schritt 2.
 6. Unter **Settings → Variables and Secrets**:
-   - `FORMSUBMIT_ZIEL` als **Secret**: am besten die Zufalls-Kennung aus der Bestätigungsmail von FormSubmit,
-     sonst `skitag.team@gmail.com`.
+   - `FORMSUBMIT_ZIEL` als **Secret**: die Adresse, an die die Mails gehen (die Team-Adresse).
    - `ERLAUBTE_HERKUNFT` = `https://lukcoderc.github.io` (später die eigene Domain mit Komma dahinter ergänzen)
    - `LIMIT_PRO_IP` = `10`, `LIMIT_GESAMT` = `100`
+   - `RESEND_KEY` als **Secret**: API-Schlüssel aus resend.com (Konto mit der Team-Adresse, Berechtigung „Sending access“).
+     Optional `ABSENDER`, sobald eine eigene Domain bei Resend bestätigt ist (sonst `onboarding@resend.dev`).
 7. Die Adresse des Workers notieren (`https://skitag-feedback.<name>.workers.dev`).
 
 ## Formular umstellen
@@ -39,9 +43,15 @@ In `site/feedback.html` am `<form class="fb__karte">`:
 
 Danach eine Testantwort schicken und im Postfach (Label „Website-Feedback“) nachsehen.
 
+Stand 2026-11-22: umgestellt auf `https://skitag-feedback.skitag.workers.dev/`. Fällt der Worker weg, `data-worker`
+entfernen und `action` wieder auf `https://formsubmit.co/skitag.team@gmail.com` setzen, dann schickt das Formular
+wie vorher direkt an FormSubmit.
+
 ## Ehrlich: was der Worker nicht verhindert
 
-Solange FormSubmit die Mailadresse direkt annimmt, kann jemand, der die Adresse kennt, am Worker vorbei an
-`formsubmit.co/skitag.team@gmail.com` schicken. Dagegen hilft nur, dass FormSubmit allein die Zufalls-Kennung kennt
-und die Adresse nirgends mehr auf der Seite steht. FormSubmit selbst bietet laut seiner Doku kein Limit und keine
-Sperre auf eine Domain. Wer das ganz zu haben will, schickt die Mails später direkt vom eigenen Server.
+Der Resend-Schlüssel liegt nur im Worker, am Worker vorbei kommt also niemand an Resend. FormSubmit nimmt aber
+weiter Formulare für die Team-Adresse an; wer die Adresse kennt, kann dort direkt senden. Wenn das passiert, das
+Formular bei FormSubmit über den Link in seiner Bestätigungsmail abschalten. Die Mailadresse selbst ist öffentlich
+und kann wie jede Adresse normalen Spam bekommen, das filtert Gmail.
+
+Eingerichtet am 2026-11-22 im Cloudflare-Konto von Lukas (Worker `skitag-feedback`, KV `skitag-feedback-zaehler`).

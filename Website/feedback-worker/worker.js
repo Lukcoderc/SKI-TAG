@@ -7,8 +7,8 @@
      wenn viele Rechner gleichzeitig spammen),
    - nur von den Seiten in ERLAUBTE_HERKUNFT,
    - Nachricht Pflicht (10 bis 600 Zeichen), Vorname höchstens 40, Spam-Falle _honey, Spamwörter, höchstens 8 KB.
-   Die Zieladresse bei FormSubmit (am besten die Zufalls-Kennung statt der Mailadresse) steht nur hier als Secret
-   FORMSUBMIT_ZIEL und nie in der Seite.
+   Die Mails gehen über Resend (Secret RESEND_KEY, an die Adresse in FORMSUBMIT_ZIEL), ohne RESEND_KEY über
+   FormSubmit an FORMSUBMIT_ZIEL. Beides steht nur hier als Secret und nie in der Seite.
    Antwortet wie FormSubmit ({ success: "true" | "false", message }), damit feedback.js nichts Neues lernen muss.
    Ohne JavaScript (normales Formular) leitet der Worker nach dem Senden auf _next zurück.
    Einrichten: siehe LIESMICH.md im selben Ordner. */
@@ -95,24 +95,43 @@ export default {
     if (nIp >= limitIp) return fertig(false, "limit-ip", 429);
     if (nGesamt >= limitGesamt) return fertig(false, "limit-gesamt", 429);
 
-    // An FormSubmit weitergeben
+    // Mail verschicken: über Resend, wenn RESEND_KEY gesetzt ist (FormSubmit nimmt von Cloudflare-Workern wegen
+    // geteilter Adressen oft nichts an, „Rate limit exceeded“), sonst über FormSubmit
     const an = {};
     for (const feld of FELDER) an[feld] = daten[feld] || (feld === "Nachricht" ? "keine" : "keine Angabe");
-    an._subject = "Neues Feedback über die SkiTag-Website";
-    an._template = "table";
-    an._captcha = "false";
+    const betreff = "Neues Feedback über die SkiTag-Website";
     let r, d = {};
     try {
-      r = await fetch("https://formsubmit.co/ajax/" + encodeURIComponent(env.FORMSUBMIT_ZIEL), {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json", "Origin": herkunft, "Referer": herkunft + "/" },
-        body: JSON.stringify(an)
-      });
-      d = await r.json().catch(() => ({}));
+      if (env.RESEND_KEY) {
+        const zeilen = FELDER.map((f) => "<tr><th align=\"left\" style=\"padding:6px 12px 6px 0\">" + html(f) + "</th><td style=\"padding:6px 0\">" + html(an[f]).replace(/\n/g, "<br>") + "</td></tr>").join("");
+        r = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: { "Authorization": "Bearer " + env.RESEND_KEY, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            from: env.ABSENDER || "SkiTag Feedback <onboarding@resend.dev>",
+            to: [env.FORMSUBMIT_ZIEL],
+            subject: betreff,
+            html: "<table style=\"font-family:sans-serif;font-size:15px\">" + zeilen + "</table>",
+            text: FELDER.map((f) => f + ": " + an[f]).join(String.fromCharCode(10))
+          })
+        });
+        d = await r.json().catch(() => ({}));
+        if (r.ok && d.id) d.success = "true";
+      } else {
+        an._subject = betreff;
+        an._template = "table";
+        an._captcha = "false";
+        r = await fetch("https://formsubmit.co/ajax/" + encodeURIComponent(env.FORMSUBMIT_ZIEL), {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json", "Origin": herkunft, "Referer": herkunft + "/" },
+          body: JSON.stringify(an)
+        });
+        d = await r.json().catch(() => ({}));
+      }
     } catch (e) {
-      return fertig(false, "FormSubmit nicht erreichbar.", 502);
+      return fertig(false, "Maildienst nicht erreichbar.", 502);
     }
-    if (!r.ok || String(d.success) !== "true") return fertig(false, String(d.message || "FormSubmit hat abgelehnt."), 502);
+    if (!r.ok || String(d.success) !== "true") return fertig(false, String(d.message || "Maildienst hat abgelehnt."), 502);
 
     // erst nach Erfolg zählen; Zähler verfallen nach zwei Tagen von selbst
     await Promise.all([
@@ -122,6 +141,10 @@ export default {
     return fertig(true, "ok");
   }
 };
+
+function html(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+}
 
 async function sha256(text) {
   const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));

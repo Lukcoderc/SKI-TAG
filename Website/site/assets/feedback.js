@@ -168,7 +168,8 @@
   var ring = function (v) { knopf.style.setProperty("--halt", v.toFixed(3)); ringEl.style.strokeDashoffset = (1 - v).toFixed(3); };
   /* Absenden an FormSubmit. Die E-Mail soll lesbar sein: statt der internen Werte stehen die sichtbaren Wörter drin. */
   /* Ziel: steht im Formular data-worker (Cloudflare-Worker mit echtem Tageslimit, siehe Website/feedback-worker), sonst
-     wie bisher direkt FormSubmit. Der Worker antwortet im selben Format wie FormSubmit. */
+     wie bisher direkt FormSubmit. Der Worker antwortet im selben Format wie FormSubmit. Seit Feedback 151 ist der
+     Worker eingerichtet (skitag-feedback.skitag.workers.dev) und verschickt über Resend. */
   var WORKER = karte.getAttribute("data-worker") || "";
   var ZIEL = WORKER || "https://formsubmit.co/ajax/skitag.team@gmail.com";
   var hinweis = karte.querySelector(".fb__vorschau"), hinweisText = hinweis.textContent, knopfText = knopf.querySelector(".fb__halten-text");
