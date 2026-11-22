@@ -30,8 +30,8 @@ jobs:
           cp -r "Netzwerk Buch/docs/." _site/
           mkdir -p _site/website
           cp -r "Website/site/." _site/website/
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
