@@ -253,3 +253,14 @@
   .chip-anfang__bild { order: -1; width: min(62%, 15rem); justify-self: start; margin-bottom: -0.5rem; }
   .chip-anfang__fakten li { font-size: 0.85rem; padding: 0.5rem 0.85rem 0.5rem 0.6rem; }
 }
+
+/* „Was im Chip steckt“ mit Höhenlinien im Hintergrund wie bei „Für deinen Skitag“ (Feedback 149). Auf der Bühne, die
+   beim Scrollen stehen bleibt, damit die Linien mit dem Chip stillstehen. */
+.innen__buehne { isolation: isolate; }
+.innen__buehne::after {   /* über die ganze Fensterbreite, auch wenn die Bühne schmaler ist (der Abschnitt schneidet seitlich ab) */
+  content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 100vw; translate: -50% 0; z-index: -1; opacity: 0.09; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='600' viewBox='0 0 900 600' fill='none' stroke='%23fff' stroke-width='1.2'%3E%3Cpath d='M-50 420c120-60 210-150 340-140s170 110 300 90 160-120 260-110'/%3E%3Cpath d='M-50 470c130-50 230-140 350-128s170 108 300 88 170-110 260-100'/%3E%3Cpath d='M-50 520c140-40 250-120 360-112s170 100 300 84 180-96 260-88'/%3E%3Cpath d='M-50 360c110-70 190-170 330-160s170 120 300 100 150-130 270-120'/%3E%3Cpath d='M-50 300c100-80 180-190 320-180s170 130 300 112 140-140 280-130'/%3E%3Cpath d='M-50 240c90-90 170-210 310-200s170 140 300 124 130-150 290-140'/%3E%3Cpath d='M-50 180c80-100 160-230 300-220s170 150 300 136 120-160 300-150'/%3E%3Cpath d='M380 160c30-40 90-50 120-20s-10 80-60 80-90-20-60-60z'/%3E%3Cpath d='M360 150c40-60 130-74 170-30s-14 110-90 110-120-30-80-80z'/%3E%3C/svg%3E") center / 900px 600px repeat;
+}
+/* „Zwei Wege zur Hilfe.“ wartet vor dem Hineingleiten seitlich versetzt (auftritte.js); der Abschnitt schneidet das ab,
+   sonst wird die Seite am Handy breiter als das Fenster (Feedback 149) */
+#weg { overflow-x: clip; }
