@@ -167,7 +167,10 @@
   var ringEl = knopf.querySelector(".fb__ring");
   var ring = function (v) { knopf.style.setProperty("--halt", v.toFixed(3)); ringEl.style.strokeDashoffset = (1 - v).toFixed(3); };
   /* Absenden an FormSubmit. Die E-Mail soll lesbar sein: statt der internen Werte stehen die sichtbaren Wörter drin. */
-  var ZIEL = "https://formsubmit.co/ajax/skitag.team@gmail.com";
+  /* Ziel: steht im Formular data-worker (Cloudflare-Worker mit echtem Tageslimit, siehe Website/feedback-worker), sonst
+     wie bisher direkt FormSubmit. Der Worker antwortet im selben Format wie FormSubmit. */
+  var WORKER = karte.getAttribute("data-worker") || "";
+  var ZIEL = WORKER || "https://formsubmit.co/ajax/skitag.team@gmail.com";
   var hinweis = karte.querySelector(".fb__vorschau"), hinweisText = hinweis.textContent, knopfText = knopf.querySelector(".fb__halten-text");
   var beschriftung = function (input) { var l = input.closest("label"); return l ? l.textContent.replace(/\s+/g, " ").trim() : input.value; };
   // Steuerzeichen raus, Länge begrenzen (maxlength im HTML lässt sich im Browser abschalten)
@@ -203,7 +206,9 @@
     sendet = false; knopf.disabled = false;
     knopf.classList.remove("ist-gedrueckt", "ist-voll", "ist-am-senden"); ring(0); knopfText.textContent = "Halten zum Senden";
     // FormSubmit wartet noch auf die Bestätigung per Mail an die Team-Adresse: das klar sagen, nicht „nochmal versuchen“
-    if (/activ/i.test(grund || "")) meldung("Das Formular ist noch nicht freigeschaltet. Schreib uns bis dahin bitte an skitag.team@gmail.com.", true);
+    if (grund === "limit-ip") meldung("Von deinem Anschluss sind heute schon genug Antworten gekommen. Danke! Morgen geht es wieder.", true);
+    else if (grund === "limit-gesamt") meldung("Heute sind schon sehr viele Antworten gekommen. Versuch es bitte morgen wieder oder schreib uns an skitag.team@gmail.com.", true);
+    else if (/activ/i.test(grund || "")) meldung("Das Formular ist noch nicht freigeschaltet. Schreib uns bis dahin bitte an skitag.team@gmail.com.", true);
     else meldung("Das hat nicht geklappt. Halt den Knopf nochmal oder schreib uns an skitag.team@gmail.com.", true);
   };
   var abgelehnt = function (text) {

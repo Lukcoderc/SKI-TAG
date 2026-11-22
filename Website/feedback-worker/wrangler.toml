@@ -1,0 +1,17 @@
+# SkiTag Feedback-Worker, nur nötig für das Einrichten mit wrangler (Kommandozeile). Im Cloudflare-Dashboard geht es
+# auch ohne diese Datei, siehe LIESMICH.md. Die Zieladresse bei FormSubmit ist ein Secret und steht NICHT hier:
+#   npx wrangler secret put FORMSUBMIT_ZIEL
+name = "skitag-feedback"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+
+[vars]
+# Seiten, die senden dürfen (kommagetrennt, ohne Pfad). Eigene Domain später hier ergänzen.
+ERLAUBTE_HERKUNFT = "https://lukcoderc.github.io"
+LIMIT_PRO_IP = "10"
+LIMIT_GESAMT = "100"
+
+[[kv_namespaces]]
+binding = "ZAEHLER"
+# id nach "npx wrangler kv namespace create ZAEHLER" hier eintragen
+id = "HIER_KV_ID_EINTRAGEN"
