@@ -230,3 +230,30 @@ html.tagwelt-dunkel .tag__karte time, html.tagwelt-dunkel .tag__hinweis { color:
    Stationspunkt als Kern durch, und je nach Browser-Rundung wirkte er leicht verschoben */
 .tag__linie { z-index: 2; }
 .tag__punkt { position: relative; z-index: 1; }
+
+/* Feedback 151 · Gondelseil, Gondel und Skifahrer statt Linie und Chip (skitag.js baut .tag__spur).
+   Breitere Spalte für die Carving-Bögen, größere Schrift auf den Karten. */
+.tag__ablauf { --spalte: 4.2rem; }
+@media (max-width: 899px) { .tag__ablauf { --spalte: 3.2rem; } }
+.tag__spur { position: absolute; left: 0; top: 1.6rem; width: var(--spalte); height: calc(100% - 3.2rem); overflow: visible; pointer-events: none; z-index: 2; }
+.js-spur .tag__fuellung, .js-spur .tag__chip { display: none; }
+.js-spur .tag__linie { background: rgba(14, 29, 64, 0.1); }
+.tag__seil-linie { fill: none; stroke: #2a3039; stroke-width: 2; }
+.tag__stuetzen path { fill: none; stroke: #2a3039; stroke-width: 3; stroke-linecap: round; }
+.tag__gondel { transition: opacity 250ms ease; }
+.tag__gondel-buegel { stroke: #2a3039; stroke-width: 2.4; fill: none; }
+.tag__gondel-rolle { fill: #2a3039; }
+.tag__gondel-kabine { fill: var(--orange); stroke: #fff; stroke-width: 2; filter: drop-shadow(0 4px 6px rgba(229, 69, 13, 0.45)); }
+.tag__gondel-fenster { fill: #dfe9f6; }
+.tag__carve { fill: none; stroke: var(--orange); stroke-width: 2; stroke-linecap: round; opacity: 0.9; }
+.tag__fahrer { transition: opacity 250ms ease; }
+.tag__fahrer-ski { stroke: var(--orange); stroke-width: 3; stroke-linecap: round; fill: none; }
+.tag__fahrer-koerper, .tag__fahrer-arme { stroke: #0e1d40; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+.tag__fahrer-kopf { fill: #0e1d40; }
+html.tagwelt-dunkel .tag__seil-linie, html.tagwelt-dunkel .tag__stuetzen path, html.tagwelt-dunkel .tag__gondel-buegel { stroke: rgba(255, 255, 255, 0.75); }
+html.tagwelt-dunkel .tag__gondel-rolle { fill: #fff; }
+html.tagwelt-dunkel .tag__fahrer-koerper, html.tagwelt-dunkel .tag__fahrer-arme { stroke: #fff; }
+html.tagwelt-dunkel .tag__fahrer-kopf { fill: #fff; }
+/* Schrift größer und füllender */
+.tag__karte h3 { font-size: clamp(2.2rem, 1.3rem + 2.6vw, 3.7rem); }
+.tag__karte p { font-size: clamp(1.15rem, 1rem + 0.45vw, 1.45rem); max-width: 46ch; line-height: 1.5; }

@@ -27,7 +27,7 @@
   // Breite des ganzen Bildes in Gerätepixeln: über 1150 die große Fassung, sonst die kleine
   var flaeche = Math.min(feld.clientWidth || window.innerWidth, (feld.clientHeight || window.innerHeight) * 4 / 3);
   var klein = flaeche * Math.min(window.devicePixelRatio || 1, 2) < 1150;
-  var ORDNER = "assets/media/innen/" + (klein ? "m/" : ""), V = "?v=8", N = 48, SEITE = 4 / 3, DAUER = 1800;
+  var ORDNER = "assets/media/innen/" + (klein ? "m/" : ""), V = "?v=8", N = 48, SEITE = 4 / 3, DAUER = 4800;   // Feedback 151: langsamer (vorher 1,8 s)
   var klemme = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
   var abschnitt = function (x, a, b) { return klemme((x - a) / (b - a)); };
   var weich = function (x) { return x * x * (3 - 2 * x); };
@@ -129,6 +129,8 @@
       var y = by + mix(b.oben, b.unten, k / (marken.length - 1)) * bh;
       var ox = bx + b.orte[k][0] * bw, oy = by + b.orte[k][1] * bh, L = linien[k];
       li.style.opacity = an.toFixed(3);
+      li.style.pointerEvents = an > 0.6 ? "auto" : "none";
+      if (an < 0.6) li.classList.remove("ist-auf");
       li.style.transform = "translate3d(" + (spalte + (1 - an) * 10).toFixed(1) + "px," + y.toFixed(1) + "px,0) translateY(-50%)";
       L.g.style.opacity = an.toFixed(3);
       L.kreis.setAttribute("cx", ox.toFixed(1)); L.kreis.setAttribute("cy", oy.toFixed(1));
@@ -140,7 +142,7 @@
   /* Öffnen und Schließen nach der Zeit: von der aktuellen Stellung zum Ziel (0 oder N - 1), stufenlos */
   var ziel = gezeigt, von = gezeigt, start = 0, laeuft = false, wartetAuf = -1;
   var bild = function (jetzt) {
-    var weg = Math.abs(ziel - von), dauer = DAUER * Math.max(0.25, weg / (N - 1));
+    var weg = Math.abs(ziel - von), dauer = (ziel < von ? DAUER * 0.45 : DAUER) * Math.max(0.25, weg / (N - 1));   // Schließen geht schneller
     var t = klemme((jetzt - start) / dauer);
     // liegen die Bilder schon gleichmäßig in der Zeit (punkte.json „zeit“), gleichmäßig abspielen, sonst hier weich machen
     gezeigt = mix(von, ziel, daten.zeit ? t : inOut(t));
@@ -170,10 +172,17 @@
     if (Math.abs(schritt) >= 12) { richtung = schritt > 0 ? 1 : -1; letztesY = y; }
     var imBild = r.top < vh * 0.45 && r.bottom > vh * 0.3;
     var offen = !isNaN(p) && p > 0 ? p > 0.03 : imBild;
-    if (richtung < 0 && r.bottom > 0) fahren(0);
-    else if (offen && richtung >= 0) fahren(N - 1);
-    else if (r.top > vh * 0.6) fahren(0);
+    // Feedback 151: andersherum als vorher. Scrollt man nach unten über den Abschnitt hinaus, schließt sich der Chip;
+    // beim Hochscrollen schließt er sich nicht, sondern geht (wieder) auf, sobald der Abschnitt im Bild steht.
+    var vorbei = (!isNaN(p) && p >= 0.9) || r.bottom < vh * 0.45;
+    if (r.top > vh * 0.6) fahren(0);
+    else if (vorbei) fahren(richtung > 0 ? 0 : N - 1);
+    else if (offen) fahren(N - 1);
   };
+  marken.forEach(function (li) {
+    li.addEventListener("click", function (e) { e.stopPropagation(); var auf = !li.classList.contains("ist-auf"); marken.forEach(function (m) { m.classList.remove("ist-auf"); }); if (auf) li.classList.add("ist-auf"); });
+  });
+  document.addEventListener("click", function () { marken.forEach(function (m) { m.classList.remove("ist-auf"); }); });
   var letztesY = window.scrollY, richtung = 0;
   var wartet = false;
   window.addEventListener("scroll", function () { if (!wartet) { wartet = true; requestAnimationFrame(function () { wartet = false; pruefen(); }); } }, { passive: true });

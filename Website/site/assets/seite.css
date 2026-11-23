@@ -634,9 +634,9 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
   font-family: var(--sc-font-display); font-weight: 700; font-size: calc(100cqi / 3.74); line-height: 0.8; letter-spacing: 0;
   color: var(--nacht-ink); padding-top: 0.06em; user-select: none;
 }
-.fuss__wort-zeile span { display: block; transform: translateY(105%); transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--i) * 75ms), color 250ms ease; }
+.fuss__wort-zeile span { display: block; transform: translateY(105%); transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--i) * 75ms); }
 .fuss__wort.ist-da .fuss__wort-zeile span { transform: none; }
-@media (hover: hover) and (pointer: fine) { .fuss__wort.ist-da .fuss__wort-zeile span:hover { color: var(--orange); transition-delay: 0s; } }
+/* Feedback 151: kein Orange mehr beim Drüberfahren über SKITAG. */
 @media (prefers-reduced-motion: reduce) { .fuss__wort-zeile span { transform: none; transition: color 250ms ease; } }
 /* Schmale Leiste darunter; so hoch wie der Knopf „nach oben“ samt Abstand,
    damit er rechts darin sitzt und nichts verdeckt. */

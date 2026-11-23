@@ -71,17 +71,24 @@
     daA: $("#berg-da-a"), daB: $("#berg-da-b"),
     rettung: $("#berg-rettung"), rettungRing: $("#berg-rettung-ring"), stationRing: $("#berg-station-ring"),
     anrufA: $("#berg-anruf-a"), anrufB: $("#berg-anruf-b"),
-    spurA: $("#berg-spur-a"), spurB: $("#berg-spur-b"),
+    spurA: $("#berg-spur-a"), spurB: $("#berg-spur-b"), seil: $("#berg-seil"),
   };
   e.anrufALinien = e.anrufA.querySelectorAll("path"); e.anrufBLinien = e.anrufB.querySelectorAll("path");
   var LA = e.pfadA.getTotalLength(), LB = e.pfadB.getTotalLength(), LF = e.funk.getTotalLength();
+  /* Feedback 151: der Helfer fährt erst mit dem Lift rauf (gerades Stück bis zur Bergstation), dann auf Ski hinunter.
+     anteil = Teil der Zeit im Lift; der Lift gleichmäßig, die Abfahrt weich. */
+  var LIFT = Math.hypot(668 - 405, 540 - 232);
+  var liftDannSki = function (h, L, anteil) {
+    var fL = LIFT / L;
+    return h <= anteil ? fL * gleiten(h / anteil) : fL + (1 - fL) * fahren((h - anteil) / (1 - anteil));
+  };
   var funkPunkt = function (p) { return e.funk.getPointAtLength(p * LF); };
   var zuletzt = T;
 
   /* Karten: Schritt je Zeitpunkt */
   var karten = berg.querySelectorAll(".berg__karte");
   var KARTE = [
-    { el: karten[0], schritte: [[0, "Gestürzt"], [1.2, "Knopf halten"], [3.1, "Standort geht raus"], [4.35, "Mitarbeiter fährt los"], [7.6, "Hilfe ist da"]], eigene: [1.2] },
+    { el: karten[0], schritte: [[0, "Gestürzt"], [1.2, "Knopf halten"], [3.1, "Standort geht raus"], [4.35, "Mitarbeiter fährt los"], [5.0, "Mit dem Lift rauf"], [6.25, "Fährt zu dir ab"], [7.6, "Hilfe ist da"]], eigene: [1.2] },
     { el: karten[1], schritte: [[0, "Gestürzt"], [1.2, "Handschuhe aus"], [1.2 + TAKT, "Handy finden"], [1.2 + 2 * TAKT, "Entsperren"], [1.2 + 3 * TAKT, "Netz suchen"],
       [1.2 + 4 * TAKT, "Nummer wählen"], [RUF, "Ort erklären"], [BB, "Rettung ruft Bergbahn an"], [12.0, "Hilfe sucht dich"], [16.1, "Hilfe ist da"]],
       eigene: [1.2, 1.2 + TAKT, 1.2 + 2 * TAKT, 1.2 + 3 * TAKT, 1.2 + 4 * TAKT, 1.2 + 5 * TAKT] },
@@ -176,7 +183,8 @@
     e.ringA.setAttribute("rx", fix((16 + rp * 42) * G)); e.ringA.setAttribute("ry", fix((16 + rp * 42) * 0.45 * G));
     deck(e.ringA, ringAn ? (1 - rp) * 0.8 : 0);
     alarm(e.helferA, t, 4.35);
-    helferSetzen(e.helferA, e.pfadA, LA, fahren(ramp(t, 4.9, 7.6)), -14, e.spurA, 1);   // hält links neben der Person
+    helferSetzen(e.helferA, e.pfadA, LA, liftDannSki(ramp(t, 4.9, 7.6), LA, 0.5), -14, e.spurA, 1);
+    deck(e.seil, 0.75 * ramp(t, 4.4, 4.8) * (1 - ramp(t, 16.6, 17.2)));   // hält links neben der Person
     deck(e.helferA, ramp(t, 4.3, 4.55));   // erscheint an der Station, wenn der Alarm ankommt
     var da = federn(ramp(t, 7.6, 8.0));
     deck(e.daA, ramp(t, 7.6, 7.72)); stelle(e.daA, AX, AY - 42 * G, Math.max(0.01, da) * G);
@@ -201,10 +209,10 @@
     var sucheAn = ramp(t, 11.9, 12.4) * (1 - ramp(t, 16.1, 16.7));
     deck(e.suche, sucheAn); e.suche.setAttribute("stroke-dashoffset", fix(-t * 14));
     alarm(e.helferB, t, 11.8);
-    var hb = ramp(t, 12.1, 16.1);
-    helferSetzen(e.helferB, e.pfadB, LB, 0.5 * (hb + weich(hb)), 14, e.spurB, 1);
+    var hb = ramp(t, 12.1, 16.1), pb = liftDannSki(hb, LB, 0.35);
+    helferSetzen(e.helferB, e.pfadB, LB, pb, 14, e.spurB, 1);
     deck(e.helferB, ramp(t, 11.75, 12.0));
-    var hpos = e.pfadB.getPointAtLength(0.5 * (hb + weich(hb)) * LB);
+    var hpos = e.pfadB.getPointAtLength(pb * LB);
     deck(e.frageB, t >= 12.4 && t < 15.9 ? Math.min(1, ramp(t, 12.4, 12.6)) * (1 - ramp(t, 15.7, 15.9)) : 0);
     stelle(e.frageB, hpos.x + (G - 1) * 14 * hb, hpos.y - 30 * G + Math.sin(t * 5) * 3, G);
     var db = federn(ramp(t, 16.1, 16.5));

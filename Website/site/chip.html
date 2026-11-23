@@ -25,8 +25,8 @@
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=138">
-<link rel="stylesheet" href="assets/chip-seite.css?v=26">
-<link rel="stylesheet" href="assets/chip-film.css?v=24">
+<link rel="stylesheet" href="assets/chip-seite.css?v=27">
+<link rel="stylesheet" href="assets/chip-film.css?v=25">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=12">
 <link rel="stylesheet" href="assets/v2-alt.css?v=3">
@@ -116,7 +116,31 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20v-8"/><circle cx="12" cy="10.5" r="1.5"/><path d="M8.5 7a5 5 0 0 1 7 0M5.8 4.3a8.8 8.8 0 0 1 12.4 0"/></svg>Eigener Funk</li>
         </ul>
       </header>
-      <figure class="chip-anfang__bild" aria-hidden="true"><img src="assets/media/produkt-frei.webp?v=1" alt="" width="859" height="540" decoding="async"></figure>
+      <!-- Feedback 151 (Lukis Idee): der Chip liegt am Anfang in seiner Ladestation. Beim Scrollen hebt er sich heraus,
+           die Station bleibt leer zurück, und der Chip fliegt hinunter in „Probiere den Tag aus“. Dort ist das Foto vorher
+           scharf und wird weich, sobald der Chip ankommt. Ablauf in assets/ladebox.js, Regeln in chip-seite.css („Ladestation“).
+           Ohne JS und bei weniger Bewegung bleibt der Chip in der Station liegen. -->
+      <figure class="chip-anfang__bild ladebox" aria-hidden="true">
+        <svg class="ladebox__hinten" viewBox="0 0 400 300">
+          <defs>
+            <linearGradient id="lb-oben" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a4560"/><stop offset="1" stop-color="#252e44"/></linearGradient>
+            <radialGradient id="lb-spule" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#ff8a5c" stop-opacity="0.55"/><stop offset="1" stop-color="#ff5a1c" stop-opacity="0"/></radialGradient>
+          </defs>
+          <path d="M52 108 Q54 96 68 96 H332 Q346 96 348 108 L374 196 Q376 206 364 206 H36 Q24 206 26 196 Z" fill="url(#lb-oben)"/>
+          <path d="M92 120 Q94 112 104 112 H296 Q306 112 308 120 L326 186 Q328 194 318 194 H82 Q72 194 74 186 Z" fill="#111827"/>
+          <ellipse class="ladebox__spule" cx="200" cy="156" rx="78" ry="22" fill="url(#lb-spule)"/>
+          <ellipse cx="200" cy="156" rx="56" ry="15" fill="none" stroke="#ff8a5c" stroke-opacity="0.45" stroke-width="1.5"/>
+          <ellipse cx="200" cy="156" rx="40" ry="10.5" fill="none" stroke="#ff8a5c" stroke-opacity="0.35" stroke-width="1.5"/>
+        </svg>
+        <span class="ladebox__platz"><img class="ladebox__chip" src="assets/media/produkt-frei.webp?v=1" alt="" width="859" height="540" decoding="async"></span>
+        <svg class="ladebox__vorne" viewBox="0 0 400 300">
+          <defs><linearGradient id="lb-vorne" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#222b40"/><stop offset="1" stop-color="#0e1424"/></linearGradient></defs>
+          <path d="M26 198 H374 V262 Q374 286 350 286 H50 Q26 286 26 262 Z" fill="url(#lb-vorne)"/>
+          <path d="M28 199 H372" stroke="#5b6782" stroke-width="2" stroke-linecap="round"/>
+          <text x="52" y="250" class="ladebox__name">SkiTag Ladestation</text>
+          <g class="ladebox__led"><circle cx="340" cy="244" r="5"/><circle cx="340" cy="244" r="11" fill-opacity="0.25"/></g>
+        </svg>
+      </figure>
     </div>
   </section>
 
@@ -142,6 +166,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
       </div>
 
       <div class="knopf__bild">
+        <div class="knopf__foto" aria-hidden="true"><img src="assets/media/held-poster.webp?v=1" alt="" width="1920" height="1012" decoding="async" loading="lazy"></div>
         <div class="kn-nacht" aria-hidden="true"></div>
         <div class="kn-wellen" aria-hidden="true"><i></i><i></i><i></i></div>
         <svg class="kn-linien" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path class="kn-linien__gruppe" d="M50 50 L16 24"/><path class="kn-linien__gruppe" d="M50 50 L85 29"/><path class="kn-linien__gruppe" d="M50 50 L20 79"/><path class="kn-linien__funk" d="M35 44 C 42 36, 47 32, 54 31"/></svg>
@@ -174,6 +199,8 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
         <div class="knopf__nah chip-anker" aria-hidden="true"></div>
         <div class="knopf__chip chip-anker">
+          <!-- Feedback 151: rote Funkwellen, wenn der Notruf rausgeht (chip-film.css, „Notruf funkt“) -->
+          <div class="kn-notfunk" aria-hidden="true"><i></i><i></i><i></i></div>
           <img class="chip-bild" src="assets/media/chip-3d.webp?v=3" alt="" width="600" height="800" loading="lazy" decoding="async">
           <button class="chip-knopf" type="button" aria-describedby="knopf-status">
             <svg class="chip-knopf__ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" pathLength="1"/></svg>
@@ -189,25 +216,26 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
        baut es sich nicht wieder zusammen). Rechts daneben stehen sechs Namen, jeder mit einer gestrichelten Linie
        zu seinem Teil (assets/innen-film.js liest --sc-p).
        Am Handy, bei „weniger Bewegung“ und ohne WebGL nicht gepinnt: der Chip öffnet sich von selbst (data-klick). -->
-  <section id="innenleben" class="innen nacht" data-unter="Innenleben" data-klick="899" data-sc-act="pin" data-sc-span="1.4" aria-labelledby="innenleben-titel">
+  <section id="innenleben" class="innen nacht" data-unter="Innenleben" data-klick="899" data-sc-act="pin" data-sc-span="2" aria-labelledby="innenleben-titel">
     <div class="innen__buehne" data-sc-stage>
       <div class="innen__bild">
         <canvas class="innen__gl" aria-hidden="true"></canvas>
         <img class="innen__ersatz" src="assets/media/chip-3d.webp?v=3" alt="" width="600" height="800" loading="lazy" decoding="async">
         <svg class="innen__zeiger" aria-hidden="true"></svg>
         <ol class="innen__marken" aria-label="Was im Chip steckt">
-          <li><b>Knopf</b><span>Groß genug für Handschuhe</span></li>
-          <li><b>LED</b><span>Zeigt, was der Chip gerade tut</span></li>
-          <li><b>Hülle</b><span>Weicher Rand mit Stoßecken</span></li>
-          <li><b>Platine</b><span>Funkmodul, GPS und Sensoren</span></li>
-          <li><b>Akku</b><span>Flach, unter der Platine</span></li>
-          <li><b>Laden</b><span>Kabellos über eine Spule</span></li>
+          <!-- Feedback 151: beim Drüberfahren (am Handy Antippen) geht unter dem Namen eine Box mit dem Warum auf -->
+          <li tabindex="0"><b>Knopf</b><span>Groß genug für Handschuhe</span><p class="innen__mehr">Du findest ihn auch mit dicken Handschuhen. <b>Kurz drücken</b> ruft deine Gruppe, <b>drei Sekunden halten</b> holt Hilfe.</p></li>
+          <li tabindex="0"><b>LED</b><span>Zeigt dir, ob es geklappt hat</span><p class="innen__mehr">Du siehst sofort, ob dein Notruf <b>angekommen</b> ist. Kommt er nicht an, blinkt sie <b>doppelt rot</b> und der Chip vibriert. Dann rufst du selbst die 140.</p></li>
+          <li tabindex="0"><b>Hülle</b><span>Weicher Gummi, robust</span><p class="innen__mehr">Eine <b>weiche Gummihülle</b>: Sie hält Stürze, Kälte und Nässe aus und <b>drückt oder sticht nicht</b>, wenn du auf den Chip fällst.</p></li>
+          <li tabindex="0"><b>Platine</b><span>Funk, GPS und Sensoren</span><p class="innen__mehr">Hier sitzen der <b>eigene Funk</b> und das <b>GPS</b>. Darum braucht der Chip kein Handy und kein Handynetz.</p></li>
+          <li tabindex="0"><b>Akku</b><span>Hält den ganzen Skitag</span><p class="innen__mehr">Er hält <b>acht Stunden</b>. Am Abend sind noch mindestens 30 % übrig, du musst nie nachladen.</p></li>
+          <li tabindex="0"><b>Laden</b><span>Induktiv, ohne Stecker</span><p class="innen__mehr">Geladen wird <b>ohne Kabel</b>. So braucht das Gehäuse <b>keine Öffnung</b>, und es kommt <b>keine Nässe</b> hinein. Laden tut die Bergbahn, nicht du.</p></li>
         </ol>
       </div>
       <div class="innen__text">
         <p class="augenbraue">Innenleben</p>
         <h2 id="innenleben-titel" class="sc-display">Was im Chip <span class="akzent">steckt.</span></h2>
-        <p class="sc-lede innen__lede">Sechs Teile, ein Auftrag: Hilfe holen, wenn du sie brauchst.</p>
+        <p class="sc-lede innen__lede">Sechs Teile, ein Auftrag: Hilfe holen, wenn du sie brauchst. <span class="innen__tipp">Fahr mit der Maus über ein Teil, dann siehst du, warum es so gebaut ist.</span></p>
       </div>
     </div>
   </section>
@@ -232,8 +260,8 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
           <!-- Feedback 131: Skigebiet von oben mit zwei klar getrennten Pisten (Unsplash ZTxjKgcWJbo, TROY ALLEN, Unsplash-Lizenz), darauf nur
                Kartenpunkte. Mit SkiTag auf der Hauptpiste links, mit dem Handy auf der Piste rechts hinter dem Wald (wie die Karten darüber); unten die Liftstation. -->
           <defs>
-            <path id="berg-pfad-a" d="M668 540 C 600 520 520 470 470 430 C 420 395 380 380 384 352" fill="none"/>
-            <path id="berg-pfad-b" d="M668 540 C 760 520 860 470 930 430 C 990 395 1010 330 949 296" fill="none"/>
+            <path id="berg-pfad-a" d="M668 540 L405 232 C 372 252 344 282 378 302 C 408 320 402 338 384 352" fill="none"/>
+            <path id="berg-pfad-b" d="M668 540 L405 232 C 470 204 560 186 640 203 C 720 220 800 242 858 268 C 900 286 930 300 949 296" fill="none"/>
           </defs>
           <image class="berg__foto" href="assets/media/berg-pisten.webp?v=1" x="0" y="0" width="1200" height="640" preserveAspectRatio="xMidYMid slice"/>
           <rect class="berg__schleier" width="1200" height="640" fill="#0e1d40" opacity=".12"/>
@@ -248,8 +276,8 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
           <ellipse id="berg-suche" cx="935" cy="300" rx="70" ry="46" fill="#fff" fill-opacity=".08" stroke="#fff" stroke-opacity=".85" stroke-width="2" stroke-dasharray="7 8" style="opacity:0"/>
           <!-- Spuren der Helfer: wachsen mit, entlang der Piste -->
-          <path id="berg-spur-a" class="berg__spur" d="M668 540 C 600 520 520 470 470 430 C 420 395 380 380 384 352" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" style="opacity:0"/>
-          <path id="berg-spur-b" class="berg__spur" d="M668 540 C 760 520 860 470 930 430 C 990 395 1010 330 949 296" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" style="opacity:0"/>
+          <path id="berg-spur-a" class="berg__spur" d="M668 540 L405 232 C 372 252 344 282 378 302 C 408 320 402 338 384 352" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" style="opacity:0"/>
+          <path id="berg-spur-b" class="berg__spur" d="M668 540 L405 232 C 470 204 560 186 640 203 C 720 220 800 242 858 268 C 900 286 930 300 949 296" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" style="opacity:0"/>
           <!-- Handy: Anruf bei der Rettung, dann ruft die Rettung erst die Bergbahn an (Pfade setzt weg.js je nach Breite) -->
           <g id="berg-anruf-a" fill="none" stroke-linecap="round" stroke-dasharray="0 12" style="opacity:0"><path d="M947 260 Q 1017 411 960 562" stroke="#0e1d40" stroke-opacity=".45" stroke-width="9"/><path d="M947 260 Q 1017 411 960 562" stroke="#fff" stroke-width="5.5"/></g>
           <g id="berg-anruf-b" fill="none" stroke-linecap="round" stroke-dasharray="0 12" style="opacity:0"><path d="M960 562 Q 874 491 668 540" stroke="#0e1d40" stroke-opacity=".45" stroke-width="9"/><path d="M960 562 Q 874 491 668 540" stroke="#fff" stroke-width="5.5"/></g>
@@ -282,7 +310,9 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
             <text class="berg__name berg__name--klein" y="34" text-anchor="middle">Mit Handy</text>
           </g>
 
-          <!-- Mitarbeiter der Bergbahn: grüner Punkt mit Kreuz, fährt die Piste hinunter -->
+          <!-- Mitarbeiter der Bergbahn: grüner Punkt mit Kreuz. Seit Feedback 151 fährt er erst mit dem Sessellift rauf (Seil gestrichelt)
+               und dann auf Ski zur Person hinunter, statt quer den Berg hinauf. -->
+          <path id="berg-seil" class="berg__seil" d="M668 540 L405 232" fill="none" stroke="#fff" stroke-width="1.6" stroke-dasharray="2 5" stroke-linecap="round" style="opacity:0"/>
           <g id="berg-helfer-a" class="berg__helfer" transform="translate(668 540)">
             <circle class="berg__alarm" r="10" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/>
             <g class="berg__dreh"><circle r="10.5" fill="#1c8f63" stroke="#fff" stroke-width="2.5"/><path d="M0 -5.5 V5.5 M-5.5 0 H5.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></g>
@@ -428,12 +458,13 @@ ScrollCraft.mount(document.body);
 <script src="assets/seite.js?v=85" defer></script>
 <script src="assets/gsap-effekte.js?v=5" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
-<script src="assets/auftritte.js?v=9" defer></script>
+<script src="assets/ladebox.js?v=1" defer></script>
+<script src="assets/auftritte.js?v=10" defer></script>
 <script src="assets/sprung-anfang.js?v=20" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
-<script src="assets/weg.js?v=19" defer></script>
+<script src="assets/weg.js?v=20" defer></script>
 <script src="assets/chip-film.js?v=11" defer></script>
-<script src="assets/innen-film.js?v=11" defer></script>
+<script src="assets/innen-film.js?v=12" defer></script>
 <script src="assets/v2.js?v=2" defer></script>
 </body>
 </html>

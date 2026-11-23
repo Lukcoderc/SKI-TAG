@@ -24,10 +24,11 @@
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=138">
-<link rel="stylesheet" href="assets/chip-film.css?v=24">
+<link rel="stylesheet" href="assets/chip-film.css?v=25">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/schrift-inter.css?v=1">
 <link rel="stylesheet" href="assets/am-berg.css?v=4">
+<link rel="stylesheet" href="assets/app-start.css?v=1">
 <noscript><style>.lade { display: none; }</style></noscript>
 </head>
 <body>
@@ -197,14 +198,14 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
       <div class="am-berg__kopf">
         <div>
           <p class="augenbraue">Für wen</p>
-          <h2 id="am-berg-titel" class="sc-display">Für deinen Skitag.</h2>
-          <p class="am-berg__satz">Dein Handy kann im Rucksack bleiben. Der Chip braucht weder Handy noch Handynetz, die Empfänger an den Liftstationen fangen sein Signal auf.</p>
+          <h2 id="am-berg-titel" class="sc-display">Für deinen Skitag.<br><span class="leise">Vom Anfänger bis zum Profi.</span></h2>
+          <p class="am-berg__satz">Den Chip <b>mietest du direkt vor Ort</b>, morgens am Automaten vorm Lift, abends gibst du ihn zurück. Dein Handy kann im Rucksack bleiben. Der Chip braucht weder Handy noch Handynetz, die Empfänger an den Liftstationen fangen sein Signal auf.</p>
         </div>
         <ul class="am-berg__punkte">
           <li><span>Ein Knopf für Gruppe und Notruf</span></li>
           <li><span>Ohne Handy und ohne Handynetz</span></li>
           <li><span>Dein Standort geht direkt an die Bergbahn</span></li>
-          <li><span>Für Familien, Skischulen und Gruppen</span></li>
+          <li><span>Morgens mieten, abends zurückgeben</span></li>
         </ul>
       </div>
       <ul class="am-berg__karten">
@@ -235,7 +236,8 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 13V6.5a1.5 1.5 0 0 1 3 0V11m0-5.5V4.5a1.5 1.5 0 0 1 3 0V11m0-4.5a1.5 1.5 0 0 1 3 0V12m0-3a1.5 1.5 0 0 1 3 0v4.5A7.5 7.5 0 0 1 12.5 21H12a7 7 0 0 1-6-3.4L4.3 14a1.5 1.5 0 0 1 2.6-1.5L8 14"/></svg><h3>Auch mit Handschuhen</h3><p>Großer Knopf, wasserdicht.</p></li>
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="5" width="10" height="14" rx="3"/><path d="M3.5 9v6M20.5 9v6"/></svg><h3>Spürbar in der Jacke</h3><p>Der Chip vibriert.</p></li>
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-6.2-6-11a6 6 0 0 1 12 0c0 4.8-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg><h3>Weiß, wo du bist</h3><p>GPS schickt deinen Standort mit.</p></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg><h3>Kabellos laden</h3><p>Kein Stecker, kein Loch im Gehäuse.</p></li>
+          <!-- Feedback 151: statt „Kabellos laden“ (laden tut nur die Bergbahn) das Mieten vor Ort betonen -->
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 7h7M8.5 10.5h7"/><rect x="9" y="14" width="6" height="4" rx="1"/></svg><h3>Direkt vor Ort</h3><p>Hol dir deinen Chip am Automaten direkt vorm Lift.</p></li>
         </ul>
       </div>
     </div>
@@ -251,35 +253,85 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
        Fotos (Unsplash, Herkunft in assets/media/collage-*.webp.json). Beim Darüberfahren zoomt ein Foto, zeigt seinen
        Namen, die anderen treten zurück. Daneben das iPhone als ruhiges Standbild, ohne Schalter: was die App kann,
        zeigt app.html. -->
-  <section id="app" class="sc-section kollage-akt" data-sc-act="flow" data-sc-drift="#ffffff" aria-labelledby="app-titel">
+  <!-- Feedback 151: App-Abschnitt neu. Hinten die Fotos (Hintergrund, mit Schatten), vorne das Handy und die Infofelder.
+       Das Handy spielt ab, sobald es im Bild ist: App Store mit Slogan, Laden, Start, Code eingeben, los geht's
+       (assets/app-start.js, Regeln in assets/app-start.css). Ohne JS bleibt das erste Bild stehen. -->
+  <section id="app" class="sc-section app-start" aria-labelledby="app-titel">
     <div class="sc-wrap">
-      <header class="kollage__kopf" data-sc-in data-sc-stagger="80">
+      <header class="app-start__kopf" data-sc-in data-sc-stagger="80">
         <div>
           <p class="augenbraue">App</p>
-          <h2 id="app-titel" class="sc-display riesig">Vom Anfänger<br><span class="leise">bis zum Profi.</span></h2>
+          <h2 id="app-titel" class="sc-display riesig">Die App.<br><span class="leise">Immer passend zu dir.</span></h2>
         </div>
-        <div class="kollage__rechts">
-          <p class="sc-lede">Eltern sehen, wo ihre Kinder sind, Skilehrer ihre ganze Gruppe. Und du deinen Tag und den Weg ins Tal.</p>
-          <a class="knopf-dunkel knopf-gross" href="app.html">Mehr zur App <svg class="knopf__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-      </header>
-      <div class="kollage">
-        <ul class="kollage__raster" data-sc-in data-sc-stagger="70">
-          <li class="kollage__bild kollage__bild--hoch"><img src="assets/media/collage-kind.webp?v=1" alt="Ein kleiner Junge mit Helm fährt auf Ski den Übungshang hinunter." width="933" height="1400" loading="lazy" decoding="async"><span>Die Kleinsten</span></li>
-          <li class="kollage__bild kollage__bild--breit"><img src="assets/media/collage-skischule.webp?v=1" alt="Eine Reihe Kinder in bunten Skianzügen steigt hintereinander den Hang hinauf." width="1400" height="933" loading="lazy" decoding="async"><span>Skischule</span></li>
-          <li class="kollage__bild kollage__bild--hoch"><img src="assets/media/collage-profi.webp?v=1" alt="Ein Skifahrer zieht im Pulverschnee einen Schwung, der Schnee staubt." width="933" height="1400" loading="lazy" decoding="async"><span>Profis</span></li>
-          <li class="kollage__bild "><img src="assets/media/collage-schwung.webp?v=1" alt="Ein Kind in Neongelb fährt an einer roten Stange vorbei die Piste hinunter." width="1400" height="933" loading="lazy" decoding="async"><span>Erste Schwünge</span></li>
-          <li class="kollage__bild "><img src="assets/media/collage-freunde.webp?v=1" alt="Drei Freunde stehen bei Sonnenuntergang auf dem Grat über der Piste." width="1400" height="933" loading="lazy" decoding="async"><span>Mit Freunden</span></li>
-        </ul>
-              <figure class="iphone kollage__handy" role="img" aria-label="Ein iPhone mit der SkiTag-App: „Ihr Tag“ mit Pistenkarte, eigener Spur und Abfahrten, Tiefenmetern und Liftfahrten.">
-        <div class="iphone__rahmen">
-          <div class="iphone__knopf iphone__knopf--a"></div><div class="iphone__knopf iphone__knopf--b"></div><div class="iphone__knopf iphone__knopf--c"></div><div class="iphone__knopf iphone__knopf--d"></div>
-          <div class="iphone__glas">
-            <!-- Feedback 131: echtes Bildschirmfoto der App aus app.html („Ihr Tag“), passend zu allen Ansichten der App -->
-            <img class="iphone__bild" src="assets/media/app-ihr-tag.webp?v=1" alt="" width="563" height="1271" loading="lazy" decoding="async">
+        <div class="app-start__rechts">
+          <p class="sc-lede">Die App gibt es <b>wie den Chip zum Mieten</b>: Beim Mieten bekommst du einen <b>Code</b>, der <b>bis Mitternacht</b> gilt. <b>Keine Registrierung, keine E-Mail, kein Passwort.</b></p>
+          <div class="app-start__knoepfe">
+            <a class="knopf-dunkel knopf-gross" href="https://tobiass3.github.io/SKI-TAG/" target="_blank" rel="noopener">App laden <svg class="knopf__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v8.5M4 7.5 8 11.5l4-4M3 13.5h10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            <a class="knopf-hell knopf-gross" href="app.html">Mehr Infos zur App</a>
           </div>
         </div>
-      </figure>
+      </header>
+
+      <div class="app-start__buehne">
+        <!-- hinten: Fotos -->
+        <div class="app-start__fotos" aria-hidden="true">
+          <img class="asf asf--1" src="assets/media/collage-kind.webp?v=1" alt="" width="933" height="1400" loading="lazy" decoding="async">
+          <img class="asf asf--2" src="assets/media/collage-skischule.webp?v=1" alt="" width="1400" height="933" loading="lazy" decoding="async">
+          <img class="asf asf--3" src="assets/media/collage-freunde.webp?v=1" alt="" width="1400" height="933" loading="lazy" decoding="async">
+          <img class="asf asf--4" src="assets/media/collage-profi.webp?v=1" alt="" width="933" height="1400" loading="lazy" decoding="async">
+        </div>
+
+        <!-- vorne: Handy -->
+        <figure class="iphone app-start__handy" role="img" aria-label="Ein iPhone zeigt, wie die SkiTag-App startet: im App Store laden, öffnen, Vorname und Code vom Mietbeleg eingeben, und der Skitag beginnt.">
+          <div class="iphone__rahmen">
+            <div class="iphone__knopf iphone__knopf--a"></div><div class="iphone__knopf iphone__knopf--b"></div><div class="iphone__knopf iphone__knopf--c"></div><div class="iphone__knopf iphone__knopf--d"></div>
+            <div class="iphone__glas">
+              <div class="iphone__insel"></div>
+              <div class="ast" data-schritt="1">
+                <!-- 1 · App Store -->
+                <div class="ast__bild ast__laden">
+                  <div class="iphone__statuszeile"><span>9:41</span><span class="iphone__symbole"><i class="sym-netz"></i><i class="sym-wlan"></i><i class="sym-akku"></i></span></div>
+                  <p class="ast__store">App Store</p>
+                  <div class="ast__app">
+                    <span class="ast__icon"><svg viewBox="0 0 32 32"><use href="#logo"/></svg></span>
+                    <div><b>SkiTag</b><span>Dein Skitag. Deine Gruppe.</span>
+                      <span class="ast__holen"><i class="ast__holen-text">Laden</i><i class="ast__ring"></i><i class="ast__oeffnen">Öffnen</i></span>
+                    </div>
+                  </div>
+                  <div class="ast__sterne"><b>4,9</b> ★★★★★<span>Sport · 4+</span></div>
+                  <div class="ast__vorschau"><img src="assets/media/app-ihr-tag.webp?v=1" alt="" width="563" height="1271" loading="lazy" decoding="async"><span>Keine Registrierung</span></div>
+                </div>
+                <!-- 2 · Start und Code -->
+                <div class="ast__bild ast__code">
+                  <span class="ast__start"><svg viewBox="0 0 32 32"><use href="#logo"/></svg></span>
+                  <p class="ast__titel">Ihr Skitag.</p>
+                  <div class="ast__karte">
+                    <span class="ast__etikett">Vorname</span>
+                    <div class="ast__feld"><span style="--i:0">A</span><span style="--i:1">n</span><span style="--i:2">n</span><span style="--i:3">a</span></div>
+                    <span class="ast__etikett">Code vom Mietbeleg</span>
+                    <div class="ast__feld ast__feld--code"><span style="--i:4">R</span><span style="--i:5">4</span><span style="--i:6">T</span><em>–</em><span style="--i:7">8</span><span style="--i:8">K</span><span style="--i:9">Q</span></div>
+                    <span class="ast__los">Los geht’s</span>
+                    <small>Kein Konto, keine E-Mail. Gilt bis Mitternacht.</small>
+                  </div>
+                  <div class="ast__beleg"><b>Mietbeleg</b><span>Chip Nr. 0427</span><span>Code <strong>R4T–8KQ</strong></span><span>gültig bis 24:00</span></div>
+                </div>
+                <!-- 3 · Los geht's -->
+                <div class="ast__bild ast__tag">
+                  <div class="iphone__statuszeile"><span>9:41</span><span class="iphone__symbole"><i class="sym-netz"></i><i class="sym-wlan"></i><i class="sym-akku"></i></span></div>
+                  <img src="assets/media/app-ihr-tag.webp?v=1" alt="" width="563" height="1271" loading="lazy" decoding="async">
+                  <span class="ast__willkommen"><i></i>Willkommen am Berg, Anna</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </figure>
+
+        <!-- vorne: Infofelder -->
+        <ol class="app-start__felder">
+          <li class="asi" data-schritt="1"><span>1</span><b>Laden</b><p>Die App aus dem App Store holen.</p></li>
+          <li class="asi" data-schritt="2"><span>2</span><b>Code eingeben</b><p>Vorname und <b>Code vom Mietbeleg</b>. <b>Keine Registrierung.</b></p></li>
+          <li class="asi" data-schritt="3"><span>3</span><b>Los geht’s</b><p>Dein Tag, deine Gruppe, dein Weg ins Tal. <b>Bis Mitternacht.</b></p></li>
+        </ol>
       </div>
     </div>
   </section>
@@ -565,6 +617,7 @@ ScrollCraft.mount(document.body);
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
 <script src="assets/am-berg.js?v=4" defer></script>
+<script src="assets/app-start.js?v=1" defer></script>
 <script src="assets/seite.js?v=85" defer></script>
 <script src="assets/gsap-effekte.js?v=5" defer></script>
 <script src="assets/chip-film.js?v=11" defer></script>

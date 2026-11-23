@@ -402,3 +402,17 @@ html:not(.js-app) .sz-seite[data-seite="0"] { opacity: 1; transform: none; }
   .app-zugaenge b { font-size: 1rem; }
   .app-zugaenge span { font-size: 0.8rem; line-height: 1.35; }
 }
+
+/* Feedback 151 · Handys abwechselnd links und rechts (Einloggen rechts, Freunde und Familie links, Allein rechts,
+   Skischule links), dazwischen dünne Fotostreifen, Knopf „App hier laden“ oben und unten, Schlüsselwörter fett. */
+.app-absatz b, .szene__teil p b, .app-kopf .kopfzeile__text b, .app-kontakt p b { color: inherit; font-weight: 700; }
+.app-absatz b, .szene__teil p b { color: var(--sc-ink); }
+.app-kopf__knoepfe { margin: var(--sc-6) 0 0; }
+@media (min-width: 900px) {
+  .szene--links .szene__raster { grid-template-columns: auto minmax(0, 1fr); }
+  .szene--links .szene__bild { order: -1; }
+}
+.app-streifen { position: relative; height: clamp(5.5rem, 13vw, 10rem); clip-path: inset(0); overflow: clip; background: #0b1226; }
+.app-streifen__bild { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.app-streifen__bild img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: var(--lage, 50% 50%); }
+.app-streifen::after { content: ""; position: absolute; inset: 0; z-index: 1; box-shadow: inset 0 14px 18px -12px rgba(14, 29, 64, 0.35), inset 0 -14px 18px -12px rgba(14, 29, 64, 0.35); }

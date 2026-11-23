@@ -98,6 +98,70 @@
     };
   };
 
+  /* ---------------------------------- Gondel und Skifahrer (Feedback 151) -- */
+  /* Bis „Am Berg“ ist die Linie ein Gondelseil mit Stützen, und der Punkt ist eine Gondel, die am Seil fährt.
+     Ab „Am Berg“ fährt ein Skifahrer weiter und zieht beim Scrollen seine Carving-Spur in den Schnee.
+     Gezeichnet in ein SVG über der Linie (Größe in Pixeln, neu bei jeder Größenänderung). */
+  var NS = "http://www.w3.org/2000/svg";
+  var spurSvg = document.createElementNS(NS, "svg");
+  spurSvg.setAttribute("class", "tag__spur"); spurSvg.setAttribute("aria-hidden", "true");
+  spurSvg.innerHTML =
+    '<g class="tag__seil"><path class="tag__seil-linie"/><g class="tag__stuetzen"></g></g>' +
+    '<path class="tag__carve tag__carve--a"/><path class="tag__carve tag__carve--b"/>' +
+    '<g class="tag__gondel"><path d="M0 -15 V-6" class="tag__gondel-buegel"/><circle cy="-15" r="2.6" class="tag__gondel-rolle"/>' +
+      '<rect x="-12" y="-6" width="24" height="20" rx="5" class="tag__gondel-kabine"/><rect x="-8.5" y="-2.5" width="17" height="7" rx="2" class="tag__gondel-fenster"/></g>' +
+    '<g class="tag__fahrer"><g class="tag__fahrer-dreh">' +
+      '<path d="M-9 9 L9 5" class="tag__fahrer-ski"/><path d="M-1 -9 L1 0 L-3 7 M1 0 L5 6" class="tag__fahrer-koerper"/>' +
+      '<path d="M-1 -6 L-7 -2 M0 -6 L7 -4" class="tag__fahrer-arme"/><circle cx="-1.5" cy="-12.5" r="3.2" class="tag__fahrer-kopf"/></g></g>';
+  linie.parentNode.insertBefore(spurSvg, linie.nextSibling);
+  wurzel.classList.add("js-spur");
+  var spur = { seil: spurSvg.querySelector(".tag__seil-linie"), stuetzen: spurSvg.querySelector(".tag__stuetzen"),
+    a: spurSvg.querySelector(".tag__carve--a"), b: spurSvg.querySelector(".tag__carve--b"),
+    gondel: spurSvg.querySelector(".tag__gondel"), fahrer: spurSvg.querySelector(".tag__fahrer"), dreh: spurSvg.querySelector(".tag__fahrer-dreh") };
+  var BERG = Math.max(0, halte.findIndex ? halte.findIndex(function (h) { return h.was === "Am Berg"; }) : 3);
+  var kurve = null;   // Punkte der Carving-Linie
+  var spurBauen = function () {
+    var w = spurSvg.getBoundingClientRect().width, H = mass.hoehe, mitte = w / 2;
+    spurSvg.setAttribute("viewBox", "0 0 " + w.toFixed(1) + " " + H.toFixed(1));
+    var yB = (mass.anteile[BERG] || 0.5) * H;
+    spur.seil.setAttribute("d", "M" + mitte + " 0 V" + yB.toFixed(1));
+    var st = "";
+    for (var y = 90; y < yB - 40; y += 240) st += '<path d="M' + (mitte - 7) + " " + y + " H" + (mitte + 7) + " M" + mitte + " " + y + " h0.01" + '"/>';
+    spur.stuetzen.innerHTML = st;
+    // Carving: weiche Bögen links und rechts der Mitte, eine Welle etwa alle 220 px
+    var A = Math.min(w * 0.36, 26), L = 220, pts = [];
+    for (var yy = yB; yy <= H + 0.5; yy += 4) {
+      var t = (yy - yB) / L, ein = Math.min(1, (yy - yB) / 60);
+      pts.push([mitte + A * ein * Math.sin(t * Math.PI * 2), yy]);
+    }
+    kurve = { pts: pts, yB: yB, laenge: 0 };
+    var d = function (dx) { return pts.map(function (p, i) { return (i ? "L" : "M") + (p[0] + dx).toFixed(1) + " " + p[1].toFixed(1); }).join(""); };
+    spur.a.setAttribute("d", d(-2.2)); spur.b.setAttribute("d", d(2.2));
+    var L2 = spur.a.getTotalLength ? spur.a.getTotalLength() : H;
+    kurve.laenge = L2;
+    [spur.a, spur.b].forEach(function (pf) { pf.style.strokeDasharray = L2.toFixed(1) + " " + L2.toFixed(1); });
+  };
+  var spurZeigen = function (f) {
+    if (!kurve) spurBauen();
+    var H = mass.hoehe, y = f * H, w = spurSvg.viewBox.baseVal ? spurSvg.viewBox.baseVal.width : 40, mitte = w / 2;
+    var amBerg = y > kurve.yB;
+    spur.gondel.style.opacity = amBerg ? 0 : 1;
+    spur.fahrer.style.opacity = amBerg ? 1 : 0;
+    if (!amBerg) {
+      spur.gondel.setAttribute("transform", "translate(" + mitte.toFixed(1) + " " + y.toFixed(1) + ")");
+      [spur.a, spur.b].forEach(function (pf) { pf.style.strokeDashoffset = kurve.laenge.toFixed(1); });
+      return;
+    }
+    var i = Math.min(kurve.pts.length - 1, Math.max(0, Math.round((y - kurve.yB) / 4)));
+    var p = kurve.pts[i], q = kurve.pts[Math.min(kurve.pts.length - 1, i + 1)], o = kurve.pts[Math.max(0, i - 1)];
+    // Anteil der gezeichneten Spur ungefähr nach der Höhe (die Bögen sind gleichmäßig)
+    var anteil = (y - kurve.yB) / Math.max(1, H - kurve.yB);
+    [spur.a, spur.b].forEach(function (pf) { pf.style.strokeDashoffset = (kurve.laenge * (1 - anteil)).toFixed(1); });
+    var neig = Math.atan2(q[0] - o[0], 8) * 180 / Math.PI;   // in die Kurve legen
+    spur.fahrer.setAttribute("transform", "translate(" + p[0].toFixed(1) + " " + p[1].toFixed(1) + ")");
+    spur.dreh.setAttribute("transform", "rotate(" + (-neig * 0.9).toFixed(1) + ") scale(1.5)");
+  };
+
   var einblenden = function (h, da, sanft) {
     if (!gs || !h.karte) return;
     if (!sanft || ohneBewegung) { gs.set(h.karte, { opacity: da ? 1 : 0, y: da ? 0 : 30, filter: "blur(0px)" }); return; }
@@ -111,6 +175,7 @@
     var f = stand.f;
     fuellung.style.transform = "scaleY(" + f.toFixed(4) + ")";
     chipEl.style.transform = "translate3d(0," + (f * mass.hoehe).toFixed(1) + "px,0)";
+    spurZeigen(f);
     var a = mass.anteile, nr = -1;
     halte.forEach(function (h, i) {
       var da = a[i] <= f + 0.0001;
@@ -135,8 +200,8 @@
   };
 
   sterneZeichnen();
-  window.addEventListener("resize", function () { messen(); sterneZeichnen(); zeigen(); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { messen(); zeigen(); });
+  window.addEventListener("resize", function () { messen(); kurve = null; sterneZeichnen(); zeigen(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { messen(); kurve = null; zeigen(); });
 
   if (gs) {
     // Karten, die noch nicht erreicht sind, warten unsichtbar
@@ -148,7 +213,7 @@
     // Seitenanfang, damit der Punkt ganz oben auch ganz oben auf der Linie steht
     gs.to(stand, { f: 1, ease: "none", onUpdate: zeigen,
       scrollTrigger: { trigger: linie, start: function () { return Math.max(0, linie.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.55); },
-        end: "bottom 55%", scrub: glatt, onRefresh: function () { messen(); } } });
+        end: "bottom 55%", scrub: glatt, onRefresh: function () { messen(); kurve = null; } } });
     // Feedback 127: am Ende sinkt das Gebirge der Tageswelt weich weg, während das Gebirge über dem Fuß hochkommt,
     // dazu wird der Himmel unten zum Dunkelblau des Fußes; so gibt es nie zwei Bergketten übereinander.
     var band = document.querySelector(".gebirge-band"), berge = welt && welt.querySelector(".tagwelt__berge");

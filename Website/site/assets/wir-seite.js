@@ -56,3 +56,19 @@
     wahl.querySelectorAll(".wk__wahl a").forEach(function (a) { a.addEventListener("click", function () { wahl.open = false; }); });
   }
 })();
+
+/* Feedback 151: Antippen einer Person öffnet ihre Box (am Handy gibt es kein Drüberfahren), Tippen daneben schließt. */
+(function () {
+  var leute = Array.prototype.slice.call(document.querySelectorAll(".wir2__person"));
+  if (!leute.length) return;
+  leute.forEach(function (li) {
+    li.addEventListener("click", function (e) {
+      if (e.target.closest("a")) return;
+      e.stopPropagation();
+      var auf = !li.classList.contains("ist-auf");
+      leute.forEach(function (x) { x.classList.remove("ist-auf"); });
+      if (auf) li.classList.add("ist-auf");
+    });
+  });
+  document.addEventListener("click", function () { leute.forEach(function (x) { x.classList.remove("ist-auf"); }); });
+})();

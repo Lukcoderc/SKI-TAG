@@ -14,7 +14,7 @@
 <script>if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");</script>
 <link rel="stylesheet" href="assets/seite.css?v=138">
 <link rel="stylesheet" href="assets/v2.css?v=12">
-<link rel="stylesheet" href="assets/wir-seite.css?v=5">
+<link rel="stylesheet" href="assets/wir-seite.css?v=6">
 </head>
 <body>
 
@@ -96,29 +96,44 @@
            Repo: nur Vornamen). Bis echte Fotos da sind, steht in jeder Fläche der Anfangsbuchstabe. auftritte.js teilt die
            drei beim ersten Hinsehen wie Karten aus; beim Darüberfahren hebt sich eine Karte leicht an. -->
       <ul class="wir2__leute" aria-label="Das Team">
-        <li class="wir2__person">
+        <li class="wir2__person" tabindex="0">
           <div class="flaeche wir2__portrait" role="img" aria-label="Platzhalter für ein Foto von Maximilian">
             <span class="wir2__initial" aria-hidden="true">M</span>
             <span class="wir2__folgt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>Foto folgt</span>
           </div>
           <b class="titel-3">Maximilian</b>
           <span class="wir2__rolle">Hardware</span>
+          <!-- Feedback 151: beim Drüberfahren (am Handy Antippen) geht nach unten eine Box mit mehr über die Person auf -->
+          <div class="wir2__mehr">
+            <p>Baut den Chip: Platine, Gehäuse mit weicher Gummihülle, Akku und das Laden ohne Kabel.</p>
+            <p class="wir2__erreichbar"><span>Kontakt</span><a href="mailto:skitag.team@gmail.com">skitag.team@gmail.com</a></p>
+          </div>
         </li>
-        <li class="wir2__person">
+        <li class="wir2__person" tabindex="0">
           <div class="flaeche wir2__portrait" role="img" aria-label="Platzhalter für ein Foto von Tobias">
             <span class="wir2__initial" aria-hidden="true">T</span>
             <span class="wir2__folgt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>Foto folgt</span>
           </div>
           <b class="titel-3">Tobias</b>
           <span class="wir2__rolle">Management · CEO</span>
+          <!-- Feedback 151: beim Drüberfahren (am Handy Antippen) geht nach unten eine Box mit mehr über die Person auf -->
+          <div class="wir2__mehr">
+            <p>Hält das Team zusammen, spricht mit Bergbahnen und Partnern und baut die App.</p>
+            <p class="wir2__erreichbar"><span>Kontakt</span><a href="mailto:skitag.team@gmail.com">skitag.team@gmail.com</a></p>
+          </div>
         </li>
-        <li class="wir2__person">
+        <li class="wir2__person" tabindex="0">
           <div class="flaeche wir2__portrait" role="img" aria-label="Platzhalter für ein Foto von Lukas">
             <span class="wir2__initial" aria-hidden="true">L</span>
             <span class="wir2__folgt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>Foto folgt</span>
           </div>
           <b class="titel-3">Lukas</b>
           <span class="wir2__rolle">Netzwerk</span>
+          <!-- Feedback 151: beim Drüberfahren (am Handy Antippen) geht nach unten eine Box mit mehr über die Person auf -->
+          <div class="wir2__mehr">
+            <p>Baut das Funknetz: Empfänger an den Liftstationen, den Server und den Weg jedes Notrufs vom Chip zur Bergbahn.</p>
+            <p class="wir2__erreichbar"><span>Kontakt</span><a href="mailto:skitag.team@gmail.com">skitag.team@gmail.com</a></p>
+          </div>
         </li>
       </ul>
     </div>
@@ -233,7 +248,7 @@
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
-<script src="assets/auftritte.js?v=9" defer></script>
-<script src="assets/wir-seite.js?v=3" defer></script>
+<script src="assets/auftritte.js?v=10" defer></script>
+<script src="assets/wir-seite.js?v=4" defer></script>
 </body>
 </html>

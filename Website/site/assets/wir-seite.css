@@ -68,3 +68,25 @@ section#kontakt { scroll-margin-top: 4.5rem; }
 @media (prefers-reduced-motion: reduce) { .wk__wahl { animation: none; } .wk__auf { transition: none; } }
 .wk__fuss { margin: 1.4rem 0 0; font-size: var(--sc-t-sm); color: #7c8494; }
 @media (prefers-reduced-motion: reduce) { .wk__mail { transition: none; } }
+
+/* Feedback 151 · Team: Namen fett, beim Drüberfahren geht unter der Person eine Box nach unten auf
+   (Aufgabe und Kontakt). Am Handy öffnet Antippen die Box (wir-seite.js setzt .ist-auf). */
+.wir2__person { position: relative; outline: none; cursor: default; }
+.wir2__person .titel-3 { font-weight: 750; }
+.wir2__person > .wir2__rolle::after { content: ""; display: inline-block; width: 0.4em; height: 0.4em; margin-left: 0.45em; vertical-align: 0.2em; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; rotate: 45deg; opacity: 0.5; transition: rotate 250ms ease; }
+.wir2__person:hover > .wir2__rolle::after, .wir2__person.ist-auf > .wir2__rolle::after { rotate: 225deg; vertical-align: 0; }
+.wir2__mehr {
+  position: absolute; left: 0; right: 0; top: calc(100% + 0.5rem); z-index: 5; padding: 1rem 1.1rem; border-radius: 16px;
+  background: #fff; border: 1px solid var(--linie); box-shadow: 0 2px 4px rgba(14, 29, 64, 0.05), 0 22px 44px -18px rgba(14, 29, 64, 0.3);
+  opacity: 0; transform: translateY(-8px) scaleY(0.94); transform-origin: top; pointer-events: none;
+  transition: opacity 220ms ease, transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.wir2__mehr p { margin: 0; font-size: 0.92rem; line-height: 1.5; color: var(--sc-ink-soft); }
+.wir2__erreichbar { margin-top: 0.7rem !important; padding-top: 0.7rem; border-top: 1px solid #eef0f3; display: grid; gap: 0.1rem; }
+.wir2__erreichbar span { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #9aa1ae; }
+.wir2__erreichbar a { color: var(--sc-ink); font-weight: 600; text-decoration: none; overflow-wrap: anywhere; }
+.wir2__erreichbar a:hover { text-decoration: underline; }
+@media (hover: hover) and (pointer: fine) { .wir2__person:hover .wir2__mehr { opacity: 1; transform: none; pointer-events: auto; } }
+.wir2__person:focus-visible .wir2__mehr, .wir2__person.ist-auf .wir2__mehr { opacity: 1; transform: none; pointer-events: auto; }
+@media (max-width: 600px) { .wir2__mehr { left: -0.25rem; right: auto; width: min(15rem, 70vw); } .wir2__person:last-child .wir2__mehr { left: auto; right: -0.25rem; } }
+@media (prefers-reduced-motion: reduce) { .wir2__mehr { transition: none; } }
