@@ -1,6 +1,6 @@
 /* App-Abschnitt der Startseite (Feedback 151): hinten Fotos, vorne Handy und Infofelder.
    assets/app-start.js setzt data-schritt (1 bis 3) und .laeuft, solange der Abschnitt im Bild ist. */
-.app-start { background: #fff; }
+.app-start { background: #fff; overflow-x: clip; }   /* die Fotos fliegen von außen herein (app-start.js) */
 .app-start__kopf { display: grid; gap: 1.5rem 4rem; align-items: end; }
 .app-start__rechts { display: grid; gap: 1.5rem; justify-items: start; max-width: 32rem; }
 .app-start__rechts .sc-lede { margin: 0; color: var(--sc-ink-soft); }

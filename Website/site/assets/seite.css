@@ -2125,7 +2125,7 @@ body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) a:focus-visible, bo
 .schau__zahlen { display: grid; grid-template-columns: repeat(3, minmax(0, 12rem)); gap: clamp(1.5rem, 4vw, 4rem); margin: 0; }
 .schau__zahlen dt { font: 640 clamp(2rem, 1.4rem + 1.6vw, 3rem)/1 var(--sc-font-display); letter-spacing: -0.04em; color: var(--sc-ink); }
 .schau__zahlen dd { margin: 0.5rem 0 0; font-size: var(--sc-t-sm); line-height: 1.4; color: #3d4864; }
-.schau__mehr { display: inline-flex; align-items: center; gap: 0.75rem; margin-top: clamp(0.9rem, 2vh, 1.3rem); padding: 0.4rem 0.4rem 0.4rem 1.35rem; min-height: 3rem;
+.schau__mehr { display: inline-flex; flex: none; align-self: center; align-items: center; gap: 0.75rem; padding: 0.4rem 0.4rem 0.4rem 1.35rem; min-height: 3rem;
   border-radius: var(--sc-r-pill); background: var(--sc-ink); color: #fff; font-weight: 650; font-size: var(--sc-t-sm); text-decoration: none;
   box-shadow: 0 1px 2px rgba(14, 29, 64, 0.18), 0 8px 20px -8px rgba(14, 29, 64, 0.45);
   transition: background-color 200ms, transform 200ms var(--sc-ease-out), box-shadow 200ms; }
@@ -2147,6 +2147,7 @@ body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) a:focus-visible, bo
   .schau__marke b::before { content: ""; position: absolute; left: -1.1rem; top: 0.32em; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--orange); }
   .schau__marke span { font-size: 0.86rem; }
   .schau__fuss { flex-direction: column; align-items: flex-start; }
+  .schau__mehr { align-self: flex-start; }
   .schau__zahlen { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
 }
 
@@ -2341,7 +2342,7 @@ body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) a:focus-visible, bo
   .schau__marken { gap: 0.75rem 1rem; margin-top: 0.9rem; }
   .schau__marke { gap: 0.15rem; }
   .schau__marke span { font-size: 0.8rem; line-height: 1.38; }
-  .schau__fuss { display: none; }   /* nur noch die Zahlen drin, die am Handy wegfallen; der Knopf steht seit Feedback 153 oben */
+  .schau__fuss { margin-top: 1rem; padding-top: 0.9rem; }
   .schau__zahlen { display: none; }
 
   /* Für deinen Skitag: kürzere Punkte und flachere Fotos */

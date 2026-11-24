@@ -23,12 +23,12 @@
 /* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=144">
+<link rel="stylesheet" href="assets/seite.css?v=145">
 <link rel="stylesheet" href="assets/chip-film.css?v=26">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/schrift-inter.css?v=1">
 <link rel="stylesheet" href="assets/am-berg.css?v=4">
-<link rel="stylesheet" href="assets/app-start.css?v=2">
+<link rel="stylesheet" href="assets/app-start.css?v=3">
 <link rel="preload" href="assets/media/chip/07.webp?v=1" as="image">
 <noscript><style>.lade { display: none; }</style></noscript>
 </head>
@@ -168,8 +168,6 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
         <h2 id="blick-titel" class="sc-display schau__titel">Was ist SKITAG?</h2>
         <p class="schau__antwort">Ein kleiner Notrufknopf, den du dir für den Skitag ausleihst und an der Jacke trägst.</p>
         <p class="schau__lede">Einmal drücken ruft deine Freunde. Drei Sekunden halten schickt einen Notruf mit deinem Standort an die Bergbahn. Dein Handy brauchst du dafür nicht.</p>
-        <!-- Feedback 153: der Knopf stand ganz unten rechts und sah wie ein Link aus. Jetzt gleich unter dem Satz, als echter Knopf. -->
-        <a class="schau__mehr" href="chip.html#der-chip">So funktioniert der Chip <span class="schau__pfeil" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
       </header>
       <div class="schau__buehne">
         <div class="blick__chip chip-anker"><img class="chip-bild" src="assets/media/chip-3d.webp?v=3" alt="Der SkiTag-Chip: schwarzes Gehäuse mit orangem Gummirand und einem runden Knopf" width="600" height="800" loading="lazy" decoding="async"></div>
@@ -187,6 +185,8 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
           <div><dt>3&nbsp;s</dt><dd>halten, dann geht der Notruf raus</dd></div>
           <div><dt>0</dt><dd>Handy oder Handynetz nötig</dd></div>
         </dl>
+        <!-- Feedback 153: als echter Knopf, und etwas höher als ganz unten (mittig zur Zahlenzeile) -->
+        <a class="schau__mehr" href="chip.html#der-chip">So funktioniert der Chip <span class="schau__pfeil" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
       </div>
     </div>
   </section>
@@ -630,7 +630,7 @@ ScrollCraft.mount(document.body);
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
 <script src="assets/am-berg.js?v=4" defer></script>
-<script src="assets/app-start.js?v=2" defer></script>
+<script src="assets/app-start.js?v=3" defer></script>
 <script src="assets/seite.js?v=87" defer></script>
 <script src="assets/gsap-effekte.js?v=6" defer></script>
 <script src="assets/chip-film.js?v=12" defer></script>
