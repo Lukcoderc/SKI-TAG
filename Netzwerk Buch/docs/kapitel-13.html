@@ -23,7 +23,7 @@
     <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
     <div class="kopf-titel">
       <h1>SOS: Vorrang und Fehlalarme</h1>
-      <p class="stand">Kapitel 13 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="stand">Kapitel 13 · Stand 22. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
       <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4, Funkprotokoll</a> · <a href="kapitel-05.html">Kapitel 5, Sendeintervall und Kapazität</a> · <a href="kapitel-06.html">Kapitel 6, Rückkanal zum Chip</a> · <a href="kapitel-11.html">Kapitel 11, Der Server</a> · <a href="kapitel-12.html">Kapitel 12, Schnittstelle zur App</a></p>
     </div>
   </div>
@@ -128,7 +128,7 @@
 
         <h2 id="eskalation" data-kurz="Der Zeitablauf">Der Zeitablauf eines Notrufs</h2>
         <p>Für einen Notruf gilt genau dieser eine Ablauf, und alle Kapitel verwenden ihn. Es gibt zwei Uhren: Die <strong>Chip-Uhr</strong> beginnt beim ersten Senden, die <strong>Server-Uhr T0</strong> beim dauerhaften Speichern. T0 liegt also immer später. Das ist gewollt: Der Chip warnt im Zweifel früher.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>In der Test-Version gebaut sind nur die 90 s in Z2 und die 60 s in Z5. <svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Alles andere ist unser Vorschlag und nicht abgestimmt, auch die Zustellung und die 180 s am Chip. Das gilt ebenso für den <a href="kapitel-anhang.html#g-leitstand">Leitstand</a>, eine ständig besetzte Stelle der Bergbahn, die es bisher nur als Idee gibt. Wer im Leitstand handelt, muss die Bergbahn festlegen, nicht die Software.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Gebaut sind die 90 s in Z2 im Chip und im neuen Server vom 22. November 2026 die 60 s in Z5 und die 120 s in Z6: Danach gilt der Notruf für alle im Dienst. Ist niemand frei, gilt er sofort für alle. Die Übernahme-Meldung schickt der Server, bis der Chip sie quittiert, ohne Grenze. <svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Alles andere ist unser Vorschlag und nicht abgestimmt, auch die Zustellung und die 180 s am Chip. Das gilt ebenso für den <a href="kapitel-anhang.html#g-leitstand">Leitstand</a>, eine ständig besetzte Stelle der Bergbahn, die es bisher nur als Idee gibt. Wer im Leitstand handelt, muss die Bergbahn festlegen, nicht die Software.</p>
       </div>
       <figure class="schema">
         <div class="schema-rahmen" tabindex="0" role="group" aria-label="Zeitleiste eines Notrufs von 0 bis 200 Sekunden mit den Spuren Chip, Server, App und Leitstand. Gebaut sind die Warnung nach 90 Sekunden und die Weitergabe nach 60 Sekunden, alles andere ist ein Vorschlag.">
@@ -287,7 +287,7 @@
           <thead><tr><th scope="col">Offener Punkt</th><th scope="col">Warum er wichtig ist</th><th scope="col">Stand</th></tr></thead>
           <tbody>
             <tr class="zeile-offen"><td data-spalte="Punkt">Senden außerhalb des eigenen Fensters kann mit dem Paket eines anderen Chips zusammenstoßen.</td><td data-spalte="Warum">Bei 5 Testchips unwahrscheinlich, bei hunderten im Betrieb unklar. Reicht die Wiederholung, um das auszugleichen?</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
-            <tr class="zeile-offen"><td data-spalte="Punkt">Nach dem letzten Mitarbeiter bleibt der Notruf liegen.</td><td data-spalte="Warum">Hat jeder Mitarbeiter ein Angebot verstreichen lassen, findet die Test-Version niemanden mehr. Der Notruf bleibt ohne Zuständigen. Der Zeitablauf oben ist dort noch nicht gebaut.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
+            <tr><td data-spalte="Punkt">Nach dem letzten Mitarbeiter blieb der Notruf liegen.</td><td data-spalte="Warum">In der ersten Test-Version fand der Server nach dem letzten Angebot niemanden mehr. Der neue Server beginnt dann eine neue Runde, und der Notruf gilt für alle. Ein Leitstand fehlt weiter.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-entschieden"/></svg>Entschieden</td></tr>
             <tr class="zeile-offen"><td data-spalte="Punkt">Es gibt keinen Zielwert, wie schnell ein Notruf beim Mitarbeiter sein muss, siehe <a href="kapitel-02.html#muss">Kapitel 2</a>.</td><td data-spalte="Warum">Ohne Zielwert lässt sich beim Test nicht sagen, ob der Vorrang in der Praxis ausreicht.</td><td data-spalte="Stand" class="stand-zelle"><svg class="mark mark-klein" aria-hidden="true"><use href="#mark-offen"/></svg>Offen</td></tr>
           </tbody>
         </table>

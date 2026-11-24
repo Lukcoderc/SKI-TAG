@@ -24,7 +24,7 @@
     <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
     <div class="kopf-titel">
       <h1>Ausfallsicherheit und Betrieb</h1>
-      <p class="stand">Kapitel 14 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="stand">Kapitel 14 · Stand 22. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
       <p class="vorwissen">Baut auf: <a href="kapitel-07.html">Kapitel 7, Die Gateways</a> · <a href="kapitel-11.html">Kapitel 11, Der Server</a> · <a href="kapitel-12.html">Kapitel 12, Schnittstelle zur App</a> · <a href="kapitel-13.html">Kapitel 13, SOS: Vorrang und Fehlalarme</a></p>
     </div>
   </div>
@@ -84,7 +84,7 @@
             <tr><td>Stromausfall am Server</td><td data-spalte="Notruf">Wie bei einem Absturz. Nach dem Neustart liest der Server den letzten Stand, der bis zu 5 Sekunden alt sein kann. Eine noch nicht angekommene <a href="kapitel-anhang.html#g-uebernahme-meldung">Übernahme-Meldung</a> (HELP 1) ist weg.</td><td data-spalte="Am Chip">Warnt nach 90 Sekunden, solange keine Empfangsbestätigung kam.</td><td data-spalte="Wer es merkt">Niemand automatisch.</td></tr>
             <tr><td>Internet am Server</td><td data-spalte="Notruf">Erreicht das Gateway den Server noch, nimmt er den Notruf an. Die Apps bekommen ihn aber nicht.</td><td data-spalte="Am Chip">Der Chip bekommt eine Empfangsbestätigung und warnt heute deshalb nicht. Vorschlag: Warnung 180 s nach dem ersten Senden.</td><td data-spalte="Wer es merkt">Niemand. Das ist die gefährlichste Lücke.</td></tr>
             <tr><td>App geschlossen oder Handy ohne Netz</td><td data-spalte="Notruf">Der Server wartet heute 60 Sekunden, dann ist der nächste Mitarbeiter dran. Er merkt nicht, dass nichts ankam. Vorschlag: Weitergabe nach 15 s ohne Zustellung.</td><td data-spalte="Am Chip">Hat eine Empfangsbestätigung, aber keine Übernahme-Meldung. Er zeigt also keine Übernahme. Vorschlag: Warnung 180 s nach dem ersten Senden.</td><td data-spalte="Wer es merkt">Niemand, solange noch ein Mitarbeiter übrig ist.</td></tr>
-            <tr><td>Niemand übernimmt</td><td data-spalte="Notruf">Nach dem letzten Mitarbeiter bleibt der Notruf in der Test-Version ohne Zuständigen liegen.</td><td data-spalte="Am Chip">Keine Übernahme-Meldung. Vorschlag: Warnung 180 s nach dem ersten Senden.</td><td data-spalte="Wer es merkt">Nicht geregelt. Vorschlag: Zeitablauf aus Kapitel 13, der Leitstand erfährt es bei T0 + 120 s.</td></tr>
+            <tr><td>Niemand übernimmt</td><td data-spalte="Notruf">Nach dem letzten Mitarbeiter beginnt der Server eine neue Runde, nach 120 Sekunden gilt der Notruf für alle im Dienst.</td><td data-spalte="Am Chip">Keine Übernahme-Meldung. Vorschlag: Warnung 180 s nach dem ersten Senden.</td><td data-spalte="Wer es merkt">Nicht geregelt. Vorschlag: Zeitablauf aus Kapitel 13, der Leitstand erfährt es bei T0 + 120 s.</td></tr>
             <tr><td>Chip startet neu</td><td data-spalte="Notruf">Läuft weiter. Der Chip hat den Notruf im Flash gespeichert und sendet ihn erneut.</td><td data-spalte="Am Chip">Wiederholt wieder von vorn.</td><td data-spalte="Wer es merkt">Die Ausgabe-Seite zeigt, dass der Chip neu gestartet ist.</td></tr>
             <tr><td>GPS-Empfang</td><td data-spalte="Notruf">Kommt an, mit der Position des Gateways, markiert als „ungefähr“.</td><td data-spalte="Am Chip">Sendet weiter, ohne eigene Uhrzeit etwas zufällig versetzt.</td><td data-spalte="Wer es merkt">Der Mitarbeiter sieht, dass die Position ungefähr ist, wenn die App es anzeigt.</td></tr>
           </tbody>
@@ -128,7 +128,7 @@
         <p class="nach-tabelle">Für ein Notruf-Versprechen zählt die dritte Stufe. Am einfachsten wäre ein Notfall-Empfänger in der Pistenrettung: ein Gateway mit Bildschirm oder Summer, das Notrufe direkt aus der Luft hört und anzeigt, ganz ohne Server. Es braucht dafür den Schlüssel, eine Änderung der Gateway-Software und rund 56 € Material. Welche Bedeutung gilt, müssen Tobias und Lukas mit Blick auf das Geschäftsmodell entscheiden.</p>
 
         <h2 id="infrastruktur" data-kurz="Störungen der Alarmierung">Störungen der Alarmierung</h2>
-        <p>Es gibt zwei getrennte Regeln. Der <a href="kapitel-13.html#eskalation">Zeitablauf in Kapitel 13</a> gilt für einen einzelnen Notruf, und dort erfährt der Leitstand nach 120 Sekunden davon. Die Regeln hier gelten für Störungen der Technik selbst. Sie laufen unabhängig von jedem Notruf und melden sofort, damit niemand erst beim nächsten Unfall merkt, dass etwas fehlt. Alles ist ein Vorschlag, gebaut ist nur die Anzeige „weg“ auf der Ausgabe-Seite.</p>
+        <p>Es gibt zwei getrennte Regeln. Der <a href="kapitel-13.html#eskalation">Zeitablauf in Kapitel 13</a> gilt für einen einzelnen Notruf, und dort erfährt der Leitstand nach 120 Sekunden davon. Die Regeln hier gelten für Störungen der Technik selbst. Sie laufen unabhängig von jedem Notruf und melden sofort, damit niemand erst beim nächsten Unfall merkt, dass etwas fehlt. Alles ist ein Vorschlag. Im neuen Server gebaut sind die Meldungen auf der Ausgabe-Seite für ein Gateway, das 30 Sekunden schweigt, für fehlende Mitarbeiter-Apps und für 5 Minuten ohne Funk. Benachrichtigt wird noch niemand.</p>
       </div>
       <div class="tabelle">
         <table class="stapel">

@@ -23,7 +23,7 @@
     <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
     <div class="kopf-titel">
       <h1>Der Server</h1>
-      <p class="stand">Kapitel 11 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="stand">Kapitel 11 · Stand 22. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
       <p class="vorwissen">Baut auf: <a href="kapitel-04.html">Kapitel 4, Funkprotokoll</a> · <a href="kapitel-07.html">Kapitel 7, Die Gateways</a></p>
     </div>
   </div>
@@ -83,10 +83,10 @@
         <p>Der Server läuft in Docker auf einem Rechner mit Ubuntu 24.04, geschrieben in Node.js 22 ohne npm-Pakete. Davor steht Caddy, das HTTPS übernimmt und das Zertifikat besorgt. Der Start ist ein einziger Befehl, und die Einstellungen stehen in <code>config.json</code>.</p>
         <h2 id="speichern" data-kurz="Erst speichern, dann bestätigen">Erst speichern, dann bestätigen</h2>
         <p>Der Zustand liegt im Speicher und wird laut Übergabe alle 5 Sekunden nach <code>daten/state.json</code> geschrieben. Das Funk-Protokoll landet pro Tag in einer eigenen Datei. Für Positionen reicht das. Für Notrufe ist es gefährlich: Stürzt der Server ab, nachdem er eine <a href="kapitel-anhang.html#g-empfangsbestaetigung">Empfangsbestätigung</a> (ACK) gesendet hat, aber bevor er gespeichert hat, ist der Notruf weg. Der Chip wiederholt ihn dann nicht mehr als Ereignis und warnt auch nicht.</p>
-        <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>In der Test-Version geht die Empfangsbestätigung noch vor dem Speichern raus, gespeichert wird alle 5 Sekunden und ohne <code>fsync</code>. Gefordert ist diese Reihenfolge:</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>In der ersten Test-Version ging die Empfangsbestätigung noch vor dem Speichern raus. Der neue Server vom 22. November 2026 hält diese Reihenfolge ein, erprobt ist sie nur am PC:</p>
         <ol>
           <li>Paket prüfen und entschlüsseln.</li>
-          <li>Notruf in ein Protokoll schreiben, das nur wächst, und mit <code>fsync</code> wirklich auf den Datenträger bringen.</li>
+          <li>Den Zustand samt Notruf und Zähler in eine Hilfsdatei schreiben, mit <code>fsync</code> wirklich auf den Datenträger bringen und dann umbenennen. So liegt nach einem Absturz immer ein vollständiger Stand da. Klappt das Speichern nicht, geht keine Empfangsbestätigung raus.</li>
           <li>Erst dann die Empfangsbestätigung in die Antwort an das Gateway legen.</li>
           <li>Beim Start zuerst dieses Protokoll einlesen und alle offenen Notrufe weiterführen, samt Zählern. Der Zeitpunkt des Speicherns bleibt erhalten, denn von ihm hängen die späteren Fristen ab. Im Buch heißt er <a href="kapitel-anhang.html#g-t0">T0</a>, der Zeitablauf dazu steht in <a href="kapitel-13.html#eskalation">Kapitel 13</a>.</li>
         </ol>
@@ -125,7 +125,7 @@
           <li>Im Netz der Bergbahn zeigt die Domain direkt auf die interne Adresse. Gateways erreichen den Server dann auch, wenn das Internet ausfällt.</li>
         </ol>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Ob die IT das so erlaubt, ist nicht geklärt. Das ist nur ein Vorschlag.</p>
-        <p>Das Docker-Setup der Test-Version startet den Dienst nach einem Absturz von selbst neu, und <code>daten/</code> und die Zertifikate liegen außerhalb der Container, damit ein Update sie nicht löscht. Es fehlt ein Gesundheitstest, der prüft, ob der Server wirklich arbeitet und nicht nur läuft.</p>
+        <p>Das Docker-Setup der Test-Version startet den Dienst nach einem Absturz von selbst neu, und <code>daten/</code> und die Zertifikate liegen außerhalb der Container, damit ein Update sie nicht löscht. Seit dem neuen Server gibt es einen Gesundheitstest: <code>/health</code> antwortet nur, wenn der Takt des Servers wirklich läuft, und Docker startet ihn sonst neu. Der Server läuft ohne Administratorrechte, und die Ausgabe-Seite ist nur im internen Netz des Teams erreichbar, siehe <a href="kapitel-15.html#pruefung">Kapitel 15</a>.</p>
 
         <h2 id="groesse" data-kurz="Wie groß er sein muss">Wie groß er sein muss</h2>
         <p>Die Datenmenge aus dem Funk ist klein. Die Rechnung für das Funk-Protokoll nimmt rund 200 Byte pro Zeile und 8 Stunden Betrieb an, beides geschätzt:</p>
@@ -163,7 +163,8 @@
         <div class="urteil">
           <p><strong>Entschieden:</strong> Eigener Server vor Ort bei KitzSki, mit Docker und Caddy. Das Paket bleibt gleich, nur der Standort ändert sich.</p>
           <p><strong>Geschätzt:</strong> Die Funkdaten sind klein: Bei 500 Chips sind es rund 25 Pakete pro Sekunde und rund 144 MB Protokoll am Tag.</p>
-          <p><strong>Offen:</strong> Ob eine Empfangsbestätigung erst nach dem dauerhaften Speichern kommt, dazu Freigabe durch die IT, eigene Domain, Betreuung und Backup.</p>
+          <p><strong>Entschieden:</strong> Erst speichern, dann bestätigen ist im neuen Server gebaut, am PC geprüft, auf echter Hardware noch nicht.</p>
+          <p><strong>Offen:</strong> Freigabe durch die IT, eigene Domain, Betreuung und Backup.</p>
         </div>
 
         <h2 id="quellen" data-kurz="Quellen">Quellen</h2>

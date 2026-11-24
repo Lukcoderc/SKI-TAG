@@ -24,7 +24,7 @@
     <a class="buch-marke" href="index.html">SkiTag Netzwerk-Buch</a>
     <div class="kopf-titel">
       <h1>Testen in der Schule</h1>
-      <p class="stand">Kapitel 16 · Stand 2. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
+      <p class="stand">Kapitel 16 · Stand 22. November 2026 · <a href="index.html#stand">Marken erklärt</a></p>
       <p class="vorwissen">Baut auf: <a href="kapitel-07.html">Kapitel 7, Die Gateways</a> · <a href="kapitel-11.html">Kapitel 11, Der Server</a> · <a href="kapitel-12.html">Kapitel 12, Schnittstelle zur App</a></p>
     </div>
   </div>
@@ -126,6 +126,7 @@
           <li><strong>Netz:</strong> Gateway und NAS müssen sich erreichen. Das Gateway kann nur WLAN mit 2,4 GHz. Ein kleiner eigener Router mit NAS, Gateway, Laptop und Handy umgeht das Schulnetz. Er braucht aber selbst Internet, sonst bekommt das NAS kein Zertifikat, und das Gateway findet den Namen nicht. Manche Router sperren außerdem Namen, die auf eine interne Adresse zeigen.</li>
         </ul>
         <p><svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Das haben wir nicht ausprobiert. Das Docker-Setup im Paket nutzt <code>caddy:2</code> ohne DuckDNS-Modul und fest die Ports 80 und 443. Für den Weg über <a href="kapitel-anhang.html#g-dns">DNS</a> muss Caddy also neu gebaut werden.</p>
+        <p><svg class="mark mark-im-text" role="img" aria-label="Entschieden"><use href="#mark-entschieden"/></svg>Seit dem 22. November 2026 läuft der neue Server auf dem NAS in Docker. Statt DuckDNS macht ihn Tailscale Funnel erreichbar: eine öffentliche Adresse mit Let's-Encrypt-Zertifikat, ohne offene Ports am Router. Gateway und App erreichen ihn so von überall. Die Ausgabe-Seite liegt auf einem eigenen Port, den nur Geräte im internen Netz des Teams sehen. <svg class="mark mark-im-text" role="img" aria-label="Offen"><use href="#mark-offen"/></svg>Mit echtem Gateway und Chip ist das noch nicht ausprobiert. Die Schritte unten beschreiben noch den ersten Test-Stand aus dem Paket.</p>
 
         <h2 id="ablauf" data-kurz="So läuft der Test">So läuft der Test</h2>
         <h3>1. Vorbereiten</h3>
