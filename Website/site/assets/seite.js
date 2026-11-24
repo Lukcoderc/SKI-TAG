@@ -210,15 +210,17 @@
       if (!sichtbar) return;
       var p = bz.punkte, br = buehne.getBoundingClientRect();
       svg.classList.toggle("ist-an", !!p);
-      svg.classList.toggle("ist-breit", breit.matches);
+      svg.classList.toggle("ist-breit", true);
       if (p) {
         svg.setAttribute("viewBox", "0 0 " + Math.round(br.width) + " " + Math.round(br.height));
         var q = p.map(function (o) { return [o.x - br.left, o.y - br.top]; });
-        if (breit.matches) for (var i = 0; i < linien.length && i < q.length; i++) {
+        // seit der Runde nach Feedback 152 auch am Handy (dort enger: kürzerer Abstand und Ansatz)
+        var gr = breit.matches, abst = gr ? 16 : 6, hoch = gr ? 13 : 10, ansatz = gr ? 40 : 10, vor = gr ? 28 : 12;
+        for (var i = 0; i < linien.length && i < q.length; i++) {
           var m = marken[i].getBoundingClientRect(), links = i < 2;
-          var ax = (links ? m.right + 16 : m.left - 16) - br.left, ay = m.top + 13 - br.top;
+          var ax = (links ? m.right + abst : m.left - abst) - br.left, ay = m.top + hoch - br.top;
           var px = q[i][0], py = q[i][1];
-          var kx = links ? Math.min(px - 28, ax + 40) : Math.max(px + 28, ax - 40);   // kurzer waagrechter Ansatz, dann schräg
+          var kx = links ? Math.min(px - vor, ax + ansatz) : Math.max(px + vor, ax - ansatz);   // kurzer waagrechter Ansatz, dann schräg
           linien[i].setAttribute("d", "M" + ax.toFixed(1) + " " + ay.toFixed(1) + " H" + kx.toFixed(1) + " L" + px.toFixed(1) + " " + py.toFixed(1));
           punkte[i].setAttribute("cx", px.toFixed(1)); punkte[i].setAttribute("cy", py.toFixed(1));
         }

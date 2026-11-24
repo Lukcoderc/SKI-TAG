@@ -257,3 +257,18 @@ html.tagwelt-dunkel .tag__fahrer-kopf { fill: #fff; }
 /* Schrift größer und füllender */
 .tag__karte h3 { font-size: clamp(2.2rem, 1.3rem + 2.6vw, 3.7rem); }
 .tag__karte p { font-size: clamp(1.15rem, 1rem + 0.45vw, 1.45rem); max-width: 46ch; line-height: 1.5; }
+
+/* Runde nach Feedback 152: am Handy ist die Uhr oben eine schwebende Karte mit runden Ecken unter der Kopfleiste
+   (vorher ein Band über die ganze Breite). Ohne Unschärfe-Filter, damit das Scrollen leicht bleibt. */
+@media (max-width: 899px) {
+  .tag__uhr { top: 4.9rem; margin-inline: 0; padding: 0.6rem 1.1rem 0.65rem; border-radius: 18px;
+    background: rgba(255, 255, 255, 0.97); -webkit-backdrop-filter: none; backdrop-filter: none;
+    border: 1px solid rgba(14, 29, 64, 0.08); box-shadow: 0 1px 2px rgba(14, 29, 64, 0.06), 0 14px 30px -18px rgba(14, 29, 64, 0.45); }
+  html.tagwelt-dunkel .tag__uhr { background: rgba(14, 24, 54, 0.96); border: 1px solid rgba(255, 255, 255, 0.12); box-shadow: 0 14px 30px -18px rgba(0, 0, 0, 0.7); }
+  .tag__anzeige { align-items: center; column-gap: 0.75rem; }
+  .tag__zeit { font-size: 2rem; color: var(--sc-ink); }
+  html.tagwelt-dunkel .tag__zeit { color: #fff; }
+  .tag__was { display: inline-flex; align-items: center; gap: 0.45rem; font-weight: 650; font-size: 1rem; color: rgba(14, 29, 64, 0.7); }
+  .tag__was::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--orange); flex: none; }
+  html.tagwelt-dunkel .tag__was { color: rgba(255, 255, 255, 0.78); }
+}

@@ -26,6 +26,8 @@
   var ruhig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   // Breite des ganzen Bildes in Gerätepixeln: über 1150 die große Fassung, sonst die kleine
   var flaeche = Math.min(feld.clientWidth || window.innerWidth, (feld.clientHeight || window.innerHeight) * 4 / 3);
+  // Runde nach Feedback 152: am Handy wird der offene Stapel groß gezeigt (siehe handyLage), dafür die große Fassung
+  if ((feld.clientWidth || window.innerWidth) < 600) flaeche *= 2.1;
   var klein = flaeche * Math.min(window.devicePixelRatio || 1, 2) < 1150;
   var ORDNER = "assets/media/innen/" + (klein ? "m/" : ""), V = "?v=8", N = 48, SEITE = 4 / 3, DAUER = 2600;   // Feedback 151: erst langsamer (4,8 s), dann wieder schneller gewünscht
   var klemme = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
@@ -113,9 +115,19 @@
     if (!daten) return;
     malen();
     var B = feld.clientWidth, H = feld.clientHeight; if (!B || !H) return;
-    var b = punkt(gezeigt);
+    var b = punkt(gezeigt), z0 = daten.ausschnitt || [0, 0, 1, 1];
     // Bild mit „contain“ in der Fläche
     var bw = Math.min(B, H * SEITE), bh = bw / SEITE, bx = (B - bw) / 2, by = (H - bh) / 2;
+    // Handy (Runde nach Feedback 152, „Explosionsansicht größer“): das ganze Bild ist viel breiter als der Chip. Hier wird
+    // so vergrößert, dass der offene Stapel (im Bild etwa x 0,28 bis 0,55, y 0,08 bis 0,78) gut die Hälfte der Breite
+    // füllt; rechts bleibt Platz für die Namen.
+    // Geschlossen füllt der Chip den Ausschnitt; darum wird mit dem Öffnen (b.e) von „Ausschnitt passt“ zu „Stapel groß“ gezoomt.
+    if (B < 600) {
+      var w1 = Math.min(B * 2.15, H * 0.9 / 0.7 * SEITE), x1 = Math.min(B * 0.05 - 0.28 * w1, B - 118 - 0.553 * w1), y1 = H * 0.5 - 0.43 * w1 / SEITE;
+      var w0 = Math.min(B * 0.94 / (z0[2] - z0[0]), H * 0.8 / (z0[3] - z0[1]) * SEITE), x0 = B * 0.5 - (z0[0] + z0[2]) / 2 * w0, y0 = H * 0.5 - (z0[1] + z0[3]) / 2 * w0 / SEITE;
+      var o = weich(klemme(b.e / 0.7));
+      bw = mix(w0, w1, o); bh = bw / SEITE; bx = mix(x0, x1, o); by = mix(y0, y1, o);
+    }
     // das Bild ist auf den Chip zugeschnitten: an seinen Platz im ganzen Bild setzen
     var z = daten.ausschnitt || [0, 0, 1, 1], lage = [bx + z[0] * bw, by + z[1] * bh, (z[2] - z[0]) * bw, (z[3] - z[1]) * bh].map(Math.round).join(",");
     if (lage !== letzteLage) {

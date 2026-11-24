@@ -2395,3 +2395,25 @@ body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) a:focus-visible, bo
 
 /* Runde nach Feedback 152 (Leistung): Abschnitte außer Sicht halten jede CSS-Animation an (seite.js setzt .ruht) */
 .ruht, .ruht *, .ruht *::before, .ruht *::after { animation-play-state: paused !important; }
+
+/* Was ist SKITAG? am Handy (Runde nach Feedback 152): wie am PC, die Beschriftungen links und rechts vom Chip, mit
+   Linien zu LED, Knopf, Gummirand und Seite (seite.js). Chip etwas kleiner, Schrift enger. */
+@media (max-width: 860px) {
+  .schau__buehne { --bh: clamp(20rem, 48svh, 24rem); height: var(--bh); padding-top: 0; margin-top: 0.6rem; }
+  .blick--schau .blick__chip { top: 47%; height: min(54%, 38vw); }
+  .schau__buehne::after { top: auto; bottom: 10%; width: 38%; }
+  .schau__marken { position: static; display: block; margin: 0; }
+  .schau__marke { position: absolute; width: 28.5%; padding-left: 0; gap: 0.2rem; }
+  .schau__marke b { font-size: 0.95rem; }
+  .schau__marke b::before { content: none; }
+  .schau__marke span { font-size: 0.75rem; line-height: 1.33; }
+  .schau__marke--l1, .schau__marke--l2 { left: 0; text-align: right !important; }
+  .schau__marke--r1, .schau__marke--r2 { right: 0; left: auto; text-align: left !important; }
+  .schau__marke--l1 { top: 4%; } .schau__marke--l2 { top: 54%; }
+  .schau__marke--r1 { top: 6%; } .schau__marke--r2 { top: 56%; }
+}
+@media (max-width: 380px) {
+  .schau__marke { width: 30%; }
+  .schau__marke span { font-size: 0.72rem; }
+  .schau__marke--l2 { top: 51%; } .schau__marke--r2 { top: 52%; }
+}

@@ -134,12 +134,16 @@
       var t = (yy - yB) / L, ein = Math.min(1, (yy - yB) / 60);
       pts.push([mitte + A * ein * Math.sin(t * Math.PI * 2), yy]);
     }
-    kurve = { pts: pts, yB: yB, laenge: 0 };
-    var d = function (dx) { return pts.map(function (p, i) { return (i ? "L" : "M") + (p[0] + dx).toFixed(1) + " " + p[1].toFixed(1); }).join(""); };
-    spur.a.setAttribute("d", d(-2.2)); spur.b.setAttribute("d", d(2.2));
-    var L2 = spur.a.getTotalLength ? spur.a.getTotalLength() : H;
-    kurve.laenge = L2;
-    [spur.a, spur.b].forEach(function (pf) { pf.style.strokeDasharray = L2.toFixed(1) + " " + L2.toFixed(1); });
+    // Runde nach Feedback 152: die Spur wird nur bis zum Skifahrer als Pfad gebaut (statt einer ganzen Linie, die per
+    // stroke-dasharray versteckt wird). Safari am iPhone zeigte mit dem Strich-Trick den Rest der Spur schon vorher.
+    kurve = { pts: pts, yB: yB, bis: -1 };
+    spur.a.setAttribute("d", ""); spur.b.setAttribute("d", "");
+  };
+  var spurBis = function (n) {
+    if (n === kurve.bis) return;
+    kurve.bis = n;
+    var d = function (dx) { var t = ""; for (var i = 0; i < n; i++) t += (i ? "L" : "M") + (kurve.pts[i][0] + dx).toFixed(1) + " " + kurve.pts[i][1].toFixed(1); return t; };
+    spur.a.setAttribute("d", n > 1 ? d(-2.2) : ""); spur.b.setAttribute("d", n > 1 ? d(2.2) : "");
   };
   var spurZeigen = function (f) {
     if (!kurve) spurBauen();
@@ -149,14 +153,12 @@
     spur.fahrer.style.opacity = amBerg ? 1 : 0;
     if (!amBerg) {
       spur.gondel.setAttribute("transform", "translate(" + mitte.toFixed(1) + " " + y.toFixed(1) + ")");
-      [spur.a, spur.b].forEach(function (pf) { pf.style.strokeDashoffset = kurve.laenge.toFixed(1); });
+      spurBis(0);
       return;
     }
     var i = Math.min(kurve.pts.length - 1, Math.max(0, Math.round((y - kurve.yB) / 4)));
     var p = kurve.pts[i], q = kurve.pts[Math.min(kurve.pts.length - 1, i + 1)], o = kurve.pts[Math.max(0, i - 1)];
-    // Anteil der gezeichneten Spur ungefähr nach der Höhe (die Bögen sind gleichmäßig)
-    var anteil = (y - kurve.yB) / Math.max(1, H - kurve.yB);
-    [spur.a, spur.b].forEach(function (pf) { pf.style.strokeDashoffset = (kurve.laenge * (1 - anteil)).toFixed(1); });
+    spurBis(i + 1);
     var neig = Math.atan2(q[0] - o[0], 8) * 180 / Math.PI;   // in die Kurve legen
     spur.fahrer.setAttribute("transform", "translate(" + p[0].toFixed(1) + " " + p[1].toFixed(1) + ")");
     spur.dreh.setAttribute("transform", "rotate(" + (-neig * 0.9).toFixed(1) + ") scale(1.5)");

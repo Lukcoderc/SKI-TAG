@@ -24,14 +24,14 @@
 /* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=139">
+<link rel="stylesheet" href="assets/seite.css?v=140">
 <link rel="stylesheet" href="assets/chip-seite.css?v=31">
 <link rel="stylesheet" href="assets/chip-film.css?v=26">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=12">
 <link rel="stylesheet" href="assets/v2-alt.css?v=3">
 <script>/* Chip-Flug (assets/chip-flug.js): Klasse vor dem ersten Bild, damit der Chip unten erst beim Ankommen erscheint */
-(function () { if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("chipflug"); })();</script>
+(function () { if (!matchMedia("(prefers-reduced-motion: reduce)").matches && matchMedia("(min-width: 861px)").matches) document.documentElement.classList.add("chipflug"); })();</script>
 </head>
 <body>
 
@@ -438,7 +438,7 @@ ScrollCraft.mount(document.body);
 </script>
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
-<script src="assets/seite.js?v=86" defer></script>
+<script src="assets/seite.js?v=87" defer></script>
 <script src="assets/gsap-effekte.js?v=6" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
 <script src="assets/auftritte.js?v=11" defer></script>
@@ -446,7 +446,7 @@ ScrollCraft.mount(document.body);
 <script src="assets/kopfleiste.js?v=2" defer></script>
 <script src="assets/weg.js?v=20" defer></script>
 <script src="assets/chip-film.js?v=12" defer></script>
-<script src="assets/innen-film.js?v=15" defer></script>
+<script src="assets/innen-film.js?v=17" defer></script>
 <script src="assets/chip-flug.js?v=3" defer></script>
 <script src="assets/v2.js?v=2" defer></script>
 </body>
