@@ -130,7 +130,7 @@
     };
   };
 
-  var daten = null, letzteLage = "";
+  var daten = null, letzteLage = "", letzteBox = "", basis = null;
   var zeichnen = function () {
     if (!daten) return;
     malen();
@@ -150,10 +150,19 @@
     }
     // das Bild ist auf den Chip zugeschnitten: an seinen Platz im ganzen Bild setzen
     var z = daten.ausschnitt || [0, 0, 1, 1], lage = [bx + z[0] * bw, by + z[1] * bh, (z[2] - z[0]) * bw, (z[3] - z[1]) * bh].map(Math.round).join(",");
+    // Feedback 153 („ruckelt am Handy“): Lage und Größe nur noch über transform. Vorher änderten sich beim Öffnen am
+    // Handy (dort wird mitgezoomt) in jedem Bild width und height der Leinwand: neues Layout und neu Malen pro Bild.
     if (lage !== letzteLage) {
-      letzteLage = lage; var l = lage.split(",");
-      leinwand.style.left = l[0] + "px"; leinwand.style.top = l[1] + "px"; leinwand.style.width = l[2] + "px"; leinwand.style.height = l[3] + "px";
-      zeiger.setAttribute("viewBox", "0 0 " + Math.round(B) + " " + Math.round(H));
+      var l = lage.split(",").map(Number), neu = !letzteLage;
+      letzteLage = lage;
+      if (neu || !basis) {
+        basis = [l[2], l[3]];
+        leinwand.style.left = "0px"; leinwand.style.top = "0px"; leinwand.style.transformOrigin = "0 0";
+        leinwand.style.width = basis[0] + "px"; leinwand.style.height = basis[1] + "px";
+      }
+      leinwand.style.transform = "translate3d(" + l[0] + "px," + l[1] + "px,0) scale(" + (l[2] / basis[0]).toFixed(4) + "," + (l[3] / basis[1]).toFixed(4) + ")";
+      var vb = "0 0 " + Math.round(B) + " " + Math.round(H);
+      if (vb !== letzteBox) { letzteBox = vb; zeiger.setAttribute("viewBox", vb); }
     }
     var spalte = Math.min(bx + b.spalte * bw + (B < 500 ? 18 : 34), B - (B < 500 ? 94 : 110));
     marken.forEach(function (li, k) {
@@ -248,7 +257,7 @@
   var letztesY = window.scrollY, richtung = 0;
   var wartet = false;
   window.addEventListener("scroll", function () { if (!wartet) { wartet = true; requestAnimationFrame(function () { wartet = false; pruefen(); }); } }, { passive: true });
-  window.addEventListener("resize", function () { letzteLage = ""; zeichnen(); });
+  window.addEventListener("resize", function () { letzteLage = ""; basis = null; zeichnen(); });
 
   // Anzahl der Bilder kommt aus der Punktdatei des Ordners; erst danach wird geladen und gespielt.
   // Das erste Bild kommt sofort, alle anderen, sobald der Abschnitt näher kommt.

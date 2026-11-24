@@ -1,4 +1,4 @@
-/* SkiTag · Das sind wir (Feedback 106/109), nur auf wir.html.
+/* SkiTag · Das sind wir (Feedback 106/109/152), nur auf wir.html.
    Klick auf die Adresse kopiert sie in die Zwischenablage, die Zeile darunter sagt kurz „Adresse kopiert“.
    Kopiert wird zuerst über eine versteckte Textfläche (braucht keine Erlaubnis), sonst über die Zwischenablage
    des Browsers. Klappt beides nicht, wird die Adresse markiert und die Zeile sagt, wie man sie kopiert.
@@ -55,20 +55,43 @@
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && wahl.open) { wahl.open = false; wahl.querySelector("summary").focus(); } });
     wahl.querySelectorAll(".wk__wahl a").forEach(function (a) { a.addEventListener("click", function () { wahl.open = false; }); });
   }
-})();
-
-/* Feedback 151: Antippen einer Person öffnet ihre Box (am Handy gibt es kein Drüberfahren), Tippen daneben schließt. */
-(function () {
+  /* Feedback 152: Klick (am Handy Antippen) auf eine Person zeigt ihre Adresse und kopiert sie gleich. Am PC zeigt
+     schon das Drüberfahren die Adresse. Der Hinweis wird kurz zu „Kopiert“; geht Kopieren nicht, öffnet sich die Mail-App. */
   var leute = Array.prototype.slice.call(document.querySelectorAll(".wir2__person"));
-  if (!leute.length) return;
+  var zeigerFein = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  var schliessen = function () { leute.forEach(function (x) { x.classList.remove("ist-auf"); }); };
   leute.forEach(function (li) {
+    var knopf = li.querySelector(".wir2__mail");
+    if (!knopf) return;
+    var hinweis = knopf.querySelector(".wir2__mail-hinweis");
+    var grundtext = zeigerFein ? "Klicken zum Kopieren" : "Tippen zum Kopieren";
+    var zurueck = 0;
+    hinweis.textContent = grundtext;
+    var melden = function (text, ok) {
+      hinweis.textContent = text;
+      knopf.classList.toggle("ist-kopiert", !!ok);
+      clearTimeout(zurueck);
+      zurueck = setTimeout(function () {
+        hinweis.textContent = grundtext; knopf.classList.remove("ist-kopiert");
+        if (!zeigerFein) li.classList.remove("ist-auf");
+      }, 2400);
+    };
+    var kopieren = function () {
+      var text = knopf.getAttribute("data-mail");
+      if (perTextflaeche(text)) { melden("Kopiert", true); return; }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(function () { melden("Kopiert", true); }, function () { location.href = "mailto:" + text; });
+      } else {
+        location.href = "mailto:" + text;
+      }
+    };
     li.addEventListener("click", function (e) {
-      if (e.target.closest("a")) return;
       e.stopPropagation();
-      var auf = !li.classList.contains("ist-auf");
-      leute.forEach(function (x) { x.classList.remove("ist-auf"); });
-      if (auf) li.classList.add("ist-auf");
+      leute.forEach(function (x) { if (x !== li) x.classList.remove("ist-auf"); });
+      li.classList.add("ist-auf");
+      kopieren();
     });
   });
-  document.addEventListener("click", function () { leute.forEach(function (x) { x.classList.remove("ist-auf"); }); });
+  document.addEventListener("click", schliessen);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") schliessen(); });
 })();

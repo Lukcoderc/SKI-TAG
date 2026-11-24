@@ -213,3 +213,19 @@ html:not(.js-fb) .fb__halten { display: none; }
 .fb__vorschau.ist-fehler { color: #b42318; background: #fef0ee; }
 @media (prefers-reduced-motion: reduce) { .fb__halten.ist-am-senden .fb__ring { animation: none; } }
 .fb__danke:focus { outline: none; }   /* wird nur für Screenreader fokussiert, kein Rahmen um die Karte */
+
+/* „Was ist dir am wichtigsten?“ (Feedback 153): die Punkte sprangen beim Antippen, weil das Häkchen erst dann dazukam und
+   die Pille breiter wurde (Umbruch in der Zeile). Jetzt ein festes Raster mit gleich breiten Feldern, und das Kästchen für
+   das Häkchen ist immer da; angetippt füllt es sich nur. Am PC drei Spalten, am Handy zwei. */
+.fb__wahl--klein { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 0.6rem; }
+.fb__wahl--klein span { padding: 0.85rem 1rem; border-radius: 16px; gap: 0.65rem; line-height: 1.25; min-width: 0; overflow-wrap: anywhere; hyphens: auto; }
+.fb__wahl--klein input:checked + span { transform: none; }
+.fb__wahl--klein span::before {
+  content: ""; flex: none; box-sizing: border-box; width: 1.25rem; height: 1.25rem; border-radius: 6px; border: 2px solid rgba(14, 29, 64, 0.25);
+  background: transparent center / 0.8rem no-repeat; transition: background-color 200ms ease, border-color 200ms ease;
+}
+.fb__wahl--klein input:checked + span::before {
+  width: 1.25rem; height: 1.25rem; margin: 0; transform: none; border: 0; border-radius: 6px; background-color: var(--orange);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+@media (max-width: 599px) { .fb__wahl--klein { grid-template-columns: 1fr; grid-auto-rows: auto; gap: 0.5rem; } .fb__wahl--klein span { padding: 0.8rem 1rem; } }

@@ -38,7 +38,7 @@
 
 /* Chip-Seite, „Was im Chip steckt“: gerenderte Bildfolge (assets/innen-film.js) statt WebGL */
 /* auf den Chip zugeschnittenes Bild: Lage und Größe setzt innen-film.js (Feedback 132) */
-.innen__film { position: absolute; left: 0; top: 0; z-index: 1; display: block; width: 100%; height: 100%; max-width: none; object-fit: fill; pointer-events: none; }
+.innen__film { position: absolute; left: 0; top: 0; z-index: 1; will-change: transform; display: block; width: 100%; height: 100%; max-width: none; object-fit: fill; pointer-events: none; }
 .innen-film-an .innen__gl, .innen-film-an .innen__ersatz { display: none !important; }
 /* Handy und „weniger Bewegung“: keine Schleife in JavaScript, der Chip schwebt nur per CSS (läuft auf der Grafikkarte) */
 .chip-film--css { transform: rotate(-5deg); }

@@ -14,7 +14,7 @@
 <script>if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");</script>
 <link rel="stylesheet" href="assets/seite.css?v=145">
 <link rel="stylesheet" href="assets/v2.css?v=12">
-<link rel="stylesheet" href="assets/wir-seite.css?v=6">
+<link rel="stylesheet" href="assets/wir-seite.css?v=7">
 </head>
 <body>
 
@@ -96,44 +96,47 @@
            Repo: nur Vornamen). Bis echte Fotos da sind, steht in jeder Fläche der Anfangsbuchstabe. auftritte.js teilt die
            drei beim ersten Hinsehen wie Karten aus; beim Darüberfahren hebt sich eine Karte leicht an. -->
       <ul class="wir2__leute" aria-label="Das Team">
-        <li class="wir2__person" tabindex="0">
+        <li class="wir2__person">
           <div class="flaeche wir2__portrait" role="img" aria-label="Platzhalter für ein Foto von Maximilian">
             <span class="wir2__initial" aria-hidden="true">M</span>
             <span class="wir2__folgt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>Foto folgt</span>
           </div>
           <b class="titel-3">Maximilian</b>
           <span class="wir2__rolle">Hardware</span>
-          <!-- Feedback 151: beim Drüberfahren (am Handy Antippen) geht nach unten eine Box mit mehr über die Person auf -->
-          <div class="wir2__mehr">
-            <p>Baut den Chip: Platine, Gehäuse mit weicher Gummihülle, Akku und das Laden ohne Kabel.</p>
-            <p class="wir2__erreichbar"><span>Kontakt</span><a href="mailto:skitag.team@gmail.com">skitag.team@gmail.com</a></p>
-          </div>
+          <!-- Feedback 152: statt der Aufgaben-Box nur die Adresse; beim Drüberfahren zeigt sie sich, Klick kopiert sie (wir-seite.js) -->
+          <button type="button" class="wir2__mail" data-mail="skitag.team@gmail.com" aria-label="E-Mail-Adresse für Maximilian kopieren">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.5 7 7.5 6 7.5-6"/></svg>
+            <span class="wir2__mail-adresse">skitag.team@gmail.com</span>
+            <span class="wir2__mail-hinweis" aria-live="polite">Klicken zum Kopieren</span>
+          </button>
         </li>
-        <li class="wir2__person" tabindex="0">
+        <li class="wir2__person">
           <div class="flaeche wir2__portrait" role="img" aria-label="Platzhalter für ein Foto von Tobias">
             <span class="wir2__initial" aria-hidden="true">T</span>
             <span class="wir2__folgt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>Foto folgt</span>
           </div>
           <b class="titel-3">Tobias</b>
           <span class="wir2__rolle">Management · CEO</span>
-          <!-- Feedback 151: beim Drüberfahren (am Handy Antippen) geht nach unten eine Box mit mehr über die Person auf -->
-          <div class="wir2__mehr">
-            <p>Hält das Team zusammen, spricht mit Bergbahnen und Partnern und baut die App.</p>
-            <p class="wir2__erreichbar"><span>Kontakt</span><a href="mailto:skitag.team@gmail.com">skitag.team@gmail.com</a></p>
-          </div>
+          <!-- Feedback 152: statt der Aufgaben-Box nur die Adresse; beim Drüberfahren zeigt sie sich, Klick kopiert sie (wir-seite.js) -->
+          <button type="button" class="wir2__mail" data-mail="skitag.team@gmail.com" aria-label="E-Mail-Adresse für Tobias kopieren">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.5 7 7.5 6 7.5-6"/></svg>
+            <span class="wir2__mail-adresse">skitag.team@gmail.com</span>
+            <span class="wir2__mail-hinweis" aria-live="polite">Klicken zum Kopieren</span>
+          </button>
         </li>
-        <li class="wir2__person" tabindex="0">
+        <li class="wir2__person">
           <div class="flaeche wir2__portrait" role="img" aria-label="Platzhalter für ein Foto von Lukas">
             <span class="wir2__initial" aria-hidden="true">L</span>
             <span class="wir2__folgt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>Foto folgt</span>
           </div>
           <b class="titel-3">Lukas</b>
           <span class="wir2__rolle">Netzwerk · Software</span>
-          <!-- Feedback 151: beim Drüberfahren (am Handy Antippen) geht nach unten eine Box mit mehr über die Person auf -->
-          <div class="wir2__mehr">
-            <p>Baut das Funknetz und die Software dahinter: Empfänger an den Liftstationen, die Firmware der Empfänger, den Server und den Weg jedes Notrufs vom Chip zur Bergbahn.</p>
-            <p class="wir2__erreichbar"><span>Kontakt</span><a href="mailto:skitag.team@gmail.com">skitag.team@gmail.com</a></p>
-          </div>
+          <!-- Feedback 152: statt der Aufgaben-Box nur die Adresse; beim Drüberfahren zeigt sie sich, Klick kopiert sie (wir-seite.js) -->
+          <button type="button" class="wir2__mail" data-mail="skitag.team@gmail.com" aria-label="E-Mail-Adresse für Lukas kopieren">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.5 7 7.5 6 7.5-6"/></svg>
+            <span class="wir2__mail-adresse">skitag.team@gmail.com</span>
+            <span class="wir2__mail-hinweis" aria-live="polite">Klicken zum Kopieren</span>
+          </button>
         </li>
       </ul>
     </div>
@@ -248,7 +251,7 @@
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
-<script src="assets/auftritte.js?v=11" defer></script>
-<script src="assets/wir-seite.js?v=4" defer></script>
+<script src="assets/auftritte.js?v=12" defer></script>
+<script src="assets/wir-seite.js?v=5" defer></script>
 </body>
 </html>

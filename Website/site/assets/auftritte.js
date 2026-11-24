@@ -40,11 +40,13 @@
     // (Feedback 141). Deshalb die Zentrierung ausdrücklich als xPercent/yPercent mitführen.
     // Fliegt der Chip in 3D herein (chip-flug.js, Klasse chipflug), übernimmt der Flug den Auftritt
     var flug = document.documentElement.classList.contains("chipflug");
-    if (!flug) gsap.set(chipBox, { translate: "none", xPercent: -50, yPercent: -50, x: 0, y: -90, rotate: -9, opacity: 0 });   // x: 0, sonst liest GSAP die CSS-Zentrierung zusätzlich als Pixel ein
+    // Feedback 153: der Chip fiel von 90 px über der Fläche herein und hing dabei (und bei frühem Antippen) über den Rand
+    // hinaus. Jetzt wächst er in der Fläche auf, ohne Überschwingen nach außen.
+    if (!flug) gsap.set(chipBox, { translate: "none", xPercent: -50, yPercent: -50, x: 0, y: 18, scale: 0.86, opacity: 0 });   // x: 0, sonst liest GSAP die CSS-Zentrierung zusätzlich als Pixel ein
     gsap.set(schritte, { y: 30, opacity: 0 });
     gsap.set(status, { opacity: 0 });
     tl.to(bild, { clipPath: "inset(0% 0% 0% 0% round 28px)", duration: 1.4 }, 0);
-    if (!flug) tl.to(chipBox, { y: 0, rotate: 0, opacity: 1, duration: 1.3, ease: "back.out(1.4)" }, 0.35);
+    if (!flug) tl.to(chipBox, { y: 0, scale: 1, opacity: 1, duration: 1.1, ease: "power3.out" }, 0.35);
     tl
       .to(schritte, { y: 0, opacity: 1, duration: 0.9, stagger: 0.12 }, 0.25)
       .to(status, { opacity: 1, duration: 0.8, clearProps: "opacity" }, 0.8)
