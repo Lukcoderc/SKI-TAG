@@ -321,15 +321,18 @@
 /* Chip-Flug (assets/chip-flug.js): der Chip unten erscheint erst beim Ankommen, das Foto ist bis dahin scharf */
 .chipflug #der-chip .knopf__chip { opacity: var(--kn-da, 0); }
 #der-chip .knopf__foto { position: absolute; inset: 0; z-index: -1; overflow: hidden; border-radius: inherit; pointer-events: none; }
-#der-chip .knopf__foto img { width: 100%; height: 100%; object-fit: cover; object-position: 40% 50%; transform: scale(1.12); filter: blur(calc(var(--unscharf, 1) * 18px)) saturate(1.1); }
-.chipflug #der-chip .knopf__bild { --unscharf: 0; }
+#der-chip .knopf__foto img { width: 100%; height: 100%; object-fit: cover; object-position: 40% 50%; transform: scale(1.12); }   /* unscharf schon in der Datei (held-poster-unscharf.webp, 480 px), kein Weichzeichner beim Malen */
+/* Unscharf werden beim Ankommen: kein wachsender Weichzeichner (der musste jedes Bild neu gemalt werden und ruckelte),
+   sondern ein scharfes Foto über dem unscharfen, das ausblendet (nur Deckkraft, macht die Grafikkarte) */
+#der-chip .knopf__foto .knopf__foto-scharf { position: absolute; inset: 0; filter: saturate(1.1); opacity: 0; }
+.chipflug #der-chip .knopf__foto-scharf { opacity: calc(1 - var(--unscharf, 0)); will-change: opacity; }
 
 .chip-flug-start { width: min(100%, 27rem); }   /* größer (Feedback 153) */
 .chip-flug-start img { display: block; width: 100%; height: auto; aspect-ratio: 1; }
 .chipflug-an .chip-flug-start img { visibility: hidden; animation: none; }
 .chipflug-an .chip-flug-start::after { display: none; }
-.chip-flieger { position: fixed; left: 0; top: 0; z-index: 5; pointer-events: none; will-change: transform; }
-.chip-flieger img { position: relative; z-index: 1; display: block; width: 100%; height: 100%; }
+.chip-flieger { position: fixed; left: 0; top: 0; z-index: 5; pointer-events: none; will-change: transform; transform-origin: 0 0; }
+.chip-flieger canvas { position: relative; z-index: 1; display: block; width: 100%; height: 100%; }
 .chip-flieger::after { content: ""; position: absolute; left: 30%; right: 30%; bottom: 9%; height: 6%; border-radius: 50%; background: radial-gradient(closest-side, rgba(11, 20, 39, 0.5), rgba(11, 20, 39, 0)); opacity: var(--schatten, 0); }
 @media (max-width: 860px) { .chip-flug-start { width: min(72%, 18rem); justify-self: center; margin: -0.5rem 0 -1rem; }
   .chip-flug-start::after { left: 24%; right: 24%; bottom: 6%; height: 10%; } }
@@ -408,3 +411,24 @@
   .masz__buehne { margin-inline: calc(var(--sc-gutter) * -0.5); }
 }
 @media (max-width: 380px) { .masz__werte div { padding: 0.2rem 0.6rem; } .masz__werte dd { font-size: 1.15rem; } }
+
+/* Handy (Feedback 153, „Was im Chip steckt verbuggt“): die Infotafel stand mittig über dem Text und wuchs nach oben in
+   den Chip hinein, und der unterste Teil des Stapels lag unter der Überschrift. Jetzt hat der Text unten einen festen
+   Platz, in den auch die Tafel passt (sie wächst von unten), und der Stapel bekommt nur den Raum darüber. */
+@media (max-width: 899px) {
+  .innen__text { min-height: 10.5rem; display: flex; flex-direction: column; justify-content: flex-end; }
+  .innen__tafel { top: auto; bottom: 0; translate: none; }
+  .innen__tafel-name { margin: 0.45rem 0 0.55rem; font-size: 2.1rem; }
+  .innen__tafel-text { font-size: 1.02rem; line-height: 1.42; }
+}
+@media (max-width: 899px) and (max-height: 600px) {
+  .innen__text { min-height: 9rem; }
+  .innen__text h2 { font-size: 1.8rem; }
+  .innen__lede { font-size: 0.9rem !important; }
+  .innen__tafel-name { font-size: 1.8rem; }
+  .innen__tafel-text { font-size: 0.95rem; }
+}
+@media (min-width: 600px) and (max-width: 899px) {   /* Tablet hochkant: Namen größer, mit der kurzen Zeile darunter */
+  .chip3d-seite .innen__marken li { font-size: 1.2rem; max-width: 11rem; }
+  .chip3d-seite .innen__marken li span { display: block; }
+}

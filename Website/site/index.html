@@ -23,7 +23,7 @@
 /* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=140">
+<link rel="stylesheet" href="assets/seite.css?v=144">
 <link rel="stylesheet" href="assets/chip-film.css?v=26">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/schrift-inter.css?v=1">
@@ -168,6 +168,8 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
         <h2 id="blick-titel" class="sc-display schau__titel">Was ist SKITAG?</h2>
         <p class="schau__antwort">Ein kleiner Notrufknopf, den du dir für den Skitag ausleihst und an der Jacke trägst.</p>
         <p class="schau__lede">Einmal drücken ruft deine Freunde. Drei Sekunden halten schickt einen Notruf mit deinem Standort an die Bergbahn. Dein Handy brauchst du dafür nicht.</p>
+        <!-- Feedback 153: der Knopf stand ganz unten rechts und sah wie ein Link aus. Jetzt gleich unter dem Satz, als echter Knopf. -->
+        <a class="schau__mehr" href="chip.html#der-chip">So funktioniert der Chip <span class="schau__pfeil" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
       </header>
       <div class="schau__buehne">
         <div class="blick__chip chip-anker"><img class="chip-bild" src="assets/media/chip-3d.webp?v=3" alt="Der SkiTag-Chip: schwarzes Gehäuse mit orangem Gummirand und einem runden Knopf" width="600" height="800" loading="lazy" decoding="async"></div>
@@ -185,7 +187,6 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
           <div><dt>3&nbsp;s</dt><dd>halten, dann geht der Notruf raus</dd></div>
           <div><dt>0</dt><dd>Handy oder Handynetz nötig</dd></div>
         </dl>
-        <a class="schau__mehr" href="chip.html#der-chip">So funktioniert der Chip <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
     </div>
   </section>

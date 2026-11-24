@@ -27,7 +27,8 @@
   // Breite des ganzen Bildes in Gerätepixeln: über 1150 die große Fassung, sonst die kleine
   var flaeche = Math.min(feld.clientWidth || window.innerWidth, (feld.clientHeight || window.innerHeight) * 4 / 3);
   // Runde nach Feedback 152: am Handy wird der offene Stapel groß gezeigt (siehe handyLage), dafür die große Fassung
-  if ((feld.clientWidth || window.innerWidth) < 600) flaeche *= 2.1;
+  var fb = feld.clientWidth || window.innerWidth, fh = feld.clientHeight || window.innerHeight;
+  if (fb < 600 || (fb < 900 && fh > fb * 0.9)) flaeche *= 2.1;
   var klein = flaeche * Math.min(window.devicePixelRatio || 1, 2) < 1150;
   var ORDNER = "assets/media/innen/" + (klein ? "m/" : ""), V = "?v=8", N = 48, SEITE = 4 / 3, DAUER = 2600;   // Feedback 151: erst langsamer (4,8 s), dann wieder schneller gewünscht
   var klemme = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
@@ -74,13 +75,32 @@
   // nur Bilder zeigen, die wirklich da sind (fehlt eines, nimmt es das nächste gute)
   var gutesBild = function (i) { for (var d = 0; d < N; d++) { if (vorrat[i - d]) return i - d; if (vorrat[i + d]) return i + d; } return -1; };
   var ablegen = function (i) { return function (b) { vorrat[i] = b; if (Math.abs(i - gezeigt) < 1) { gemalt = -1; zeichnen(); } }; };
-  var laden = function () {
-    if (geladen) return geladen;
-    var liste = [erstes || holen(0).then(ablegen(0), function () {})];
-    for (var i = 1; i < N; i++) liste.push(holen(i).then(ablegen(i), function () {}));
-    geladen = Promise.all(liste);
+  /* Feedback 153: früher kamen alle Bilder auf einmal, sobald der Abschnitt eine Bildschirmhöhe entfernt war. Das fiel
+     genau in den Chip-Flug oben und ließ ihn ruckeln. Jetzt lädt eine Warteschlange: im Voraus nur zwei Bilder zugleich
+     und nur, wenn gerade nicht gescrollt wird; wird der Chip gebraucht (fahren), mit voller Kraft. */
+  var tempo = 2, laufend = 0, geplant = false, warteschlange = [], fertigZahl = 0, alleDa = null, letztesScrollen = 0;
+  var laden = function (eilig) {
+    if (eilig) tempo = 8;
+    if (!geladen) {
+      geladen = new Promise(function (ok) { alleDa = ok; });
+      (erstes || holen(0).then(ablegen(0), function () {})).then(fertigEins, fertigEins);
+      for (var i = 1; i < N; i++) warteschlange.push(i);
+    }
+    pumpen();
     return geladen;
   };
+  var fertigEins = function () { fertigZahl++; if (fertigZahl >= N && alleDa) alleDa(); };
+  var pumpen = function () {
+    while (laufend < tempo && warteschlange.length) {
+      if (tempo < 8 && performance.now() - letztesScrollen < 250) {
+        if (!geplant) { geplant = true; setTimeout(function () { geplant = false; pumpen(); }, 260); }
+        return;
+      }
+      var i = warteschlange.shift(); laufend++;
+      holen(i).then(ablegen(i), function () {}).then(function () { laufend--; fertigEins(); pumpen(); });
+    }
+  };
+  window.addEventListener("scroll", function () { letztesScrollen = performance.now(); }, { passive: true });
 
   /* Malen: zwei Nachbarbilder genau überblenden ((1 - t) · A + t · B, mit „lighter“ addiert) */
   var malen = function () {
@@ -122,8 +142,8 @@
     // so vergrößert, dass der offene Stapel (im Bild etwa x 0,28 bis 0,55, y 0,08 bis 0,78) gut die Hälfte der Breite
     // füllt; rechts bleibt Platz für die Namen.
     // Geschlossen füllt der Chip den Ausschnitt; darum wird mit dem Öffnen (b.e) von „Ausschnitt passt“ zu „Stapel groß“ gezoomt.
-    if (B < 600) {
-      var w1 = Math.min(B * 2.15, H * 0.9 / 0.7 * SEITE), x1 = Math.min(B * 0.05 - 0.28 * w1, B - 118 - 0.553 * w1), y1 = H * 0.5 - 0.43 * w1 / SEITE;
+    if (B < 600 || (B < 900 && H > B * 0.9)) {   // seit Feedback 153 auch Tablet hochkant
+      var w1 = Math.min(B * 2.15, H * (B < 600 ? 0.9 : 0.8) / 0.7 * SEITE), x1 = Math.min(B * 0.05 - 0.28 * w1, B - 118 - 0.553 * w1), y1 = H * 0.5 - 0.43 * w1 / SEITE;
       var w0 = Math.min(B * 0.94 / (z0[2] - z0[0]), H * 0.8 / (z0[3] - z0[1]) * SEITE), x0 = B * 0.5 - (z0[0] + z0[2]) / 2 * w0, y0 = H * 0.5 - (z0[1] + z0[3]) / 2 * w0 / SEITE;
       var o = weich(klemme(b.e / 0.7));
       bw = mix(w0, w1, o); bh = bw / SEITE; bx = mix(x0, x1, o); by = mix(y0, y1, o);
@@ -164,7 +184,7 @@
   var fahren = function (nach) {
     if (nach === ziel && (laeuft || gezeigt === nach || wartetAuf === nach)) return;
     ziel = nach; wartetAuf = nach;
-    laden().then(function () {
+    laden(true).then(function () {
       wartetAuf = -1;
       if (ziel !== nach) return;
       von = gezeigt; start = performance.now();
