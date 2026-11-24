@@ -23,14 +23,13 @@
 /* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=138">
-<link rel="stylesheet" href="assets/chip-film.css?v=25">
+<link rel="stylesheet" href="assets/seite.css?v=139">
+<link rel="stylesheet" href="assets/chip-film.css?v=26">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/schrift-inter.css?v=1">
 <link rel="stylesheet" href="assets/am-berg.css?v=4">
-<link rel="stylesheet" href="assets/app-start.css?v=1">
-<link rel="stylesheet" href="assets/held-szene.css?v=1">
-<link rel="preload" href="assets/media/held-szene.webp?v=1" as="image" media="(min-width: 861px)">
+<link rel="stylesheet" href="assets/app-start.css?v=2">
+<link rel="preload" href="assets/media/chip/07.webp?v=1" as="image">
 <noscript><style>.lade { display: none; }</style></noscript>
 </head>
 <body>
@@ -119,33 +118,28 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
 <main id="oben">
 
-  <!-- 1 · Einstieg (Runde nach Feedback 151): statt dem schwebenden Chip eine echte Szene am Berg. Ein Skifahrer schaut
-       von der Piste auf die Liftstation, am Rucksack sitzt der Chip (Foto von Unsplash, Chip als Renderbild eingesetzt,
-       Herkunft in assets/media/held-szene.webp.json). Beim Scrollen bleibt die Szene stehen (sticky) und die Kamera
-       erzählt den Weg: näher an den Chip mit Lupe, drei Sekunden halten, der Funk fliegt zur Liftstation, Hilfe weiß,
-       wo du bist. Gesteuert von assets/held-szene.js, Regeln in assets/held-szene.css. Bei „weniger Bewegung“ steht nur
-       das erste Bild, ohne Strecke. -->
-  <section class="hs-strecke" aria-labelledby="titel">
-  <div class="held held--video held--szene">
-    <div class="held__video hs-buehne" aria-hidden="true">
-      <div class="hs-welt">
-        <img class="hs-foto" src="assets/media/held-szene.webp?v=1" srcset="assets/media/held-szene-m.webp?v=1 1400w, assets/media/held-szene.webp?v=1 2400w" sizes="(max-width: 860px) 1400px, 2400px" alt="" width="2400" height="1606" decoding="async" fetchpriority="high">
-        <svg class="hs-ebene" viewBox="0 0 2400 1606" aria-hidden="true">
-          <defs>
-            <radialGradient id="hs-glut"><stop offset="0" stop-color="#ff3b30" stop-opacity=".55"/><stop offset="1" stop-color="#ff3b30" stop-opacity="0"/></radialGradient>
-          </defs>
-          <!-- Funkweg vom Chip zum Mast auf der Bergstation -->
-          <path id="hs-weg" class="hs-weg" d="M1054 823 C 900 600, 620 440, 404 546" pathLength="1"/>
-          <path class="hs-weg-spur" d="M1054 823 C 900 600, 620 440, 404 546" pathLength="1"/>
-          <g class="hs-pakete"><circle r="4.5"/><circle r="4.5"/><circle r="4.5"/></g>
-          <!-- Wellen am Chip -->
-          <g class="hs-wellen" transform="translate(1054 823)"><circle r="10"/><circle r="10"/><circle r="10"/></g>
-          <circle class="hs-led-glut" cx="1054" cy="823" r="16" fill="url(#hs-glut)"/>
-          <circle class="hs-led" cx="1054" cy="823" r="1.6"/>
-          <!-- Empfänger am Mast -->
-          <g class="hs-empfaenger" transform="translate(404 546)"><circle class="hs-empfaenger-ring" r="9"/><circle class="hs-empfaenger-ring hs-empfaenger-ring--2" r="9"/><circle class="hs-empfaenger-punkt" r="4"/></g>
-        </svg>
-      </div>
+  <!-- 1 · Einstieg (Runde nach Feedback 152): wieder das Bergvideo in voller Größe (keine Vergrößerung eines Fotos mehr),
+       links Titel und Knöpfe, rechts der Chip als echtes Renderbild. Video und „SKI TAG“ verschiebt seite.js beim Scrollen,
+       den Chip dreht chip-film.js. -->
+  <section class="held held--video" data-sc-act="flow" data-sc-drift="#ffffff" aria-labelledby="titel">
+    <div class="held__video" aria-hidden="true">
+      <video class="held__film" id="held-film" autoplay muted loop playsinline preload="metadata" poster="assets/media/held-poster.webp?v=1">
+        <source src="assets/media/held-m.mp4" type="video/mp4" media="(max-width: 860px)">
+        <source src="assets/media/held-l.mp4" type="video/mp4" media="(max-width: 1440px)">
+        <source src="assets/media/held.mp4" type="video/mp4">
+      </video>
+      <script>
+      /* Handy: Standbild im Hochformat; weniger Bewegung oder Sparmodus: Video nicht abspielen.
+         Sparmodus auf großen Bildschirmen (Feedback 116): die leichtere Fassung mit 1280 px statt 1920 px. */
+      (function () { try {
+        var v = document.getElementById("held-film"), m = window.matchMedia;
+        if (m("(max-width: 860px)").matches) v.poster = "assets/media/held-poster-m.webp";
+        else if (document.documentElement.classList.contains("sparsam")) { var gross = v.querySelector('source[src$="held.mp4"]'); if (gross) gross.remove(); }
+        if (m("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("sparsam-video")) {
+          v.removeAttribute("autoplay"); v.preload = "none"; v.pause();
+        }
+      } catch (e) {} })();
+      </script>
     </div>
     <div class="held__raster">
       <div class="held__kopf">
@@ -154,29 +148,13 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
         <p class="held__satz">Kurz drücken ruft deine Gruppe, drei Sekunden halten holt Hilfe. Ohne Handy, ohne Handynetz.</p>
         <div class="held__knoepfe"><a class="knopf-dunkel knopf-gross" href="chip.html#der-chip">Gleich ausprobieren <svg class="knopf__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="knopf-hell knopf-gross" href="#blick">Was ist SKITAG?</a></div>
       </div>
-    </div>
-
-    <!-- Zeiger am Chip, Lupe, Beschriftung am Empfänger: Lage rechnet held-szene.js aus den Fotokoordinaten -->
-    <div class="hs-zeiger" aria-hidden="true"><svg class="hs-linie"><line/></svg>
-      <div class="hs-lupe">
-        <div class="hs-lupe__foto"></div>
-        <img class="hs-lupe__chip" src="assets/media/chip-vorn.webp?v=1" alt="" width="520" height="757" decoding="async">
-        <svg class="hs-lupe__ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" pathLength="1"/></svg>
-        <span class="hs-lupe__zahl"></span>
+      <div class="held__bild" aria-hidden="true">
+        <!-- Hinter dem Chip „SKI TAG“ riesig und leise, davor der Chip aus denselben Renderbildern wie bei „Probiere den
+             Tag aus“ (chip-film.js): dreht sich beim Laden ins Bild, folgt dem Zeiger, dreht sich beim Scrollen nach vorn. -->
+        <div class="held__wort" aria-hidden="true">SKI<br>TAG</div>
+        <div class="held__chip chip-anker"><img class="chip-bild" src="assets/media/chip/07.webp?v=1" alt="" width="900" height="900" decoding="async" fetchpriority="high"></div>
       </div>
-      <p class="hs-marke hs-marke--chip"><b>SkiTag</b>am Rucksack</p>
-      <p class="hs-marke hs-marke--station"><b>Empfänger</b>an der Bergstation</p>
     </div>
-
-    <ol class="hs-karten">
-      <li class="hs-karte" data-n="1"><span>01</span><h2>Am Rucksack.<br>An der Jacke.</h2><p>Den Chip <b>mietest du am Automaten vorm Lift</b> und klippst ihn dir an. Ein Knopf, kein Handy nötig.</p></li>
-      <li class="hs-karte" data-n="2"><span>02</span><h2>Drei Sekunden halten.</h2><p>Kurz drücken ruft deine Gruppe. <b>Drei Sekunden halten holt Hilfe.</b> Die LED zeigt dir, dass es geklappt hat.</p></li>
-      <li class="hs-karte" data-n="3"><span>03</span><h2>Per Funk zur Liftstation.</h2><p>Ein Empfänger an der Station fängt das Signal auf. <b>Ganz ohne Handynetz.</b></p></li>
-      <li class="hs-karte" data-n="4"><span>04</span><h2>Hilfe weiß, wo du bist.</h2><p>Die Bergbahn bekommt deinen Notruf <b>mit Standort</b> und schickt jemanden los.</p></li>
-    </ol>
-    <div class="hs-fortschritt" aria-hidden="true"><i></i></div>
-    <p class="hs-scroll" aria-hidden="true">Scrollen</p>
-  </div>
   </section>
 
   <!-- 1b · Was ist SKITAG? (seit Feedback 125 eine ruhige Vorstellung, seit 132 in Alltagssprache): oben die Frage und
@@ -276,7 +254,8 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
        Namen, die anderen treten zurück. Daneben das iPhone als ruhiges Standbild, ohne Schalter: was die App kann,
        zeigt app.html. -->
   <!-- Feedback 151: App-Abschnitt neu. Hinten die Fotos (Hintergrund, mit Schatten), vorne das Handy und die Infofelder.
-       Das Handy spielt ab, sobald es im Bild ist: App Store mit Slogan, Laden, Start, Code eingeben, los geht's
+       Seit der Runde danach zeigt das Handy eine echte App-Store-Seite (Kopf, Infozeile, Bildschirmfotos, Tableiste) und
+       spielt ab, sobald es im Bild ist: Laden, Öffnen, die App geht auf, Einloggen, Gruppe auf der Karte
        (assets/app-start.js, Regeln in assets/app-start.css). Ohne JS bleibt das erste Bild stehen. -->
   <section id="app" class="sc-section app-start" aria-labelledby="app-titel">
     <div class="sc-wrap">
@@ -304,44 +283,55 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
         </div>
 
         <!-- vorne: Handy -->
-        <figure class="iphone app-start__handy" role="img" aria-label="Ein iPhone zeigt, wie die SkiTag-App startet: im App Store laden, öffnen, Vorname und Code vom Mietbeleg eingeben, und der Skitag beginnt.">
+        <figure class="iphone app-start__handy" role="img" aria-label="Ein iPhone zeigt die SkiTag-App im App Store: Laden tippen, öffnen, mit Vorname und Code vom Mietbeleg einloggen, danach zeigt die App die eigene Gruppe auf der Karte.">
           <div class="iphone__rahmen">
             <div class="iphone__knopf iphone__knopf--a"></div><div class="iphone__knopf iphone__knopf--b"></div><div class="iphone__knopf iphone__knopf--c"></div><div class="iphone__knopf iphone__knopf--d"></div>
             <div class="iphone__glas">
               <div class="iphone__insel"></div>
-              <div class="ast" data-schritt="1">
-                <!-- 1 · App Store -->
-                <div class="ast__bild ast__laden">
-                  <div class="iphone__statuszeile"><span>9:41</span><span class="iphone__symbole"><i class="sym-netz"></i><i class="sym-wlan"></i><i class="sym-akku"></i></span></div>
-                  <p class="ast__store">App Store</p>
-                  <div class="ast__app">
-                    <span class="ast__icon"><svg viewBox="0 0 32 32"><use href="#logo"/></svg></span>
-                    <div><b>SkiTag</b><span>Dein Skitag. Deine Gruppe.</span>
-                      <span class="ast__holen"><i class="ast__holen-text">Laden</i><i class="ast__ring"></i><i class="ast__oeffnen">Öffnen</i></span>
+              <div class="ast" data-phase="store">
+                <div class="iphone__statuszeile ast__status"><span>9:41</span><span class="iphone__symbole"><i class="sym-netz"></i><i class="sym-wlan"></i><i class="sym-akku"></i></span></div>
+                <!-- 1 · Produktseite im App Store, wie auf dem iPhone -->
+                <div class="st">
+                  <p class="st__zurueck"><svg viewBox="0 0 12 20"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suchen</p>
+                  <div class="st__kopf">
+                    <span class="st__icon"><svg viewBox="0 0 32 32"><use href="#logo"/></svg></span>
+                    <div class="st__name">
+                      <b>SkiTag</b>
+                      <span>Notruf und Gruppe am Berg</span>
+                      <div class="st__aktion">
+                        <span class="st__knopf"><i class="st__laden">Laden</i><i class="st__ring"><em></em></i><i class="st__oeffnen">Öffnen</i></span>
+                        <svg class="st__teilen" viewBox="0 0 20 24"><path d="M10 15V2M5.5 6.5 10 2l4.5 4.5M6 10H3.5v11.5h13V10H14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </div>
                     </div>
                   </div>
-                  <div class="ast__sterne"><b>4,9</b> ★★★★★<span>Sport · 4+</span></div>
-                  <div class="ast__vorschau"><img src="assets/media/app-ihr-tag.webp?v=1" alt="" width="563" height="1271" loading="lazy" decoding="async"><span>Keine Registrierung</span></div>
-                </div>
-                <!-- 2 · Start und Code -->
-                <div class="ast__bild ast__code">
-                  <span class="ast__start"><svg viewBox="0 0 32 32"><use href="#logo"/></svg></span>
-                  <p class="ast__titel">Ihr Skitag.</p>
-                  <div class="ast__karte">
-                    <span class="ast__etikett">Vorname</span>
-                    <div class="ast__feld"><span style="--i:0">A</span><span style="--i:1">n</span><span style="--i:2">n</span><span style="--i:3">a</span></div>
-                    <span class="ast__etikett">Code vom Mietbeleg</span>
-                    <div class="ast__feld ast__feld--code"><span style="--i:4">R</span><span style="--i:5">4</span><span style="--i:6">T</span><em>–</em><span style="--i:7">8</span><span style="--i:8">K</span><span style="--i:9">Q</span></div>
-                    <span class="ast__los">Los geht’s</span>
-                    <small>Kein Konto, keine E-Mail. Gilt bis Mitternacht.</small>
+                  <div class="st__infos">
+                    <div><small>Alter</small><b>4+</b><span>Jahre</span></div>
+                    <div><small>Kategorie</small><b><svg viewBox="0 0 24 24"><circle cx="15" cy="5" r="2.2" fill="currentColor"/><path d="M4 20 20 13M9 11l4-2 2 4-3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>Sport</span></div>
+                    <div><small>Entwickler</small><b><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 21c1.2-4 4.4-6 8-6s6.8 2 8 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></b><span>SkiTag</span></div>
+                    <div><small>Sprache</small><b>DE</b><span>Deutsch</span></div>
                   </div>
-                  <div class="ast__beleg"><b>Mietbeleg</b><span>Chip Nr. 0427</span><span>Code <strong>R4T–8KQ</strong></span><span>gültig bis 24:00</span></div>
+                  <div class="st__bilder"><div class="st__band">
+                    <img src="assets/media/app-screen-gruppe.webp?v=1" alt="" width="780" height="1742" loading="lazy" decoding="async">
+                    <img src="assets/media/app-screen-tag.webp?v=1" alt="" width="780" height="1742" loading="lazy" decoding="async">
+                    <img src="assets/media/app-screen-skischule.webp?v=1" alt="" width="780" height="1742" loading="lazy" decoding="async">
+                  </div></div>
+                  <p class="st__geraet"><svg viewBox="0 0 12 18"><rect x="1.2" y="1" width="9.6" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>iPhone</p>
+                  <p class="st__text">Ein Knopf am Chip, und deine Gruppe weiß, wo du bist. Kein Konto, nur der Code vom Mietbeleg. <span>mehr</span></p>
+                  <nav class="st__tabs" aria-hidden="true">
+                    <span><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 8h8M8 12h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Heute</span>
+                    <span><svg viewBox="0 0 24 24"><path d="M7 8h10a4 4 0 0 1 4 4l.5 4a2.5 2.5 0 0 1-4.3 1.8L15 16H9l-2.2 1.8A2.5 2.5 0 0 1 2.5 16L3 12a4 4 0 0 1 4-4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Spiele</span>
+                    <span><svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></g></svg>Apps</span>
+                    <span><svg viewBox="0 0 24 24"><path d="M12 3v9M8 8h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="4" y="12" width="16" height="8" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Arcade</span>
+                    <span class="ist-an"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>Suchen</span>
+                  </nav>
+                  <i class="st__finger"></i>
                 </div>
-                <!-- 3 · Los geht's -->
-                <div class="ast__bild ast__tag">
-                  <div class="iphone__statuszeile"><span>9:41</span><span class="iphone__symbole"><i class="sym-netz"></i><i class="sym-wlan"></i><i class="sym-akku"></i></span></div>
-                  <img src="assets/media/app-ihr-tag.webp?v=1" alt="" width="563" height="1271" loading="lazy" decoding="async">
-                  <span class="ast__willkommen"><i></i>Willkommen am Berg, Anna</span>
+                <!-- 2 · die App geht auf: Startbild, Einloggen, dann die Gruppe auf der Karte -->
+                <div class="ast__app">
+                  <div class="ast__start"><svg viewBox="0 0 32 32"><use href="#logo"/></svg></div>
+                  <img class="ast__bild ast__bild--a" src="assets/media/app-screen-login-a.webp?v=1" alt="" width="780" height="1742" loading="lazy" decoding="async">
+                  <img class="ast__bild ast__bild--b" src="assets/media/app-screen-login-b.webp?v=1" alt="" width="780" height="1742" loading="lazy" decoding="async">
+                  <img class="ast__bild ast__bild--c" src="assets/media/app-screen-gruppe.webp?v=1" alt="" width="780" height="1742" loading="lazy" decoding="async">
                 </div>
               </div>
             </div>
@@ -350,9 +340,9 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
         <!-- vorne: Infofelder -->
         <ol class="app-start__felder">
-          <li class="asi" data-schritt="1"><span>1</span><b>Laden</b><p>Die App aus dem App Store holen.</p></li>
+          <li class="asi" data-schritt="1"><span>1</span><b>Laden</b><p>Im App Store auf <b>Laden</b> tippen.</p></li>
           <li class="asi" data-schritt="2"><span>2</span><b>Code eingeben</b><p>Vorname und <b>Code vom Mietbeleg</b>. <b>Keine Registrierung.</b></p></li>
-          <li class="asi" data-schritt="3"><span>3</span><b>Los geht’s</b><p>Dein Tag, deine Gruppe, dein Weg ins Tal. <b>Bis Mitternacht.</b></p></li>
+          <li class="asi" data-schritt="3"><span>3</span><b>Los geht’s</b><p>Deine Gruppe auf der Karte, dein Tag im Überblick. <b>Bis Mitternacht.</b></p></li>
         </ol>
       </div>
     </div>
@@ -624,7 +614,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </a>
 
-<script src="scrollcraft.js?v=16"></script>
+<script src="scrollcraft.js?v=17"></script>
 <script>
 /* Handy (Feedback 88): Abschnitte mit data-klick werden nicht gepinnt durchgescrollt, sondern zum Antippen.
    Vor dem Start der Engine wird aus „pin“ ein normaler Abschnitt (.ist-klick); seite.js bzw. app-seite.js
@@ -639,12 +629,11 @@ ScrollCraft.mount(document.body);
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
 <script src="assets/am-berg.js?v=4" defer></script>
-<script src="assets/app-start.js?v=1" defer></script>
-<script src="assets/held-szene.js?v=1" defer></script>
-<script src="assets/seite.js?v=85" defer></script>
-<script src="assets/gsap-effekte.js?v=5" defer></script>
-<script src="assets/chip-film.js?v=11" defer></script>
-<script src="assets/sprung-anfang.js?v=20" defer></script>
+<script src="assets/app-start.js?v=2" defer></script>
+<script src="assets/seite.js?v=86" defer></script>
+<script src="assets/gsap-effekte.js?v=6" defer></script>
+<script src="assets/chip-film.js?v=12" defer></script>
+<script src="assets/sprung-anfang.js?v=21" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
 </body>
 </html>

@@ -318,14 +318,17 @@
   .innen__tipp { display: none; }
 }
 
-/* Chip-Flug in 3D (assets/chip-flug.js): der Chip unten erscheint erst beim Ankommen, das Foto ist bis dahin scharf */
+/* Chip-Flug (assets/chip-flug.js): der Chip unten erscheint erst beim Ankommen, das Foto ist bis dahin scharf */
 .chipflug #der-chip .knopf__chip { opacity: var(--kn-da, 0); }
 #der-chip .knopf__foto { position: absolute; inset: 0; z-index: -1; overflow: hidden; border-radius: inherit; pointer-events: none; }
 #der-chip .knopf__foto img { width: 100%; height: 100%; object-fit: cover; object-position: 40% 50%; transform: scale(1.12); filter: blur(calc(var(--unscharf, 1) * 18px)) saturate(1.1); }
 .chipflug #der-chip .knopf__bild { --unscharf: 0; }
 
 .chip-flug-start { width: min(100%, 15rem); }
-.chip-flug-start img { filter: drop-shadow(0 24px 30px rgba(14, 29, 64, 0.25)); }
+.chip-flug-start img { display: block; width: 100%; height: auto; aspect-ratio: 1; }
 .chipflug-an .chip-flug-start img { visibility: hidden; animation: none; }
-.chip-flug-leinwand { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 5; pointer-events: none; }
+.chipflug-an .chip-flug-start::after { display: none; }
+.chip-flieger { position: fixed; left: 0; top: 0; z-index: 5; pointer-events: none; will-change: transform; }
+.chip-flieger img { position: relative; z-index: 1; display: block; width: 100%; height: 100%; }
+.chip-flieger::after { content: ""; position: absolute; left: 30%; right: 30%; bottom: 9%; height: 6%; border-radius: 50%; background: radial-gradient(closest-side, rgba(11, 20, 39, 0.5), rgba(11, 20, 39, 0)); opacity: var(--schatten, 0); }
 @media (max-width: 860px) { .chip-flug-start { width: min(42%, 11rem); } }

@@ -13,7 +13,7 @@
       var r = el.getBoundingClientRect();
       var mitte = (r.top + r.height / 2) / vh;                 // 1.5 unten draußen … 0.5 Mitte … -0.5 oben draußen
       var auf = weich(Math.min(1, Math.max(0, (1.35 - mitte) / 0.85)));
-      var zieh = Math.max(-1, Math.min(1, (mitte - 0.5))) * 9;
+      var zieh = Math.max(-1, Math.min(1, (mitte - 0.5))) * 6;
       el.style.setProperty("--auf", auf.toFixed(3));
       el.style.setProperty("--zieh", zieh.toFixed(2));
     });

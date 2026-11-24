@@ -257,3 +257,19 @@
 @keyframes kn-notfunk { 0% { opacity: 0; transform: scale(0.3); } 12% { opacity: 1; } 100% { opacity: 0; transform: scale(1.15); } }
 @media (max-width: 860px) { .kn-notfunk i { width: 22rem; height: 22rem; margin: -11rem 0 0 -11rem; } }
 @media (prefers-reduced-motion: reduce) { #der-chip .chip-knopf::before, #der-chip[data-zustand="lauf"] .kn-notfunk i { animation: none; } #der-chip[data-zustand="lauf"] .kn-notfunk i:first-child { opacity: 0.8; transform: scale(0.7); } }
+
+/* ---------------------------------------------- Startseite, Einstieg (Runde nach Feedback 152) -- */
+/* Der Chip kommt aus der Tiefe (kleiner, von unten) und dreht sich dabei ins Bild (chip-film.js) */
+.chip-film--held:not(.ist-da) { scale: 0.78; translate: -50% -40%; }
+.chip-film--held.ist-da { transition: opacity 0.9s ease, translate 1.8s cubic-bezier(0.16, 1, 0.3, 1), rotate 0.9s cubic-bezier(0.16, 1, 0.3, 1), scale 1.8s cubic-bezier(0.16, 1, 0.3, 1); }
+.chip-film--held.ist-da.ist-ruhig { transition: opacity 0.9s ease, translate 1.8s cubic-bezier(0.16, 1, 0.3, 1), rotate 0.9s cubic-bezier(0.16, 1, 0.3, 1), scale 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
+/* etwas kleiner als früher: die Renderbilder (900 px) bleiben auch auf scharfen Bildschirmen sauber */
+@media (min-width: 861px) { .held__chip { height: 64%; } }
+/* das Bergvideo etwas klarer und kräftiger (es ist leicht dunstig) */
+.held__film { filter: contrast(1.08) saturate(1.12); }
+.held__chip { will-change: transform; }
+.held__chip .chip-bild { height: 140%; translate: -50% -50%; }
+/* LED: blinkt alle paar Sekunden zweimal kurz grün (bereit) */
+.chip-film__led--held { z-index: 2; width: 5.5%; opacity: 0; }
+@media (prefers-reduced-motion: no-preference) { .chip-film--held.ist-da .chip-film__led--held { animation: held-led 3.6s ease-in-out 2.2s infinite; } }
+@keyframes held-led { 0%, 72%, 100% { opacity: 0; } 76% { opacity: 1; } 80% { opacity: 0.1; } 84% { opacity: 1; } 90% { opacity: 0; } }

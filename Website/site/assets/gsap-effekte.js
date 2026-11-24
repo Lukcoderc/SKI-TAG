@@ -3,7 +3,8 @@
    https://gsap.com/standard-license); die Seite lädt nichts von fremden Servern.
    Überschriften: Jede große Überschrift wird in Wörter geteilt, jedes Wort steckt in einer Maske und steigt von unten
    hinein, sobald die Überschrift ins Bild kommt (einmal). Steht sie beim Laden schon im Bild, bleibt sie, wie sie ist.
-   Der Satz in den Bildfenstern (Feedback 133) kommt genauso.
+   Der Satz im Bildfenster der Startseite wird seit der Runde nach Feedback 151 wie „Unser Ziel“ bei Das sind wir
+   Wort für Wort hell, während man scrollt (braucht ScrollTrigger, sonst steht er einfach da).
    Ohne GSAP oder bei „weniger Bewegung“ passiert nichts. */
 (function () {
   "use strict";
@@ -11,7 +12,7 @@
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   gsap.registerPlugin(SplitText);
 
-  var titel = Array.prototype.slice.call(document.querySelectorAll("h2.sc-display, h2.szene__titel, h2.wir-h2, p.fenster__satz"));
+  var titel = Array.prototype.slice.call(document.querySelectorAll("h2.sc-display, h2.szene__titel, h2.wir-h2"));
   var vh = window.innerHeight;
   titel = titel.filter(function (h) {
     var r = h.getBoundingClientRect();
@@ -32,6 +33,17 @@
     gsap.set(teil.words, { yPercent: 110 });
     beob.observe(h);
   });
+
+  /* Bildfenster-Satz: Wörter starten blass und werden mit dem Scrollen nacheinander voll weiß (wie .wir2__satz) */
+  if (window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+    Array.prototype.slice.call(document.querySelectorAll("p.fenster__satz")).forEach(function (satz) {
+      var w = SplitText.create(satz, { type: "words", wordsClass: "ziel-wort" }).words;
+      gsap.set(w, { opacity: 0.16 });
+      gsap.to(w, { opacity: 1, ease: "none", stagger: 0.1,
+        scrollTrigger: { trigger: satz, start: "top 85%", end: "bottom 58%", scrub: 0.5 } });
+    });
+  }
 
   /* Kennzahlen (data-hoch="Zielwert", Feedback 131): zählen einmal ruhig von 0 hoch, sobald sie im Bild sind,
      unabhängig vom Scrollen. Im HTML steht schon der Endwert (ohne JavaScript bleibt er einfach stehen). */

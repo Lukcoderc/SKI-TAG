@@ -1925,7 +1925,7 @@ html:not(.chip3d-an) .chip-knopf:active { background: rgba(255, 255, 255, 0.14);
   .held--video .knopf-hell:hover { background: rgba(255, 255, 255, 0.2); border-color: #fff; }
 }
 .held--video .held__knoepfe a { font-size: var(--sc-t-base); }   /* beide Knöpfe gleich groß */
-.held--video .held__wort { color: rgba(255, 255, 255, 0.24); text-shadow: none; }
+.held--video .held__wort { color: rgba(255, 255, 255, 0.15); text-shadow: none; }
 /* Kopfleiste über dem Video (Feedback 104): ganz oben durchsichtig mit weißer Schrift und weißem Knopf, ab dem
    ersten Scrollen (.ist-unten aus kopfleiste.js) die gewohnte weiße Pille. Schrift und Knopf gleiten mit. */
 body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) .oben__pille { background-color: transparent; border-color: transparent; box-shadow: none; }
@@ -2392,3 +2392,6 @@ body:has(.held--video) .oben:not(.ist-unten):not(.ist-menue) a:focus-visible, bo
   .fq__text { font-size: 1.02rem; }
   .fq__plus { width: 2rem; height: 2rem; }
 }
+
+/* Runde nach Feedback 152 (Leistung): Abschnitte außer Sicht halten jede CSS-Animation an (seite.js setzt .ruht) */
+.ruht, .ruht *, .ruht *::before, .ruht *::after { animation-play-state: paused !important; }

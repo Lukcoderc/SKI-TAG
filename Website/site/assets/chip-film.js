@@ -5,7 +5,7 @@
    Ein Bild ist 1,4-mal so hoch wie der Chip lang ist; der Chip liegt in der Mitte. Darum füllt .chip-film
    140 % der Höhe seines Ankers (.chip-anker ist so hoch, wie der Chip lang ist).
 
-   Startseite:  .held__chip  schwebt im Einstieg und dreht sich leicht zum Zeiger (echte Nachbarbilder, weich überblendet)
+   Startseite:  .held__chip  dreht sich beim Laden ins Bild, folgt dem Zeiger und dreht sich beim Scrollen nach vorn
                 .blick__chip  „Was ist SKITAG?“: dreht sich langsam hin und her; bz.punkte sagt seite.js, wohin die Linien zeigen
    Chip-Seite:  .knopf__chip  „Probiere den Tag aus“: fast von vorn, der echte Knopf (.chip-knopf) liegt genau über dem
                 gerenderten, dazu die LED als Licht. Ring, Zustände und Gruppe zeichnet seite.js wie bisher (ohne WebGL-Zweig).
@@ -78,20 +78,69 @@
   var bereit = [];
   var zeit0 = performance.now();
 
-  /* ------------------------------------------------ Einstieg: schwebt, folgt dem Zeiger -- */
-  // Feedback 131: ein festes Bild, das per CSS schwebt (läuft ganz auf der Grafikkarte). Der Zeiger setzt nur zwei
-  // CSS-Werte für eine leichte Neigung; kein Bildwechsel, keine Schleife.
+  /* ------------------------------------------------ Einstieg: dreht sich ins Bild, folgt Zeiger und Scrollen -- */
+  // Runde nach Feedback 152: beim Laden dreht sich der Chip einmal durch die echten Renderbilder ins Bild (von Bild 26
+  // auf RUH) und wird dabei größer. Danach folgt er dem Zeiger (ein paar Bilder Drehung, dazu die leichte Neigung per
+  // CSS) und dreht sich beim Herausscrollen nach vorn. Die Schleife läuft nur, solange sich etwas bewegt.
+  // Die LED atmet grün (CSS), ihre Lage kommt je Bild aus punkte.json.
   if (held) {
-    var hf = Film(held, bildNr(-0.55));
-    hf.box.classList.add("chip-film--held", "chip-film--css");
-    bereit.push(hf.ladung.then(function () { requestAnimationFrame(function () { hf.box.classList.add("ist-da"); }); }));
-    if (!ruhig && !handy) {
-      var zx = 0, zy = 0, wartet = false;
-      window.addEventListener("pointermove", function (e) {
-        zx = e.clientX / window.innerWidth - 0.5; zy = e.clientY / window.innerHeight - 0.5;
-        if (wartet) return; wartet = true;
-        requestAnimationFrame(function () { wartet = false; held.style.setProperty("--zx", zx.toFixed(3)); held.style.setProperty("--zy", zy.toFixed(3)); });
-      }, { passive: true });
+    var RUH = 7, VON = 26;
+    var hf = Film(held, ruhig ? RUH : VON);
+    hf.box.classList.add("chip-film--held");
+    var hled = document.createElement("i"); hled.className = "chip-film__led chip-film__led--held"; hf.box.appendChild(hled);
+    var ledBild = -1;
+    var ledSetzen = function () {
+      if (!daten) return;
+      var g = Math.round(hf.gezeigt * 4) / 4;
+      if (g === ledBild) return; ledBild = g;
+      var p = ort(g, "led"); hled.style.left = (p[0] * 100).toFixed(2) + "%"; hled.style.top = (p[1] * 100).toFixed(2) + "%";
+    };
+    punkte.then(ledSetzen);
+    var zeigen = function () { requestAnimationFrame(function () { hf.box.classList.add("ist-da"); }); };
+    bereit.push(hf.ladung);
+    if (ruhig) {
+      hf.box.classList.add("chip-film--css"); hf.ladung.then(zeigen);
+    } else {
+      for (var k = RUH - 4; k <= VON; k++) holen(k);
+      var zx = 0, zy = 0, sy = 0, jetztNr = VON, drehStart = -1, drehDauer = 1800, laeuft = false, imBild = true;
+      var hoehe = function () { return Math.max(1, (held.closest(".held") || held).offsetHeight); };
+      var hh = hoehe();
+      var raus = function (x) { return 1 - Math.pow(1 - x, 4); };
+      var schleife = function (t) {
+        var ziel = RUH + zx * (handy ? 0 : 7) + sy * 9, fertigDreh = true;
+        if (drehStart < 0) { ziel = VON; fertigDreh = false; }
+        else if (t - drehStart < drehDauer) { var e = raus((t - drehStart) / drehDauer); ziel = VON + (ziel - VON) * e; jetztNr = ziel; fertigDreh = false; }
+        else jetztNr += (ziel - jetztNr) * 0.09;
+        hf.setzen(jetztNr); ledSetzen();
+        var tr = "translate3d(0," + (sy * -14).toFixed(2) + "%,0) scale(" + (1 - sy * 0.12).toFixed(4) + ")";
+        if (tr !== held.style.transform) held.style.transform = tr;
+        if (drehStart >= 0 && fertigDreh && Math.abs(ziel - jetztNr) < 0.02) { laeuft = false; return; }
+        if (!imBild && drehStart >= 0 && fertigDreh) { laeuft = false; return; }
+        requestAnimationFrame(schleife);
+      };
+      var los = function () { if (!laeuft) { laeuft = true; requestAnimationFrame(schleife); } };
+      // Drehung erst, wenn die Bilder bereit sind und der Ladebildschirm weg ist (höchstens 2,5 s warten)
+      var warteSeit = performance.now();
+      var bilderDa = function () { for (var k = RUH - 2; k <= VON; k++) if (!fertig[k]) return false; return true; };
+      var warten = function (t) {
+        var lade = document.querySelector(".lade:not(.ist-fertig)");
+        if ((!lade && bilderDa()) || t - warteSeit > 2500) { drehStart = t + 120; zeigen(); los(); setTimeout(function () { hf.box.classList.add("ist-ruhig"); }, 2000); return; }
+        requestAnimationFrame(warten);
+      };
+      hf.ladung.then(function () { requestAnimationFrame(warten); });
+      window.addEventListener("scroll", function () { sy = klemme(window.scrollY / hh, 0, 1); if (imBild) los(); }, { passive: true });
+      window.addEventListener("resize", function () { hh = hoehe(); });
+      new IntersectionObserver(function (e) { imBild = e[0].isIntersecting; if (imBild) los(); }).observe(held);
+      if (!handy) {
+        var wartet = false;
+        window.addEventListener("pointermove", function (e) {
+          if (e.pointerType === "touch") return;
+          zx = e.clientX / window.innerWidth - 0.5; zy = e.clientY / window.innerHeight - 0.5;
+          if (imBild) los();
+          if (wartet) return; wartet = true;
+          requestAnimationFrame(function () { wartet = false; held.style.setProperty("--zx", zx.toFixed(3)); held.style.setProperty("--zy", zy.toFixed(3)); });
+        }, { passive: true });
+      }
     }
   }
 

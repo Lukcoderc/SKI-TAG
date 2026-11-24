@@ -578,6 +578,7 @@
       // updated() arriving after destroyed() enters them directly.
       if (scDead) return;
       vh = innerHeight; vw = innerWidth;
+      docH = document.documentElement.scrollHeight || 0;
       acts.forEach(function (a) {
         if (a.pinned) a.el.style.height = (a.span * 100) + 'vh';
       });
@@ -831,8 +832,9 @@
       var cur = W.segs[k];
       W.el.style.setProperty('--sc-seg', String(k));
       W.el.style.setProperty('--sc-segp', cur.local.toFixed(4));
-      docEl.style.setProperty('--sc-seg', String(k));
-      docEl.style.setProperty('--sc-segp', cur.local.toFixed(4));
+      // SkiTag (Leistung): am Wurzelelement nur bei einem neuen Abschnitt setzen; jeder Wert dort lässt den Browser
+      // die Stile der ganzen Seite neu rechnen. --sc-segp liest nur W.el.
+      if (k !== W.index) docEl.style.setProperty('--sc-seg', String(k));
       if (k !== W.index) {
         W.index = k;
         try {
@@ -844,12 +846,17 @@
       }
     }
 
+    // SkiTag (Leistung): Seitenhöhe merken statt in jedem Bild zu messen; ein ResizeObserver hält sie aktuell
+    var docH = document.documentElement.scrollHeight || 0, lastCanvas = '';
+    if (window.ResizeObserver) new ResizeObserver(function () { docH = document.documentElement.scrollHeight || 0; }).observe(document.body);
+
     // ---- per-frame scroll read -------------------------------------------
     function read() {
       if (scDead) return;
       y = scrollY || pageYOffset;
       var driftA = null, driftB = null, driftT = 0;
-      var maxY = Math.max((document.documentElement.scrollHeight || 0) - vh, 1);
+      // SkiTag (Leistung): Seitenhöhe zwischengespeichert (scrollHeight in jedem Bild zwingt zum Layout)
+      var maxY = Math.max(docH - vh, 1);
 
       for (var i = 0; i < acts.length; i++) {
         var a = acts[i];
@@ -1009,11 +1016,13 @@
         if (D.act.raw >= 1) { driftA = D; driftB = D; driftT = 1; }
       }
       if (driftA) {
-        docEl.style.setProperty('--sc-canvas', mixColor(driftB.rgb, driftA.rgb, driftT));
+        // SkiTag (Leistung): nur bei echter Änderung, sonst rechnet der Browser in jedem Bild alle Stile neu
+        var farbe = mixColor(driftB.rgb, driftA.rgb, driftT);
+        if (farbe !== lastCanvas) { lastCanvas = farbe; docEl.style.setProperty('--sc-canvas', farbe); }
       }
 
       if (progressBar) {
-        var max = Math.max(document.body.scrollHeight - vh, 1);
+        var max = Math.max(docH - vh, 1);
         progressBar.style.transform = 'scaleX(' + clamp01(y / max).toFixed(4) + ')';
       }
     }
@@ -1027,10 +1036,10 @@
       // Deadband. A phone decoder cannot service a seek every frame, so asking
       // for one costs more than it shows; 20ms of clip is under a frame of
       // footage anyway.
-      var eps = isMobile() ? 0.02 : 0.008;
+      var eps = isMobile() ? 0.02 : 0.008, busy = false;
       for (var i = 0; i < playheads.length; i++) {
         var V = playheads[i];
-        if (!V.ready) continue;
+        if (!V.ready) { busy = true; continue; }
         // Never queue a seek while the decoder is still resolving the last one.
         // On a phone a fast flick otherwise piles seeks up and freezes the clip.
         // But a seek that never completes would freeze the clip for the life of
@@ -1043,18 +1052,22 @@
             V.stuckAt = nw;
             try { V.el.currentTime = V.el.currentTime + 0.001; } catch (e) {}
           }
+          busy = true;
           continue;
         }
         V.stuckAt = 0;
         // An offscreen clip that has already arrived stops costing anything.
-        if (!V.live && Math.abs(V.cur - V.target) < 0.002) continue;
+        // SkiTag (Leistung): ein angekommener Clip ebenso; die Schleife ruht dann, bis wieder gescrollt wird.
+        if (Math.abs(V.cur - V.target) < 0.002) continue;
+        busy = true;
         V.cur += (V.target - V.cur) * (reduce ? 1 : V.lerp);
         var dur = V.el.duration || 1;
         var t = clamp(V.cur, 0, 0.999) * dur;
         if (Math.abs(V.el.currentTime - t) > eps) { try { V.el.currentTime = t; } catch (e) {} }
       }
-      scTickFrame = requestAnimationFrame(tick);
+      scTickFrame = busy ? requestAnimationFrame(tick) : 0;
     }
+    var wakeTick = function () { if (!scTickFrame && !scDead && playheads.length) scTickFrame = requestAnimationFrame(tick); };
 
     // iOS will not paint a muted video that has never been handed a user
     // gesture, so a clip can be loaded, seeked and still show nothing.
@@ -1179,7 +1192,9 @@
         for (var m = 0; m < magnets.length; m++) {
           var M = magnets[m];
           M.x += (M.tx - M.x) * 0.12; M.y += (M.ty - M.y) * 0.12;
-          M.el.style.transform = 'translate3d(' + M.x.toFixed(2) + 'px,' + M.y.toFixed(2) + 'px,0)';
+          // SkiTag (Leistung): nur schreiben, wenn sich der Wert ändert (sonst Stilrechnung in jedem Bild)
+          var mt = 'translate3d(' + M.x.toFixed(2) + 'px,' + M.y.toFixed(2) + 'px,0)';
+          if (mt !== M.last) { M.last = mt; M.el.style.transform = mt; }
         }
         scPointerFrame = requestAnimationFrame(pointerTick);
       })();
@@ -1189,7 +1204,7 @@
     var ticking = false;
     on('scroll', function () {
       if (scDead) return;
-      if (!ticking) { ticking = true; requestAnimationFrame(function () { if (!scDead) read(); ticking = false; }); }
+      if (!ticking) { ticking = true; requestAnimationFrame(function () { if (!scDead) { read(); wakeTick(); } ticking = false; }); }
     }, { passive: true });
 
     // Keyboard focus on a pinned or panning act. The browser's own
@@ -1219,6 +1234,7 @@
       if (innerWidth === lastW && isMobile()) { vh = innerHeight; return; }
       lastW = innerWidth;
       layout();
+      wakeTick();
     }, { passive: true });
 
     if (document.fonts && document.fonts.ready) {

@@ -200,7 +200,11 @@
     var druck = neu("g", { "class": "schau__druck" });
     var ringe = [neu("circle", { r: "10" }, druck), neu("circle", { r: "10" }, druck)];
     var led = neu("circle", { "class": "schau__led", r: "4" });
-    var sichtbar = false, raf = 0;
+    // Leistung (Runde nach Feedback 152): die Linien liegen in der Bühne, beim Scrollen ändert sich an ihnen nichts.
+    // Gezeichnet wird darum nur, solange der Chip und die Beschriftungen hereinkommen (bis), und nach einer Größenänderung.
+    var sichtbar = false, raf = 0, bis = 0;
+    var nochmal = function (ms) { bis = Math.max(bis, performance.now() + ms); if (sichtbar && !raf) raf = requestAnimationFrame(bild); };
+    window.addEventListener("resize", function () { nochmal(400); });
     var bild = function () {
       raf = 0;
       if (!sichtbar) return;
@@ -223,11 +227,11 @@
         ringe.forEach(function (c) { c.setAttribute("cx", q[1][0].toFixed(1)); c.setAttribute("cy", q[1][1].toFixed(1)); c.setAttribute("r", rk.toFixed(1)); });
         led.setAttribute("cx", q[0][0].toFixed(1)); led.setAttribute("cy", q[0][1].toFixed(1)); led.setAttribute("r", Math.max(3, rk * 0.11).toFixed(1));
       }
-      raf = requestAnimationFrame(bild);
+      if (!p || performance.now() < bis) raf = requestAnimationFrame(bild);
     };
     new IntersectionObserver(function (e) {
       sichtbar = e[0].isIntersecting;
-      if (sichtbar && !raf) raf = requestAnimationFrame(bild);
+      if (sichtbar) nochmal(1800);
     }).observe(buehne);
     // einmal zeigen: Linien wachsen nacheinander (CSS), Beschriftungen und Kennzahlen kommen mit
     var zeigen = function () { blick.classList.add("ist-gezeigt"); };
@@ -237,7 +241,7 @@
       var einmal = new IntersectionObserver(function (e) {
         if (!e[0].isIntersecting) return;
         einmal.disconnect();
-        setTimeout(zeigen, 450);
+        setTimeout(zeigen, 450); nochmal(3400);
         gsap.to(teile, { opacity: 1, x: 0, duration: 0.8, ease: "power3.out", stagger: 0.16, delay: 0.75 });
         gsap.to(zahlen, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", stagger: 0.1, delay: 0.5 });
       }, { threshold: 0.35 });
@@ -592,6 +596,13 @@
       eintraege.forEach(function (e) { e.target.classList.toggle("ist-weg", !e.isIntersecting); });
     });
     document.querySelectorAll(".held, .gebaut, .gebirge, .schluss, .fragen, .ct").forEach(function (el) { ruhen.observe(el); });
+    // Runde nach Feedback 152: alle Abschnitte, nicht nur einzelne. Endlose CSS-Animationen an SVG-Teilen laufen nicht
+    // auf der Grafikkarte; ohne Pause rechnet der Browser für sie auch außer Sicht 60-mal je Sekunde Stil und Layout.
+    // .ruht hält jede CSS-Animation im Abschnitt an (seite.css), sobald er ganz aus dem Bild ist.
+    var ruht = new IntersectionObserver(function (eintraege) {
+      eintraege.forEach(function (e) { e.target.classList.toggle("ruht", !e.isIntersecting); });
+    }, { rootMargin: "120px 0px" });
+    document.querySelectorAll("main > section, main > div, main > aside, body > footer, .fuss").forEach(function (el) { ruht.observe(el); });
   }
 
   /* --------------------------------------------- Ruckeln erkennen -- */

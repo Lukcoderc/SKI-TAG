@@ -24,15 +24,14 @@
 /* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=138">
-<link rel="stylesheet" href="assets/chip-seite.css?v=30">
-<link rel="stylesheet" href="assets/chip-film.css?v=25">
+<link rel="stylesheet" href="assets/seite.css?v=139">
+<link rel="stylesheet" href="assets/chip-seite.css?v=31">
+<link rel="stylesheet" href="assets/chip-film.css?v=26">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=12">
 <link rel="stylesheet" href="assets/v2-alt.css?v=3">
-<script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.min.js" } }</script>
-<script>/* Chip-Flug in 3D (assets/chip-flug.js): Klasse vor dem ersten Bild, damit der Chip unten erst beim Ankommen erscheint */
-(function () { try { var c = document.createElement("canvas"); if (!matchMedia("(prefers-reduced-motion: reduce)").matches && (c.getContext("webgl2") || c.getContext("webgl"))) document.documentElement.classList.add("chipflug"); } catch (e) {} })();</script>
+<script>/* Chip-Flug (assets/chip-flug.js): Klasse vor dem ersten Bild, damit der Chip unten erst beim Ankommen erscheint */
+(function () { if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("chipflug"); })();</script>
 </head>
 <body>
 
@@ -119,11 +118,11 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20v-8"/><circle cx="12" cy="10.5" r="1.5"/><path d="M8.5 7a5 5 0 0 1 7 0M5.8 4.3a8.8 8.8 0 0 1 12.4 0"/></svg>Eigener Funk</li>
         </ul>
       </header>
-      <!-- Runde nach Feedback 151: statt der Ladestation schwebt hier der fertige Chip in 3D und fliegt beim Scrollen
-           hinunter in „Probiere den Tag aus“ (assets/chip-flug.js). Das Bild hier ist der Platzhalter ohne WebGL oder bei
-           weniger Bewegung; mit 3D wird es ausgeblendet. -->
+      <!-- Runde nach Feedback 151: statt der Ladestation schwebt hier der fertige Chip (dasselbe Renderbild wie in
+           „Probiere den Tag aus“) und fliegt beim Scrollen hinunter an seinen Platz dort (assets/chip-flug.js). Bei weniger
+           Bewegung bleibt dieses Bild einfach stehen. -->
       <figure class="chip-anfang__bild chip-flug-start" aria-hidden="true">
-        <img src="assets/media/chip-vorn.webp?v=1" alt="" width="520" height="757" decoding="async">
+        <img src="assets/media/chip/16.webp?v=1" alt="" width="900" height="900" decoding="async">
       </figure>
     </div>
   </section>
@@ -420,7 +419,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </a>
 
-<script src="scrollcraft.js?v=16"></script>
+<script src="scrollcraft.js?v=17"></script>
 <script>
 /* Das Innenleben wird nur am breiten Bildschirm mit WebGL und ohne „weniger Bewegung“ gepinnt durchgescrollt.
    Sonst macht dieses Skript vor dem Start der Engine einen normalen Abschnitt daraus (.ist-klick), in dem man
@@ -439,16 +438,16 @@ ScrollCraft.mount(document.body);
 </script>
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
-<script src="assets/seite.js?v=85" defer></script>
-<script src="assets/gsap-effekte.js?v=5" defer></script>
+<script src="assets/seite.js?v=86" defer></script>
+<script src="assets/gsap-effekte.js?v=6" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
 <script src="assets/auftritte.js?v=11" defer></script>
-<script src="assets/sprung-anfang.js?v=20" defer></script>
+<script src="assets/sprung-anfang.js?v=21" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
 <script src="assets/weg.js?v=20" defer></script>
-<script src="assets/chip-film.js?v=11" defer></script>
+<script src="assets/chip-film.js?v=12" defer></script>
 <script src="assets/innen-film.js?v=15" defer></script>
-<script type="module" src="assets/chip-flug.js?v=1"></script>
+<script src="assets/chip-flug.js?v=3" defer></script>
 <script src="assets/v2.js?v=2" defer></script>
 </body>
 </html>

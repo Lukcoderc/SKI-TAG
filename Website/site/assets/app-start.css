@@ -32,55 +32,84 @@
 .app-start__felder { right: 2%; }
 @media (min-width: 1100px) { .app-start__felder { right: 6%; } .app-start__handy { translate: -12% 0; } }
 
-/* Bildschirme im Handy */
-.ast { position: absolute; inset: 0; font-family: "Funnel Sans", system-ui, sans-serif; color: #0b1226; }
-.ast__bild { position: absolute; inset: 0; opacity: 0; transition: opacity 450ms ease, transform 550ms cubic-bezier(0.2, 0.8, 0.2, 1); transform: scale(1.03); background: #fff; }
-.app-start__buehne[data-schritt="1"] .ast__laden,
-.app-start__buehne[data-schritt="2"] .ast__code,
-.app-start__buehne[data-schritt="3"] .ast__tag { opacity: 1; transform: none; }
+/* Handy (Runde nach Feedback 151): eine echte App-Store-Produktseite in iOS-Art, danach geht die App auf.
+   assets/app-start.js setzt data-phase an .ast: store, laedt, offen, start, login-a, login-b, app. Alle Maße in cqw
+   (Breite des Glases), damit das Handy in jeder Größe gleich aussieht. Die App-Bilder sind die Bildschirme von app.html. */
+.ast { position: absolute; inset: 0; overflow: hidden; background: #fff; color: #000; font-family: -apple-system, "SF Pro Text", "Inter", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+.ast__status { z-index: 26; color: #000; transition: color 300ms; }
+.ast__status .iphone__symbole i { background: currentColor; }
+.ast:is([data-phase="start"], [data-phase="login-a"], [data-phase="login-b"]) .ast__status { color: #fff; }
 
-.ast__laden { padding: 17cqw 6cqw 0; background: #f2f2f7; }
-.ast__store { margin: 0 0 4cqw; font-weight: 800; font-size: 8cqw; letter-spacing: -0.02em; }
-.ast__app { display: flex; gap: 4cqw; align-items: center; }
-.ast__icon { flex: none; width: 24cqw; height: 24cqw; border-radius: 5.5cqw; background: var(--nacht); color: #fff; display: grid; place-items: center; box-shadow: 0 2cqw 5cqw rgba(14, 29, 64, 0.3); }
-.ast__icon svg { width: 70%; height: 70%; }
-.ast__app b { display: block; font-size: 5.6cqw; }
-.ast__app div > span { display: block; font-size: 3.6cqw; color: #6b7280; margin-top: 0.6cqw; }
-.ast__holen { position: relative; display: inline-grid !important; place-items: center; margin-top: 2.6cqw !important; height: 7.4cqw; min-width: 19cqw; border-radius: 99px; background: #007aff; color: #fff !important; font-style: normal; font-weight: 700; font-size: 3.6cqw !important; }
-.ast__holen i { grid-area: 1 / 1; font-style: normal; transition: opacity 250ms; }
-.ast__ring { width: 6.4cqw; height: 6.4cqw; border-radius: 50%; opacity: 0; background: conic-gradient(#007aff calc(var(--fort, 0) * 1turn), #d1d5db 0); -webkit-mask: radial-gradient(circle, transparent 52%, #000 54%); mask: radial-gradient(circle, transparent 52%, #000 54%); }
-.ast__oeffnen { opacity: 0; }
-.ast[data-holen="laedt"] .ast__holen { background: transparent; min-width: 7.4cqw; }
-.ast[data-holen="laedt"] .ast__holen-text { opacity: 0; }
-.ast[data-holen="laedt"] .ast__ring { opacity: 1; }
-.ast[data-holen="offen"] .ast__holen-text { opacity: 0; }
-.ast[data-holen="offen"] .ast__oeffnen { opacity: 1; }
-.ast__sterne { display: flex; gap: 2cqw; align-items: baseline; margin: 5cqw 0 4cqw; padding-top: 3cqw; border-top: 1px solid #d1d5db; font-size: 3.4cqw; color: #f59e0b; }
-.ast__sterne b { color: #0b1226; font-size: 5cqw; }
-.ast__sterne span { margin-left: auto; color: #6b7280; }
-.ast__vorschau { position: relative; height: 100cqw; border-radius: 5cqw; overflow: hidden; box-shadow: 0 2cqw 6cqw rgba(0, 0, 0, 0.12); }
-.ast__vorschau img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; display: block; }
-.ast__vorschau span { position: absolute; left: 4cqw; bottom: 4cqw; padding: 1.6cqw 3.4cqw; border-radius: 99px; background: var(--orange); color: #fff; font-weight: 700; font-size: 3.6cqw; }
+.st { position: absolute; inset: 0; padding-top: 15cqw; background: #fff; transition: transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 600ms; }
+.ast:is([data-phase="start"], [data-phase="login-a"], [data-phase="login-b"], [data-phase="app"]) .st { transform: scale(0.94); filter: brightness(0.7); }
+.st__zurueck { display: flex; align-items: center; gap: 1.2cqw; margin: 0 0 3.4cqw; padding-left: 3.4cqw; color: #007aff; font-size: 4.4cqw; letter-spacing: -0.01em; }
+.st__zurueck svg { width: 2.6cqw; height: 4.4cqw; }
+.st__kopf { display: flex; gap: 4.2cqw; padding: 0 5cqw; }
+.st__icon { flex: none; display: grid; place-items: center; width: 31cqw; height: 31cqw; border-radius: 7cqw; color: #fff;
+  background: radial-gradient(120% 90% at 30% 15%, #2f4f8f 0%, #13244a 55%, #0b1630 100%); box-shadow: inset 0 0 0 0.3cqw rgba(255, 255, 255, 0.08), 0 0.6cqw 2cqw rgba(0, 0, 0, 0.12); }
+.st__icon svg { width: 64%; height: 64%; }
+.st__name { display: flex; flex-direction: column; min-width: 0; flex: 1; padding-top: 0.6cqw; }
+.st__name b { font-size: 5.6cqw; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
+.st__name > span { margin-top: 0.6cqw; font-size: 3.7cqw; line-height: 1.25; color: #8a8a8e; }
+.st__aktion { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+.st__knopf { position: relative; display: grid; place-items: center; height: 7.4cqw; min-width: 19.5cqw; padding: 0 4.2cqw; border-radius: 99px; background: #007aff; color: #fff;
+  font-size: 3.8cqw; font-weight: 700; letter-spacing: 0.01em; transition: background-color 250ms, min-width 300ms, padding 300ms, transform 150ms; }
+.st__knopf i { grid-area: 1 / 1; font-style: normal; transition: opacity 200ms; }
+.st__ring, .st__oeffnen { opacity: 0; }
+.st__ring { display: grid; place-items: center; width: 7.4cqw; height: 7.4cqw; border-radius: 50%;
+  background: conic-gradient(#007aff calc(var(--fort, 0) * 1turn), #e5e5ea 0); -webkit-mask: radial-gradient(circle, transparent 56%, #000 58%); mask: radial-gradient(circle, transparent 56%, #000 58%); }
+.st__ring em { display: none; }
+.st__knopf::after { content: ""; position: absolute; left: 50%; top: 50%; width: 2cqw; height: 2cqw; margin: -1cqw; border-radius: 0.4cqw; background: #007aff; opacity: 0; transition: opacity 200ms; }
+.ast[data-phase="laedt"] .st__knopf { background: transparent; min-width: 7.4cqw; padding: 0; }
+.ast[data-phase="laedt"] .st__laden { opacity: 0; }
+.ast[data-phase="laedt"] .st__ring, .ast[data-phase="laedt"] .st__knopf::after { opacity: 1; }
+.ast:not([data-phase="store"]):not([data-phase="laedt"]) .st__laden { opacity: 0; }
+.ast:not([data-phase="store"]):not([data-phase="laedt"]) .st__oeffnen { opacity: 1; }
+.ast:not([data-phase="store"]):not([data-phase="laedt"]) .st__knopf { background: #007aff; }
+.st__teilen { width: 4.4cqw; height: 5.2cqw; color: #007aff; }
 
-.ast__code { padding: 22cqw 7cqw 0; background: linear-gradient(180deg, #0e1d40 0%, #172a55 55%, #f4f5f7 55.1%); color: #fff; }
-.ast__start { display: grid; place-items: center; width: 16cqw; height: 16cqw; border-radius: 4cqw; background: #fff; color: var(--nacht); }
-.ast__start svg { width: 72%; }
-.ast__titel { margin: 5cqw 0 6cqw; font-weight: 800; font-size: 10cqw; letter-spacing: -0.03em; }
-.ast__karte { padding: 5cqw; border-radius: 5cqw; background: #fff; color: #0b1226; box-shadow: 0 3cqw 8cqw rgba(14, 29, 64, 0.25); display: grid; gap: 1.6cqw; }
-.ast__etikett { font-size: 3.2cqw; font-weight: 600; color: #6b7280; }
-.ast__feld { display: flex; align-items: center; gap: 0.4cqw; height: 10cqw; padding: 0 3cqw; margin-bottom: 2cqw; border-radius: 2.6cqw; background: #f2f4f7; font-weight: 700; font-size: 4.6cqw; }
-.ast__feld--code { letter-spacing: 0.1em; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
-.ast__feld em { font-style: normal; opacity: 0.5; }
-.ast__feld span { opacity: 0; transition: opacity 80ms; }
-.app-start__buehne[data-schritt="2"] .ast__feld span { animation: ast-tipp 1ms linear forwards; animation-delay: calc(500ms + var(--i) * 220ms); }
-@keyframes ast-tipp { to { opacity: 1; } }
-.ast__los { display: grid; place-items: center; height: 10.5cqw; border-radius: 99px; background: var(--orange); color: #fff; font-weight: 700; font-size: 4.2cqw; margin-top: 1cqw; }
-.ast__karte small { font-size: 3cqw; color: #6b7280; text-align: center; }
+.st__infos { display: flex; margin: 5.4cqw 0 0 5cqw; padding: 3cqw 0; border-top: 0.25cqw solid #e5e5ea; border-bottom: 0.25cqw solid #e5e5ea; overflow: hidden; white-space: nowrap; }
+.st__infos > div { flex: none; display: grid; justify-items: center; gap: 0.8cqw; width: 26cqw; color: #8a8a8e; }
+.st__infos > div + div { border-left: 0.25cqw solid #e5e5ea; }
+.st__infos small { font-size: 2.5cqw; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.st__infos b { display: grid; place-items: center; height: 6cqw; font-size: 5.2cqw; font-weight: 700; color: #6e6e73; }
+.st__infos b svg { width: 5.6cqw; height: 5.6cqw; }
+.st__infos span { font-size: 3cqw; }
 
-.ast__tag img { width: 100%; display: block; }
-.ast__willkommen { position: absolute; left: 6cqw; right: 6cqw; bottom: 8cqw; display: flex; gap: 2.6cqw; align-items: center; padding: 3.6cqw 4cqw; border-radius: 4cqw; background: #0b1226; color: #fff; font-weight: 700; font-size: 4cqw; box-shadow: 0 3cqw 8cqw rgba(0, 0, 0, 0.3); transform: translateY(30cqw); transition: transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1) 300ms; }
-.ast__willkommen i { flex: none; width: 5cqw; height: 5cqw; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 1.4cqw rgba(34, 197, 94, 0.25); }
-.app-start__buehne[data-schritt="3"] .ast__willkommen { transform: none; }
+.st__bilder { margin-top: 4.6cqw; overflow: hidden; }
+.st__band { display: flex; gap: 2.6cqw; padding-left: 5cqw; width: max-content; }
+.st__band img { width: 52cqw; height: auto; aspect-ratio: 780 / 1742; border-radius: 4.6cqw; border: 0.25cqw solid #e5e5ea; object-fit: cover; object-position: 50% 0; display: block; }
+.ast[data-phase="store"] .st__band { animation: st-wischen 5.5s cubic-bezier(0.45, 0, 0.2, 1) 0.3s both; }
+@keyframes st-wischen { 0%, 18% { transform: none; } 48%, 70% { transform: translateX(-54.6cqw); } 100% { transform: none; } }
+.st__geraet { display: flex; align-items: center; gap: 1.2cqw; margin: 2.6cqw 5cqw 0; font-size: 3.2cqw; font-weight: 600; color: #8a8a8e; }
+.st__geraet svg { width: 2.4cqw; height: 3.6cqw; }
+.st__text { margin: 3cqw 5cqw 0; font-size: 3.6cqw; line-height: 1.35; color: #000; }
+.st__text span { color: #007aff; }
+
+.st__tabs { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-around; padding: 2cqw 2cqw 7.4cqw; background: rgba(249, 249, 249, 0.94); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); border-top: 0.25cqw solid rgba(0, 0, 0, 0.12); }
+.st__tabs span { display: grid; justify-items: center; gap: 0.6cqw; width: 18cqw; font-size: 2.4cqw; font-weight: 500; color: #999; }
+.st__tabs svg { width: 6.6cqw; height: 6.6cqw; }
+.st__tabs .ist-an { color: #007aff; }
+
+/* Finger: ein runder Tipp-Punkt, erst auf Laden, dann auf Öffnen */
+.st__finger { position: absolute; left: 0; top: 0; width: 11cqw; height: 11cqw; margin: -5.5cqw; border-radius: 50%; background: rgba(0, 0, 0, 0.18); box-shadow: 0 0 0 0.4cqw rgba(255, 255, 255, 0.6); opacity: 0; transform: scale(1.6); pointer-events: none; z-index: 5; }
+.ast.tippt .st__finger { animation: st-tipp 650ms ease-out both; }
+@keyframes st-tipp { 0% { opacity: 0; transform: scale(1.6); } 35% { opacity: 1; transform: scale(1); } 60% { opacity: 1; transform: scale(0.85); } 100% { opacity: 0; transform: scale(1.1); } }
+.ast.tippt .st__knopf { transform: scale(0.94); }
+
+/* die App: wächst aus dem Icon, Startbild, dann die echten Bildschirme */
+.ast__app { position: absolute; inset: 0; z-index: 10; overflow: hidden; background: #0e1d40; border-radius: 7cqw;
+  transform-origin: 20.5cqw 50.5cqw; transform: scale(0.29); opacity: 0; transition: transform 520ms cubic-bezier(0.25, 0.9, 0.25, 1), opacity 180ms, border-radius 520ms; }
+.ast:is([data-phase="start"], [data-phase="login-a"], [data-phase="login-b"], [data-phase="app"]) .ast__app { transform: none; opacity: 1; border-radius: 0; }
+.ast__start { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; background: radial-gradient(120% 70% at 50% 30%, #1d3366 0%, #0e1d40 60%); }
+.ast__start svg { width: 30cqw; }
+.ast__bild { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; opacity: 0; transition: opacity 450ms ease, transform 600ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+/* frühere Bilder bleiben unter dem neuen stehen, damit beim Überblenden nichts durchscheint */
+.ast:is([data-phase="login-a"], [data-phase="login-b"], [data-phase="app"]) .ast__bild--a,
+.ast:is([data-phase="login-b"], [data-phase="app"]) .ast__bild--b { opacity: 1; }
+.ast__bild--c { transform: translateX(12%); }
+.ast[data-phase="app"] .ast__bild--c { opacity: 1; transform: none; }
+.ast[data-phase="app"] .ast__status { color: #000; }
 
 /* Tablet und Handy: Fotos als Hintergrund hinter dem Handy, Infofelder darunter */
 @media (max-width: 899px) {
@@ -94,11 +123,4 @@
   .app-start__felder { position: relative; inset: auto; translate: none; width: 100%; }
   .app-start__buehne[data-schritt] .asi[data-schritt] { transform: none; }
 }
-@media (prefers-reduced-motion: reduce) { .ast__bild, .asi, .ast__willkommen { transition: none; } }
-.ast .iphone__statuszeile { z-index: 4; }
-.ast__tag img { margin-top: -12%; }
-.ast__tag::before { content: ""; position: absolute; inset: 0 0 auto; height: 8.5%; background: #e8eef7; z-index: 3; }
-.ast__beleg { margin: 6cqw auto 0; width: 70%; padding: 4cqw 5cqw 5cqw; background: #fff; color: #0b1226; display: grid; gap: 1.2cqw; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 3.1cqw; transform: rotate(-3deg); box-shadow: 0 2cqw 5cqw rgba(0, 0, 0, 0.15);
-  -webkit-mask: radial-gradient(circle 1.6cqw at 50% 100%, transparent 98%, #000) 0 0 / 4.4cqw 100%; mask: radial-gradient(circle 1.6cqw at 50% 100%, transparent 98%, #000) 0 0 / 4.4cqw 100%; }
-.ast__beleg b { font-family: "Funnel Sans", system-ui, sans-serif; font-size: 3.8cqw; }
-.ast__beleg strong { background: #ffe3d6; padding: 0 1cqw; }
+@media (prefers-reduced-motion: reduce) { .st, .ast__app, .ast__bild, .asi { transition: none; } .st__band { animation: none !important; } }
