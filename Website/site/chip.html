@@ -25,11 +25,14 @@
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=138">
-<link rel="stylesheet" href="assets/chip-seite.css?v=27">
+<link rel="stylesheet" href="assets/chip-seite.css?v=30">
 <link rel="stylesheet" href="assets/chip-film.css?v=25">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=12">
 <link rel="stylesheet" href="assets/v2-alt.css?v=3">
+<script type="importmap">{ "imports": { "three": "./assets/vendor/three.module.min.js" } }</script>
+<script>/* Chip-Flug in 3D (assets/chip-flug.js): Klasse vor dem ersten Bild, damit der Chip unten erst beim Ankommen erscheint */
+(function () { try { var c = document.createElement("canvas"); if (!matchMedia("(prefers-reduced-motion: reduce)").matches && (c.getContext("webgl2") || c.getContext("webgl"))) document.documentElement.classList.add("chipflug"); } catch (e) {} })();</script>
 </head>
 <body>
 
@@ -116,30 +119,11 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20v-8"/><circle cx="12" cy="10.5" r="1.5"/><path d="M8.5 7a5 5 0 0 1 7 0M5.8 4.3a8.8 8.8 0 0 1 12.4 0"/></svg>Eigener Funk</li>
         </ul>
       </header>
-      <!-- Feedback 151 (Lukis Idee): der Chip liegt am Anfang in seiner Ladestation. Beim Scrollen hebt er sich heraus,
-           die Station bleibt leer zurück, und der Chip fliegt hinunter in „Probiere den Tag aus“. Dort ist das Foto vorher
-           scharf und wird weich, sobald der Chip ankommt. Ablauf in assets/ladebox.js, Regeln in chip-seite.css („Ladestation“).
-           Ohne JS und bei weniger Bewegung bleibt der Chip in der Station liegen. -->
-      <figure class="chip-anfang__bild ladebox" aria-hidden="true">
-        <svg class="ladebox__hinten" viewBox="0 0 400 300">
-          <defs>
-            <linearGradient id="lb-oben" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a4560"/><stop offset="1" stop-color="#252e44"/></linearGradient>
-            <radialGradient id="lb-spule" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#ff8a5c" stop-opacity="0.55"/><stop offset="1" stop-color="#ff5a1c" stop-opacity="0"/></radialGradient>
-          </defs>
-          <path d="M52 108 Q54 96 68 96 H332 Q346 96 348 108 L374 196 Q376 206 364 206 H36 Q24 206 26 196 Z" fill="url(#lb-oben)"/>
-          <path d="M92 120 Q94 112 104 112 H296 Q306 112 308 120 L326 186 Q328 194 318 194 H82 Q72 194 74 186 Z" fill="#111827"/>
-          <ellipse class="ladebox__spule" cx="200" cy="156" rx="78" ry="22" fill="url(#lb-spule)"/>
-          <ellipse cx="200" cy="156" rx="56" ry="15" fill="none" stroke="#ff8a5c" stroke-opacity="0.45" stroke-width="1.5"/>
-          <ellipse cx="200" cy="156" rx="40" ry="10.5" fill="none" stroke="#ff8a5c" stroke-opacity="0.35" stroke-width="1.5"/>
-        </svg>
-        <span class="ladebox__platz"><img class="ladebox__chip" src="assets/media/produkt-frei.webp?v=1" alt="" width="859" height="540" decoding="async"></span>
-        <svg class="ladebox__vorne" viewBox="0 0 400 300">
-          <defs><linearGradient id="lb-vorne" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#222b40"/><stop offset="1" stop-color="#0e1424"/></linearGradient></defs>
-          <path d="M26 198 H374 V262 Q374 286 350 286 H50 Q26 286 26 262 Z" fill="url(#lb-vorne)"/>
-          <path d="M28 199 H372" stroke="#5b6782" stroke-width="2" stroke-linecap="round"/>
-          <text x="52" y="250" class="ladebox__name">SkiTag Ladestation</text>
-          <g class="ladebox__led"><circle cx="340" cy="244" r="5"/><circle cx="340" cy="244" r="11" fill-opacity="0.25"/></g>
-        </svg>
+      <!-- Runde nach Feedback 151: statt der Ladestation schwebt hier der fertige Chip in 3D und fliegt beim Scrollen
+           hinunter in „Probiere den Tag aus“ (assets/chip-flug.js). Das Bild hier ist der Platzhalter ohne WebGL oder bei
+           weniger Bewegung; mit 3D wird es ausgeblendet. -->
+      <figure class="chip-anfang__bild chip-flug-start" aria-hidden="true">
+        <img src="assets/media/chip-vorn.webp?v=1" alt="" width="520" height="757" decoding="async">
       </figure>
     </div>
   </section>
@@ -408,7 +392,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   <div class="fuss__innen">
     <div class="fuss__marke">
       <b><svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag</b>
-      <span>SkiTag GmbH · Firmenname, Sitz und Firmenbuch folgen (Platzhalter)</span>
+      <span>SkiTag Junior Company · ein Schulprojekt im Programm von Junior Achievement Austria, kein eingetragenes Unternehmen</span>
     </div>
     <nav aria-label="Seite">
       <b>Seite</b>
@@ -416,7 +400,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </nav>
     <nav aria-label="Rechtliches">
       <b>Rechtliches</b>
-      <span>Impressum folgt</span><span>Datenschutz folgt</span>
+      <a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a>
     </nav>
     <div class="fuss__nachweis">
       <b>Nachweise</b>
@@ -428,7 +412,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     <p class="fuss__wort-zeile"><span style="--i:0">S</span><span style="--i:1">K</span><span style="--i:2">I</span><span style="--i:3">T</span><span style="--i:4">A</span><span style="--i:5">G</span></p>
   </div>
   <div class="fuss__leiste">
-    <span>© 2026 SkiTag</span>
+    <span>© 2026 SkiTag Junior Company · Schulprojekt</span>
   </div>
 </footer>
 
@@ -458,13 +442,13 @@ ScrollCraft.mount(document.body);
 <script src="assets/seite.js?v=85" defer></script>
 <script src="assets/gsap-effekte.js?v=5" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
-<script src="assets/ladebox.js?v=1" defer></script>
-<script src="assets/auftritte.js?v=10" defer></script>
+<script src="assets/auftritte.js?v=11" defer></script>
 <script src="assets/sprung-anfang.js?v=20" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
 <script src="assets/weg.js?v=20" defer></script>
 <script src="assets/chip-film.js?v=11" defer></script>
-<script src="assets/innen-film.js?v=12" defer></script>
+<script src="assets/innen-film.js?v=15" defer></script>
+<script type="module" src="assets/chip-flug.js?v=1"></script>
 <script src="assets/v2.js?v=2" defer></script>
 </body>
 </html>

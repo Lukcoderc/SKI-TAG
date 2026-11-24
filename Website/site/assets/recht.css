@@ -1,0 +1,11 @@
+/* SkiTag · Impressum und Datenschutz (Junior Company, Runde nach Feedback 151). Ruhige Textseiten in zwei Spalten. */
+.recht { padding-top: 0; }
+.recht__raster { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.25rem, 3vw, 2rem); }
+.recht__block { padding: clamp(1.4rem, 3vw, 2.2rem); border-radius: 1.5rem; background: var(--v-grau); }
+.recht__block h2 { font: 650 clamp(1.25rem, 1.1rem + .5vw, 1.55rem)/1.15 var(--sc-font-display); letter-spacing: -0.02em; color: var(--v-tinte); margin: 0 0 .8rem; }
+.recht__block p { margin: 0; font-size: 1.04rem; line-height: 1.6; color: var(--v-text); text-wrap: pretty; }
+.recht__block p + p { margin-top: .7rem; }
+.recht__block b { color: var(--v-tinte); font-weight: 650; }
+.recht__block a { color: var(--v-blau); text-underline-offset: .18em; }
+.held-unter .lead b { color: var(--v-tinte); font-weight: 650; }
+@media (max-width: 760px) { .recht__raster { grid-template-columns: 1fr; } }

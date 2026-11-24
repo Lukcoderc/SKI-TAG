@@ -38,8 +38,8 @@
     // Der Anker ist per CSS mit translate: -50% -50% zentriert. GSAP übernimmt das in transform, verlor aber die senkrechte
     // Hälfte, weil hier y animiert wird: der Chip saß dann eine halbe Höhe zu tief und der Knopf war unten abgeschnitten
     // (Feedback 141). Deshalb die Zentrierung ausdrücklich als xPercent/yPercent mitführen.
-    // Feedback 151: fliegt der Chip aus der Ladestation herein (ladebox.js, Klasse ladeflug), übernimmt der Flug den Auftritt
-    var flug = document.documentElement.classList.contains("ladeflug");
+    // Fliegt der Chip in 3D herein (chip-flug.js, Klasse chipflug), übernimmt der Flug den Auftritt
+    var flug = document.documentElement.classList.contains("chipflug");
     if (!flug) gsap.set(chipBox, { translate: "none", xPercent: -50, yPercent: -50, x: 0, y: -90, rotate: -9, opacity: 0 });   // x: 0, sonst liest GSAP die CSS-Zentrierung zusätzlich als Pixel ein
     gsap.set(schritte, { y: 30, opacity: 0 });
     gsap.set(status, { opacity: 0 });

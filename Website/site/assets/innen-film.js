@@ -27,7 +27,7 @@
   // Breite des ganzen Bildes in Gerätepixeln: über 1150 die große Fassung, sonst die kleine
   var flaeche = Math.min(feld.clientWidth || window.innerWidth, (feld.clientHeight || window.innerHeight) * 4 / 3);
   var klein = flaeche * Math.min(window.devicePixelRatio || 1, 2) < 1150;
-  var ORDNER = "assets/media/innen/" + (klein ? "m/" : ""), V = "?v=8", N = 48, SEITE = 4 / 3, DAUER = 4800;   // Feedback 151: langsamer (vorher 1,8 s)
+  var ORDNER = "assets/media/innen/" + (klein ? "m/" : ""), V = "?v=8", N = 48, SEITE = 4 / 3, DAUER = 2600;   // Feedback 151: erst langsamer (4,8 s), dann wieder schneller gewünscht
   var klemme = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
   var abschnitt = function (x, a, b) { return klemme((x - a) / (b - a)); };
   var weich = function (x) { return x * x * (3 - 2 * x); };
@@ -179,10 +179,40 @@
     else if (vorbei) fahren(richtung > 0 ? 0 : N - 1);
     else if (offen) fahren(N - 1);
   };
-  marken.forEach(function (li) {
-    li.addEventListener("click", function (e) { e.stopPropagation(); var auf = !li.classList.contains("ist-auf"); marken.forEach(function (m) { m.classList.remove("ist-auf"); }); if (auf) li.classList.add("ist-auf"); });
+  /* Infotafel (Runde nach Feedback 151): das aktive Teil zeigt seine Erklärung groß in der Textspalte, die anderen
+     Teile werden grau. Aktiv ist das Teil unter der Maus, sonst das angetippte (ist-auf), sonst das fokussierte. */
+  var innenAkt = document.getElementById("innenleben");
+  var textSpalte = innenAkt && innenAkt.querySelector(".innen__text");
+  var tafel = document.createElement("div"); tafel.className = "innen__tafel"; tafel.setAttribute("aria-live", "polite");
+  tafel.innerHTML = '<span class="innen__tafel-nr"></span><b class="innen__tafel-name"></b><p class="innen__tafel-text"></p>';
+  if (textSpalte) textSpalte.appendChild(tafel);
+  var aktiv = -1, unterMaus = -1;
+  var zeigen = function (i) {
+    if (i === aktiv) return; aktiv = i;
+    marken.forEach(function (m, k) { m.classList.toggle("ist-an", k === i); });
+    if (!innenAkt) return;
+    innenAkt.classList.toggle("ist-tafel", i >= 0);
+    if (i < 0) return;
+    var li = marken[i];
+    tafel.children[0].textContent = "0" + (i + 1) + " / 0" + marken.length;
+    tafel.children[1].textContent = li.querySelector("b").textContent;
+    tafel.children[2].innerHTML = li.querySelector(".innen__mehr").innerHTML;
+    tafel.classList.remove("ist-neu"); void tafel.offsetWidth; tafel.classList.add("ist-neu");
+  };
+  var auswahl = function () {
+    if (unterMaus >= 0) return zeigen(unterMaus);
+    for (var k = 0; k < marken.length; k++) if (marken[k].classList.contains("ist-auf") || marken[k] === document.activeElement) return zeigen(k);
+    zeigen(-1);
+  };
+  marken.forEach(function (li, i) {
+    li.addEventListener("click", function (e) { e.stopPropagation(); var auf = !li.classList.contains("ist-auf"); marken.forEach(function (m) { m.classList.remove("ist-auf"); }); if (auf) li.classList.add("ist-auf"); else li.blur(); auswahl(); });
+    li.addEventListener("mouseenter", function () { unterMaus = i; auswahl(); });
+    li.addEventListener("mouseleave", function () { unterMaus = -1; auswahl(); });
+    li.addEventListener("focus", auswahl);
+    li.addEventListener("blur", function () { setTimeout(auswahl, 0); });
   });
-  document.addEventListener("click", function () { marken.forEach(function (m) { m.classList.remove("ist-auf"); }); });
+  document.addEventListener("click", function () { marken.forEach(function (m) { m.classList.remove("ist-auf"); }); auswahl(); });
+
   var letztesY = window.scrollY, richtung = 0;
   var wartet = false;
   window.addEventListener("scroll", function () { if (!wartet) { wartet = true; requestAnimationFrame(function () { wartet = false; pruefen(); }); } }, { passive: true });

@@ -412,7 +412,36 @@ html:not(.js-app) .sz-seite[data-seite="0"] { opacity: 1; transform: none; }
   .szene--links .szene__raster { grid-template-columns: auto minmax(0, 1fr); }
   .szene--links .szene__bild { order: -1; }
 }
-.app-streifen { position: relative; height: clamp(5.5rem, 13vw, 10rem); clip-path: inset(0); overflow: clip; background: #0b1226; }
-.app-streifen__bild { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-.app-streifen__bild img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: var(--lage, 50% 50%); }
-.app-streifen::after { content: ""; position: absolute; inset: 0; z-index: 1; box-shadow: inset 0 14px 18px -12px rgba(14, 29, 64, 0.35), inset 0 -14px 18px -12px rgba(14, 29, 64, 0.35); }
+/* Fotobruch (Feedback 151, überarbeitet): groß und ruhig statt dünner Streifen. app-bruch.js setzt --auf (0 bis 1):
+   0 = rundes Fenster mit Rand, 1 = volle Breite; --zieh verschiebt das Bild leicht gegen das Scrollen. */
+.app-bruch { --auf: 1; --zieh: 0; margin: 0; padding: 0; background: #fff; }
+.app-bruch__fenster { position: relative; height: clamp(18rem, 62svh, 40rem); overflow: hidden;
+  clip-path: inset(calc((1 - var(--auf)) * 4svh) calc((1 - var(--auf)) * 9vw) round calc((1 - var(--auf)) * 2rem + 0.01px)); }
+.app-bruch__fenster img { position: absolute; left: 0; top: -12%; width: 100%; height: 124%; max-width: none; object-fit: cover; object-position: var(--lage, 50% 50%);
+  transform: translate3d(0, calc(var(--zieh) * 1%), 0) scale(calc(1.12 - var(--auf) * 0.12)); will-change: transform; }
+.app-bruch__fenster::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11, 18, 38, 0.18), rgba(11, 18, 38, 0) 30%, rgba(11, 18, 38, 0) 70%, rgba(11, 18, 38, 0.22)); }
+
+/* App laden (Runde nach Feedback 151): eigener Knopf statt dem orangen. Weiße Pille mit „App laden“ und
+   rundem Pfeil; beim Drüberfahren wird der Pfeil orange und schiebt nach rechts. Die App kommt
+   als iPhone-App, der Link führt bis dahin zur Web-App. */
+.app-knopf { --h: 4.1rem; display: inline-flex; align-items: center; gap: 0.85rem; height: var(--h); padding: 0 0.45rem 0 1.7rem; border-radius: 999px;
+  background: #fff; color: #0b1226; text-decoration: none; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 18px 40px -18px rgba(4, 10, 26, 0.55), 0 0 0 1px rgba(11, 18, 38, 0.06);
+  position: relative; overflow: hidden; isolation: isolate; transition: transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 300ms ease; }
+.app-knopf::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(100deg, transparent 30%, rgba(255, 90, 28, 0.1) 50%, transparent 70%); translate: -110% 0; transition: translate 700ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+.app-knopf__text { display: block; padding-right: 0.6rem; line-height: 1; }
+.app-knopf__text b { font: 680 1.22rem/1 var(--sc-font-display); letter-spacing: -0.02em; }
+.app-knopf__pfeil { flex: none; display: grid; place-items: center; width: calc(var(--h) - 0.9rem); height: calc(var(--h) - 0.9rem); border-radius: 50%;
+  background: #f1f3f7; color: #0b1226; transition: background 250ms ease, color 250ms ease; }
+.app-knopf__pfeil svg { width: 1.05rem; height: 1.05rem; transition: translate 300ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+@media (hover: hover) and (pointer: fine) {
+  .app-knopf:hover { transform: translateY(-2px); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 26px 50px -20px rgba(4, 10, 26, 0.6), 0 0 0 1px rgba(11, 18, 38, 0.06); }
+  .app-knopf:hover::after { translate: 110% 0; }
+  .app-knopf:hover .app-knopf__pfeil { background: var(--orange); color: #fff; }
+  .app-knopf:hover .app-knopf__pfeil svg { translate: 3px 0; }
+}
+.app-knopf:active { transform: translateY(1px); }
+.app-knopf:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+.app-kontakt .app-knopf { flex: none; }
+.app-knopf { max-width: 100%; box-sizing: border-box; }
+.app-knopf__text { min-width: 0; }
+@media (max-width: 600px) { .app-kontakt .app-knopf { width: 100%; } .app-knopf__text { flex: 1; } }

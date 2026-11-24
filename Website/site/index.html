@@ -29,6 +29,8 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 <link rel="stylesheet" href="assets/schrift-inter.css?v=1">
 <link rel="stylesheet" href="assets/am-berg.css?v=4">
 <link rel="stylesheet" href="assets/app-start.css?v=1">
+<link rel="stylesheet" href="assets/held-szene.css?v=1">
+<link rel="preload" href="assets/media/held-szene.webp?v=1" as="image" media="(min-width: 861px)">
 <noscript><style>.lade { display: none; }</style></noscript>
 </head>
 <body>
@@ -117,29 +119,33 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
 <main id="oben">
 
-  <!-- 1 · Einstieg (seit Feedback 103): ein Bergvideo füllt den ganzen ersten Bildschirm (Drohnenflug über einer
-       Liftstation, Pexels, freie Lizenz, ohne Wasserzeichen; vor und zurück als ruhige Schleife). Ein dunkler Verlauf
-       links hält den weißen Text lesbar. Davor schwebt wie bisher der fertige Chip als Renderbild aus Blender (assets/chip-film.js).
-       Bei „weniger Bewegung“ und im Sparmodus steht nur das erste Bild. -->
-  <section class="held held--video" data-sc-act="flow" data-sc-drift="#ffffff" aria-labelledby="titel">
-    <div class="held__video" aria-hidden="true">
-      <video class="held__film" id="held-film" autoplay muted loop playsinline preload="metadata" poster="assets/media/held-poster.webp">
-        <source src="assets/media/held-m.mp4" type="video/mp4" media="(max-width: 860px)">
-        <source src="assets/media/held-l.mp4" type="video/mp4" media="(max-width: 1440px)">
-        <source src="assets/media/held.mp4" type="video/mp4">
-      </video>
-      <script>
-      /* Handy: Standbild im Hochformat; weniger Bewegung oder Sparmodus: Video nicht abspielen.
-         Sparmodus auf großen Bildschirmen (Feedback 116): die leichtere Fassung mit 1280 px statt 1920 px. */
-      (function () { try {
-        var v = document.getElementById("held-film"), m = window.matchMedia;
-        if (m("(max-width: 860px)").matches) v.poster = "assets/media/held-poster-m.webp";
-        else if (document.documentElement.classList.contains("sparsam")) { var gross = v.querySelector('source[src$="held.mp4"]'); if (gross) gross.remove(); }
-        if (m("(prefers-reduced-motion: reduce)").matches || document.documentElement.classList.contains("sparsam-video")) {
-          v.removeAttribute("autoplay"); v.preload = "none"; v.pause();
-        }
-      } catch (e) {} })();
-      </script>
+  <!-- 1 · Einstieg (Runde nach Feedback 151): statt dem schwebenden Chip eine echte Szene am Berg. Ein Skifahrer schaut
+       von der Piste auf die Liftstation, am Rucksack sitzt der Chip (Foto von Unsplash, Chip als Renderbild eingesetzt,
+       Herkunft in assets/media/held-szene.webp.json). Beim Scrollen bleibt die Szene stehen (sticky) und die Kamera
+       erzählt den Weg: näher an den Chip mit Lupe, drei Sekunden halten, der Funk fliegt zur Liftstation, Hilfe weiß,
+       wo du bist. Gesteuert von assets/held-szene.js, Regeln in assets/held-szene.css. Bei „weniger Bewegung“ steht nur
+       das erste Bild, ohne Strecke. -->
+  <section class="hs-strecke" aria-labelledby="titel">
+  <div class="held held--video held--szene">
+    <div class="held__video hs-buehne" aria-hidden="true">
+      <div class="hs-welt">
+        <img class="hs-foto" src="assets/media/held-szene.webp?v=1" srcset="assets/media/held-szene-m.webp?v=1 1400w, assets/media/held-szene.webp?v=1 2400w" sizes="(max-width: 860px) 1400px, 2400px" alt="" width="2400" height="1606" decoding="async" fetchpriority="high">
+        <svg class="hs-ebene" viewBox="0 0 2400 1606" aria-hidden="true">
+          <defs>
+            <radialGradient id="hs-glut"><stop offset="0" stop-color="#ff3b30" stop-opacity=".55"/><stop offset="1" stop-color="#ff3b30" stop-opacity="0"/></radialGradient>
+          </defs>
+          <!-- Funkweg vom Chip zum Mast auf der Bergstation -->
+          <path id="hs-weg" class="hs-weg" d="M1054 823 C 900 600, 620 440, 404 546" pathLength="1"/>
+          <path class="hs-weg-spur" d="M1054 823 C 900 600, 620 440, 404 546" pathLength="1"/>
+          <g class="hs-pakete"><circle r="4.5"/><circle r="4.5"/><circle r="4.5"/></g>
+          <!-- Wellen am Chip -->
+          <g class="hs-wellen" transform="translate(1054 823)"><circle r="10"/><circle r="10"/><circle r="10"/></g>
+          <circle class="hs-led-glut" cx="1054" cy="823" r="16" fill="url(#hs-glut)"/>
+          <circle class="hs-led" cx="1054" cy="823" r="1.6"/>
+          <!-- Empfänger am Mast -->
+          <g class="hs-empfaenger" transform="translate(404 546)"><circle class="hs-empfaenger-ring" r="9"/><circle class="hs-empfaenger-ring hs-empfaenger-ring--2" r="9"/><circle class="hs-empfaenger-punkt" r="4"/></g>
+        </svg>
+      </div>
     </div>
     <div class="held__raster">
       <div class="held__kopf">
@@ -148,13 +154,29 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
         <p class="held__satz">Kurz drücken ruft deine Gruppe, drei Sekunden halten holt Hilfe. Ohne Handy, ohne Handynetz.</p>
         <div class="held__knoepfe"><a class="knopf-dunkel knopf-gross" href="chip.html#der-chip">Gleich ausprobieren <svg class="knopf__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="knopf-hell knopf-gross" href="#blick">Was ist SKITAG?</a></div>
       </div>
-      <div class="held__bild" aria-hidden="true">
-        <!-- Hinter dem Chip (Feedback 85): „SKI TAG“ riesig und weiß, der Chip liegt davor (seit Feedback 103 leiser über dem Video).
-             Vorbild: Produktseiten mit großem Wort hinter dem Gerät (z. B. Optixel, RiDM). -->
-        <div class="held__wort" aria-hidden="true">SKI<br>TAG</div>
-        <div class="held__chip chip-anker"><img class="chip-bild" src="assets/media/chip-3d.webp?v=3" alt="" width="600" height="800" decoding="async"></div>
-      </div>
     </div>
+
+    <!-- Zeiger am Chip, Lupe, Beschriftung am Empfänger: Lage rechnet held-szene.js aus den Fotokoordinaten -->
+    <div class="hs-zeiger" aria-hidden="true"><svg class="hs-linie"><line/></svg>
+      <div class="hs-lupe">
+        <div class="hs-lupe__foto"></div>
+        <img class="hs-lupe__chip" src="assets/media/chip-vorn.webp?v=1" alt="" width="520" height="757" decoding="async">
+        <svg class="hs-lupe__ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" pathLength="1"/></svg>
+        <span class="hs-lupe__zahl"></span>
+      </div>
+      <p class="hs-marke hs-marke--chip"><b>SkiTag</b>am Rucksack</p>
+      <p class="hs-marke hs-marke--station"><b>Empfänger</b>an der Bergstation</p>
+    </div>
+
+    <ol class="hs-karten">
+      <li class="hs-karte" data-n="1"><span>01</span><h2>Am Rucksack.<br>An der Jacke.</h2><p>Den Chip <b>mietest du am Automaten vorm Lift</b> und klippst ihn dir an. Ein Knopf, kein Handy nötig.</p></li>
+      <li class="hs-karte" data-n="2"><span>02</span><h2>Drei Sekunden halten.</h2><p>Kurz drücken ruft deine Gruppe. <b>Drei Sekunden halten holt Hilfe.</b> Die LED zeigt dir, dass es geklappt hat.</p></li>
+      <li class="hs-karte" data-n="3"><span>03</span><h2>Per Funk zur Liftstation.</h2><p>Ein Empfänger an der Station fängt das Signal auf. <b>Ganz ohne Handynetz.</b></p></li>
+      <li class="hs-karte" data-n="4"><span>04</span><h2>Hilfe weiß, wo du bist.</h2><p>Die Bergbahn bekommt deinen Notruf <b>mit Standort</b> und schickt jemanden los.</p></li>
+    </ol>
+    <div class="hs-fortschritt" aria-hidden="true"><i></i></div>
+    <p class="hs-scroll" aria-hidden="true">Scrollen</p>
+  </div>
   </section>
 
   <!-- 1b · Was ist SKITAG? (seit Feedback 125 eine ruhige Vorstellung, seit 132 in Alltagssprache): oben die Frage und
@@ -574,7 +596,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   <div class="fuss__innen">
     <div class="fuss__marke">
       <b><svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag</b>
-      <span>SkiTag GmbH · Firmenname, Sitz und Firmenbuch folgen (Platzhalter)</span>
+      <span>SkiTag Junior Company · ein Schulprojekt im Programm von Junior Achievement Austria, kein eingetragenes Unternehmen</span>
     </div>
     <nav aria-label="Seite">
       <b>Seite</b>
@@ -582,7 +604,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </nav>
     <nav aria-label="Rechtliches">
       <b>Rechtliches</b>
-      <span>Impressum folgt</span><span>Datenschutz folgt</span>
+      <a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a>
     </nav>
     <div class="fuss__nachweis">
       <b>Nachweise</b>
@@ -594,7 +616,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     <p class="fuss__wort-zeile"><span style="--i:0">S</span><span style="--i:1">K</span><span style="--i:2">I</span><span style="--i:3">T</span><span style="--i:4">A</span><span style="--i:5">G</span></p>
   </div>
   <div class="fuss__leiste">
-    <span>© 2026 SkiTag</span>
+    <span>© 2026 SkiTag Junior Company · Schulprojekt</span>
   </div>
 </footer>
 
@@ -618,6 +640,7 @@ ScrollCraft.mount(document.body);
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
 <script src="assets/am-berg.js?v=4" defer></script>
 <script src="assets/app-start.js?v=1" defer></script>
+<script src="assets/held-szene.js?v=1" defer></script>
 <script src="assets/seite.js?v=85" defer></script>
 <script src="assets/gsap-effekte.js?v=5" defer></script>
 <script src="assets/chip-film.js?v=11" defer></script>

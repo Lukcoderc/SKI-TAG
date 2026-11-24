@@ -25,7 +25,7 @@
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=138">
-<link rel="stylesheet" href="assets/app-seite.css?v=16">
+<link rel="stylesheet" href="assets/app-seite.css?v=19">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=12">
 <link rel="stylesheet" href="assets/v2-alt.css?v=3">
@@ -142,7 +142,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
         <p class="augenbraue">Die App</p>
         <h1 id="seite-titel" class="sc-display riesig">Die App.<br><span class="leise">Für jeden im Skigebiet.</span></h1>
         <p class="sc-lede kopfzeile__text">Die App gibt es <b>wie den Chip zum Mieten</b>: <b>Code vom Mietbeleg</b> eingeben, und los. <b>Keine E-Mail, kein Konto, kein Passwort.</b> Der Zugang gilt <b>bis Mitternacht</b>.</p>
-        <p class="app-kopf__knoepfe"><a class="knopf-orange knopf-gross app-laden" href="https://tobiass3.github.io/SKI-TAG/" target="_blank" rel="noopener">App hier laden <svg class="knopf__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v8.5M4 7.5 8 11.5l4-4M3 13.5h10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+        <p class="app-kopf__knoepfe"><a class="app-knopf" href="https://tobiass3.github.io/SKI-TAG/" target="_blank" rel="noopener"><span class="app-knopf__text"><b>App laden</b></span><span class="app-knopf__pfeil" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></p>
       </header>
     </div>
   </section>
@@ -190,8 +190,9 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </div>
   </section>
 
-  <!-- Feedback 151: dünner Fotostreifen zwischen den Handys; das Foto steht still, die Seite gleitet darüber -->
-  <div class="app-streifen" style="--lage:50% 45%" aria-hidden="true"><div class="app-streifen__bild"><img src="assets/media/collage-freunde.webp?v=1" alt="" width="2400" height="1600" loading="lazy" decoding="async"></div></div>
+  <!-- Fotobruch zwischen den Handys (Feedback 151, überarbeitet): ein großes Foto, das sich beim Hineinscrollen von einem
+       runden Fenster auf volle Breite öffnet, das Bild darin gleitet langsamer (assets/app-bruch.js) -->
+  <figure class="app-bruch" style="--lage:50% 45%" aria-hidden="true"><div class="app-bruch__fenster"><img src="assets/media/collage-freunde.webp?v=1" alt="" width="2400" height="1600" loading="lazy" decoding="async"></div></figure>
 
   <!-- 2 bis 5 · Szenen (seit Feedback 59): je Kapitel eine gepinnte Szene (ScrollCraft „pin“, 3,2 Bildschirme).
        Links wechselt der Text in drei Teilen, rechts zeigt EIN App-Bild alle drei Funktionen nacheinander;
@@ -256,8 +257,9 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </div>
   </section>
 
-  <!-- Feedback 151: dünner Fotostreifen zwischen den Handys; das Foto steht still, die Seite gleitet darüber -->
-  <div class="app-streifen" style="--lage:50% 60%" aria-hidden="true"><div class="app-streifen__bild"><img src="assets/media/collage-profi.webp?v=1" alt="" width="2400" height="1600" loading="lazy" decoding="async"></div></div>
+  <!-- Fotobruch zwischen den Handys (Feedback 151, überarbeitet): ein großes Foto, das sich beim Hineinscrollen von einem
+       runden Fenster auf volle Breite öffnet, das Bild darin gleitet langsamer (assets/app-bruch.js) -->
+  <figure class="app-bruch" style="--lage:50% 60%" aria-hidden="true"><div class="app-bruch__fenster"><img src="assets/media/collage-profi.webp?v=1" alt="" width="2400" height="1600" loading="lazy" decoding="async"></div></figure>
 
   <!-- 2 · Allein unterwegs -->
   <section id="allein" class="szene" data-unter="Allein" data-klick="99999" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="allein-titel">
@@ -320,8 +322,9 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </div>
   </section>
 
-  <!-- Feedback 151: dünner Fotostreifen zwischen den Handys; das Foto steht still, die Seite gleitet darüber -->
-  <div class="app-streifen" style="--lage:50% 40%" aria-hidden="true"><div class="app-streifen__bild"><img src="assets/media/collage-skischule.webp?v=1" alt="" width="2400" height="1600" loading="lazy" decoding="async"></div></div>
+  <!-- Fotobruch zwischen den Handys (Feedback 151, überarbeitet): ein großes Foto, das sich beim Hineinscrollen von einem
+       runden Fenster auf volle Breite öffnet, das Bild darin gleitet langsamer (assets/app-bruch.js) -->
+  <figure class="app-bruch" style="--lage:50% 40%" aria-hidden="true"><div class="app-bruch__fenster"><img src="assets/media/collage-skischule.webp?v=1" alt="" width="2400" height="1600" loading="lazy" decoding="async"></div></figure>
 
   <!-- 4 · Skischule -->
   <section id="skischule" class="szene szene--grau szene--links" data-unter="Skischule" data-klick="99999" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="skischule-titel">
@@ -386,7 +389,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
           <h3>Bereit für deinen Skitag?</h3>
           <p>App laden, <b>Code vom Mietbeleg</b> eingeben, los. <b>Ohne Registrierung.</b></p>
         </div>
-        <a class="knopf-orange knopf-gross app-laden" href="https://tobiass3.github.io/SKI-TAG/" target="_blank" rel="noopener">App hier laden <svg class="knopf__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v8.5M4 7.5 8 11.5l4-4M3 13.5h10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="app-knopf" href="https://tobiass3.github.io/SKI-TAG/" target="_blank" rel="noopener"><span class="app-knopf__text"><b>App laden</b></span><span class="app-knopf__pfeil" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 8h10M8.5 3.5 13 8l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
       </div>
     </div>
   </section>
@@ -430,7 +433,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   <div class="fuss__innen">
     <div class="fuss__marke">
       <b><svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag</b>
-      <span>SkiTag GmbH · Firmenname, Sitz und Firmenbuch folgen (Platzhalter)</span>
+      <span>SkiTag Junior Company · ein Schulprojekt im Programm von Junior Achievement Austria, kein eingetragenes Unternehmen</span>
     </div>
     <nav aria-label="Seite">
       <b>Seite</b>
@@ -438,7 +441,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </nav>
     <nav aria-label="Rechtliches">
       <b>Rechtliches</b>
-      <span>Impressum folgt</span><span>Datenschutz folgt</span>
+      <a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a>
     </nav>
     <div class="fuss__nachweis">
       <b>Nachweise</b>
@@ -450,7 +453,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     <p class="fuss__wort-zeile"><span style="--i:0">S</span><span style="--i:1">K</span><span style="--i:2">I</span><span style="--i:3">T</span><span style="--i:4">A</span><span style="--i:5">G</span></p>
   </div>
   <div class="fuss__leiste">
-    <span>© 2026 SkiTag</span>
+    <span>© 2026 SkiTag Junior Company · Schulprojekt</span>
   </div>
 </footer>
 
@@ -475,7 +478,8 @@ ScrollCraft.mount(document.body);
 <script src="assets/seite.js?v=85" defer></script>
 <script src="assets/gsap-effekte.js?v=5" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
-<script src="assets/auftritte.js?v=10" defer></script>
+<script src="assets/auftritte.js?v=11" defer></script>
+<script src="assets/app-bruch.js?v=1" defer></script>
 <script src="assets/sprung-anfang.js?v=20" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
 <script src="assets/app-seite.js?v=5" defer></script>
