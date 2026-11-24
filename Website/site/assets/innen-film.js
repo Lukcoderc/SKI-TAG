@@ -5,8 +5,8 @@
    sich die Teile gestaffelt von außen nach innen und stecken nicht mehr ineinander; die Größe richtet sich nach dem
    Bildschirm, nicht nach dem Sparmodus. Die Bildfolge hängt nicht am Scrollen (das ruckelte beim langsamen Scrollen):
    sobald der Abschnitt im Bild steht, öffnet sich der Chip in einem Zug (1,8 s); sobald man nach oben scrollt, schließt
-   er sich wieder, scrollt man weiter nach unten, öffnet er sich erneut. Gespielt wird erst, wenn alle Bilder geladen
-   und dekodiert sind.
+   er sich wieder, scrollt man weiter nach unten, öffnet er sich erneut. Gespielt wird, sobald etwa zwölf über den Weg
+   verteilte Bilder geladen und dekodiert sind; die übrigen rücken beim Laden nach.
    Seit 2026-11-22 (Ruckeln): die Bilder liegen vorab dekodiert als ImageBitmap bereit und werden auf ein Canvas gemalt,
    statt die Quelle eines img zu tauschen (das ließ den Browser bei jedem Wechsel neu dekodieren). Zwischen zwei
    Nachbarbildern wird genau überblendet, die Namen und Linien gehen ebenso stufenlos mit. Die 192 Bilder sind gleichmäßig
@@ -30,7 +30,7 @@
   var fb = feld.clientWidth || window.innerWidth, fh = feld.clientHeight || window.innerHeight;
   if (fb < 600 || (fb < 900 && fh > fb * 0.9)) flaeche *= 2.1;
   var klein = flaeche * Math.min(window.devicePixelRatio || 1, 2) < 1150;
-  var ORDNER = "assets/media/innen/" + (klein ? "m/" : ""), V = "?v=8", N = 48, SEITE = 4 / 3, DAUER = 2600;   // Feedback 151: erst langsamer (4,8 s), dann wieder schneller gewünscht
+  var ORDNER = "assets/media/innen/" + (klein ? "m/" : ""), V = "?v=8", N = 48, SEITE = 4 / 3, DAUER = 1800;   // Feedback 151: erst langsamer (4,8 s), dann wieder schneller gewünscht; 2026-11-24 noch schneller (2,6 s auf 1,8 s)
   var klemme = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
   var abschnitt = function (x, a, b) { return klemme((x - a) / (b - a)); };
   var weich = function (x) { return x * x * (3 - 2 * x); };
@@ -74,30 +74,40 @@
   var vorrat = [], geladen = null, erstes = null;
   // nur Bilder zeigen, die wirklich da sind (fehlt eines, nimmt es das nächste gute)
   var gutesBild = function (i) { for (var d = 0; d < N; d++) { if (vorrat[i - d]) return i - d; if (vorrat[i + d]) return i + d; } return -1; };
-  var ablegen = function (i) { return function (b) { vorrat[i] = b; if (Math.abs(i - gezeigt) < 1) { gemalt = -1; zeichnen(); } }; };
+  var ablegen = function (i) { return function (b) { vorrat[i] = b; if (!laeuft) { gemalt = -1; zeichnen(); } }; };
   /* Feedback 153: früher kamen alle Bilder auf einmal, sobald der Abschnitt eine Bildschirmhöhe entfernt war. Das fiel
      genau in den Chip-Flug oben und ließ ihn ruckeln. Jetzt lädt eine Warteschlange: im Voraus nur zwei Bilder zugleich
      und nur, wenn gerade nicht gescrollt wird; wird der Chip gebraucht (fahren), mit voller Kraft. */
-  var tempo = 2, laufend = 0, geplant = false, warteschlange = [], fertigZahl = 0, alleDa = null, letztesScrollen = 0;
+  /* 2026-11-24 (öffnet zu spät): geladen wird grob nach fein, erst jedes G-te Bild (etwa zwölf über den ganzen Weg),
+     dann die Bilder dazwischen. Gespielt wird schon, wenn die groben da sind; fehlende Zwischenbilder werden aus den
+     Nachbarn überblendet und rücken nach, sobald sie da sind. Pausiert wird beim Scrollen nur, solange der Abschnitt
+     noch weit weg ist (oben läuft sonst der Chip-Flug). */
+  var tempo = 3, laufend = 0, geplant = false, warteschlange = [], alleDa = null, letztesScrollen = 0, G = 1, grobRest = 0;
+  var istGrob = function (i) { return i % G === 0 || i === N - 1; };
+  var stufe = function (i) { if (i === N - 1) return 99; var z = 0; while (i % 2 === 0) { i /= 2; z++; } return z; };
   var laden = function (eilig) {
     if (eilig) tempo = 8;
     if (!geladen) {
+      while (G * 2 <= N / 12) G *= 2;
+      for (var k = 0; k < N; k++) if (istGrob(k)) grobRest++;
       geladen = new Promise(function (ok) { alleDa = ok; });
-      (erstes || holen(0).then(ablegen(0), function () {})).then(fertigEins, fertigEins);
+      (erstes || holen(0).then(ablegen(0), function () {})).then(function () { fertigEins(0); }, function () { fertigEins(0); });
       for (var i = 1; i < N; i++) warteschlange.push(i);
+      warteschlange.sort(function (x, y) { return stufe(y) - stufe(x) || x - y; });
     }
     pumpen();
     return geladen;
   };
-  var fertigEins = function () { fertigZahl++; if (fertigZahl >= N && alleDa) alleDa(); };
+  var fertigEins = function (i) { if (istGrob(i) && --grobRest === 0 && alleDa) alleDa(); };
+  var weit = function () { return akt.getBoundingClientRect().top > window.innerHeight * 1.5; };
   var pumpen = function () {
     while (laufend < tempo && warteschlange.length) {
-      if (tempo < 8 && performance.now() - letztesScrollen < 250) {
+      if (tempo < 8 && performance.now() - letztesScrollen < 250 && weit()) {
         if (!geplant) { geplant = true; setTimeout(function () { geplant = false; pumpen(); }, 260); }
         return;
       }
       var i = warteschlange.shift(); laufend++;
-      holen(i).then(ablegen(i), function () {}).then(function () { laufend--; fertigEins(); pumpen(); });
+      (function (i) { holen(i).then(ablegen(i), function () {}).then(function () { laufend--; fertigEins(i); pumpen(); }); })(i);
     }
   };
   window.addEventListener("scroll", function () { letztesScrollen = performance.now(); }, { passive: true });
@@ -105,11 +115,16 @@
   /* Malen: zwei Nachbarbilder genau überblenden ((1 - t) · A + t · B, mit „lighter“ addiert) */
   var malen = function () {
     if (gezeigt === gemalt) return;
-    var i = Math.floor(gezeigt), t = gezeigt - i;
-    if (t < 0.02) t = 0; else if (t > 0.98) { i += 1; t = 0; }
-    var a = vorrat[i] ? i : gutesBild(i);
-    if (a < 0) return;
-    var A = vorrat[a], B = t > 0 && a === i && vorrat[i + 1] ? vorrat[i + 1] : null;
+    // die nächsten geladenen Bilder darunter und darüber (fehlen Zwischenbilder noch, wird über die Lücke überblendet)
+    var a = Math.floor(gezeigt), b = Math.ceil(gezeigt);
+    while (a >= 0 && !vorrat[a]) a--;
+    while (b < N && !vorrat[b]) b++;
+    if (a < 0) a = b < N ? b : gutesBild(Math.round(gezeigt));
+    if (b >= N) b = a;
+    if (a < 0 || !vorrat[a]) return;
+    var t = b > a ? (gezeigt - a) / (b - a) : 0;
+    if (t < 0.02) t = 0; else if (t > 0.98) { a = b; t = 0; }
+    var A = vorrat[a], B = t > 0 ? vorrat[b] : null;
     var w = A.naturalWidth || A.width, h = A.naturalHeight || A.height;
     if (leinwand.width !== w || leinwand.height !== h) { leinwand.width = w; leinwand.height = h; }
     ctx.globalCompositeOperation = "copy"; ctx.globalAlpha = B ? 1 - t : 1;
@@ -281,7 +296,7 @@
     if (ruhig) { gezeigt = N - 1; ziel = N - 1; holen(N - 1).then(ablegen(N - 1), function () {}); }
     else erstes = holen(0).then(ablegen(0), function () {});
     zeichnen(); pruefen();
-    if ("IntersectionObserver" in window && !ruhig) new IntersectionObserver(function (e) { if (e[0].isIntersecting) laden(); }, { rootMargin: "100% 0px" }).observe(akt);
+    if ("IntersectionObserver" in window && !ruhig) new IntersectionObserver(function (e) { if (e[0].isIntersecting) laden(); }, { rootMargin: "200% 0px" }).observe(akt);
     else if (!ruhig) laden();
   }).catch(function () {});
 })();
