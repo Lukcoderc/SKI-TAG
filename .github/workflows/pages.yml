@@ -16,11 +16,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  # Bauen und Veröffentlichen als zwei Schritte (Vorlage von GitHub): im selben Schritt fand deploy-pages das eben
+  # hochgeladene Paket manchmal noch nicht („No artifacts named github-pages“, 2026-11-23 und 2026-11-24).
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       # Buch an der bisherigen Adresse, Website darunter unter /website/
@@ -33,5 +32,12 @@ jobs:
       - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - id: deployment
         uses: actions/deploy-pages@v5
