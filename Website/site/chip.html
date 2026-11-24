@@ -25,7 +25,7 @@
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=140">
-<link rel="stylesheet" href="assets/chip-seite.css?v=31">
+<link rel="stylesheet" href="assets/chip-seite.css?v=32">
 <link rel="stylesheet" href="assets/chip-film.css?v=26">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=12">
@@ -189,6 +189,54 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
             <svg class="chip-knopf__ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" pathLength="1"/></svg>
             <span class="nur-vorlesen">Knopf am Chip (Vorführung): kurz drücken ruft die Gruppe, drei Sekunden halten startet den Notruf</span>
           </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1b · Größe (Feedback 153): der Chip maßstabsgetreu neben einer Bankkarte im Normformat (85,6 × 54 mm). Alles in der
+       Fläche ist in Millimetern gesetzt (--mm, aus der Breite der Fläche), darum stimmt das Verhältnis auf jedem Bildschirm.
+       Maße von Maxis aktuellem Modell „fertig4“ (ca. 66 × 46 × 18 mm, Knopf 25 mm), gerundet. Beim Hineinscrollen kommen
+       Karte und Chip, dann zeichnen sich die Maßlinien ein. „Auf die Karte legen“ legt den Chip quer auf die Karte
+       (assets/chip-masz.js). Ohne JavaScript steht gleich das Endbild mit Maßlinien. -->
+  <section id="groesse" class="sc-section masz" data-unter="Größe" aria-labelledby="masz-titel">
+    <div class="sc-wrap masz__raster">
+      <div class="masz__text">
+        <p class="augenbraue">Größe</p>
+        <h2 id="masz-titel" class="sc-display masz__titel">Kleiner als eine<br><span class="akzent">Bankkarte.</span></h2>
+        <p class="sc-lede masz__lede">Der Chip passt in jede Jackentasche. Hier liegt er im richtigen Verhältnis neben einer Bankkarte.</p>
+        <dl class="masz__werte">
+          <div><dt>Länge</dt><dd><span data-zahl="66">66</span> mm</dd></div>
+          <div><dt>Breite</dt><dd><span data-zahl="46">46</span> mm</dd></div>
+          <div><dt>Dicke</dt><dd><span data-zahl="18">18</span> mm</dd></div>
+          <div><dt>Knopf</dt><dd><span data-zahl="25">25</span> mm</dd></div>
+        </dl>
+        <button class="knopf-hell masz__legen" type="button" aria-pressed="false" hidden>Auf die Karte legen</button>
+        <p class="masz__fuss">Alle Maße ungefähr, vom aktuellen Modell. Die Karte hat das Normformat 85,6 × 54 mm.</p>
+      </div>
+      <div class="masz__buehne">
+        <div class="masz__flaeche" role="img" aria-label="Der Chip, etwa 66 mal 46 Millimeter, neben einer Bankkarte mit 85,6 mal 54 Millimetern. Der Chip ist kleiner als die Karte.">
+          <div class="masz__karte" aria-hidden="true">
+            <span class="masz__kontakt"></span>
+            <svg class="masz__funk" viewBox="0 0 24 24"><path d="M8 7.5a6.5 6.5 0 0 1 0 9M11.5 5a10 10 0 0 1 0 14M15 2.5a13.5 13.5 0 0 1 0 19"/></svg>
+            <span class="masz__kartenname">Bankkarte</span>
+          </div>
+          <img class="masz__chip" src="assets/media/chip-masz.webp?v=1" alt="" width="464" height="658" loading="lazy" decoding="async">
+          <svg class="masz__linien" viewBox="0 0 180 88" preserveAspectRatio="none" aria-hidden="true">
+            <g class="masz__linie masz__linie--karte">
+              <path d="M12 79.5H97.6M12 76.5v6M97.6 76.5v6" pathLength="1"/>
+              <path d="M5 18V72M2 18h6M2 72h6" pathLength="1"/>
+            </g>
+            <g class="masz__linie masz__linie--chip">
+              <path d="M112 79.5H158M112 76.5v6M158 76.5v6" pathLength="1"/>
+              <path d="M165 6V72M162 6h6M162 72h6" pathLength="1"/>
+            </g>
+          </svg>
+          <span class="masz__mass masz__mass--kb" aria-hidden="true">85,6 mm</span>
+          <span class="masz__mass masz__mass--kh" aria-hidden="true">54 mm</span>
+          <span class="masz__mass masz__mass--cb masz__mass--chip" aria-hidden="true">46 mm</span>
+          <span class="masz__mass masz__mass--ch masz__mass--chip" aria-hidden="true">66 mm</span>
+          <span class="masz__passt" aria-hidden="true">Passt ganz auf die Karte</span>
         </div>
       </div>
     </div>
@@ -447,7 +495,8 @@ ScrollCraft.mount(document.body);
 <script src="assets/weg.js?v=20" defer></script>
 <script src="assets/chip-film.js?v=12" defer></script>
 <script src="assets/innen-film.js?v=17" defer></script>
-<script src="assets/chip-flug.js?v=3" defer></script>
+<script src="assets/chip-flug.js?v=4" defer></script>
+<script src="assets/chip-masz.js?v=1" defer></script>
 <script src="assets/v2.js?v=2" defer></script>
 </body>
 </html>

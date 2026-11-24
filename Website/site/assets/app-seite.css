@@ -445,3 +445,11 @@ html:not(.js-app) .sz-seite[data-seite="0"] { opacity: 1; transform: none; }
 .app-knopf { max-width: 100%; box-sizing: border-box; }
 .app-knopf__text { min-width: 0; }
 @media (max-width: 600px) { .app-kontakt .app-knopf { width: 100%; } .app-knopf__text { flex: 1; } }
+
+/* Runde nach Feedback 152 („Bilder nicht ganz so groß“): die Fotofenster sind niedriger und bleiben auch offen in
+   der Inhaltsbreite, mit runden Ecken und etwas Weiß ringsum, statt die ganze Fensterbreite zu füllen. */
+.app-bruch { padding: clamp(0.75rem, 2.5vw, 1.75rem) var(--sc-gutter); }
+.app-bruch__fenster { max-width: 72rem; margin: 0 auto; height: clamp(15rem, 52svh, 34rem); border-radius: clamp(1rem, 2vw, 1.75rem);
+  clip-path: inset(calc((1 - var(--auf)) * 3svh) calc((1 - var(--auf)) * 5vw) round calc((1 - var(--auf)) * 1rem + clamp(1rem, 2vw, 1.75rem))); }
+/* am Handy eigener Bildausschnitt, wo der breite nicht passt (Skischule: Kind und Lehrer statt nur Lehrer) */
+@media (max-width: 700px) { .app-bruch__fenster img { object-position: var(--lage-h, var(--lage, 50% 50%)); } }

@@ -58,14 +58,14 @@
     f = klemme(y / m.ende);
     var fl = klemme(f / 0.86);                     // bei 86 % sitzt der Chip genau auf dem Ziel
     var g = inOut(fl), t = (jetzt - zeit0) / 1000;
-    var ruhe = 1 - weich(klemme(f / 0.1));          // Schweben nur oben
+    var ruhe = 1 - weich(klemme(f / 0.1));          // Schweben nur oben, nur auf und ab (Feedback: das Drehen oben ruckelte)
     var nah = Math.sin(fl * Math.PI);
     var x = mix(m.ax, m.zx, g) + Math.sin(fl * Math.PI) * Math.min(vw * 0.12, 160) * (m.zx > m.ax ? -1 : 1);
-    var yy = mix(m.ay, m.zy, mix(fl, g, 0.4)) - y + Math.sin(t * 1.4) * 6 * ruhe;
+    var yy = mix(m.ay, m.zy, mix(fl, g, 0.4)) - y + Math.sin(t * 1.1) * 5 * ruhe;
     var s = mix(m.as, m.zs, g) * (1 + nah * 0.35);
-    var dreh = Math.sin(fl * Math.PI) * -16 + Math.sin(t * 0.9) * 2 * ruhe;
+    var dreh = Math.sin(fl * Math.PI) * -16;
     // Drehung durch die Renderbilder: hin bis ganz links, zurück bis ganz rechts, landet auf Bild 16
-    var nr = Math.round(Math.max(0, Math.min(N - 1, RUHE + 13 * Math.sin(fl * Math.PI * 2) + Math.sin(t * 0.8) * 2 * ruhe)));
+    var nr = Math.round(Math.max(0, Math.min(N - 1, RUHE + 13 * Math.sin(fl * Math.PI * 2))));
     nr = naechstes(nr);
     if (nr !== gezeigt) { img.src = quellen[nr]; gezeigt = nr; }
     flieger.style.transform = "translate3d(" + (x - s / 2).toFixed(1) + "px," + (yy - s / 2).toFixed(1) + "px,0) rotate(" + dreh.toFixed(2) + "deg)";

@@ -231,7 +231,7 @@
 }
 
 /* Einstieg der Chip-Seite (Feedback 141): zwei Spalten, rechts klein der liegende Chip, links drei Merkmale */
-.chip-anfang__raster { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr); align-items: center; gap: clamp(1.5rem, 4vw, 4rem); }
+.chip-anfang__raster { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); align-items: center; gap: clamp(1.5rem, 4vw, 4rem); }
 .chip-anfang__fakten { list-style: none; margin: clamp(1.5rem, 3vh, 2.2rem) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.6rem; }
 .chip-anfang__fakten li { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.6rem 1rem 0.6rem 0.75rem; border-radius: 999px;
   background: #f1f4f9; color: var(--sc-ink); font-weight: 600; font-size: var(--sc-t-sm); }
@@ -324,11 +324,87 @@
 #der-chip .knopf__foto img { width: 100%; height: 100%; object-fit: cover; object-position: 40% 50%; transform: scale(1.12); filter: blur(calc(var(--unscharf, 1) * 18px)) saturate(1.1); }
 .chipflug #der-chip .knopf__bild { --unscharf: 0; }
 
-.chip-flug-start { width: min(100%, 15rem); }
+.chip-flug-start { width: min(100%, 27rem); }   /* größer (Feedback 153) */
 .chip-flug-start img { display: block; width: 100%; height: auto; aspect-ratio: 1; }
 .chipflug-an .chip-flug-start img { visibility: hidden; animation: none; }
 .chipflug-an .chip-flug-start::after { display: none; }
 .chip-flieger { position: fixed; left: 0; top: 0; z-index: 5; pointer-events: none; will-change: transform; }
 .chip-flieger img { position: relative; z-index: 1; display: block; width: 100%; height: 100%; }
 .chip-flieger::after { content: ""; position: absolute; left: 30%; right: 30%; bottom: 9%; height: 6%; border-radius: 50%; background: radial-gradient(closest-side, rgba(11, 20, 39, 0.5), rgba(11, 20, 39, 0)); opacity: var(--schatten, 0); }
-@media (max-width: 860px) { .chip-flug-start { width: min(42%, 11rem); } }
+@media (max-width: 860px) { .chip-flug-start { width: min(72%, 18rem); justify-self: center; margin: -0.5rem 0 -1rem; }
+  .chip-flug-start::after { left: 24%; right: 24%; bottom: 6%; height: 10%; } }
+
+/* Größe (Feedback 153): der Chip maßstabsgetreu neben einer Bankkarte. In der Fläche ist alles in Millimetern gesetzt:
+   --mm ist ein 180stel ihrer Breite, die Fläche ist 180 × 88 mm groß. Ablauf in assets/chip-masz.js. */
+.masz { background: #fff; }
+.masz__raster { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); align-items: center; gap: clamp(2rem, 4vw, 4rem); }
+.masz__titel { font-size: clamp(2.4rem, 1.5rem + 3vw, 4.4rem); line-height: 0.98; letter-spacing: -0.04em; }
+.masz__lede { margin-top: var(--sc-5) !important; color: var(--sc-ink-soft); max-width: 34ch; }
+.masz__werte { display: grid; grid-template-columns: repeat(4, auto); justify-content: start; gap: 0; margin: clamp(1.5rem, 3vh, 2.2rem) 0 0; }
+.masz__werte div { padding: 0.2rem clamp(0.9rem, 1.6vw, 1.5rem); border-left: 1px solid var(--linie); }
+.masz__werte div:first-child { padding-left: 0; border-left: 0; }
+.masz__werte dt { font-size: var(--sc-t-xs); color: var(--sc-ink-soft); font-weight: 600; }
+.masz__werte dd { margin: 0.15rem 0 0; font-family: var(--sc-font-display); font-size: clamp(1.25rem, 1rem + 0.8vw, 1.7rem); font-weight: 600; color: var(--sc-ink); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.masz__werte dd span { color: var(--orange-2); }
+.masz__legen { margin-top: clamp(1.4rem, 3vh, 2rem); }
+.masz__legen[aria-pressed="true"] { background: var(--sc-ink); border-color: var(--sc-ink); color: #fff; }
+.masz__fuss { margin: 1rem 0 0; font-size: var(--sc-t-xs); line-height: 1.5; color: var(--sc-ink-soft); max-width: 40ch; }
+
+.masz__buehne { container-type: inline-size; background: var(--eis); border-radius: var(--r-gross); padding: clamp(1rem, 3vw, 2.5rem) clamp(0.75rem, 2.5vw, 2.25rem); }
+.masz__flaeche { --mm: calc(100cqw / 180); position: relative; width: 100%; aspect-ratio: 180 / 88; }
+.masz__flaeche > * { position: absolute; }
+.masz__karte { left: calc(var(--mm) * 12); top: calc(var(--mm) * 18); width: calc(var(--mm) * 85.6); height: calc(var(--mm) * 54);
+  border-radius: calc(var(--mm) * 3.18); overflow: hidden;
+  background: radial-gradient(120% 90% at 85% 0%, #2c4580 0%, rgba(44, 69, 128, 0) 60%), linear-gradient(135deg, #1b2f5e 0%, var(--nacht) 70%);
+  box-shadow: 0 calc(var(--mm) * 0.6) calc(var(--mm) * 1.2) rgba(14, 29, 64, 0.18), 0 calc(var(--mm) * 3) calc(var(--mm) * 6) -2px rgba(14, 29, 64, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18); }
+.masz__kontakt { position: absolute; left: calc(var(--mm) * 9); top: calc(var(--mm) * 19); width: calc(var(--mm) * 11); height: calc(var(--mm) * 8.5);
+  border-radius: calc(var(--mm) * 1.4); background: linear-gradient(135deg, #f1d796, #c9a253 55%, #e7c97c);
+  box-shadow: inset 0 0 0 calc(var(--mm) * 0.25) rgba(120, 88, 30, 0.35); }
+.masz__kontakt::before, .masz__kontakt::after { content: ""; position: absolute; background: rgba(120, 88, 30, 0.35); }
+.masz__kontakt::before { left: 33%; right: 33%; top: 0; bottom: 0; border-left: calc(var(--mm) * 0.25) solid rgba(120, 88, 30, 0.35); border-right: calc(var(--mm) * 0.25) solid rgba(120, 88, 30, 0.35); background: none; }
+.masz__kontakt::after { left: 0; right: 0; top: 50%; height: calc(var(--mm) * 0.25); }
+.masz__funk { position: absolute; left: calc(var(--mm) * 23); top: calc(var(--mm) * 19.3); width: calc(var(--mm) * 7.8); height: calc(var(--mm) * 7.8);
+  fill: none; stroke: rgba(255, 255, 255, 0.55); stroke-width: 1.8; stroke-linecap: round; }
+.masz__kartenname { position: absolute; left: calc(var(--mm) * 9); bottom: calc(var(--mm) * 6); font-size: calc(var(--mm) * 4); font-weight: 600; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.6); }
+.masz__chip { left: calc(var(--mm) * 112); top: calc(var(--mm) * 6); width: calc(var(--mm) * 46); height: calc(var(--mm) * 66); object-fit: fill;
+  filter: drop-shadow(0 calc(var(--mm) * 0.8) calc(var(--mm) * 1) rgba(14, 29, 64, 0.22)) drop-shadow(0 calc(var(--mm) * 3) calc(var(--mm) * 4) rgba(14, 29, 64, 0.18)); }
+.masz__linien { inset: 0; width: 100%; height: 100%; overflow: visible; }
+.masz__linie path { fill: none; stroke: var(--sc-ink); stroke-width: 1.2; vector-effect: non-scaling-stroke; stroke-linecap: round; }
+.masz__linie--chip path { stroke: var(--orange-2); }
+.masz__mass { translate: -50% -50%; padding: 0.1em 0.45em; background: var(--eis); color: var(--sc-ink); white-space: nowrap;
+  font-size: clamp(0.68rem, 0.6rem + 0.3vw, 0.85rem); font-weight: 650; font-variant-numeric: tabular-nums; line-height: 1.3; }
+.masz__mass--chip { color: var(--orange-2); }
+.masz__mass--kb { left: calc(var(--mm) * 54.8); top: calc(var(--mm) * 79.5); }
+.masz__mass--kh { left: calc(var(--mm) * 5); top: calc(var(--mm) * 45); rotate: -90deg; }
+.masz__mass--cb { left: calc(var(--mm) * 135); top: calc(var(--mm) * 79.5); }
+.masz__mass--ch { left: calc(var(--mm) * 165); top: calc(var(--mm) * 39); rotate: -90deg; }
+.masz__passt { left: calc(var(--mm) * 54.8); top: calc(var(--mm) * 11); translate: -50% -50%; white-space: nowrap; font-size: var(--sc-t-xs); font-weight: 650; color: var(--sc-ink);
+  opacity: 0; transition: opacity 0.4s var(--sc-ease-out); }
+
+/* Ablauf: nur mit JavaScript (Klasse masz-an), sonst steht das Endbild */
+.masz-an .masz__karte { opacity: 0; translate: calc(var(--mm) * -10) 0; transition: opacity 0.7s var(--sc-ease-out), translate 0.9s cubic-bezier(0.16, 1, 0.3, 1); }
+.masz-an .masz__chip { opacity: 0; translate: 0 calc(var(--mm) * -12); transition: opacity 0.6s var(--sc-ease-out) 0.25s, translate 1s cubic-bezier(0.34, 1.4, 0.5, 1) 0.25s, transform 0.9s cubic-bezier(0.65, 0, 0.35, 1); }
+.masz-an .masz__linie path { stroke-dasharray: 1 1; stroke-dashoffset: 1; transition: stroke-dashoffset 0.8s cubic-bezier(0.65, 0, 0.35, 1) 0.8s, opacity 0.35s; }
+.masz-an .masz__linie--chip path { transition-delay: 1.05s, 0s; }
+.masz-an .masz__mass { opacity: 0; transition: opacity 0.4s var(--sc-ease-out) 1.4s; }
+.masz-an.ist-da .masz__karte, .masz-an.ist-da .masz__chip { opacity: 1; translate: 0 0; }
+.masz-an.ist-da .masz__linie path { stroke-dashoffset: 0; }
+.masz-an.ist-da .masz__mass { opacity: 1; }
+/* Auf die Karte gelegt: quer, mittig auf der Karte; die Maßlinien des Chips gehen weg */
+.masz.liegt .masz__chip { transform: translate(calc(var(--mm) * -80.2), calc(var(--mm) * 6)) rotate(-90deg); }
+.masz.liegt .masz__linie--chip path, .masz.liegt .masz__mass--chip { opacity: 0; transition-delay: 0s; }
+.masz.liegt .masz__passt { opacity: 1; transition-delay: 0.6s; }
+@media (prefers-reduced-motion: reduce) {
+  .masz-an .masz__karte, .masz-an .masz__chip, .masz-an .masz__linie path, .masz-an .masz__mass { transition: none; }
+}
+@media (max-width: 860px) {
+  .masz__raster { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .masz__text { display: contents; }   /* am Handy steht die Fläche direkt unter dem Satz, Zahlen und Knopf darunter */
+  .masz__text > * { order: 0; }
+  .masz__buehne { order: 1; margin-top: 1.75rem; }
+  .masz__werte { order: 2; } .masz__legen { order: 3; justify-self: start; } .masz__fuss { order: 4; }
+  .masz__werte { grid-template-columns: repeat(4, auto); }
+  .masz__werte div { padding: 0.2rem 0.8rem; }
+  .masz__buehne { margin-inline: calc(var(--sc-gutter) * -0.5); }
+}
+@media (max-width: 380px) { .masz__werte div { padding: 0.2rem 0.6rem; } .masz__werte dd { font-size: 1.15rem; } }

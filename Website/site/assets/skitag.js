@@ -255,9 +255,57 @@
       gs.fromTo(berge, { opacity: 1, yPercent: 0 }, { opacity: 0, yPercent: 35, ease: "power1.in",
         scrollTrigger: { trigger: band, start: "top bottom", end: "top 45%", scrub: glatt } });
     }
+    talfahrt();
     messen(); zeigen(); bereit = true;
     window.ScrollTrigger.refresh();
     return;
+  }
+
+  /* ------------------------------------- Talfahrt im Gebirge über dem Fuß (Runde nach Feedback 152) -- */
+  /* Am Ende des Tages verlässt der Skifahrer den Zeitstrahl und fährt im Gebirge über dem Fuß von der Bergstation
+     in Bögen den Hang hinunter bis ins Tal, wo er hinter dem vorderen Hügel mit den Tannen verschwindet. Er liegt in der
+     mittleren Bergebene (SVG 1600 × 240), seine Spur wird bis zu ihm gezeichnet. Hängt am Scrollen über dem Band. */
+  function talfahrt() {
+    var band = document.querySelector(".gebirge-band"), ebene = band && band.querySelector(".gebirge__lage--mitte");
+    if (!ebene || ohneBewegung) return;
+    var g = document.createElementNS(NS, "g");
+    g.setAttribute("class", "talfahrt");
+    g.innerHTML = '<path class="talfahrt__spur"/><path class="talfahrt__spur"/>' +
+      '<g class="tag__fahrer talfahrt__fahrer"><g class="tag__fahrer-dreh">' +
+      '<path d="M-9 9 L9 5" class="tag__fahrer-ski"/><path d="M-1 -9 L1 0 L-3 7 M1 0 L5 6" class="tag__fahrer-koerper"/>' +
+      '<path d="M-1 -6 L-7 -2 M0 -6 L7 -4" class="tag__fahrer-arme"/><circle cx="-1.5" cy="-12.5" r="3.2" class="tag__fahrer-kopf"/></g></g>';
+    ebene.appendChild(g);
+    var spuren = g.querySelectorAll(".talfahrt__spur"), fahrer = g.querySelector(".talfahrt__fahrer"), dreh = fahrer.firstChild;
+    // von der Bergstation (880, 104) zum Tal unten links beim Lift, in weichen Bögen quer zum Hang
+    var A = [884, 116], B = [686, 238], N = 160, pts = [];
+    var dx = B[0] - A[0], dy = B[1] - A[1], lang = Math.hypot(dx, dy), qx = -dy / lang, qy = dx / lang;
+    for (var i = 0; i < N; i++) {
+      var t = i / (N - 1), e = t * t * (3 - 2 * t) * 0.35 + t * 0.65;
+      var aus = Math.sin(t * Math.PI * 3.5) * 15 * Math.min(1, t * 6) * (1 - t * 0.35);
+      pts.push([A[0] + dx * e + qx * aus, A[1] + dy * e + qy * aus]);
+    }
+    var bis = -1;
+    var setzen = function (p) {
+      var n = Math.max(1, Math.round(p * (N - 1)));
+      wurzel.classList.toggle("talfahrt-an", p > 0.01);
+      if (n !== bis) {
+        bis = n;
+        [-1.1, 1.1].forEach(function (v, k) {
+          var d = "";
+          for (var j = 0; j <= n && j < N; j++) d += (j ? "L" : "M") + (pts[j][0] + v).toFixed(1) + " " + (pts[j][1] + v * 0.4).toFixed(1);
+          spuren[k].setAttribute("d", n > 1 ? d : "");
+        });
+      }
+      var a = pts[Math.min(N - 1, n)], vor = pts[Math.min(N - 1, n + 2)], nach = pts[Math.max(0, n - 2)];
+      var neig = Math.atan2(vor[0] - nach[0], Math.max(0.5, vor[1] - nach[1])) * 180 / Math.PI;
+      fahrer.setAttribute("transform", "translate(" + a[0].toFixed(1) + " " + a[1].toFixed(1) + ")");
+      dreh.setAttribute("transform", "rotate(" + (-neig * 0.5).toFixed(1) + ") scale(" + (0.62 + p * 0.25).toFixed(3) + ")");
+      fahrer.style.opacity = p < 0.02 ? "0" : p > 0.97 ? "0" : "1";
+    };
+    setzen(0);
+    var stand2 = { p: 0 };
+    gs.to(stand2, { p: 1, ease: "none", onUpdate: function () { setzen(stand2.p); },
+      scrollTrigger: { trigger: band, start: "top 85%", end: "bottom 70%", scrub: 0.8 } });
   }
 
   // ohne GSAP: direkt am Scrollen

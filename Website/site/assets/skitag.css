@@ -272,3 +272,10 @@ html.tagwelt-dunkel .tag__fahrer-kopf { fill: #fff; }
   .tag__was::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--orange); flex: none; }
   html.tagwelt-dunkel .tag__was { color: rgba(255, 255, 255, 0.78); }
 }
+
+/* Talfahrt im Gebirge über dem Fuß (Runde nach Feedback 152, skitag.js): Spur und Skifahrer in der mittleren Ebene;
+   der Skifahrer am Zeitstrahl verschwindet, sobald er dort losfährt */
+.talfahrt__spur { fill: none; stroke: var(--orange); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; opacity: 0.85; }
+.talfahrt__fahrer .tag__fahrer-koerper, .talfahrt__fahrer .tag__fahrer-arme { stroke: #fff; }
+.talfahrt__fahrer .tag__fahrer-kopf { fill: #fff; }
+.talfahrt-an .tag__spur .tag__fahrer { opacity: 0 !important; }
