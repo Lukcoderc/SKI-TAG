@@ -436,6 +436,7 @@
     var wegTitel = akt.querySelector(".kn-weg__titel");
     // Notruf als großer Countdown (Feedback 142): Titel und Zeile in der Fläche
     var nrTitel = akt.querySelector(".nr__titel"), nrZeile = akt.querySelector(".nr__sub");
+    var nrBox = akt.querySelector(".nr__weg"), nrCss = "";
     var wegLinie = akt.querySelector(".kn-weg ol"), hilfeCss = "";
 
     // In der Vorführung verkürzt: Halten 1,2 s (echt 3 s, Feedback 72), Abbrechen 3 s (echt 5 s, Feedback 77).
@@ -462,6 +463,12 @@
       if (wegLinie && hv !== hilfeCss) { hilfeCss = hv; wegLinie.style.setProperty("--hilfe", hv); }
       var titel = zustand === "fertig" ? "Hilfe ist da" : "Notruf gesendet";
       if (wegTitel && wegTitel.textContent !== titel) wegTitel.textContent = titel;
+      if (nrBox) {
+        // Feedback 155: Szene unter dem Text. --nr-s: Signal zur Liftstation (bis 0,3), --nr-m: Mitarbeiter fährt zu dir (ab 0,3)
+        var hs = an ? hilfe : 0, ns = klemme(hs / 0.3).toFixed(3), nm = klemme((hs - 0.3) / 0.7);
+        nm = (nm < 0.5 ? 2 * nm * nm : 1 - Math.pow(-2 * nm + 2, 2) / 2).toFixed(3);
+        if (ns + nm !== nrCss) { nrCss = ns + nm; nrBox.style.setProperty("--nr-s", ns); nrBox.style.setProperty("--nr-m", nm); }
+      }
       if (nrTitel) {
         var nt = "", nz = "";
         if (zustand === "frist") { nt = "Notruf in " + Math.max(1, chip.sek || 1) + " s"; nz = "Noch einmal drücken bricht ab"; }

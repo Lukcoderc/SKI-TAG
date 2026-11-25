@@ -26,7 +26,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=146">
 <link rel="stylesheet" href="assets/chip-seite.css?v=34">
-<link rel="stylesheet" href="assets/chip-film.css?v=27">
+<link rel="stylesheet" href="assets/chip-film.css?v=28">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=12">
 <link rel="stylesheet" href="assets/v2-alt.css?v=3">
@@ -169,7 +169,27 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
         </div>
         <!-- Feedback 142: Notruf als großer Countdown. In der Frist steht groß „Notruf in 3 s“, danach wird die Fläche
              dunkelrot und groß steht „Notruf gesendet“ mit einer Zeile darunter; seite.js setzt die Texte. -->
-        <div class="nr" aria-hidden="true"><p class="nr__titel">Notruf gesendet</p><p class="nr__sub">Standort übermittelt</p></div>
+        <div class="nr" aria-hidden="true"><p class="nr__titel">Notruf gesendet</p><p class="nr__sub">Standort übermittelt</p>
+          <!-- Feedback 155: kleine Szene unter dem Text, im Takt mit ihm (seite.js setzt --nr-s und --nr-m): erst läuft das
+               Signal von dir zur Liftstation, dann fährt ein Mitarbeiter von dort zu dir, am Ende ein Haken bei dir. -->
+          <div class="nr__weg"><div class="nr__weg-innen">
+            <svg class="nr__svg" viewBox="0 0 280 50">
+              <path class="nr__boden" d="M12 36 H268"/>
+              <path class="nr__funk" d="M30 27 Q140 -4 250 21" pathLength="1"/>
+              <g class="nr__station"><path d="M240 36 V22 L252 13 L264 22 V36 Z"/><path class="nr__tuer" d="M249 36 V28 H255 V36"/></g>
+              <g class="nr__du"><circle class="nr__du-welle" cx="30" cy="31" r="5"/><circle class="nr__du-punkt" cx="30" cy="31" r="5"/></g>
+              <g class="nr__helfer"><g class="nr__helfer-hub">
+                <circle cx="0" cy="-19" r="3.4"/>
+                <path class="nr__helfer-koerper" d="M-4 -4 L-2.5 -13 Q0 -15.5 2.5 -13 L4 -4 Z"/>
+                <path class="nr__helfer-ski" d="M-8 -1.5 H8"/>
+                <path class="nr__helfer-kreuz" d="M0 -12 V-6.5 M-2.75 -9.25 H2.75"/>
+              </g></g>
+              <path class="nr__haken" d="M26 31 L29 34 L34.5 27.5" pathLength="1"/>
+              <text class="nr__marke" x="30" y="47" text-anchor="middle">Du</text>
+              <text class="nr__marke" x="252" y="47" text-anchor="middle">Liftstation</text>
+            </svg>
+          </div></div>
+        </div>
 
         <div class="kn-weg" aria-hidden="true">
           <p class="kn-weg__kopf"><i></i><span class="kn-weg__titel">Notruf gesendet</span></p>
@@ -486,7 +506,7 @@ ScrollCraft.mount(document.body);
 </script>
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
-<script src="assets/seite.js?v=87" defer></script>
+<script src="assets/seite.js?v=88" defer></script>
 <script src="assets/gsap-effekte.js?v=6" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
 <script src="assets/auftritte.js?v=12" defer></script>
