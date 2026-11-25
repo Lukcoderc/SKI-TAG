@@ -24,8 +24,8 @@
 /* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=145">
-<link rel="stylesheet" href="assets/app-seite.css?v=21">
+<link rel="stylesheet" href="assets/seite.css?v=146">
+<link rel="stylesheet" href="assets/app-seite.css?v=22">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=12">
 <link rel="stylesheet" href="assets/v2-alt.css?v=3">
@@ -190,7 +190,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </div>
   </section>
 
-  <!-- Fotobruch zwischen den Handys (Feedback 151, überarbeitet): ein großes Foto, das sich beim Hineinscrollen von einem
+  <!-- Fotobruch zwischen den Handys (Feedback 151, seit 154 wieder ein dünner Streifen mit Tiefe, Regeln am Ende von app-seite.css); früher: ein großes Foto, das sich beim Hineinscrollen von einem
        runden Fenster auf volle Breite öffnet, das Bild darin gleitet langsamer (assets/app-bruch.js) -->
   <figure class="app-bruch" style="--lage:50% 55%" aria-hidden="true"><div class="app-bruch__fenster"><img src="assets/media/app-foto-familie.webp?v=2" srcset="assets/media/app-foto-familie-m.webp?v=2 1400w, assets/media/app-foto-familie.webp?v=2 2800w" sizes="100vw" alt="" width="2800" height="1870" loading="lazy" decoding="async"></div></figure>
 
@@ -257,7 +257,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </div>
   </section>
 
-  <!-- Fotobruch zwischen den Handys (Feedback 151, überarbeitet): ein großes Foto, das sich beim Hineinscrollen von einem
+  <!-- Fotobruch zwischen den Handys (Feedback 151, seit 154 wieder ein dünner Streifen mit Tiefe, Regeln am Ende von app-seite.css); früher: ein großes Foto, das sich beim Hineinscrollen von einem
        runden Fenster auf volle Breite öffnet, das Bild darin gleitet langsamer (assets/app-bruch.js) -->
   <figure class="app-bruch" style="--lage:50% 45%" aria-hidden="true"><div class="app-bruch__fenster"><img src="assets/media/app-foto-allein.webp?v=1" srcset="assets/media/app-foto-allein-m.webp?v=1 1400w, assets/media/app-foto-allein.webp?v=1 2800w" sizes="100vw" alt="" width="2800" height="1870" loading="lazy" decoding="async"></div></figure>
 
@@ -322,7 +322,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     </div>
   </section>
 
-  <!-- Fotobruch zwischen den Handys (Feedback 151, überarbeitet): ein großes Foto, das sich beim Hineinscrollen von einem
+  <!-- Fotobruch zwischen den Handys (Feedback 151, seit 154 wieder ein dünner Streifen mit Tiefe, Regeln am Ende von app-seite.css); früher: ein großes Foto, das sich beim Hineinscrollen von einem
        runden Fenster auf volle Breite öffnet, das Bild darin gleitet langsamer (assets/app-bruch.js) -->
   <figure class="app-bruch" style="--lage:60% 22%;--lage-h:2% 30%" aria-hidden="true"><div class="app-bruch__fenster"><img src="assets/media/app-foto-skischule.webp?v=1" srcset="assets/media/app-foto-skischule-m.webp?v=1 1400w, assets/media/app-foto-skischule.webp?v=1 2800w" sizes="100vw" alt="" width="2800" height="1870" loading="lazy" decoding="async"></div></figure>
 
@@ -433,7 +433,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   <div class="fuss__innen">
     <div class="fuss__marke">
       <b><svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag</b>
-      <span>SkiTag Junior Company · ein Schulprojekt im Programm von Junior Achievement Austria, kein eingetragenes Unternehmen</span>
+      <span>SkiTag Junior Company · ein Schulprojekt im Programm von Junior Achievement Austria, kein eingetragenes Unternehmen</span><span class="fuss__kontakt">Tobias, Maximilian und Lukas<a href="mailto:skitag.team@gmail.com">skitag.team@gmail.com</a></span>
     </div>
     <nav aria-label="Seite">
       <b>Seite</b>

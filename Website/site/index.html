@@ -23,12 +23,12 @@
 /* Seitenwechsel (Feedback 94): Browser ohne Übergang zwischen Seiten bekommen ein eigenes kurzes Einblenden (seite.css, seite.js) */
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
-<link rel="stylesheet" href="assets/seite.css?v=145">
+<link rel="stylesheet" href="assets/seite.css?v=146">
 <link rel="stylesheet" href="assets/chip-film.css?v=27">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/schrift-inter.css?v=1">
 <link rel="stylesheet" href="assets/am-berg.css?v=4">
-<link rel="stylesheet" href="assets/app-start.css?v=3">
+<link rel="stylesheet" href="assets/app-start.css?v=4">
 <link rel="preload" href="assets/media/chip/07.webp?v=1" as="image">
 <noscript><style>.lade { display: none; }</style></noscript>
 </head>
@@ -254,7 +254,8 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
        Fotos (Unsplash, Herkunft in assets/media/collage-*.webp.json). Beim Darüberfahren zoomt ein Foto, zeigt seinen
        Namen, die anderen treten zurück. Daneben das iPhone als ruhiges Standbild, ohne Schalter: was die App kann,
        zeigt app.html. -->
-  <!-- Feedback 151: App-Abschnitt neu. Hinten die Fotos (Hintergrund, mit Schatten), vorne das Handy und die Infofelder.
+  <!-- Feedback 151: App-Abschnitt neu. Hinten ein Foto (Hintergrund, mit Schatten), vorne das Handy und die Infofelder.
+       Feedback 154: aufgeräumt, das Handy links, die drei Schritte rechts in eigener Spalte, nichts überlappt mehr.
        Seit der Runde danach zeigt das Handy eine echte App-Store-Seite (Kopf, Infozeile, Bildschirmfotos, Tableiste) und
        spielt ab, sobald es im Bild ist: Laden, Öffnen, die App geht auf, Einloggen, Gruppe auf der Karte
        (assets/app-start.js, Regeln in assets/app-start.css). Ohne JS bleibt das erste Bild stehen. -->
@@ -275,13 +276,8 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
       </header>
 
       <div class="app-start__buehne">
-        <!-- hinten: Fotos -->
-        <div class="app-start__fotos" aria-hidden="true">
-          <img class="asf asf--1" src="assets/media/collage-kind.webp?v=1" alt="" width="933" height="1400" loading="lazy" decoding="async">
-          <img class="asf asf--2" src="assets/media/collage-skischule.webp?v=1" alt="" width="1400" height="933" loading="lazy" decoding="async">
-          <img class="asf asf--3" src="assets/media/collage-freunde.webp?v=1" alt="" width="1400" height="933" loading="lazy" decoding="async">
-          <img class="asf asf--4" src="assets/media/collage-profi.webp?v=1" alt="" width="933" height="1400" loading="lazy" decoding="async">
-        </div>
+        <!-- hinten: ein ruhiges Foto als Bühne (Feedback 154 statt vier kleiner Fotos), mit Schatten; Handy und Infofelder liegen davor -->
+        <div class="app-start__foto" aria-hidden="true"><img src="assets/media/app-foto-familie.webp?v=2" srcset="assets/media/app-foto-familie-m.webp?v=2 1400w, assets/media/app-foto-familie.webp?v=2 2800w" sizes="(max-width: 899px) 100vw, 75vw" alt="" width="2800" height="1854" loading="lazy" decoding="async"></div>
 
         <!-- vorne: Handy -->
         <figure class="iphone app-start__handy" role="img" aria-label="Ein iPhone zeigt die SkiTag-App im App Store: Laden tippen, öffnen, mit Vorname und Code vom Mietbeleg einloggen, danach zeigt die App die eigene Gruppe auf der Karte.">
@@ -587,7 +583,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   <div class="fuss__innen">
     <div class="fuss__marke">
       <b><svg class="logo-zeichen" viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag</b>
-      <span>SkiTag Junior Company · ein Schulprojekt im Programm von Junior Achievement Austria, kein eingetragenes Unternehmen</span>
+      <span>SkiTag Junior Company · ein Schulprojekt im Programm von Junior Achievement Austria, kein eingetragenes Unternehmen</span><span class="fuss__kontakt">Tobias, Maximilian und Lukas<a href="mailto:skitag.team@gmail.com">skitag.team@gmail.com</a></span>
     </div>
     <nav aria-label="Seite">
       <b>Seite</b>
@@ -630,7 +626,7 @@ ScrollCraft.mount(document.body);
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
 <script src="assets/am-berg.js?v=4" defer></script>
-<script src="assets/app-start.js?v=3" defer></script>
+<script src="assets/app-start.js?v=4" defer></script>
 <script src="assets/seite.js?v=87" defer></script>
 <script src="assets/gsap-effekte.js?v=6" defer></script>
 <script src="assets/chip-film.js?v=12" defer></script>

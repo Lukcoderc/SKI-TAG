@@ -624,6 +624,10 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
 .fuss b { display: block; margin-bottom: var(--sc-3); color: var(--nacht-ink); font-weight: 650; }
 .fuss__marke b { display: flex; align-items: center; gap: 0.55rem; font-family: var(--sc-font-display); font-size: var(--sc-t-xl); letter-spacing: -0.03em; }
 .fuss nav, .fuss__nachweis { display: grid; gap: 0.4rem; align-content: start; }
+.fuss__marke > span { display: block; max-width: 24rem; line-height: 1.5; }
+/* Feedback 154: Namen und Adresse unten, damit nichts offen bleibt */
+.fuss__kontakt { display: grid !important; gap: 0.15rem; margin-top: var(--sc-4); color: var(--nacht-ink); }
+.fuss__kontakt a { width: max-content; max-width: 100%; color: var(--nacht-soft); text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.25); text-underline-offset: 0.2em; overflow-wrap: anywhere; }
 .fuss a { color: var(--nacht-soft); text-decoration: none; }
 .fuss a:hover { color: #fff; }
 /* Großer Schriftzug am Ende: füllt die Inhaltsbreite, die Buchstaben fahren
@@ -634,9 +638,11 @@ body { font-feature-settings: "ss01" 0; overflow-x: clip; }
   font-family: var(--sc-font-display); font-weight: 700; font-size: calc(100cqi / 3.74); line-height: 0.8; letter-spacing: 0;
   color: var(--nacht-ink); padding-top: 0.06em; user-select: none;
 }
-.fuss__wort-zeile span { display: block; transform: translateY(105%); transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--i) * 75ms); }
+.fuss__wort-zeile span { display: block; transform: translateY(105%);
+  transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--i) * 75ms), translate 450ms cubic-bezier(0.2, 0.8, 0.2, 1) 0s, color 250ms ease 0s; }
 .fuss__wort.ist-da .fuss__wort-zeile span { transform: none; }
-/* Feedback 151: kein Orange mehr beim Drüberfahren über SKITAG. */
+/* Feedback 154: beim Drüberfahren wird der Buchstabe orange und hebt sich ein wenig (wie früher, war versehentlich weg). */
+@media (hover: hover) and (pointer: fine) { .fuss__wort.ist-da .fuss__wort-zeile span:hover { color: var(--orange); translate: 0 -3%; } }
 @media (prefers-reduced-motion: reduce) { .fuss__wort-zeile span { transform: none; transition: color 250ms ease; } }
 /* Schmale Leiste darunter; so hoch wie der Knopf „nach oben“ samt Abstand,
    damit er rechts darin sitzt und nichts verdeckt. */

@@ -8,29 +8,34 @@
 .app-start__knoepfe { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 @media (min-width: 900px) { .app-start__kopf { grid-template-columns: minmax(0, 1fr) auto; } }
 
-/* Bühne: Fotos hinten, Handy in der Mitte vorne, Infofelder rechts vorne */
-.app-start__buehne { position: relative; margin-top: clamp(2.5rem, 6vh, 4rem); min-height: clamp(34rem, 52vw, 44rem); display: grid; place-items: center; isolation: isolate; }
-.app-start__fotos { position: absolute; inset: 0; z-index: 0; }
-.asf { position: absolute; object-fit: cover; border-radius: 22px; box-shadow: var(--sc-e3); filter: saturate(0.9); }
-.asf--1 { left: 0; top: 4%; width: 21%; height: 62%; }
-.asf--2 { left: 13%; bottom: 0; width: 26%; height: 36%; }
-.asf--3 { right: 4%; top: 0; width: 30%; height: 38%; }
-.asf--4 { right: 0; bottom: 6%; width: 19%; height: 50%; }
-.app-start__handy { position: relative; z-index: 2; --b: clamp(15rem, 21vw, 18.5rem); filter: drop-shadow(0 40px 50px rgba(14, 29, 64, 0.35)); }
-
-.app-start__felder { position: absolute; z-index: 3; right: 15%; top: 50%; translate: 0 -50%; list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; width: min(17rem, 26%); }
-.asi { display: grid; grid-template-columns: auto 1fr; gap: 0.15rem 0.75rem; align-items: center; padding: 0.95rem 1.1rem; border-radius: 18px; background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(10px); box-shadow: var(--sc-e3); transition: transform 450ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 450ms ease; opacity: 0.72; }
+/* Bühne (Feedback 154, aufgeräumt): ein Raster mit zwei Spalten. Hinten über die ganze Breite ein Foto mit Schatten,
+   davor links das Handy (ragt oben und unten über das Foto), rechts die drei Schritte als Karten. Nichts überlappt. */
+.app-start__buehne { position: relative; margin-top: clamp(2.5rem, 6vh, 4.5rem); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center; isolation: isolate; }
+.app-start__foto { grid-area: 1 / 1 / 2 / 3; align-self: center; z-index: 0; height: 68%; min-height: 20rem; border-radius: clamp(1.25rem, 2.4vw, 2rem); overflow: hidden;
+  background: #dfe6f0; box-shadow: 0 2px 6px rgba(14, 29, 64, 0.06), 0 40px 80px -30px rgba(14, 29, 64, 0.45); }
+.app-start__foto img { position: absolute; left: 0; top: -8%; display: block; width: 100%; height: 116%; max-width: none; object-fit: cover; object-position: 50% 50%; will-change: transform; }
+/* leichter Schleier, damit Handy und Karten davor ruhig stehen */
+.app-start__foto::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(90deg, rgba(11, 18, 38, 0.18), rgba(11, 18, 38, 0) 35%, rgba(11, 18, 38, 0) 55%, rgba(11, 18, 38, 0.28)); }
+.app-start__foto { position: relative; }
+.app-start__handy { grid-area: 1 / 1; justify-self: center; position: relative; z-index: 2; --b: clamp(14.5rem, 19vw, 17.5rem); margin: 0; padding-block: clamp(1.5rem, 4vw, 3rem);
+  filter: drop-shadow(0 40px 50px rgba(14, 29, 64, 0.4)); }
+.app-start__felder { grid-area: 1 / 2; justify-self: end; margin-right: clamp(1rem, 4%, 3rem) !important; position: relative; z-index: 3; list-style: none; margin: 0; padding: 0; display: grid; gap: 0.8rem; width: min(22rem, 88%); }
+.asi { display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 0.9rem; align-items: center; padding: 1.05rem 1.25rem; border-radius: 20px; background: #fff; box-shadow: 0 1px 2px rgba(14, 29, 64, 0.06), 0 24px 48px -22px rgba(14, 29, 64, 0.5); transition: transform 450ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 450ms ease, background-color 450ms ease; }
+.asi > b, .asi p { transition: opacity 450ms ease; }
+.app-start__buehne[data-schritt] .asi:not(.ist-an) > b, .app-start__buehne[data-schritt] .asi:not(.ist-an) p { opacity: 0.6; }
+.app-start__buehne[data-schritt] .asi:not(.ist-an) > span { opacity: 0.75; }
 .asi > span { grid-row: span 2; display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--eis); color: var(--sc-ink); font-weight: 700; font-size: 0.9rem; transition: background-color 300ms, color 300ms; }
 .asi > b { font-family: var(--sc-font-display); font-size: 1.1rem; letter-spacing: -0.02em; color: var(--sc-ink); }
 .asi p { margin: 0; font-size: 0.88rem; line-height: 1.4; color: var(--sc-ink-soft); }
 .app-start__buehne[data-schritt="1"] .asi[data-schritt="1"],
 .app-start__buehne[data-schritt="2"] .asi[data-schritt="2"],
-.app-start__buehne[data-schritt="3"] .asi[data-schritt="3"] { opacity: 1; transform: translateX(-0.6rem) scale(1.03); }
+.app-start__buehne[data-schritt="3"] .asi[data-schritt="3"] { transform: translateX(-0.75rem); box-shadow: 0 1px 2px rgba(14, 29, 64, 0.08), 0 30px 60px -20px rgba(14, 29, 64, 0.6); }
 .app-start__buehne[data-schritt="1"] .asi[data-schritt="1"] > span,
 .app-start__buehne[data-schritt="2"] .asi[data-schritt="2"] > span,
 .app-start__buehne[data-schritt="3"] .asi[data-schritt="3"] > span { background: var(--orange); color: #fff; }
-.app-start__felder { right: 2%; }
-@media (min-width: 1100px) { .app-start__felder { right: 6%; } .app-start__handy { translate: -12% 0; } }
+
 
 /* Handy (Runde nach Feedback 151): eine echte App-Store-Produktseite in iOS-Art, danach geht die App auf.
    assets/app-start.js setzt data-phase an .ast: store, laedt, offen, start, login-a, login-b, app. Alle Maße in cqw
@@ -111,16 +116,13 @@
 .ast[data-phase="app"] .ast__bild--c { opacity: 1; transform: none; }
 .ast[data-phase="app"] .ast__status { color: #000; }
 
-/* Tablet und Handy: Fotos als Hintergrund hinter dem Handy, Infofelder darunter */
+/* Tablet und Handy: Foto hinter dem Handy, die Schritte darunter in eigener Zeile */
 @media (max-width: 899px) {
-  .app-start__buehne { min-height: 0; padding: 2.5rem 0 0; display: grid; gap: 1.5rem; }
-  .app-start__fotos { inset: 0 0 auto 0; height: calc(var(--b-h, 34rem)); }
-  .asf--1 { left: 0; top: 6%; width: 34%; height: 46%; }
-  .asf--2 { display: none; }
-  .asf--3 { right: 0; top: 0; width: 42%; height: 30%; }
-  .asf--4 { right: 2%; top: 44%; bottom: auto; width: 30%; height: 42%; }
-  .app-start__handy { --b: min(15rem, 56vw); translate: none; }
-  .app-start__felder { position: relative; inset: auto; translate: none; width: 100%; }
+  .app-start__buehne { grid-template-columns: minmax(0, 1fr); row-gap: 1.75rem; }
+  .app-start__foto { grid-area: 1 / 1; height: 62%; min-height: 0; }
+  .app-start__foto::after { background: linear-gradient(180deg, rgba(11, 18, 38, 0.1), rgba(11, 18, 38, 0.25)); }
+  .app-start__handy { --b: min(15rem, 56vw); padding-block: 1.25rem; }
+  .app-start__felder { grid-area: 2 / 1; justify-self: stretch; width: 100%; max-width: 32rem; margin: 0 auto; }
   .app-start__buehne[data-schritt] .asi[data-schritt] { transform: none; }
 }
 @media (prefers-reduced-motion: reduce) { .st, .ast__app, .ast__bild, .asi { transition: none; } .st__band { animation: none !important; } }

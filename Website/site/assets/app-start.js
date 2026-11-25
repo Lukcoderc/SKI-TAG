@@ -11,6 +11,7 @@
   var finger = buehne.querySelector('.st__finger');
   var icon = buehne.querySelector('.st__icon');
   var app = buehne.querySelector('.ast__app');
+  var karten = Array.prototype.slice.call(buehne.querySelectorAll('.asi'));
   var ruhig = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var t0 = 0, raf = 0, sichtbar = false, phase = '', getippt = {};
   var DAUER = 15500;
@@ -25,7 +26,9 @@
       app.style.transformOrigin = (ic.left - a.left + ic.width / 2) + 'px ' + (ic.top - a.top + ic.height / 2) + 'px';
     }
     phase = p; ast.dataset.phase = p;
-    buehne.dataset.schritt = (p === 'store' || p === 'laedt' || p === 'offen') ? '1' : (p === 'app' ? '3' : '2');
+    var n = (p === 'store' || p === 'laedt' || p === 'offen') ? '1' : (p === 'app' ? '3' : '2');
+    buehne.dataset.schritt = n;
+    karten.forEach(function (k) { k.classList.toggle('ist-an', k.dataset.schritt === n); });
   }
   function tippe() {
     // Finger auf die Mitte des Knopfs setzen (in Pixeln innerhalb der Store-Seite)
@@ -59,46 +62,30 @@
   }, { threshold: 0.25 }).observe(buehne);
 })();
 
-/* Auftritt beim Hineinscrollen (Feedback 153: „Die App. Immer passend zu dir.“ besser animieren): das Handy steigt
-   von unten auf und richtet sich auf, die vier Fotos fliegen von außen an ihren Platz, die Infofelder gleiten herein.
-   Am Scrollen festgemacht (vor und zurück), danach ziehen die Fotos beim Weiterscrollen leicht mit (Tiefe).
-   Bei weniger Bewegung oder ohne GSAP steht alles gleich an seinem Platz. */
+/* Auftritt beim Hineinscrollen (Feedback 154, ersetzt das Einfliegen am Scrollen): einmal abgespielt, sobald die Bühne
+   ins Bild kommt. Das Foto öffnet sich aus der Mitte, das Handy steigt auf, die drei Karten gleiten nacheinander herein.
+   Weil es nicht am Scrollen hängt, gibt es keine halben Zwischenstände, in denen etwas übereinander liegt. Danach zieht
+   nur das Bild im Foto beim Scrollen leicht mit (Tiefe). Ohne GSAP oder bei weniger Bewegung steht alles gleich da. */
 (function () {
   var buehne = document.querySelector('.app-start__buehne');
   if (!buehne || !window.gsap || !window.ScrollTrigger) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var gs = window.gsap; gs.registerPlugin(window.ScrollTrigger);
   var handy = buehne.querySelector('.app-start__handy');
-  var fotos = Array.prototype.slice.call(buehne.querySelectorAll('.asf'));
-  var felder = buehne.querySelector('.app-start__felder');
-  // die Fotos liegen am Anfang weit außerhalb; damit sie trotzdem rechtzeitig laden, früh auf „sofort laden“ stellen
-  new IntersectionObserver(function (e, io) {
-    if (!e[0].isIntersecting) return;
-    fotos.forEach(function (f) { f.loading = 'eager'; }); io.disconnect();
-  }, { rootMargin: '150% 0px' }).observe(buehne);
-
+  var foto = buehne.querySelector('.app-start__foto');
+  var bild = foto && foto.querySelector('img');
+  var karten = buehne.querySelectorAll('.asi');
   var schmal = window.matchMedia('(max-width: 899px)').matches;
-  var w = function (v) { return function () { return v * window.innerWidth / 100; }; };
-  var h = function (v) { return function () { return v * window.innerHeight / 100; }; };
-  // woher jedes Foto kommt: [x in vw, y in vh, Drehung]
-  var her = schmal
-    ? [[-70, 10, -16], [-70, 20, 12], [70, -8, 14], [70, 16, -12]]
-    : [[-55, 18, -18], [-45, 38, 14], [55, -14, 16], [50, 32, -14]];
-  var tl = gs.timeline({
-    defaults: { ease: 'power3.out' },
-    scrollTrigger: { trigger: buehne, start: 'top 98%', end: schmal ? 'top 30%' : 'center 58%', scrub: 0.9, invalidateOnRefresh: true }
-  });
-  tl.from(handy, { y: h(42), rotation: -9, scale: 0.78, opacity: 0, duration: 1, ease: 'power2.out' }, 0);
-  fotos.forEach(function (f, i) {
-    tl.from(f, { x: w(her[i][0]), y: h(her[i][1]), rotation: her[i][2], scale: 0.86, opacity: 0, duration: 0.85 }, 0.08 + i * 0.07);
-  });
-  if (felder) tl.from(felder, { x: schmal ? 0 : w(18), y: schmal ? h(8) : 0, opacity: 0, duration: 0.6 }, 0.45);
+  if (bild) new IntersectionObserver(function (e, io) { if (e[0].isIntersecting) { bild.loading = 'eager'; io.disconnect(); } }, { rootMargin: '150% 0px' }).observe(buehne);
 
-  // danach: Tiefe beim Weiterscrollen, die Fotos ziehen verschieden schnell mit
-  if (!schmal) {
-    var tiefe = [-60, 50, -40, 70];
-    fotos.forEach(function (f, i) {
-      gs.to(f, { yPercent: tiefe[i] * 0.25, ease: 'none', scrollTrigger: { trigger: buehne, start: 'center 58%', end: 'bottom top', scrub: true } });
-    });
-  }
+  var tl = gs.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+  if (foto) tl.fromTo(foto, { clipPath: 'inset(14% 22% 14% 22% round 2rem)', opacity: 0.4 }, { clipPath: 'inset(0% 0% 0% 0% round 0rem)', opacity: 1, duration: 1.2, ease: 'power3.inOut', clearProps: 'clipPath' }, 0);
+  if (bild) tl.from(bild, { scale: 1.18, duration: 1.6 }, 0);
+  tl.fromTo(handy, { y: schmal ? 50 : 90, rotation: -5, scale: 0.92, opacity: 0 }, { y: 0, rotation: 0, scale: 1, opacity: 1, duration: 1.1, clearProps: 'transform,translate,rotate,scale,opacity' }, 0.25);
+  // fromTo mit festem Ziel und danach weg mit den Inline-Werten, sonst blockieren sie das Hervorheben der Karte per CSS
+  tl.fromTo(karten, { x: schmal ? 0 : 50, y: schmal ? 24 : 0, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.8, stagger: 0.12, clearProps: 'transform,translate,rotate,scale,opacity' }, schmal ? 0.7 : 0.55);
+  window.ScrollTrigger.create({ trigger: buehne, start: 'top 78%', once: true, onEnter: function () { tl.play(); } });
+
+  // Tiefe: nur das Bild im Foto zieht beim Scrollen etwas mit, der Rahmen bleibt stehen
+  if (bild) gs.fromTo(bild, { yPercent: -4 }, { yPercent: 4, ease: 'none', scrollTrigger: { trigger: buehne, start: 'top bottom', end: 'bottom top', scrub: true } });
 })();
