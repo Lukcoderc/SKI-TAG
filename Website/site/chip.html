@@ -25,7 +25,7 @@
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=146">
-<link rel="stylesheet" href="assets/chip-seite.css?v=35">
+<link rel="stylesheet" href="assets/chip-seite.css?v=36">
 <link rel="stylesheet" href="assets/chip-film.css?v=28">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=12">
@@ -121,13 +121,18 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
       <!-- Runde nach Feedback 151: statt der Ladestation schwebt hier der fertige Chip (dasselbe Renderbild wie in
            „Probiere den Tag aus“) und fliegt beim Scrollen hinunter an seinen Platz dort (assets/chip-flug.js). Bei weniger
            Bewegung bleibt dieses Bild einfach stehen. -->
-      <!-- Feedback 156: der Chip steckt in einer Jackentasche (Foto eines Reißverschlusses, Unsplash, Herkunft in
-           assets/media/tasche.webp.json) und fliegt beim Scrollen aus ihr heraus, statt in der Luft zu schweben. Das Foto liegt
-           zweimal da: hinten ganz, vorne nur der Teil unter dem Reißverschluss, der den Chip unten verdeckt. -->
+      <!-- Feedback 157: die Jackentasche ist eine echte 3D-Szene aus Blender (Hardshell-Jacke, Stoff simuliert, Werkzeug in
+           Website/werkzeuge/blender/jacke.py). 24 Bilder, in denen der Chip aus der Tasche gleitet, laufen beim Scrollen
+           auf der Leinwand (assets/chip-flug.js); danach übernimmt der fliegende Chip genau an der Stelle des letzten Bilds
+           (.chip-flug-start) und auf der Leinwand bleibt die leere Tasche. Ohne Skript oder bei weniger Bewegung steht ein
+           Einzelbild da. -->
       <figure class="chip-anfang__bild chip-tasche" aria-hidden="true">
-        <div class="chip-tasche__grund"><img src="assets/media/tasche.webp?v=1" alt="" width="1000" height="1000" decoding="async"></div>
-        <div class="chip-tasche__chip chip-flug-start"><img src="assets/media/chip/16.webp?v=1" alt="" width="900" height="900" decoding="async"></div>
-        <div class="chip-tasche__vorn"><img src="assets/media/tasche.webp?v=1" alt="" width="1000" height="1000" decoding="async"></div>
+        <picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset="assets/media/tasche/standbild.webp?v=1">
+          <img class="chip-tasche__bild" src="assets/media/tasche/00.webp?v=1" alt="" width="800" height="800" decoding="async" fetchpriority="high">
+        </picture>
+        <canvas class="chip-tasche__film" width="800" height="800"></canvas>
+        <div class="chip-tasche__start chip-flug-start"></div>
       </figure>
     </div>
   </section>
@@ -520,7 +525,7 @@ ScrollCraft.mount(document.body);
 <script src="assets/weg.js?v=20" defer></script>
 <script src="assets/chip-film.js?v=12" defer></script>
 <script src="assets/innen-film.js?v=21" defer></script>
-<script src="assets/chip-flug.js?v=6" defer></script>
+<script src="assets/chip-flug.js?v=7" defer></script>
 <script src="assets/chip-masz.js?v=1" defer></script>
 <script src="assets/v2.js?v=2" defer></script>
 </body>

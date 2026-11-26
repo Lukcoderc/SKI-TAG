@@ -433,26 +433,19 @@
   .chip3d-seite .innen__marken li span { display: block; }
 }
 
-/* Feedback 156: der Chip steckt in einer Jackentasche. Hinten das ganze Foto (runde Fläche), davor der Chip, ganz vorne
-   dasselbe Foto nur unter dem Reißverschluss (clip-path entlang der Zähne). Der vordere Teil liegt über dem fliegenden
-   Chip (.chip-flieger, z-index 5), bis chip-flug.js „chipflug-raus“ setzt, dann fliegt der Chip über die Tasche hinweg. */
+/* Feedback 157: die Jackentasche ist eine Bildfolge aus Blender (assets/media/tasche/00 bis 23.webp, leer.webp). Das <img>
+   zeigt das erste Bild (bei weniger Bewegung ein Standbild), die Leinwand darüber die Bildfolge, sobald chip-flug.js sie
+   geladen hat. .chip-tasche__start ist die Stelle, an der der fliegende Chip übernimmt: dort steht er im letzten Bild
+   (Maße aus lage.json der Szene, umgerechnet auf Bild 16 des Chipfilms). */
 .chip-anfang__bild.chip-tasche { isolation: auto; width: min(100%, 25rem); aspect-ratio: 1; }
 .chip-tasche::after { display: none; }
-.chip-tasche__grund, .chip-tasche__vorn { position: absolute; inset: 0; border-radius: var(--r-gross, 1.5rem); }
-.chip-tasche__grund { overflow: hidden; background: #0d0f13; box-shadow: 0 40px 70px -30px rgba(11, 20, 39, 0.55); }
-.chip-tasche__grund img, .chip-tasche__vorn img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.chip-tasche__grund::after { content: ""; position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 40%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.45)); }
-.chip-tasche__vorn { z-index: 6; pointer-events: none; filter: drop-shadow(0 -0.55rem 0.7rem rgba(0, 0, 0, 0.55)); }
-.chip-tasche__vorn img { border-radius: inherit; clip-path: polygon(0 44.5%, 100% 66%, 100% 100%, 0 100%); }
-.chipflug-raus .chip-tasche__vorn { z-index: 1; }
-.chip-tasche__chip { position: absolute; z-index: 2; left: 24%; top: 21%; width: 52%; aspect-ratio: 1; }
-.chip-tasche__chip img { display: block; width: 100%; height: auto; filter: drop-shadow(0 0.8rem 1.2rem rgba(0, 0, 0, 0.45)); }
-.chip-anfang__bild.chip-tasche img { animation: none; }
-@media (prefers-reduced-motion: no-preference) {
-  .chip-tasche__chip img { animation: chip-aus-tasche 1.3s cubic-bezier(0.2, 1.4, 0.4, 1) 0.45s both; }
-}
-@keyframes chip-aus-tasche { from { transform: translateY(62%); } to { transform: none; } }
-.chipflug-an .chip-tasche__chip img { visibility: hidden; animation: none; }
+.chip-tasche picture { display: contents; }
+.chip-tasche__bild, .chip-tasche__film { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: var(--r-gross, 1.5rem); }
+.chip-tasche__bild { background: #16233f; box-shadow: 0 40px 70px -30px rgba(11, 20, 39, 0.55); }
+.chip-anfang__bild.chip-tasche img { animation: none; height: 100%; }
+.chip-tasche__film { display: none; }
+.tasche-film .chip-tasche__film { display: block; }
+.chip-tasche__start { position: absolute; left: 15.18%; top: -1.24%; width: 69.8%; aspect-ratio: 1; margin: 0; pointer-events: none; }
 @media (max-width: 860px) {
   .chip-anfang__bild.chip-tasche { width: min(60%, 15rem); justify-self: start; margin-bottom: 0.25rem; }
 }

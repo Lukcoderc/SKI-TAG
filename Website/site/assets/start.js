@@ -1,6 +1,6 @@
 /* SkiTag · Startseite, Runde nach Feedback 156 (GSAP mit ScrollTrigger und SplitText, selbst ausgeliefert).
-   1. Beim Hinunterscrollen schiebt sich „Was ist SKITAG?“ über das Bergvideo: der Text im Video steigt etwas auf und
-      wird blasser, das Video dunkelt leicht ab (--held-dunkel).
+   1. Beim Hinunterscrollen steigt der Text im Bergvideo etwas auf und wird blasser (der Schatten an der Unterkante
+      des Videos steht in start.css).
    2. Der Knopf „So funktioniert der Chip“ folgt mit Maus ein wenig dem Zeiger (magnetisch), der Pfeil stupst beim
       ersten Hinsehen zweimal nach rechts.
    5. Bildfenster: „Einmal drücken,“ wird beim Hineinscrollen wie ein Knopf gedrückt (zusammen, zurück, Ring geht auf),
@@ -13,12 +13,10 @@
   var gs = window.gsap; gs.registerPlugin(window.ScrollTrigger);
   var handy = window.matchMedia("(max-width: 860px)").matches;
 
-  /* 1 · Blatt über dem Video */
+  /* 1 · über dem Video: nur das Raster gleitet leicht nach oben (Abdunkeln entfällt seit Feedback 157) */
   var held = document.querySelector(".held--video"), blick = document.getElementById("blick");
   if (held && blick) {
     var raster = held.querySelector(".held__raster");
-    var st = { trigger: blick, start: "top bottom", end: "top 15%", scrub: 0.5 };
-    gs.fromTo(held, { "--held-dunkel": 0 }, { "--held-dunkel": 0.45, ease: "none", scrollTrigger: st });
     if (raster) gs.fromTo(raster, { y: 0, opacity: 1 }, { y: handy ? -40 : -90, opacity: 0.35, ease: "none",
       scrollTrigger: { trigger: blick, start: "top bottom", end: "top 15%", scrub: 0.5 } });
   }

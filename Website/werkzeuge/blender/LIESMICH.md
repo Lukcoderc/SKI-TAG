@@ -14,3 +14,17 @@ Maxis Modell „fertig4“ als Produktfoto aus Blender 4.2 (Cycles). Nicht Teil 
    `standbild.py` macht `chip-3d.webp`.
 
 Dauer auf 4 Kernen: etwa 1 bis 1,5 Minuten je Bild; auf der Grafikkarte (GERAET=OPTIX) einige Sekunden.
+
+## Jackentasche oben auf der Chip-Seite (Feedback 157)
+
+Der Chip steckt in der Brusttasche einer Hardshell-Jacke (verschweißter Reißverschluss) und gleitet beim Scrollen heraus.
+Kein Foto: die ganze Szene ist in Blender gebaut, der Stoff der unteren Taschenhälfte wird je Bild simuliert.
+
+1. `python tuch.py -- tuch_alle.npz <t1,...,t24>` (die 24 Stellungen `i/23`) und `python tuch.py -- tuch_leer.npz 1 leer`,
+   dann beide zu `tuch_fertig.npz` zusammenlegen (Schlüssel `leer` dazu). Mit `BIEG=1.5` (Biegesteifigkeit).
+   Etwa 20 s je Stellung auf 4 Kernen.
+2. `TUCH=tuch_fertig.npz python jacke.py -- <dieser Ordner> chip.glb <ausgabe> 800 48 24`: Bilder `00` bis `23`,
+   `leer.png` (Tasche ohne Chip) und `lage.json` (wo der Chip im letzten Bild steht; daraus sind die Maße von
+   `.chip-tasche__start` in `chip-seite.css` gerechnet, zusammen mit dem Rahmen des Chips in Bild 16 des Chipfilms).
+   Etwa 40 s je Bild auf 4 Kernen.
+3. Als WebP nach `site/assets/media/tasche/` (Qualität 82), `standbild.webp` ist Bild 12 (für weniger Bewegung).

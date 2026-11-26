@@ -1,20 +1,12 @@
 /* SkiTag · Startseite, Runde nach Feedback 156. Bewegung in assets/start.js (GSAP).
-   1. „Was ist SKITAG?“ schiebt sich mit runden Ecken und Schatten über das Bergvideo, damit der Teil hervorsticht.
+   1. Feiner Schatten an der Unterkante des Bergvideos (Feedback 157), damit der obere Teil vorne liegt.
    2. Der Knopf „So funktioniert der Chip“ ist größer.
    5. Im Bildfenster ist „Einmal drücken,“ orange und wird wie ein Knopf gedrückt. */
 
-/* 1 · Über dem Video. Das Video wird beim Weiterscrollen etwas dunkler (--held-dunkel aus start.js). */
-.held--video { padding-bottom: calc(clamp(2rem, 6vh, 4rem) + clamp(2.5rem, 5vw, 4.5rem)); }
-.held--video::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: #08122c; opacity: var(--held-dunkel, 0); }
-#blick.blick--schau { z-index: 2; margin-top: calc(-1 * clamp(2.5rem, 5vw, 4.5rem));
-  border-radius: clamp(1.75rem, 3.5vw, 3rem) clamp(1.75rem, 3.5vw, 3rem) 0 0;
-  box-shadow: 0 -30px 70px -12px rgba(8, 18, 44, 0.45), 0 -1px 0 rgba(255, 255, 255, 0.6); }
-/* feiner Griff oben in der Mitte, wie bei einem Blatt, das man hochzieht */
-#blick.blick--schau::before { content: ""; position: absolute; left: 50%; top: 0.9rem; width: 3.25rem; height: 0.3rem; margin-left: -1.625rem; border-radius: 99px; background: rgba(14, 29, 64, 0.12); }
-@media (max-width: 860px) {
-  .held--video { padding-bottom: calc(2rem + 2rem); }
-  #blick.blick--schau { margin-top: -2rem; border-radius: 1.6rem 1.6rem 0 0; }
-}
+/* 1 · Über dem Video (Feedback 157): kein Blatt mit runden Ecken mehr, nur ein feiner Schatten an der Unterkante
+   des Videos auf das Weiß darunter. So liegt der obere Teil sichtbar vorne. */
+.held--video { z-index: 2; box-shadow: 0 14px 26px -14px rgba(8, 18, 44, 0.5), 0 3px 6px -3px rgba(8, 18, 44, 0.25); }
+#blick { position: relative; z-index: 1; }
 
 /* 2 · größerer Knopf */
 .schau__mehr { min-height: 4.1rem; gap: 1.1rem; padding: 0.5rem 0.5rem 0.5rem 1.9rem; font-size: clamp(1.05rem, 0.95rem + 0.35vw, 1.22rem); letter-spacing: -0.01em;
