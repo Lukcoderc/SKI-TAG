@@ -27,8 +27,9 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 <link rel="stylesheet" href="assets/chip-film.css?v=28">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/schrift-inter.css?v=1">
-<link rel="stylesheet" href="assets/am-berg.css?v=4">
-<link rel="stylesheet" href="assets/app-start.css?v=4">
+<link rel="stylesheet" href="assets/am-berg.css?v=5">
+<link rel="stylesheet" href="assets/app-start.css?v=5">
+<link rel="stylesheet" href="assets/start.css?v=1">
 <link rel="preload" href="assets/media/chip/07.webp?v=1" as="image">
 <noscript><style>.lade { display: none; }</style></noscript>
 </head>
@@ -166,8 +167,8 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
     <div class="sc-wrap schau">
       <header class="schau__kopf">
         <h2 id="blick-titel" class="sc-display schau__titel">Was ist SKITAG?</h2>
-        <p class="schau__antwort">Ein kleiner Notrufknopf, den du dir für den Skitag ausleihst und an der Jacke trägst.</p>
-        <p class="schau__lede">Einmal drücken ruft deine Freunde. Drei Sekunden halten schickt einen Notruf mit deinem Standort an die Bergbahn. Dein Handy brauchst du dafür nicht.</p>
+        <p class="schau__antwort">Ein kleiner Notrufknopf, den du dir morgens am Automaten direkt vorm Lift ausleihst und an der Jacke trägst.</p>
+        <p class="schau__lede">Einmal drücken ruft deine Freunde. Drei Sekunden halten schickt einen Notruf mit deinem Standort an die Bergbahn. Dein Handy brauchst du dafür nicht. Abends gibst du den Chip am Automaten wieder zurück.</p>
       </header>
       <div class="schau__buehne">
         <div class="blick__chip chip-anker"><img class="chip-bild" src="assets/media/chip-3d.webp?v=3" alt="Der SkiTag-Chip: schwarzes Gehäuse mit orangem Gummirand und einem runden Knopf" width="600" height="800" loading="lazy" decoding="async"></div>
@@ -200,7 +201,6 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
         <div>
           <p class="augenbraue">Für wen</p>
           <h2 id="am-berg-titel" class="sc-display">Für deinen Skitag.<br><span class="leise">Vom Anfänger bis zum Profi.</span></h2>
-          <p class="am-berg__satz">Den Chip <b>mietest du direkt vor Ort</b>, morgens am Automaten vorm Lift, abends gibst du ihn zurück. Dein Handy kann im Rucksack bleiben. Der Chip braucht weder Handy noch Handynetz, die Empfänger an den Liftstationen fangen sein Signal auf.</p>
         </div>
         <ul class="am-berg__punkte">
           <li><span>Ein Knopf für Gruppe und Notruf</span></li>
@@ -209,10 +209,15 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
           <li><span>Morgens mieten, abends zurückgeben</span></li>
         </ul>
       </div>
+      <!-- Feedback 156: größere Fotos; beim Darüberfahren (am Handy beim Tippen) steigt eine kurze Beschreibung auf,
+           zuerst was der Chip für die Sicherheit bringt, darunter was er zusätzlich bringt (assets/am-berg.js) -->
       <ul class="am-berg__karten">
-        <li class="am-berg__karte"><img src="assets/media/skitag-familie.webp?v=1" alt="Eine Mutter hält ihr kleines Kind an der Hand, beide auf Ski in der Sonne." width="1400" height="927" loading="lazy" decoding="async" style="object-position: 18% 50%"><div><small>01</small><b>Familien</b><span>Eltern sehen, wo ihre Kinder sind.</span></div></li>
-        <li class="am-berg__karte"><img src="assets/media/skitag-skischule.webp?v=1" alt="Ein Skilehrer kniet bei einer Gruppe Kinder im Schnee." width="1161" height="1400" loading="lazy" decoding="async"><div><small>02</small><b>Skischulen</b><span>Skilehrer sehen ihre ganze Gruppe.</span></div></li>
-        <li class="am-berg__karte"><img src="assets/media/skitag-freunde.webp?v=1" alt="Vier Freunde fahren im dichten Schneefall nebeneinander die Piste hinunter." width="933" height="1400" loading="lazy" decoding="async"><div><small>03</small><b>Freunde</b><span>Ein kurzer Druck ruft die ganze Gruppe.</span></div></li>
+        <li class="am-berg__karte" tabindex="0"><img src="assets/media/skitag-familie.webp?v=1" alt="Eine Mutter hält ihr kleines Kind an der Hand, beide auf Ski in der Sonne." width="1400" height="927" loading="lazy" decoding="async" style="object-position: 18% 50%"><div class="am-berg__name"><small>01</small><b>Familien</b><span>Eltern sehen, wo ihre Kinder sind.</span></div>
+          <div class="am-berg__info"><p class="am-berg__sicher"><em>Sicherheit</em>Verliert sich dein Kind oder stürzt es, holt ein Druck auf den Knopf Hilfe. Mit Standort, ohne Handy.</p><p><em>Dazu</em>In der App siehst du, wo deine Kinder gerade fahren.</p></div></li>
+        <li class="am-berg__karte" tabindex="0"><img src="assets/media/skitag-skischule.webp?v=1" alt="Ein Skilehrer kniet bei einer Gruppe Kinder im Schnee." width="1161" height="1400" loading="lazy" decoding="async"><div class="am-berg__name"><small>02</small><b>Skischulen</b><span>Skilehrer sehen ihre ganze Gruppe.</span></div>
+          <div class="am-berg__info"><p class="am-berg__sicher"><em>Sicherheit</em>Stürzt ein Kind, ist der Notruf mit seinem Standort sofort bei der Bergbahn.</p><p><em>Dazu</em>Der Skilehrer sieht die ganze Gruppe auf der Karte und merkt, wenn eines fehlt.</p></div></li>
+        <li class="am-berg__karte" tabindex="0"><img src="assets/media/skitag-freunde.webp?v=1" alt="Vier Freunde fahren im dichten Schneefall nebeneinander die Piste hinunter." width="933" height="1400" loading="lazy" decoding="async"><div class="am-berg__name"><small>03</small><b>Freunde</b><span>Ein kurzer Druck ruft die ganze Gruppe.</span></div>
+          <div class="am-berg__info"><p class="am-berg__sicher"><em>Sicherheit</em>Stürzt du allein abseits der Gruppe, kommt Hilfe auch ohne Handynetz.</p><p><em>Dazu</em>Ein kurzer Druck ruft die ganze Gruppe zu dir.</p></div></li>
       </ul>
     </div>
   </section>
@@ -260,97 +265,96 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
        spielt ab, sobald es im Bild ist: Laden, Öffnen, die App geht auf, Einloggen, Gruppe auf der Karte
        (assets/app-start.js, Regeln in assets/app-start.css). Ohne JS bleibt das erste Bild stehen. -->
   <section id="app" class="sc-section app-start" aria-labelledby="app-titel">
-    <div class="sc-wrap">
-      <header class="app-start__kopf" data-sc-in data-sc-stagger="80">
-        <div>
+    <!-- Feedback 156: links Überschrift, Text, Knöpfe und die drei Schritte, rechts groß das Handy vor einem ruhigen
+         Pistenfoto. Die ganze Fläche ist die Bühne, app-start.js setzt dort data-schritt. -->
+    <div class="sc-wrap app-start__buehne">
+      <div class="app-start__links">
+        <header class="app-start__kopf" data-sc-in data-sc-stagger="80">
           <p class="augenbraue">App</p>
           <h2 id="app-titel" class="sc-display riesig">Die App.<br><span class="leise">Immer passend zu dir.</span></h2>
-        </div>
-        <div class="app-start__rechts">
+        </header>
+        <div class="app-start__text">
           <p class="sc-lede">Die App gibt es <b>wie den Chip zum Mieten</b>: Beim Mieten bekommst du einen <b>Code</b>, der <b>bis Mitternacht</b> gilt. <b>Keine Registrierung, keine E-Mail, kein Passwort.</b></p>
           <div class="app-start__knoepfe">
             <a class="knopf-dunkel knopf-gross" href="https://tobiass3.github.io/SKI-TAG/" target="_blank" rel="noopener">App laden <svg class="knopf__pfeil" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2.5v8.5M4 7.5 8 11.5l4-4M3 13.5h10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
             <a class="knopf-hell knopf-gross" href="app.html">Mehr Infos zur App</a>
           </div>
         </div>
-      </header>
-
-      <div class="app-start__buehne">
-        <!-- hinten: ein ruhiges Foto als Bühne (Feedback 154 statt vier kleiner Fotos), mit Schatten; Handy und Infofelder liegen davor -->
-        <div class="app-start__foto" aria-hidden="true"><img src="assets/media/app-foto-familie.webp?v=2" srcset="assets/media/app-foto-familie-m.webp?v=2 1400w, assets/media/app-foto-familie.webp?v=2 2800w" sizes="(max-width: 899px) 100vw, 75vw" alt="" width="2800" height="1854" loading="lazy" decoding="async"></div>
-
+        <!-- vorne: Infofelder -->
+          <ol class="app-start__felder">
+            <li class="asi" data-schritt="1"><span>1</span><b>Laden</b><p>Im App Store auf <b>Laden</b> tippen.</p></li>
+            <li class="asi" data-schritt="2"><span>2</span><b>Code eingeben</b><p>Vorname und <b>Code vom Mietbeleg</b>. <b>Keine Registrierung.</b></p></li>
+            <li class="asi" data-schritt="3"><span>3</span><b>Los geht’s</b><p>Deine Gruppe auf der Karte, dein Tag im Überblick. <b>Bis Mitternacht.</b></p></li>
+          </ol>
+      </div>
+      <div class="app-start__rechts">
+          <div class="app-start__foto" aria-hidden="true"><img src="assets/media/app-foto-piste.webp?v=1" srcset="assets/media/app-foto-piste-m.webp?v=1 1100w, assets/media/app-foto-piste.webp?v=1 2200w" sizes="(max-width: 899px) 100vw, 45vw" alt="" width="2200" height="1467" loading="lazy" decoding="async"></div>
         <!-- vorne: Handy -->
-        <figure class="iphone app-start__handy" role="img" aria-label="Ein iPhone zeigt die SkiTag-App im App Store: Laden tippen, öffnen, mit Vorname und Code vom Mietbeleg einloggen, danach zeigt die App die eigene Gruppe auf der Karte.">
-          <div class="iphone__rahmen">
-            <div class="iphone__knopf iphone__knopf--a"></div><div class="iphone__knopf iphone__knopf--b"></div><div class="iphone__knopf iphone__knopf--c"></div><div class="iphone__knopf iphone__knopf--d"></div>
-            <div class="iphone__glas">
-              <div class="iphone__insel"></div>
-              <div class="ast" data-phase="store">
-                <div class="iphone__statuszeile ast__status"><span>9:41</span><span class="iphone__symbole"><i class="sym-netz"></i><i class="sym-wlan"></i><i class="sym-akku"></i></span></div>
-                <!-- 1 · Produktseite im App Store, wie auf dem iPhone -->
-                <div class="st">
-                  <p class="st__zurueck"><svg viewBox="0 0 12 20"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suchen</p>
-                  <div class="st__kopf">
-                    <span class="st__icon"><svg viewBox="0 0 32 32"><use href="#logo"/></svg></span>
-                    <div class="st__name">
-                      <b>SkiTag</b>
-                      <span>Notruf und Gruppe am Berg</span>
-                      <div class="st__aktion">
-                        <span class="st__knopf"><i class="st__laden">Laden</i><i class="st__ring"><em></em></i><i class="st__oeffnen">Öffnen</i></span>
-                        <svg class="st__teilen" viewBox="0 0 20 24"><path d="M10 15V2M5.5 6.5 10 2l4.5 4.5M6 10H3.5v11.5h13V10H14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <figure class="iphone app-start__handy" role="img" aria-label="Ein iPhone zeigt die SkiTag-App im App Store: Laden tippen, öffnen, mit Vorname und Code vom Mietbeleg einloggen, danach zeigt die App die eigene Gruppe auf der Karte.">
+            <div class="iphone__rahmen">
+              <div class="iphone__knopf iphone__knopf--a"></div><div class="iphone__knopf iphone__knopf--b"></div><div class="iphone__knopf iphone__knopf--c"></div><div class="iphone__knopf iphone__knopf--d"></div>
+              <div class="iphone__glas">
+                <div class="iphone__insel"></div>
+                <div class="ast" data-phase="store">
+                  <div class="iphone__statuszeile ast__status"><span>9:41</span><span class="iphone__symbole"><i class="sym-netz"></i><i class="sym-wlan"></i><i class="sym-akku"></i></span></div>
+                  <!-- 1 · Produktseite im App Store, wie auf dem iPhone -->
+                  <div class="st">
+                    <p class="st__zurueck"><svg viewBox="0 0 12 20"><path d="M10 2 2 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Suchen</p>
+                    <div class="st__kopf">
+                      <span class="st__icon"><svg viewBox="0 0 32 32"><use href="#logo"/></svg></span>
+                      <div class="st__name">
+                        <b>SkiTag</b>
+                        <span>Notruf und Gruppe am Berg</span>
+                        <div class="st__aktion">
+                          <span class="st__knopf"><i class="st__laden">Laden</i><i class="st__ring"><em></em></i><i class="st__oeffnen">Öffnen</i></span>
+                          <svg class="st__teilen" viewBox="0 0 20 24"><path d="M10 15V2M5.5 6.5 10 2l4.5 4.5M6 10H3.5v11.5h13V10H14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
                       </div>
                     </div>
+                    <div class="st__infos">
+                      <div><small>Alter</small><b>4+</b><span>Jahre</span></div>
+                      <div><small>Kategorie</small><b><svg viewBox="0 0 24 24"><circle cx="15" cy="5" r="2.2" fill="currentColor"/><path d="M4 20 20 13M9 11l4-2 2 4-3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>Sport</span></div>
+                      <div><small>Entwickler</small><b><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 21c1.2-4 4.4-6 8-6s6.8 2 8 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></b><span>SkiTag</span></div>
+                      <div><small>Sprache</small><b>DE</b><span>Deutsch</span></div>
+                    </div>
+                    <div class="st__bilder"><div class="st__band">
+                      <img src="assets/media/app-screen-gruppe.webp?v=2" alt="" width="780" height="1688" loading="lazy" decoding="async">
+                      <img src="assets/media/app-screen-tag.webp?v=2" alt="" width="780" height="1688" loading="lazy" decoding="async">
+                      <img src="assets/media/app-screen-skischule.webp?v=2" alt="" width="780" height="1688" loading="lazy" decoding="async">
+                    </div></div>
+                    <p class="st__geraet"><svg viewBox="0 0 12 18"><rect x="1.2" y="1" width="9.6" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>iPhone</p>
+                    <p class="st__text">Ein Knopf am Chip, und deine Gruppe weiß, wo du bist. Kein Konto, nur der Code vom Mietbeleg. <span>mehr</span></p>
+                    <nav class="st__tabs" aria-hidden="true">
+                      <span><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 8h8M8 12h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Heute</span>
+                      <span><svg viewBox="0 0 24 24"><path d="M7 8h10a4 4 0 0 1 4 4l.5 4a2.5 2.5 0 0 1-4.3 1.8L15 16H9l-2.2 1.8A2.5 2.5 0 0 1 2.5 16L3 12a4 4 0 0 1 4-4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Spiele</span>
+                      <span><svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></g></svg>Apps</span>
+                      <span><svg viewBox="0 0 24 24"><path d="M12 3v9M8 8h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="4" y="12" width="16" height="8" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Arcade</span>
+                      <span class="ist-an"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>Suchen</span>
+                    </nav>
+                    <i class="st__finger"></i>
                   </div>
-                  <div class="st__infos">
-                    <div><small>Alter</small><b>4+</b><span>Jahre</span></div>
-                    <div><small>Kategorie</small><b><svg viewBox="0 0 24 24"><circle cx="15" cy="5" r="2.2" fill="currentColor"/><path d="M4 20 20 13M9 11l4-2 2 4-3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></b><span>Sport</span></div>
-                    <div><small>Entwickler</small><b><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 21c1.2-4 4.4-6 8-6s6.8 2 8 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></b><span>SkiTag</span></div>
-                    <div><small>Sprache</small><b>DE</b><span>Deutsch</span></div>
+                  <!-- 2 · die App geht auf: Startbild, Einloggen, dann die Gruppe auf der Karte -->
+                  <div class="ast__app">
+                    <div class="ast__start"><svg viewBox="0 0 32 32"><use href="#logo"/></svg></div>
+                    <img class="ast__bild ast__bild--a" src="assets/media/app-screen-login-a.webp?v=2" alt="" width="780" height="1688" loading="lazy" decoding="async">
+                    <img class="ast__bild ast__bild--b" src="assets/media/app-screen-login-b.webp?v=2" alt="" width="780" height="1688" loading="lazy" decoding="async">
+                    <img class="ast__bild ast__bild--c" src="assets/media/app-screen-gruppe.webp?v=2" alt="" width="780" height="1688" loading="lazy" decoding="async">
                   </div>
-                  <div class="st__bilder"><div class="st__band">
-                    <img src="assets/media/app-screen-gruppe.webp?v=1" alt="" width="780" height="1742" loading="lazy" decoding="async">
-                    <img src="assets/media/app-screen-tag.webp?v=1" alt="" width="780" height="1742" loading="lazy" decoding="async">
-                    <img src="assets/media/app-screen-skischule.webp?v=1" alt="" width="780" height="1742" loading="lazy" decoding="async">
-                  </div></div>
-                  <p class="st__geraet"><svg viewBox="0 0 12 18"><rect x="1.2" y="1" width="9.6" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>iPhone</p>
-                  <p class="st__text">Ein Knopf am Chip, und deine Gruppe weiß, wo du bist. Kein Konto, nur der Code vom Mietbeleg. <span>mehr</span></p>
-                  <nav class="st__tabs" aria-hidden="true">
-                    <span><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 8h8M8 12h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Heute</span>
-                    <span><svg viewBox="0 0 24 24"><path d="M7 8h10a4 4 0 0 1 4 4l.5 4a2.5 2.5 0 0 1-4.3 1.8L15 16H9l-2.2 1.8A2.5 2.5 0 0 1 2.5 16L3 12a4 4 0 0 1 4-4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Spiele</span>
-                    <span><svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></g></svg>Apps</span>
-                    <span><svg viewBox="0 0 24 24"><path d="M12 3v9M8 8h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="4" y="12" width="16" height="8" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Arcade</span>
-                    <span class="ist-an"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>Suchen</span>
-                  </nav>
-                  <i class="st__finger"></i>
-                </div>
-                <!-- 2 · die App geht auf: Startbild, Einloggen, dann die Gruppe auf der Karte -->
-                <div class="ast__app">
-                  <div class="ast__start"><svg viewBox="0 0 32 32"><use href="#logo"/></svg></div>
-                  <img class="ast__bild ast__bild--a" src="assets/media/app-screen-login-a.webp?v=1" alt="" width="780" height="1742" loading="lazy" decoding="async">
-                  <img class="ast__bild ast__bild--b" src="assets/media/app-screen-login-b.webp?v=1" alt="" width="780" height="1742" loading="lazy" decoding="async">
-                  <img class="ast__bild ast__bild--c" src="assets/media/app-screen-gruppe.webp?v=1" alt="" width="780" height="1742" loading="lazy" decoding="async">
                 </div>
               </div>
             </div>
-          </div>
-        </figure>
-
-        <!-- vorne: Infofelder -->
-        <ol class="app-start__felder">
-          <li class="asi" data-schritt="1"><span>1</span><b>Laden</b><p>Im App Store auf <b>Laden</b> tippen.</p></li>
-          <li class="asi" data-schritt="2"><span>2</span><b>Code eingeben</b><p>Vorname und <b>Code vom Mietbeleg</b>. <b>Keine Registrierung.</b></p></li>
-          <li class="asi" data-schritt="3"><span>3</span><b>Los geht’s</b><p>Deine Gruppe auf der Karte, dein Tag im Überblick. <b>Bis Mitternacht.</b></p></li>
-        </ol>
+          </figure>
       </div>
     </div>
   </section>
 
   <!-- Bildfenster (Feedback 133, nach dem Vorbild von Element3): das Foto steht beim Scrollen still, die Seite gleitet
-       darüber (clip-path statt background-attachment: fixed, Regeln in seite.css unter „Bildfenster“). Vor den Fragen,
-       eine Familie am Pistenrand. Die Fenster mit Piste und Abendspuren hat Feedback 134 wieder entfernt. -->
-  <div class="fenster" style="--lage:68% 50%">
-    <div class="fenster__bild"><img src="assets/media/fenster-gruppe.webp?v=1" srcset="assets/media/fenster-gruppe-m.webp?v=1 1400w, assets/media/fenster-gruppe.webp?v=1 2400w" sizes="(max-aspect-ratio: 1/1) 170vh, 100vw" alt="Eine Familie mit Kindern steht am Pistenrand und schaut auf schneebedeckte Gipfel." width="2400" height="1606" loading="lazy" decoding="async"></div>
-    <div class="sc-wrap fenster__innen"><p class="fenster__satz">Einmal drücken, und deine Freunde wissen Bescheid.</p></div>
+       darüber (clip-path statt background-attachment: fixed, Regeln in seite.css unter „Bildfenster“). Vor den Fragen
+       seit Feedback 156 ein ruhiges Foto mit wenig Farbe (Skifahrer auf einem Grat). „Einmal drücken,“ ist orange und
+       wird beim Hineinscrollen wie ein Knopf gedrückt (assets/start.js), danach erscheint der Rest Wort für Wort. -->
+  <div class="fenster fenster--druck" style="--lage:50% 62%">
+    <div class="fenster__bild"><img src="assets/media/fenster-grat.webp?v=1" srcset="assets/media/fenster-grat-m.webp?v=1 1200w, assets/media/fenster-grat.webp?v=1 2600w" sizes="(max-aspect-ratio: 1/1) 170vh, 100vw" alt="Ein paar Skifahrer stehen auf einem Grat vor verschneiten Gipfeln unter grauem Himmel." width="2600" height="1733" loading="lazy" decoding="async"></div>
+    <div class="sc-wrap fenster__innen"><p class="fenster__satz druck-satz"><span class="druck-satz__an"><span class="druck-satz__ring" aria-hidden="true"></span>Einmal drücken,</span> <span class="druck-satz__rest">und deine Freunde wissen Bescheid.</span></p></div>
   </div>
 
   <!-- 8 · Gut zu wissen (Fragen); unten wächst das Gebirge in die Nacht des Schlusses -->
@@ -625,10 +629,11 @@ ScrollCraft.mount(document.body);
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
-<script src="assets/am-berg.js?v=4" defer></script>
-<script src="assets/app-start.js?v=4" defer></script>
+<script src="assets/am-berg.js?v=5" defer></script>
+<script src="assets/app-start.js?v=5" defer></script>
+<script src="assets/start.js?v=1" defer></script>
 <script src="assets/seite.js?v=88" defer></script>
-<script src="assets/gsap-effekte.js?v=6" defer></script>
+<script src="assets/gsap-effekte.js?v=7" defer></script>
 <script src="assets/chip-film.js?v=12" defer></script>
 <script src="assets/sprung-anfang.js?v=21" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>

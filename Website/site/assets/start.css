@@ -1,0 +1,31 @@
+/* SkiTag · Startseite, Runde nach Feedback 156. Bewegung in assets/start.js (GSAP).
+   1. „Was ist SKITAG?“ schiebt sich mit runden Ecken und Schatten über das Bergvideo, damit der Teil hervorsticht.
+   2. Der Knopf „So funktioniert der Chip“ ist größer.
+   5. Im Bildfenster ist „Einmal drücken,“ orange und wird wie ein Knopf gedrückt. */
+
+/* 1 · Über dem Video. Das Video wird beim Weiterscrollen etwas dunkler (--held-dunkel aus start.js). */
+.held--video { padding-bottom: calc(clamp(2rem, 6vh, 4rem) + clamp(2.5rem, 5vw, 4.5rem)); }
+.held--video::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: #08122c; opacity: var(--held-dunkel, 0); }
+#blick.blick--schau { z-index: 2; margin-top: calc(-1 * clamp(2.5rem, 5vw, 4.5rem));
+  border-radius: clamp(1.75rem, 3.5vw, 3rem) clamp(1.75rem, 3.5vw, 3rem) 0 0;
+  box-shadow: 0 -30px 70px -12px rgba(8, 18, 44, 0.45), 0 -1px 0 rgba(255, 255, 255, 0.6); }
+/* feiner Griff oben in der Mitte, wie bei einem Blatt, das man hochzieht */
+#blick.blick--schau::before { content: ""; position: absolute; left: 50%; top: 0.9rem; width: 3.25rem; height: 0.3rem; margin-left: -1.625rem; border-radius: 99px; background: rgba(14, 29, 64, 0.12); }
+@media (max-width: 860px) {
+  .held--video { padding-bottom: calc(2rem + 2rem); }
+  #blick.blick--schau { margin-top: -2rem; border-radius: 1.6rem 1.6rem 0 0; }
+}
+
+/* 2 · größerer Knopf */
+.schau__mehr { min-height: 4.1rem; gap: 1.1rem; padding: 0.5rem 0.5rem 0.5rem 1.9rem; font-size: clamp(1.05rem, 0.95rem + 0.35vw, 1.22rem); letter-spacing: -0.01em;
+  box-shadow: 0 1px 2px rgba(14, 29, 64, 0.18), 0 16px 34px -12px rgba(14, 29, 64, 0.55); will-change: transform; }
+.schau__pfeil { width: 3.1rem; height: 3.1rem; }
+.schau__pfeil svg { width: 1.3rem; height: 1.3rem; }
+@media (max-width: 860px) { .schau__mehr { min-height: 3.7rem; padding-left: 1.5rem; font-size: 1.05rem; } .schau__pfeil { width: 2.75rem; height: 2.75rem; } }
+
+/* 5 · „Einmal drücken,“ */
+.druck-satz { max-width: 18ch; }
+.druck-satz__an { position: relative; display: inline-block; color: #ff7a45; }
+.druck-satz__ring { position: absolute; left: -0.45em; top: 50%; width: 0.5em; height: 0.5em; margin-top: -0.25em; border-radius: 50%;
+  border: 0.06em solid #ff7a45; opacity: 0; pointer-events: none; }
+.fenster--druck::after { background: linear-gradient(180deg, rgba(8, 15, 38, 0) 30%, rgba(8, 15, 38, 0.62) 100%); }

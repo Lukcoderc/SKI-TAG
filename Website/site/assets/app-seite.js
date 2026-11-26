@@ -45,12 +45,26 @@
           }).filter(function (s) { return s.pfad; })
         };
       }),
+      filme: alle(el, ".app-film__clip"),
       teil: -1, zuletzt: -1, sichtbar: true,
       // Handy (Feedback 88): nicht gepinnt, die Marken sind Knöpfe; der gewählte Teil spielt in KLICK_DAUER ab
       klick: el.classList.contains("ist-klick"), wahl: 0, start: 0, zentriert: false
     };
   });
   var KLICK_DAUER = 3800;
+  // Feedback 156: je Teil ein Film aus der echten App. Nur der Film des aktuellen Teils läuft, und nur solange
+  // die Szene zu sehen ist; geladen wird erst, wenn er dran ist (preload="none"). Bei „weniger Bewegung“ bleibt das Standbild.
+  var ohneBewegungFilm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var filmZeigen = function (s) {
+    s.filme.forEach(function (v, i) {
+      if (s.sichtbar && v.preload !== "auto") v.preload = "auto";   // ist die Szene da, laden alle drei vor, damit der Wechsel ohne Lücke geht
+      if (i === s.teil && s.sichtbar && !ohneBewegungFilm) {
+        if (v.paused) { try { v.currentTime = 0; } catch (e) {} var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+      } else if (!v.paused) v.pause();
+    });
+  };
+  // auf dem Handy wechselt die Szene von selbst: ein Teil dauert dort so lange wie sein Film
+  szenen.forEach(function (s) { s.dauer = s.filme.length ? 7600 : KLICK_DAUER; });
   var ohneBewegungApp = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   // Feedback 131: die Szene läuft von selbst durch alle drei Teile und beginnt dann von vorn; ein Knopf hält sie an.
   // Bei „weniger Bewegung“ steht sie am Anfang still, bis man auf Abspielen drückt.
@@ -101,8 +115,8 @@
     s.zentriert = zentriert;
     if (!zentriert) return s.wahl / s.teile;
     var zeit = (s.pause ? s.pauseAb : jetzt) - s.start;
-    if (!s.pause && zeit > KLICK_DAUER + HALT) { s.wahl = (s.wahl + 1) % s.teile; s.start = jetzt; zeit = 0; }
-    return (s.wahl + klemme(zeit / KLICK_DAUER) * 0.999) / s.teile;
+    if (!s.pause && zeit > s.dauer + HALT) { s.wahl = (s.wahl + 1) % s.teile; s.start = jetzt; zeit = 0; }
+    return (s.wahl + klemme(zeit / s.dauer) * 0.999) / s.teile;
   };
 
   var setzen = function (s) {
@@ -115,6 +129,7 @@
     if (teil !== s.teil) {
       var erstes = s.teil < 0;
       s.teil = teil; s.el.setAttribute("data-teil", String(teil));
+      filmZeigen(s);
       // Feedback 121: mit GSAP steigen Überschrift und Text des neuen Teils nacheinander ein
       if (window.gsap && !erstes && !ohneBewegungApp) {
         var neu = s.el.querySelectorAll(".szene__teil")[teil];
@@ -160,13 +175,21 @@
     szenen.forEach(function (s) { s.sichtbar = false; });
     var beob = new IntersectionObserver(function (eintraege) {
       eintraege.forEach(function (e) {
-        szenen.forEach(function (s) { if (s.el === e.target) s.sichtbar = e.isIntersecting; });
+        szenen.forEach(function (s) { if (s.el === e.target) { s.sichtbar = e.isIntersecting; filmZeigen(s); } });
       });
       starten();
     });
     szenen.forEach(function (s) { beob.observe(s.el); });
     var login = new IntersectionObserver(function (e) { e.forEach(function (x) { x.target.classList.toggle("ist-weg", !x.isIntersecting); }); });
     alle(document, ".app-blick__bild").forEach(function (el) { login.observe(el); });
+    // der Login-Film im Überblick läuft, solange er zu sehen ist
+    var loginFilm = new IntersectionObserver(function (e) {
+      e.forEach(function (x) {
+        var v = x.target.querySelector(".app-film__clip"); if (!v || ohneBewegungFilm) return;
+        if (x.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause();
+      });
+    }, { threshold: 0.25 });
+    alle(document, "#ueberblick .app-film").forEach(function (el) { loginFilm.observe(el); });
   }
   szenen.forEach(setzen);
   starten();

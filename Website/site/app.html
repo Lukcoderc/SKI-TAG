@@ -25,7 +25,7 @@
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=146">
-<link rel="stylesheet" href="assets/app-seite.css?v=22">
+<link rel="stylesheet" href="assets/app-seite.css?v=23">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=12">
 <link rel="stylesheet" href="assets/v2-alt.css?v=3">
@@ -100,38 +100,8 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 <main id="oben">
 
   <!-- Die App (seit Feedback 57, Szenen seit Feedback 59): Überblick, dann je Kapitel eine gepinnte Szene.
-       Die App-Bilder sind nach Tobias’ App nachgebaut (Stand 8. November), ohne Skigebiets-Namen und ohne Tempo.
+       Die App-Bilder sind seit Feedback 156 Filme aus Tobias’ App (Stand 10. November, aufgenommen am 26. November).
        Abläufe in assets/app-seite.js. Jeder Abschnitt mit id und data-unter erscheint als Unterkapitel in der Kopfleiste. -->
-
-  <!-- Gemeinsame Teile der Bildschirme: die Karte (einmal gezeichnet, in jedem Bildschirm per <use>) -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-    <defs>
-      <linearGradient id="bk-grund" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef3fb"/><stop offset="1" stop-color="#dfe8f5"/></linearGradient>
-      <pattern id="bk-wald" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="4.5" cy="4.5" r="2.4" fill="#9fb0c6"/></pattern>
-      <symbol id="bs-karte" viewBox="0 0 390 844">
-        <rect width="390" height="844" fill="url(#bk-grund)"/>
-        <path d="M-20 140 C60 120 120 180 170 230 C220 280 300 260 410 300 V-20 H-20 Z" fill="#c9d6ea"/>
-        <path d="M-20 520 C40 470 110 480 150 540 C190 600 260 640 410 600 V880 H-20 Z" fill="#cfdbec"/>
-        <path d="M210 330 C260 300 330 330 410 350 V470 C340 470 280 440 240 420 C200 400 180 360 210 330 Z" fill="#c2d1e7"/>
-        <path d="M-20 300 C30 280 80 300 100 340 C120 380 90 420 -20 430 Z" fill="url(#bk-wald)" opacity=".7"/>
-        <path d="M280 560 C320 540 380 560 410 580 V700 C360 690 300 660 280 620 Z" fill="url(#bk-wald)" opacity=".7"/>
-        <path d="M120 690 C170 670 230 700 250 740 C270 780 200 800 120 790 Z" fill="url(#bk-wald)" opacity=".6"/>
-        <g fill="none" stroke="#b4c4db" stroke-width="1">
-          <path d="M-20 200 C80 180 160 260 240 250 C300 244 350 270 410 270"/><path d="M-20 380 C70 350 160 420 250 400 C320 386 360 410 410 420"/><path d="M-20 600 C90 560 170 640 260 610 C320 590 370 620 410 630"/>
-        </g>
-        <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="5">
-          <path d="M196 170 C170 240 130 300 140 380 C150 460 110 520 120 600" stroke="#1f66d1"/>
-          <path d="M206 172 C240 250 250 320 230 400 C214 470 250 540 236 640" stroke="#e0242f"/>
-          <path d="M300 250 C280 320 300 400 280 470 C266 520 290 560 300 620" stroke="#0e0e10"/>
-          <path d="M120 600 C150 640 190 670 236 680" stroke="#1f66d1"/>
-        </g>
-        <g stroke="#0b1226" stroke-width="2.2"><path d="M128 640 L200 166"/><path d="M296 640 L300 240"/></g>
-        <g fill="#0b1226"><circle cx="200" cy="166" r="5"/><circle cx="128" cy="640" r="5"/><circle cx="300" cy="240" r="5"/><circle cx="296" cy="640" r="5"/></g>
-      </symbol>
-      <!-- Person auf der Karte: weißer Rand, Farbe, Anfangsbuchstabe kommt im Bildschirm dazu -->
-      <symbol id="bs-punkt" viewBox="-20 -20 40 40" overflow="visible"><circle r="18" fill="#fff"/><circle r="14" fill="currentColor"/></symbol>
-    </defs>
-  </svg>
 
   <!-- Kopf der Seite. Feedback 141: statt weißer Fläche ein Foto über die ganze Breite (jemand schaut am Berg aufs Handy,
        Unsplash, Herkunft in assets/media/app-held.webp.json), dunkler Verlauf von links unten, Schrift hell darauf -->
@@ -167,21 +137,9 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
             <div class="iphone__glas">
               <div class="iphone__insel"></div>
               <div class="iphone__statuszeile"><span>9:41</span><span class="iphone__symbole"><i class="sym-netz"></i><i class="sym-wlan"></i><i class="sym-akku"></i></span></div>
-              <div class="bs-stapel" data-start="login">
-                <!-- Login: Vorname tippen, Code füllt sich, „Willkommen am Berg“ -->
-                <div class="bs bs-login" data-name="login" data-dunkel>
-                  <svg class="bs-login__spuren" viewBox="0 0 390 844" aria-hidden="true"><g fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M70 330 C90 260 60 200 110 150 C140 120 150 90 190 70" stroke="#e0242f"/><path d="M120 340 C140 280 120 230 160 170 C180 140 210 110 220 80" stroke="#1f66d1"/><path d="M230 330 C230 270 250 210 240 150" stroke="#d6dde8" opacity=".5"/></g></svg>
-                  <p class="bs-login__ort"><i></i>Dein Skigebiet</p>
-                  <p class="bs-login__titel">Ihr Skitag.</p>
-                  <div class="bs-login__karte">
-                    <span class="bs-etikett">Ihr Vorname</span>
-                    <div class="bs-feld"><span style="--i:0">A</span><span style="--i:1">n</span><span style="--i:2">n</span><span style="--i:3">a</span><i class="bs-cursor"></i></div>
-                    <span class="bs-etikett">Ihr Code</span>
-                    <div class="bs-code"><span><b style="--i:0">R</b></span><span><b style="--i:1">4</b></span><span><b style="--i:2">T</b></span><em>–</em><span><b style="--i:3">8</b></span><span><b style="--i:4">K</b></span><span><b style="--i:5">Q</b></span></div>
-                    <div class="bs-los"><span class="bs-los__a">Einloggen</span><span class="bs-los__b"><i class="bs-haken"></i>Willkommen am Berg</span></div>
-                    <small>Den Code bekommen Sie am Automaten oder an der Kassa. Er gilt bis Mitternacht.</small>
-                  </div>
-                </div>
+              <!-- Feedback 156: Aufnahmen aus der echten App, je Teil ein Film; app-seite.js spielt den passenden -->
+              <div class="app-film" data-film>
+                <video class="app-film__clip" data-clip="0" muted playsinline loop preload="none" poster="assets/media/app-film/login.webp?v=1" width="600" height="1298"><source src="assets/media/app-film/login.webm?v=1" type="video/webm"><source src="assets/media/app-film/login.mp4?v=1" type="video/mp4"></video>
               </div>
             </div>
           </div>
@@ -221,33 +179,11 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
               <div class="iphone__glas">
                 <div class="iphone__insel"></div>
                 <div class="iphone__statuszeile"><span>9:41</span><span class="iphone__symbole"><i class="sym-netz"></i><i class="sym-wlan"></i><i class="sym-akku"></i></span></div>
-                <div class="bs ist-an">
-                  <svg class="bs-karte" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice"><use href="#bs-karte" width="390" height="844"/>
-                    <g transform="translate(160 330)"><circle class="sz-ring" data-k="0.36 0.46" r="110"/></g>
-                    <g transform="translate(118 196)"><g class="sz-pop" data-ab="0.06" color="#8b5cf6"><circle class="sz-welle" data-ab="0.74 0.92" r="18"/><use href="#bs-punkt" x="-20" y="-20" width="40" height="40"/><text y="5" text-anchor="middle">M</text></g></g>
-                    <g transform="translate(196 252)"><g class="sz-pop" data-ab="0.1" color="#f2a33a"><circle class="sz-welle" data-ab="0.74 0.92" r="18"/><use href="#bs-punkt" x="-20" y="-20" width="40" height="40"/><text y="5" text-anchor="middle">L</text></g></g>
-                    <g transform="translate(212 360)"><g class="sz-weg" data-raus="0.44 0.58 0.78 0.92"><g class="sz-pop" data-ab="0.14" color="#1ea85a"><circle class="sz-halo" data-ab="0.54 0.86" r="24"/><circle class="sz-welle" data-ab="0.74 0.92" r="18"/><use href="#bs-punkt" x="-20" y="-20" width="40" height="40"/><text y="5" text-anchor="middle">F</text></g></g></g>
-                    <g transform="translate(160 330)"><g class="sz-pop" data-ab="0.02" color="#1f66d1"><circle class="sz-welle" data-ab="0.74 0.92" r="18"/><use href="#bs-punkt" x="-20" y="-20" width="40" height="40"/><text y="5" text-anchor="middle">A</text></g></g>
-                  </svg>
-                  <div class="bs-meldung bs-meldung--orange sz-toast" data-ab="0.54 0.72"><i class="bs-vibrieren"></i><div><b>Felix ist außer Reichweite</b><span>240 m entfernt. Ihr Chip vibriert.</span></div></div>
-                  <div class="bs-meldung bs-meldung--dunkel sz-toast" data-ab="0.76 0.97"><i class="bs-haken"></i><div><b>Signal an die ganze Gruppe gesendet</b><span>Alle Chips vibrieren. Kein Notruf.</span></div></div>
-                  <div class="bs-blatt sz-blatt">
-                    <i class="bs-griff"></i>
-                    <div class="sz-seite" data-seite="0">
-                      <p class="bs-h">Ihre Gruppe</p>
-                      <div class="bs-zeile"><i class="bs-ava" style="--f:#f2a33a">L</i><div><b>Lena <em>Kind</em></b><small>im Lift · 140 m von Ihnen</small></div></div>
-                      <div class="bs-zeile"><i class="bs-ava" style="--f:#1ea85a">F</i><div><b>Felix <em>Kind</em></b><small>auf der Piste · 60 m von Ihnen</small></div></div>
-                    </div>
-                    <div class="sz-seite" data-seite="1">
-                      <p class="bs-h">Reichweiten-Alarm</p>
-                      <div class="bs-regler"><span>Reichweite</span><div class="bs-regler__bahn"><i></i></div><b>200 m</b></div>
-                      <div class="bs-haken-liste"><span class="ist-an"><i></i>Lena</span><span class="ist-an"><i></i>Felix</span><span><i></i>Mama</span></div>
-                    </div>
-                    <div class="sz-seite" data-seite="2">
-                      <div class="bs-los bs-los--orange sz-druck" data-ab="0.72 0.77">Ganze Gruppe rufen</div>
-                      <p class="bs-klein">Alle Chips vibrieren als Zeichen zum Treffen. Kein Notruf.</p>
-                    </div>
-                  </div>
+                <!-- Feedback 156: Aufnahmen aus der echten App, je Teil ein Film; app-seite.js spielt den passenden -->
+                <div class="app-film" data-film>
+                  <video class="app-film__clip" data-clip="0" muted playsinline loop preload="none" poster="assets/media/app-film/familie-karte.webp?v=1" width="600" height="1298"><source src="assets/media/app-film/familie-karte.webm?v=1" type="video/webm"><source src="assets/media/app-film/familie-karte.mp4?v=1" type="video/mp4"></video>
+                  <video class="app-film__clip" data-clip="1" muted playsinline loop preload="none" poster="assets/media/app-film/familie-reichweite.webp?v=1" width="600" height="1298"><source src="assets/media/app-film/familie-reichweite.webm?v=1" type="video/webm"><source src="assets/media/app-film/familie-reichweite.mp4?v=1" type="video/mp4"></video>
+                  <video class="app-film__clip" data-clip="2" muted playsinline loop preload="none" poster="assets/media/app-film/familie-rufen.webp?v=1" width="600" height="1298"><source src="assets/media/app-film/familie-rufen.webm?v=1" type="video/webm"><source src="assets/media/app-film/familie-rufen.mp4?v=1" type="video/mp4"></video>
                 </div>
               </div>
             </div>
@@ -281,38 +217,11 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
               <div class="iphone__glas">
                 <div class="iphone__insel"></div>
                 <div class="iphone__statuszeile"><span>9:41</span><span class="iphone__symbole"><i class="sym-netz"></i><i class="sym-wlan"></i><i class="sym-akku"></i></span></div>
-                <div class="bs ist-an">
-                  <svg class="bs-karte" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice"><use href="#bs-karte" width="390" height="844"/>
-                    <path id="al-spur1" class="sz-spur" data-zeichne="0.03 0.3" d="M128 640 L200 166 C170 240 130 300 140 380 C150 460 110 520 120 600" pathLength="1"/>
-                    <path id="al-spur2" class="sz-spur" data-zeichne="0.36 0.6" d="M120 600 C150 640 190 670 236 680 L296 640 L300 240 C280 320 300 400 280 470" pathLength="1"/>
-                    <path id="al-route" class="sz-route" data-zeichne="0.7 0.86" d="M280 470 C266 520 290 560 300 620 C298 640 280 660 236 680" pathLength="1"/>
-                    <g class="sz-ziel" data-ab="0.84" transform="translate(236 680)"><g><circle r="15" fill="#ffd400" stroke="#0b1226" stroke-width="2.5"/><path d="M-4 6 V-7 L6 -3 L-4 1" fill="#0b1226"/></g></g>
-                    <g data-folge="al-spur1 0.03 0.3 | al-spur2 0.36 0.6" transform="translate(128 640)" color="#1f66d1"><use href="#bs-punkt" x="-20" y="-20" width="40" height="40"/><text y="5" text-anchor="middle">A</text></g>
-                  </svg>
-                  <div class="bs-kopf"><div><span><i class="bs-gruen"></i>Aufzeichnung läuft</span><b>Ihr Tag</b></div><div class="bs-kachel"><span>Abzeichen</span><b data-zahl-p="0.38 0.58 3">0</b></div></div>
-                  <div class="bs-meldung bs-meldung--hell sz-toast" data-ab="0.56 0.68"><i class="sz-abz" style="--f:#0e0e10"></i><div><b>Abzeichen: Schwarze Piste</b><span>Neu freigeschaltet</span></div></div>
-                  <div class="bs-meldung sz-toast" data-ab="0.8"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg><div><b>Spätestens 15:23 los Richtung Tal</b><span>Der letzte Lift schließt um 16:30</span></div></div>
-                  <div class="bs-blatt sz-blatt">
-                    <i class="bs-griff"></i>
-                    <div class="sz-seite" data-seite="0">
-                      <div class="bs-werte">
-                        <div><b data-zahl-p="0.03 0.3 14">0</b><small>Abfahrten</small></div>
-                        <div><b data-zahl-p="0.03 0.3 6240">0</b><small>Tiefenmeter</small></div>
-                        <div><b data-zahl-p="0.03 0.3 11">0</b><small>Liftfahrten</small></div>
-                      </div>
-                    </div>
-                    <div class="sz-seite" data-seite="1">
-                      <div class="sz-abzeichen">
-                        <div class="sz-pop" data-ab="0.4"><i class="bs-abz__zeichen" style="--f:#ffd400"><svg viewBox="0 0 24 24"><path d="M4 17h16M7 17V9l5-4 5 4v8"/><circle cx="12" cy="11" r="1.6"/></svg></i><span>Erste Gondel</span></div>
-                        <div class="sz-pop" data-ab="0.48"><i class="bs-abz__zeichen" style="--f:#16b46b"><svg viewBox="0 0 24 24"><path d="M3 19 9 9l4 6 3-4 5 8z"/></svg></i><span>Talabfahrt</span></div>
-                        <div class="sz-pop" data-ab="0.56"><i class="bs-abz__zeichen" style="--f:#0e0e10"><svg viewBox="0 0 24 24"><path d="M12 4l7 8-7 8-7-8z"/></svg></i><span>Schwarze Piste</span></div>
-                      </div>
-                    </div>
-                    <div class="sz-seite" data-seite="2">
-                      <div class="bs-chips"><span class="ist-an">Schnellste</span><span>Nur blaue</span><span>Schwarze meiden</span></div>
-                      <div class="bs-ziel"><div><b>Schnellster Weg ins Tal</b><span>Ankunft 15:41 · 18 min</span></div><span class="bs-knopf-mini">Start</span></div>
-                    </div>
-                  </div>
+                <!-- Feedback 156: Aufnahmen aus der echten App, je Teil ein Film; app-seite.js spielt den passenden -->
+                <div class="app-film" data-film>
+                  <video class="app-film__clip" data-clip="0" muted playsinline loop preload="none" poster="assets/media/app-film/allein-tag.webp?v=1" width="600" height="1298"><source src="assets/media/app-film/allein-tag.webm?v=1" type="video/webm"><source src="assets/media/app-film/allein-tag.mp4?v=1" type="video/mp4"></video>
+                  <video class="app-film__clip" data-clip="1" muted playsinline loop preload="none" poster="assets/media/app-film/allein-abzeichen.webp?v=1" width="600" height="1298"><source src="assets/media/app-film/allein-abzeichen.webm?v=1" type="video/webm"><source src="assets/media/app-film/allein-abzeichen.mp4?v=1" type="video/mp4"></video>
+                  <video class="app-film__clip" data-clip="2" muted playsinline loop preload="none" poster="assets/media/app-film/allein-tal.webp?v=1" width="600" height="1298"><source src="assets/media/app-film/allein-tal.webm?v=1" type="video/webm"><source src="assets/media/app-film/allein-tal.mp4?v=1" type="video/mp4"></video>
                 </div>
               </div>
             </div>
@@ -327,7 +236,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   <figure class="app-bruch" style="--lage:60% 22%;--lage-h:2% 30%" aria-hidden="true"><div class="app-bruch__fenster"><img src="assets/media/app-foto-skischule.webp?v=1" srcset="assets/media/app-foto-skischule-m.webp?v=1 1400w, assets/media/app-foto-skischule.webp?v=1 2800w" sizes="100vw" alt="" width="2800" height="1870" loading="lazy" decoding="async"></div></figure>
 
   <!-- 4 · Skischule -->
-  <section id="skischule" class="szene szene--grau szene--links" data-unter="Skischule" data-klick="99999" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="skischule-titel">
+  <section id="skischule" class="szene nacht szene--blau szene--links" data-unter="Skischule" data-klick="99999" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="skischule-titel">
     <div class="szene__buehne" data-sc-stage>
       <div class="szene__raster">
         <div class="szene__text">
@@ -346,31 +255,11 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
               <div class="iphone__glas">
                 <div class="iphone__insel"></div>
                 <div class="iphone__statuszeile"><span>9:41</span><span class="iphone__symbole"><i class="sym-netz"></i><i class="sym-wlan"></i><i class="sym-akku"></i></span></div>
-                <div class="bs ist-an">
-                  <svg class="bs-karte" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice"><use href="#bs-karte" width="390" height="844"/>
-                    <g transform="translate(180 420)"><circle class="bs-kreis sz-ring sz-ring--blau" data-k="0 0.08" r="95"/></g>
-                    <g fill="#fff" stroke-width="3">
-                      <circle class="sz-pop" data-ab="0.04" cx="150" cy="380" r="9" stroke="#f2a33a"/><circle class="sz-pop" data-ab="0.07" cx="205" cy="372" r="9" stroke="#1ea85a"/><circle class="sz-pop" data-ab="0.1" cx="232" cy="420" r="9" stroke="#8b5cf6"/><circle class="sz-pop" data-ab="0.13" cx="214" cy="470" r="9" stroke="#e5450d"/>
-                      <circle class="sz-pop" data-ab="0.16" cx="160" cy="476" r="9" stroke="#1f66d1"/><circle class="sz-pop" data-ab="0.19" cx="128" cy="440" r="9" stroke="#16b46b"/><circle class="sz-pop" data-ab="0.22" cx="135" cy="405" r="9" stroke="#f2a33a"/>
-                    </g>
-                    <g transform="translate(196 452)"><g class="sz-weg" data-raus="0.42 0.56 0.78 0.92"><g class="sz-pop" data-ab="0.25"><circle class="sz-welle sz-welle--orange" data-ab="0.72 0.88" r="11"/><circle class="sz-kind" data-ab="0.5 0.86" r="9" fill="#fff" stroke="#1ea85a" stroke-width="3"/></g></g></g>
-                    <g transform="translate(180 420)" color="#0b1226"><use href="#bs-punkt" x="-20" y="-20" width="40" height="40"/><text y="5" text-anchor="middle">S</text></g>
-                  </svg>
-                  <div class="bs-kopf bs-kopf--schule"><div><span><i class="bs-gruen"></i>Bambini Blau</span><b class="sz-zahl" data-ab="0.5 0.86"><i class="a" data-zahl-p="0.04 0.25 8">0</i><i class="b">7</i><small>/8</small></b></div><div class="bs-kachel"><span>Abholung</span><b>15:30</b></div></div>
-                  <div class="bs-meldung bs-meldung--gruen sz-toast" data-ab="0.27 0.4"><i class="bs-haken"></i><div><b>Alle 8 da, los geht’s!</b><span>Im Umkreis von 100 m</span></div></div>
-                  <div class="sz-banner sz-toast" data-ab="0.5 0.74"><b>Felix hängt hinten</b><span>180 m nach Norden · am Sessellift</span></div>
-                  <div class="bs-meldung bs-meldung--dunkel sz-toast" data-ab="0.74 0.97"><i class="bs-vibrieren"></i><div><b>Felix’ Chip vibriert und piepst</b><span>Er kommt zurück zur Gruppe.</span></div></div>
-                  <div class="bs-blatt sz-blatt">
-                    <i class="bs-griff"></i>
-                    <div class="sz-seite" data-seite="0">
-                      <div class="bs-los sz-druck" data-ab="0.25 0.29">Durchzählen</div>
-                      <p class="bs-klein">Vor dem Lift kurz durchzählen</p>
-                    </div>
-                    <div class="sz-seite" data-seite="1" data-seite-auch="2">
-                      <div class="bs-knopf-reihe"><span class="bs-los bs-los--orange sz-druck" data-ab="0.71 0.75">Anpiepsen</span><span class="bs-los bs-los--rand">Bergbahn: Suche</span></div>
-                      <p class="bs-klein">Zuerst anpiepsen, meistens kommt das Kind dann von selbst.</p>
-                    </div>
-                  </div>
+                <!-- Feedback 156: Aufnahmen aus der echten App, je Teil ein Film; app-seite.js spielt den passenden -->
+                <div class="app-film" data-film>
+                  <video class="app-film__clip" data-clip="0" muted playsinline loop preload="none" poster="assets/media/app-film/skischule-gruppe.webp?v=1" width="600" height="1298"><source src="assets/media/app-film/skischule-gruppe.webm?v=1" type="video/webm"><source src="assets/media/app-film/skischule-gruppe.mp4?v=1" type="video/mp4"></video>
+                  <video class="app-film__clip" data-clip="1" muted playsinline loop preload="none" poster="assets/media/app-film/skischule-zurueck.webp?v=1" width="600" height="1298"><source src="assets/media/app-film/skischule-zurueck.webm?v=1" type="video/webm"><source src="assets/media/app-film/skischule-zurueck.mp4?v=1" type="video/mp4"></video>
+                  <video class="app-film__clip" data-clip="2" muted playsinline loop preload="none" poster="assets/media/app-film/skischule-piepsen.webp?v=1" width="600" height="1298"><source src="assets/media/app-film/skischule-piepsen.webm?v=1" type="video/webm"><source src="assets/media/app-film/skischule-piepsen.mp4?v=1" type="video/mp4"></video>
                 </div>
               </div>
             </div>
@@ -476,13 +365,13 @@ ScrollCraft.mount(document.body);
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/seite.js?v=88" defer></script>
-<script src="assets/gsap-effekte.js?v=6" defer></script>
+<script src="assets/gsap-effekte.js?v=7" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
 <script src="assets/auftritte.js?v=12" defer></script>
 <script src="assets/app-bruch.js?v=2" defer></script>
 <script src="assets/sprung-anfang.js?v=21" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
-<script src="assets/app-seite.js?v=5" defer></script>
+<script src="assets/app-seite.js?v=6" defer></script>
 <script src="assets/v2.js?v=2" defer></script>
 </body>
 </html>

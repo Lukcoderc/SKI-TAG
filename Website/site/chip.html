@@ -25,7 +25,7 @@
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=146">
-<link rel="stylesheet" href="assets/chip-seite.css?v=34">
+<link rel="stylesheet" href="assets/chip-seite.css?v=35">
 <link rel="stylesheet" href="assets/chip-film.css?v=28">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=12">
@@ -121,8 +121,13 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
       <!-- Runde nach Feedback 151: statt der Ladestation schwebt hier der fertige Chip (dasselbe Renderbild wie in
            „Probiere den Tag aus“) und fliegt beim Scrollen hinunter an seinen Platz dort (assets/chip-flug.js). Bei weniger
            Bewegung bleibt dieses Bild einfach stehen. -->
-      <figure class="chip-anfang__bild chip-flug-start" aria-hidden="true">
-        <img src="assets/media/chip/16.webp?v=1" alt="" width="900" height="900" decoding="async">
+      <!-- Feedback 156: der Chip steckt in einer Jackentasche (Foto eines Reißverschlusses, Unsplash, Herkunft in
+           assets/media/tasche.webp.json) und fliegt beim Scrollen aus ihr heraus, statt in der Luft zu schweben. Das Foto liegt
+           zweimal da: hinten ganz, vorne nur der Teil unter dem Reißverschluss, der den Chip unten verdeckt. -->
+      <figure class="chip-anfang__bild chip-tasche" aria-hidden="true">
+        <div class="chip-tasche__grund"><img src="assets/media/tasche.webp?v=1" alt="" width="1000" height="1000" decoding="async"></div>
+        <div class="chip-tasche__chip chip-flug-start"><img src="assets/media/chip/16.webp?v=1" alt="" width="900" height="900" decoding="async"></div>
+        <div class="chip-tasche__vorn"><img src="assets/media/tasche.webp?v=1" alt="" width="1000" height="1000" decoding="async"></div>
       </figure>
     </div>
   </section>
@@ -507,7 +512,7 @@ ScrollCraft.mount(document.body);
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/seite.js?v=88" defer></script>
-<script src="assets/gsap-effekte.js?v=6" defer></script>
+<script src="assets/gsap-effekte.js?v=7" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
 <script src="assets/auftritte.js?v=12" defer></script>
 <script src="assets/sprung-anfang.js?v=21" defer></script>
@@ -515,7 +520,7 @@ ScrollCraft.mount(document.body);
 <script src="assets/weg.js?v=20" defer></script>
 <script src="assets/chip-film.js?v=12" defer></script>
 <script src="assets/innen-film.js?v=21" defer></script>
-<script src="assets/chip-flug.js?v=5" defer></script>
+<script src="assets/chip-flug.js?v=6" defer></script>
 <script src="assets/chip-masz.js?v=1" defer></script>
 <script src="assets/v2.js?v=2" defer></script>
 </body>

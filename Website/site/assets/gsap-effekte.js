@@ -37,7 +37,7 @@
   /* Bildfenster-Satz: Wörter starten blass und werden mit dem Scrollen nacheinander voll weiß (wie .wir2__satz) */
   if (window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
-    Array.prototype.slice.call(document.querySelectorAll("p.fenster__satz")).forEach(function (satz) {
+    Array.prototype.slice.call(document.querySelectorAll("p.fenster__satz:not(.druck-satz)")).forEach(function (satz) {
       var w = SplitText.create(satz, { type: "words", wordsClass: "ziel-wort" }).words;
       gsap.set(w, { opacity: 0.16 });
       gsap.to(w, { opacity: 1, ease: "none", stagger: 0.1,

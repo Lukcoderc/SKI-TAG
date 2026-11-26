@@ -1,4 +1,4 @@
 {
-  "prompt": "Bildschirm der SkiTag-App, aufgenommen aus der nachgebauten App auf app.html (Gestaltung nach Tobias). Nicht generiert.",
-  "createdAt": "2026-11-24T13:40:00.000Z"
+  "prompt": "Herkunft: Bildschirmfoto aus Tobias’ SkiTag-App (Stand 10. November 2026), aufgenommen am 26. November 2026 mit Playwright (390x844, 2x, Platz für die Statuszeile). Nicht generiert. Für die Aufnahme ist der Skigebietsname durch „Dein Skigebiet“ ersetzt (Website-Regel: kein Skigebiets- oder Partnername). Zustand: login-b.",
+  "createdAt": "2026-11-26T18:20:00.000Z"
 }

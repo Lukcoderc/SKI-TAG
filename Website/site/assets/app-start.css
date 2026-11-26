@@ -1,27 +1,25 @@
-/* App-Abschnitt der Startseite (Feedback 151): hinten Fotos, vorne Handy und Infofelder.
+/* App-Abschnitt der Startseite (Feedback 151, umgebaut nach Feedback 156): links Text und Schritte, rechts Handy vor einem Foto.
    assets/app-start.js setzt data-schritt (1 bis 3) und .laeuft, solange der Abschnitt im Bild ist. */
 .app-start { background: #fff; overflow-x: clip; }   /* die Fotos fliegen von außen herein (app-start.js) */
-.app-start__kopf { display: grid; gap: 1.5rem 4rem; align-items: end; }
-.app-start__rechts { display: grid; gap: 1.5rem; justify-items: start; max-width: 32rem; }
-.app-start__rechts .sc-lede { margin: 0; color: var(--sc-ink-soft); }
-.app-start__rechts .sc-lede b, .asi p b { color: var(--sc-ink); font-weight: 700; }
+/* Feedback 156: links Überschrift, Text, Knöpfe und die drei Schritte untereinander, rechts groß das Handy vor einem
+   ruhigen Pistenfoto (hohe, abgerundete Fläche mit Schatten; das Handy ragt oben und unten darüber). Nichts überlappt. */
+.app-start__buehne { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr); align-items: center; gap: clamp(2rem, 5vw, 5.5rem); isolation: isolate; }
+.app-start__links { display: grid; gap: clamp(1.4rem, 3vh, 2rem); align-content: center; }
+.app-start__kopf h2 { margin: 0.4rem 0 0; }
+.app-start__text { display: grid; gap: 1.4rem; justify-items: start; max-width: 34rem; }
+.app-start__text .sc-lede { margin: 0; color: var(--sc-ink-soft); }
+.app-start__text .sc-lede b, .asi p b { color: var(--sc-ink); font-weight: 700; }
 .app-start__knoepfe { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-@media (min-width: 900px) { .app-start__kopf { grid-template-columns: minmax(0, 1fr) auto; } }
-
-/* Bühne (Feedback 154, aufgeräumt): ein Raster mit zwei Spalten. Hinten über die ganze Breite ein Foto mit Schatten,
-   davor links das Handy (ragt oben und unten über das Foto), rechts die drei Schritte als Karten. Nichts überlappt. */
-.app-start__buehne { position: relative; margin-top: clamp(2.5rem, 6vh, 4.5rem); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  align-items: center; isolation: isolate; }
-.app-start__foto { grid-area: 1 / 1 / 2 / 3; align-self: center; z-index: 0; height: 68%; min-height: 20rem; border-radius: clamp(1.25rem, 2.4vw, 2rem); overflow: hidden;
-  background: #dfe6f0; box-shadow: 0 2px 6px rgba(14, 29, 64, 0.06), 0 40px 80px -30px rgba(14, 29, 64, 0.45); }
-.app-start__foto img { position: absolute; left: 0; top: -8%; display: block; width: 100%; height: 116%; max-width: none; object-fit: cover; object-position: 50% 50%; will-change: transform; }
-/* leichter Schleier, damit Handy und Karten davor ruhig stehen */
+.app-start__rechts { position: relative; display: grid; place-items: center; min-height: 100%; }
+.app-start__foto { grid-area: 1 / 1; position: relative; z-index: 0; align-self: center; width: 100%; height: 80%; min-height: 24rem; border-radius: clamp(1.5rem, 2.6vw, 2.25rem); overflow: hidden;
+  background: #dfe6f0; box-shadow: 0 2px 6px rgba(14, 29, 64, 0.06), 0 50px 90px -34px rgba(14, 29, 64, 0.5); }
+.app-start__foto img { position: absolute; left: 0; top: -8%; display: block; width: 100%; height: 116%; max-width: none; object-fit: cover; object-position: 40% 50%; will-change: transform; }
+/* leichter Schleier unten, damit das Handy davor ruhig steht */
 .app-start__foto::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
-  background: linear-gradient(90deg, rgba(11, 18, 38, 0.18), rgba(11, 18, 38, 0) 35%, rgba(11, 18, 38, 0) 55%, rgba(11, 18, 38, 0.28)); }
-.app-start__foto { position: relative; }
-.app-start__handy { grid-area: 1 / 1; justify-self: center; position: relative; z-index: 2; --b: clamp(14.5rem, 19vw, 17.5rem); margin: 0; padding-block: clamp(1.5rem, 4vw, 3rem);
-  filter: drop-shadow(0 40px 50px rgba(14, 29, 64, 0.4)); }
-.app-start__felder { grid-area: 1 / 2; justify-self: end; margin-right: clamp(1rem, 4%, 3rem) !important; position: relative; z-index: 3; list-style: none; margin: 0; padding: 0; display: grid; gap: 0.8rem; width: min(22rem, 88%); }
+  background: linear-gradient(180deg, rgba(11, 18, 38, 0) 40%, rgba(11, 18, 38, 0.3)); }
+.app-start__handy { grid-area: 1 / 1; position: relative; z-index: 2; --b: clamp(17rem, 22vw, 21rem); margin: 0; padding-block: clamp(1rem, 3vw, 2rem);
+  filter: drop-shadow(0 44px 54px rgba(14, 29, 64, 0.45)); }
+.app-start__felder { list-style: none; margin: 0.4rem 0 0; padding: 0; display: grid; gap: 0.7rem; width: min(30rem, 100%); }
 .asi { display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 0.9rem; align-items: center; padding: 1.05rem 1.25rem; border-radius: 20px; background: #fff; box-shadow: 0 1px 2px rgba(14, 29, 64, 0.06), 0 24px 48px -22px rgba(14, 29, 64, 0.5); transition: transform 450ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 450ms ease, background-color 450ms ease; }
 .asi > b, .asi p { transition: opacity 450ms ease; }
 .app-start__buehne[data-schritt] .asi:not(.ist-an) > b, .app-start__buehne[data-schritt] .asi:not(.ist-an) p { opacity: 0.6; }
@@ -31,7 +29,7 @@
 .asi p { margin: 0; font-size: 0.88rem; line-height: 1.4; color: var(--sc-ink-soft); }
 .app-start__buehne[data-schritt="1"] .asi[data-schritt="1"],
 .app-start__buehne[data-schritt="2"] .asi[data-schritt="2"],
-.app-start__buehne[data-schritt="3"] .asi[data-schritt="3"] { transform: translateX(-0.75rem); box-shadow: 0 1px 2px rgba(14, 29, 64, 0.08), 0 30px 60px -20px rgba(14, 29, 64, 0.6); }
+.app-start__buehne[data-schritt="3"] .asi[data-schritt="3"] { transform: translateX(0.75rem); box-shadow: 0 1px 2px rgba(14, 29, 64, 0.08), 0 30px 60px -20px rgba(14, 29, 64, 0.6); }
 .app-start__buehne[data-schritt="1"] .asi[data-schritt="1"] > span,
 .app-start__buehne[data-schritt="2"] .asi[data-schritt="2"] > span,
 .app-start__buehne[data-schritt="3"] .asi[data-schritt="3"] > span { background: var(--orange); color: #fff; }
@@ -116,13 +114,15 @@
 .ast[data-phase="app"] .ast__bild--c { opacity: 1; transform: none; }
 .ast[data-phase="app"] .ast__status { color: #000; }
 
-/* Tablet und Handy: Foto hinter dem Handy, die Schritte darunter in eigener Zeile */
+/* Tablet und Handy: Überschrift und Text, dann Handy vor dem Foto, darunter die Schritte */
 @media (max-width: 899px) {
-  .app-start__buehne { grid-template-columns: minmax(0, 1fr); row-gap: 1.75rem; }
-  .app-start__foto { grid-area: 1 / 1; height: 62%; min-height: 0; }
-  .app-start__foto::after { background: linear-gradient(180deg, rgba(11, 18, 38, 0.1), rgba(11, 18, 38, 0.25)); }
-  .app-start__handy { --b: min(15rem, 56vw); padding-block: 1.25rem; }
-  .app-start__felder { grid-area: 2 / 1; justify-self: stretch; width: 100%; max-width: 32rem; margin: 0 auto; }
+  .app-start__buehne { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; }
+  .app-start__links { display: contents; }
+  .app-start__kopf { order: 1; } .app-start__text { order: 2; } .app-start__rechts { order: 3; } .app-start__felder { order: 4; justify-self: center; max-width: 32rem; }
+  .app-start__foto { height: 70%; min-height: 0; }
+  .app-start__handy { --b: min(15.5rem, 58vw); padding-block: 1rem; }
   .app-start__buehne[data-schritt] .asi[data-schritt] { transform: none; }
 }
 @media (prefers-reduced-motion: reduce) { .st, .ast__app, .ast__bild, .asi { transition: none; } .st__band { animation: none !important; } }
+/* Feedback 156: in der linken Spalte etwas kleiner, damit Überschrift, Text und Schritte neben dem Handy Platz haben */
+.app-start__kopf h2.riesig { font-size: clamp(2.6rem, 1.3rem + 3.3vw, 4.6rem); line-height: 0.98; }

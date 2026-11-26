@@ -19,7 +19,16 @@
   var akt = document.getElementById("der-chip");
   var ziel = akt && akt.querySelector(".knopf__chip");
   var bild = akt && akt.querySelector(".knopf__bild");
-  var aufgeben = function () { wurzel.classList.remove("chipflug", "chipflug-an"); if (akt) akt.style.setProperty("--kn-da", "1"); };
+  var aufgeben = function () {
+    wurzel.classList.remove("chipflug", "chipflug-an"); if (akt) akt.style.setProperty("--kn-da", "1");
+    // Feedback 156: ohne Flug (Handy, Tablet hochkant) steigt der Chip beim Scrollen weiter aus der Tasche und kippt leicht
+    var chip = document.querySelector(".chip-tasche__chip");
+    if (chip && window.gsap && window.ScrollTrigger && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.to(chip, { yPercent: -34, rotate: -7, ease: "none",
+        scrollTrigger: { trigger: chip.parentNode, start: "top 22%", end: "bottom 10%", scrub: 0.6 } });
+    }
+  };
   if (!start || !ziel || !bild || !wurzel.classList.contains("chipflug")) return aufgeben();
 
   var ORDNER = "assets/media/chip/", V = "?v=1", N = 30, RUHE = 16, DA = 0.86;
@@ -89,7 +98,7 @@
     gemalt = i;
   };
 
-  var zeit0 = performance.now(), letzte = zeit0, laeuft = false, fs = -1, angekommen = null, sichtbar = false;
+  var zeit0 = performance.now(), letzte = zeit0, laeuft = false, fs = -1, angekommen = null, sichtbar = false, istRaus = null;
   var zeichnen = function (jetzt) {
     if (!m && !messen()) return false;
     var y = scrollY, f = klemme(y / m.ende);
@@ -99,11 +108,13 @@
     if (Math.abs(f - fs) < 0.0004) fs = f;
     var fl = klemme(fs / DA);                      // bei 86 % sitzt der Chip genau auf dem Ziel
     var g = inOut(fl), t = (jetzt - zeit0) / 1000;
-    var ruhe = 1 - weich(klemme(fs / 0.08));       // oben ganz leichtes Schweben, nur auf und ab
+    var ruhe = 0;                                     // Feedback 156: in der Tasche schwebt nichts mehr
     var nah = Math.sin(fl * Math.PI);
     var yv = Math.min(fs, 1) * m.ende;              // Scrollstellung, wie sie der Flug gerade sieht
     var x = mix(m.ax, m.zx, g) + nah * Math.min(vw * 0.12, 160) * (m.zx > m.ax ? -1 : 1);
     var yy = mix(m.ay, m.zy, mix(fl, g, 0.4)) - yv + Math.sin(t * 1.1) * 5 * ruhe;
+    // Feedback 156: zuerst steigt der Chip aus der Jackentasche nach oben, dann erst fliegt er im Bogen hinunter
+    yy -= weich(klemme(fl / 0.2)) * (1 - g) * m.as * 0.6;
     var s = mix(m.as, m.zs, g) * (1 + nah * 0.35);
     var dreh = nah * -16;
     soll = Math.round(Math.max(0, Math.min(N - 1, RUHE + 13 * Math.sin(fl * Math.PI * 2))));
@@ -119,9 +130,12 @@
       flieger.style.visibility = da ? "hidden" : "visible";
       akt.style.setProperty("--kn-da", da ? "1" : "0");
     }
-    if (!sichtbar && gemalt >= 0) { sichtbar = true; wurzel.classList.add("chipflug-an"); }
+    // erst nach dem Herauskommen aus der Tasche (CSS, 1,75 s) übernimmt der Flieger
+    if (!sichtbar && gemalt >= 0 && (jetzt - zeit0 > 1900 || fs > 0.02)) { sichtbar = true; wurzel.classList.add("chipflug-an"); }
+    var raus = fs > 0.15;                            // aus der Tasche: ab hier fliegt er über ihr vorderes Teil hinweg
+    if (raus !== istRaus) { istRaus = raus; wurzel.classList.toggle("chipflug-raus", raus); }
     bild.style.setProperty("--unscharf", weich(klemme((fs - 0.7) / 0.16)).toFixed(3));
-    return fs !== f || fs < 0.08;                    // weiterlaufen, solange er nachläuft oder oben schwebt
+    return fs !== f || !sichtbar;                    // weiterlaufen, solange er nachläuft oder noch nicht übernommen hat
   };
   var schleife = function (jetzt) {
     if (zeichnen(jetzt) && !document.hidden) requestAnimationFrame(schleife); else laeuft = false;

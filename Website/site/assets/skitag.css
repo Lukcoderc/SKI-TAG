@@ -279,3 +279,21 @@ html.tagwelt-dunkel .tag__fahrer-kopf { fill: #fff; }
 .talfahrt__fahrer .tag__fahrer-koerper, .talfahrt__fahrer .tag__fahrer-arme { stroke: #fff; }
 .talfahrt__fahrer .tag__fahrer-kopf { fill: #fff; }
 .talfahrt-an .tag__spur .tag__fahrer { opacity: 0 !important; }
+
+/* Feedback 156: Kopf der Seite sagt klar, dass hier ein Beispieltag mit SkiTag gezeigt wird */
+.tag-kopf__marke { display: inline-flex; align-items: center; gap: 0.6rem; margin: 0 0 1.1rem; padding: 0.45rem 0.95rem 0.45rem 0.75rem; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 8px 24px -14px rgba(14, 29, 64, 0.5);
+  font-size: var(--sc-t-sm); font-weight: 650; color: var(--sc-ink); }
+.tag-kopf__punkt { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 4px rgba(255, 90, 28, 0.2); }
+.tag-kopf__kopf .kopfzeile__text { max-width: 40rem; }
+.tag-kopf__stationen { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.5rem 0 0; padding: 0; counter-reset: st; }
+.tag-kopf__stationen li { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.55rem 1rem; border-radius: 999px; background: rgba(255, 255, 255, 0.7);
+  font-size: var(--sc-t-sm); font-weight: 600; color: var(--sc-ink); box-shadow: 0 8px 24px -16px rgba(14, 29, 64, 0.55); }
+.tag-kopf__stationen b { color: var(--orange-2, #e0531f); font-variant-numeric: tabular-nums; }
+.tag-kopf__stationen li + li::before { content: ""; width: 1rem; height: 2px; margin-left: -0.95rem; margin-right: 0.35rem; background: rgba(14, 29, 64, 0.25); }
+.tag-kopf__weiter { display: flex; align-items: center; gap: 0.7rem; margin: 1.6rem 0 0; font-size: var(--sc-t-sm); font-weight: 600; color: rgba(14, 29, 64, 0.6); }
+.tag-kopf__weiter span { position: relative; width: 1.3rem; height: 2.1rem; border-radius: 99px; border: 2px solid rgba(14, 29, 64, 0.35); }
+.tag-kopf__weiter span::after { content: ""; position: absolute; left: 50%; top: 0.35rem; width: 3px; height: 0.45rem; margin-left: -1.5px; border-radius: 3px; background: var(--orange); }
+@media (prefers-reduced-motion: no-preference) { .tag-kopf__weiter span::after { animation: tag-weiter 1.8s ease-in-out infinite; } }
+@keyframes tag-weiter { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 80% { opacity: 0; transform: translateY(0.7rem); } 100% { opacity: 0; } }
+@media (max-width: 860px) { .tag-kopf__stationen li { font-size: 0.82rem; padding: 0.45rem 0.8rem; } .tag-kopf__weiter { display: none; } }

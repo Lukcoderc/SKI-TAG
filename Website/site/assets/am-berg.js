@@ -26,11 +26,11 @@
 
   // 2 · Auftritt
   var buchstaben = SplitText.create(titel, { type: "words,chars", wordsClass: "ab-wort", charsClass: "ab-zeichen" }).chars;
-  var zeilen = SplitText.create(satz, { type: "lines", mask: "lines", linesClass: "ab-zeile" }).lines;
+  var zeilen = satz ? SplitText.create(satz, { type: "lines", mask: "lines", linesClass: "ab-zeile" }).lines : [];   // seit Feedback 156 ohne Satz
   gsap.set(titel, { perspective: 700 });
   gsap.set(buchstaben, { yPercent: 115, rotateX: -95, opacity: 0, transformOrigin: "50% 100% -20px" });
   gsap.set(auge, { x: -24, opacity: 0 });
-  gsap.set(zeilen, { yPercent: 105 });
+  if (zeilen.length) gsap.set(zeilen, { yPercent: 105 });
   gsap.set([liste].concat(punkte), { "--linie": 0 });
   gsap.set(punkte, { "--strich": 0 });
   gsap.set(punktText, { y: 22, opacity: 0 });
@@ -41,7 +41,6 @@
   var tl = gsap.timeline({ paused: true, defaults: { ease: "expo.out" } });
   tl.to(auge, { x: 0, opacity: 1, duration: 0.9 }, 0)
     .to(buchstaben, { yPercent: 0, rotateX: 0, opacity: 1, duration: 1.15, stagger: 0.028 }, 0.05)
-    .to(zeilen, { yPercent: 0, duration: 1.1, stagger: 0.09 }, 0.35)
     .to([liste].concat(punkte), { "--linie": 1, duration: 1.1, ease: "power3.inOut", stagger: 0.1 }, 0.35)
     .to(punkte, { "--strich": 1, duration: 0.7, ease: "power3.out", stagger: 0.1 }, 0.55)
     .to(punktText, { y: 0, opacity: 1, duration: 0.9, stagger: 0.1 }, 0.6)
@@ -50,7 +49,7 @@
   // die Karten liegen weiter unten: eigener Auslöser, sobald sie selbst gut im Bild sind
   var tlk = gsap.timeline({ paused: true, defaults: { ease: "expo.out" } });
   tlk.to(karten, { y: 0, rotateX: 0, rotateY: 0, scale: 1, opacity: 1, duration: 1.6, stagger: 0.14 }, 0)
-    .to(bilder, { scale: 1.02, duration: 2.2, ease: "power3.out", stagger: 0.14, clearProps: "transition" }, 0)
+    .to(bilder, { scale: 1.02, duration: 2.2, ease: "power3.out", stagger: 0.14, clearProps: "transition,transform,scale" }, 0)
     .to(texte, { y: 0, opacity: 1, duration: 0.9, stagger: 0.14 }, 0.7);
   ScrollTrigger.create({ trigger: $(".am-berg__karten"), start: "top 78%", once: true, onEnter: function () { tlk.play(); } });
 
@@ -61,4 +60,24 @@
         scrollTrigger: { trigger: akt, start: "top 20%", end: "bottom top", scrub: 0.8 } });
     });
   });
+})();
+
+/* Feedback 156: Beschreibung auf den Fotokarten. Mit Maus reicht Hover (CSS). Auf Touchgeräten öffnet ein Tippen die
+   Karte und schließt die anderen, ein zweites Tippen oder ein Tippen daneben schließt sie wieder. */
+(function () {
+  "use strict";
+  var karten = Array.prototype.slice.call(document.querySelectorAll(".am-berg__karte"));
+  if (!karten.length) return;
+  var maus = window.matchMedia("(hover: hover) and (pointer: fine)");
+  karten.forEach(function (k) {
+    k.addEventListener("click", function (e) {
+      if (maus.matches) return;
+      e.stopPropagation();
+      var auf = !k.classList.contains("ist-offen");
+      karten.forEach(function (x) { x.classList.remove("ist-offen"); });
+      k.classList.toggle("ist-offen", auf);
+    });
+    k.addEventListener("keydown", function (e) { if (e.key === "Escape") k.blur(); });
+  });
+  document.addEventListener("click", function () { karten.forEach(function (x) { x.classList.remove("ist-offen"); }); });
 })();

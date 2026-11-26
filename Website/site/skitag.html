@@ -52,7 +52,7 @@
     if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
     </script>
     <link rel="stylesheet" href="assets/seite.css?v=146" />
-    <link rel="stylesheet" href="assets/skitag.css?v=22" />
+    <link rel="stylesheet" href="assets/skitag.css?v=23" />
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=12">
 <link rel="stylesheet" href="assets/v2-alt.css?v=2">
@@ -277,16 +277,20 @@
         class="sc-section seite-anfang tag-kopf"
         aria-labelledby="seite-titel">
         <div class="sc-wrap">
-          <header class="kopfzeile" data-sc-in data-sc-stagger="80">
+          <!-- Feedback 156: oben klar sagen, dass hier ein ganzer Tag mit SkiTag gezeigt wird -->
+          <header class="kopfzeile tag-kopf__kopf">
+            <p class="tag-kopf__marke"><span class="tag-kopf__punkt" aria-hidden="true"></span>Ein Beispieltag am Berg</p>
             <h1 id="seite-titel" class="sc-display riesig">
-              Am Skitag.<br /><span class="leise"
-                >Vom Mieten bis zur Rückgabe.</span
-              >
+              So sieht ein Tag<br />mit SkiTag aus.<br /><span class="leise">Vom Mieten bis zur Rückgabe.</span>
             </h1>
             <p class="sc-lede kopfzeile__text">
-              Morgens holen, tagsüber in der Jacke, abends zurückgeben. So läuft
-              ein Tag mit SkiTag.
+              Morgens holst du den Chip am Automaten, tagsüber steckt er in deiner Jacke, abends gibst du ihn zurück.
+              Scroll einfach weiter: Die Uhr läuft mit, und du siehst Station für Station, was SkiTag an diesem Tag für dich macht.
             </p>
+            <ol class="tag-kopf__stationen" aria-label="Die Stationen des Tages">
+              <li><b>08:10</b> Chip holen</li><li><b>Tagsüber</b> Fahren mit Notruf</li><li><b>16:30</b> Zurückgeben</li>
+            </ol>
+            <p class="tag-kopf__weiter" aria-hidden="true"><span></span>Scrollen, und der Tag beginnt</p>
           </header>
         </div>
       </section>
@@ -573,10 +577,10 @@
     <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
     <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
     <script src="assets/seite.js?v=88" defer></script>
-    <script src="assets/gsap-effekte.js?v=6" defer></script>
+    <script src="assets/gsap-effekte.js?v=7" defer></script>
     <script src="assets/sprung-anfang.js?v=21" defer></script>
     <script src="assets/kopfleiste.js?v=2" defer></script>
-    <script src="assets/skitag.js?v=15" defer></script>
+    <script src="assets/skitag.js?v=16" defer></script>
   <script src="assets/v2.js?v=2" defer></script>
 </body>
 </html>

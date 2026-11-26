@@ -81,10 +81,10 @@
   var tl = gs.timeline({ paused: true, defaults: { ease: 'power3.out' } });
   if (foto) tl.fromTo(foto, { clipPath: 'inset(14% 22% 14% 22% round 2rem)', opacity: 0.4 }, { clipPath: 'inset(0% 0% 0% 0% round 0rem)', opacity: 1, duration: 1.2, ease: 'power3.inOut', clearProps: 'clipPath' }, 0);
   if (bild) tl.from(bild, { scale: 1.18, duration: 1.6 }, 0);
-  tl.fromTo(handy, { y: schmal ? 50 : 90, rotation: -5, scale: 0.92, opacity: 0 }, { y: 0, rotation: 0, scale: 1, opacity: 1, duration: 1.1, clearProps: 'transform,translate,rotate,scale,opacity' }, 0.25);
+  tl.fromTo(handy, { y: schmal ? 50 : 110, rotation: 6, scale: 0.92, opacity: 0 }, { y: 0, rotation: 0, scale: 1, opacity: 1, duration: 1.1, clearProps: 'transform,translate,rotate,scale,opacity' }, 0.25);
   // fromTo mit festem Ziel und danach weg mit den Inline-Werten, sonst blockieren sie das Hervorheben der Karte per CSS
-  tl.fromTo(karten, { x: schmal ? 0 : 50, y: schmal ? 24 : 0, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.8, stagger: 0.12, clearProps: 'transform,translate,rotate,scale,opacity' }, schmal ? 0.7 : 0.55);
-  window.ScrollTrigger.create({ trigger: buehne, start: 'top 78%', once: true, onEnter: function () { tl.play(); } });
+  tl.fromTo(karten, { x: schmal ? 0 : -40, y: schmal ? 24 : 0, opacity: 0 }, { x: 0, y: 0, opacity: 1, duration: 0.8, stagger: 0.12, clearProps: 'transform,translate,rotate,scale,opacity' }, schmal ? 0.7 : 0.55);
+  window.ScrollTrigger.create({ trigger: buehne.querySelector('.app-start__rechts') || buehne, start: 'top 75%', once: true, onEnter: function () { tl.play(); } });
 
   // Tiefe: nur das Bild im Foto zieht beim Scrollen etwas mit, der Rahmen bleibt stehen
   if (bild) gs.fromTo(bild, { yPercent: -4 }, { yPercent: 4, ease: 'none', scrollTrigger: { trigger: buehne, start: 'top bottom', end: 'bottom top', scrub: true } });
