@@ -15,15 +15,18 @@ Maxis Modell „fertig4“ als Produktfoto aus Blender 4.2 (Cycles). Nicht Teil 
 
 Dauer auf 4 Kernen: etwa 1 bis 1,5 Minuten je Bild; auf der Grafikkarte (GERAET=OPTIX) einige Sekunden.
 
-## SkiTag-Automat oben auf der Chip-Seite (Feedback 158, vorher die Jackentasche aus Feedback 157)
+## SkiTag-Ausleihstation oben auf der Chip-Seite (Feedback 159, vorher Automat und Jackentasche)
 
-Ein Automat vor dem Lift (Säule in Navy, Glasfront, Kopfleiste, Kartenleser, Belegschlitz, Ausgabefach mit Lichtband). Der
-Chip kommt aus dem Fach. Die Form des Automaten ist ein Entwurf: im Werkstattbuch und im Vault gibt es dazu keine Angaben.
-Bildschirm und Kopfleiste sind im Render dunkles Glas, was sie zeigen, legt die Seite als HTML darüber.
+Ein Wandgerät neben dem Lift in echten Maßen (340 × 520 × 130 mm): hellgraues Gehäuse, eingesetzte Frontplatte in Navy,
+Bildschirm hinter Deckglas, Lesefeld, Rückgabeschlitz, Ausgabefach mit dunklem Einsatz und verdecktem Lichtband. Freigestellt
+im Studiolicht, eine unsichtbare Wand dahinter fängt nur den Schatten. Der Chip fällt aus einem Schlitz in der Decke des
+Fachs und steht am Ende genau wie Bild 9 der Drehfolge (`CHIPBILD=9`), damit der fliegende Chip ohne Sprung übernimmt.
+Die Form ist ein Entwurf: im Werkstattbuch und im Vault gibt es dazu keine Angaben.
 
-1. Hintergrund: `site/assets/media/foto-lift-morgen.webp` mit Gauß-Unschärfe 9 px als `hinten.png` speichern.
-2. `python automat.py -- <dieser Ordner> chip.glb hinten.png <ausgabe> 800 48 24`: Bilder `00` bis `23` (800 × 1176) und
-   `lage.json` (Bildschirm, Kopfleiste, Lesefeld, Schlitz, Fach, Chip am Anfang und Ende, als Anteile des Bildes; daraus sind
-   die Maße in `chip-seite.css` gerechnet, `.chip-automat__start` zusammen mit dem Rahmen des Chips in Bild 16 des Chipfilms).
-   `... 800 48 24 leer` rendert `leer.png` (Fach ohne Chip). Etwa 45 s je Bild auf 4 Kernen.
-3. Als WebP nach `site/assets/media/automat/` (Qualität 82), `standbild.webp` ist Bild 0 (für weniger Bewegung).
+1. `python automat.py -- <dieser Ordner> chip.glb <ausgabe> 960 64 16`: Bilder `00` bis `15` (960 × 1200, mit Alpha) und
+   `lage.json` (die vier Ecken der Frontplatte und der Rahmen des Chips im Fach, als Anteile des Bildes). Die Werte kommen in
+   `chip.html` als `data-front` und `data-chip` an die `.station`; `chip-flug.js` legt die HTML-Front daraus mit einer
+   perspektivischen Matrix auf das Bild. `... 960 64 16 leer` rendert `leer.png` (Fach ohne Chip, Licht an),
+   `... vorschau` ein einzelnes Bild zum Prüfen. Etwa 90 s je Bild auf 4 Kernen.
+2. In WebP wandeln (Qualität 82), dabei den Wandschatten zu den Rändern hin auslaufen lassen (rechts und unten), sonst ist
+   auf der Seite eine Kante zu sehen. Ziel: `site/assets/media/station/`.

@@ -433,103 +433,94 @@
   .chip3d-seite .innen__marken li span { display: block; }
 }
 
-/* Feedback 158: statt der Jackentasche der SkiTag-Automat vor dem Lift (Bildfolge aus Blender, assets/media/automat/00 bis
-   23.webp, 800 × 1176). Der Bildschirm ist im Render dunkles Glas; was er zeigt, liegt als HTML darüber (.automat-schirm), genau auf
-   der Fläche aus lage.json der Szene. Beim Laden tippt ein Finger die Schritte durch (Ausleihen, Anzahl, Bezahlen am
-   Lesefeld, Code), beim Scrollen kommt der Chip aus dem Fach und der fliegende Chip übernimmt (.chip-automat__start). */
-.chip-anfang__bild.chip-automat { isolation: auto; width: min(100%, 26rem); aspect-ratio: 800 / 1176; }
-.chip-automat::after { display: none; }
-.chip-automat picture { display: contents; }
-.chip-automat__rahmen { position: absolute; inset: 0; overflow: hidden; border-radius: var(--r-gross, 1.5rem); background: #13264f;
-  box-shadow: 0 40px 70px -30px rgba(11, 20, 39, 0.55); container-type: inline-size; }
-.chip-automat__bild, .chip-automat__film { position: absolute; inset: 0; width: 100%; height: 100%; }
-.chip-anfang__bild.chip-automat img { animation: none; height: 100%; }
-.chip-automat__film { display: none; }
-.automat-film .chip-automat__film { display: block; }
-.chip-automat__start { position: absolute; left: 34.37%; top: 68.07%; width: 31.38%; aspect-ratio: 1; margin: 0; pointer-events: none; }
+/* Feedback 159: die SkiTag-Ausleihstation, ein Wandgerät in echten Maßen (340 × 520 × 130 mm), freigestellt im Studiolicht
+   (Bildfolge aus Blender, assets/media/station/00 bis 15.webp, 960 × 1200, Werkzeug: Website/werkzeuge/blender/automat.py).
+   Bildschirm, Aufdrucke und Lesefeld liegen als HTML auf der Frontplatte (.station__front, 680 × 1040 px = 2 px je mm).
+   chip-flug.js legt sie mit einer perspektivischen Matrix genau auf die Front im Bild (Ecken aus lage.json in data-front).
+   Beim Laden läuft der Ablauf von selbst in etwa fünf Sekunden durch, am Ende fällt der Chip ins Ausgabefach; beim ersten
+   Scrollen übernimmt der fliegende Chip (.station__start). */
+.chip-anfang__bild.station { isolation: auto; width: min(100%, 30rem); aspect-ratio: 4 / 5; }
+.station::after { display: none; }
+.station picture { display: contents; }
+.station__bild, .station__film { position: absolute; inset: 0; width: 100%; height: 100%; }
+.chip-anfang__bild.station img { animation: none; height: 100%; }
+.station__film { display: none; }
+.station--film .station__film { display: block; }
+.station__start { position: absolute; aspect-ratio: 1; margin: 0; pointer-events: none; }
 
-/* Bildschirm: Maße in cqw der Karte, damit alles mit der Karte wächst */
-.automat-schirm { position: absolute; left: 19.975%; top: 18.818%; width: 60.05%; height: 38.944%; overflow: hidden; border-radius: 1.6cqw;
-  background: radial-gradient(130% 90% at 20% 0%, #1d3a78 0%, #0d1c3f 55%, #091530 100%); color: #f6f7f9;
-  font-family: var(--sc-font-text); font-size: 3.1cqw; line-height: 1.25; }
-.automat-schirm::after {   /* Glas: schräge Spiegelung und ein Hauch Vignette, damit es nicht aufgeklebt wirkt */
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(115deg, rgba(255, 255, 255, 0.10) 0%, rgba(255, 255, 255, 0.03) 32%, rgba(255, 255, 255, 0) 33%),
-              radial-gradient(140% 120% at 50% 40%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.35) 100%); }
-.automat-schirm__kopf { position: absolute; left: 6%; right: 6%; top: 6.5%; display: flex; align-items: center; justify-content: space-between;
-  font-size: 2.3cqw; font-weight: 600; color: #aab2c4; letter-spacing: 0.01em; }
-.automat-schirm__kopf b { display: inline-flex; align-items: center; gap: 0.5em; color: #fff; font-family: var(--sc-font-display); font-weight: 650; font-size: 1.15em; }
-.automat-schirm__kopf b::before { content: ""; width: 0.6em; height: 0.6em; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0.8em rgba(255, 90, 28, 0.8); }
-.automat-schritt { position: absolute; left: 6%; right: 6%; top: 19%; bottom: 7%; display: flex; flex-direction: column; opacity: 0; transform: translateX(6%);
-  transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1); }
-.automat-schritt.ist-da { opacity: 1; transform: none; }
-.automat-schritt.war-da { transform: translateX(-6%); }
-.chip-automat:not(.automat--spielt) .automat-schritt[data-schritt="3"] { opacity: 1; transform: none; }
-.automat-schritt small { color: #aab2c4; font-size: 2.5cqw; font-weight: 600; letter-spacing: 0.02em; }
-.automat-schritt h4 { margin: 0.25em 0 0; font-family: var(--sc-font-display); font-weight: 650; font-size: 5.2cqw; line-height: 1.02; letter-spacing: -0.03em; color: #fff; }
-.automat-schritt p { margin: 0.55em 0 0; color: #c9d0de; font-size: 2.9cqw; line-height: 1.3; }
-.automat-knoepfe { margin-top: auto; display: grid; gap: 1.6cqw; }
-.automat-knopf { position: relative; display: flex; align-items: center; justify-content: space-between; padding: 2.3cqw 3cqw; border-radius: 2cqw;
-  background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.16); font-weight: 650; font-size: 2.7cqw; color: #fff;
-  transition: transform 0.15s ease, background 0.15s ease; }
-.automat-knopf--haupt { background: var(--orange); border-color: var(--orange); box-shadow: 0 1.2cqw 3cqw -1cqw rgba(255, 90, 28, 0.7); }
-.automat-knopf--haupt::after { content: "→"; font-weight: 700; }
-.automat-knopf.ist-gedrueckt { transform: scale(0.95); background: var(--orange-2); }
-.automat-zahl { display: flex; align-items: center; justify-content: center; gap: 5cqw; margin: auto 0; font-family: var(--sc-font-display); font-weight: 650; }
-.automat-zahl span { display: grid; place-items: center; width: 7cqw; height: 7cqw; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.25); font-size: 3.6cqw; color: #aab2c4; }
-.automat-zahl b { font-size: 10cqw; line-height: 1; }
-.automat-bezahlt { margin: auto 0; display: flex; align-items: center; gap: 2.4cqw; font-weight: 650; font-size: 3cqw; }
-.automat-bezahlt i { position: relative; width: 8cqw; height: 8cqw; border-radius: 50%; border: 0.5cqw solid rgba(255, 255, 255, 0.25); transition: background 0.3s, border-color 0.3s; }
-.automat-bezahlt i::after { content: ""; position: absolute; left: 30%; top: 22%; width: 26%; height: 44%; border: solid #fff; border-width: 0 0.6cqw 0.6cqw 0;
-  transform: rotate(45deg) scale(0); transition: transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1); }
-.automat-bezahlt.ist-fertig i { background: #22b36b; border-color: #22b36b; }
-.automat-bezahlt.ist-fertig i::after { transform: rotate(45deg) scale(1); }
-.automat-bezahlt .warte { color: #aab2c4; }
-.automat-bezahlt .fertig { display: none; }
-.automat-bezahlt.ist-fertig .warte { display: none; }
-.automat-bezahlt.ist-fertig .fertig { display: inline; }
-.automat-code { margin-top: auto; padding: 2.2cqw 3cqw; border-radius: 2cqw; background: rgba(255, 255, 255, 0.07); border: 1px dashed rgba(255, 255, 255, 0.25); }
-.automat-code b { display: block; font-family: var(--sc-font-display); font-size: 5.4cqw; letter-spacing: 0.12em; color: #fff; }
-.automat-pfeil { margin-top: 2cqw; display: flex; align-items: center; gap: 1.4cqw; color: #ffb08f; font-weight: 650; font-size: 2.5cqw; }
-.automat-pfeil::before { content: "↓"; display: grid; place-items: center; width: 4.6cqw; height: 4.6cqw; border-radius: 50%; background: var(--orange); color: #fff; }
-.ist-da .automat-pfeil::before { animation: automat-hin 1.1s ease-in-out infinite; }
-@keyframes automat-hin { 50% { transform: translateY(0.8cqw); } }
+/* Frontplatte: Maße in px der Platte (2 px je mm), Ursprung oben links an der Kante des Gehäuses */
+.station__front { position: absolute; left: 0; top: 0; width: 680px; height: 1040px; transform-origin: 0 0; pointer-events: none;
+  visibility: hidden; color: #fff; font-family: var(--sc-font-text); -webkit-font-smoothing: antialiased; }
+.station--bereit .station__front { visibility: visible; }
+.station__druck { position: absolute; color: rgba(255, 255, 255, 0.9); }
+.station__marke { left: 98px; top: 76px; display: flex; align-items: center; gap: 12px; font: 650 34px/1 var(--sc-font-display); letter-spacing: -0.02em; }
+.station__marke svg { width: 36px; height: 36px; }
+.station__marke small { margin-left: 10px; padding-left: 14px; border-left: 2px solid rgba(255, 255, 255, 0.28); font: 600 19px/1 var(--sc-font-text);
+  letter-spacing: 0; color: rgba(255, 255, 255, 0.62); }
+.station__rueckgabe { left: 418px; top: 654px; width: 140px; text-align: center; font: 600 17px/1 var(--sc-font-text); color: rgba(255, 255, 255, 0.6); }
+.station__ausgabe { left: 240px; top: 714px; width: 200px; text-align: center; font: 600 17px/1 var(--sc-font-text); color: rgba(255, 255, 255, 0.6); }
+.station__leser { position: absolute; left: 126px; top: 562px; width: 132px; height: 132px; border-radius: 50%; display: grid; place-items: center; }
+.station__leser svg { width: 50px; height: 50px; fill: none; stroke: rgba(255, 255, 255, 0.78); stroke-width: 1.8; stroke-linecap: round;
+  transition: stroke 0.3s; }
+.station__leser::before, .station__leser::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 3px solid var(--orange, #ff5a1c);
+  opacity: 0; }
+.station--zahlt .station__leser svg { stroke: #fff; }
+.station--zahlt .station__leser::before { animation: station-welle 1.2s cubic-bezier(0.2, 0.7, 0.3, 1) infinite; }
+.station--zahlt .station__leser::after { animation: station-welle 1.2s cubic-bezier(0.2, 0.7, 0.3, 1) 0.6s infinite; }
+@keyframes station-welle { 0% { opacity: 0.95; transform: scale(0.92); } 100% { opacity: 0; transform: scale(1.5); } }
 
-/* Kopfleiste über dem Bildschirm: dunkles Glas im Render, darauf der Schriftzug (Maße aus lage.json, „kopf“) */
-.automat-kopf { position: absolute; left: 19.85%; top: 5.015%; width: 60.3%; height: 6.29%; display: flex; align-items: center; justify-content: space-between;
-  padding: 0 4cqw; box-sizing: border-box; pointer-events: none; }
-.automat-kopf b { display: inline-flex; align-items: center; gap: 1.4cqw; color: #fff; font-family: var(--sc-font-display); font-weight: 650; font-size: 3.6cqw; letter-spacing: -0.02em;
-  text-shadow: 0 0 2cqw rgba(255, 255, 255, 0.25); }
-.automat-kopf svg { width: 4.6cqw; height: 4.6cqw; color: #fff; }
-.automat-kopf span { font-size: 1.9cqw; font-weight: 650; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); }
-.automat-kopf span::before { content: ""; display: inline-block; width: 1.3cqw; height: 1.3cqw; margin-right: 1.2cqw; border-radius: 50%; background: #22b36b;
-  box-shadow: 0 0 1.2cqw rgba(34, 179, 107, 0.9); vertical-align: 0.1em; }
-
-/* Finger: ein heller Ring, der auf das tippt, was man als Nächstes antippen soll */
-.automat-finger { position: absolute; z-index: 3; width: 9cqw; height: 9cqw; margin: -4.5cqw 0 0 -4.5cqw; border-radius: 50%; pointer-events: none;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.55) 0 30%, rgba(255, 255, 255, 0.18) 31% 100%); box-shadow: 0 0 0 0.35cqw rgba(255, 255, 255, 0.6);
-  opacity: 0; transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1), top 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s; }
-.automat-finger.ist-da { opacity: 1; animation: automat-tipp 1.3s ease-in-out infinite; }
-.automat-finger.drueckt { animation: none; transform: scale(0.72); }
-@keyframes automat-tipp { 0%, 100% { transform: scale(1); } 45% { transform: scale(0.8); box-shadow: 0 0 0 0.35cqw rgba(255, 255, 255, 0.6), 0 0 0 2.4cqw rgba(255, 255, 255, 0); }
-  50% { box-shadow: 0 0 0 0.35cqw rgba(255, 255, 255, 0.6), 0 0 0 0 rgba(255, 255, 255, 0.4); } }
-
-/* Lesefeld: Zeichen fürs kontaktlose Bezahlen, leuchtet beim Bezahlen */
-.automat-leser { position: absolute; left: 65.685%; top: 64.911%; width: 18.099%; height: 7.934%; display: grid; place-items: center; pointer-events: none; }
-.automat-leser svg { width: 34%; height: auto; fill: none; stroke: rgba(255, 255, 255, 0.55); stroke-width: 2.2; stroke-linecap: round; transition: stroke 0.3s, filter 0.3s; }
-.automat-leser.leuchtet svg { stroke: #fff; filter: drop-shadow(0 0 0.6cqw rgba(120, 200, 255, 0.9)); }
-.automat-leser.leuchtet { animation: automat-leser 0.9s ease-in-out infinite; }
-@keyframes automat-leser { 50% { opacity: 0.6; } }
-/* Beleg: kommt beim letzten Schritt aus dem Schlitz */
-.automat-beleg { position: absolute; left: 17.4%; top: 68.85%; width: 15.8%; height: 9.5%; overflow: hidden; pointer-events: none; }
-.automat-beleg span { position: absolute; left: 0; right: 0; top: 0; height: 100%; padding: 1.2cqw 1cqw; background: linear-gradient(#fff, #eef0f4); border-radius: 0 0 0.6cqw 0.6cqw;
-  box-shadow: 0 1cqw 1.6cqw -0.8cqw rgba(0, 0, 0, 0.6); font: 700 1.6cqw/1.3 var(--sc-font-text); color: #0e1d40; letter-spacing: 0.08em; text-align: center;
-  transform: translateY(calc(-100% + var(--beleg, 0) * 100%)); }
-.automat-beleg span small { display: block; font-weight: 600; letter-spacing: 0; color: #5b6478; }
+/* Bildschirm: 244 × 156 mm sichtbare Fläche im Deckglas, hell wie ein echtes Display */
+.station__schirm { position: absolute; left: 96px; top: 180px; width: 488px; height: 312px; overflow: hidden; border-radius: 10px;
+  background: #f5f7fb; color: #0e1d40; opacity: 0; transition: opacity 0.5s ease; }
+.station--an .station__schirm { opacity: 1; }
+.station__schirm::after { content: ""; position: absolute; inset: 0; pointer-events: none;   /* Deckglas: schräge, ganz leise Spiegelung */
+  background: linear-gradient(118deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 34%), linear-gradient(0deg, rgba(14, 29, 64, 0.05), rgba(14, 29, 64, 0) 40%); }
+.station__kopf { position: absolute; left: 30px; right: 30px; top: 22px; display: flex; justify-content: space-between; align-items: center;
+  font: 600 18px/1 var(--sc-font-text); color: #5d6880; }
+.station__kopf b { display: inline-flex; align-items: center; gap: 8px; color: #0e1d40; font-weight: 700; }
+.station__kopf svg { width: 20px; height: 20px; color: #0e1d40; }
+.station__schritt { position: absolute; left: 30px; right: 30px; top: 64px; bottom: 26px; display: flex; flex-direction: column;
+  opacity: 0; transform: translateX(28px); transition: opacity 0.32s ease, transform 0.42s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.station__schritt.ist-da { opacity: 1; transform: none; }
+.station__schritt.war-da { transform: translateX(-28px); }
+.station:not(.station--spielt) .station__schritt[data-schritt="3"] { opacity: 1; transform: none; }
+.station__schritt h4 { margin: 0; font: 700 40px/1.04 var(--sc-font-display); letter-spacing: -0.03em; color: #0e1d40; }
+.station__schritt p { margin: 10px 0 0; font: 400 21px/1.3 var(--sc-font-text); color: #4a5570; max-width: 24em; }
+.station__knopf { position: relative; overflow: hidden; margin-top: auto; align-self: stretch; display: flex; align-items: center; justify-content: center;
+  height: 66px; border-radius: 14px; background: #0e1d40; color: #fff; font: 650 25px/1 var(--sc-font-display); letter-spacing: -0.01em;
+  transition: transform 0.15s ease, background-color 0.15s ease; }
+.station__knopf.tippt { transform: scale(0.97); background: #1b3266; }
+.station__knopf::after { content: ""; position: absolute; left: 50%; top: 50%; width: 60px; height: 60px; margin: -30px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35); opacity: 0; }
+.station__knopf.tippt::after { animation: station-tipp 0.55s ease-out; }
+@keyframes station-tipp { 0% { opacity: 1; transform: scale(0.2); } 100% { opacity: 0; transform: scale(7); } }
+.station__zeile { margin-top: auto; display: flex; gap: 14px; }
+.station__zeile .station__knopf { flex: 1; margin: 0; }
+.station__zahl { display: flex; align-items: center; gap: 18px; font: 700 40px/1 var(--sc-font-display); }
+.station__zahl span { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; border: 2px solid #d3d9e4; color: #5d6880;
+  font-size: 30px; font-weight: 500; }
+.station__zahl b { min-width: 30px; text-align: center; }
+.station__bezahlt { margin-top: auto; display: flex; align-items: center; gap: 16px; height: 66px; font: 650 23px/1 var(--sc-font-text); color: #5d6880; }
+.station__bezahlt i { position: relative; flex: none; width: 46px; height: 46px; border-radius: 50%; border: 3px solid #d3d9e4;
+  transition: background-color 0.3s, border-color 0.3s; }
+.station__bezahlt i::before { content: ""; position: absolute; inset: -3px; border-radius: 50%; border: 3px solid transparent; border-top-color: #0e1d40;
+  animation: station-dreh 0.9s linear infinite; }
+.station__bezahlt i::after { content: ""; position: absolute; left: 14px; top: 7px; width: 10px; height: 20px; border: solid #fff; border-width: 0 4px 4px 0;
+  transform: rotate(45deg) scale(0); transition: transform 0.3s cubic-bezier(0.3, 1.6, 0.5, 1); }
+@keyframes station-dreh { to { transform: rotate(360deg); } }
+.station__bezahlt .fertig { display: none; color: #0e1d40; }
+.station--bezahlt .station__bezahlt i { background: #1f9d5c; border-color: #1f9d5c; }
+.station--bezahlt .station__bezahlt i::before { display: none; }
+.station--bezahlt .station__bezahlt i::after { transform: rotate(45deg) scale(1); }
+.station--bezahlt .station__bezahlt .warte { display: none; }
+.station--bezahlt .station__bezahlt .fertig { display: inline; }
+.station__code { margin-top: auto; display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-radius: 14px;
+  background: #e8ecf3; }
+.station__code small { font: 600 18px/1.2 var(--sc-font-text); color: #5d6880; }
+.station__code b { font: 700 36px/1 var(--sc-font-display); letter-spacing: 0.08em; color: #0e1d40; }
 @media (max-width: 860px) {
-  .chip-anfang__bild.chip-automat { width: min(100%, 24rem); justify-self: center; margin-bottom: 0.5rem; }
+  .chip-anfang__bild.station { width: min(100%, 26rem); justify-self: center; margin-bottom: 0.5rem; }
 }
 @media (max-width: 600px) {   /* am Handy etwas kleiner, damit die Überschrift noch im ersten Bild anfängt */
-  .chip-anfang__bild.chip-automat { width: min(80vw, 19rem); }
+  .chip-anfang__bild.station { width: min(74vw, 18rem); }
 }
-

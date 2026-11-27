@@ -33,9 +33,12 @@
 
   var klemme = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
 
-  /* Feedback 158: die Uhrzeit als rollende Ziffern wie bei einem Zählwerk. Jede Stelle ist ein Band aus Ziffern, das
-     beim Scrollen weich weiterläuft; die nächste Stelle dreht erst mit, wenn die vorige von 9 auf 0 geht (Übertrag).
-     Mitternacht steht als 24:00 da, damit keine Stelle rückwärts laufen muss. */
+  /* Feedback 158: die Uhrzeit als rollende Ziffern wie bei einem Zählwerk. Jede Stelle ist ein Band aus Ziffern; die
+     nächste Stelle dreht erst mit, wenn die vorige von 9 auf 0 geht (Übertrag). Mitternacht steht als 24:00 da, damit
+     keine Stelle rückwärts laufen muss.
+     Feedback 159 („die letzte Zahl bewegt sich viel zu schnell“): die Uhr zählt in 5-Minuten-Schritten (die letzte Stelle
+     kennt nur 0 und 5), und die Bänder hängen nicht direkt am Scrollen, sondern laufen der Zielzeit in der Zeit weich nach
+     (eigene Schleife, Zeitkonstante 170 ms). Jeder Schritt rollt so als ganze, ruhige Bewegung ein. */
   var rollen = (function () {
     if (!zeitEl) return null;
     var baender = [];
@@ -50,21 +53,36 @@
     band(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]);   // Stunde, Einer
     var dp = document.createElement("span"); dp.className = "rolle__doppelpunkt"; dp.textContent = ":"; zeitEl.appendChild(dp);
     band(["0", "1", "2", "3", "4", "5", "0"]);                 // Minute, Zehner
-    band(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]);   // Minute, Einer
-    var letzte = [];
-    return function (m) {
-      m = Math.max(0, Math.min(1440, m));
-      var std = Math.floor(m / 60), min = m - std * 60;
-      var ganz = Math.floor(min), rest = min - ganz;             // jede Minute steht, und rollt am Ende kurz weiter
-      rest = rest < 0.6 ? 0 : (rest - 0.6) / 0.4; min = ganz + rest * rest * (3 - 2 * rest);
-      var ueberMin = Math.max(0, min - 59);                    // die letzte Minute der Stunde dreht die Stunde weiter
-      var me = min % 10, mz = Math.floor(min / 10) + Math.max(0, me - 9);
-      var se = std % 10 + ueberMin, sz = Math.floor(std / 10) + (std % 10 === 9 ? ueberMin : 0);
-      if (std === 23) { se = 3 + ueberMin; }                   // 23 auf 24: die Einer laufen von 3 auf 4
+    band(["0", "5", "0"]);                                     // Minute, Einer: nur 0 und 5
+    var letzte = [], ziel = -1, stand = -1, zuletzt = 0, laeuft = false;
+    var weichS = function (x) { return x * x * (3 - 2 * x); };
+    var setzen = function (d) {
+      var k = Math.floor(d), r = weichS(d - k);                // k: ganze 5-Minuten-Schritte seit 0:00, r: wie weit der nächste rollt
+      if (k >= 288) { k = 287; r = 1; }
+      var min5 = k % 12, std = Math.floor(k / 12);             // Stelle für Stelle: Übertrag nur beim letzten Schritt davor
+      var me = (min5 % 2) + r;
+      var mz = Math.floor(min5 / 2) + (min5 % 2 === 1 ? r : 0);
+      var stdRoll = min5 === 11 ? r : 0;
+      var se = std === 23 ? 3 + stdRoll : std % 10 + stdRoll;   // 23 auf 24: die Einer laufen von 3 auf 4
+      var sz = Math.floor(std / 10) + (std % 10 === 9 ? stdRoll : 0);
       [sz, se, mz, me].forEach(function (v, i) {
         var t = (-v * 1.1).toFixed(3);
         if (t !== letzte[i]) { letzte[i] = t; baender[i].style.transform = "translate3d(0," + t + "em,0)"; }
       });
+    };
+    var schleife = function (jetzt) {
+      var dt = Math.min(64, jetzt - zuletzt); zuletzt = jetzt;
+      stand += (ziel - stand) * (1 - Math.exp(-dt / 170));
+      if (Math.abs(ziel - stand) < 0.002) stand = ziel;
+      setzen(stand);
+      if (stand !== ziel) requestAnimationFrame(schleife); else laeuft = false;
+    };
+    return function (m) {
+      var z = Math.round(Math.max(0, Math.min(1440, m)) / 5);
+      if (stand < 0 || ohneBewegung) { ziel = stand = z; setzen(z); return; }
+      if (z === ziel) return;
+      ziel = z;
+      if (!laeuft) { laeuft = true; zuletzt = performance.now(); requestAnimationFrame(schleife); }
     };
   })();
 

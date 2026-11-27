@@ -25,7 +25,7 @@
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=146">
-<link rel="stylesheet" href="assets/chip-seite.css?v=40">
+<link rel="stylesheet" href="assets/chip-seite.css?v=41">
 <link rel="stylesheet" href="assets/chip-film.css?v=28">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=13">
@@ -121,54 +121,49 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
       <!-- Runde nach Feedback 151: statt der Ladestation schwebt hier der fertige Chip (dasselbe Renderbild wie in
            „Probiere den Tag aus“) und fliegt beim Scrollen hinunter an seinen Platz dort (assets/chip-flug.js). Bei weniger
            Bewegung bleibt dieses Bild einfach stehen. -->
-      <!-- Feedback 158: der Chip kommt aus dem SkiTag-Automaten vor dem Lift. Der Automat ist eine 3D-Szene aus Blender
-           (Website/werkzeuge/blender/automat.py), 24 Bilder, in denen der Chip aus dem Ausgabefach kommt. Der Bildschirm ist
-           HTML und zeigt, was man antippt: Chip ausleihen, Anzahl, mit Karte am Lesefeld bezahlen, Code für die App. Der
-           Automat ist ein Entwurf (noch nicht gebaut); wie er bezahlt, ist offen. Beim Scrollen kommt der Chip heraus, dann
-           übernimmt der fliegende Chip (assets/chip-flug.js). -->
-      <figure class="chip-anfang__bild chip-automat" aria-hidden="true">
-        <div class="chip-automat__rahmen">
-          <picture>
-            <source media="(prefers-reduced-motion: reduce)" srcset="assets/media/automat/standbild.webp?v=2">
-            <img class="chip-automat__bild" src="assets/media/automat/00.webp?v=2" alt="" width="800" height="1176" decoding="async" fetchpriority="high">
-          </picture>
-          <canvas class="chip-automat__film" width="800" height="1176"></canvas>
-          <span class="automat-kopf"><b><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag</b><span>Notruf-Chip</span></span>
-          <div class="automat-schirm">
-            <div class="automat-schirm__kopf"><b>Ausleihe</b><span>08:10</span></div>
-            <div class="automat-schritt" data-schritt="0">
-              <small>Guten Morgen</small>
-              <h4>Dein Notruf-Chip für heute.</h4>
-              <p>Gilt bis Mitternacht. Danach ist dein Code gelöscht.</p>
-              <div class="automat-knoepfe">
-                <span class="automat-knopf automat-knopf--haupt" data-tipp="0">Chip ausleihen</span>
-                <span class="automat-knopf">Chip zurückgeben</span>
-              </div>
+      <!-- Feedback 159: der Chip kommt aus der SkiTag-Ausleihstation neben dem Lift, einem Wandgerät in echten Maßen
+           (3D-Szene aus Blender, Website/werkzeuge/blender/automat.py, 16 Bilder, in denen der Chip ins Ausgabefach fällt).
+           Bildschirm, Aufdrucke und Lesefeld sind HTML und liegen perspektivisch genau auf der Frontplatte (data-front: die
+           vier Ecken der Front im Bild, aus lage.json). Beim Laden läuft der Ablauf von selbst durch: Chip ausleihen, Anzahl,
+           mit Karte oder Handy am Lesefeld bezahlen, Code für die App, dann fällt der Chip ins Fach. Beim ersten Scrollen
+           übernimmt der fliegende Chip (assets/chip-flug.js). Die Station ist ein Entwurf (noch nicht gebaut); wie sie
+           bezahlt, ist offen. -->
+      <figure class="chip-anfang__bild station" aria-hidden="true" data-front="0.17451 0.0925 0.78553 0.06944 0.78553 0.8914 0.17451 0.87261" data-chip="0.44479 0.69833 0.5375 0.80417" data-chipbild="9">
+        <picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset="assets/media/station/15.webp?v=1">
+          <img class="station__bild" src="assets/media/station/00.webp?v=1" alt="" width="960" height="1200" decoding="async" fetchpriority="high">
+        </picture>
+        <canvas class="station__film" width="960" height="1200"></canvas>
+        <div class="station__front">
+          <span class="station__druck station__marke"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag<small>Notruf-Chip</small></span>
+          <div class="station__schirm">
+            <div class="station__kopf"><b><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>Ausleihe</b><span>08:10</span></div>
+            <div class="station__schritt" data-schritt="0">
+              <h4>Guten Morgen.</h4>
+              <p>Dein Notruf-Chip für heute. Er gilt bis Mitternacht.</p>
+              <span class="station__knopf" data-tipp="0">Chip ausleihen</span>
             </div>
-            <div class="automat-schritt" data-schritt="1">
-              <small>Schritt 1 von 3</small>
+            <div class="station__schritt" data-schritt="1">
               <h4>Wie viele Chips?</h4>
-              <div class="automat-zahl"><span>−</span><b>1</b><span>+</span></div>
-              <div class="automat-knoepfe"><span class="automat-knopf automat-knopf--haupt" data-tipp="1">Weiter</span></div>
+              <p>Einen für jede Person.</p>
+              <div class="station__zeile"><span class="station__zahl"><span>−</span><b>1</b><span>+</span></span><span class="station__knopf" data-tipp="1">Weiter</span></div>
             </div>
-            <div class="automat-schritt" data-schritt="2">
-              <small>Schritt 2 von 3</small>
+            <div class="station__schritt" data-schritt="2">
               <h4>Bezahlen.</h4>
-              <p>Halte deine Karte oder dein Handy rechts unten an das Lesefeld.</p>
-              <div class="automat-bezahlt"><i></i><span class="warte">Warte auf deine Karte …</span><span class="fertig">Bezahlt</span></div>
+              <p>Halte deine Karte oder dein Handy an das Lesefeld links unten.</p>
+              <div class="station__bezahlt"><i></i><span class="warte">Warte auf deine Karte</span><span class="fertig">Bezahlt</span></div>
             </div>
-            <div class="automat-schritt" data-schritt="3">
-              <small>Schritt 3 von 3</small>
+            <div class="station__schritt" data-schritt="3">
               <h4>Dein Chip kommt.</h4>
-              <div class="automat-code"><small>Dein Code für die App</small><b>K7M2X9</b></div>
-              <div class="automat-pfeil">Unten aus dem Fach nehmen</div>
+              <p>Nimm ihn unten aus dem Fach.</p>
+              <div class="station__code"><small>Dein Code<br>für die App</small><b>K7M2X9</b></div>
             </div>
           </div>
-          <span class="automat-finger"></span>
-          <span class="automat-leser"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8.5a6 6 0 0 1 0 7"/><path d="M10.5 6a10 10 0 0 1 0 12"/><path d="M14 3.5a14 14 0 0 1 0 17"/></svg></span>
-          <span class="automat-beleg"><span><small>Beleg</small>K7M2X9</span></span>
+          <span class="station__leser"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8.5a5 5 0 0 1 0 7"/><path d="M11.5 6a9 9 0 0 1 0 12"/><path d="M15 3.5a13 13 0 0 1 0 17"/></svg></span>
+          <span class="station__druck station__rueckgabe">Rückgabe</span>
+          <span class="station__druck station__ausgabe">Ausgabe</span>
         </div>
-        <div class="chip-automat__start chip-flug-start"></div>
+        <div class="station__start chip-flug-start"></div>
       </figure>
     </div>
   </section>
@@ -561,7 +556,7 @@ ScrollCraft.mount(document.body);
 <script src="assets/weg.js?v=21" defer></script>
 <script src="assets/chip-film.js?v=12" defer></script>
 <script src="assets/innen-film.js?v=21" defer></script>
-<script src="assets/chip-flug.js?v=10" defer></script>
+<script src="assets/chip-flug.js?v=11" defer></script>
 <script src="assets/chip-masz.js?v=1" defer></script>
 <script src="assets/v2.js?v=2" defer></script>
 </body>
