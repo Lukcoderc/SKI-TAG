@@ -25,10 +25,10 @@
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=146">
-<link rel="stylesheet" href="assets/chip-seite.css?v=36">
+<link rel="stylesheet" href="assets/chip-seite.css?v=40">
 <link rel="stylesheet" href="assets/chip-film.css?v=28">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/v2.css?v=12">
+<link rel="stylesheet" href="assets/v2.css?v=13">
 <link rel="stylesheet" href="assets/v2-alt.css?v=3">
 <script>/* Chip-Flug (assets/chip-flug.js): Klasse vor dem ersten Bild, damit der Chip unten erst beim Ankommen erscheint */
 (function () { if (!matchMedia("(prefers-reduced-motion: reduce)").matches && matchMedia("(min-width: 861px)").matches) document.documentElement.classList.add("chipflug"); })();</script>
@@ -121,18 +121,54 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
       <!-- Runde nach Feedback 151: statt der Ladestation schwebt hier der fertige Chip (dasselbe Renderbild wie in
            „Probiere den Tag aus“) und fliegt beim Scrollen hinunter an seinen Platz dort (assets/chip-flug.js). Bei weniger
            Bewegung bleibt dieses Bild einfach stehen. -->
-      <!-- Feedback 157: die Jackentasche ist eine echte 3D-Szene aus Blender (Hardshell-Jacke, Stoff simuliert, Werkzeug in
-           Website/werkzeuge/blender/jacke.py). 24 Bilder, in denen der Chip aus der Tasche gleitet, laufen beim Scrollen
-           auf der Leinwand (assets/chip-flug.js); danach übernimmt der fliegende Chip genau an der Stelle des letzten Bilds
-           (.chip-flug-start) und auf der Leinwand bleibt die leere Tasche. Ohne Skript oder bei weniger Bewegung steht ein
-           Einzelbild da. -->
-      <figure class="chip-anfang__bild chip-tasche" aria-hidden="true">
-        <picture>
-          <source media="(prefers-reduced-motion: reduce)" srcset="assets/media/tasche/standbild.webp?v=1">
-          <img class="chip-tasche__bild" src="assets/media/tasche/00.webp?v=1" alt="" width="800" height="800" decoding="async" fetchpriority="high">
-        </picture>
-        <canvas class="chip-tasche__film" width="800" height="800"></canvas>
-        <div class="chip-tasche__start chip-flug-start"></div>
+      <!-- Feedback 158: der Chip kommt aus dem SkiTag-Automaten vor dem Lift. Der Automat ist eine 3D-Szene aus Blender
+           (Website/werkzeuge/blender/automat.py), 24 Bilder, in denen der Chip aus dem Ausgabefach kommt. Der Bildschirm ist
+           HTML und zeigt, was man antippt: Chip ausleihen, Anzahl, mit Karte am Lesefeld bezahlen, Code für die App. Der
+           Automat ist ein Entwurf (noch nicht gebaut); wie er bezahlt, ist offen. Beim Scrollen kommt der Chip heraus, dann
+           übernimmt der fliegende Chip (assets/chip-flug.js). -->
+      <figure class="chip-anfang__bild chip-automat" aria-hidden="true">
+        <div class="chip-automat__rahmen">
+          <picture>
+            <source media="(prefers-reduced-motion: reduce)" srcset="assets/media/automat/standbild.webp?v=2">
+            <img class="chip-automat__bild" src="assets/media/automat/00.webp?v=2" alt="" width="800" height="1176" decoding="async" fetchpriority="high">
+          </picture>
+          <canvas class="chip-automat__film" width="800" height="1176"></canvas>
+          <span class="automat-kopf"><b><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag</b><span>Notruf-Chip</span></span>
+          <div class="automat-schirm">
+            <div class="automat-schirm__kopf"><b>Ausleihe</b><span>08:10</span></div>
+            <div class="automat-schritt" data-schritt="0">
+              <small>Guten Morgen</small>
+              <h4>Dein Notruf-Chip für heute.</h4>
+              <p>Gilt bis Mitternacht. Danach ist dein Code gelöscht.</p>
+              <div class="automat-knoepfe">
+                <span class="automat-knopf automat-knopf--haupt" data-tipp="0">Chip ausleihen</span>
+                <span class="automat-knopf">Chip zurückgeben</span>
+              </div>
+            </div>
+            <div class="automat-schritt" data-schritt="1">
+              <small>Schritt 1 von 3</small>
+              <h4>Wie viele Chips?</h4>
+              <div class="automat-zahl"><span>−</span><b>1</b><span>+</span></div>
+              <div class="automat-knoepfe"><span class="automat-knopf automat-knopf--haupt" data-tipp="1">Weiter</span></div>
+            </div>
+            <div class="automat-schritt" data-schritt="2">
+              <small>Schritt 2 von 3</small>
+              <h4>Bezahlen.</h4>
+              <p>Halte deine Karte oder dein Handy rechts unten an das Lesefeld.</p>
+              <div class="automat-bezahlt"><i></i><span class="warte">Warte auf deine Karte …</span><span class="fertig">Bezahlt</span></div>
+            </div>
+            <div class="automat-schritt" data-schritt="3">
+              <small>Schritt 3 von 3</small>
+              <h4>Dein Chip kommt.</h4>
+              <div class="automat-code"><small>Dein Code für die App</small><b>K7M2X9</b></div>
+              <div class="automat-pfeil">Unten aus dem Fach nehmen</div>
+            </div>
+          </div>
+          <span class="automat-finger"></span>
+          <span class="automat-leser"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8.5a6 6 0 0 1 0 7"/><path d="M10.5 6a10 10 0 0 1 0 12"/><path d="M14 3.5a14 14 0 0 1 0 17"/></svg></span>
+          <span class="automat-beleg"><span><small>Beleg</small>K7M2X9</span></span>
+        </div>
+        <div class="chip-automat__start chip-flug-start"></div>
       </figure>
     </div>
   </section>
@@ -159,7 +195,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
       </div>
 
       <div class="knopf__bild">
-        <div class="knopf__foto" aria-hidden="true"><img src="assets/media/held-poster-unscharf.webp?v=1" alt="" width="480" height="253" decoding="async"><img class="knopf__foto-scharf" src="assets/media/held-poster.webp?v=1" alt="" width="1920" height="1012" decoding="async" loading="lazy"></div>
+        <div class="knopf__foto" aria-hidden="true"><img src="assets/media/held-poster-weich.webp?v=1" alt="" width="1200" height="633" decoding="async"><img class="knopf__foto-scharf" src="assets/media/held-poster.webp?v=1" alt="" width="1920" height="1012" decoding="async" loading="lazy"></div>
         <div class="kn-nacht" aria-hidden="true"></div>
         <div class="kn-wellen" aria-hidden="true"><i></i><i></i><i></i></div>
         <svg class="kn-linien" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path class="kn-linien__gruppe" d="M50 50 L16 24"/><path class="kn-linien__gruppe" d="M50 50 L85 29"/><path class="kn-linien__gruppe" d="M50 50 L20 79"/><path class="kn-linien__funk" d="M35 44 C 42 36, 47 32, 54 31"/></svg>
@@ -522,10 +558,10 @@ ScrollCraft.mount(document.body);
 <script src="assets/auftritte.js?v=12" defer></script>
 <script src="assets/sprung-anfang.js?v=21" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
-<script src="assets/weg.js?v=20" defer></script>
+<script src="assets/weg.js?v=21" defer></script>
 <script src="assets/chip-film.js?v=12" defer></script>
 <script src="assets/innen-film.js?v=21" defer></script>
-<script src="assets/chip-flug.js?v=7" defer></script>
+<script src="assets/chip-flug.js?v=10" defer></script>
 <script src="assets/chip-masz.js?v=1" defer></script>
 <script src="assets/v2.js?v=2" defer></script>
 </body>

@@ -13,7 +13,8 @@
      Bildschirm nur mit dieser Stellung, darum springt er auch bei groben Mausrad-Stufen nicht.
    Bei weniger Bewegung bleibt alles still (die Klasse chipflug fehlt dann).
 
-   Feedback 157: oben steckt der Chip in einer Jackentasche, eine Bildfolge aus Blender (assets/media/tasche/00 bis 23.webp).
+   Feedback 158: oben steht der SkiTag-Automat (Bildfolge aus Blender, assets/media/automat/), vorher die Jackentasche.
+   Feedback 157: oben steckte der Chip in einer Jackentasche (Bildfolge aus Blender), seit Feedback 158 ist es der Automat.
    Die ersten Pixel Scrollen spielen die Folge ab (der Chip gleitet aus der Tasche, beim Laden zeigt er sich schon ein
    Stück), dann übernimmt der Flieger genau dort, wo der Chip im letzten Bild steht (.chip-flug-start), und die
    Leinwand zeigt die leere Tasche. Ohne Flug (Handy, Tablet hochkant) läuft nur die Folge. */
@@ -27,22 +28,26 @@
   var klemme = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
   var weich = function (x) { return x * x * (3 - 2 * x); };
 
-  /* Jackentasche: Bildfolge auf einer Leinwand im Einstieg */
+  /* Automat: Bildfolge auf einer Leinwand, darüber der Bildschirm als HTML. Ein Stand s von 0 bis 5 steuert beides:
+     0 bis 4 die vier Bildschirme (Ausleihen, Anzahl, Bezahlen, Code), 4 bis 5 der Chip, der aus dem Fach kommt. */
   var tasche = (function () {
-    var fig = document.querySelector(".chip-tasche"), lw = fig && fig.querySelector(".chip-tasche__film");
+    var fig = document.querySelector(".chip-automat"), lw = fig && fig.querySelector(".chip-automat__film");
     if (!lw || !lw.getContext || matchMedia("(prefers-reduced-motion: reduce)").matches) return null;
-    var c = lw.getContext("2d"), NT = 24, ORD = "assets/media/tasche/", VT = "?v=1", bilder = [], leer = null, gezeigt = null, groesse = 0;
-    var ts = fig.querySelector(".chip-tasche__start");
+    fig.classList.add("automat--spielt");   // ohne diese Klasse (weniger Bewegung, kein JS) zeigt der Bildschirm still den letzten Schritt
+    var rahmen = fig.querySelector(".chip-automat__rahmen");
+    var schritte = [].slice.call(fig.querySelectorAll(".automat-schritt")), finger = fig.querySelector(".automat-finger");
+    var leser = fig.querySelector(".automat-leser"), beleg = fig.querySelector(".automat-beleg"), bezahlt = fig.querySelector(".automat-bezahlt");
+    var c = lw.getContext("2d"), NT = 24, ORD = "assets/media/automat/", VT = "?v=2", bilder = [], leer = null, gezeigt = null, bw = 0, bh = 0;
     var adresse = function (i) { return ORD + (i < 10 ? "0" : "") + i + ".webp" + VT; };
     var holen = function (src) {
       var alsBild = function () { return new Promise(function (ok) { var im = new Image(); im.onload = function () { ok(im); }; im.onerror = function () { ok(null); }; im.src = src; }); };
       if (!window.createImageBitmap || !window.fetch) return alsBild();
       return fetch(src).then(function (r) { if (!r.ok) throw r; return r.blob(); })
-        .then(function (b) { return createImageBitmap(b, { resizeWidth: groesse, resizeHeight: groesse, resizeQuality: "high" }).catch(function () { return createImageBitmap(b); }); })
+        .then(function (b) { return createImageBitmap(b, { resizeWidth: bw, resizeHeight: bh, resizeQuality: "high" }).catch(function () { return createImageBitmap(b); }); })
         .catch(alsBild);
     };
-    var messen = function () { groesse = Math.min(800, Math.ceil(fig.getBoundingClientRect().width * Math.min(devicePixelRatio || 1, 2))); };
-    messen(); lw.width = lw.height = groesse;
+    var r0 = fig.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+    bw = Math.min(800, Math.ceil(r0.width * dpr)); bh = Math.round(bw * 1176 / 800); lw.width = bw; lw.height = bh;
     var reihe = []; for (var i = 0; i < NT; i++) reihe.push(i);
     var pos = 0, wartet = null;
     var weiter = function () {
@@ -55,27 +60,54 @@
       });
     };
     for (var n = 0; n < 3; n++) weiter();
+
+    var jetztSchritt = -1, fingerZiel = null;
+    var aufZiel = function (el) {
+      if (el === fingerZiel) return;
+      fingerZiel = el;
+      if (!el) { finger.classList.remove("ist-da"); return; }
+      var a = rahmen.getBoundingClientRect(), b = el.getBoundingClientRect();
+      finger.style.left = ((b.left + b.width * 0.72 - a.left) / a.width * 100).toFixed(2) + "%";
+      finger.style.top = ((b.top + b.height * 0.55 - a.top) / a.height * 100).toFixed(2) + "%";
+      finger.classList.add("ist-da");
+    };
+    var schirm = function (s) {
+      var k = Math.min(3, Math.floor(s)), teil = s - Math.floor(s);
+      if (k !== jetztSchritt) {
+        schritte.forEach(function (el, i) { el.classList.toggle("ist-da", i === k); el.classList.toggle("war-da", i < k); });
+        jetztSchritt = k;
+      }
+      var knopf = k < 2 ? schritte[k].querySelector("[data-tipp]") : null;
+      aufZiel(knopf);
+      var drueckt = !!knopf && teil > 0.62;
+      finger.classList.toggle("drueckt", drueckt);
+      if (knopf) knopf.classList.toggle("ist-gedrueckt", drueckt);
+      leser.classList.toggle("leuchtet", k === 2 && teil < 0.62);
+      bezahlt.classList.toggle("ist-fertig", k > 2 || (k === 2 && teil >= 0.62));
+      beleg.style.setProperty("--beleg", klemme((s - 3) / 0.8).toFixed(3));
+    };
     var zeige = function (p, istLeer) {
-      var nr = Math.round(klemme(p) * (NT - 1)), b = null, wahl = null;
+      var s = klemme(p) * 5;
+      schirm(s);
+      var nr = Math.round(klemme(s - 4) * (NT - 1)), b = null, wahl = null;
       if (istLeer && leer) { b = leer; wahl = "leer"; }
       else { for (var d = 0; d < NT && !b; d++) { if (bilder[nr - d]) { b = bilder[nr - d]; wahl = nr - d; } } }
       if (!b || (istLeer && !leer) || (!istLeer && wahl !== nr)) wartet = [p, istLeer];
       if (!b || wahl === gezeigt) return;
-      c.drawImage(b, 0, 0, lw.width, lw.height); gezeigt = wahl; fig.classList.add("tasche-film");
+      c.drawImage(b, 0, 0, lw.width, lw.height); gezeigt = wahl; fig.classList.add("automat-film");
     };
-    var zeit0 = performance.now();
+    var zeit0 = performance.now(), SCHRITT_MS = 1700;
     return {
       zeige: zeige,
-      // beim Laden gleitet der Chip schon ein Stück heraus (bis Bild 5), damit man sieht, dass da etwas passiert
-      vorlauf: function (jetzt) { return 5 / (NT - 1) * weich(klemme((jetzt - zeit0 - 500) / 1400)); },
-      vorlaufFertig: function (jetzt) { return jetzt - zeit0 > 1950; },
-      // so viele Pixel Scrollen dauert das Herausgleiten: höchstens drei Viertel der Kartenhöhe und nur so weit, dass der
-      // Chip am Ende (Oberkante bei 7 % der Karte) noch ganz im Fenster steht
+      // beim Laden tippt der Finger die vier Bildschirme selbst durch (bis s = 4), den Chip holt erst das Scrollen heraus
+      vorlauf: function (jetzt) { return Math.min(4, Math.max(0, (jetzt - zeit0 - 900) / SCHRITT_MS)) / 5; },
+      vorlaufFertig: function (jetzt) { return jetzt - zeit0 > 900 + 4 * SCHRITT_MS + 100; },
+      // so viele Pixel Scrollen dauert alles: höchstens die Kartenhöhe und nur so weit, dass der Chip am Ende
+      // (Oberkante bei 71 % der Karte) noch ganz unter der Kopfleiste steht
       weg: function () {
-        var r = fig.getBoundingClientRect(), oben = r.top + scrollY + r.height * 0.07;
-        return Math.max(120, Math.min(r.height * 0.75, oben - 96));   // 96: unter der Kopfleiste
-      },
-      start: ts
+        var r = fig.getBoundingClientRect(), oben = r.top + scrollY + r.height * 0.71;
+        return Math.max(160, Math.min(r.height, oben - 96));
+      }
     };
   })();
 
@@ -118,7 +150,7 @@
       zx: z.left + z.width / 2, zy: z.top + y + z.height / 2, zs: z.width,
       ende: Math.max(320, b.top + y - Math.max(70, (vh - b.height) / 2)),
     };
-    m.aus = tasche ? Math.min(tasche.weg(), m.ende * 0.4) : 0;   // so lange gleitet der Chip aus der Tasche
+    m.aus = tasche ? Math.min(tasche.weg(), m.ende * 0.5) : 0;   // so lange gleitet der Chip aus der Tasche
     GROSS = Math.ceil(Math.max(m.as, m.zs) * 1.36);
     flieger.style.width = flieger.style.height = GROSS + "px";
     return true;

@@ -25,9 +25,9 @@
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=146">
-<link rel="stylesheet" href="assets/app-seite.css?v=23">
+<link rel="stylesheet" href="assets/app-seite.css?v=28">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/v2.css?v=12">
+<link rel="stylesheet" href="assets/v2.css?v=13">
 <link rel="stylesheet" href="assets/v2-alt.css?v=3">
 </head>
 <body>
@@ -150,7 +150,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
   <!-- Fotobruch zwischen den Handys (Feedback 151, seit 154 wieder ein dünner Streifen mit Tiefe, Regeln am Ende von app-seite.css); früher: ein großes Foto, das sich beim Hineinscrollen von einem
        runden Fenster auf volle Breite öffnet, das Bild darin gleitet langsamer (assets/app-bruch.js) -->
-  <figure class="app-bruch" style="--lage:50% 55%" aria-hidden="true"><div class="app-bruch__fenster"><img src="assets/media/app-foto-familie.webp?v=2" srcset="assets/media/app-foto-familie-m.webp?v=2 1400w, assets/media/app-foto-familie.webp?v=2 2800w" sizes="100vw" alt="" width="2800" height="1870" loading="lazy" decoding="async"></div></figure>
+  <figure class="app-bruch" style="--lage:50% 62%;--lage-h:62% 60%" aria-hidden="true"><div class="app-bruch__fenster"><img src="assets/media/app-foto-familie.webp?v=3" srcset="assets/media/app-foto-familie-m.webp?v=3 1400w, assets/media/app-foto-familie.webp?v=3 2600w" sizes="100vw" alt="" width="2600" height="1740" loading="lazy" decoding="async"></div></figure>
 
   <!-- 2 bis 5 · Szenen (seit Feedback 59): je Kapitel eine gepinnte Szene (ScrollCraft „pin“, 3,2 Bildschirme).
        Links wechselt der Text in drei Teilen, rechts zeigt EIN App-Bild alle drei Funktionen nacheinander;
@@ -195,19 +195,21 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
   <!-- Fotobruch zwischen den Handys (Feedback 151, seit 154 wieder ein dünner Streifen mit Tiefe, Regeln am Ende von app-seite.css); früher: ein großes Foto, das sich beim Hineinscrollen von einem
        runden Fenster auf volle Breite öffnet, das Bild darin gleitet langsamer (assets/app-bruch.js) -->
-  <figure class="app-bruch" style="--lage:50% 45%" aria-hidden="true"><div class="app-bruch__fenster"><img src="assets/media/app-foto-allein.webp?v=1" srcset="assets/media/app-foto-allein-m.webp?v=1 1400w, assets/media/app-foto-allein.webp?v=1 2800w" sizes="100vw" alt="" width="2800" height="1870" loading="lazy" decoding="async"></div></figure>
+  <figure class="app-bruch" style="--lage:50% 62%;--lage-h:44% 60%" aria-hidden="true"><div class="app-bruch__fenster"><img src="assets/media/app-foto-allein.webp?v=2" srcset="assets/media/app-foto-allein-m.webp?v=2 1400w, assets/media/app-foto-allein.webp?v=2 2600w" sizes="100vw" alt="" width="2600" height="1950" loading="lazy" decoding="async"></div></figure>
 
   <!-- 2 · Allein unterwegs -->
-  <section id="allein" class="szene" data-unter="Allein" data-klick="99999" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="allein-titel">
+  <section id="allein" class="szene" data-unter="Allein" data-klick="99999" data-sc-act="pin" data-sc-span="4.2" data-marken="0.25 0.5 0.75" data-szene aria-labelledby="allein-titel">
     <div class="szene__buehne" data-sc-stage>
       <div class="szene__raster">
         <div class="szene__text">
           <h2 id="allein-titel" class="szene__titel">Allein unterwegs.</h2>
-          <ol class="szene__marken" aria-hidden="true"><li><span>Dein Tag</span><i></i></li><li><span>Abzeichen</span><i></i></li><li><span>Weg ins Tal</span><i></i></li></ol>
+          <ol class="szene__marken" aria-hidden="true"><li><span>Dein Tag</span><i></i></li><li><span>Abzeichen</span><i></i></li><li><span>Weg ins Tal</span><i></i></li><li><span>Am Abend</span><i></i></li></ol>
           <div class="szene__wechsel">
             <div class="szene__teil"><h3>Dein Tag zählt mit.</h3><p>Morgens einmal <b>„Tag starten“</b> tippen. Ab dann zeichnet der Chip jede Abfahrt auf: <b>Abfahrten, Tiefenmeter und Liftfahrten</b> zählen sich von selbst.</p></div>
-            <div class="szene__teil"><h3>Abzeichen für Erlebnisse.</h3><p>Die erste Gondel, die Talabfahrt bis ganz unten, die erste schwarze Piste. Abzeichen gibt es <b>für das, was du erlebst</b>, nie für das Tempo. Am Abend wird aus deiner Spur ein <b>Tagesfilm</b> zum Teilen.</p></div>
+            <div class="szene__teil"><h3>Abzeichen für Erlebnisse.</h3><p>Die erste Gondel, die Talabfahrt bis ganz unten, die erste schwarze Piste. Abzeichen gibt es <b>für das, was du erlebst</b>, nie für das Tempo.</p></div>
             <div class="szene__teil"><h3>Der Weg ins Tal.</h3><p><b>„Zurück zum Start“</b> oder <b>„Schnellster Weg ins Tal“</b>, mit Fahrzeit und auf Wunsch nur über blaue Pisten. Gesperrte Lifte umgeht die Route, und vor Liftschluss sagt dir die App, <b>wann du losfahren musst</b>.</p></div>
+            <!-- Feedback 158: die Abschlussansicht der App (Tag beenden, die Spur zeichnet sich, dann die Karte mit der ganzen Strecke) -->
+            <div class="szene__teil"><h3>Dein ganzer Tag auf einer Karte.</h3><p>Am Abend tippst du <b>„Tag beenden“</b>. Deine Strecke zeichnet sich nach, die Zahlen zählen hoch, und dann siehst du <b>die ganze Spur des Tages auf der Karte</b>: Höhenmeter, Pisten-Kilometer, Abfahrten, Liftfahrten und den höchsten Punkt. Als <b>Tagesfilm</b> speicherst und teilst du sie, und die App erinnert dich, den Chip zurückzugeben.</p></div>
           </div>
         </div>
         <div class="szene__bild">
@@ -222,6 +224,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
                   <video class="app-film__clip" data-clip="0" muted playsinline loop preload="none" poster="assets/media/app-film/allein-tag.webp?v=1" width="600" height="1298"><source src="assets/media/app-film/allein-tag.webm?v=1" type="video/webm"><source src="assets/media/app-film/allein-tag.mp4?v=1" type="video/mp4"></video>
                   <video class="app-film__clip" data-clip="1" muted playsinline loop preload="none" poster="assets/media/app-film/allein-abzeichen.webp?v=1" width="600" height="1298"><source src="assets/media/app-film/allein-abzeichen.webm?v=1" type="video/webm"><source src="assets/media/app-film/allein-abzeichen.mp4?v=1" type="video/mp4"></video>
                   <video class="app-film__clip" data-clip="2" muted playsinline loop preload="none" poster="assets/media/app-film/allein-tal.webp?v=1" width="600" height="1298"><source src="assets/media/app-film/allein-tal.webm?v=1" type="video/webm"><source src="assets/media/app-film/allein-tal.mp4?v=1" type="video/mp4"></video>
+                  <video class="app-film__clip" data-clip="3" muted playsinline loop preload="none" poster="assets/media/app-film/allein-ende.webp?v=1" width="600" height="1298"><source src="assets/media/app-film/allein-ende.webm?v=1" type="video/webm"><source src="assets/media/app-film/allein-ende.mp4?v=1" type="video/mp4"></video>
                 </div>
               </div>
             </div>
@@ -233,7 +236,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
   <!-- Fotobruch zwischen den Handys (Feedback 151, seit 154 wieder ein dünner Streifen mit Tiefe, Regeln am Ende von app-seite.css); früher: ein großes Foto, das sich beim Hineinscrollen von einem
        runden Fenster auf volle Breite öffnet, das Bild darin gleitet langsamer (assets/app-bruch.js) -->
-  <figure class="app-bruch" style="--lage:60% 22%;--lage-h:2% 30%" aria-hidden="true"><div class="app-bruch__fenster"><img src="assets/media/app-foto-skischule.webp?v=1" srcset="assets/media/app-foto-skischule-m.webp?v=1 1400w, assets/media/app-foto-skischule.webp?v=1 2800w" sizes="100vw" alt="" width="2800" height="1870" loading="lazy" decoding="async"></div></figure>
+  <figure class="app-bruch" style="--lage:50% 45%;--lage-h:48% 45%" aria-hidden="true"><div class="app-bruch__fenster"><img src="assets/media/app-foto-skischule.webp?v=2" srcset="assets/media/app-foto-skischule-m.webp?v=2 1400w, assets/media/app-foto-skischule.webp?v=2 2600w" sizes="100vw" alt="" width="2600" height="1463" loading="lazy" decoding="async"></div></figure>
 
   <!-- 4 · Skischule -->
   <section id="skischule" class="szene nacht szene--blau szene--links" data-unter="Skischule" data-klick="99999" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="skischule-titel">
@@ -271,9 +274,11 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
   <!-- Kontakt am Ende (seit Feedback 87 ohne die Bergbahnansicht davor, darum allgemein) -->
   <!-- Feedback 151: statt „Fragen zur App?“ der Knopf zum Laden der App -->
+  <!-- Feedback 158: die Box ist nicht mehr dunkelblau, sondern hat ein Foto vom Hang als Hintergrund (app-kontakt--foto). -->
   <section class="sc-section app-kontakt-abschnitt" aria-label="App laden">
     <div class="sc-wrap">
-      <div class="app-kontakt">
+      <div class="app-kontakt app-kontakt--foto">
+        <img class="app-kontakt__foto" src="assets/media/app-foto-bereit-m.webp?v=1" srcset="assets/media/app-foto-bereit-m.webp?v=1 1200w, assets/media/app-foto-bereit.webp?v=1 2400w" sizes="(min-width: 80rem) 74rem, 100vw" alt="" width="2400" height="1600" loading="lazy" decoding="async">
         <div>
           <h3>Bereit für deinen Skitag?</h3>
           <p>App laden, <b>Code vom Mietbeleg</b> eingeben, los. <b>Ohne Registrierung.</b></p>

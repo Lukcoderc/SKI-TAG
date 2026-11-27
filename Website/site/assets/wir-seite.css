@@ -145,9 +145,7 @@ section#kontakt { scroll-margin-top: 4.5rem; }
 }
 @media (prefers-reduced-motion: reduce) { .wir2__karte { transition: opacity 200ms ease; transform: none; } }
 
-/* Feedback 156 · Schreib uns: Raster aus kleinen Quadraten als Bergkette im Hintergrund (assets/wir-seite.js) */
-.wk-raster { position: relative; isolation: isolate; overflow: clip; }
-.wk-raster__flaeche { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; display: block; pointer-events: none; }
+/* Feedback 156/158 · Schreib uns: Raster aus kleinen Quadraten als Funkwellen im Hintergrund (assets/punktraster.js, v2.css) */
 .wk-raster .wir2__kontakt { position: relative; }
 .wk-raster .wir2__kontakt::before { content: ""; position: absolute; inset: -3rem -4rem; z-index: -1; border-radius: 50%;
   background: radial-gradient(closest-side, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0)); }

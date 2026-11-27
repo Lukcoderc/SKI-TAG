@@ -32,7 +32,41 @@
   });
 
   var klemme = function (x) { return x < 0 ? 0 : x > 1 ? 1 : x; };
-  var zwei = function (n) { return (n < 10 ? "0" : "") + n; };
+
+  /* Feedback 158: die Uhrzeit als rollende Ziffern wie bei einem Zählwerk. Jede Stelle ist ein Band aus Ziffern, das
+     beim Scrollen weich weiterläuft; die nächste Stelle dreht erst mit, wenn die vorige von 9 auf 0 geht (Übertrag).
+     Mitternacht steht als 24:00 da, damit keine Stelle rückwärts laufen muss. */
+  var rollen = (function () {
+    if (!zeitEl) return null;
+    var baender = [];
+    var band = function (ziffern) {
+      var r = document.createElement("span"); r.className = "rolle";
+      var b = document.createElement("span"); b.className = "rolle__band";
+      ziffern.forEach(function (z) { var e = document.createElement("span"); e.textContent = z; b.appendChild(e); });
+      r.appendChild(b); zeitEl.appendChild(r); baender.push(b); return b;
+    };
+    zeitEl.textContent = ""; zeitEl.classList.add("tag__zeit--rolle");
+    band(["0", "1", "2"]);                                     // Stunde, Zehner
+    band(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]);   // Stunde, Einer
+    var dp = document.createElement("span"); dp.className = "rolle__doppelpunkt"; dp.textContent = ":"; zeitEl.appendChild(dp);
+    band(["0", "1", "2", "3", "4", "5", "0"]);                 // Minute, Zehner
+    band(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]);   // Minute, Einer
+    var letzte = [];
+    return function (m) {
+      m = Math.max(0, Math.min(1440, m));
+      var std = Math.floor(m / 60), min = m - std * 60;
+      var ganz = Math.floor(min), rest = min - ganz;             // jede Minute steht, und rollt am Ende kurz weiter
+      rest = rest < 0.6 ? 0 : (rest - 0.6) / 0.4; min = ganz + rest * rest * (3 - 2 * rest);
+      var ueberMin = Math.max(0, min - 59);                    // die letzte Minute der Stunde dreht die Stunde weiter
+      var me = min % 10, mz = Math.floor(min / 10) + Math.max(0, me - 9);
+      var se = std % 10 + ueberMin, sz = Math.floor(std / 10) + (std % 10 === 9 ? ueberMin : 0);
+      if (std === 23) { se = 3 + ueberMin; }                   // 23 auf 24: die Einer laufen von 3 auf 4
+      [sz, se, mz, me].forEach(function (v, i) {
+        var t = (-v * 1.1).toFixed(3);
+        if (t !== letzte[i]) { letzte[i] = t; baender[i].style.transform = "translate3d(0," + t + "em,0)"; }
+      });
+    };
+  })();
 
   /* ---------------------------------------------------- Himmel -- */
   // je Uhrzeit (Minuten): Himmel oben, Mitte, Horizont, hintere Kette, vordere Kette
@@ -171,7 +205,7 @@
     else gs.to(h.karte, { opacity: 0, y: 24, filter: "blur(4px)", duration: 0.35, ease: "power2.in", overwrite: true });
   };
 
-  var stand = { vor: 0, f: 0 }, letzteZeit = "", letztesWas = "", bereit = false;
+  var stand = { vor: 0, f: 0 }, letztesWas = "", bereit = false;
   var zeigen = function () {
     if (!mass) messen();
     var f = stand.f;
@@ -193,9 +227,7 @@
       var luecke = halte[nr + 1].min - halte[nr].min, q = klemme((f - a[nr]) / Math.max(0.0001, a[nr + 1] - a[nr]));
       m = halte[nr].min + luecke * (luecke > 120 ? Math.pow(q, 2.6) : q);
     }
-    var gerundet = Math.max(halte[0].min, Math.round(m / 5) * 5);
-    var text = zwei(Math.floor(gerundet / 60) % 24) + ":" + zwei(gerundet % 60);
-    if (text !== letzteZeit) { letzteZeit = text; zeitEl.textContent = text; }
+    if (rollen) rollen(Math.max(halte[0].min, m));
     var was = halte[Math.max(0, nr)].was;
     if (was !== letztesWas) { letztesWas = was; wasEl.textContent = was; }
     himmelSetzen(m);

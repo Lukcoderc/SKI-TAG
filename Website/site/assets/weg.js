@@ -164,7 +164,7 @@
     e.chiprufRing.setAttribute("stroke-dashoffset", fix(1 - ramp(t, 1.45, 2.95)));
     var wellenAn = t >= 3.0 && t <= 4.9;
     for (var i = 0; i < e.wellen.length; i++) {
-      var ph = ((t - 3.0) * 1.25 + i / 3) % 1;
+      var ph = Math.max(0, ((t - 3.0) * 1.25 + i / 3) % 1);
       e.wellen[i].setAttribute("r", fix(12 * G + ph * 64));
       deck(e.wellen[i], wellenAn ? (1 - ph) * 0.85 * (1 - ramp(t, 4.5, 4.9)) : 0);
     }
@@ -179,7 +179,7 @@
     e.antSpitze.setAttribute("fill", t >= 4.05 && t < 9 ? "#ff5a1c" : "#95a2b9");
     var pin = federn(ramp(t, 4.2, 4.7)), pinWeg = ramp(t, 7.5, 7.8);
     deck(e.pinA, ramp(t, 4.2, 4.32) * (1 - pinWeg)); stelle(e.pinA, AX, AY - (16 + 34 * (1 - pin)) * G, G);
-    var ringAn = t >= 4.5 && t < 7.6, rp = ((t - 4.5) / 1.3) % 1;
+    var ringAn = t >= 4.5 && t < 7.6, rp = Math.max(0, ((t - 4.5) / 1.3) % 1);
     e.ringA.setAttribute("rx", fix((16 + rp * 42) * G)); e.ringA.setAttribute("ry", fix((16 + rp * 42) * 0.45 * G));
     deck(e.ringA, ringAn ? (1 - rp) * 0.8 : 0);
     alarm(e.helferA, t, 4.35);

@@ -297,3 +297,13 @@ html.tagwelt-dunkel .tag__fahrer-kopf { fill: #fff; }
 @media (prefers-reduced-motion: no-preference) { .tag-kopf__weiter span::after { animation: tag-weiter 1.8s ease-in-out infinite; } }
 @keyframes tag-weiter { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 80% { opacity: 0; transform: translateY(0.7rem); } 100% { opacity: 0; } }
 @media (max-width: 860px) { .tag-kopf__stationen li { font-size: 0.82rem; padding: 0.45rem 0.8rem; } .tag-kopf__weiter { display: none; } }
+
+/* Feedback 158: rollende Ziffern (Zählwerk) für die Uhrzeit, skitag.js schiebt jedes Band beim Scrollen weiter.
+   Oben und unten blendet jede Stelle weich aus, damit die Ziffer beim Wechsel aus dem Rahmen gleitet. */
+.tag__zeit--rolle { display: inline-flex; align-items: flex-start; line-height: 1.1; }
+.rolle { display: inline-block; height: 1.1em; overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 0.2em, #000 0.9em, transparent 1.1em);
+          mask-image: linear-gradient(180deg, transparent 0, #000 0.2em, #000 0.9em, transparent 1.1em); }
+.rolle__band { display: flex; flex-direction: column; will-change: transform; }
+.rolle__band > span { display: block; height: 1.1em; line-height: 1.1em; text-align: center; }
+.rolle__doppelpunkt { display: inline-block; height: 1.1em; line-height: 1.1em; padding: 0 0.02em; translate: 0 -0.04em; }
