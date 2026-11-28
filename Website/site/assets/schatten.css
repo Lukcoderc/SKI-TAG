@@ -26,3 +26,11 @@
 @media (hover: hover) and (pointer: fine) {
   .app-zugaenge a:hover { transform: none; box-shadow: var(--schatten-unten); }
 }
+
+/* ---------- Kanten (Runde 163): wo ein Foto, Video oder ein dunkler Teil über einem hellen Teil liegt, fällt der Schatten
+   deutlich nach unten auf den hellen Teil. Er sitzt als Innenschatten oben am hellen Teil, weil Fotos und Videos mit
+   clip-path und overflow arbeiten und einen eigenen Schatten abschneiden würden. ---------- */
+:root { --schatten-kante: inset 0 62px 46px -40px hsl(var(--schatten-ton) / 0.58); }
+.held--video { box-shadow: none; }
+.held--video + .blick, .am-berg--nacht + .gebaut, .fenster + .app-start, .fenster + .fragen,
+.app-kopf--foto + .app-blick, .app-bruch + section, .idee + .ziel, .weg { box-shadow: var(--schatten-kante); }

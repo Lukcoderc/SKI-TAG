@@ -53,28 +53,18 @@
   });
   var ohneBewegungApp = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   // Runde 160: nichts spielt von selbst. Ein Film läuft nur, wenn man auf den Reiter seines Teils, auf den Knopf
-  // daneben oder auf das Handy tippt, und dann genau einmal (keine Schleife). Der Balken unter dem Reiter zeigt, wie weit
-  // er ist. Am Ende bleibt das letzte Bild stehen, ein Tipp spielt ihn noch einmal.
-  var ZEICHEN_SPIEL = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2v9.6a.8.8 0 0 0 1.2.7l7.6-4.8a.8.8 0 0 0 0-1.4L6.2 2.5A.8.8 0 0 0 5 3.2z"/></svg>';
-  var ZEICHEN_NOCHMAL = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.2 8a4.8 4.8 0 1 0 1.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M3 2.2v3.4h3.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  // daneben tippt, und dann genau einmal (keine Schleife). Der Balken unter dem Reiter zeigt, wie weit
+  // er ist. Am Ende bleibt das letzte Bild stehen. Seit Runde 162 ohne Knopf auf dem Handy (die Reiter und Knöpfe reichen).
   var spielen = function (v) {
     if (!v) return;
     v.preload = "auto";
     try { v.currentTime = 0; } catch (e) {}
     var p = v.play(); if (p && p.catch) p.catch(function () {});
   };
-  // Knopf auf dem Bildschirm des Handys (nur für die Maus, die Reiter und Knöpfe im Text sind die eigentliche Bedienung)
-  var handyKnopf = function (film, los) {
-    var k = document.createElement("button"); k.type = "button"; k.className = "app-film__los"; k.tabIndex = -1;
-    k.setAttribute("aria-hidden", "true"); k.innerHTML = ZEICHEN_SPIEL; film.appendChild(k);
-    film.addEventListener("click", function () { var v = film.querySelector(".app-film__clip.ist-dran") || film.querySelector(".app-film__clip"); if (v && !v.paused) v.pause(); else los(); });
-    return k;
-  };
   var zustand = function (film) {
     var v = film.querySelector(".app-film__clip.ist-dran") || film.querySelector(".app-film__clip");
     film.classList.toggle("spielt", !!v && !v.paused && !v.ended);
     film.classList.toggle("ist-zu-ende", !!v && v.ended);
-    var k = film.querySelector(".app-film__los"); if (k) k.innerHTML = v && v.ended ? ZEICHEN_NOCHMAL : ZEICHEN_SPIEL;
   };
   alle(document, ".app-film__clip").forEach(function (v) {
     ["play", "pause", "ended"].forEach(function (ev) { v.addEventListener(ev, function () { zustand(v.closest(".app-film")); starten(); }); });
@@ -85,7 +75,6 @@
   alle(document, "[data-einzelfilm]").forEach(function (el) {
     var film = el.querySelector(".app-film"); if (!film) return;
     var los = function () { spielen(film.querySelector(".app-film__clip")); };
-    handyKnopf(film, los);
     alle(el, "[data-film-los]").forEach(function (b) { b.addEventListener("click", los); });
   });
 
@@ -102,22 +91,6 @@
     }, { threshold: 0.35 }).observe(film);
   });
 
-  // Tagesübersicht: beim Hineinscrollen wird es Abend. --n geht von 0 (weiß) bis 1 (nachtblau), die Schrift wechselt bei der Hälfte.
-  alle(document, ".app-abend").forEach(function (el) {
-    if (ohneBewegungApp) return;
-    var lauf = false;
-    var rechnen = function () {
-      lauf = false;
-      var r = el.getBoundingClientRect(), h = window.innerHeight;
-      var n = Math.max(0, Math.min(1, (h * 0.9 - r.top) / (h * 0.55)));
-      el.style.setProperty("--n", n.toFixed(3));
-      el.classList.toggle("ist-hell", n < 0.45);
-    };
-    window.addEventListener("scroll", function () { if (!lauf) { lauf = true; requestAnimationFrame(rechnen); } }, { passive: true });
-    window.addEventListener("resize", rechnen);
-    rechnen();
-  });
-
   // Szenen: die Reiter wählen den Teil und spielen seinen Film
   szenen.forEach(function (s) {
     if (!s.klick) return;
@@ -129,7 +102,6 @@
       s.filme.forEach(function (v, j) { v.classList.toggle("ist-dran", j === i); if (j !== i && !v.paused) v.pause(); });
       setzen(s); spielen(s.filme[i]); starten();
     };
-    if (film) handyKnopf(film, function () { waehle(s.wahl); });
     s.marken.forEach(function (li, i) {
       li.setAttribute("role", "tab"); li.setAttribute("tabindex", "0");
       li.addEventListener("click", function () { waehle(i); });

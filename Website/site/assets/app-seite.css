@@ -584,3 +584,20 @@ section:not(.szene--grau):has(+ .app-bruch) { background-color: #fff; }
 #tag.app-abend .app-titel { color: var(--nacht-ink); transition: color 500ms ease; }
 #tag.app-abend.ist-hell .app-titel { color: var(--sc-ink); }
 @media (max-width: 900px) { .app-abend { padding-top: calc(var(--sc-section) + 2.5rem); } }
+
+/* Runde 162 · keine Knöpfe mehr auf den Handys (gesteuert wird über die Reiter und Knöpfe daneben) */
+.app-film { cursor: default; }
+.app-film__los, .app-film::before { display: none; }
+/* Wischen beim Wechsel des Films: der neue schiebt sich von rechts über den alten, der alte bleibt so lange darunter */
+.app-film__clip { transform: none; z-index: 1; transition: opacity 0s linear 760ms; }
+[data-teil] .app-film__clip:first-child { transform: none; }
+[data-teil="0"] .app-film__clip[data-clip="0"], [data-teil="1"] .app-film__clip[data-clip="1"], [data-teil="2"] .app-film__clip[data-clip="2"], [data-teil="3"] .app-film__clip[data-clip="3"] {
+  z-index: 2; transition: none; animation: app-wischen 760ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes app-wischen { from { clip-path: inset(0 0 0 100%); filter: brightness(1.25); } to { clip-path: inset(0 0 0 0); filter: brightness(1); } }
+@media (prefers-reduced-motion: reduce) { .app-film__clip { animation: none !important; transition: none; } }
+/* Gleicher Grund wie die Skischule darüber (Luki: die Farbe soll sich dort nicht ändern) */
+.szene--grau + .app-kontakt-abschnitt { background: var(--eis); }
+/* Runde 162 · Luki: der Übergang zur Tagesübersicht ist schlecht, also weg. Der Teil ist einfach dunkelblau mit klarer
+   Kante, ohne weißen Verlauf oben und ohne Farbwechsel beim Scrollen. */
+.app-abend { --n: 1 !important; }
+.app-abend::before { display: none; }

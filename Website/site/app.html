@@ -25,11 +25,11 @@
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=146">
-<link rel="stylesheet" href="assets/app-seite.css?v=32">
+<link rel="stylesheet" href="assets/app-seite.css?v=34">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=13">
 <link rel="stylesheet" href="assets/v2-alt.css?v=3">
-<link rel="stylesheet" href="assets/schatten.css?v=1">
+<link rel="stylesheet" href="assets/schatten.css?v=3">
 </head>
 <body>
 <div class="akt-balken" aria-hidden="true"><span class="akt-balken__fuell"></span></div>
@@ -234,7 +234,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
   <!-- Tagesübersicht (Runde 160): eigener Teil mit eigenem Handy, vorher der vierte Teil von „Allein unterwegs“.
        Der Film (Tag beenden, die Spur zeichnet sich, dann die Karte mit der ganzen Strecke) spielt nur auf Knopfdruck.
-       Dunkelblau wie der Abend: beim Hineinscrollen wird der Hintergrund von Weiß zu Nachtblau (--n, app-seite.js). -->
+       Dunkelblau wie der Abend (seit Runde 162 ohne Übergang, klare Kante). -->
   <section id="tag" class="sc-section app-blick app-einzeln app-abend" data-unter="Tagesübersicht" data-einzelfilm aria-labelledby="tag-titel">
     <div class="sc-wrap app-blick__raster">
       <div class="app-blick__bild">
@@ -402,7 +402,8 @@ ScrollCraft.mount(document.body);
 <script src="assets/auftritte.js?v=12" defer></script>
 <script src="assets/sprung-anfang.js?v=21" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
-<script src="assets/app-seite.js?v=8" defer></script>
+<script src="assets/app-seite.js?v=10" defer></script>
+<script src="assets/app-auftritt.js?v=1" defer></script>
 <script src="assets/v2.js?v=2" defer></script>
 </body>
 </html>
