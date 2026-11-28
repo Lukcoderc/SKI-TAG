@@ -29,6 +29,7 @@
       var q = zahlen("data-quelle" + handy, [0.5, 1.04]), fr = zahlen("data-frei" + handy, [0.5, 0.45, W < 600 ? 0.46 : 0.3, 0.38]);
       var a = W < 600 ? 11 : 14, cx = W * q[0], cy = H * q[1];
       welle = W < 600 ? 66 : 100; rMax = Math.max(Math.hypot(cx, cy), Math.hypot(W - cx, cy), Math.hypot(cx, H - cy), Math.hypot(W - cx, H - cy)) * 1.02; punkte = [];
+      if (akt.getAttribute("data-form") === "flocken") { flockenBauen(a, cx, cy, fr); return; }
       for (var y = a / 2; y < H; y += a) for (var x = a / 2; x < W; x += a) {
         var d = Math.hypot(x - cx, y - cy);
         var band = Math.pow(0.5 + 0.5 * Math.cos(2 * Math.PI * d / welle), 4);
@@ -42,6 +43,42 @@
       }
     };
 
+    // Runde 161 (data-form="flocken"): dieselben Quadrate, aber zu Schneeflocken angeordnet. Jede Flocke hat sechs Arme
+    // mit je zwei Seitenästen, gerastert auf das Punktraster; dazwischen bleibt nur ein Hauch vom Raster. Fester Zufall,
+    // damit das Muster bei jedem Laden gleich aussieht. Hinter dem Text (Ellipse data-frei) stehen keine Flocken.
+    var zufall = function (i, j, k) { var v = Math.sin(i * 127.1 + j * 311.7 + k * 74.7) * 43758.5453; return v - Math.floor(v); };
+    var flockenBauen = function (a, cx, cy, fr) {
+      var nx = Math.ceil(W / a), ny = Math.ceil(H / a), flocken = [], d0 = a * 0.92;
+      var setzen = function (x, y, w) { if (x < -a || y < -a || x > W + a || y > H + a) return; punkte.push({ x: x, y: y, d: Math.hypot(x - cx, y - cy), a: 0.3 + 0.6 * w, b: w, g: 1.2, o: w > 0.9 && zufall(Math.round(x), Math.round(y), 7) < 0.05 }); };
+      var schritt = W < 600 ? 12 : 21;
+      for (var gj = 0; gj * schritt < ny + schritt; gj++) for (var gi = 0; gi * schritt < nx + schritt; gi++) {
+        var mx = ((gi + (gj % 2 ? 0.5 : 0)) * schritt + (zufall(gi, gj, 1) - 0.5) * schritt * 0.5) * a;
+        var my = (gj * schritt * 0.92 + (zufall(gi, gj, 2) - 0.5) * schritt * 0.4) * a;
+        var e = Math.hypot((mx - W * fr[0]) / (W * fr[2]), (my - H * fr[1]) / (H * fr[3]));
+        var R = Math.round((W < 600 ? 3 : 5) + zufall(gi, gj, 3) * (W < 600 ? 2 : 3));
+        if (e < 1.02 + (W < 600 ? 1 : 0.55) * (R + 1) * d0 / Math.min(W * fr[2], H * fr[3])) continue;   // die ganze Flocke bleibt außerhalb der Ellipse
+        var dreh = zufall(gi, gj, 4) * Math.PI / 3, w0 = 0.55 + 0.45 * Math.min(1, (e - 1.08) / 0.5);
+        flocken.push({ x: mx, y: my, r: (R + 1) * d0 });
+        setzen(mx, my, w0);
+        for (var arm = 0; arm < 6; arm++) {
+          var wa = dreh + arm * Math.PI / 3, ca = Math.cos(wa), sa = Math.sin(wa);
+          for (var t = 1; t <= R; t++) setzen(mx + ca * t * d0, my + sa * t * d0, w0 * (1 - 0.3 * t / R));
+          var ab = Math.round(R * 0.55), l = Math.max(1, Math.round(R * 0.4));
+          for (var sg = -1; sg <= 1; sg += 2) {
+            var wb = wa + sg * Math.PI / 3, cb = Math.cos(wb), sb = Math.sin(wb);
+            for (var u = 1; u <= l; u++) setzen(mx + (ca * ab + cb * u) * d0, my + (sa * ab + sb * u) * d0, w0 * 0.8);
+          }
+        }
+      }
+      // ein Hauch vom alten Raster dazwischen, aber nicht in den Flocken
+      for (var iy = 0; iy < ny; iy++) for (var ix = 0; ix < nx; ix++) {
+        if (zufall(ix, iy, 9) < 0.6) continue;
+        var x = ix * a + a / 2, y = iy * a + a / 2, frei = true;
+        for (var k = 0; k < flocken.length && frei; k++) if (Math.hypot(x - flocken[k].x, y - flocken[k].y) < flocken[k].r) frei = false;
+        if (frei) punkte.push({ x: x, y: y, d: Math.hypot(x - cx, y - cy), a: 0.035, b: 0, g: 1, o: false });
+      }
+    };
+
     var malen = function (jetzt) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
       var p = zeit.p, gr = W < 600 ? 2.4 : 3;
@@ -52,7 +89,7 @@
         if (auf <= 0) continue;
         var puls = Math.exp(-Math.pow((q.d - pr) / 34, 2)) * q.b;
         var nah = maus.s ? Math.max(0, 1 - Math.hypot(q.x - maus.x, q.y - maus.y) / 130) : 0;
-        var s = gr * (0.4 + 0.6 * auf) * (1 + nah * 0.9 + puls * 0.35);
+        var s = gr * (q.g || 1) * (0.4 + 0.6 * auf) * (1 + nah * 0.9 + puls * 0.35);
         var orange = (q.o ? 0.8 : 0) + nah + puls * 0.25;
         ctx.fillStyle = orange > 0.25
           ? "rgba(255, 90, 28," + Math.min(1, orange) * auf + ")"

@@ -25,7 +25,7 @@
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=146">
-<link rel="stylesheet" href="assets/chip-seite.css?v=42">
+<link rel="stylesheet" href="assets/chip-seite.css?v=43">
 <link rel="stylesheet" href="assets/chip-film.css?v=28">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=13">
@@ -122,19 +122,18 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
       <!-- Runde nach Feedback 151: statt der Ladestation schwebt hier der fertige Chip (dasselbe Renderbild wie in
            „Probiere den Tag aus“) und fliegt beim Scrollen hinunter an seinen Platz dort (assets/chip-flug.js). Bei weniger
            Bewegung bleibt dieses Bild einfach stehen. -->
-      <!-- Runde 160: der Chip kommt aus einem richtigen Automaten (vorher, Feedback 159, ein Wandgerät): frei stehend, links
-           hinter Glas fünf Fächer mit Spiralen voller Chips, rechts Bildschirm, Lesefeld und Rückgabe, unten das Ausgabefach
-           (3D-Szene aus Blender, Website/werkzeuge/blender/verkaufsautomat.py, 24 Bilder). Bildschirm und Aufdrucke sind HTML
-           und liegen perspektivisch genau auf der Tür (data-front: die vier Ecken der Tür im Bild, aus lage.json). Beim Laden
-           läuft der Ablauf von selbst durch: Chip ausleihen, Anzahl, bezahlen, Code für die App, dann dreht sich eine Spirale
-           und der vorderste Chip fällt ins Fach. Beim ersten Scrollen übernimmt der fliegende Chip (assets/chip-flug.js).
-           Der Automat ist ein Entwurf (noch nicht gebaut); wie er bezahlt, ist offen. -->
-      <figure class="chip-anfang__bild station" aria-hidden="true" data-front="0.19625 0.05125 0.76455 0.03997 0.76455 0.92472 0.19625 0.89513" data-chip="0.40032 0.78749 0.44104 0.82406" data-chipbild="9">
+      <!-- Runde 160: der Chip kommt aus einem richtigen Automaten (3D-Szene aus Blender, Website/werkzeuge/blender/verkaufsautomat.py).
+           Runde 161 (Lukis Wunsch): Nahaufnahme der Bediensäule. Oben der Bildschirm, auf dem die Bestellung abläuft (HTML,
+           perspektivisch genau auf der Tür, data-front: die vier Ecken der Tür im Bild, aus lage.json), darunter Rückgabe und
+           Lesefeld, darunter das Ausgabefach, in das der Chip von hinten fällt (24 Bilder). Beim Laden läuft alles von selbst:
+           Chip ausleihen, Anzahl, bezahlen, Code für die App, dann kommt der Chip. Beim ersten Scrollen übernimmt der fliegende
+           Chip (assets/chip-flug.js). Der Automat ist ein Entwurf (noch nicht gebaut); wie er bezahlt, ist offen. -->
+      <figure class="chip-anfang__bild station" aria-hidden="true" data-front="-0.61994 -0.53403 0.81724 -0.57444 0.81724 2.25466 -0.61994 2.16328" data-chip="0.48465 0.77747 0.58335 0.89185" data-chipbild="14">
         <picture>
-          <source media="(prefers-reduced-motion: reduce)" srcset="assets/media/automat/23.webp?v=1">
-          <img class="station__bild" src="assets/media/automat/00.webp?v=1" alt="" width="730" height="1200" decoding="async" fetchpriority="high">
+          <source media="(prefers-reduced-motion: reduce)" srcset="assets/media/automat/23.webp?v=2">
+          <img class="station__bild" src="assets/media/automat/00.webp?v=2" alt="" width="800" height="1000" decoding="async" fetchpriority="high">
         </picture>
-        <canvas class="station__film" width="730" height="1200"></canvas>
+        <canvas class="station__film" width="800" height="1000"></canvas>
         <div class="station__front">
           <span class="station__druck station__marke"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#logo"/></svg>SkiTag</span>
           <div class="station__schirm">
@@ -559,7 +558,7 @@ ScrollCraft.mount(document.body);
 <script src="assets/weg.js?v=21" defer></script>
 <script src="assets/chip-film.js?v=12" defer></script>
 <script src="assets/innen-film.js?v=21" defer></script>
-<script src="assets/chip-flug.js?v=12" defer></script>
+<script src="assets/chip-flug.js?v=13" defer></script>
 <script src="assets/chip-masz.js?v=1" defer></script>
 <script src="assets/v2.js?v=2" defer></script>
 </body>

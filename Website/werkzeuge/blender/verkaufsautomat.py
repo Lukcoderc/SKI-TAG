@@ -1,9 +1,9 @@
-# SkiTag-Ausleihautomat (Runde 160, ersetzt die Wandstation aus Feedback 159): ein frei stehender Automat wie ein
-# Snackautomat, 700 x 1700 x 640 mm. Links hinter einer Glasscheibe fünf Fächer mit Spiralen, in jeder Spirale stehen
-# SkiTag-Chips hintereinander; rechts die Bediensäule mit Bildschirm, Kartenleser und Rückgabeschlitz; unten das offene
-# Ausgabefach. Beim Ausleihen dreht sich eine Spirale einmal, der vorderste Chip kippt über die Kante, fällt hinter dem
-# Glas nach unten und steht am Ende im Ausgabefach genau so wie Bild K der Chip-Drehfolge (assets/media/chip), damit der
-# fliegende Chip auf der Seite ohne Sprung übernehmen kann.
+# SkiTag-Ausleihautomat (Runde 160, Nahaufnahme seit Runde 161): ein frei stehender Automat wie ein Snackautomat,
+# 700 x 1700 x 640 mm. Links hinter einer Glasscheibe Fächer mit Spiralen voller SkiTag-Chips; rechts die breite
+# Bediensäule: oben der Bildschirm, darunter Kartenleser und Rückgabeschlitz, darunter das offene Ausgabefach.
+# Die Kamera ist nah dran und zeigt nur die Bediensäule (Lukis Wunsch: man sieht, wie man am Bildschirm bestellt und
+# unten der Chip herauskommt). Der Chip fällt von hinten oben ins Fach und steht am Ende genau so wie Bild K der
+# Chip-Drehfolge (assets/media/chip), damit der fliegende Chip auf der Seite ohne Sprung übernehmen kann.
 # Bildschirm und Aufdrucke legt die Seite als HTML perspektivisch auf die Tür (lage.json: die vier Ecken der Tür im Bild).
 #
 # python verkaufsautomat.py -- <ordner mit szene.py> <chip.glb> <ausgabe> [breite] [proben] [bilder] [nur]
@@ -21,7 +21,7 @@ PROBEN = int(argv[4]) if len(argv) > 4 else 64
 BILDER = int(argv[5]) if len(argv) > 5 else 24
 NUR = argv[6] if len(argv) > 6 else ''
 HOEHE = round(BREITE * 1.25)                     # 4 : 5
-K = int(os.environ.get('CHIPBILD', '9'))
+K = int(os.environ.get('CHIPBILD', '14'))
 GIER = -0.72 + 0.04 * K
 os.makedirs(aus, exist_ok=True)
 
@@ -144,8 +144,8 @@ for fx in (-W / 2 + 50, W / 2 - 50):
     for fy in (YK + 50, D / 2 - 60): quader(f'fuss_{fx}_{fy}', fx - 22, fx + 22, fy - 22, fy + 22, -1, 6, SOCKEL, 2)
 
 # Tür: eine Platte mit Fenster (links) und Ausgabefach (unten links), rechts die Bediensäule
-FEN = (-W / 2 + 32, 132.0, 560.0, H - 104)        # Fenster x0, x1, z0, z1
-FA = (-W / 2 + 62, 102.0, 214.0, 384.0)           # Ausgabefach
+FEN = (-W / 2 + 32, 36.0, 560.0, H - 104)         # Fenster x0, x1, z0, z1
+FA = (84.0, 324.0, 840.0, 980.0)                  # Ausgabefach in der Bediensäule, unter dem Bildschirm
 tuer = rundplatte('tuer', -W / 2 + 2, W / 2 - 2, SO + 4, H - 2, YT, YK, 14, 3.0, TUER, 8, 3)
 schneiden(tuer, rundplatte('fenster_loch', FEN[0], FEN[1], FEN[2], FEN[3], YT - 10, YK + 10, 10, 0, TUER))
 schneiden(tuer, rundplatte('fach_loch', FA[0], FA[1], FA[2], FA[3], YT - 10, YK + 10, 16, 0, TUER))
@@ -157,7 +157,7 @@ scheibe.visible_shadow = False
 if os.environ.get('OHNEGLAS') == '1': scheibe.hide_render = True
 
 # Innenraum hinter dem Fenster: hell ausgekleidet, fünf Fachböden mit je fünf Spiralen
-IX0, IX1 = -W / 2 + 18, 150.0
+IX0, IX1 = -W / 2 + 18, 54.0
 quader('rueckwand', IX0, IX1, D / 2 - 22, D / 2 - 18, SO + 18, H - 18, INNEN)
 quader('innen_links', IX0, IX0 + 4, YK, D / 2 - 18, SO + 18, H - 18, INNEN)
 quader('innen_rechts', IX1 - 4, IX1, YK, D / 2 - 18, SO + 18, H - 18, INNEN)
@@ -166,7 +166,7 @@ quader('innen_decke', IX0, IX1, YK, D / 2 - 18, H - 22, H - 18, INNEN)
 quader('schachtboden', IX0, IX1, YK, D / 2 - 18, SO + 18, SO + 22, INNEN)
 
 FAECHER = [640.0, 830.0, 1020.0, 1210.0, 1400.0]   # Oberkante der Fachböden
-SPALTEN = [-262.0, -176.0, -90.0, -4.0, 82.0]
+SPALTEN = [-282.0, -196.0, -110.0, -24.0]
 TIEFE0, TIEFE1 = YK + 40, D / 2 - 40              # Spirale vorne / hinten
 STEIG = 30.0                                       # Abstand der Windungen = Abstand der Chips
 RS = 29.0                                          # Radius der Spirale
@@ -209,14 +209,14 @@ def chipkopie(name, ort):
         k.parent = leer; k.matrix_basis = REL[o.name]
     return leer
 
-WAHL = (1, 2)                                      # Fach B (zweites von unten), Spalte 3: daraus kommt der Chip
+WAHL = (1, 2)                                      # (Nahaufnahme: die Spiralen stehen still, die Reihen sind voll)
 PLATZ = 7                                          # so viele Chips stehen in jeder Spirale (von vorne)
 spiralen = {}; reihen = {}
 for i, zf in enumerate(FAECHER):
     for j, xs in enumerate(SPALTEN):
         spiralen[(i, j)] = spirale(f'spirale_{i}_{j}', xs, zf)
-        start = 1 if (i, j) == WAHL else 0          # die gewählte Spirale: vorne steht der Chip, der gleich fällt (der echte)
-        voll = PLATZ - (1 if (i * 5 + j) % 4 == 3 else 0)   # nicht alle Spiralen gleich voll
+        start = 0
+        voll = PLATZ - (1 if (i * 4 + j) % 3 == 2 else 0)   # nicht alle Spiralen gleich voll
         reihen[(i, j)] = [chipkopie(f'c_{i}_{j}_{k}', Vector((xs, TIEFE0 + STEIG * (k + 0.5), zf + HOCH / 2 + 0.5)))
                           for k in range(start, voll)]
 
@@ -237,12 +237,12 @@ o = bpy.data.objects.new('decke', d); sc.collection.objects.link(o); o.parent = 
 o.location = ((IX0 + IX1) / 2, 0, H - 30); o.light_linking.receiver_collection = geraet_sam; o.visible_glossy = False
 
 # Bediensäule rechts: Bildschirm hinter Glas, Kartenleser, Rückgabeschlitz
-BS = (164.0, 324.0, 1178.0, 1438.0)
+BS = (84.0, 324.0, 1080.0, 1320.0)
 schneiden(tuer, rundplatte('bs_loch', BS[0] - 3, BS[1] + 3, BS[2] - 3, BS[3] + 3, YT - 6, YT + 4, 9, 0, TUER))
 rundplatte('bs_glas', BS[0] - 2, BS[1] + 2, BS[2] - 2, BS[3] + 2, YT + 0.4, YT + 4, 8, 0.5, SCHIRM, 8, 2)
-LX, LZ, LR = 244.0, 1040.0, 46.0
+LX, LZ, LR = 282.0, 1030.0, 24.0
 rundplatte('leser', LX - LR, LX + LR, LZ - LR, LZ + LR, YT - 3, YT + 1, LR, 1.4, LESER, 16, 3)
-SX, SZ = 244.0, 880.0
+SX, SZ = 150.0, 1030.0
 schneiden(tuer, rundplatte('rs_loch', SX - 46, SX + 46, SZ - 5, SZ + 5, YT - 6, YK + 6, 4.9, 0, TUER))
 rundplatte('rs_innen', SX - 47, SX + 47, SZ - 7, SZ + 7, YK + 4, YK + 6, 4, 0, SCHLITZ)
 rundplatte('rs_kragen', SX - 58, SX + 58, SZ - 16, SZ + 16, YT - 3, YT + 1, 15, 1.2, LEISTE, 10, 3)
@@ -253,6 +253,8 @@ FT = 190.0
 innen_sam = bpy.data.collections.new('fach_innen'); sc.collection.children.link(innen_sam)
 fw = rundplatte('fa_wand', FA[0] - 5, FA[1] + 5, FA[2] - 5, FA[3] + 5, YT - 1.5, YK + FT, 20, 1.2, FACH, 10, 3, innen_sam)
 schneiden(fw, rundplatte('fa_wl', FA[0] + 1, FA[1] - 1, FA[2] + 1, FA[3] - 1, YT - 8, YK + FT + 8, 15, 0, FACH))
+# Öffnung oben hinten in der Decke des Fachs: dort fällt der Chip herein (von vorne nicht zu sehen)
+schneiden(fw, quader('fa_schlitz', (FA[0] + FA[1]) / 2 - 48, (FA[0] + FA[1]) / 2 + 48, YK + FT - 112, YK + FT - 16, FA[3] - 12, FA[3] + 30, FACH))
 quader('fa_hinten', FA[0] - 4, FA[1] + 4, YK + FT - 6, YK + FT - 2, FA[2] - 4, FA[3] + 4, FACH, 0, 2, innen_sam)
 quader('fa_matte', FA[0] + 8, FA[1] - 8, YT + 8, YK + FT - 8, FA[2] - 1, FA[2] + 3, GUMMI, 0.8, 2, innen_sam)
 quader('fa_led', FA[0] + 20, FA[1] - 20, YT + 12, YT + 15, FA[3] - 2.5, FA[3] - 0.5, FACHLED, 0, 2, innen_sam)
@@ -285,10 +287,10 @@ M3 = geraet.matrix_world.to_3x3()
 # ---------------------------------------------------------------- Kamera: waagrecht auf Augenhöhe, Ausschnitt per Verschiebung
 cam = Z.S['kamera']; cd = cam.data
 cd.sensor_fit = 'VERTICAL'; cd.sensor_height = 36.0
-ABST = 5200.0; HF = 1880.0
+ABST = float(os.environ.get('ABST', '2300')); HF = float(os.environ.get('HF', '580'))
 cd.lens = 36.0 * ABST / HF
-mitte = welt((0, YT, H / 2 - 6))
-aug = welt((0, YT, 1250.0))
+mitte = welt((float(os.environ.get('MX', '200')), YT, float(os.environ.get('MZ', '1080'))))
+aug = welt((0, YT, 1200.0))
 cam.location = Vector((mitte.x + 40, mitte.y - ABST, aug.z))
 cam.rotation_euler = (math.radians(90), 0, 0)
 cd.shift_x = (mitte.x - cam.location.x) / HF
@@ -315,26 +317,19 @@ KANTE_Y = YK + 26                                                 # Vorderkante 
 LANDUNG = SITZ
 Q_REGAL = (M3 @ Z.GRUND).to_quaternion()
 Q_ENDE = ROT.to_quaternion()
+START = SITZ + Vector((0, 80, FA[3] - FA[2] + 40))                # versteckt über der Decke des Fachs, hinten
 def stand(t):
-    """t 0..1: bis 0.1 Ruhe, bis 0.5 dreht die Spirale (Chips rücken eine Windung vor), bis 0.6 kippt der vordere über
-    die Kante, bis 0.82 Fall, bei 0.82 Landung, zwei kleine Federn, Ruhe ab 0.95. Gibt (Ort im Automat, Drehung, Spirale 0..1)"""
-    sp = glatt((t - 0.1) / 0.4)
+    """t 0..1: bis 0.12 Ruhe (Chip noch versteckt), bis 0.5 fällt er von hinten oben ins Fach und dreht sich dabei
+    in seine Endlage, dann zwei kleine Sprünge, Ruhe ab 0.8. Gibt (Ort im Automat, Drehung, Spirale 0..1)"""
+    kipp = Q_ENDE_LOKAL @ Quaternion((1, 0, 0), 0.55)
+    if t < 0.12: return START, kipp, 0.0
     if t < 0.5:
-        p = VORN + Vector((0, -STEIG * sp * 0.9, 0)); q = Q_REGAL; return p, q, sp
-    if t < 0.6:
-        s = (t - 0.5) / 0.1
-        p = VORN + Vector((0, -STEIG * 0.9 - 18 * s, -10 * s * s)); q = Q_REGAL.slerp(Q_REGAL @ Quaternion((1, 0, 0), -0.4), s)
-        return p, q, 1.0
-    if t < 0.82:
-        s = (t - 0.6) / 0.22; s2 = s * s
-        a = VORN + Vector((0, -STEIG * 0.9 - 18, -10))
-        p = a.lerp(LANDUNG, 0) * (1 - s2) + LANDUNG * s2
-        p = Vector((a.x + (LANDUNG.x - a.x) * s, a.y + (LANDUNG.y - a.y) * s, a.z + (LANDUNG.z - a.z) * s2))
-        q = (Q_REGAL @ Quaternion((1, 0, 0), -0.4)).slerp(Q_ENDE_LOKAL, glatt(s))
-        return p, q, 1.0
-    s = (t - 0.82) / 0.18
-    hoch = 9.0 * abs(math.sin(s * math.pi * 2.0)) * math.exp(-4.6 * s)
-    return LANDUNG + Vector((0, 0, hoch)), Q_ENDE_LOKAL, 1.0
+        s = (t - 0.12) / 0.38; s2 = s * s
+        p = Vector((START.x, START.y + (SITZ.y - START.y) * glatt(s), START.z + (SITZ.z - START.z) * s2))
+        return p, kipp.slerp(Q_ENDE_LOKAL, glatt(s)), 0.0
+    s = min(1.0, (t - 0.5) / 0.3)
+    hoch = 10.0 * abs(math.sin(s * math.pi * 2.0)) * math.exp(-4.2 * s)
+    return SITZ + Vector((0, 0, hoch)), Q_ENDE_LOKAL, 0.0
 Q_ENDE_LOKAL = (M3.inverted() @ ROT).to_quaternion()
 Q_REGAL = Z.GRUND.to_quaternion()                    # im Automat-Raum
 
@@ -344,11 +339,11 @@ def setzen(t):
     dreh.matrix_world = m
     spiralen[WAHL].rotation_euler = (0, -2 * math.pi * sp, 0)
     for k, c in enumerate(reihen[WAHL]):
-        c.matrix_basis = Matrix.Translation(Vector((XS, TIEFE0 + STEIG * (k + 1.5 - sp), ZF + HOCH / 2 + 0.5))) @ G4
+        c.matrix_basis = Matrix.Translation(Vector((XS, TIEFE0 + STEIG * (k + 0.5 - sp), ZF + HOCH / 2 + 0.5))) @ G4
     # im Automat bekommt der Chip weniger von seinem Studiolicht, im Fach das volle (wie in der Drehfolge)
-    f = 0.35 + 0.65 * glatt((t - 0.7) / 0.25)
+    f = 0.35 + 0.65 * glatt((t - 0.3) / 0.4)
     for nm, e in CHIPLICHT.items(): bpy.data.objects[nm].data.energy = e * f
-    an = glatt((t - 0.55) / 0.3)
+    an = glatt((t - 0.02) / 0.2)
     FACHLED.node_tree.nodes['Emission'].inputs['Strength'].default_value = 1.0 + 9.0 * an
     fl.energy = 4.0e5 * an
     bpy.context.view_layer.update()
@@ -396,9 +391,8 @@ else:
     # Bereich, in dem sich etwas bewegt: Spalte der gewählten Spirale bis hinunter ins Ausgabefach (mit Rand)
     a, e = lage['chip_start'], lage['chip_ende']
     teile_bereich = [rahmen_von([o for o in spiralen[WAHL].children] or [])] if False else []
-    sp_ecken = [proj(welt((XS + dx, TIEFE0 + dy, ZF + dz))) for dx in (-60, 60) for dy in (-40, TIEFE1 - TIEFE0) for dz in (-40, 100)]
     fa_ecken = [proj(welt((x, YT, z))) for x in (FA[0] - 30, FA[1] + 30) for z in (FA[2] - 40, FA[3] + 40)]
-    pts = sp_ecken + fa_ecken
+    pts = fa_ecken
     bereich = [max(0, min(p[0] for p in pts) - 0.02), max(0, min(p[1] for p in pts) - 0.02),
                min(1, max(p[0] for p in pts) + 0.02), min(1, max(p[1] for p in pts) + 0.02)]
     print('Bereich', bereich)

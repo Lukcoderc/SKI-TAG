@@ -82,8 +82,8 @@
     fig.classList.add("station--spielt");
     var schritte = [].slice.call(fig.querySelectorAll(".station__schritt"));
     var knoepfe = [fig.querySelector('[data-tipp="0"]'), fig.querySelector('[data-tipp="1"]')];
-    var c = lw.getContext("2d"), NT = 24, ORD = "assets/media/automat/", VT = "?v=1", bilder = [], leerBild = null;
-    var dpr = Math.min(devicePixelRatio || 1, 2), bw = Math.min(730, Math.ceil(fig.clientWidth * dpr)), bh = Math.round(bw * 1200 / 730);
+    var c = lw.getContext("2d"), NT = 24, ORD = "assets/media/automat/", VT = "?v=2", bilder = [], leerBild = null;
+    var dpr = Math.min(devicePixelRatio || 1, 2), bw = Math.min(800, Math.ceil(fig.clientWidth * dpr)), bh = Math.round(bw * 1000 / 800);
     lw.width = bw; lw.height = bh;
     var holen = function (src) {
       var alsBild = function () { return new Promise(function (ok) { var im = new Image(); im.onload = function () { ok(im); }; im.onerror = function () { ok(null); }; im.src = src; }); };

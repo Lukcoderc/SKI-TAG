@@ -558,3 +558,31 @@
 .station__zahl { font-size: 30px; gap: 14px; }
 .station__zahl span { width: 46px; height: 46px; }
 .station__zeile .station__knopf { flex: none; height: 56px; }
+
+/* Runde 161 · Nahaufnahme der Bediensäule (Lukis Wunsch: näher dran, man sieht nur das Bestellen am Bildschirm und wie
+   unten der Chip herauskommt). Bildfolge 800 × 1000, Bildschirm 240 × 240 mm = 480 × 480 px auf der Tür, darunter Rückgabe
+   und Lesefeld, darunter das Ausgabefach. Alles, was nicht in der Nahaufnahme liegt, ist aus. */
+.chip-anfang__bild.station { aspect-ratio: 4 / 5; width: min(100%, 31rem); }
+.station__marke, .station__aufkleber { display: none; }
+.station__schirm { left: 864px; top: 756px; width: 480px; height: 480px; border-radius: 10px; }
+.station__kopf { left: 30px; right: 30px; top: 24px; font-size: 22px; }
+.station__kopf svg { width: 24px; height: 24px; }
+.station__schritt { left: 30px; right: 30px; top: 80px; bottom: 30px; }
+.station__schritt h4 { font-size: 52px; }
+.station__schritt p { margin-top: 12px; font-size: 28px; line-height: 1.3; }
+.station__knopf { height: 84px; border-radius: 16px; font-size: 30px; }
+.station__zeile { flex-direction: row; align-items: center; gap: 16px; margin-top: auto; }
+.station__zeile .station__knopf { flex: 1; height: 84px; }
+.station__zahl { font-size: 44px; gap: 18px; }
+.station__zahl span { width: 64px; height: 64px; }
+.station__bezahlt { flex-direction: row; align-items: center; gap: 16px; font-size: 28px; margin-top: auto; }
+.station__code { margin-top: auto; gap: 8px; padding: 18px 22px; }
+.station__code small { font-size: 22px; }
+.station__code b { font-size: 56px; }
+.station__leser { left: 1212px; top: 1288px; width: 96px; height: 96px; }
+.station__leser svg { width: 40px; height: 40px; }
+.station__lesehinweis { left: 1140px; top: 1400px; width: 240px; font-size: 22px; }
+.station__rueckgabe { left: 880px; top: 1386px; width: 232px; text-align: center; font-size: 22px; }
+.station__ausgabe { left: 864px; top: 1740px; width: 480px; font-size: 24px; }
+@media (max-width: 860px) { .chip-anfang__bild.station { width: min(100%, 26rem); } }
+@media (max-width: 600px) { .chip-anfang__bild.station { width: min(88vw, 22rem); } }

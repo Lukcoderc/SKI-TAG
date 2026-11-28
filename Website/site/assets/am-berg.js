@@ -16,7 +16,7 @@
   var $ = function (s) { return akt.querySelector(s); }, $$ = function (s) { return Array.prototype.slice.call(akt.querySelectorAll(s)); };
   var auge = $(".augenbraue"), titel = $("#am-berg-titel"), satz = $(".am-berg__satz");
   var liste = $(".am-berg__punkte"), punkte = $$(".am-berg__punkte li"), punktText = $$(".am-berg__punkte li span"), karten = $$(".am-berg__karte");
-  var bilder = karten.map(function (k) { return k.querySelector("img"); }), texte = karten.map(function (k) { return k.querySelector(".am-berg__name"); });
+  var bilder = karten.map(function (k) { return k.querySelector("img"); }), texte = karten.map(function (k) { return k.querySelector(".am-berg__kopfzeile"); });
 
   // 1 · Fläche: von der abgerundeten Karte zur vollen Breite
   gsap.fromTo(akt, { clipPath: handy ? "inset(0% 3% 0% 3% round 28px)" : "inset(0% 6% 0% 6% round 48px)" }, {
@@ -56,6 +56,20 @@
     karten.forEach(function (k, i) {
       gsap.fromTo(k, { y: 0 }, { y: [-40, 30, -70][i] || 0, ease: "none",
         scrollTrigger: { trigger: akt, start: "top 20%", end: "bottom top", scrub: 0.8 } });
+    });
+  });
+})();
+
+/* Runde 161: Am Handy (ohne Hover) öffnet ein Antippen die Karte, ein zweites schließt sie; es ist immer nur eine offen. */
+(function () {
+  "use strict";
+  var karten = Array.prototype.slice.call(document.querySelectorAll(".am-berg__karte"));
+  if (!karten.length || window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  karten.forEach(function (k) {
+    k.addEventListener("click", function () {
+      var auf = !k.classList.contains("ist-offen");
+      karten.forEach(function (x) { x.classList.remove("ist-offen"); });
+      k.classList.toggle("ist-offen", auf);
     });
   });
 })();

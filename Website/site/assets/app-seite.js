@@ -89,6 +89,35 @@
     alle(el, "[data-film-los]").forEach(function (b) { b.addEventListener("click", los); });
   });
 
+  // Der Login-Film oben (Lukis Wunsch nach Runde 160) spielt als einziger von selbst: sobald das Handy zu sehen ist,
+  // in Schleife, und er hält an, wenn es aus dem Bild ist. Kein Knopf auf dem Handy. Bei „weniger Bewegung“ bleibt das Standbild.
+  alle(document, "[data-selbstfilm] .app-film").forEach(function (film) {
+    var v = film.querySelector(".app-film__clip"); if (!v) return;
+    film.classList.add("app-film--selbst"); v.loop = true;
+    if (ohneBewegungApp || !("IntersectionObserver" in window)) return;
+    new IntersectionObserver(function (e) {
+      e.forEach(function (x) {
+        if (x.isIntersecting) { v.preload = "auto"; var p = v.play(); if (p && p.catch) p.catch(function () {}); } else if (!v.paused) v.pause();
+      });
+    }, { threshold: 0.35 }).observe(film);
+  });
+
+  // Tagesübersicht: beim Hineinscrollen wird es Abend. --n geht von 0 (weiß) bis 1 (nachtblau), die Schrift wechselt bei der Hälfte.
+  alle(document, ".app-abend").forEach(function (el) {
+    if (ohneBewegungApp) return;
+    var lauf = false;
+    var rechnen = function () {
+      lauf = false;
+      var r = el.getBoundingClientRect(), h = window.innerHeight;
+      var n = Math.max(0, Math.min(1, (h * 0.9 - r.top) / (h * 0.55)));
+      el.style.setProperty("--n", n.toFixed(3));
+      el.classList.toggle("ist-hell", n < 0.45);
+    };
+    window.addEventListener("scroll", function () { if (!lauf) { lauf = true; requestAnimationFrame(rechnen); } }, { passive: true });
+    window.addEventListener("resize", rechnen);
+    rechnen();
+  });
+
   // Szenen: die Reiter wählen den Teil und spielen seinen Film
   szenen.forEach(function (s) {
     if (!s.klick) return;

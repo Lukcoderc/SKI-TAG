@@ -91,3 +91,53 @@
 .am-berg__karte .am-berg__name small { grid-row: auto; margin-bottom: 0.45rem; letter-spacing: 0.06em; }
 .am-berg__karte .am-berg__name span { grid-column: 1; }
 .am-berg__karte .am-berg__sicher { padding-left: 0; }
+
+/* Runde 161 · Lukis Wunsch: der Text fliegt beim Drüberfahren wieder ins Bild (nicht darunter), aber ruhig und ohne
+   schwebende Karte. Unten im Foto stehen immer Nummer und Name; beim Drüberfahren (am Handy Antippen) dunkelt ein Verlauf
+   von unten das Foto ab, der Name rückt hoch, und darunter steigen ein Satz und drei Zeilen dazu, was SkiTag dort kann. */
+.am-berg__karte { cursor: default; outline: none; }
+.am-berg__karte .am-berg__foto { aspect-ratio: 4 / 5.2; }
+.am-berg__karte .am-berg__foto::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(to top, rgba(7, 16, 38, 0.92) 0%, rgba(7, 16, 38, 0.55) 34%, rgba(7, 16, 38, 0) 60%);
+  transition: opacity 600ms ease; }
+.am-berg__karte .am-berg__foto::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0;
+  background: linear-gradient(to top, rgba(7, 16, 38, 0.96) 0%, rgba(7, 16, 38, 0.86) 50%, rgba(7, 16, 38, 0.35) 100%);
+  transition: opacity 600ms ease; }
+.am-berg__inhalt { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: clamp(1.1rem, 2vw, 1.6rem); color: #fff; }
+.am-berg__kopfzeile { display: grid; gap: 0.35rem; }
+.am-berg__kopfzeile small { font: 600 0.78rem/1 var(--sc-font-text); letter-spacing: 0.1em; color: #ff9a6b; font-variant-numeric: tabular-nums; }
+.am-berg__kopfzeile b { font: 650 clamp(1.5rem, 1.1rem + 1vw, 2.1rem)/1.05 var(--sc-font-display); letter-spacing: -0.03em; color: #fff; }
+.am-berg__mehr { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 650ms cubic-bezier(0.16, 1, 0.3, 1); }
+.am-berg__mehr > div { overflow: hidden; min-height: 0; }
+.am-berg__unter { margin: 0.7rem 0 0; font-size: 1.02rem; font-weight: 600; line-height: 1.4; color: #fff; }
+.am-berg__kann { list-style: none; margin: 0.9rem 0 0; padding: 0; display: grid; }
+.am-berg__kann li { padding: 0.6rem 0; border-top: 1px solid rgba(255, 255, 255, 0.16); font-size: 0.92rem; line-height: 1.45; color: rgba(255, 255, 255, 0.72); }
+.am-berg__kann b { color: #fff; font-weight: 650; }
+.am-berg__unter, .am-berg__kann li { opacity: 0; transform: translateY(1rem); transition: opacity 350ms ease, transform 650ms cubic-bezier(0.16, 1, 0.3, 1); }
+.am-berg__kann li:nth-child(1) { transition-delay: 60ms; }
+.am-berg__kann li:nth-child(2) { transition-delay: 120ms; }
+.am-berg__kann li:nth-child(3) { transition-delay: 180ms; }
+.am-berg__karte:is(.ist-offen, :focus-visible) .am-berg__foto::before { opacity: 1; }
+.am-berg__karte:is(.ist-offen, :focus-visible) .am-berg__mehr { grid-template-rows: 1fr; }
+.am-berg__karte:is(.ist-offen, :focus-visible) :is(.am-berg__unter, .am-berg__kann li) { opacity: 1; transform: none; }
+.am-berg__karte:focus-visible .am-berg__foto { outline: 3px solid var(--orange); outline-offset: 4px; }
+@media (hover: hover) and (pointer: fine) {
+  .am-berg__karte:hover .am-berg__foto::before { opacity: 1; }
+  .am-berg__karte:hover .am-berg__mehr { grid-template-rows: 1fr; }
+  .am-berg__karte:hover :is(.am-berg__unter, .am-berg__kann li) { opacity: 1; transform: none; }
+}
+@media (max-width: 760px) { .am-berg__kann li { font-size: 0.88rem; padding: 0.5rem 0; } .am-berg__karte .am-berg__foto { aspect-ratio: 4 / 5.6; } }
+@media (prefers-reduced-motion: reduce) { .am-berg__mehr, .am-berg__unter, .am-berg__kann li { transition: opacity 200ms ease; transform: none; } }
+/* gegen die alte Regel „.am-berg__karte div“ aus seite.css (jedes div war unten im Bild festgemacht) */
+.am-berg__karte .am-berg__inhalt { position: absolute; left: 0; right: 0; bottom: 0; top: auto; z-index: 2; display: block; gap: 0; padding: clamp(1.1rem, 2vw, 1.6rem); }
+.am-berg__karte .am-berg__kopfzeile { position: static; padding: 0; z-index: auto; display: grid; gap: 0.35rem; }
+.am-berg__karte .am-berg__mehr { position: static; padding: 0; z-index: auto; display: grid; gap: 0; }
+.am-berg__karte .am-berg__mehr > div { position: static; padding: 0; z-index: auto; display: block; }
+.am-berg__karte .am-berg__kann b { font: inherit; font-weight: 650; letter-spacing: 0; color: #fff; }
+/* schmale Karten (Tablet, drei nebeneinander): höher und kleinere Schrift, damit der aufgeklappte Text ins Foto passt */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .am-berg__karte .am-berg__foto { aspect-ratio: 4 / 6.6; }
+  .am-berg__karte .am-berg__inhalt { padding: 1rem; }
+  .am-berg__unter { font-size: 0.92rem; }
+  .am-berg__kann li { font-size: 0.82rem; padding: 0.45rem 0; }
+}

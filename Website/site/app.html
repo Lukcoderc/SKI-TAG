@@ -25,7 +25,7 @@
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=146">
-<link rel="stylesheet" href="assets/app-seite.css?v=29">
+<link rel="stylesheet" href="assets/app-seite.css?v=32">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=13">
 <link rel="stylesheet" href="assets/v2-alt.css?v=3">
@@ -119,19 +119,17 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   </section>
 
   <!-- 1 · Überblick -->
-  <section id="ueberblick" class="sc-section app-blick" data-unter="Überblick" data-einzelfilm aria-labelledby="ueberblick-titel">
+  <section id="ueberblick" class="sc-section app-blick" data-unter="Überblick" data-selbstfilm aria-labelledby="ueberblick-titel">
     <div class="sc-wrap app-blick__raster">
       <div class="app-blick__text">
         <h2 id="ueberblick-titel" class="sc-display app-titel">Einloggen.<br><span class="leise">Ein Code, kein Konto.</span></h2>
-        <p class="app-absatz">Die App mietest du <b>wie den Chip</b>: Beim Mieten bekommst du einen <b>Code auf den Mietbeleg</b>. <b>Vorname und Code</b> eingeben, und die App weiß, wer du bist. <b>Keine Registrierung, keine E-Mail, kein Passwort.</b> Einloggen dauert ein paar Sekunden, der Zugang gilt <b>bis Mitternacht</b>.</p>
-        <p class="app-absatz">Der <b>Code entscheidet, was du siehst</b>: als Gast deinen Skitag und deine Gruppe, als Skilehrer deine Kursgruppe. Für Gäste ist die App ein Extra, <b>den Notruf schickt der Chip auch ganz ohne Handy</b>.</p>
+        <p class="app-absatz">Beim Mieten bekommst du einen <b>Code auf den Mietbeleg</b>. Vorname und Code eingeben, fertig: <b>keine Registrierung, kein Passwort</b>, gültig bis Mitternacht. Den Notruf schickt der Chip auch ohne Handy.</p>
         <ul class="app-zugaenge">
           <li><a href="#familie"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="6.5" r="2.6"/><path d="M3.5 20v-4.5a4.5 4.5 0 0 1 9 0V20"/><circle cx="17" cy="10" r="2"/><path d="M14 20v-3a3 3 0 0 1 6 0v3"/></svg><b>Freunde und Familie</b><span>Alle auf einer Karte, Alarm bei zu viel Abstand.</span></a></li>
           <li><a href="#allein"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20l6-9 4 5 3-4 7 8"/><path d="M14 6l2-3 2 3"/></svg><b>Allein</b><span>Dein Tag, deine Abzeichen, dein Weg ins Tal.</span></a></li>
           <li><a href="#skischule"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4M5 4h10l-2 3 2 3H5"/><circle cx="16" cy="15" r="1.8"/><circle cx="11" cy="17" r="1.8"/><circle cx="20" cy="18" r="1.4"/></svg><b>Skischule</b><span>Alle Schüler auf einen Blick. Bleibt einer zurück, meldet sich die App sofort.</span></a></li>
           <li><a href="#tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18c3-1 4-6 7-6s3 4 6 3 2-6 3-8"/><circle cx="4" cy="18" r="1.6"/><circle cx="20" cy="7" r="1.6"/></svg><b>Tagesübersicht</b><span>Am Abend deine ganze Spur auf einer Karte.</span></a></li>
         </ul>
-        <p class="app-los-zeile"><button type="button" class="app-los" data-film-los><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2v9.6a.8.8 0 0 0 1.2.7l7.6-4.8a.8.8 0 0 0 0-1.4L6.2 2.5A.8.8 0 0 0 5 3.2z"/></svg><span>Login ansehen</span></button></p>
       </div>
       <div class="app-blick__bild">
         <figure class="iphone app-iphone" aria-hidden="true">
@@ -235,8 +233,9 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   </section>
 
   <!-- Tagesübersicht (Runde 160): eigener Teil mit eigenem Handy, vorher der vierte Teil von „Allein unterwegs“.
-       Der Film (Tag beenden, die Spur zeichnet sich, dann die Karte mit der ganzen Strecke) spielt nur auf Knopfdruck. -->
-  <section id="tag" class="sc-section app-blick app-einzeln szene--grau" data-unter="Tagesübersicht" data-einzelfilm aria-labelledby="tag-titel">
+       Der Film (Tag beenden, die Spur zeichnet sich, dann die Karte mit der ganzen Strecke) spielt nur auf Knopfdruck.
+       Dunkelblau wie der Abend: beim Hineinscrollen wird der Hintergrund von Weiß zu Nachtblau (--n, app-seite.js). -->
+  <section id="tag" class="sc-section app-blick app-einzeln app-abend" data-unter="Tagesübersicht" data-einzelfilm aria-labelledby="tag-titel">
     <div class="sc-wrap app-blick__raster">
       <div class="app-blick__bild">
         <figure class="iphone app-iphone" aria-hidden="true">
@@ -267,7 +266,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   <figure class="app-bruch" style="--lage:50% 45%;--lage-h:48% 45%" aria-hidden="true"><div class="app-bruch__fenster" style="background:#cfd8e3 url(data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAABQBACdASogABIAPvVoqU6qpiQjMAwBUB6JZwAAW+w8sbywxcCZBw1THZAAAP7ep6/qdgCPvSxO0E4EK3NyDyBPSDfASH0vw7zKj38VCgqyZeHF+axJ1wqCSnTq0RL/VB7k7UJ0MBJ/eZLKlGgAAA==) center/cover"><img src="assets/media/app-foto-skischule.webp?v=2" srcset="assets/media/app-foto-skischule-m.webp?v=2 1400w, assets/media/app-foto-skischule.webp?v=2 2600w" sizes="100vw" alt="" width="2600" height="1463" decoding="async"></div></figure>
 
   <!-- 4 · Skischule -->
-  <section id="skischule" class="szene nacht szene--blau" data-unter="Skischule" data-klick="99999" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="skischule-titel">
+  <section id="skischule" class="szene szene--grau" data-unter="Skischule" data-klick="99999" data-sc-act="pin" data-sc-span="3.2" data-marken="0.3333 0.6667" data-szene aria-labelledby="skischule-titel">
     <div class="szene__buehne" data-sc-stage>
       <div class="szene__raster">
         <div class="szene__text">
@@ -403,7 +402,7 @@ ScrollCraft.mount(document.body);
 <script src="assets/auftritte.js?v=12" defer></script>
 <script src="assets/sprung-anfang.js?v=21" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
-<script src="assets/app-seite.js?v=7" defer></script>
+<script src="assets/app-seite.js?v=8" defer></script>
 <script src="assets/v2.js?v=2" defer></script>
 </body>
 </html>

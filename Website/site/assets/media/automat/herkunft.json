@@ -1,4 +1,32 @@
 {
-  "prompt": "SkiTag-Ausleihautomat, 3D-Szene aus Blender (Website/werkzeuge/blender/verkaufsautomat.py, Runde 160): frei stehender Automat 700 x 1700 x 640 mm mit Glasfront, fünf Fächern mit Spiralen voller Chips, Bediensäule und offenem Ausgabefach. Bilder 00 bis 23: eine Spirale dreht sich, der vorderste Chip fällt ins Fach; leer.webp: Fach ohne Chip. Entwurf, kein gebautes Gerät. Nicht generiert (gerendert).",
-  "createdAt": "2026-11-28T14:30:00.000Z"
+ "quelle": "Website/werkzeuge/blender/verkaufsautomat.py (Runde 161, Nahaufnahme)",
+ "groesse": [
+  800,
+  1000
+ ],
+ "chipbild": 14,
+ "tuer": [
+  [
+   -0.61994,
+   -0.53403
+  ],
+  [
+   0.81724,
+   -0.57444
+  ],
+  [
+   0.81724,
+   2.25466
+  ],
+  [
+   -0.61994,
+   2.16328
+  ]
+ ],
+ "chip_ende": [
+  0.48465,
+  0.77747,
+  0.58335,
+  0.89185
+ ]
 }

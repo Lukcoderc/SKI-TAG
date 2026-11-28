@@ -558,3 +558,29 @@ section:not(.szene--grau):has(+ .app-bruch) { background-color: #fff; }
   #ueberblick .app-los-zeile { order: 6; margin-top: 1.4rem; }
   .app-los { width: 100%; justify-content: center; padding-right: 1.4rem; }
 }
+
+/* ---------- Nach Runde 160: Login-Film spielt von selbst, Tagesübersicht dunkelblau mit Übergang ---------- */
+.app-film--selbst::before { display: none; }
+.app-film--selbst { cursor: default; }
+/* Abend: Weiß geht beim Hineinscrollen in Nachtblau über (--n von app-seite.js; ohne Skript gleich ganz dunkel).
+   Oben läuft die Fläche weich aus dem Weißen darüber herein, keine harte Kante. */
+.app-abend { --n: 1; position: relative; isolation: isolate; color: var(--nacht-ink);
+  background-color: color-mix(in srgb, #0b1a3c calc(var(--n) * 100%), #fff) !important; }
+.app-abend::before { content: ""; position: absolute; inset: 0 0 auto; height: clamp(4.5rem, 10vh, 9rem); z-index: -1; pointer-events: none;
+  background: linear-gradient(#fff, rgba(255, 255, 255, 0.72) 28%, rgba(255, 255, 255, 0.3) 62%, rgba(255, 255, 255, 0)); }
+.app-abend::after { content: ""; position: absolute; inset: 0; z-index: -2; pointer-events: none; opacity: var(--n);
+  background: radial-gradient(60rem 36rem at 22% 55%, rgba(46, 92, 190, 0.38), transparent 65%); }
+.app-abend .app-titel, .app-abend .app-absatz, .app-abend .app-absatz b, .app-abend .leise { transition: color 500ms ease; }
+.app-abend .app-titel, .app-abend .app-absatz b { color: var(--nacht-ink); }
+.app-abend .app-titel .leise { color: #8f9bb8; }
+.app-abend .app-absatz { color: var(--nacht-soft); }
+.app-abend .app-los { background: #fff; color: var(--nacht); box-shadow: 0 22px 36px -23px rgba(0, 0, 0, 0.7); transition: background 500ms ease, color 500ms ease; }
+@media (hover: hover) and (pointer: fine) { .app-abend .app-los:hover { background: #e9eef8; } }
+.app-abend .app-iphone { filter: drop-shadow(-26px 22px 22px rgba(0, 0, 0, 0.4)); }
+.app-abend.ist-hell .app-titel, .app-abend.ist-hell .app-absatz b { color: var(--sc-ink); }
+.app-abend.ist-hell .app-titel .leise { color: var(--sc-ink-soft); }
+.app-abend.ist-hell .app-absatz { color: var(--sc-ink-soft); }
+.app-abend.ist-hell .app-los { background: var(--nacht); color: #fff; }
+#tag.app-abend .app-titel { color: var(--nacht-ink); transition: color 500ms ease; }
+#tag.app-abend.ist-hell .app-titel { color: var(--sc-ink); }
+@media (max-width: 900px) { .app-abend { padding-top: calc(var(--sc-section) + 2.5rem); } }

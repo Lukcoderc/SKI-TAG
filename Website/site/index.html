@@ -27,7 +27,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 <link rel="stylesheet" href="assets/chip-film.css?v=28">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/schrift-inter.css?v=1">
-<link rel="stylesheet" href="assets/am-berg.css?v=8">
+<link rel="stylesheet" href="assets/am-berg.css?v=9">
 <link rel="stylesheet" href="assets/app-start.css?v=5">
 <link rel="stylesheet" href="assets/start.css?v=2">
 <link rel="stylesheet" href="assets/schatten.css?v=1">
@@ -204,12 +204,13 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
           <h2 id="am-berg-titel" class="sc-display">Für deinen Skitag.<br><span class="leise">Vom Anfänger bis zum Profi.</span></h2>
         </div>
       </div>
-      <!-- Runde 160: ohne Stichpunkte; die Fotos als Karten mit Schatten, Name und ein Satz darunter (immer zu sehen).
+      <!-- Runde 160: ohne Stichpunkte. Runde 161: Nummer und Name stehen unten im Foto; beim Darüberfahren (am Handy Antippen)
+           steigen ein Satz und drei Zeilen dazu ins Bild, was SkiTag dort kann (Inhalt von der App- und Chip-Seite).
            Beim Darüberfahren bleibt die Karte stehen, das Foto rückt ein Stück nach innen und zoomt langsam (am-berg.css). -->
       <ul class="am-berg__karten">
-        <li class="am-berg__karte"><div class="am-berg__foto"><img src="assets/media/skitag-familie.webp?v=1" alt="Eine Mutter hält ihr kleines Kind an der Hand, beide auf Ski in der Sonne." width="1400" height="927" decoding="async" style="object-position: 18% 50%"></div><div class="am-berg__name"><small>01</small><b>Familien</b><span>Eltern sehen, wo ihre Kinder sind.</span></div><p class="am-berg__sicher">Verliert sich dein Kind oder stürzt es, holt ein Druck auf den Knopf Hilfe. Mit Standort, ohne Handy.</p></li>
-        <li class="am-berg__karte"><div class="am-berg__foto"><img src="assets/media/skitag-skischule.webp?v=1" alt="Ein Skilehrer kniet bei einer Gruppe Kinder im Schnee." width="1161" height="1400" decoding="async"></div><div class="am-berg__name"><small>02</small><b>Skischulen</b><span>Skilehrer sehen ihre ganze Gruppe.</span></div><p class="am-berg__sicher">Stürzt ein Kind, ist der Notruf mit seinem Standort sofort bei der Bergbahn.</p></li>
-        <li class="am-berg__karte"><div class="am-berg__foto"><img src="assets/media/skitag-freunde.webp?v=1" alt="Vier Freunde fahren im dichten Schneefall nebeneinander die Piste hinunter." width="933" height="1400" decoding="async"></div><div class="am-berg__name"><small>03</small><b>Freunde</b><span>Ein kurzer Druck ruft die ganze Gruppe.</span></div><p class="am-berg__sicher">Stürzt du allein abseits der Gruppe, kommt Hilfe auch ohne Handynetz.</p></li>
+        <li class="am-berg__karte" tabindex="0"><div class="am-berg__foto"><img src="assets/media/skitag-familie.webp?v=1" alt="Eine Mutter hält ihr kleines Kind an der Hand, beide auf Ski in der Sonne." width="1400" height="927" decoding="async" style="object-position: 18% 50%"><div class="am-berg__inhalt"><div class="am-berg__kopfzeile"><small>01</small><b>Familien</b></div><div class="am-berg__mehr"><div><p class="am-berg__unter">Eltern sehen, wo ihre Kinder sind.</p><ul class="am-berg__kann"><li><b>Alle auf einer Karte</b>, mit Alarm bei zu viel Abstand.</li><li><b>Drei Sekunden halten</b> schickt den Notruf mit Standort an die Bergbahn.</li><li>Dein Kind braucht <b>kein Handy</b>, nur den Chip in der Jacke.</li></ul></div></div></div></div></li>
+        <li class="am-berg__karte" tabindex="0"><div class="am-berg__foto"><img src="assets/media/skitag-skischule.webp?v=1" alt="Ein Skilehrer kniet bei einer Gruppe Kinder im Schnee." width="1161" height="1400" decoding="async"><div class="am-berg__inhalt"><div class="am-berg__kopfzeile"><small>02</small><b>Skischulen</b></div><div class="am-berg__mehr"><div><p class="am-berg__unter">Skilehrer sehen ihre ganze Gruppe.</p><ul class="am-berg__kann"><li><b>Alle Schüler auf einen Blick</b>, vor dem Lift einmal durchzählen.</li><li>Bleibt ein Kind zurück, <b>meldet sich die App sofort</b>.</li><li><b>Anpiepsen</b>: der Chip des Kindes vibriert und piepst.</li></ul></div></div></div></div></li>
+        <li class="am-berg__karte" tabindex="0"><div class="am-berg__foto"><img src="assets/media/skitag-freunde.webp?v=1" alt="Vier Freunde fahren im dichten Schneefall nebeneinander die Piste hinunter." width="933" height="1400" decoding="async"><div class="am-berg__inhalt"><div class="am-berg__kopfzeile"><small>03</small><b>Freunde</b></div><div class="am-berg__mehr"><div><p class="am-berg__unter">Ein kurzer Druck ruft die ganze Gruppe.</p><ul class="am-berg__kann"><li><b>Kurz drücken</b>: deine Gruppe spürt es und sieht, wo du bist.</li><li>Auch allein, abseits deiner Gruppe, holt der Knopf Hilfe, <b>ohne Handynetz</b>.</li><li>Am Abend die <b>Tagesübersicht</b> mit deiner Spur auf der Karte.</li></ul></div></div></div></div></li>
       </ul>
     </div>
   </section>
@@ -621,7 +622,7 @@ ScrollCraft.mount(document.body);
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
-<script src="assets/am-berg.js?v=6" defer></script>
+<script src="assets/am-berg.js?v=7" defer></script>
 <script src="assets/app-start.js?v=5" defer></script>
 <script src="assets/start.js?v=2" defer></script>
 <script src="assets/seite.js?v=88" defer></script>

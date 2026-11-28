@@ -14,7 +14,7 @@
 <script>if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");</script>
 <link rel="stylesheet" href="assets/seite.css?v=146">
 <link rel="stylesheet" href="assets/v2.css?v=13">
-<link rel="stylesheet" href="assets/wir-seite.css?v=11">
+<link rel="stylesheet" href="assets/wir-seite.css?v=12">
 <link rel="stylesheet" href="assets/schatten.css?v=1">
 </head>
 <body>
@@ -84,7 +84,7 @@
 <main id="oben">
 
   <!-- Das sind wir (seit Feedback 128 in der neuen Gestaltung): oben wer wir sind und was wir bauen, drei Porträts, das
-       seit Runde 160 ein eigener Teil „Unser Ziel“, am Ende der Kontakt. Öffentliches Repo: nur Vornamen, als Kontakt nur die
+       darunter „Unsere Idee“ und „Unser Ziel“, am Ende der Kontakt. Öffentliches Repo: nur Vornamen, als Kontakt nur die
        Team-Adresse. -->
   <section id="wir" class="abschnitt held-unter" aria-labelledby="wir-titel">
     <div class="w">
@@ -95,52 +95,69 @@
       </div>
       <!-- Feedback 137: statt einem großen Teamfoto drei Porträts, je mit Vornamen und Aufgabe (seit Feedback 148: Tobias in der Mitte; Hardware, Management · CEO, Netzwerk · Software) (öffentliches
            Repo: nur Vornamen). Bis echte Fotos da sind, steht in jeder Fläche der Anfangsbuchstabe. auftritte.js teilt die
-           drei beim ersten Hinsehen wie Karten aus. Runde 160: beim Darüberfahren (am Handy Antippen) bleibt die Karte stehen,
-           das Bild darin rückt ein Stück nach innen, und unter dem Namen tauscht die Aufgabe mit dem Kontakt. -->
+           drei beim ersten Hinsehen wie Karten aus; beim Darüberfahren hebt sich eine Karte leicht an. -->
       <ul class="wir2__leute" aria-label="Das Team">
         <li class="wir2__person">
           <div class="flaeche wir2__portrait">
             <span class="wir2__initial" role="img" aria-label="Platzhalter für ein Foto von Maximilian">M</span>
             <span class="wir2__folgt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>Foto folgt</span>
+            <div class="wir2__karte"><p class="wir2__karte-titel">Kontakt</p><button type="button" class="wir2__mail" data-mail="skitag.team@gmail.com" aria-label="E-Mail-Adresse für Maximilian kopieren">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.5 7 7.5 6 7.5-6"/></svg>
+            <span class="wir2__mail-adresse">skitag.team@gmail.com</span>
+            <span class="wir2__mail-hinweis" aria-live="polite">Klicken zum Kopieren</span>
+          </button><div class="wir2__tel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h2.6l1.5 4-2 1.3a11 11 0 0 0 6.5 6.5l1.3-2 4 1.5v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg><span class="wir2__mail-adresse">Telefonnummer folgt</span><span class="wir2__mail-hinweis">Platzhalter</span></div></div>
           </div>
           <b class="titel-3">Maximilian</b>
-          <div class="wir2__unten">
-            <span class="wir2__rolle">Hardware</span>
-            <div class="wir2__erreichbar">
-              <button type="button" class="wir2__mail" data-mail="skitag.team@gmail.com" aria-label="E-Mail-Adresse für Maximilian kopieren"><span class="wir2__mail-adresse">skitag.team@gmail.com</span><span class="wir2__mail-hinweis" aria-live="polite">Klicken zum Kopieren</span></button>
-              <span class="wir2__tel">Telefonnummer folgt</span>
-            </div>
-          </div>
+          <span class="wir2__rolle">Hardware</span>
         </li>
         <li class="wir2__person">
           <div class="flaeche wir2__portrait">
             <span class="wir2__initial" role="img" aria-label="Platzhalter für ein Foto von Tobias">T</span>
             <span class="wir2__folgt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>Foto folgt</span>
+            <div class="wir2__karte"><p class="wir2__karte-titel">Kontakt</p><button type="button" class="wir2__mail" data-mail="skitag.team@gmail.com" aria-label="E-Mail-Adresse für Tobias kopieren">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.5 7 7.5 6 7.5-6"/></svg>
+            <span class="wir2__mail-adresse">skitag.team@gmail.com</span>
+            <span class="wir2__mail-hinweis" aria-live="polite">Klicken zum Kopieren</span>
+          </button><div class="wir2__tel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h2.6l1.5 4-2 1.3a11 11 0 0 0 6.5 6.5l1.3-2 4 1.5v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg><span class="wir2__mail-adresse">Telefonnummer folgt</span><span class="wir2__mail-hinweis">Platzhalter</span></div></div>
           </div>
           <b class="titel-3">Tobias</b>
-          <div class="wir2__unten">
-            <span class="wir2__rolle">Management · CEO</span>
-            <div class="wir2__erreichbar">
-              <button type="button" class="wir2__mail" data-mail="skitag.team@gmail.com" aria-label="E-Mail-Adresse für Tobias kopieren"><span class="wir2__mail-adresse">skitag.team@gmail.com</span><span class="wir2__mail-hinweis" aria-live="polite">Klicken zum Kopieren</span></button>
-              <span class="wir2__tel">Telefonnummer folgt</span>
-            </div>
-          </div>
+          <span class="wir2__rolle">Management · CEO</span>
         </li>
         <li class="wir2__person">
           <div class="flaeche wir2__portrait">
             <span class="wir2__initial" role="img" aria-label="Platzhalter für ein Foto von Lukas">L</span>
             <span class="wir2__folgt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>Foto folgt</span>
+            <div class="wir2__karte"><p class="wir2__karte-titel">Kontakt</p><button type="button" class="wir2__mail" data-mail="skitag.team@gmail.com" aria-label="E-Mail-Adresse für Lukas kopieren">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.5 7 7.5 6 7.5-6"/></svg>
+            <span class="wir2__mail-adresse">skitag.team@gmail.com</span>
+            <span class="wir2__mail-hinweis" aria-live="polite">Klicken zum Kopieren</span>
+          </button><div class="wir2__tel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h2.6l1.5 4-2 1.3a11 11 0 0 0 6.5 6.5l1.3-2 4 1.5v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg><span class="wir2__mail-adresse">Telefonnummer folgt</span><span class="wir2__mail-hinweis">Platzhalter</span></div></div>
           </div>
           <b class="titel-3">Lukas</b>
-          <div class="wir2__unten">
-            <span class="wir2__rolle">Netzwerk · Software</span>
-            <div class="wir2__erreichbar">
-              <button type="button" class="wir2__mail" data-mail="skitag.team@gmail.com" aria-label="E-Mail-Adresse für Lukas kopieren"><span class="wir2__mail-adresse">skitag.team@gmail.com</span><span class="wir2__mail-hinweis" aria-live="polite">Klicken zum Kopieren</span></button>
-              <span class="wir2__tel">Telefonnummer folgt</span>
-            </div>
-          </div>
+          <span class="wir2__rolle">Netzwerk · Software</span>
         </li>
       </ul>
+    </div>
+  </section>
+
+  <!-- Unsere Idee (Runde 161): nachtblauer Teil direkt unter dem Team. Ein Satz, dann der Weg eines Notrufs in drei
+       Schritten; beim Scrollen läuft ein oranger Punkt die Funklinie entlang und schaltet die Schritte nacheinander an
+       (assets/wir-seite.js, --p). Inhalt nur aus PRODUCT.md und der Chip-Seite, beschrieben als Idee, nicht als fertiges Produkt. -->
+  <section id="idee" class="abschnitt idee" aria-labelledby="idee-titel">
+    <div class="w">
+      <div class="idee__kopf">
+        <p class="auge">Unsere Idee</p>
+        <h2 id="idee-titel" class="titel-2 idee__titel">Ein Knopf<br><span>statt einem Anruf.</span></h2>
+        <p class="lead idee__lead">Bei einem Unfall am Berg hat das Handy oft kein Netz, ist leer oder steckt unerreichbar in der Jacke. Darum unsere Idee: ein kleiner Chip zum Ausleihen, mit nur einem Knopf, und ein eigenes Funknetz an den Liftstationen, das ihn hört. Du brauchst dafür kein Handy, keine SIM-Karte und kein Handynetz.</p>
+      </div>
+      <div class="idee__weg-rahmen">
+        <div class="idee__linie" aria-hidden="true"><i class="idee__puls"></i></div>
+        <ol class="idee__weg">
+          <li><span class="idee__nr">01</span><span class="idee__zeichen" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/></svg></span><h3>Drücken</h3><p>Kurz drücken ruft deine Gruppe. <b>Drei Sekunden halten</b> schickt den Notruf, ein zweiter Druck bricht ihn ab.</p></li>
+          <li><span class="idee__nr">02</span><span class="idee__zeichen" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20v-8"/><circle cx="12" cy="10.5" r="1.5"/><path d="M8.5 7a5 5 0 0 1 7 0M5.8 4.3a8.8 8.8 0 0 1 12.4 0"/></svg></span><h3>Funken</h3><p>Der Chip funkt seinen <b>Standort</b> an die nächste Liftstation. Dort hören ihn unsere Empfänger.</p></li>
+          <li><span class="idee__nr">03</span><span class="idee__zeichen" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span><h3>Helfen</h3><p>Ein <b>Mitarbeiter der Bergbahn</b> bekommt den Notruf mit deinem Standort und fährt zu dir.</p></li>
+        </ol>
+      </div>
     </div>
   </section>
 
@@ -168,10 +185,11 @@
   </section>
 
   <!-- Kontakt: Klick auf die Adresse kopiert sie (wir-seite.js); „E-Mail schreiben“ bietet Gmail, Outlook oder die Mail-App -->
-  <!-- Runde 160: hinter „Schreib uns.“ ein Muster aus feinen Schneeflocken statt dem Raster aus Quadraten. Es erscheint beim
-       Hineinscrollen von außen nach innen, um den Zeiger drehen sich die Flocken ein Stück (Leinwand, assets/schneeflocken.js). -->
-  <section id="kontakt" class="abschnitt wk-raster flockenmuster" aria-labelledby="kontakt-titel">
-    <canvas class="flockenmuster__flaeche" aria-hidden="true"></canvas>
+  <!-- Feedback 156/158: hinter „Schreib uns.“ ein Raster aus kleinen Quadraten, seit Feedback 158 als Funkwellen statt
+       als Bergkette. Es baut sich beim Hineinscrollen auf, ein Puls läuft nach außen, um den Zeiger leuchtet es orange
+       (Leinwand, assets/punktraster.js). Runde 161: dieselben Quadrate, aber zu Schneeflocken angeordnet (data-form="flocken"). -->
+  <section id="kontakt" class="abschnitt wk-raster punktraster" data-form="flocken" aria-labelledby="kontakt-titel">
+    <canvas class="punktraster__flaeche" aria-hidden="true"></canvas>
     <div class="w w--schmal">
       <div class="wir2__kontakt mitte">
         <p class="auge">Kontakt</p>
@@ -268,7 +286,7 @@
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
 <script src="assets/auftritte.js?v=12" defer></script>
-<script src="assets/wir-seite.js?v=7" defer></script>
-<script src="assets/schneeflocken.js?v=3" defer></script>
+<script src="assets/wir-seite.js?v=8" defer></script>
+<script src="assets/punktraster.js?v=3" defer></script>
 </body>
 </html>
