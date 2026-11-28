@@ -22,11 +22,7 @@
         transformPerspective: 1400, transformOrigin: "50% 80%" });
       tl.to(teile.handy, { y: 0, rotateY: 0, rotateX: 0, rotateZ: 0, scale: 1, opacity: 1, duration: 1.7, clearProps: "transform,opacity" }, 0);
     }
-    if (teile.schirm) {
-      gsap.set(teile.schirm, { clipPath: "inset(49% 6% 49% 6% round 30px)", filter: "brightness(2.2)" });
-      tl.to(teile.schirm, { clipPath: "inset(0% 0% 0% 0% round 0px)", duration: 1.05, ease: "power4.inOut", clearProps: "clipPath" }, 0.55)
-        .to(teile.schirm, { filter: "brightness(1)", duration: 1.2, ease: "power2.out", clearProps: "filter" }, 0.9);
-    }
+    // Der Bildschirm selbst bleibt ruhig (Runde 163, Luki): nur das Handy fährt ein.
     if (teile.reiter && teile.reiter.length) {
       gsap.set(teile.reiter, { y: 26, opacity: 0 });
       tl.to(teile.reiter, { y: 0, opacity: 1, duration: 0.9, stagger: 0.08, clearProps: "transform,opacity" }, 0.25);
