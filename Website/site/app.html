@@ -25,11 +25,11 @@
 if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=146">
-<link rel="stylesheet" href="assets/app-seite.css?v=35">
+<link rel="stylesheet" href="assets/app-seite.css?v=36">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=13">
 <link rel="stylesheet" href="assets/v2-alt.css?v=3">
-<link rel="stylesheet" href="assets/schatten.css?v=5">
+<link rel="stylesheet" href="assets/schatten.css?v=7">
 </head>
 <body>
 <div class="akt-balken" aria-hidden="true"><span class="akt-balken__fuell"></span></div>
@@ -166,7 +166,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
       <div class="szene__raster">
         <div class="szene__text">
           <h2 id="familie-titel" class="szene__titel">Freunde und Familie.</h2>
-          <ol class="szene__marken" aria-hidden="true"><li><span>Karte</span><i></i></li><li><span>Reichweite</span><i></i></li><li><span>Rufen</span><i></i></li></ol>
+          <ol class="szene__marken" aria-hidden="true"><li><span>Gruppe</span><i></i></li><li><span>Reichweite</span><i></i></li><li><span>Rufen</span><i></i></li></ol>
           <div class="szene__wechsel">
             <div class="szene__teil"><h3>Alle auf einer Karte.</h3><p>Die Gruppe legt ihr beim Mieten an der Kassa an. Danach siehst du <b>alle live auf der Karte</b>, wie weit sie weg sind und ob sie fahren, im Lift sitzen oder stehen.</p></div>
             <div class="szene__teil"><h3>Reichweiten-Alarm.</h3><p>Du legst fest, wie weit jemand weg sein darf, zum Beispiel <b>200 Meter für ein Kind</b>. Ist es weiter weg, <b>vibriert dein Chip</b> und die App zeigt, wo es ist. Nur bei dir: Das Kind merkt nichts, und die <b>Bergbahn wird nicht alarmiert</b>.</p></div>
@@ -297,11 +297,11 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
   <!-- Kontakt am Ende (seit Feedback 87 ohne die Bergbahnansicht davor, darum allgemein) -->
   <!-- Feedback 151: statt „Fragen zur App?“ der Knopf zum Laden der App -->
-  <!-- Feedback 158: die Box ist nicht mehr dunkelblau, sondern hat ein Foto vom Hang als Hintergrund (app-kontakt--foto). -->
+  <!-- Feedback 158: die Box hat ein Foto als Hintergrund (app-kontakt--foto). Runde 164: dunkelblaues Foto mit Sessellift im Nebel, Box halb so hoch. -->
   <section class="sc-section app-kontakt-abschnitt" aria-label="App laden">
     <div class="sc-wrap">
       <div class="app-kontakt app-kontakt--foto">
-        <img class="app-kontakt__foto" src="assets/media/app-foto-bereit-m.webp?v=1" srcset="assets/media/app-foto-bereit-m.webp?v=1 1200w, assets/media/app-foto-bereit.webp?v=1 2400w" sizes="(min-width: 80rem) 74rem, 100vw" alt="" width="2400" height="1600" decoding="async">
+        <img class="app-kontakt__foto" src="assets/media/app-foto-bereit-blau-m.webp?v=1" srcset="assets/media/app-foto-bereit-blau-m.webp?v=1 1200w, assets/media/app-foto-bereit-blau.webp?v=1 2400w" sizes="(min-width: 80rem) 74rem, 100vw" alt="" width="2400" height="1200" decoding="async">
         <div>
           <h3>Bereit für deinen Skitag?</h3>
           <p>App laden, <b>Code vom Mietbeleg</b> eingeben, los. <b>Ohne Registrierung.</b></p>
@@ -392,13 +392,13 @@ ScrollCraft.mount(document.body);
 </script>
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
-<script src="assets/seite.js?v=88" defer></script>
+<script src="assets/seite.js?v=90" defer></script>
 <script src="assets/gsap-effekte.js?v=7" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
-<script src="assets/auftritte.js?v=12" defer></script>
+<script src="assets/auftritte.js?v=13" defer></script>
 <script src="assets/sprung-anfang.js?v=21" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
-<script src="assets/app-seite.js?v=10" defer></script>
+<script src="assets/app-seite.js?v=11" defer></script>
 <script src="assets/app-auftritt.js?v=2" defer></script>
 <script src="assets/v2.js?v=2" defer></script>
 </body>

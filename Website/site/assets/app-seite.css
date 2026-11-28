@@ -601,3 +601,13 @@ section:not(.szene--grau):has(+ .app-bruch) { background-color: #fff; }
    Kante, ohne weißen Verlauf oben und ohne Farbwechsel beim Scrollen. */
 .app-abend { --n: 1 !important; }
 .app-abend::before { display: none; }
+
+/* Runde 164 · „Bereit für deinen Skitag?“ halb so groß wie vorher, mit einem dunkelblauen Foto (Sessellift im Nebel),
+   das zum Nachtblau der Seite passt. */
+.app-kontakt--foto { min-height: clamp(9rem, 17vw, 13rem); padding: clamp(1.25rem, 2.6vw, 2rem) clamp(1.25rem, 3vw, 2.5rem); align-items: center; }
+.app-kontakt--foto .app-kontakt__foto { object-position: 50% 48%; }
+.app-kontakt--foto h3 { font-size: clamp(1.4rem, 1rem + 1.2vw, 2rem); }
+.app-kontakt--foto::before { background: linear-gradient(90deg, rgba(8, 14, 30, 0.6) 0%, rgba(8, 14, 30, 0.25) 50%, rgba(8, 14, 30, 0.05) 80%); }
+@media (max-width: 600px) {
+  .app-kontakt--foto::before { background: linear-gradient(0deg, rgba(8, 14, 30, 0.7) 0%, rgba(8, 14, 30, 0.3) 100%); }
+}

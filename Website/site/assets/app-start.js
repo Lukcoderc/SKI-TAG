@@ -14,10 +14,10 @@
   var karten = Array.prototype.slice.call(buehne.querySelectorAll('.asi'));
   var ruhig = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var t0 = 0, raf = 0, sichtbar = false, phase = '', getippt = {};
-  var DAUER = 15500;
+  var DAUER = 11300;   // Runde 164: kürzer, der Laden-Teil wartet nicht mehr so lang
   // Zeitplan in ms: ab wann welche Phase gilt
-  var PLAN = [[0, 'store'], [6200, 'laedt'], [8300, 'offen'], [9300, 'start'], [10000, 'login-a'], [11300, 'login-b'], [12600, 'app']];
-  var TIPPS = [6000, 9050];
+  var PLAN = [[0, 'store'], [2100, 'laedt'], [3200, 'offen'], [4100, 'start'], [4800, 'login-a'], [6100, 'login-b'], [7400, 'app']];
+  var TIPPS = [1900, 2950];
   function setze(p) {
     if (p === phase) return;
     if (p === 'offen') {
@@ -46,7 +46,7 @@
     if (z > DAUER - 700) p = 'store';
     if (p === 'store' && phase !== 'store' && phase !== '') { ring.style.setProperty('--fort', '0'); }
     setze(p);
-    if (p === 'laedt') ring.style.setProperty('--fort', Math.min(1, (z - 6200) / 1900).toFixed(3));
+    if (p === 'laedt') ring.style.setProperty('--fort', Math.min(1, (z - 2100) / 950).toFixed(3));
     TIPPS.forEach(function (tz, n) {
       var key = runde + '-' + n;
       if (z >= tz && z < tz + 400 && !getippt[key]) { getippt[key] = 1; tippe(); }

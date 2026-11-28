@@ -14,8 +14,8 @@
 <script>if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");</script>
 <link rel="stylesheet" href="assets/seite.css?v=146">
 <link rel="stylesheet" href="assets/v2.css?v=13">
-<link rel="stylesheet" href="assets/wir-seite.css?v=13">
-<link rel="stylesheet" href="assets/schatten.css?v=5">
+<link rel="stylesheet" href="assets/wir-seite.css?v=15">
+<link rel="stylesheet" href="assets/schatten.css?v=7">
 </head>
 <body>
 
@@ -99,8 +99,7 @@
       <ul class="wir2__leute" aria-label="Das Team">
         <li class="wir2__person">
           <div class="flaeche wir2__portrait">
-            <span class="wir2__initial" role="img" aria-label="Platzhalter für ein Foto von Maximilian">M</span>
-            <span class="wir2__folgt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>Foto folgt</span>
+            <img class="wir2__foto" src="assets/media/team-maximilian.webp?v=1" alt="Maximilian mit Sonnenbrille" width="676" height="845" decoding="async">
             <div class="wir2__karte"><p class="wir2__karte-titel">Kontakt</p><button type="button" class="wir2__mail" data-mail="skitag.team@gmail.com" aria-label="E-Mail-Adresse für Maximilian kopieren">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.5 7 7.5 6 7.5-6"/></svg>
             <span class="wir2__mail-adresse">skitag.team@gmail.com</span>
@@ -143,12 +142,16 @@
   <!-- Unsere Idee (Runde 163, Luki: schlicht, ohne dunkelblauen Hintergrund): Überschrift und zwei Absätze unter den
        Porträts, gestaltet wie die anderen hellen Teile. Inhalt nur aus PRODUCT.md und der Chip-Seite, als Idee beschrieben. -->
   <section id="idee" class="wir-ziel wir-idee" aria-labelledby="idee-titel">
-    <div class="w">
+    <div class="w wir-idee__raster">
+      <div class="wir-idee__text">
       <h2 id="idee-titel" class="titel-2">Unsere Idee.</h2>
       <div class="wir-ziel__text">
         <p>Bei einem Unfall am Berg hat das Handy oft kein Netz, ist leer oder steckt unerreichbar in der Jacke. Genau dann muss Hilfe trotzdem schnell wissen, wo du bist.</p>
         <p>Darum bauen wir einen kleinen Chip zum Ausleihen mit nur einem Knopf. Drei Sekunden halten schickt den Notruf mit deinem Standort über ein eigenes Funknetz an den Liftstationen, und ein Mitarbeiter der Bergbahn fährt zu dir. Ganz ohne Handy, SIM-Karte und Handynetz.</p>
       </div>
+      </div>
+      <!-- Runde 164: Bild rechts neben der Idee (Unsplash 6QSEQRcyS74, Kristian Sarmiento, Unsplash-Lizenz) -->
+      <img class="wir-idee__bild" src="assets/media/wir-idee-m.webp?v=1" srcset="assets/media/wir-idee-m.webp?v=1 720w, assets/media/wir-idee.webp?v=1 1200w" sizes="(min-width: 761px) 26rem, 100vw" alt="Ein Skifahrer allein auf einer breiten Piste, dahinter verschneite Berge" width="1200" height="1500" loading="lazy" decoding="async">
     </div>
   </section>
 
@@ -263,13 +266,13 @@
 </a>
 
 <script src="assets/v2.js?v=2" defer></script>
-<script src="assets/seite.js?v=88" defer></script>
+<script src="assets/seite.js?v=90" defer></script>
 <script src="assets/sprung-anfang.js?v=21" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
-<script src="assets/auftritte.js?v=12" defer></script>
+<script src="assets/auftritte.js?v=13" defer></script>
 <script src="assets/wir-seite.js?v=9" defer></script>
 <script src="assets/punktraster.js?v=3" defer></script>
 </body>

@@ -135,7 +135,7 @@
     liste.classList.add("wird-ausgeteilt");
     var tlp = gsap.timeline({ paused: true, defaults: { ease: "expo.out" }, onComplete: function () { liste.classList.remove("wird-ausgeteilt"); } });
     var flaechen = leute.map(function (p) { return eins(".wir2__portrait", p); });
-    var buchst = leute.map(function (p) { return eins(".wir2__initial", p); });
+    var buchst = leute.map(function (p) { return eins(".wir2__initial", p); }).filter(Boolean);   // wer schon ein Foto hat, hat keinen Buchstaben
     var texte = leute.map(function (p) { return alle(".titel-3, .wir2__rolle", p); });
     gsap.set(flaechen, { y: handy ? 80 : 140, x: function (i) { return handy ? 0 : [70, 0, -70][i] || 0; }, rotate: function (i) { return handy ? 0 : [-8, 2, 9][i] || 0; }, opacity: 0, transformOrigin: "50% 100%" });
     gsap.set(buchst, { yPercent: 40, opacity: 0 });

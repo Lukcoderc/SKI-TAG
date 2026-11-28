@@ -26,11 +26,11 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 </script>
 <link rel="stylesheet" href="assets/seite.css?v=146">
 <link rel="stylesheet" href="assets/chip-seite.css?v=43">
-<link rel="stylesheet" href="assets/chip-film.css?v=28">
+<link rel="stylesheet" href="assets/chip-film.css?v=29">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/v2.css?v=13">
 <link rel="stylesheet" href="assets/v2-alt.css?v=3">
-<link rel="stylesheet" href="assets/schatten.css?v=5">
+<link rel="stylesheet" href="assets/schatten.css?v=7">
 <script>/* Chip-Flug (assets/chip-flug.js): Klasse vor dem ersten Bild, damit der Chip unten erst beim Ankommen erscheint */
 (function () { if (!matchMedia("(prefers-reduced-motion: reduce)").matches && matchMedia("(min-width: 861px)").matches) document.documentElement.classList.add("chipflug"); })();</script>
 </head>
@@ -186,7 +186,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
           <li data-schritt="hilfe"><b>Hilfe kommt</b><span>Ein Mitarbeiter der Bergbahn fährt zu dir.</span></li>
         </ol>
         <div class="knopf__status">
-          <p id="knopf-status" class="knopf-akt__status" aria-live="polite">Probier es aus: Drück den Knopf am Chip. Kurz für die Gruppe, gedrückt halten für den Notruf.</p>
+          <p id="knopf-status" class="knopf-akt__status" aria-live="polite"></p>
           <button class="knopf-hell" type="button" data-aktion="nochmal" hidden>Nochmal</button>
         </div>
       </div>
@@ -218,8 +218,6 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
           <div class="nr__weg"><div class="nr__weg-innen">
             <svg class="nr__svg" viewBox="0 0 280 50">
               <path class="nr__boden" d="M12 36 H268"/>
-              <path class="nr__funk" d="M30 27 Q140 -4 250 21" pathLength="1"/>
-              <g class="nr__station"><path d="M240 36 V22 L252 13 L264 22 V36 Z"/><path class="nr__tuer" d="M249 36 V28 H255 V36"/></g>
               <g class="nr__du"><circle class="nr__du-welle" cx="30" cy="31" r="5"/><circle class="nr__du-punkt" cx="30" cy="31" r="5"/></g>
               <g class="nr__helfer"><g class="nr__helfer-hub">
                 <circle cx="0" cy="-19" r="3.4"/>
@@ -229,7 +227,6 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
               </g></g>
               <path class="nr__haken" d="M26 31 L29 34 L34.5 27.5" pathLength="1"/>
               <text class="nr__marke" x="30" y="47" text-anchor="middle">Du</text>
-              <text class="nr__marke" x="252" y="47" text-anchor="middle">Liftstation</text>
             </svg>
           </div></div>
         </div>
@@ -350,53 +347,54 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
       <div class="berg" data-sc-in>
         <svg class="berg__bild" viewBox="0 0 1200 640" role="img" aria-labelledby="berg-alt">
-          <title id="berg-alt">Foto eines Skigebiets von oben mit Talstation: Zwei Leute stürzen auf zwei verschiedenen Pisten. Links hält jemand den Knopf am SkiTag, der Standort geht per Funk zur Liftstation und ein Mitarbeiter der Bergbahn fährt direkt hin. Weiter oben muss jemand erst das Handy herausholen, entsperren, Netz suchen, die Nummer wählen und den Ort erklären. Die Rettung muss dann erst die Bergbahn anrufen, und die Hilfe sucht nach der Beschreibung und kommt deutlich später an.</title>
-          <!-- Feedback 131: Skigebiet von oben mit zwei klar getrennten Pisten (Unsplash ZTxjKgcWJbo, TROY ALLEN, Unsplash-Lizenz), darauf nur
-               Kartenpunkte. Mit SkiTag auf der Hauptpiste links, mit dem Handy auf der Piste rechts hinter dem Wald (wie die Karten darüber); unten die Liftstation. -->
+          <title id="berg-alt">Foto einer Piste von oben mit Sessellift, unten die Liftstation: Zwei Leute stürzen auf derselben Piste. Weiter unten hält jemand den Knopf am SkiTag, der Standort geht per Funk zur Liftstation und ein Mitarbeiter der Bergbahn fährt mit dem Sessellift hinauf und direkt zu ihm hinunter. Weiter oben muss jemand erst das Handy herausholen, entsperren, Netz suchen, die Nummer wählen und den Ort erklären. Die Rettung muss dann erst die Bergbahn anrufen, und die Hilfe sucht nach der Beschreibung und kommt deutlich später an.</title>
+          <!-- Runde 164: Piste von oben mit Sessellift (Unsplash DOBUi2Uzp0k, Marek Piwnicki, Unsplash-Lizenz), darauf nur Kartenpunkte.
+               Das Seil des Helfers liegt genau auf der Liftlinie mit den Stützen; die Liftstation sitzt unten, wo der Lift aus dem Bild läuft.
+               Mit SkiTag mitten auf der Piste, mit dem Handy weiter oben am rechten Rand. -->
           <defs>
-            <path id="berg-pfad-a" d="M668 540 L405 232 C 372 252 344 282 378 302 C 408 320 402 338 384 352" fill="none"/>
-            <path id="berg-pfad-b" d="M668 540 L405 232 C 470 204 560 186 640 203 C 720 220 800 242 858 268 C 900 286 930 300 949 296" fill="none"/>
+            <path id="berg-pfad-a" d="M636 600 L603 30 C 572 62 540 128 544 200 C 548 262 536 306 539 341" fill="none"/>
+            <path id="berg-pfad-b" d="M636 600 L603 30 C 650 40 688 84 703 136 C 716 182 744 232 774 261" fill="none"/>
           </defs>
-          <image class="berg__foto" href="assets/media/berg-pisten.webp?v=1" x="0" y="0" width="1200" height="640" preserveAspectRatio="xMidYMid slice"/>
+          <image class="berg__foto" href="assets/media/berg-lift.webp?v=1" x="0" y="0" width="1200" height="640" preserveAspectRatio="xMidYMid slice"/>
           <rect class="berg__schleier" width="1200" height="640" fill="#0e1d40" opacity=".12"/>
 
           <!-- Liftstation: hier hängt der Empfänger -->
           <g class="berg__station">
-            <circle id="berg-antenne-licht" cx="668" cy="540" r="6" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/>
-            <circle cx="668" cy="540" r="9" fill="#fff"/>
-            <circle id="berg-antenne-spitze" cx="668" cy="540" r="5" fill="#95a2b9"/>
-            <text class="berg__name" x="686" y="534">Liftstation</text>
+            <circle id="berg-antenne-licht" cx="636" cy="600" r="6" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/>
+            <circle cx="636" cy="600" r="9" fill="#fff"/>
+            <circle id="berg-antenne-spitze" cx="636" cy="600" r="5" fill="#95a2b9"/>
+            <text class="berg__name" x="654" y="594">Liftstation</text>
           </g>
 
-          <ellipse id="berg-suche" cx="935" cy="300" rx="70" ry="46" fill="#fff" fill-opacity=".08" stroke="#fff" stroke-opacity=".85" stroke-width="2" stroke-dasharray="7 8" style="opacity:0"/>
+          <ellipse id="berg-suche" cx="760" cy="265" rx="70" ry="46" fill="#fff" fill-opacity=".08" stroke="#fff" stroke-opacity=".85" stroke-width="2" stroke-dasharray="7 8" style="opacity:0"/>
           <!-- Spuren der Helfer: wachsen mit, entlang der Piste -->
-          <path id="berg-spur-a" class="berg__spur" d="M668 540 L405 232 C 372 252 344 282 378 302 C 408 320 402 338 384 352" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" style="opacity:0"/>
-          <path id="berg-spur-b" class="berg__spur" d="M668 540 L405 232 C 470 204 560 186 640 203 C 720 220 800 242 858 268 C 900 286 930 300 949 296" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" style="opacity:0"/>
+          <path id="berg-spur-a" class="berg__spur" d="M636 600 L603 30 C 572 62 540 128 544 200 C 548 262 536 306 539 341" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" style="opacity:0"/>
+          <path id="berg-spur-b" class="berg__spur" d="M636 600 L603 30 C 650 40 688 84 703 136 C 716 182 744 232 774 261" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" style="opacity:0"/>
           <!-- Handy: Anruf bei der Rettung, dann ruft die Rettung erst die Bergbahn an (Pfade setzt weg.js je nach Breite) -->
-          <g id="berg-anruf-a" fill="none" stroke-linecap="round" stroke-dasharray="0 12" style="opacity:0"><path d="M947 260 Q 1017 411 960 562" stroke="#0e1d40" stroke-opacity=".45" stroke-width="9"/><path d="M947 260 Q 1017 411 960 562" stroke="#fff" stroke-width="5.5"/></g>
-          <g id="berg-anruf-b" fill="none" stroke-linecap="round" stroke-dasharray="0 12" style="opacity:0"><path d="M960 562 Q 874 491 668 540" stroke="#0e1d40" stroke-opacity=".45" stroke-width="9"/><path d="M960 562 Q 874 491 668 540" stroke="#fff" stroke-width="5.5"/></g>
-          <circle id="berg-station-ring" cx="668" cy="540" r="18" fill="none" stroke="#fff" stroke-width="2.5" style="opacity:0"/>
+          <g id="berg-anruf-a" fill="none" stroke-linecap="round" stroke-dasharray="0 12" style="opacity:0"><path d="M772 225 Q 842 394 960 562" stroke="#0e1d40" stroke-opacity=".45" stroke-width="9"/><path d="M772 225 Q 842 394 960 562" stroke="#fff" stroke-width="5.5"/></g>
+          <g id="berg-anruf-b" fill="none" stroke-linecap="round" stroke-dasharray="0 12" style="opacity:0"><path d="M960 562 Q 858 521 636 600" stroke="#0e1d40" stroke-opacity=".45" stroke-width="9"/><path d="M960 562 Q 858 521 636 600" stroke="#fff" stroke-width="5.5"/></g>
+          <circle id="berg-station-ring" cx="636" cy="600" r="18" fill="none" stroke="#fff" stroke-width="2.5" style="opacity:0"/>
           <g id="berg-rettung" transform="translate(960 562)">
             <circle id="berg-rettung-ring" r="20" fill="none" stroke="#fff" stroke-width="2.5" style="opacity:0"/>
             <circle r="20" fill="#fff"/>
             <path d="M-4 -11 H4 V-4 H11 V4 H4 V11 H-4 V4 H-11 V-4 H-4 Z" fill="#e0313c"/>
             <text class="berg__name" y="42" text-anchor="middle">Rettung</text>
           </g>
-          <path id="berg-funk" d="M370 340 C 410 400 560 500 668 540" fill="none" stroke="#ff5a1c" stroke-width="3" stroke-linecap="round" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" style="opacity:0"/>
+          <path id="berg-funk" d="M520 330 C 560 390 526 560 636 600" fill="none" stroke="#ff5a1c" stroke-width="3" stroke-linecap="round" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" style="opacity:0"/>
           <circle id="berg-funk-punkt" r="6" fill="#ff5a1c" stroke="#fff" stroke-width="2" style="opacity:0"/>
-          <ellipse id="berg-ring-a" cx="370" cy="340" rx="20" ry="9" fill="none" stroke="#ff5a1c" stroke-width="2.5" style="opacity:0"/>
-          <g class="berg__wellen"><circle class="berg__welle" cx="370" cy="340" r="12" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/><circle class="berg__welle" cx="370" cy="340" r="12" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/><circle class="berg__welle" cx="370" cy="340" r="12" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/></g>
+          <ellipse id="berg-ring-a" cx="520" cy="330" rx="20" ry="9" fill="none" stroke="#ff5a1c" stroke-width="2.5" style="opacity:0"/>
+          <g class="berg__wellen"><circle class="berg__welle" cx="520" cy="330" r="12" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/><circle class="berg__welle" cx="520" cy="330" r="12" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/><circle class="berg__welle" cx="520" cy="330" r="12" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/></g>
           <!-- Sturz: ein Ring im Schnee, wo die Person liegen bleibt -->
           <g id="berg-puff-a" style="opacity:0"><circle r="16" fill="none" stroke="#fff" stroke-width="2.5"/></g>
           <g id="berg-puff-b" style="opacity:0"><circle r="16" fill="none" stroke="#fff" stroke-width="2.5"/></g>
 
           <!-- Die beiden Gestürzten als Punkte: links mit SkiTag (Chip orange in der Mitte), rechts mit dem Handy -->
-          <g id="berg-person-a" transform="translate(370 340)">
+          <g id="berg-person-a" transform="translate(520 330)">
             <circle r="13" fill="#0e1d40" stroke="#fff" stroke-width="3"/>
             <circle r="4.5" fill="#ff5a1c"/>
             <text class="berg__name berg__name--klein" y="34" text-anchor="middle">Mit SkiTag</text>
           </g>
-          <g id="berg-person-b" transform="translate(935 285)">
+          <g id="berg-person-b" transform="translate(760 250)">
             <circle r="13" fill="#5d6679" stroke="#fff" stroke-width="3"/>
             <circle r="4.5" fill="#fff"/>
             <g id="berg-arm-unten"></g>
@@ -406,33 +404,33 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 
           <!-- Mitarbeiter der Bergbahn: grüner Punkt mit Kreuz. Seit Feedback 151 fährt er erst mit dem Sessellift rauf (Seil gestrichelt)
                und dann auf Ski zur Person hinunter, statt quer den Berg hinauf. -->
-          <path id="berg-seil" class="berg__seil" d="M668 540 L405 232" fill="none" stroke="#fff" stroke-width="1.6" stroke-dasharray="2 5" stroke-linecap="round" style="opacity:0"/>
-          <g id="berg-helfer-a" class="berg__helfer" transform="translate(668 540)">
+          <path id="berg-seil" class="berg__seil" d="M636 600 L603 30" fill="none" stroke="#fff" stroke-width="1.6" stroke-dasharray="2 5" stroke-linecap="round" style="opacity:0"/>
+          <g id="berg-helfer-a" class="berg__helfer" transform="translate(636 600)">
             <circle class="berg__alarm" r="10" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/>
             <g class="berg__dreh"><circle r="10.5" fill="#1c8f63" stroke="#fff" stroke-width="2.5"/><path d="M0 -5.5 V5.5 M-5.5 0 H5.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></g>
           </g>
-          <g id="berg-helfer-b" class="berg__helfer" transform="translate(949 296)">
+          <g id="berg-helfer-b" class="berg__helfer" transform="translate(774 261)">
             <circle class="berg__alarm" r="10" fill="none" stroke="#ff5a1c" stroke-width="3" style="opacity:0"/>
             <g class="berg__dreh"><circle r="10.5" fill="#1c8f63" stroke="#fff" stroke-width="2.5"/><path d="M0 -5.5 V5.5 M-5.5 0 H5.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></g>
           </g>
           <g id="berg-frage-b" style="opacity:0"><circle r="13" fill="#fff"/><text class="berg__frage" y="6" text-anchor="middle">?</text></g>
 
-          <g id="berg-chipruf" transform="translate(370 285)" style="opacity:0">
+          <g id="berg-chipruf" transform="translate(520 275)" style="opacity:0">
             <circle r="25" fill="#fff"/>
             <circle id="berg-chipruf-ring" r="25" fill="none" stroke="#ff5a1c" stroke-width="4" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" transform="rotate(-90)"/>
             <rect x="-11" y="-7.5" width="22" height="15" rx="5" fill="#ff5a1c"/><circle r="4" fill="#fff"/>
           </g>
-          <g id="berg-pin-a" transform="translate(370 306)" style="opacity:0">
+          <g id="berg-pin-a" transform="translate(520 296)" style="opacity:0">
             <path d="M0 0 C -12 -14 -16 -22 -16 -30 A16 16 0 0 1 16 -30 C 16 -22 12 -14 0 0 Z" fill="#ff5a1c" stroke="#fff" stroke-width="2.5"/>
             <circle cy="-30" r="6" fill="#fff"/>
           </g>
           <!-- Feedback 139: die Blase steht links neben der Person (Zipfel nach rechts), oben lag sie halb hinter der Karte „Mit dem Handy“ -->
-          <g id="berg-blase-b" transform="translate(865 265)" style="opacity:0">
+          <g id="berg-blase-b" transform="translate(690 230)" style="opacity:0">
             <path d="M-34 -28 H34 A12 12 0 0 1 46 -16 V-8 L56 0 L46 8 V16 A12 12 0 0 1 34 28 H-34 A12 12 0 0 1 -46 16 V-16 A12 12 0 0 1 -34 -28 Z" fill="#fff"/>
             <g fill="none" stroke="#0e1d40" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" transform="translate(0 4)"><g class="berg__blase-zeichen" data-k="0" transform="translate(-18 -23) scale(1.5)"><path d="M7.5 20.5V10a1.5 1.5 0 0 1 3 0V5.5a1.5 1.5 0 0 1 3 0V10m0-3.5a1.5 1.5 0 0 1 3 0V13l1.3-1.6a1.5 1.5 0 0 1 2.3 1.9l-3.6 7.2z"/><path d="M6.5 20.5h11"/></g><g class="berg__blase-zeichen" data-k="1" transform="translate(-18 -23) scale(1.5)"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></g><g class="berg__blase-zeichen" data-k="2" transform="translate(-18 -23) scale(1.5)"><rect x="5.5" y="10.5" width="13" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5M12 14.5v2"/></g><g class="berg__blase-zeichen" data-k="3" transform="translate(-18 -23) scale(1.5)"><path d="M4 19v-2.5M8.5 19v-5"/><path class="berg__blinkt" d="M13 19v-8M17.5 19V8" stroke-dasharray="1.5 2.6"/><path d="M15 3.5l5 5M20 3.5l-5 5" stroke="#e5450d"/></g><g class="berg__blase-zeichen" data-k="4" transform="translate(-18 -23) scale(1.5)"><path d="M7 5.5h.01M12 5.5h.01M17 5.5h.01M7 10h.01M12 10h.01M17 10h.01M7 14.5h.01M12 14.5h.01M17 14.5h.01M12 19h.01" stroke-width="3.2"/></g><g class="berg__blase-zeichen" data-k="5" transform="translate(-18 -23) scale(1.5)"><path d="M4.5 5.5h15v10h-8l-4.5 3.5v-3.5h-2.5z"/><path d="M10.2 9a1.9 1.9 0 1 1 2.6 1.8c-.5.2-.8.6-.8 1.1M12 13.6v.1"/></g></g>
           </g>
-          <g id="berg-da-a" class="berg__da" transform="translate(370 298)"><circle r="18" fill="#2fbf6a" stroke="#fff" stroke-width="3"/><path d="M-7.5 0.5 L-2.5 5.5 L7.5 -5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></g>
-          <g id="berg-da-b" class="berg__da" transform="translate(935 243)"><circle r="18" fill="#2fbf6a" stroke="#fff" stroke-width="3"/><path d="M-7.5 0.5 L-2.5 5.5 L7.5 -5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></g>
+          <g id="berg-da-a" class="berg__da" transform="translate(520 288)"><circle r="18" fill="#2fbf6a" stroke="#fff" stroke-width="3"/><path d="M-7.5 0.5 L-2.5 5.5 L7.5 -5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></g>
+          <g id="berg-da-b" class="berg__da" transform="translate(760 208)"><circle r="18" fill="#2fbf6a" stroke="#fff" stroke-width="3"/><path d="M-7.5 0.5 L-2.5 5.5 L7.5 -5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></g>
         </svg>
         <div class="berg__karten" aria-hidden="true">
           <div class="berg__karte berg__karte--chip ist-fertig">
@@ -549,13 +547,13 @@ ScrollCraft.mount(document.body);
 </script>
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
-<script src="assets/seite.js?v=88" defer></script>
+<script src="assets/seite.js?v=90" defer></script>
 <script src="assets/gsap-effekte.js?v=7" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
-<script src="assets/auftritte.js?v=12" defer></script>
+<script src="assets/auftritte.js?v=13" defer></script>
 <script src="assets/sprung-anfang.js?v=21" defer></script>
 <script src="assets/kopfleiste.js?v=2" defer></script>
-<script src="assets/weg.js?v=21" defer></script>
+<script src="assets/weg.js?v=22" defer></script>
 <script src="assets/chip-film.js?v=12" defer></script>
 <script src="assets/innen-film.js?v=21" defer></script>
 <script src="assets/chip-flug.js?v=13" defer></script>

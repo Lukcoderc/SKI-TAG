@@ -274,7 +274,8 @@
 @media (prefers-reduced-motion: no-preference) { .chip-film--held.ist-da .chip-film__led--held { animation: held-led 3.6s ease-in-out 2.2s infinite; } }
 @keyframes held-led { 0%, 72%, 100% { opacity: 0; } 76% { opacity: 1; } 80% { opacity: 0.1; } 84% { opacity: 1; } 90% { opacity: 0; } }
 
-/* Feedback 155 · Szene unter „Notruf gesendet“, im Takt mit dem Text darüber (seite.js setzt --nr-s und --nr-m):
+/* Seit Runde 163 nur noch: ein Mitarbeiter fährt von rechts zu dir (Bogen und Liftstation entfernt, Luki).
+   Feedback 155 · Szene unter „Notruf gesendet“, im Takt mit dem Text darüber (seite.js setzt --nr-s und --nr-m):
    „Standort an die Liftstation übermittelt“: das Signal zieht als Bogen von dir zur Liftstation.
    „Ein Mitarbeiter der Bergbahn fährt los“: er fährt von der Liftstation zu dir.
    „Hilfe ist da“: er steht bei dir, dein Punkt wird zum grünen Haken. Nur im Notruf sichtbar, nicht in der Frist. */
@@ -295,7 +296,7 @@
 #der-chip[data-zustand="lauf"] .nr__du-welle { animation: nr-welle 1.4s ease-out infinite; }
 @keyframes nr-welle { 0% { opacity: 0.9; transform: scale(1); } 100% { opacity: 0; transform: scale(3); } }
 /* Mitarbeiter: steht an der Liftstation, fährt dann nach links zu dir (wippt dabei leicht) */
-.nr__helfer { transform: translate(calc(236px - var(--nr-m) * 190px), 36px) scale(1.25); }
+.nr__helfer { transform: translate(calc(268px - var(--nr-m) * 222px), 36px) scale(1.25); opacity: clamp(0, calc(var(--nr-m) * 8), 1); }   /* Runde 163: kommt von rechts, ohne Liftstation */
 .nr__helfer circle { fill: #fff; }
 .nr__helfer-koerper { fill: #ff5a1c; }
 .nr__helfer-ski { stroke: #fff; stroke-width: 1.6; }

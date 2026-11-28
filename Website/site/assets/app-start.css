@@ -82,7 +82,7 @@
 .st__bilder { margin-top: 4.6cqw; overflow: hidden; }
 .st__band { display: flex; gap: 2.6cqw; padding-left: 5cqw; width: max-content; }
 .st__band img { width: 52cqw; height: auto; aspect-ratio: 780 / 1742; border-radius: 4.6cqw; border: 0.25cqw solid #e5e5ea; object-fit: cover; object-position: 50% 0; display: block; }
-.ast[data-phase="store"] .st__band { animation: st-wischen 5.5s cubic-bezier(0.45, 0, 0.2, 1) 0.3s both; }
+.ast[data-phase="store"] .st__band { animation: st-wischen 1.8s cubic-bezier(0.45, 0, 0.2, 1) 0.15s both; }
 @keyframes st-wischen { 0%, 18% { transform: none; } 48%, 70% { transform: translateX(-54.6cqw); } 100% { transform: none; } }
 .st__geraet { display: flex; align-items: center; gap: 1.2cqw; margin: 2.6cqw 5cqw 0; font-size: 3.2cqw; font-weight: 600; color: #8a8a8e; }
 .st__geraet svg { width: 2.4cqw; height: 3.6cqw; }

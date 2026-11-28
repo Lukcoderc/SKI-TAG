@@ -27,10 +27,19 @@
   .app-zugaenge a:hover { transform: none; box-shadow: var(--schatten-unten); }
 }
 
-/* ---------- Kanten (Runde 163): wo ein Foto, Video oder ein dunkler Teil über einem hellen Teil liegt, fällt der Schatten
-   deutlich nach unten auf den hellen Teil. Er sitzt als Innenschatten oben am hellen Teil, weil Fotos und Videos mit
-   clip-path und overflow arbeiten und einen eigenen Schatten abschneiden würden. ---------- */
-:root { --schatten-kante: inset 0 62px 46px -40px hsl(var(--schatten-ton) / 0.58); }
-.held--video { box-shadow: none; }
-.held--video + .blick, .am-berg--nacht + .gebaut, .fenster + .app-start, .fenster + .fragen,
-.app-kopf--foto + .app-blick, .app-bruch + section, .app-abend + section, .fenster + .wk-raster, .weg { box-shadow: var(--schatten-kante); }
+/* ---------- Kanten (Runde 164, umgedreht nach Luki): Die Seite liegt vorne, Fotos, Videos und dunkle Bänder liegen
+   dahinter. Darum wirft der helle Teil den Schatten auf das Bild: der Teil über einem Bild nach unten, der Teil unter
+   einem Bild ein wenig nach oben. Die Bilder selbst haben keinen Schatten. ---------- */
+:root {
+  --schatten-vorne-unten: 0 38px 40px -14px hsl(var(--schatten-ton) / 0.75);
+  --schatten-vorne-oben: 0 -30px 36px -16px hsl(var(--schatten-ton) / 0.62);
+  --leer: 0 0 0 0 transparent;
+}
+.held--video { box-shadow: none; z-index: 0; }
+:is(.held--video, .am-berg--nacht, .fenster, .app-bruch, .app-abend, .app-kopf--foto, #innenleben) + :not(.held--video, .am-berg--nacht, .fenster, .app-bruch, .app-abend, .app-kopf--foto, #innenleben, footer),
+:not(.held--video, .am-berg--nacht, .fenster, .app-bruch, .app-abend, .app-kopf--foto, #innenleben, footer):has(+ :is(.held--video, .am-berg--nacht, .fenster, .app-bruch, .app-abend, .app-kopf--foto, #innenleben)) {
+  position: relative; z-index: 2; box-shadow: var(--sv-oben, var(--leer)), var(--sv-unten, var(--leer)) !important;
+}
+:is(.held--video, .am-berg--nacht, .fenster, .app-bruch, .app-abend, .app-kopf--foto, #innenleben) + * { --sv-oben: var(--schatten-vorne-oben); }
+:has(+ :is(.held--video, .am-berg--nacht, .fenster, .app-bruch, .app-abend, .app-kopf--foto, #innenleben)) { --sv-unten: var(--schatten-vorne-unten); }
+:is(.am-berg--nacht, .fenster, .app-bruch, .app-abend, #innenleben) { box-shadow: none !important; }

@@ -442,7 +442,7 @@
     // In der Vorführung verkürzt: Halten 1,2 s (echt 3 s, Feedback 72), Abbrechen 3 s (echt 5 s, Feedback 77).
     var HALTEN = 1200, FRIST = 3000, LAUF = 7000, GRUPPE = 4600;
     var taktLaeuft = false, zustand = "ruhe", start = 0, hilfe = 0, gruppe = 0, letzteSekunde = -1, stufe = "";
-    var START_TEXT = "Probier es aus: Drück den Knopf am Chip. Kurz für die Gruppe, gedrückt halten für den Notruf.";
+    var START_TEXT = "";   // Runde 164: kein Hinweis „Probier es aus …“ mehr (Luki)
 
     var setzeZustand = function (z) { zustand = z; chip.zustand = z; akt.setAttribute("data-zustand", z); };
     // Ring: beim Halten 0 bis 1, in der Frist 1 bis 0. --ring füllt den Ring ohne WebGL.
@@ -464,15 +464,16 @@
       var titel = zustand === "fertig" ? "Hilfe ist da" : "Notruf gesendet";
       if (wegTitel && wegTitel.textContent !== titel) wegTitel.textContent = titel;
       if (nrBox) {
-        // Feedback 155: Szene unter dem Text. --nr-s: Signal zur Liftstation (bis 0,3), --nr-m: Mitarbeiter fährt zu dir (ab 0,3)
-        var hs = an ? hilfe : 0, ns = klemme(hs / 0.3).toFixed(3), nm = klemme((hs - 0.3) / 0.7);
+        // Runde 163 (Luki): die Szene zeigt nur noch den Mitarbeiter, der über die ganze Zeit zu dir fährt, ohne Signal
+        // und ohne Liftstation. --nr-m: 0 (kommt von rechts ins Bild) bis 1 (bei dir); --nr-s bleibt für die Haltung auf 1.
+        var hs = an ? hilfe : 0, ns = "1.000", nm = klemme(hs);
         nm = (nm < 0.5 ? 2 * nm * nm : 1 - Math.pow(-2 * nm + 2, 2) / 2).toFixed(3);
         if (ns + nm !== nrCss) { nrCss = ns + nm; nrBox.style.setProperty("--nr-s", ns); nrBox.style.setProperty("--nr-m", nm); }
       }
       if (nrTitel) {
         var nt = "", nz = "";
         if (zustand === "frist") { nt = "Notruf in " + Math.max(1, chip.sek || 1) + " s"; nz = "Noch einmal drücken bricht ab"; }
-        else if (zustand === "lauf") { nt = "Notruf gesendet"; nz = hilfe > 0.3 ? "Ein Mitarbeiter der Bergbahn fährt los" : "Standort an die Liftstation übermittelt"; }
+        else if (zustand === "lauf") { nt = "Notruf gesendet"; nz = "Ein Mitarbeiter der Bergbahn fährt zu dir"; }
         else if (zustand === "fertig") { nt = "Hilfe ist da"; nz = "Ein Mitarbeiter ist bei dir"; }
         if (nt && nrTitel.textContent !== nt) nrTitel.textContent = nt;
         if (nz && nrZeile.textContent !== nz) nrZeile.textContent = nz;

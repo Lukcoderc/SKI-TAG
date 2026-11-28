@@ -39,7 +39,7 @@
   var RX = 960, RY = 562;                            // Stelle der Rettung unten im Tal beim Ort, rechts neben der Liftstation (Feedback 140; vorher im Himmel)
   // Feedback 131: Skigebiet von oben mit zwei getrennten Pisten. A mit SkiTag auf der Hauptpiste links, B mit dem Handy auf der
   // Piste rechts hinter dem Wald, wie die Karten darüber (Koordinaten im Foto); die Talstation mit dem Empfänger liegt unten (SX, SY)
-  var AX = 370, AY = 340, BX = 935, BY = 285, SX = 668, SY = 540;
+  var AX = 520, AY = 330, BX = 760, BY = 250, SX = 636, SY = 600;   // Runde 164: neues Foto mit Sessellift
   var ramp = function (t, a, b) { return t <= a ? 0 : t >= b ? 1 : (t - a) / (b - a); };
   var weich = function (x) { return x * x * (3 - 2 * x); };
   var federn = function (x) {   // springt leicht über 1 hinaus und setzt sich
@@ -77,7 +77,7 @@
   var LA = e.pfadA.getTotalLength(), LB = e.pfadB.getTotalLength(), LF = e.funk.getTotalLength();
   /* Feedback 151: der Helfer fährt erst mit dem Lift rauf (gerades Stück bis zur Bergstation), dann auf Ski hinunter.
      anteil = Teil der Zeit im Lift; der Lift gleichmäßig, die Abfahrt weich. */
-  var LIFT = Math.hypot(668 - 405, 540 - 232);
+  var LIFT = Math.hypot(636 - 603, 600 - 30);   // Liftlinie im Foto (Runde 164)
   var liftDannSki = function (h, L, anteil) {
     var fL = LIFT / L;
     return h <= anteil ? fL * gleiten(h / anteil) : fL + (1 - fL) * fahren((h - anteil) / (1 - anteil));
@@ -252,7 +252,7 @@
   /* Ausschnitt und Größe je nach Breite; der Funk beginnt an der Brust der (größeren) Figur */
   var rahmen = function () {
     // am Handy nur der Ausschnitt um Station und Pisten (Feedback 124: Foto)
-    svg.setAttribute("viewBox", schmal.matches ? "250 0 860 640" : "0 0 1200 640");
+    svg.setAttribute("viewBox", schmal.matches ? "330 0 860 640" : "0 0 1200 640");
     G = schmal.matches ? 1.4 : 1;
     e.funk.setAttribute("d", "M" + AX + " " + AY + " C " + (AX + 40) + " " + (AY + 60) + " " + (SX - 110) + " " + (SY - 40) + " " + SX + " " + SY);
     LF = e.funk.getTotalLength();

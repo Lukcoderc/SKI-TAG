@@ -109,6 +109,21 @@
     });
   });
 
+  // Runde 164 (Luki): in jeder Ansicht läuft der erste Film schon von selbst, sobald das Handy zu sehen ist (einmal pro
+  // Hineinscrollen, ohne Schleife). Andere Teile spielen weiter nur über die Reiter. Bei „weniger Bewegung“ nicht.
+  if (!ohneBewegungApp && "IntersectionObserver" in window) {
+    szenen.forEach(function (s) {
+      var film = s.klick && s.el.querySelector(".app-film"); if (!film) return;
+      new IntersectionObserver(function (e) {
+        e.forEach(function (x) { var v = s.filme[s.wahl]; if (x.isIntersecting && s.wahl === 0 && v && v.paused) { spielen(v); starten(); } });
+      }, { threshold: 0.4 }).observe(film);
+    });
+    alle(document, "[data-einzelfilm] .app-film").forEach(function (film) {
+      var v = film.querySelector(".app-film__clip"); if (!v) return;
+      new IntersectionObserver(function (e) { e.forEach(function (x) { if (x.isIntersecting && v.paused) spielen(v); }); }, { threshold: 0.4 }).observe(film);
+    });
+  }
+
   var lesen = function (el) { return parseFloat(el.style.getPropertyValue("--sc-p")) || 0; };
   // Stand der Szene: gewählter Teil plus, wie weit sein Film ist
   var stand = function (s) {
