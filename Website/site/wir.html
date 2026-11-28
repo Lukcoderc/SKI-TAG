@@ -14,7 +14,8 @@
 <script>if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");</script>
 <link rel="stylesheet" href="assets/seite.css?v=146">
 <link rel="stylesheet" href="assets/v2.css?v=13">
-<link rel="stylesheet" href="assets/wir-seite.css?v=9">
+<link rel="stylesheet" href="assets/wir-seite.css?v=11">
+<link rel="stylesheet" href="assets/schatten.css?v=1">
 </head>
 <body>
 
@@ -83,7 +84,7 @@
 <main id="oben">
 
   <!-- Das sind wir (seit Feedback 128 in der neuen Gestaltung): oben wer wir sind und was wir bauen, drei Porträts, das
-       Ziel als großer Satz im Bildfenster, am Ende der Kontakt. Öffentliches Repo: nur Vornamen, als Kontakt nur die
+       seit Runde 160 ein eigener Teil „Unser Ziel“, am Ende der Kontakt. Öffentliches Repo: nur Vornamen, als Kontakt nur die
        Team-Adresse. -->
   <section id="wir" class="abschnitt held-unter" aria-labelledby="wir-titel">
     <div class="w">
@@ -94,69 +95,83 @@
       </div>
       <!-- Feedback 137: statt einem großen Teamfoto drei Porträts, je mit Vornamen und Aufgabe (seit Feedback 148: Tobias in der Mitte; Hardware, Management · CEO, Netzwerk · Software) (öffentliches
            Repo: nur Vornamen). Bis echte Fotos da sind, steht in jeder Fläche der Anfangsbuchstabe. auftritte.js teilt die
-           drei beim ersten Hinsehen wie Karten aus; beim Darüberfahren hebt sich eine Karte leicht an. -->
+           drei beim ersten Hinsehen wie Karten aus. Runde 160: beim Darüberfahren (am Handy Antippen) bleibt die Karte stehen,
+           das Bild darin rückt ein Stück nach innen, und unter dem Namen tauscht die Aufgabe mit dem Kontakt. -->
       <ul class="wir2__leute" aria-label="Das Team">
         <li class="wir2__person">
           <div class="flaeche wir2__portrait">
             <span class="wir2__initial" role="img" aria-label="Platzhalter für ein Foto von Maximilian">M</span>
             <span class="wir2__folgt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>Foto folgt</span>
-            <div class="wir2__karte"><p class="wir2__karte-titel">Kontakt</p><button type="button" class="wir2__mail" data-mail="skitag.team@gmail.com" aria-label="E-Mail-Adresse für Maximilian kopieren">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.5 7 7.5 6 7.5-6"/></svg>
-            <span class="wir2__mail-adresse">skitag.team@gmail.com</span>
-            <span class="wir2__mail-hinweis" aria-live="polite">Klicken zum Kopieren</span>
-          </button><div class="wir2__tel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h2.6l1.5 4-2 1.3a11 11 0 0 0 6.5 6.5l1.3-2 4 1.5v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg><span class="wir2__mail-adresse">Telefonnummer folgt</span><span class="wir2__mail-hinweis">Platzhalter</span></div></div>
           </div>
           <b class="titel-3">Maximilian</b>
-          <span class="wir2__rolle">Hardware</span>
+          <div class="wir2__unten">
+            <span class="wir2__rolle">Hardware</span>
+            <div class="wir2__erreichbar">
+              <button type="button" class="wir2__mail" data-mail="skitag.team@gmail.com" aria-label="E-Mail-Adresse für Maximilian kopieren"><span class="wir2__mail-adresse">skitag.team@gmail.com</span><span class="wir2__mail-hinweis" aria-live="polite">Klicken zum Kopieren</span></button>
+              <span class="wir2__tel">Telefonnummer folgt</span>
+            </div>
+          </div>
         </li>
         <li class="wir2__person">
           <div class="flaeche wir2__portrait">
             <span class="wir2__initial" role="img" aria-label="Platzhalter für ein Foto von Tobias">T</span>
             <span class="wir2__folgt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>Foto folgt</span>
-            <div class="wir2__karte"><p class="wir2__karte-titel">Kontakt</p><button type="button" class="wir2__mail" data-mail="skitag.team@gmail.com" aria-label="E-Mail-Adresse für Tobias kopieren">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.5 7 7.5 6 7.5-6"/></svg>
-            <span class="wir2__mail-adresse">skitag.team@gmail.com</span>
-            <span class="wir2__mail-hinweis" aria-live="polite">Klicken zum Kopieren</span>
-          </button><div class="wir2__tel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h2.6l1.5 4-2 1.3a11 11 0 0 0 6.5 6.5l1.3-2 4 1.5v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg><span class="wir2__mail-adresse">Telefonnummer folgt</span><span class="wir2__mail-hinweis">Platzhalter</span></div></div>
           </div>
           <b class="titel-3">Tobias</b>
-          <span class="wir2__rolle">Management · CEO</span>
+          <div class="wir2__unten">
+            <span class="wir2__rolle">Management · CEO</span>
+            <div class="wir2__erreichbar">
+              <button type="button" class="wir2__mail" data-mail="skitag.team@gmail.com" aria-label="E-Mail-Adresse für Tobias kopieren"><span class="wir2__mail-adresse">skitag.team@gmail.com</span><span class="wir2__mail-hinweis" aria-live="polite">Klicken zum Kopieren</span></button>
+              <span class="wir2__tel">Telefonnummer folgt</span>
+            </div>
+          </div>
         </li>
         <li class="wir2__person">
           <div class="flaeche wir2__portrait">
             <span class="wir2__initial" role="img" aria-label="Platzhalter für ein Foto von Lukas">L</span>
             <span class="wir2__folgt"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.8l1.2-1.8h5l1.2 1.8h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>Foto folgt</span>
-            <div class="wir2__karte"><p class="wir2__karte-titel">Kontakt</p><button type="button" class="wir2__mail" data-mail="skitag.team@gmail.com" aria-label="E-Mail-Adresse für Lukas kopieren">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.5 7 7.5 6 7.5-6"/></svg>
-            <span class="wir2__mail-adresse">skitag.team@gmail.com</span>
-            <span class="wir2__mail-hinweis" aria-live="polite">Klicken zum Kopieren</span>
-          </button><div class="wir2__tel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h2.6l1.5 4-2 1.3a11 11 0 0 0 6.5 6.5l1.3-2 4 1.5v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg><span class="wir2__mail-adresse">Telefonnummer folgt</span><span class="wir2__mail-hinweis">Platzhalter</span></div></div>
           </div>
           <b class="titel-3">Lukas</b>
-          <span class="wir2__rolle">Netzwerk · Software</span>
+          <div class="wir2__unten">
+            <span class="wir2__rolle">Netzwerk · Software</span>
+            <div class="wir2__erreichbar">
+              <button type="button" class="wir2__mail" data-mail="skitag.team@gmail.com" aria-label="E-Mail-Adresse für Lukas kopieren"><span class="wir2__mail-adresse">skitag.team@gmail.com</span><span class="wir2__mail-hinweis" aria-live="polite">Klicken zum Kopieren</span></button>
+              <span class="wir2__tel">Telefonnummer folgt</span>
+            </div>
+          </div>
         </li>
       </ul>
     </div>
   </section>
 
-  <!-- Unser Ziel als Bildfenster (Feedback 134, wie auf der Startseite): das Foto steht beim Scrollen still, die Seite
-       gleitet darüber (Regeln in seite.css unter „Bildfenster“). Das Foto ist hell (Schneesturm), deshalb steht der Satz
-       dunkel links (fenster--hell). Was wir bauen, steht seit Feedback 137 kurz oben in der Beschreibung. -->
-  <section class="fenster fenster--hell" style="--lage:46% 50%" aria-labelledby="ziel-titel">
-    <div class="fenster__bild"><img src="assets/media/fenster-sturm.webp?v=1" srcset="assets/media/fenster-sturm-m.webp?v=1 1400w, assets/media/fenster-sturm.webp?v=1 2400w" sizes="(max-aspect-ratio: 1/1) 170vh, 100vw" alt="Zwei Menschen kämpfen sich im Schneesturm über einen Berg, daneben eine Reihe Markierungsstangen." width="2400" height="1600" loading="lazy" decoding="async"></div>
-    <div class="w fenster__innen">
-      <h2 id="ziel-titel" class="nur-vorlesen">Unser Ziel</h2>
-      <p class="auge">Unser Ziel</p>
-      <p class="wir2__satz">Ob nach einem Sturz Hilfe kommt, soll nicht davon abhängen, ob <span>dein Handy Netz hat.</span></p>
+  <!-- Unser Ziel (Runde 160: ein eigener Teil statt nur ein Satz im Bildfenster). Links der Satz, rechts ein Foto vom Grat
+       als Karte mit Schatten, darunter der geplante Weg (Zeitplan aus Website/PRODUCT.md, ausdrücklich als Plan). -->
+  <section id="ziel" class="abschnitt ziel" aria-labelledby="ziel-titel">
+    <div class="w">
+      <div class="ziel__oben">
+        <div class="ziel__text">
+          <h2 id="ziel-titel" class="titel-2">Unser Ziel.</h2>
+          <p class="wir2__satz ziel__satz">Ob nach einem Sturz Hilfe kommt, soll nicht davon abhängen, ob <span>dein Handy Netz hat.</span></p>
+          <p class="lead ziel__lead">Darum bauen wir einen Chip, der ohne Handy und ohne Handynetz Hilfe holt, und ein eigenes Funknetz an den Liftstationen, das ihn hört. Wir zeigen hier, was wir vorhaben, nicht ein fertiges Produkt.</p>
+        </div>
+        <figure class="ziel__bild" style="background:#1d3c78 url(data:image/webp;base64,UklGRvAAAABXRUJQVlA4IOQAAACQBQCdASoYACAAPwFyrlKrJqQiqAqpYCAJZgCxHtvv/i1+1m7hvtAn/8rhjFjxLGP5pI/6AAD++ddDTZCsYpA7LDXRa2j+ElWuz3ci/uRPjqIvWVJVXC1e611/bj/LQZ8YJOmtb8z8dn+sYjrt8zOkbU9eZFkJyrNfbjAc8XPhCj3vOu3SfVG/ULBFWm+hx46qtSnS87GYkjRZ1f33NX6RkldQYc0VbcshF1+oEN3CC25hiiwncRowP2g6HlT9B8ETTgjeE4/OX5MUn/FdOdguO8iC4hHRyohRSVnRljaE61yAAAA=) center/cover"><img src="assets/media/ziel-grat.webp?v=1" srcset="assets/media/ziel-grat-m.webp?v=1 900w, assets/media/ziel-grat.webp?v=1 1400w" sizes="(min-width: 900px) 40vw, 100vw" alt="Ein verschneiter Grat mit Felsen unter tiefblauem Himmel." width="1400" height="1867" decoding="async"></figure>
+      </div>
+      <h3 class="ziel__weg-titel">Der Weg dahin <span>(geplant)</span></h3>
+      <ol class="ziel__weg">
+        <li class="ist-jetzt"><time>Jetzt</time><b>Bauen</b><span>Chip, Funknetz und App entstehen als Schulprojekt.</span></li>
+        <li><time>Jänner 2027</time><b>Erste Prototypen</b><span>Die ersten Chips zum Testen.</span></li>
+        <li><time>Feb. oder März 2027</time><b>Testtag</b><span>Fünf Chips an einer Piste.</span></li>
+        <li><time>Sommer 2027</time><b>Gespräche</b><span>Mit Bergrettung und Bergbahnen.</span></li>
+        <li><time>Saison 27/28</time><b>Start</b><span>In einem ersten Skigebiet.</span></li>
+      </ol>
     </div>
   </section>
 
   <!-- Kontakt: Klick auf die Adresse kopiert sie (wir-seite.js); „E-Mail schreiben“ bietet Gmail, Outlook oder die Mail-App -->
-  <!-- Feedback 156/158: hinter „Schreib uns.“ ein Raster aus kleinen Quadraten, seit Feedback 158 als Funkwellen statt
-       als Bergkette. Es baut sich beim Hineinscrollen auf, ein Puls läuft nach außen, um den Zeiger leuchtet es orange
-       (Leinwand, assets/punktraster.js). -->
-  <section id="kontakt" class="abschnitt wk-raster punktraster" aria-labelledby="kontakt-titel">
-    <canvas class="punktraster__flaeche" aria-hidden="true"></canvas>
+  <!-- Runde 160: hinter „Schreib uns.“ ein Muster aus feinen Schneeflocken statt dem Raster aus Quadraten. Es erscheint beim
+       Hineinscrollen von außen nach innen, um den Zeiger drehen sich die Flocken ein Stück (Leinwand, assets/schneeflocken.js). -->
+  <section id="kontakt" class="abschnitt wk-raster flockenmuster" aria-labelledby="kontakt-titel">
+    <canvas class="flockenmuster__flaeche" aria-hidden="true"></canvas>
     <div class="w w--schmal">
       <div class="wir2__kontakt mitte">
         <p class="auge">Kontakt</p>
@@ -254,6 +269,6 @@
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
 <script src="assets/auftritte.js?v=12" defer></script>
 <script src="assets/wir-seite.js?v=7" defer></script>
-<script src="assets/punktraster.js?v=2" defer></script>
+<script src="assets/schneeflocken.js?v=3" defer></script>
 </body>
 </html>

@@ -16,7 +16,7 @@
   var $ = function (s) { return akt.querySelector(s); }, $$ = function (s) { return Array.prototype.slice.call(akt.querySelectorAll(s)); };
   var auge = $(".augenbraue"), titel = $("#am-berg-titel"), satz = $(".am-berg__satz");
   var liste = $(".am-berg__punkte"), punkte = $$(".am-berg__punkte li"), punktText = $$(".am-berg__punkte li span"), karten = $$(".am-berg__karte");
-  var bilder = karten.map(function (k) { return k.querySelector("img"); }), texte = karten.map(function (k) { return k.querySelector("div"); });
+  var bilder = karten.map(function (k) { return k.querySelector("img"); }), texte = karten.map(function (k) { return k.querySelector(".am-berg__name"); });
 
   // 1 · Fläche: von der abgerundeten Karte zur vollen Breite
   gsap.fromTo(akt, { clipPath: handy ? "inset(0% 3% 0% 3% round 28px)" : "inset(0% 6% 0% 6% round 48px)" }, {
@@ -31,9 +31,7 @@
   gsap.set(buchstaben, { yPercent: 115, rotateX: -95, opacity: 0, transformOrigin: "50% 100% -20px" });
   gsap.set(auge, { x: -24, opacity: 0 });
   if (zeilen.length) gsap.set(zeilen, { yPercent: 105 });
-  gsap.set([liste].concat(punkte), { "--linie": 0 });
-  gsap.set(punkte, { "--strich": 0 });
-  gsap.set(punktText, { y: 22, opacity: 0 });
+  if (liste) { gsap.set([liste].concat(punkte), { "--linie": 0 }); gsap.set(punkte, { "--strich": 0 }); gsap.set(punktText, { y: 22, opacity: 0 }); }
   gsap.set(karten, { y: handy ? 120 : 220, rotateX: 32, rotateY: function (i) { return handy ? 0 : [-14, 0, 14][i] || 0; }, scale: 0.82, opacity: 0, transformPerspective: 1200, transformOrigin: "50% 100%" });
   gsap.set(bilder, { scale: 1.45, transition: "none" });
   gsap.set(texte, { y: 26, opacity: 0 });
@@ -41,10 +39,10 @@
   var tl = gsap.timeline({ paused: true, defaults: { ease: "expo.out" } });
   tl.to(auge, { x: 0, opacity: 1, duration: 0.9 }, 0)
     .to(buchstaben, { yPercent: 0, rotateX: 0, opacity: 1, duration: 1.15, stagger: 0.028 }, 0.05)
-    .to([liste].concat(punkte), { "--linie": 1, duration: 1.1, ease: "power3.inOut", stagger: 0.1 }, 0.35)
-    .to(punkte, { "--strich": 1, duration: 0.7, ease: "power3.out", stagger: 0.1 }, 0.55)
-    .to(punktText, { y: 0, opacity: 1, duration: 0.9, stagger: 0.1 }, 0.6)
     ;
+  if (liste) tl.to([liste].concat(punkte), { "--linie": 1, duration: 1.1, ease: "power3.inOut", stagger: 0.1 }, 0.35)
+    .to(punkte, { "--strich": 1, duration: 0.7, ease: "power3.out", stagger: 0.1 }, 0.55)
+    .to(punktText, { y: 0, opacity: 1, duration: 0.9, stagger: 0.1 }, 0.6);
   ScrollTrigger.create({ trigger: akt, start: "top 42%", once: true, onEnter: function () { tl.play(); } });
   // die Karten liegen weiter unten: eigener Auslöser, sobald sie selbst gut im Bild sind
   var tlk = gsap.timeline({ paused: true, defaults: { ease: "expo.out" } });
@@ -60,24 +58,4 @@
         scrollTrigger: { trigger: akt, start: "top 20%", end: "bottom top", scrub: 0.8 } });
     });
   });
-})();
-
-/* Feedback 156: Beschreibung auf den Fotokarten. Mit Maus reicht Hover (CSS). Auf Touchgeräten öffnet ein Tippen die
-   Karte und schließt die anderen, ein zweites Tippen oder ein Tippen daneben schließt sie wieder. */
-(function () {
-  "use strict";
-  var karten = Array.prototype.slice.call(document.querySelectorAll(".am-berg__karte"));
-  if (!karten.length) return;
-  var maus = window.matchMedia("(hover: hover) and (pointer: fine)");
-  karten.forEach(function (k) {
-    k.addEventListener("click", function (e) {
-      if (maus.matches) return;
-      e.stopPropagation();
-      var auf = !k.classList.contains("ist-offen");
-      karten.forEach(function (x) { x.classList.remove("ist-offen"); });
-      k.classList.toggle("ist-offen", auf);
-    });
-    k.addEventListener("keydown", function (e) { if (e.key === "Escape") k.blur(); });
-  });
-  document.addEventListener("click", function () { karten.forEach(function (x) { x.classList.remove("ist-offen"); }); });
 })();

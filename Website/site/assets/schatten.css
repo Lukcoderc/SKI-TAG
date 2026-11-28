@@ -1,0 +1,28 @@
+/* SkiTag · Ein Schatten für alles, was im Vordergrund steht (Runde 160, nach Lukis Beispiel: Schwarz, waagrecht -42,
+   senkrecht 20, Unschärfe 36, Ausbreitung -23). Der Schatten fällt nur nach unten, und nur dort auch zur Seite, wo ein Teil
+   frei steht (ein Bild, ein Handy, eine Box allein). Karten in einer Reihe bekommen nur den Schatten nach unten.
+   Diese Datei wird auf jeder Seite als letzte geladen, damit sie die älteren Schatten der einzelnen Seiten ersetzt. */
+:root {
+  --schatten-ton: 222 48% 9%;
+  --schatten:        -42px 20px 36px -23px hsl(var(--schatten-ton) / 0.5);    /* wie im Beispiel: links und unten */
+  --schatten-gross:  -60px 30px 56px -32px hsl(var(--schatten-ton) / 0.46);   /* dasselbe für große Flächen */
+  --schatten-unten:  0 22px 36px -23px hsl(var(--schatten-ton) / 0.5);        /* nur unten */
+  --schatten-klein:  -14px 10px 18px -10px hsl(var(--schatten-ton) / 0.42);   /* Knöpfe, kleine Teile */
+  --schatten-handy:  drop-shadow(-26px 22px 22px hsl(var(--schatten-ton) / 0.26));   /* für freigestellte Formen (filter) */
+}
+
+/* ---------- frei stehende Teile: unten und zur Seite ---------- */
+.iphone { filter: var(--schatten-handy); }
+.app-kontakt, .fb2 .fb__karte, .ziel__bild { box-shadow: var(--schatten-gross); }
+.wir2__kontakt .k-voll, .app-knopf { box-shadow: var(--schatten-klein); }
+
+/* ---------- Karten in einer Reihe: nur unten ---------- */
+.am-berg__foto, .spec, .asi, .app-zugaenge a, .tag__karte, .karte, .gm__karte,
+.szene.ist-klick .szene__marken li { box-shadow: var(--schatten-unten); }
+.tag__halt--wichtig .tag__karte { box-shadow: 0 0 0 2px var(--orange), var(--schatten-unten); }
+.szene--blau.ist-klick .szene__marken li { box-shadow: 0 22px 36px -23px rgba(0, 0, 0, 0.6); }
+
+/* Hover hebt nichts mehr an (das Element bleibt stehen); wo vorher ein größerer Schatten kam, bleibt es beim selben */
+@media (hover: hover) and (pointer: fine) {
+  .app-zugaenge a:hover { transform: none; box-shadow: var(--schatten-unten); }
+}

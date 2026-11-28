@@ -11,7 +11,7 @@
      data-zeichne="a b"       der Pfad zeichnet sich von a bis b
      data-folge="pfad a b | …" die Figur fährt den Pfad (id) von a bis b entlang
      data-zahl-p="a b ziel"   die Zahl zählt von 0 bis ziel (mit vier Werten: von … bis …)
-   Dazu läuft im Überblick der Login als Schleife. Ohne JavaScript stehen alle Texte untereinander. */
+   Filme spielen seit Runde 160 nur auf Knopfdruck. Ohne JavaScript stehen alle Texte untereinander. */
 (function () {
   "use strict";
   document.documentElement.classList.add("js-app");
@@ -51,72 +51,77 @@
       klick: el.classList.contains("ist-klick"), wahl: 0, start: 0, zentriert: false
     };
   });
-  var KLICK_DAUER = 3800;
-  // Feedback 156: je Teil ein Film aus der echten App. Nur der Film des aktuellen Teils läuft, und nur solange
-  // die Szene zu sehen ist; geladen wird erst, wenn er dran ist (preload="none"). Bei „weniger Bewegung“ bleibt das Standbild.
-  var ohneBewegungFilm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var filmZeigen = function (s) {
-    s.filme.forEach(function (v, i) {
-      if (s.sichtbar && v.preload !== "auto") v.preload = "auto";   // ist die Szene da, laden alle drei vor, damit der Wechsel ohne Lücke geht
-      if (i === s.teil && s.sichtbar && !ohneBewegungFilm) {
-        if (v.paused) { try { v.currentTime = 0; } catch (e) {} var p = v.play(); if (p && p.catch) p.catch(function () {}); }
-      } else if (!v.paused) v.pause();
-    });
-  };
-  // auf dem Handy wechselt die Szene von selbst: ein Teil dauert dort so lange wie sein Film
-  szenen.forEach(function (s) { s.dauer = s.filme.length ? 7600 : KLICK_DAUER; });
   var ohneBewegungApp = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  // Feedback 131: die Szene läuft von selbst durch alle drei Teile und beginnt dann von vorn; ein Knopf hält sie an.
-  // Bei „weniger Bewegung“ steht sie am Anfang still, bis man auf Abspielen drückt.
-  var HALT = 900;   // kurze Pause am Ende eines Teils, bevor der nächste beginnt
-  var ZEICHEN_PAUSE = '<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="4" y="3" width="2.6" height="10" rx="1"/><rect x="9.4" y="3" width="2.6" height="10" rx="1"/></svg>';
+  // Runde 160: nichts spielt von selbst. Ein Film läuft nur, wenn man auf den Reiter seines Teils, auf den Knopf
+  // daneben oder auf das Handy tippt, und dann genau einmal (keine Schleife). Der Balken unter dem Reiter zeigt, wie weit
+  // er ist. Am Ende bleibt das letzte Bild stehen, ein Tipp spielt ihn noch einmal.
   var ZEICHEN_SPIEL = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.2v9.6a.8.8 0 0 0 1.2.7l7.6-4.8a.8.8 0 0 0 0-1.4L6.2 2.5A.8.8 0 0 0 5 3.2z"/></svg>';
-  szenen.forEach(function (s) {
-    if (!s.klick) return;
-    s.pause = ohneBewegungApp; s.pauseAb = 0;
-    var ol0 = s.el.querySelector(".szene__marken");
-    if (ol0) {
-      var steuer = document.createElement("div"); steuer.className = "szene__steuer";
-      ol0.parentNode.insertBefore(steuer, ol0); steuer.appendChild(ol0);
-      var knopf = document.createElement("button"); knopf.type = "button"; knopf.className = "szene__pause";
-      var zeigen = function () {
-        knopf.innerHTML = s.pause ? ZEICHEN_SPIEL : ZEICHEN_PAUSE;
-        knopf.setAttribute("aria-label", s.pause ? "Animation abspielen" : "Animation anhalten");
-        knopf.setAttribute("aria-pressed", s.pause ? "true" : "false");
-      };
-      knopf.addEventListener("click", function () {
-        var jetzt = performance.now();
-        if (s.pause) { s.start += jetzt - (s.pauseAb || jetzt); s.pause = false; } else { s.pause = true; s.pauseAb = jetzt; }
-        s.zuletzt = -1; zeigen(); starten();
-      });
-      zeigen(); steuer.appendChild(knopf); s.pauseKnopf = zeigen;
-    }
+  var ZEICHEN_NOCHMAL = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.2 8a4.8 4.8 0 1 0 1.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M3 2.2v3.4h3.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var spielen = function (v) {
+    if (!v) return;
+    v.preload = "auto";
+    try { v.currentTime = 0; } catch (e) {}
+    var p = v.play(); if (p && p.catch) p.catch(function () {});
+  };
+  // Knopf auf dem Bildschirm des Handys (nur für die Maus, die Reiter und Knöpfe im Text sind die eigentliche Bedienung)
+  var handyKnopf = function (film, los) {
+    var k = document.createElement("button"); k.type = "button"; k.className = "app-film__los"; k.tabIndex = -1;
+    k.setAttribute("aria-hidden", "true"); k.innerHTML = ZEICHEN_SPIEL; film.appendChild(k);
+    film.addEventListener("click", function () { var v = film.querySelector(".app-film__clip.ist-dran") || film.querySelector(".app-film__clip"); if (v && !v.paused) v.pause(); else los(); });
+    return k;
+  };
+  var zustand = function (film) {
+    var v = film.querySelector(".app-film__clip.ist-dran") || film.querySelector(".app-film__clip");
+    film.classList.toggle("spielt", !!v && !v.paused && !v.ended);
+    film.classList.toggle("ist-zu-ende", !!v && v.ended);
+    var k = film.querySelector(".app-film__los"); if (k) k.innerHTML = v && v.ended ? ZEICHEN_NOCHMAL : ZEICHEN_SPIEL;
+  };
+  alle(document, ".app-film__clip").forEach(function (v) {
+    ["play", "pause", "ended"].forEach(function (ev) { v.addEventListener(ev, function () { zustand(v.closest(".app-film")); starten(); }); });
   });
+  alle(document, ".app-film").forEach(function (f) { var c = f.querySelector(".app-film__clip"); if (c) c.classList.add("ist-dran"); });
+
+  // Einzelne Filme (Überblick, Tagesübersicht): Knopf im Text und Tipp aufs Handy
+  alle(document, "[data-einzelfilm]").forEach(function (el) {
+    var film = el.querySelector(".app-film"); if (!film) return;
+    var los = function () { spielen(film.querySelector(".app-film__clip")); };
+    handyKnopf(film, los);
+    alle(el, "[data-film-los]").forEach(function (b) { b.addEventListener("click", los); });
+  });
+
+  // Szenen: die Reiter wählen den Teil und spielen seinen Film
   szenen.forEach(function (s) {
     if (!s.klick) return;
     var ol = s.el.querySelector(".szene__marken");
     if (ol) { ol.removeAttribute("aria-hidden"); ol.setAttribute("role", "tablist"); }
+    var film = s.el.querySelector(".app-film");
+    var waehle = function (i) {
+      s.wahl = i; s.zuletzt = -1;
+      s.filme.forEach(function (v, j) { v.classList.toggle("ist-dran", j === i); if (j !== i && !v.paused) v.pause(); });
+      setzen(s); spielen(s.filme[i]); starten();
+    };
+    if (film) handyKnopf(film, function () { waehle(s.wahl); });
     s.marken.forEach(function (li, i) {
       li.setAttribute("role", "tab"); li.setAttribute("tabindex", "0");
-      var waehle = function () { s.wahl = i; s.start = performance.now(); s.pause = false; if (s.pauseKnopf) s.pauseKnopf(); s.zuletzt = -1; starten(); };
-      li.addEventListener("click", waehle);
-      li.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); waehle(); } });
+      li.addEventListener("click", function () { waehle(i); });
+      li.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); waehle(i); } });
     });
   });
 
   var lesen = function (el) { return parseFloat(el.style.getPropertyValue("--sc-p")) || 0; };
-  // am Handy: Stand aus dem gewählten Teil und der Zeit; läuft erst, wenn die Szene mitten im Bild steht
+  // Stand der Szene: gewählter Teil plus, wie weit sein Film ist
   var stand = function (s) {
     if (!s.klick) return lesen(s.el);
-    var r = s.el.getBoundingClientRect(), vh = window.innerHeight;
-    var zentriert = r.top < vh * 0.4 && r.bottom > vh * 0.6;
-    var jetzt = performance.now();
-    if (zentriert && !s.zentriert) { s.start = jetzt; if (s.pause) s.pauseAb = jetzt; }
-    s.zentriert = zentriert;
-    if (!zentriert) return s.wahl / s.teile;
-    var zeit = (s.pause ? s.pauseAb : jetzt) - s.start;
-    if (!s.pause && zeit > s.dauer + HALT) { s.wahl = (s.wahl + 1) % s.teile; s.start = jetzt; zeit = 0; }
-    return (s.wahl + klemme(zeit / s.dauer) * 0.999) / s.teile;
+    var v = s.filme[s.wahl], f = 0;
+    if (v && v.duration) f = v.ended ? 1 : klemme(v.currentTime / v.duration);
+    return (s.wahl + f * 0.999) / s.teile;
+  };
+  // Filme: nur der gewählte ist zu sehen; ist die Szene weg, hält er an
+  var filmZeigen = function (s) {
+    s.filme.forEach(function (v, i) {
+      if (s.sichtbar && v.preload === "none") v.preload = "metadata";
+      if ((i !== s.teil || !s.sichtbar) && !v.paused) v.pause();
+    });
   };
 
   var setzen = function (s) {
@@ -182,14 +187,10 @@
     szenen.forEach(function (s) { beob.observe(s.el); });
     var login = new IntersectionObserver(function (e) { e.forEach(function (x) { x.target.classList.toggle("ist-weg", !x.isIntersecting); }); });
     alle(document, ".app-blick__bild").forEach(function (el) { login.observe(el); });
-    // der Login-Film im Überblick läuft, solange er zu sehen ist
-    var loginFilm = new IntersectionObserver(function (e) {
-      e.forEach(function (x) {
-        var v = x.target.querySelector(".app-film__clip"); if (!v || ohneBewegungFilm) return;
-        if (x.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause();
-      });
-    }, { threshold: 0.25 });
-    alle(document, "#ueberblick .app-film").forEach(function (el) { loginFilm.observe(el); });
+    // Runde 160: der Login-Film im Überblick spielt nur noch auf Knopfdruck
+    alle(document, "[data-einzelfilm] .app-film").forEach(function (el) {
+      new IntersectionObserver(function (e) { e.forEach(function (x) { if (!x.isIntersecting) { var v = x.target.querySelector(".app-film__clip"); if (v && !v.paused) v.pause(); } }); }).observe(el);
+    });
   }
   szenen.forEach(setzen);
   starten();

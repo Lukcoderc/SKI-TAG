@@ -516,3 +516,45 @@ section:not(.szene--grau):has(+ .app-bruch) { background-color: #fff; }
 /* Feedback 158: „Allein unterwegs“ hat vier Teile (Am Abend), die Marken stehen dann in vier Spalten */
 .szene__marken:has(> li:nth-child(4)) { grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 36rem; }
 @media (max-width: 899px) { .szene__marken:has(> li:nth-child(4)) { gap: 0.4rem; } .szene.ist-klick .szene__marken:has(> li:nth-child(4)) li { font-size: 0.68rem; padding-inline: 0.3rem; letter-spacing: -0.01em; } }
+
+/* Runde 160 · Fotostreifen: niedriger und ganz ruhig. Das Foto füllt den Streifen genau (kein Gleiten, kein dunkler
+   Grund, der beim Scrollen hervorblitzt) und ist gleich mit der Seite geladen. */
+.app-bruch { background: none; }
+.app-bruch__fenster { height: clamp(11rem, 24vw, 19rem); background: #c9d3e0; }
+.app-bruch__fenster img { top: 0; height: 100%; transform: none; will-change: auto; }
+.app-bruch__fenster::after { background: none; }
+@media (max-width: 700px) { .app-bruch__fenster { height: clamp(8.5rem, 34vw, 12rem); } }
+
+/* Runde 160 · Filme nur auf Knopfdruck: Knopf mitten auf dem Bildschirm (verschwindet, solange der Film läuft) und ein
+   Knopf im Text bei den Teilen mit nur einem Film (Überblick, Tagesübersicht). */
+.app-film { cursor: pointer; }
+.app-film__los { position: absolute; left: 50%; top: 50%; z-index: 6; width: 4.2rem; height: 4.2rem; margin: -2.1rem 0 0 -2.1rem; padding: 0;
+  display: grid; place-items: center; border: 0; border-radius: 50%; background: #fff; color: #0b1226; cursor: pointer;
+  box-shadow: var(--schatten-klein); transition: opacity 260ms ease, transform 360ms cubic-bezier(0.16, 1, 0.3, 1); }
+.app-film__los svg { width: 1.35rem; height: 1.35rem; fill: currentColor; translate: 2px 0; }
+.app-film.ist-zu-ende .app-film__los svg { fill: none; translate: 0 0; }
+.app-film.spielt .app-film__los { opacity: 0; transform: scale(0.85); pointer-events: none; }
+@media (hover: hover) and (pointer: fine) { .app-film:hover .app-film__los { transform: scale(1.06); } }
+.app-film::before { content: ""; position: absolute; inset: 0; z-index: 6; background: rgba(8, 14, 30, 0.18); pointer-events: none; transition: opacity 260ms ease; }
+.app-film.spielt::before { opacity: 0; }
+.app-los-zeile { margin: var(--sc-6) 0 0; }
+.app-los { display: inline-flex; align-items: center; gap: 0.7rem; height: 3.1rem; padding: 0 1.4rem 0 0.45rem; border: 0; border-radius: 999px;
+  background: var(--nacht, #0e1d40); color: #fff; font: 650 1rem/1 var(--sc-font-text); cursor: pointer; box-shadow: var(--schatten-klein);
+  transition: background-color 200ms ease, transform 200ms cubic-bezier(0.16, 1, 0.3, 1); }
+.app-los svg { width: 2.2rem; height: 2.2rem; padding: 0.62rem 0.55rem 0.62rem 0.7rem; box-sizing: border-box; border-radius: 50%; background: var(--orange); fill: #fff; }
+@media (hover: hover) and (pointer: fine) { .app-los:hover { background: #1b2f5e; transform: translateY(-1px); } }
+.app-los:active { transform: translateY(1px); }
+.app-los:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+.szene.ist-klick .szene__marken li { position: relative; }
+
+/* Tagesübersicht: Handy links, Text rechts */
+.app-einzeln { padding-block: var(--sc-section); }
+@media (min-width: 901px) { .app-einzeln .app-blick__raster { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); } }
+@media (max-width: 600px) {
+  .app-einzeln .app-blick__raster { grid-template-columns: 1fr; }
+  .app-einzeln .app-blick__bild { grid-column: 1; grid-row: auto; order: 5; margin-top: 1.6rem; }
+  .app-einzeln .app-iphone { --b: min(13rem, 56vw); }
+  .app-blick .app-los-zeile { grid-column: 1 / -1; order: 4; }
+  #ueberblick .app-los-zeile { order: 6; margin-top: 1.4rem; }
+  .app-los { width: 100%; justify-content: center; padding-right: 1.4rem; }
+}

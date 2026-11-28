@@ -27,9 +27,10 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
 <link rel="stylesheet" href="assets/chip-film.css?v=28">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/schrift-inter.css?v=1">
-<link rel="stylesheet" href="assets/am-berg.css?v=5">
+<link rel="stylesheet" href="assets/am-berg.css?v=8">
 <link rel="stylesheet" href="assets/app-start.css?v=5">
 <link rel="stylesheet" href="assets/start.css?v=2">
+<link rel="stylesheet" href="assets/schatten.css?v=1">
 <link rel="preload" href="assets/media/chip/07.webp?v=1" as="image">
 <noscript><style>.lade { display: none; }</style></noscript>
 </head>
@@ -193,8 +194,8 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   </section>
 
   <!-- 1c · Für deinen Skitag (seit Feedback 125 dunkel): Nachtblau mit feinen Höhenlinien und weichem Licht, oben
-       Überschrift und Satz, daneben vier Punkte als ruhige Liste, darunter drei große Fotos (Unsplash, freie Lizenz,
-       Herkunft je Bild in assets/media/*.webp.json) mit Text im Bild; beim Darüberfahren zoomt das Foto leicht. -->
+       oben die Überschrift (seit Runde 160 ohne Stichpunkte daneben), darunter drei große Fotos (Unsplash, freie Lizenz,
+       Herkunft je Bild in assets/media/*.webp.json) mit Name und Satz darunter. -->
   <section id="am-berg" class="sc-section am-berg am-berg--nacht" data-sc-act="flow" data-sc-drift="#0b1736" aria-labelledby="am-berg-titel">
     <div class="sc-wrap">
       <div class="am-berg__kopf">
@@ -202,22 +203,13 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
           <p class="augenbraue">Für wen</p>
           <h2 id="am-berg-titel" class="sc-display">Für deinen Skitag.<br><span class="leise">Vom Anfänger bis zum Profi.</span></h2>
         </div>
-        <ul class="am-berg__punkte">
-          <li><span>Ein Knopf für Gruppe und Notruf</span></li>
-          <li><span>Ohne Handy und ohne Handynetz</span></li>
-          <li><span>Dein Standort geht direkt an die Bergbahn</span></li>
-          <li><span>Morgens mieten, abends zurückgeben</span></li>
-        </ul>
       </div>
-      <!-- Feedback 156: größere Fotos; beim Darüberfahren (am Handy beim Tippen) steigt eine kurze Beschreibung auf,
-           zuerst was der Chip für die Sicherheit bringt, darunter was er zusätzlich bringt (assets/am-berg.js) -->
+      <!-- Runde 160: ohne Stichpunkte; die Fotos als Karten mit Schatten, Name und ein Satz darunter (immer zu sehen).
+           Beim Darüberfahren bleibt die Karte stehen, das Foto rückt ein Stück nach innen und zoomt langsam (am-berg.css). -->
       <ul class="am-berg__karten">
-        <li class="am-berg__karte" tabindex="0"><img src="assets/media/skitag-familie.webp?v=1" alt="Eine Mutter hält ihr kleines Kind an der Hand, beide auf Ski in der Sonne." width="1400" height="927" loading="lazy" decoding="async" style="object-position: 18% 50%"><div class="am-berg__name"><small>01</small><b>Familien</b><span>Eltern sehen, wo ihre Kinder sind.</span></div>
-          <div class="am-berg__info"><p class="am-berg__sicher"><em>Sicherheit</em>Verliert sich dein Kind oder stürzt es, holt ein Druck auf den Knopf Hilfe. Mit Standort, ohne Handy.</p><p><em>Dazu</em>In der App siehst du, wo deine Kinder gerade fahren.</p></div></li>
-        <li class="am-berg__karte" tabindex="0"><img src="assets/media/skitag-skischule.webp?v=1" alt="Ein Skilehrer kniet bei einer Gruppe Kinder im Schnee." width="1161" height="1400" loading="lazy" decoding="async"><div class="am-berg__name"><small>02</small><b>Skischulen</b><span>Skilehrer sehen ihre ganze Gruppe.</span></div>
-          <div class="am-berg__info"><p class="am-berg__sicher"><em>Sicherheit</em>Stürzt ein Kind, ist der Notruf mit seinem Standort sofort bei der Bergbahn.</p><p><em>Dazu</em>Der Skilehrer sieht die ganze Gruppe auf der Karte und merkt, wenn eines fehlt.</p></div></li>
-        <li class="am-berg__karte" tabindex="0"><img src="assets/media/skitag-freunde.webp?v=1" alt="Vier Freunde fahren im dichten Schneefall nebeneinander die Piste hinunter." width="933" height="1400" loading="lazy" decoding="async"><div class="am-berg__name"><small>03</small><b>Freunde</b><span>Ein kurzer Druck ruft die ganze Gruppe.</span></div>
-          <div class="am-berg__info"><p class="am-berg__sicher"><em>Sicherheit</em>Stürzt du allein abseits der Gruppe, kommt Hilfe auch ohne Handynetz.</p><p><em>Dazu</em>Ein kurzer Druck ruft die ganze Gruppe zu dir.</p></div></li>
+        <li class="am-berg__karte"><div class="am-berg__foto"><img src="assets/media/skitag-familie.webp?v=1" alt="Eine Mutter hält ihr kleines Kind an der Hand, beide auf Ski in der Sonne." width="1400" height="927" decoding="async" style="object-position: 18% 50%"></div><div class="am-berg__name"><small>01</small><b>Familien</b><span>Eltern sehen, wo ihre Kinder sind.</span></div><p class="am-berg__sicher">Verliert sich dein Kind oder stürzt es, holt ein Druck auf den Knopf Hilfe. Mit Standort, ohne Handy.</p></li>
+        <li class="am-berg__karte"><div class="am-berg__foto"><img src="assets/media/skitag-skischule.webp?v=1" alt="Ein Skilehrer kniet bei einer Gruppe Kinder im Schnee." width="1161" height="1400" decoding="async"></div><div class="am-berg__name"><small>02</small><b>Skischulen</b><span>Skilehrer sehen ihre ganze Gruppe.</span></div><p class="am-berg__sicher">Stürzt ein Kind, ist der Notruf mit seinem Standort sofort bei der Bergbahn.</p></li>
+        <li class="am-berg__karte"><div class="am-berg__foto"><img src="assets/media/skitag-freunde.webp?v=1" alt="Vier Freunde fahren im dichten Schneefall nebeneinander die Piste hinunter." width="933" height="1400" decoding="async"></div><div class="am-berg__name"><small>03</small><b>Freunde</b><span>Ein kurzer Druck ruft die ganze Gruppe.</span></div><p class="am-berg__sicher">Stürzt du allein abseits der Gruppe, kommt Hilfe auch ohne Handynetz.</p></li>
       </ul>
     </div>
   </section>
@@ -252,7 +244,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
   <!-- Bildfenster zwischen Technik und App (Feedback 141): ein Skifahrer im Sprung, das Foto steht beim Scrollen still
        (Regeln in seite.css unter „Bildfenster“). Ohne Satz, die Überschrift darunter sagt schon „Vom Anfänger bis zum Profi“. -->
   <div class="fenster fenster--ohne-text" style="--lage:50% 0%">
-    <div class="fenster__bild"><img src="assets/media/fenster-sprung.webp?v=1" srcset="assets/media/fenster-sprung-m.webp?v=1 1400w, assets/media/fenster-sprung.webp?v=1 2400w" sizes="(max-aspect-ratio: 1/1) 170vh, 100vw" alt="Ein Skifahrer springt über eine Schneekante, dahinter Sonne und verschneite Berge." width="2400" height="1600" loading="lazy" decoding="async"></div>
+    <div class="fenster__bild" style="background:#cfd8e3 url(data:image/webp;base64,UklGRqIAAABXRUJQVlA4IJYAAABwBACdASogABUAPwFqq06rJiOiMAgBYCAJQBOmYwAeu3oBkwLJhM3FyJLmAAD+ud18kyOffRAC0xcxCm6hsIu0eH05XYQRAY/6PVg4kzFxaxDu8xbxbuDxxkJmv5us+mdYV/si8VsNdA/EG8wrVI5AZnxmYrNvtSWXs85STOPKnyGQ+bFYzkwkmv4s93scR4XNkOuuAAA=) center/cover"><img src="assets/media/fenster-sprung.webp?v=1" srcset="assets/media/fenster-sprung-m.webp?v=1 1400w, assets/media/fenster-sprung.webp?v=1 2400w" sizes="(max-aspect-ratio: 1/1) 170vh, 100vw" alt="Ein Skifahrer springt über eine Schneekante, dahinter Sonne und verschneite Berge." width="2400" height="1600" decoding="async"></div>
   </div>
 
   <!-- 6 · Vom Anfänger bis zum Profi (seit Feedback 125): oben Überschrift und Link zur App, darunter eine Collage aus fünf
@@ -353,7 +345,7 @@ if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add
        seit Feedback 156 ein ruhiges Foto mit wenig Farbe (Skifahrer auf einem Grat). „Einmal drücken,“ ist orange und
        wird beim Hineinscrollen wie ein Knopf gedrückt (assets/start.js), danach erscheint der Rest Wort für Wort. -->
   <div class="fenster fenster--druck" style="--lage:50% 62%">
-    <div class="fenster__bild"><img src="assets/media/fenster-grat.webp?v=1" srcset="assets/media/fenster-grat-m.webp?v=1 1200w, assets/media/fenster-grat.webp?v=1 2600w" sizes="(max-aspect-ratio: 1/1) 170vh, 100vw" alt="Ein paar Skifahrer stehen auf einem Grat vor verschneiten Gipfeln unter grauem Himmel." width="2600" height="1733" loading="lazy" decoding="async"></div>
+    <div class="fenster__bild" style="background:#cfd8e3 url(data:image/webp;base64,UklGRp4AAABXRUJQVlA4IJIAAACwBACdASogABUAPwForE8rJaQiMAgBYCAJZwDH5CHUgm5x/7qk96xaP7MrFZwAAP6LVWfh6IFoSY4Iwg8OFZ+yETWJ21xedQrBLcb31wxRR6xR2osQgdsbzrE9UqROeocXy/7rV+G1X8SGG18x0Fyx/RJXjSlQ/zoVTg1jWVP/wII3azeoWFSU5Xc2YzC8ZAAAAA==) center/cover"><img src="assets/media/fenster-grat.webp?v=1" srcset="assets/media/fenster-grat-m.webp?v=1 1200w, assets/media/fenster-grat.webp?v=1 2600w" sizes="(max-aspect-ratio: 1/1) 170vh, 100vw" alt="Ein paar Skifahrer stehen auf einem Grat vor verschneiten Gipfeln unter grauem Himmel." width="2600" height="1733" decoding="async"></div>
     <div class="sc-wrap fenster__innen"><p class="fenster__satz druck-satz"><span class="druck-satz__an"><span class="druck-satz__ring" aria-hidden="true"></span>Einmal drücken,</span> <span class="druck-satz__rest">und deine Freunde wissen Bescheid.</span></p></div>
   </div>
 
@@ -629,7 +621,7 @@ ScrollCraft.mount(document.body);
 <script src="assets/vendor/gsap.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
-<script src="assets/am-berg.js?v=5" defer></script>
+<script src="assets/am-berg.js?v=6" defer></script>
 <script src="assets/app-start.js?v=5" defer></script>
 <script src="assets/start.js?v=2" defer></script>
 <script src="assets/seite.js?v=88" defer></script>

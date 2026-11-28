@@ -51,3 +51,43 @@
 }
 @media (max-width: 760px) { .am-berg__karten { margin-left: calc(-1 * var(--sc-gutter)); } }
 @media (prefers-reduced-motion: reduce) { .am-berg__info, .am-berg__name, .am-berg__karte::before { transition: none; } }
+
+/* Runde 160 · Fotokarten ohne KI-Effekt: kein dunkles Feld mit Unschärfe, kein Plus-Knopf. Das Foto ist eine eigene
+   Fläche mit Schatten nach unten, Name und ein Satz stehen darunter und sind immer zu lesen. Beim Darüberfahren bleibt
+   die Karte stehen: die Fläche gibt ein kleines Stück nach, das Foto darin zoomt langsam weiter
+   (Vorbild: ruhige Bild-Hover auf Studio- und Magazinseiten). */
+.am-berg__kopf { grid-template-columns: 1fr !important; }
+.am-berg__karte { aspect-ratio: auto; overflow: visible; background: none; border-radius: 0; box-shadow: none; display: grid; align-content: start; gap: 0; }
+.am-berg__karte::before, .am-berg__karte::after { display: none; }
+.am-berg__foto { position: relative; overflow: hidden; aspect-ratio: 4 / 5; border-radius: clamp(1.1rem, 1.8vw, 1.6rem); background: #14214a;
+  transition: transform 800ms cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 22px 36px -23px rgba(0, 0, 0, 0.7) !important; isolation: isolate; }
+.am-berg__karte .am-berg__foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.02); filter: none;
+  transition: transform 1400ms cubic-bezier(0.16, 1, 0.3, 1); }
+.am-berg__name { position: static; display: grid; grid-template-columns: auto 1fr; column-gap: 0.75rem; align-items: baseline; padding: 1.1rem 0 0; opacity: 1 !important; transform: none !important; }
+.am-berg__name small { grid-row: span 2; font: 600 0.8rem/1 var(--sc-font-text); color: #ff9a6b; font-variant-numeric: tabular-nums; }
+.am-berg__karte .am-berg__name b { position: relative; justify-self: start; font-size: clamp(1.35rem, 1.05rem + 0.8vw, 1.85rem); color: #fff; }
+.am-berg__karte .am-berg__name b::after { content: ""; position: absolute; left: 0; right: 0; bottom: -0.12em; height: 2px; border-radius: 2px; background: var(--orange);
+  transform: scaleX(0); transform-origin: left; transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1) 80ms; }
+.am-berg__karte .am-berg__name span { grid-column: 2; margin-top: 0.3rem; font-size: 1rem; color: rgba(255, 255, 255, 0.78); }
+.am-berg__karte .am-berg__sicher { margin: 0.7rem 0 0; padding-left: calc(0.75rem + 1.3ch); font-size: 0.95rem !important; font-weight: 450; line-height: 1.5; color: rgba(255, 255, 255, 0.6) !important; }
+@media (hover: hover) and (pointer: fine) {
+  .am-berg__karte:hover .am-berg__foto { transform: scale(0.975); }
+  .am-berg__karte:hover .am-berg__foto img { transform: scale(1.09); }
+  .am-berg__karte:hover .am-berg__name b::after { transform: scaleX(1); }
+}
+@media (max-width: 860px) { .am-berg__foto { aspect-ratio: 4 / 5; } }
+@media (max-width: 760px) {
+  .am-berg__karten { margin-left: 0; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 78%; overflow-x: auto; scroll-snap-type: x mandatory;
+    margin-inline: calc(-1 * var(--sc-gutter)); padding: 0 var(--sc-gutter) 1.5rem; scroll-padding-inline: var(--sc-gutter); scrollbar-width: none; }
+  .am-berg__karte { scroll-snap-align: start; }
+}
+@media (prefers-reduced-motion: reduce) { .am-berg__foto, .am-berg__karte .am-berg__foto img, .am-berg__karte .am-berg__name b::after { transition: none; } }
+/* gegen die älteren Regeln „.am-berg__karte div“ und „.am-berg__karte span“ aus seite.css */
+.am-berg__karte .am-berg__foto { position: relative; left: auto; right: auto; bottom: auto; z-index: 0; padding: 0; display: block; gap: 0; }
+.am-berg__karte .am-berg__name { position: static; padding: 1.1rem 0 0; display: grid; gap: 0; z-index: auto; }
+.am-berg__karte .am-berg__name span { opacity: 1; transform: none; max-width: none; }
+/* Text unter dem Foto bündig mit dem Bild: Nummer klein darüber, Name, ein Satz, dann der Hinweis */
+.am-berg__karte .am-berg__name { grid-template-columns: minmax(0, 1fr); row-gap: 0; }
+.am-berg__karte .am-berg__name small { grid-row: auto; margin-bottom: 0.45rem; letter-spacing: 0.06em; }
+.am-berg__karte .am-berg__name span { grid-column: 1; }
+.am-berg__karte .am-berg__sicher { padding-left: 0; }

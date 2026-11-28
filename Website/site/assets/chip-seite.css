@@ -524,3 +524,37 @@
 @media (max-width: 600px) {   /* am Handy etwas kleiner, damit die Überschrift noch im ersten Bild anfängt */
   .chip-anfang__bild.station { width: min(74vw, 18rem); }
 }
+
+/* Runde 160 · richtiger Automat statt Wandgerät (Bildfolge assets/media/automat/00 bis 23, 730 × 1200, Werkzeug
+   Website/werkzeuge/blender/verkaufsautomat.py). Die Tür ist als HTML-Fläche 1392 × 3248 px groß (2 px je mm, 696 × 1624 mm);
+   Bildschirm hochkant rechts oben, darunter Lesefeld und Rückgabe, links unten das Ausgabefach. */
+.chip-anfang__bild.station { aspect-ratio: 73 / 120; width: min(100%, 26rem); }
+.station__front { width: 1392px; height: 3248px; }
+.station__marke { left: 72px; top: 62px; gap: 20px; font: 650 68px/1 var(--sc-font-display); letter-spacing: -0.03em; color: #fff; }
+.station__marke svg { width: 70px; height: 70px; }
+.station__schirm { left: 1024px; top: 520px; width: 320px; height: 520px; border-radius: 8px; }
+.station__kopf { left: 22px; right: 22px; top: 18px; font-size: 16px; }
+.station__kopf svg { width: 18px; height: 18px; }
+.station__schritt { left: 22px; right: 22px; top: 60px; bottom: 22px; }
+.station__schritt h4 { font-size: 34px; }
+.station__schritt p { margin-top: 10px; font-size: 19px; line-height: 1.32; }
+.station__knopf { height: 62px; border-radius: 12px; font-size: 22px; }
+.station__zeile { flex-direction: column; gap: 14px; }
+.station__zahl { justify-content: center; font-size: 36px; }
+.station__bezahlt { flex-direction: column; align-items: flex-start; height: auto; gap: 12px; font-size: 21px; }
+.station__code { flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px 16px; }
+.station__code small { font-size: 16px; }
+.station__code b { font-size: 38px; }
+.station__leser { left: 1092px; top: 1224px; width: 184px; height: 184px; }
+.station__leser svg { width: 64px; height: 64px; }
+.station__lesehinweis { left: 1034px; top: 1436px; width: 300px; text-align: center; font: 600 26px/1 var(--sc-font-text); color: rgba(255, 255, 255, 0.55); }
+.station__rueckgabe { left: 1034px; top: 1720px; width: 300px; font-size: 26px; }
+.station__aufkleber { left: 124px; top: 2372px; display: grid; gap: 14px; font: 650 76px/1 var(--sc-font-display); letter-spacing: -0.03em; color: #fff; }
+.station__aufkleber small { font: 500 30px/1.2 var(--sc-font-text); letter-spacing: 0; color: rgba(255, 255, 255, 0.62); }
+.station__ausgabe { left: 124px; top: 2570px; width: 776px; text-align: center; font-size: 26px; color: rgba(255, 255, 255, 0.6); }
+@media (max-width: 860px) { .chip-anfang__bild.station { width: min(100%, 20rem); } }
+@media (max-width: 600px) { .chip-anfang__bild.station { width: min(62vw, 15rem); } }
+.station__zeile { gap: 10px; }
+.station__zahl { font-size: 30px; gap: 14px; }
+.station__zahl span { width: 46px; height: 46px; }
+.station__zeile .station__knopf { flex: none; height: 56px; }

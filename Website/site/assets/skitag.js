@@ -380,8 +380,7 @@
   var h1 = kopf.querySelector("h1");
   var zeilen = SplitText.create(h1, { type: "lines", mask: "lines" }).lines;
   var tl = gsap.timeline({ defaults: { ease: "expo.out" }, delay: 0.15 });
-  tl.from(kopf.querySelector(".tag-kopf__marke"), { y: 16, opacity: 0, duration: 0.8 })
-    .from(zeilen, { yPercent: 110, duration: 1.1, stagger: 0.09 }, 0.1)
+  tl.from(zeilen, { yPercent: 110, duration: 1.1, stagger: 0.09 }, 0)
     .from(kopf.querySelector(".kopfzeile__text"), { y: 20, opacity: 0, duration: 0.9 }, 0.45)
     .from(kopf.querySelectorAll(".tag-kopf__stationen li"), { y: 18, opacity: 0, scale: 0.94, duration: 0.8, stagger: 0.1 }, 0.6)
     .from(kopf.querySelector(".tag-kopf__weiter"), { opacity: 0, duration: 0.8 }, 1);

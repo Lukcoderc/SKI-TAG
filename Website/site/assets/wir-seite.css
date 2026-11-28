@@ -155,3 +155,80 @@ section#kontakt { scroll-margin-top: 4.5rem; }
   .wir2__person .wir2__karte .wir2__mail svg, .wir2__tel svg { display: none; }
   .wir2__karte .wir2__mail-adresse { font-size: 0.66rem; overflow-wrap: normal; white-space: nowrap; }
 }
+
+/* Runde 160 · Team ohne „schwebende Karte“: die Fläche bleibt beim Drüberfahren stehen, die Fläche gibt ein kleines
+   Stück nach, der Buchstabe darin wird ein wenig größer, und unter dem
+   Namen schiebt sich der Kontakt an die Stelle der Aufgabe. Am Handy dasselbe beim Antippen (.ist-auf aus wir-seite.js). */
+.wir2__person { cursor: default; }
+.wir2__portrait { box-shadow: var(--schatten-unten) !important; background: #eef1f6;
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1) !important; }
+.wir2__initial { transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1), color 500ms ease; }
+.wir2__person .titel-3 { position: relative; justify-self: start; }
+.wir2__person .titel-3::after { content: ""; position: absolute; left: 0; right: 0; bottom: -0.15em; height: 2px; border-radius: 2px; background: var(--orange);
+  transform: scaleX(0); transform-origin: left; transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1); }
+.wir2__unten { position: relative; height: 2.9rem; overflow: hidden; }
+.wir2__unten > * { transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1), opacity 400ms ease; }
+.wir2__rolle { display: block; }
+.wir2__erreichbar { position: absolute; left: 0; right: 0; top: 0; display: grid; justify-items: start; gap: 0.1rem; transform: translateY(100%); opacity: 0; }
+.wir2__person .wir2__mail { position: static; display: inline-flex; align-items: baseline; gap: 0.5rem; margin: 0; padding: 0; border: 0; background: none; color: var(--sc-ink);
+  font: 650 0.98rem/1.35 var(--sc-font-text); cursor: pointer; opacity: 1; transform: none; pointer-events: auto; box-shadow: none; }
+.wir2__person .wir2__mail::before { display: none; }
+.wir2__person .wir2__mail .wir2__mail-adresse { font: inherit; text-decoration: underline; text-decoration-color: rgba(14, 29, 64, 0.25); text-underline-offset: 0.2em; }
+.wir2__person .wir2__mail .wir2__mail-hinweis { font-size: 0.78rem; font-weight: 550; color: var(--sc-ink-soft); }
+.wir2__person .wir2__mail.ist-kopiert .wir2__mail-hinweis { color: #1f9d5c; }
+.wir2__person .wir2__tel { display: block; padding: 0; font-size: 0.88rem; color: var(--sc-ink-soft); }
+@media (hover: hover) and (pointer: fine) { .wir2__person .wir2__mail:hover .wir2__mail-adresse { text-decoration-color: var(--orange); } }
+.wir2__person:is(:focus-within, .ist-auf) .wir2__portrait { transform: scale(0.975); }
+.wir2__person:is(:focus-within, .ist-auf) .wir2__initial { transform: scale(1.07); color: #cdd6e4; }
+.wir2__person:is(:focus-within, .ist-auf) .titel-3::after { transform: scaleX(1); }
+.wir2__person:is(:focus-within, .ist-auf) .wir2__rolle { transform: translateY(-100%); opacity: 0; }
+.wir2__person:is(:focus-within, .ist-auf) .wir2__erreichbar { transform: none; opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .wir2__person:hover .wir2__portrait { transform: scale(0.975); }
+  .wir2__person:hover .wir2__initial { transform: scale(1.07); color: #cdd6e4; }
+  .wir2__person:hover .titel-3::after { transform: scaleX(1); }
+  .wir2__person:hover .wir2__rolle { transform: translateY(-100%); opacity: 0; }
+  .wir2__person:hover .wir2__erreichbar { transform: none; opacity: 1; }
+  .wir2__person:hover .wir2__folgt { opacity: 1; }
+}
+@media (max-width: 700px) {
+  .wir2__unten { height: 3.6rem; }
+  .wir2__person .wir2__mail { display: grid; gap: 0; }
+  .wir2__person .wir2__mail .wir2__mail-adresse { font-size: 0.8rem; overflow-wrap: anywhere; }
+  .wir2__person .wir2__mail .wir2__mail-hinweis, .wir2__person .wir2__tel { font-size: 0.72rem; }
+}
+@media (prefers-reduced-motion: reduce) { .wir2__portrait, .wir2__initial, .wir2__unten > *, .wir2__person .titel-3::after { transition: opacity 200ms ease; } }
+
+/* Runde 160 · Unser Ziel: Satz links, Foto als Karte rechts (Schatten nach links unten), darunter der geplante Weg als
+   Linie mit fünf Stationen; „Jetzt“ ist orange, alles danach ist Plan. */
+.ziel { background: #fff; }
+.ziel__oben { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+.ziel__satz { margin-top: 1.4rem; }
+.ziel__lead { margin-top: 1.4rem; max-width: 34rem; }
+.ziel__bild { margin: 0; border-radius: clamp(1.1rem, 2vw, 1.75rem); overflow: hidden; aspect-ratio: 4 / 5; box-shadow: var(--schatten); background: #dde6ef; }
+.ziel__bild img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
+.ziel__weg-titel { margin: clamp(3.5rem, 8vw, 6rem) 0 0; font: 650 clamp(1.3rem, 1.1rem + 0.6vw, 1.7rem)/1.2 var(--sc-font-display); letter-spacing: -0.02em; color: var(--sc-ink); }
+.ziel__weg-titel span { font-weight: 500; color: var(--sc-ink-soft); font-size: 0.8em; }
+.ziel__weg { list-style: none; margin: 1.6rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1.25rem; position: relative; }
+.ziel__weg::before { content: ""; position: absolute; left: 0.45rem; right: 0; top: 0.45rem; height: 2px; background: repeating-linear-gradient(90deg, #c8d0dc 0 8px, transparent 8px 14px); }
+.ziel__weg li { position: relative; display: grid; gap: 0.3rem; padding-top: 1.9rem; }
+.ziel__weg li::before { content: ""; position: absolute; left: 0; top: 0; width: 0.9rem; height: 0.9rem; border-radius: 50%; background: #fff; border: 2px solid #9aa6b8; box-sizing: border-box; }
+.ziel__weg li.ist-jetzt::before { background: var(--orange); border-color: var(--orange); box-shadow: 0 0 0 5px rgba(255, 90, 28, 0.18); }
+.ziel__weg time { font-size: 0.82rem; font-weight: 650; color: var(--sc-ink-soft); font-variant-numeric: tabular-nums; }
+.ziel__weg .ist-jetzt time { color: var(--orange-2); }
+.ziel__weg b { font: 650 1.12rem/1.25 var(--sc-font-display); letter-spacing: -0.015em; color: var(--sc-ink); }
+.ziel__weg span { font-size: 0.92rem; line-height: 1.45; color: var(--sc-ink-soft); }
+@media (max-width: 900px) {
+  .ziel__oben { grid-template-columns: 1fr; }
+  .ziel__bild { aspect-ratio: 16 / 10; }
+  .ziel__weg { grid-template-columns: 1fr; gap: 1.4rem; padding-left: 2rem; }
+  .ziel__weg::before { left: 0.4rem; right: auto; top: 0.5rem; bottom: 0.5rem; width: 2px; height: auto; background: repeating-linear-gradient(180deg, #c8d0dc 0 8px, transparent 8px 14px); }
+  .ziel__weg li { padding-top: 0; }
+  .ziel__weg li::before { left: -2rem; top: 0.15rem; }
+}
+
+/* Runde 160 · Schreib uns: Schneeflocken statt Quadrate (assets/schneeflocken.js) */
+.flockenmuster { position: relative; isolation: isolate; overflow: clip; }
+.flockenmuster__flaeche { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; display: block; pointer-events: none; }
+/* Die alte Sprechblase verschob die Adresse beim Hover um die halbe Breite nach links; im neuen Aufbau steht sie still */
+.wir2__person .wir2__mail { left: auto !important; right: auto !important; transform: none !important; }

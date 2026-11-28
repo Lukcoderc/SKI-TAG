@@ -13,8 +13,8 @@
      Bildschirm nur mit dieser Stellung, darum springt er auch bei groben Mausrad-Stufen nicht.
    Bei weniger Bewegung bleibt alles still (die Klasse chipflug fehlt dann).
 
-   Feedback 159: oben steht die SkiTag-Ausleihstation (Wandgerät, Bildfolge aus Blender, assets/media/station/). Ihr
-   Ablauf läuft beim Laden von selbst, am Ende liegt der Chip im Ausgabefach. Beim ersten Scrollen übernimmt der Flieger
+   Runde 160: oben steht der SkiTag-Ausleihautomat (Bildfolge aus Blender, assets/media/automat/, vorher ein Wandgerät). Sein
+   Ablauf läuft beim Laden von selbst, eine Spirale dreht sich und am Ende liegt der Chip im Ausgabefach. Beim ersten Scrollen übernimmt der Flieger
    genau dort (.chip-flug-start, aus data-chip), beginnt mit demselben Drehbild wie im Fach (data-chipbild) und dreht
    sich im Flug zum Ruhebild. Vorher (Feedback 157 und 158) waren es eine Jackentasche und ein Automat.
    Ohne Flug (Handy, Tablet hochkant) läuft nur der Ablauf der Station. */
@@ -61,7 +61,7 @@
       var w = fig.clientWidth, h = fig.clientHeight;
       if (!w || ecken.length !== 8) return;
       var z = ecken.map(function (v, i) { return v * (i % 2 ? h : w); });
-      front.style.transform = matrix([0, 0, 680, 0, 680, 1040, 0, 1040], z);
+      front.style.transform = matrix([0, 0, 1392, 0, 1392, 3248, 0, 3248], z);
       if (chipR.length === 4) {
         var S = (chipR[2] - chipR[0]) * w / (CB[2] - CB[0]);
         startEl.style.left = ((chipR[0] * w - CB[0] * S) / w * 100).toFixed(3) + "%";
@@ -82,8 +82,8 @@
     fig.classList.add("station--spielt");
     var schritte = [].slice.call(fig.querySelectorAll(".station__schritt"));
     var knoepfe = [fig.querySelector('[data-tipp="0"]'), fig.querySelector('[data-tipp="1"]')];
-    var c = lw.getContext("2d"), NT = 16, ORD = "assets/media/station/", VT = "?v=1", bilder = [], leerBild = null;
-    var dpr = Math.min(devicePixelRatio || 1, 2), bw = Math.min(960, Math.ceil(fig.clientWidth * dpr)), bh = Math.round(bw * 1.25);
+    var c = lw.getContext("2d"), NT = 24, ORD = "assets/media/automat/", VT = "?v=1", bilder = [], leerBild = null;
+    var dpr = Math.min(devicePixelRatio || 1, 2), bw = Math.min(730, Math.ceil(fig.clientWidth * dpr)), bh = Math.round(bw * 1200 / 730);
     lw.width = bw; lw.height = bh;
     var holen = function (src) {
       var alsBild = function () { return new Promise(function (ok) { var im = new Image(); im.onload = function () { ok(im); }; im.onerror = function () { ok(null); }; im.src = src; }); };
@@ -106,7 +106,7 @@
     for (var n = 0; n < 4; n++) weiter();
 
     // Zeitplan in ms: Bildschirm an, Tipp auf „Chip ausleihen“, Tipp auf „Weiter“, Bezahlen, Code, Chip fällt
-    var T = { tipp0: 1050, s1: 1350, tipp1: 2150, s2: 2450, bezahlt: 3350, s3: 3900, chip: 3750, fall: 850, ende: 4700 };
+    var T = { tipp0: 1050, s1: 1350, tipp1: 2150, s2: 2450, bezahlt: 3350, s3: 3900, chip: 3700, fall: 2000, ende: 5800 };
     var t = -450, zuletzt = 0, gezeigt = null, istLeer = false, k0 = -1;
     var malen = function (b, wahl) { if (!b || wahl === gezeigt) return; c.clearRect(0, 0, bw, bh); c.drawImage(b, 0, 0, bw, bh); gezeigt = wahl; fig.classList.add("station--film"); };
     var anwenden = function () {
