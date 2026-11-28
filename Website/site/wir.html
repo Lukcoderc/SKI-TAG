@@ -14,8 +14,8 @@
 <script>if (!("CSSViewTransitionRule" in window)) document.documentElement.classList.add("ohne-uebergang");</script>
 <link rel="stylesheet" href="assets/seite.css?v=146">
 <link rel="stylesheet" href="assets/v2.css?v=13">
-<link rel="stylesheet" href="assets/wir-seite.css?v=12">
-<link rel="stylesheet" href="assets/schatten.css?v=3">
+<link rel="stylesheet" href="assets/wir-seite.css?v=13">
+<link rel="stylesheet" href="assets/schatten.css?v=4">
 </head>
 <body>
 
@@ -84,7 +84,7 @@
 <main id="oben">
 
   <!-- Das sind wir (seit Feedback 128 in der neuen Gestaltung): oben wer wir sind und was wir bauen, drei Porträts, das
-       darunter „Unsere Idee“ und „Unser Ziel“, am Ende der Kontakt. Öffentliches Repo: nur Vornamen, als Kontakt nur die
+       darunter „Unsere Idee“, das Ziel als großer Satz im Bildfenster, am Ende der Kontakt. Öffentliches Repo: nur Vornamen, als Kontakt nur die
        Team-Adresse. -->
   <section id="wir" class="abschnitt held-unter" aria-labelledby="wir-titel">
     <div class="w">
@@ -140,49 +140,33 @@
     </div>
   </section>
 
-  <!-- Unsere Idee (Runde 161): nachtblauer Teil direkt unter dem Team. Ein Satz, dann der Weg eines Notrufs in drei
-       Schritten; beim Scrollen läuft ein oranger Punkt die Funklinie entlang und schaltet die Schritte nacheinander an
-       (assets/wir-seite.js, --p). Inhalt nur aus PRODUCT.md und der Chip-Seite, beschrieben als Idee, nicht als fertiges Produkt. -->
-  <section id="idee" class="abschnitt idee" aria-labelledby="idee-titel">
+  <!-- Unsere Idee (Runde 163, Luki: schlicht, ohne dunkelblauen Hintergrund): Überschrift und zwei Absätze unter den
+       Porträts, gestaltet wie die anderen hellen Teile. Inhalt nur aus PRODUCT.md und der Chip-Seite, als Idee beschrieben. -->
+  <section id="idee" class="wir-ziel wir-idee" aria-labelledby="idee-titel">
     <div class="w">
-      <div class="idee__kopf">
-        <p class="auge">Unsere Idee</p>
-        <h2 id="idee-titel" class="titel-2 idee__titel">Ein Knopf<br><span>statt einem Anruf.</span></h2>
-        <p class="lead idee__lead">Bei einem Unfall am Berg hat das Handy oft kein Netz, ist leer oder steckt unerreichbar in der Jacke. Darum unsere Idee: ein kleiner Chip zum Ausleihen, mit nur einem Knopf, und ein eigenes Funknetz an den Liftstationen, das ihn hört. Du brauchst dafür kein Handy, keine SIM-Karte und kein Handynetz.</p>
-      </div>
-      <div class="idee__weg-rahmen">
-        <div class="idee__linie" aria-hidden="true"><i class="idee__puls"></i></div>
-        <ol class="idee__weg">
-          <li><span class="idee__nr">01</span><span class="idee__zeichen" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/></svg></span><h3>Drücken</h3><p>Kurz drücken ruft deine Gruppe. <b>Drei Sekunden halten</b> schickt den Notruf, ein zweiter Druck bricht ihn ab.</p></li>
-          <li><span class="idee__nr">02</span><span class="idee__zeichen" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20v-8"/><circle cx="12" cy="10.5" r="1.5"/><path d="M8.5 7a5 5 0 0 1 7 0M5.8 4.3a8.8 8.8 0 0 1 12.4 0"/></svg></span><h3>Funken</h3><p>Der Chip funkt seinen <b>Standort</b> an die nächste Liftstation. Dort hören ihn unsere Empfänger.</p></li>
-          <li><span class="idee__nr">03</span><span class="idee__zeichen" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg></span><h3>Helfen</h3><p>Ein <b>Mitarbeiter der Bergbahn</b> bekommt den Notruf mit deinem Standort und fährt zu dir.</p></li>
-        </ol>
+      <h2 id="idee-titel" class="titel-2">Unsere Idee.</h2>
+      <div class="wir-ziel__text">
+        <p>Bei einem Unfall am Berg hat das Handy oft kein Netz, ist leer oder steckt unerreichbar in der Jacke. Genau dann muss Hilfe trotzdem schnell wissen, wo du bist.</p>
+        <p>Darum bauen wir einen kleinen Chip zum Ausleihen mit nur einem Knopf. Drei Sekunden halten schickt den Notruf mit deinem Standort über ein eigenes Funknetz an den Liftstationen, und ein Mitarbeiter der Bergbahn fährt zu dir. Ganz ohne Handy, SIM-Karte und Handynetz.</p>
       </div>
     </div>
   </section>
 
-  <!-- Unser Ziel (Runde 160: ein eigener Teil statt nur ein Satz im Bildfenster). Links der Satz, rechts ein Foto vom Grat
-       als Karte mit Schatten, darunter der geplante Weg (Zeitplan aus Website/PRODUCT.md, ausdrücklich als Plan). -->
-  <section id="ziel" class="abschnitt ziel" aria-labelledby="ziel-titel">
-    <div class="w">
-      <div class="ziel__oben">
-        <div class="ziel__text">
-          <h2 id="ziel-titel" class="titel-2">Unser Ziel.</h2>
-          <p class="wir2__satz ziel__satz">Ob nach einem Sturz Hilfe kommt, soll nicht davon abhängen, ob <span>dein Handy Netz hat.</span></p>
-          <p class="lead ziel__lead">Darum bauen wir einen Chip, der ohne Handy und ohne Handynetz Hilfe holt, und ein eigenes Funknetz an den Liftstationen, das ihn hört. Wir zeigen hier, was wir vorhaben, nicht ein fertiges Produkt.</p>
-        </div>
-        <figure class="ziel__bild" style="background:#1d3c78 url(data:image/webp;base64,UklGRvAAAABXRUJQVlA4IOQAAACQBQCdASoYACAAPwFyrlKrJqQiqAqpYCAJZgCxHtvv/i1+1m7hvtAn/8rhjFjxLGP5pI/6AAD++ddDTZCsYpA7LDXRa2j+ElWuz3ci/uRPjqIvWVJVXC1e611/bj/LQZ8YJOmtb8z8dn+sYjrt8zOkbU9eZFkJyrNfbjAc8XPhCj3vOu3SfVG/ULBFWm+hx46qtSnS87GYkjRZ1f33NX6RkldQYc0VbcshF1+oEN3CC25hiiwncRowP2g6HlT9B8ETTgjeE4/OX5MUn/FdOdguO8iC4hHRyohRSVnRljaE61yAAAA=) center/cover"><img src="assets/media/ziel-grat.webp?v=1" srcset="assets/media/ziel-grat-m.webp?v=1 900w, assets/media/ziel-grat.webp?v=1 1400w" sizes="(min-width: 900px) 40vw, 100vw" alt="Ein verschneiter Grat mit Felsen unter tiefblauem Himmel." width="1400" height="1867" decoding="async"></figure>
-      </div>
-      <h3 class="ziel__weg-titel">Der Weg dahin <span>(geplant)</span></h3>
-      <ol class="ziel__weg">
-        <li class="ist-jetzt"><time>Jetzt</time><b>Bauen</b><span>Chip, Funknetz und App entstehen als Schulprojekt.</span></li>
-        <li><time>Jänner 2027</time><b>Erste Prototypen</b><span>Die ersten Chips zum Testen.</span></li>
-        <li><time>Feb. oder März 2027</time><b>Testtag</b><span>Fünf Chips an einer Piste.</span></li>
-        <li><time>Sommer 2027</time><b>Gespräche</b><span>Mit Bergrettung und Bergbahnen.</span></li>
-        <li><time>Saison 27/28</time><b>Start</b><span>In einem ersten Skigebiet.</span></li>
-      </ol>
+  <!-- Unser Ziel als Bildfenster (Feedback 134, wie auf der Startseite): das Foto steht beim Scrollen still, die Seite
+       gleitet darüber (Regeln in seite.css unter „Bildfenster“). Das Foto ist hell (Schneesturm), deshalb steht der Satz
+       dunkel links (fenster--hell). Was wir bauen, steht seit Feedback 137 kurz oben in der Beschreibung. -->
+  <section class="fenster fenster--hell" style="--lage:46% 50%" aria-labelledby="ziel-titel">
+    <div class="fenster__bild"><img src="assets/media/fenster-sturm.webp?v=1" srcset="assets/media/fenster-sturm-m.webp?v=1 1400w, assets/media/fenster-sturm.webp?v=1 2400w" sizes="(max-aspect-ratio: 1/1) 170vh, 100vw" alt="Zwei Menschen kämpfen sich im Schneesturm über einen Berg, daneben eine Reihe Markierungsstangen." width="2400" height="1600" loading="lazy" decoding="async"></div>
+    <div class="w fenster__innen">
+      <h2 id="ziel-titel" class="nur-vorlesen">Unser Ziel</h2>
+      <p class="auge">Unser Ziel</p>
+      <p class="wir2__satz">Ob nach einem Sturz Hilfe kommt, soll nicht davon abhängen, ob <span>dein Handy Netz hat.</span></p>
     </div>
   </section>
+
+  <!-- Kontakt: Klick auf die Adresse kopiert sie (wir-seite.js); „E-Mail schreiben“ bietet Gmail, Outlook oder die Mail-App -->
+  <!-- Feedback 156/158: hinter „Schreib uns.“ ein Raster aus kleinen Quadraten, seit Feedback 158 als Funkwellen statt
+       als Bergkette. Es baut sich beim Hineinscrollen auf, ein Puls läuft nach außen, um den Zeiger leuchtet es orange
 
   <!-- Kontakt: Klick auf die Adresse kopiert sie (wir-seite.js); „E-Mail schreiben“ bietet Gmail, Outlook oder die Mail-App -->
   <!-- Feedback 156/158: hinter „Schreib uns.“ ein Raster aus kleinen Quadraten, seit Feedback 158 als Funkwellen statt
@@ -286,7 +270,7 @@
 <script src="assets/vendor/SplitText.min.js?v=3.15.1" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js?v=3.15.1" defer></script>
 <script src="assets/auftritte.js?v=12" defer></script>
-<script src="assets/wir-seite.js?v=8" defer></script>
+<script src="assets/wir-seite.js?v=9" defer></script>
 <script src="assets/punktraster.js?v=3" defer></script>
 </body>
 </html>

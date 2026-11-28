@@ -115,30 +115,3 @@
   } });
 
 })();
-
-(function () {
-  "use strict";
-  // Unsere Idee (Runde 161): der orange Punkt läuft beim Scrollen die Funklinie entlang (--p von 0 bis 1),
-  // jeder Schritt geht an, sobald der Punkt ihn erreicht. Ohne Bewegung steht alles fertig da.
-  var idee = document.querySelector(".idee__weg-rahmen");
-  if (idee) {
-    var schritte = idee.querySelectorAll(".idee__weg li");
-    var ruhig = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var setze = function (p) {
-      idee.style.setProperty("--p", p.toFixed(3));
-      for (var k = 0; k < schritte.length; k++) schritte[k].classList.toggle("ist-an", p >= (schritte.length > 1 ? k / (schritte.length - 1) : 0) - 0.02);
-    };
-    if (ruhig) setze(1);
-    else {
-      var lauf = false;
-      var rechne = function () {
-        lauf = false;
-        var r = idee.getBoundingClientRect(), h = window.innerHeight;
-        setze(Math.max(0, Math.min(1, (h * 0.78 - r.top) / (h * 0.5))));
-      };
-      window.addEventListener("scroll", function () { if (!lauf) { lauf = true; requestAnimationFrame(rechne); } }, { passive: true });
-      window.addEventListener("resize", rechne);
-      rechne();
-    }
-  }
-})();

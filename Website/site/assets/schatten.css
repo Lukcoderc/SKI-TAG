@@ -33,4 +33,4 @@
 :root { --schatten-kante: inset 0 62px 46px -40px hsl(var(--schatten-ton) / 0.58); }
 .held--video { box-shadow: none; }
 .held--video + .blick, .am-berg--nacht + .gebaut, .fenster + .app-start, .fenster + .fragen,
-.app-kopf--foto + .app-blick, .app-bruch + section, .idee + .ziel, .weg { box-shadow: var(--schatten-kante); }
+.app-kopf--foto + .app-blick, .app-bruch + section, .fenster + .wk-raster, .weg { box-shadow: var(--schatten-kante); }

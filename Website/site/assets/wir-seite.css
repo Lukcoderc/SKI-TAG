@@ -156,34 +156,6 @@ section#kontakt { scroll-margin-top: 4.5rem; }
   .wir2__karte .wir2__mail-adresse { font-size: 0.66rem; overflow-wrap: normal; white-space: nowrap; }
 }
 
-/* Runde 160 · Unser Ziel: Satz links, Foto als Karte rechts (Schatten nach links unten), darunter der geplante Weg als
-   Linie mit fünf Stationen; „Jetzt“ ist orange, alles danach ist Plan. */
-.ziel { background: #fff; }
-.ziel__oben { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
-.ziel__satz { margin-top: 1.4rem; }
-.ziel__lead { margin-top: 1.4rem; max-width: 34rem; }
-.ziel__bild { margin: 0; border-radius: clamp(1.1rem, 2vw, 1.75rem); overflow: hidden; aspect-ratio: 4 / 5; box-shadow: var(--schatten); background: #dde6ef; }
-.ziel__bild img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
-.ziel__weg-titel { margin: clamp(3.5rem, 8vw, 6rem) 0 0; font: 650 clamp(1.3rem, 1.1rem + 0.6vw, 1.7rem)/1.2 var(--sc-font-display); letter-spacing: -0.02em; color: var(--sc-ink); }
-.ziel__weg-titel span { font-weight: 500; color: var(--sc-ink-soft); font-size: 0.8em; }
-.ziel__weg { list-style: none; margin: 1.6rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1.25rem; position: relative; }
-.ziel__weg::before { content: ""; position: absolute; left: 0.45rem; right: 0; top: 0.45rem; height: 2px; background: repeating-linear-gradient(90deg, #c8d0dc 0 8px, transparent 8px 14px); }
-.ziel__weg li { position: relative; display: grid; gap: 0.3rem; padding-top: 1.9rem; }
-.ziel__weg li::before { content: ""; position: absolute; left: 0; top: 0; width: 0.9rem; height: 0.9rem; border-radius: 50%; background: #fff; border: 2px solid #9aa6b8; box-sizing: border-box; }
-.ziel__weg li.ist-jetzt::before { background: var(--orange); border-color: var(--orange); box-shadow: 0 0 0 5px rgba(255, 90, 28, 0.18); }
-.ziel__weg time { font-size: 0.82rem; font-weight: 650; color: var(--sc-ink-soft); font-variant-numeric: tabular-nums; }
-.ziel__weg .ist-jetzt time { color: var(--orange-2); }
-.ziel__weg b { font: 650 1.12rem/1.25 var(--sc-font-display); letter-spacing: -0.015em; color: var(--sc-ink); }
-.ziel__weg span { font-size: 0.92rem; line-height: 1.45; color: var(--sc-ink-soft); }
-@media (max-width: 900px) {
-  .ziel__oben { grid-template-columns: 1fr; }
-  .ziel__bild { aspect-ratio: 16 / 10; }
-  .ziel__weg { grid-template-columns: 1fr; gap: 1.4rem; padding-left: 2rem; }
-  .ziel__weg::before { left: 0.4rem; right: auto; top: 0.5rem; bottom: 0.5rem; width: 2px; height: auto; background: repeating-linear-gradient(180deg, #c8d0dc 0 8px, transparent 8px 14px); }
-  .ziel__weg li { padding-top: 0; }
-  .ziel__weg li::before { left: -2rem; top: 0.15rem; }
-}
-
 /* Runde 161 · Team: der Kontakt fliegt beim Drüberfahren ins Bild, aber ohne schwebende Karte. Von unten dunkelt ein
    Verlauf das Bild ab, dann steigen die Zeilen nacheinander ein (Kontakt, E-Mail, Telefon). Die Fläche selbst bleibt stehen. */
 .wir2__portrait { box-shadow: var(--schatten-unten); }
@@ -201,47 +173,6 @@ section#kontakt { scroll-margin-top: 4.5rem; }
 @media (max-width: 600px) { .wir2__karte { left: 0; right: 0; bottom: 0; padding: 3rem 0.7rem 0.7rem; } }
 @media (prefers-reduced-motion: reduce) { .wir2__karte > * { transform: none; transition: opacity 200ms ease; } }
 
-/* Runde 161 · Unsere Idee: nachtblau, links ein großer Satz, darunter der Weg eines Notrufs in drei Schritten an einer
-   Funklinie. Der orange Punkt läuft beim Scrollen mit (--p aus wir-seite.js), erreichte Schritte werden hell. */
-.idee { position: relative; isolation: isolate; overflow: clip; background: #0b1a3c; color: #f6f7f9; }
-.idee::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: radial-gradient(52rem 30rem at 88% 8%, rgba(46, 92, 190, 0.42), transparent 66%), radial-gradient(40rem 26rem at 6% 100%, rgba(255, 90, 28, 0.12), transparent 70%); }
-.idee .auge { color: #ff9a6b; }
-.idee__kopf { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(1.5rem, 5vw, 5rem); row-gap: 1rem; align-items: end; }
-.idee__kopf .auge { grid-column: 1; grid-row: 1; margin: 0; }
-.idee__kopf .idee__titel { grid-column: 1; grid-row: 2; }
-.idee__kopf .idee__lead { grid-column: 2; grid-row: 1 / span 2; align-self: end; }
-.idee__titel { margin: 0; color: #fff; }
-.idee__titel span { color: #8f9bb8; }
-.idee__lead { margin: 0; color: #c3cad9; max-width: 34rem; }
-.idee__weg-rahmen { --p: 1; position: relative; margin-top: clamp(3.5rem, 8vw, 6rem); }
-.idee__linie { position: absolute; left: 1.6rem; right: calc(33.333% - 1.6rem); top: 1.6rem; height: 2px; background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.22) 0 8px, transparent 8px 14px); }
-.idee__linie::before { content: ""; position: absolute; inset: 0; transform-origin: left; transform: scaleX(var(--p)); background: linear-gradient(90deg, var(--orange), #ff9a6b); }
-.idee__puls { position: absolute; top: 50%; left: calc(var(--p) * 100%); width: 0.9rem; height: 0.9rem; margin: -0.45rem 0 0 -0.45rem; border-radius: 50%; background: var(--orange);
-  box-shadow: 0 0 0 6px rgba(255, 90, 28, 0.2), 0 0 24px 4px rgba(255, 90, 28, 0.45); }
-.idee__weg { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 3vw, 3rem); position: relative; }
-.idee__weg li { display: grid; align-content: start; gap: 0.7rem; }
-.idee__zeichen { display: grid; place-items: center; width: 3.2rem; height: 3.2rem; border-radius: 50%; background: #13285a; border: 1px solid rgba(255, 255, 255, 0.16);
-  transition: background-color 500ms ease, border-color 500ms ease, box-shadow 500ms ease; }
-.idee__zeichen svg { width: 1.45rem; height: 1.45rem; fill: none; stroke: #8f9bb8; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: stroke 500ms ease; }
-.idee__nr { order: -1; font: 650 0.8rem/1 var(--sc-font-text); letter-spacing: 0.12em; color: #8f9bb8; display: none; }
-.idee__weg h3 { margin: 0.6rem 0 0; font: 650 clamp(1.6rem, 1.2rem + 1.4vw, 2.5rem)/1.05 var(--sc-font-display); letter-spacing: -0.03em; color: rgba(255, 255, 255, 0.45); transition: color 500ms ease; }
-.idee__weg p { margin: 0; max-width: 22rem; font-size: 1.02rem; line-height: 1.55; color: rgba(195, 202, 217, 0.55); transition: color 500ms ease; }
-.idee__weg p b { color: inherit; font-weight: 650; }
-.idee__weg li.ist-an .idee__zeichen { background: var(--orange); border-color: var(--orange); box-shadow: 0 14px 30px -12px rgba(255, 90, 28, 0.7); }
-.idee__weg li.ist-an .idee__zeichen svg { stroke: #fff; }
-.idee__weg li.ist-an h3 { color: #fff; }
-.idee__weg li.ist-an p { color: #c3cad9; }
-.idee__weg li.ist-an p b { color: #fff; }
-@media (max-width: 900px) {
-  .idee__kopf { grid-template-columns: 1fr; }
-  .idee__kopf .idee__lead { grid-column: 1; grid-row: 3; margin-top: 0.6rem; }
-  .idee__weg { grid-template-columns: 1fr; gap: 2.2rem; padding-left: 4.4rem; }
-  .idee__linie { left: 1.6rem; right: auto; top: 1.6rem; bottom: 3rem; width: 2px; height: auto; background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0 8px, transparent 8px 14px); }
-  .idee__linie::before { transform: scaleY(var(--p)); transform-origin: top; background: linear-gradient(180deg, var(--orange), #ff9a6b); }
-  .idee__puls { left: 50%; top: calc(var(--p) * 100%); margin: -0.45rem 0 0 -0.45rem; }
-  .idee__weg li { position: relative; }
-  .idee__zeichen { position: absolute; left: -4.4rem; top: 0; }
-  .idee__weg h3 { margin-top: 0.4rem; }
-}
-@media (prefers-reduced-motion: reduce) { .idee__zeichen, .idee__weg h3, .idee__weg p { transition: none; } }
+/* Runde 163 · Unsere Idee: schlicht und hell unter den Porträts (Regeln von .wir-ziel), ohne Linie oben */
+.wir-idee { border-top: 0; padding-top: 0; }
+.wir-idee .wir-ziel__text { margin-top: clamp(1.2rem, 3vw, 2rem); }
